@@ -22,4 +22,9 @@ class AliasConstants {
   static const allowSkippingKey = 'allow_skipping';
   static const penaltyForSkippingKey = 'penalty_for_skipping';
   static const wordsPerCardKey = 'words_per_card';
+
+  // Hive DB keys
+  static const aliasWordBoxPrefix = 'alias_word_packs';
+  static const aliasWordPackName = 'alias_word_pack_name';
+  static const aliasWordPackWords = 'alias_word_pack_words';
 }

@@ -27,7 +27,7 @@ class AppDarkColors implements AppColors {
   Color get onSecondary => const Color(0xFF332D41);
 
   @override
-  Color get error => const Color(0xFFF2B8B5);
+  Color get error => const Color(0xFFD32F2F);
 
   @override
   Color get onError => const Color(0xFF601410);

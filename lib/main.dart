@@ -13,12 +13,18 @@ import 'package:boardify/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // TODO come up with nicer way to handle this (add splash screen while loading dependencies)
   await injectDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Todo init Hive only once, at the start of the game alias
+  // Todo check path_provider, if not used - remove
+  // Init Hive in alias module
+  await Hive.initFlutter();
 
   runApp(
     MultiBlocProvider(

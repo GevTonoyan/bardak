@@ -1,17 +1,25 @@
 import 'package:alias/alias_route.dart';
 import 'package:alias/core/constants.dart';
+import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:app_core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class AliasMainMenuScreen extends StatefulWidget {
-  const AliasMainMenuScreen({super.key});
+class AliasMainScreen extends StatefulWidget {
+  const AliasMainScreen({super.key});
 
   @override
-  State<AliasMainMenuScreen> createState() => _AliasMainMenuScreenState();
+  State<AliasMainScreen> createState() => _AliasMainScreenState();
 }
 
-class _AliasMainMenuScreenState extends State<AliasMainMenuScreen> {
+class _AliasMainScreenState extends State<AliasMainScreen> {
+  @override
+  initState() {
+    super.initState();
+    context.read<AliasMainBloc>().add(const CheckAndCacheAliasWords());
+  }
+
   int selectedModeIndex = 0;
 
   @override
@@ -84,12 +92,17 @@ class _AliasMainMenuScreenState extends State<AliasMainMenuScreen> {
               const SizedBox(height: 12),
 
               // 🎬 Word Pack
-              OutlinedButton.icon(
-                onPressed: () => context.goNamed(AliasRouteNames.wordPacks),
-                icon: const Icon(Icons.category),
-                label: Text('${context.localizations.alias_wordPack} • Movies'),
+              BlocBuilder<AliasMainBloc, AliasMainState>(
+                builder: (BuildContext context, AliasMainState state) {
+                  return OutlinedButton.icon(
+                    onPressed: () {
+                      context.goNamed(AliasRouteNames.wordPacks);
+                    },
+                    icon: const Icon(Icons.category),
+                    label: Text('${context.localizations.alias_wordPack} • Movies'),
+                  );
+                },
               ),
-
               const SizedBox(height: 20),
             ],
           ),

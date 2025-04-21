@@ -1,4 +1,5 @@
-import 'package:alias/features/feature_main_menu/presentation/ui/alias_main_menu_screen.dart';
+import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
+import 'package:alias/features/feature_main/presentation/ui/alias_main_screen.dart';
 import 'package:alias/features/feature_pre_game/presentation/ui/alias_pre_game_screen.dart';
 import 'package:alias/features/feature_rules/presentation/ui/alias_rules_screen.dart';
 import 'package:alias/features/feature_settings/presentation/bloc/alias_settings_bloc.dart';
@@ -20,7 +21,11 @@ class AliasRouteNames {
 final aliasRouter = GoRoute(
   path: AliasRouteNames.mainMenu,
   name: AliasRouteNames.mainMenu,
-  builder: (context, state) => const AliasMainMenuScreen(),
+  builder:
+      (context, state) => BlocProvider(
+        create: (_) => AliasMainBloc(fetchAndCacheWordPacks: sl(), areWordPacksCached: sl()),
+        child: const AliasMainScreen(),
+      ),
   routes: [
     GoRoute(
       path: AliasRouteNames.aliasSettings,
