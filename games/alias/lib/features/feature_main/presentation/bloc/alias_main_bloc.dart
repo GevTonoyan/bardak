@@ -13,7 +13,7 @@ class AliasMainBloc extends Bloc<AliasMainEvent, AliasMainState> {
   final FetchAndCacheWordPacksUseCase fetchAndCacheWordPacks;
 
   AliasMainBloc({required this.fetchAndCacheWordPacks, required this.areWordPacksCached})
-    : super(AliasMainLoaded()) {
+    : super(AliasMainInitial()) {
     on<CheckAndCacheAliasWords>(_onCheckAndCacheAliasWords);
   }
 
