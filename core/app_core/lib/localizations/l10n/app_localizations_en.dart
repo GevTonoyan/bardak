@@ -126,6 +126,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alias_settings_reset => 'Reset Settings';
 
   @override
+  String get alias_word_packs_fail => 'Failed to load word packs';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override

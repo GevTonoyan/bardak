@@ -126,6 +126,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get alias_settings_reset => 'Վերականգնել կարգավորումները';
 
   @override
+  String get alias_word_packs_fail => 'Բառերի փաթեթները բեռնելը ձախողվեց';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override

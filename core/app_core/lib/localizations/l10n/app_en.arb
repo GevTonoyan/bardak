@@ -39,6 +39,7 @@
   "alias_settings_penaltyForSkipping": "Penalty for Skipping",
   "alias_settings_wordsPerCard": "Words per Card",
   "alias_settings_reset": "Reset Settings",
+  "alias_word_packs_fail": "Failed to load word packs",
   "general________________________________________________": "general----------------------------------------------------------------------",
   "general_startGame": "Start Game"
 }

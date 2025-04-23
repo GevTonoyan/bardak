@@ -126,6 +126,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get alias_settings_reset => 'Сбросить настройки';
 
   @override
+  String get alias_word_packs_fail => 'Не удалось загрузить пакеты слов';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override

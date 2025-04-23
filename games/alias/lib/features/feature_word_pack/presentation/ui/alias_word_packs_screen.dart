@@ -34,10 +34,17 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
                   return const SizedBox.shrink();
                 case AliasWordPacksError():
                   return Center(
-                    child: Text(
-                      state.message,
-                      style: text.bodyLarge.copyWith(color: colors.error),
-                      textAlign: TextAlign.center,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.error_outline, color: colors.error, size: 48),
+                        const SizedBox(height: 16),
+                        Text(
+                          context.localizations.alias_word_packs_fail,
+                          style: text.titleMedium.copyWith(color: colors.error),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   );
                 case AliasWordPacksLoaded():
@@ -93,27 +100,6 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
       [Color(0xFF00C9FF), Color(0xFF92FE9D)],
     ];
     return gradients[index % gradients.length];
-  }
-
-  String _emojiForPack(String packId) {
-    switch (packId) {
-      case 'movies':
-        return '🎬';
-      case 'games':
-        return '🎮';
-      case 'celebrities':
-        return '🌟';
-      case 'tech':
-        return '💻';
-      case 'animals':
-        return '🐾';
-      case 'food':
-        return '🍕';
-      case 'travel':
-        return '🧳';
-      default:
-        return '🧩';
-    }
   }
 }
 

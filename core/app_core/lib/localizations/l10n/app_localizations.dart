@@ -331,6 +331,12 @@ abstract class AppLocalizations {
   /// **'Reset Settings'**
   String get alias_settings_reset;
 
+  /// No description provided for @alias_word_packs_fail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load word packs'**
+  String get alias_word_packs_fail;
+
   /// No description provided for @general________________________________________________.
   ///
   /// In en, this message translates to:

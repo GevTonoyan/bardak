@@ -39,6 +39,7 @@
   "alias_settings_penaltyForSkipping": "Պատիժ բաց թողնելու համար",
   "alias_settings_wordsPerCard": "Քարտի բառերի քանակը",
   "alias_settings_reset": "Վերականգնել կարգավորումները",
+  "alias_word_packs_fail": "Բառերի փաթեթները բեռնելը ձախողվեց",
   "general________________________________________________": "general----------------------------------------------------------------------",
   "general_startGame": "Սկսել խաղը"
 }

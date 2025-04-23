@@ -39,6 +39,7 @@
   "alias_settings_penaltyForSkipping": "Штраф за пропуск",
   "alias_settings_wordsPerCard": "Количество слов на карточке",
   "alias_settings_reset": "Сбросить настройки",
+  "alias_word_packs_fail": "Не удалось загрузить пакеты слов",
   "general________________________________________________": "general----------------------------------------------------------------------",
   "general_startGame": "Начать игру"
 }
