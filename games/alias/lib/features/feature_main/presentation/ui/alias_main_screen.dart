@@ -62,20 +62,6 @@ class _AliasMainScreenState extends State<AliasMainScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-
-                  // 🧩 Game Mode Selector
-                  Text(
-                    context.localizations.alias_selectMode,
-                    style: textStyles.titleMedium.copyWith(color: colors.onBackground),
-                  ),
-                  const SizedBox(height: 8),
-                  GameModeSelector(
-                    selectedIndex: selectedModeIndex,
-                    modes: [context.localizations.alias_mode1, context.localizations.alias_mode2],
-                    onChanged: (i) => setState(() => selectedModeIndex = i),
-                  ),
-
                   const SizedBox(height: 20),
 
                   // 🖼 Hero Image
