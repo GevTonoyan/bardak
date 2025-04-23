@@ -17,7 +17,7 @@ abstract interface class AliasMainLocalDataSource {
 class AliasMainLocalDataSourceImpl implements AliasMainLocalDataSource {
   @override
   Future<bool> arePacksPresentInHive(AreWordPacksCachedParams params) async {
-    const boxName = AliasConstants.aliasWordPack;
+    final boxName = '${AliasConstants.aliasWordPack}_${params.localeCode}';
 
     if (!Hive.isBoxOpen(boxName)) {
       final exists = await Hive.boxExists(boxName);
@@ -27,8 +27,7 @@ class AliasMainLocalDataSourceImpl implements AliasMainLocalDataSource {
     }
 
     final box = Hive.box(boxName);
-    final data = box.get(params.localeCode);
-    return data != null;
+    return box.isNotEmpty;
   }
 
   @override
