@@ -40,6 +40,9 @@
   "alias_settings_wordsPerCard": "Words per Card",
   "alias_settings_reset": "Reset Settings",
   "alias_word_packs_fail": "Failed to load word packs",
+  "alias_failedLoadWords": "Couldn't load words",
   "general________________________________________________": "general----------------------------------------------------------------------",
-  "general_startGame": "Start Game"
+  "general_startGame": "Start Game",
+  "general_checkInternet": "Check your internet connection",
+  "general_tryAgain": "Try Again"
 }

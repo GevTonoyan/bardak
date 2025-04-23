@@ -14,13 +14,13 @@ class AliasMainScreen extends StatefulWidget {
 }
 
 class _AliasMainScreenState extends State<AliasMainScreen> {
+  int selectedModeIndex = 0;
+
   @override
-  didChangeDependencies() {
+  void didChangeDependencies() {
     super.didChangeDependencies();
     context.read<AliasMainBloc>().add(CheckAndCacheAliasWords(locale: context.locale.languageCode));
   }
-
-  int selectedModeIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,79 +32,134 @@ class _AliasMainScreenState extends State<AliasMainScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // 🔙 Back + ℹ️ Rules
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: BlocBuilder<AliasMainBloc, AliasMainState>(
+            builder: (context, state) {
+              // Check if the word packs are cached
+              final isDisabled = state is! AliasMainLoaded;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    color: colors.onBackground,
-                    onPressed: () => context.pop(),
+                  // 🔙 Back + ℹ️ Rules
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        color: colors.onBackground,
+                        onPressed: () => context.pop(),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.settings),
+                        color: theme.colors.onBackground,
+                        onPressed: () => context.goNamed(AliasRouteNames.aliasSettings),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.info_outline),
+                        color: colors.onBackground,
+                        onPressed: () => context.goNamed(AliasRouteNames.info),
+                      ),
+                    ],
                   ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    color: theme.colors.onBackground,
-                    onPressed: () => context.goNamed(AliasRouteNames.aliasSettings),
+                  const SizedBox(height: 12),
+
+                  // 🧩 Game Mode Selector
+                  Text(
+                    context.localizations.alias_selectMode,
+                    style: textStyles.titleMedium.copyWith(color: colors.onBackground),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.info_outline),
-                    color: colors.onBackground,
-                    onPressed: () => context.goNamed(AliasRouteNames.info),
+                  const SizedBox(height: 8),
+                  GameModeSelector(
+                    selectedIndex: selectedModeIndex,
+                    modes: [context.localizations.alias_mode1, context.localizations.alias_mode2],
+                    onChanged: (i) => setState(() => selectedModeIndex = i),
                   ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              // 🧩 Game Mode Selector
-              Text(
-                context.localizations.alias_selectMode,
-                style: textStyles.titleMedium.copyWith(color: colors.onBackground),
-              ),
-              const SizedBox(height: 8),
-              GameModeSelector(
-                selectedIndex: selectedModeIndex,
-                modes: [context.localizations.alias_mode1, context.localizations.alias_mode2],
-                onChanged: (i) => setState(() => selectedModeIndex = i),
-              ),
 
-              const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-              // 🖼 Hero Image
-              Expanded(
-                child: Hero(
-                  tag: AliasConstants.heroTag,
-                  child: Image.asset(AliasConstants.aliasCoverImagePath, fit: BoxFit.contain),
-                ),
-              ),
+                  // 🖼 Hero Image
+                  Expanded(
+                    child: Hero(
+                      tag: AliasConstants.heroTag,
+                      child: Image.asset(AliasConstants.aliasCoverImagePath, fit: BoxFit.contain),
+                    ),
+                  ),
 
-              const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-              // ▶️ Start Game
-              ElevatedButton.icon(
-                onPressed: () => context.goNamed(AliasRouteNames.preGame),
-                icon: const Icon(Icons.play_arrow),
-                label: Text(context.localizations.general_startGame),
-              ),
+                  // ▶️ Start Game
+                  ElevatedButton.icon(
+                    onPressed: isDisabled ? null : () => context.goNamed(AliasRouteNames.preGame),
+                    icon: const Icon(Icons.play_arrow),
+                    label: Text(context.localizations.general_startGame),
+                  ),
+                  const SizedBox(height: 12),
 
-              const SizedBox(height: 12),
-
-              // 🎬 Word Pack
-              BlocBuilder<AliasMainBloc, AliasMainState>(
-                builder: (BuildContext context, AliasMainState state) {
-                  return OutlinedButton.icon(
-                    onPressed: () {
-                      context.goNamed(AliasRouteNames.wordPacks);
-                    },
+                  // 🎬 Word Pack
+                  OutlinedButton.icon(
+                    onPressed: isDisabled ? null : () => context.goNamed(AliasRouteNames.wordPacks),
                     icon: const Icon(Icons.category),
                     label: Text('${context.localizations.alias_wordPack} • Movies'),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-            ],
+                  ),
+
+                  if (state is AliasMainError) ...[
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: colors.error.withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: colors.error, width: 1.2),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.wifi_off, color: colors.error, size: 24),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  '${context.localizations.alias_failedLoadWords} ${context.localizations.general_checkInternet}',
+                                  style: textStyles.bodyMedium.copyWith(
+                                    color: colors.error,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          OutlinedButton.icon(
+                            onPressed: () {
+                              context.read<AliasMainBloc>().add(
+                                CheckAndCacheAliasWords(locale: context.locale.languageCode),
+                              );
+                            },
+                            icon: Icon(Icons.refresh, color: colors.onPrimary),
+                            label: Text(
+                              context.localizations.general_tryAgain,
+                              style: textStyles.labelLarge.copyWith(color: colors.onPrimary),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: colors.primary,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              side: BorderSide.none,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+
+                  const SizedBox(height: 20),
+                ],
+              );
+            },
           ),
         ),
       ),

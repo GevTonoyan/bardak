@@ -129,8 +129,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get alias_word_packs_fail => 'Не удалось загрузить пакеты слов';
 
   @override
+  String get alias_failedLoadWords => 'Не удалось загрузить слова';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override
   String get general_startGame => 'Начать игру';
+
+  @override
+  String get general_checkInternet => 'Проверьте ваше интернет-соединение';
+
+  @override
+  String get general_tryAgain => 'Попробовать снова';
 }

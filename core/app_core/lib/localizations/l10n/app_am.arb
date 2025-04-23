@@ -40,6 +40,9 @@
   "alias_settings_wordsPerCard": "Քարտի բառերի քանակը",
   "alias_settings_reset": "Վերականգնել կարգավորումները",
   "alias_word_packs_fail": "Բառերի փաթեթները բեռնելը ձախողվեց",
+  "alias_failedLoadWords": "Բառերը բեռնելը ձախողվեց",
   "general________________________________________________": "general----------------------------------------------------------------------",
-  "general_startGame": "Սկսել խաղը"
+  "general_startGame": "Սկսել խաղը",
+  "general_checkInternet": "Ստուգեք ձեր ինտերնետային կապը",
+  "general_tryAgain": "Կրկին փորձել"
 }

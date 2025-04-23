@@ -129,8 +129,17 @@ class AppLocalizationsAm extends AppLocalizations {
   String get alias_word_packs_fail => 'Բառերի փաթեթները բեռնելը ձախողվեց';
 
   @override
+  String get alias_failedLoadWords => 'Բառերը բեռնելը ձախողվեց';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override
   String get general_startGame => 'Սկսել խաղը';
+
+  @override
+  String get general_checkInternet => 'Ստուգեք ձեր ինտերնետային կապը';
+
+  @override
+  String get general_tryAgain => 'Կրկին փորձել';
 }

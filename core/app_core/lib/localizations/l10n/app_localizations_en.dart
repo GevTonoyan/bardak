@@ -129,8 +129,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alias_word_packs_fail => 'Failed to load word packs';
 
   @override
+  String get alias_failedLoadWords => 'Couldn\'t load words';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override
   String get general_startGame => 'Start Game';
+
+  @override
+  String get general_checkInternet => 'Check your internet connection';
+
+  @override
+  String get general_tryAgain => 'Try Again';
 }

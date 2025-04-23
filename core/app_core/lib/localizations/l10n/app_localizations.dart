@@ -337,6 +337,12 @@ abstract class AppLocalizations {
   /// **'Failed to load word packs'**
   String get alias_word_packs_fail;
 
+  /// No description provided for @alias_failedLoadWords.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load words'**
+  String get alias_failedLoadWords;
+
   /// No description provided for @general________________________________________________.
   ///
   /// In en, this message translates to:
@@ -348,6 +354,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start Game'**
   String get general_startGame;
+
+  /// No description provided for @general_checkInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your internet connection'**
+  String get general_checkInternet;
+
+  /// No description provided for @general_tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get general_tryAgain;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

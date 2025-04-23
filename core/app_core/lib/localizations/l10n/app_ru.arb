@@ -40,6 +40,9 @@
   "alias_settings_wordsPerCard": "Количество слов на карточке",
   "alias_settings_reset": "Сбросить настройки",
   "alias_word_packs_fail": "Не удалось загрузить пакеты слов",
+  "alias_failedLoadWords": "Не удалось загрузить слова",
   "general________________________________________________": "general----------------------------------------------------------------------",
-  "general_startGame": "Начать игру"
+  "general_startGame": "Начать игру",
+  "general_checkInternet": "Проверьте ваше интернет-соединение",
+  "general_tryAgain": "Попробовать снова"
 }

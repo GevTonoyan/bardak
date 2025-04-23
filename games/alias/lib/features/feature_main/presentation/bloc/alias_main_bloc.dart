@@ -17,10 +17,12 @@ class AliasMainBloc extends Bloc<AliasMainEvent, AliasMainState> {
     on<CheckAndCacheAliasWords>(_onCheckAndCacheAliasWords);
   }
 
-  FutureOr<void> _onCheckAndCacheAliasWords(
+  Future<void> _onCheckAndCacheAliasWords(
     CheckAndCacheAliasWords event,
     Emitter<AliasMainState> emit,
   ) async {
+    emit(const AliasMainLoading());
+
     try {
       final areCached = await areWordPacksCached(
         AreWordPacksCachedParams(localeCode: event.locale),
@@ -28,10 +30,9 @@ class AliasMainBloc extends Bloc<AliasMainEvent, AliasMainState> {
       if (!areCached) {
         await fetchAndCacheWordPacks(FetchAndCacheWordPacksParams(localeCode: event.locale));
       }
-    } on Exception catch (e) {
-      // Todo error handling
-      print('Error fetching word packs: $e');
+      emit(const AliasMainLoaded());
+    } on Exception catch (error) {
+      emit(AliasMainError(message: error.toString()));
     }
-    emit(AliasMainLoaded());
   }
 }
