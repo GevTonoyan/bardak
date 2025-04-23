@@ -2,6 +2,7 @@ import 'package:alias/alias_route.dart';
 import 'package:alias/core/constants.dart';
 import 'package:alias/features/feature_main/feature_main_scope.dart';
 import 'package:alias/features/feature_settings/alias_settings_scope.dart';
+import 'package:alias/features/feature_word_pack/alias_word_packs_scope.dart';
 import 'package:app_core/extensions/context_extension.dart';
 import 'package:app_core/ui_kit/theme/app_theme_provider.dart';
 import 'package:app_core/ui_kit/widgets/game_card.dart';
@@ -51,6 +52,7 @@ class GamesScreen extends StatelessWidget {
                     onTap: () async {
                       // TODO come up with precise way to inject all alias settings
                       await injectAliasSettingsScope();
+                      await injectWordPacksScope();
                       injectAliasMainScope();
                       if (context.mounted) {
                         context.goNamed(AliasRouteNames.mainMenu);

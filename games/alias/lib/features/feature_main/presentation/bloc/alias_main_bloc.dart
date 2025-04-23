@@ -22,9 +22,11 @@ class AliasMainBloc extends Bloc<AliasMainEvent, AliasMainState> {
     Emitter<AliasMainState> emit,
   ) async {
     try {
-      final areCached = await areWordPacksCached(AreWordPacksCachedParams(localeCode: 'en'));
+      final areCached = await areWordPacksCached(
+        AreWordPacksCachedParams(localeCode: event.locale),
+      );
       if (!areCached) {
-        await fetchAndCacheWordPacks(const FetchAndCacheWordPacksParams(localeCode: 'en'));
+        await fetchAndCacheWordPacks(FetchAndCacheWordPacksParams(localeCode: event.locale));
       }
     } on Exception catch (e) {
       // Todo error handling

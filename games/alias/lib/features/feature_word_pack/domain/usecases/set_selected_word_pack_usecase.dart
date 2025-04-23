@@ -1,0 +1,19 @@
+import 'package:alias/features/feature_word_pack/domain/repositories/word_packs_repository.dart';
+
+/// Stores the user's selected word pack ID to local cache.
+class SetSelectedWordPackUseCase {
+  final WordPacksRepository repository;
+
+  SetSelectedWordPackUseCase(this.repository);
+
+  Future<void> call(SetSelectedWordPackParams params) {
+    return repository.setSelectedWordPack(params);
+  }
+}
+
+class SetSelectedWordPackParams {
+  final String localeCode;
+  final String packId;
+
+  const SetSelectedWordPackParams({required this.localeCode, required this.packId});
+}

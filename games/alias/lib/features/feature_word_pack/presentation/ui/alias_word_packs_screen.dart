@@ -1,6 +1,7 @@
-import 'package:alias/features/feature_main/domain/entities/alias_word_pack_entity.dart';
+import 'package:alias/features/feature_word_pack/presentation/bloc/alias_word_packs_bloc.dart';
 import 'package:app_core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AliasWordPackScreen extends StatefulWidget {
   const AliasWordPackScreen({super.key});
@@ -10,83 +11,109 @@ class AliasWordPackScreen extends StatefulWidget {
 }
 
 class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
-  var selectedPackIndex = 0;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<AliasWordPacksBloc>().add(LoadWordPacks(context.locale.languageCode));
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Mock data
-    final packs = [
-      AliasWordPackEntity(id: 'movies', name: 'Movies', words: []),
-      AliasWordPackEntity(id: 'games', name: 'Games', words: []),
-      AliasWordPackEntity(id: 'celebrities', name: 'Celebrities', words: []),
-      AliasWordPackEntity(id: 'tech', name: 'Technology', words: []),
-    ];
+    final text = context.appTheme.typography;
+    final colors = context.appTheme.colors;
 
     return Scaffold(
       appBar: AppBar(title: Text(context.localizations.alias_wordPack)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio: 0.9,
-            shrinkWrap: true,
-            children: [
-              _PackCard(
-                packName: 'Movies',
-                emoji: '🎬',
-                startColor: Color(0xFF7F00FF),
-                endColor: Color(0xFFE100FF),
-                isSelected: selectedPackIndex == 0,
-                onTap: () {
-                  setState(() {
-                    selectedPackIndex = 0;
-                  });
-                },
-              ),
-              _PackCard(
-                packName: 'Animals',
-                emoji: '🐾',
-                startColor: Color(0xFF56CCF2),
-                endColor: Color(0xFF2F80ED),
-                isSelected: selectedPackIndex == 1,
-                onTap: () {
-                  setState(() {
-                    selectedPackIndex = 1;
-                  });
-                },
-              ),
-              _PackCard(
-                packName: 'Food',
-                emoji: '🍕',
-                startColor: Color(0xFFFF512F),
-                endColor: Color(0xFFDD2476),
-                isSelected: selectedPackIndex == 2,
-                onTap: () {
-                  setState(() {
-                    selectedPackIndex = 2;
-                  });
-                },
-              ),
-              _PackCard(
-                packName: 'Travel',
-                emoji: '🧳',
-                startColor: Color(0xFF43CEA2),
-                endColor: Color(0xFF185A9D),
-                isSelected: selectedPackIndex == 3,
-                onTap: () {
-                  setState(() {
-                    selectedPackIndex = 3;
-                  });
-                },
-              ),
-            ],
+          child: BlocBuilder<AliasWordPacksBloc, AliasWordPacksState>(
+            builder: (context, state) {
+              switch (state) {
+                case AliasWordPacksInitial():
+                  return const SizedBox.shrink();
+                case AliasWordPacksError():
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: text.bodyLarge.copyWith(color: colors.error),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                case AliasWordPacksLoaded():
+                  {
+                    final packs = state.packs;
+                    final selectedId = state.selectedPackId;
+
+                    return GridView.count(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 0.9,
+                      shrinkWrap: true,
+                      children: List.generate(packs.length, (index) {
+                        final pack = packs[index];
+                        final gradientColors = _gradientColorsForPack(index);
+
+                        return _PackCard(
+                          packName: pack.name,
+                          emoji: pack.emoji,
+                          startColor: gradientColors[0],
+                          endColor: gradientColors[1],
+                          isSelected: selectedId == pack.id,
+                          onTap: () {
+                            context.read<AliasWordPacksBloc>().add(
+                              SelectWordPack(
+                                packId: pack.id,
+                                localeCode: Localizations.localeOf(context).languageCode,
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                    );
+                  }
+              }
+            },
           ),
         ),
       ),
     );
+  }
+
+  List<Color> _gradientColorsForPack(int index) {
+    const gradients = [
+      [Color(0xFF7F00FF), Color(0xFFE100FF)],
+      [Color(0xFF56CCF2), Color(0xFF2F80ED)],
+      [Color(0xFFFF512F), Color(0xFFDD2476)],
+      [Color(0xFF43CEA2), Color(0xFF185A9D)],
+      [Color(0xFFFFC371), Color(0xFFFF5F6D)],
+      [Color(0xFF00C6FF), Color(0xFF0072FF)],
+      [Color(0xFF00F260), Color(0xFF0575E6)],
+      [Color(0xFF00C9FF), Color(0xFF92FE9D)],
+    ];
+    return gradients[index % gradients.length];
+  }
+
+  String _emojiForPack(String packId) {
+    switch (packId) {
+      case 'movies':
+        return '🎬';
+      case 'games':
+        return '🎮';
+      case 'celebrities':
+        return '🌟';
+      case 'tech':
+        return '💻';
+      case 'animals':
+        return '🐾';
+      case 'food':
+        return '🍕';
+      case 'travel':
+        return '🧳';
+      default:
+        return '🧩';
+    }
   }
 }
 
@@ -123,9 +150,17 @@ class _PackCard extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
-            BoxShadow(color: endColor.withOpacity(0.5), blurRadius: 12, offset: const Offset(0, 6)),
+            BoxShadow(
+              color: endColor.withValues(alpha: 0.5),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
             if (isSelected)
-              BoxShadow(color: Colors.white.withOpacity(0.7), blurRadius: 10, spreadRadius: 2),
+              BoxShadow(
+                color: Colors.white.withValues(alpha: 0.7),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
           ],
           border: isSelected ? Border.all(color: Colors.white, width: 2) : null,
         ),

@@ -15,9 +15,9 @@ class AliasMainScreen extends StatefulWidget {
 
 class _AliasMainScreenState extends State<AliasMainScreen> {
   @override
-  initState() {
-    super.initState();
-    context.read<AliasMainBloc>().add(const CheckAndCacheAliasWords());
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<AliasMainBloc>().add(CheckAndCacheAliasWords(locale: context.locale.languageCode));
   }
 
   int selectedModeIndex = 0;

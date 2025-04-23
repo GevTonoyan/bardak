@@ -4,6 +4,7 @@ import 'package:alias/features/feature_pre_game/presentation/ui/alias_pre_game_s
 import 'package:alias/features/feature_rules/presentation/ui/alias_rules_screen.dart';
 import 'package:alias/features/feature_settings/presentation/bloc/alias_settings_bloc.dart';
 import 'package:alias/features/feature_settings/presentation/ui/alias_settings_screen.dart';
+import 'package:alias/features/feature_word_pack/presentation/bloc/alias_word_packs_bloc.dart';
 import 'package:alias/features/feature_word_pack/presentation/ui/alias_word_packs_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -48,7 +49,11 @@ final aliasRouter = GoRoute(
     GoRoute(
       path: AliasRouteNames.wordPacks,
       name: AliasRouteNames.wordPacks,
-      builder: (context, state) => const AliasWordPackScreen(),
+      builder:
+          (context, state) => BlocProvider(
+            create: (_) => AliasWordPacksBloc(getWordPacks: sl(), setSelectedWordPack: sl()),
+            child: const AliasWordPackScreen(),
+          ),
     ),
     GoRoute(
       path: AliasRouteNames.preGame,

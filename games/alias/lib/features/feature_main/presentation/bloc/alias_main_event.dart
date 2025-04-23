@@ -7,5 +7,7 @@ sealed class AliasMainEvent {
 
 /// Event to check if alias words are cached, and if not, fetch them from the server and cache them.
 final class CheckAndCacheAliasWords extends AliasMainEvent {
-  const CheckAndCacheAliasWords();
+  final String locale;
+
+  const CheckAndCacheAliasWords({required this.locale});
 }

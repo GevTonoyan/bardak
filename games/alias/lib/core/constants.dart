@@ -24,7 +24,9 @@ class AliasConstants {
   static const wordsPerCardKey = 'words_per_card';
 
   // Hive DB keys
-  static const aliasWordBoxPrefix = 'alias_word_packs';
+  static const aliasWordPack = 'alias_word_packs';
   static const aliasWordPackName = 'alias_word_pack_name';
   static const aliasWordPackWords = 'alias_word_pack_words';
+  static const aliasWordPackEmoji = 'alias_word_pack_emoji';
+  static const aliasSelectedWordPackKey = 'alias_selected_word_pack';
 }

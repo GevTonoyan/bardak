@@ -15,11 +15,9 @@ abstract interface class AliasMainLocalDataSource {
 
 /// Implementation of [AliasMainLocalDataSource] using Hive for local storage.
 class AliasMainLocalDataSourceImpl implements AliasMainLocalDataSource {
-  static const String _aliasWordBoxPrefix = 'alias_word_packs';
-
   @override
   Future<bool> arePacksPresentInHive(AreWordPacksCachedParams params) async {
-    const boxName = AliasConstants.aliasWordBoxPrefix;
+    const boxName = AliasConstants.aliasWordPack;
 
     if (!Hive.isBoxOpen(boxName)) {
       final exists = await Hive.boxExists(boxName);
@@ -35,17 +33,18 @@ class AliasMainLocalDataSourceImpl implements AliasMainLocalDataSource {
 
   @override
   Future<void> cacheWordPacks(String localeCode, List<AliasWordPackEntity> packs) async {
-    final box = await Hive.openBox(_aliasWordBoxPrefix);
-    final key = localeCode;
+    final box = await Hive.openBox('${AliasConstants.aliasWordPack}_$localeCode');
 
-    final mapped = {
-      for (var pack in packs)
-        pack.id: {
-          AliasConstants.aliasWordPackName: pack.name,
-          AliasConstants.aliasWordPackWords: pack.words,
-        },
-    };
-
-    await box.put(key, mapped);
+    // We are keeping the locale code as the key for the box
+    // and the word packs as the value.
+    // e.g. en_movies: {name:Movies, words: [word1, word2]}
+    for (final pack in packs) {
+      final key = pack.id;
+      await box.put(key, <String, dynamic>{
+        AliasConstants.aliasWordPackName: pack.name,
+        AliasConstants.aliasWordPackEmoji: pack.emoji,
+        AliasConstants.aliasWordPackWords: pack.words,
+      });
+    }
   }
 }
