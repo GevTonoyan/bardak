@@ -36,7 +36,6 @@ class AliasMainBloc extends Bloc<AliasMainEvent, AliasMainState> {
       if (!areCached) {
         await fetchAndCacheWordPacks(FetchAndCacheWordPacksParams(localeCode: event.locale));
       }
-      print('++++++++++++++++++++++++++++++++++++ emiting loaded state');
       final selectedWordPackName =
           state is AliasMainLoaded ? (state as AliasMainLoaded).selectedWordPackName : '';
       emit(AliasMainLoaded(selectedWordPackName: selectedWordPackName));
@@ -49,11 +48,9 @@ class AliasMainBloc extends Bloc<AliasMainEvent, AliasMainState> {
     GetSelectedWordPackNameEvent event,
     Emitter<AliasMainState> emit,
   ) async {
-    print('------------------------ calling_onGetSelectedWordPackName');
     final selectedWordPackName = await getSelectedWordPackName(
       params: GetSelectedWordPackNameParams(localeCode: event.locale),
     );
-    print('---------------------------- emiting selectedWordPackName = $selectedWordPackName');
     emit(AliasMainLoaded(selectedWordPackName: selectedWordPackName));
   }
 }
