@@ -19,11 +19,9 @@ class _AliasMainScreenState extends State<AliasMainScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bloc = context.read<AliasMainBloc>();
-    final languageCode = context.locale.languageCode;
 
-    bloc.add(CheckAndCacheAliasWords(locale: languageCode));
-    bloc.add(GetSelectedWordPackNameEvent(locale: languageCode));
+    final bloc = context.read<AliasMainBloc>();
+    bloc.add(InitializeAliasMainEvent(locale: context.locale.languageCode));
   }
 
   @override
@@ -134,7 +132,7 @@ class _AliasMainScreenState extends State<AliasMainScreen> {
                           OutlinedButton.icon(
                             onPressed: () {
                               context.read<AliasMainBloc>().add(
-                                CheckAndCacheAliasWords(locale: context.locale.languageCode),
+                                InitializeAliasMainEvent(locale: context.locale.languageCode),
                               );
                             },
                             icon: Icon(Icons.refresh, color: colors.onPrimary),

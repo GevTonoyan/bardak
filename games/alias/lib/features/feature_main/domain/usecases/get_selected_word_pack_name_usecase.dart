@@ -7,7 +7,7 @@ class GetSelectedWordPackNameUseCase {
 
   const GetSelectedWordPackNameUseCase(this._aliasMainRepository);
 
-  Future<String> call({required GetSelectedWordPackNameParams params}) {
+  Future<String> call({required GetSelectedWordPackNameParams params}) async {
     return _aliasMainRepository.getSelectedWordPackName(params);
   }
 }

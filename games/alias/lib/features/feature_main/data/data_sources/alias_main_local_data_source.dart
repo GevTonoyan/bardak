@@ -58,13 +58,11 @@ class AliasMainLocalDataSourceImpl implements AliasMainLocalDataSource {
 
   @override
   Future<String> getSelectedWordPackName(GetSelectedWordPackNameParams params) async {
-    final selectedPackId = preferences.getString(
+    var selectedPackId = preferences.getString(
       '${AliasConstants.aliasSelectedWordPackKey}_${params.localeCode}',
     );
 
-    if (selectedPackId == null) {
-      return 'All'; // Fallback if nothing selected
-    }
+    selectedPackId ??= 'all';
 
     final boxName = '${AliasConstants.aliasWordPack}_${params.localeCode}';
     if (!Hive.isBoxOpen(boxName)) {

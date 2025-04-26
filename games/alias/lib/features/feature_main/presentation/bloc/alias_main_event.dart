@@ -6,10 +6,11 @@ sealed class AliasMainEvent {
 }
 
 /// Event to check if alias words are cached, and if not, fetch them from the server and cache them.
-final class CheckAndCacheAliasWords extends AliasMainEvent {
+/// Also retrieves the selected word pack name.
+final class InitializeAliasMainEvent extends AliasMainEvent {
   final String locale;
 
-  const CheckAndCacheAliasWords({required this.locale});
+  const InitializeAliasMainEvent({required this.locale});
 }
 
 /// Event to get the selected word pack name.

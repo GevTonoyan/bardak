@@ -19,12 +19,12 @@ class AliasMainBloc extends Bloc<AliasMainEvent, AliasMainState> {
     required this.areWordPacksCached,
     required this.getSelectedWordPackName,
   }) : super(AliasMainInitial()) {
-    on<CheckAndCacheAliasWords>(_onCheckAndCacheAliasWords);
+    on<InitializeAliasMainEvent>(_onInitializeAliasMainEvent);
     on<GetSelectedWordPackNameEvent>(_onGetSelectedWordPackName);
   }
 
-  Future<void> _onCheckAndCacheAliasWords(
-    CheckAndCacheAliasWords event,
+  Future<void> _onInitializeAliasMainEvent(
+    InitializeAliasMainEvent event,
     Emitter<AliasMainState> emit,
   ) async {
     emit(const AliasMainLoading());
@@ -36,8 +36,9 @@ class AliasMainBloc extends Bloc<AliasMainEvent, AliasMainState> {
       if (!areCached) {
         await fetchAndCacheWordPacks(FetchAndCacheWordPacksParams(localeCode: event.locale));
       }
-      final selectedWordPackName =
-          state is AliasMainLoaded ? (state as AliasMainLoaded).selectedWordPackName : '';
+      final selectedWordPackName = await getSelectedWordPackName(
+        params: GetSelectedWordPackNameParams(localeCode: event.locale),
+      );
       emit(AliasMainLoaded(selectedWordPackName: selectedWordPackName));
     } on Exception catch (error) {
       emit(AliasMainError(message: error.toString()));
