@@ -25,7 +25,12 @@ final aliasRouter = GoRoute(
   name: AliasRouteNames.mainMenu,
   builder:
       (context, state) => BlocProvider(
-        create: (_) => AliasMainBloc(fetchAndCacheWordPacks: sl(), areWordPacksCached: sl()),
+        create:
+            (_) => AliasMainBloc(
+              fetchAndCacheWordPacks: sl(),
+              areWordPacksCached: sl(),
+              getSelectedWordPackName: sl(),
+            ),
         child: const AliasMainScreen(),
       ),
   routes: [

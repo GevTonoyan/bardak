@@ -19,7 +19,11 @@ class _AliasMainScreenState extends State<AliasMainScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<AliasMainBloc>().add(CheckAndCacheAliasWords(locale: context.locale.languageCode));
+    final bloc = context.read<AliasMainBloc>();
+    final languageCode = context.locale.languageCode;
+
+    bloc.add(CheckAndCacheAliasWords(locale: languageCode));
+    bloc.add(GetSelectedWordPackNameEvent(locale: languageCode));
   }
 
   @override
@@ -84,9 +88,19 @@ class _AliasMainScreenState extends State<AliasMainScreen> {
 
                   // 🎬 Word Pack
                   OutlinedButton.icon(
-                    onPressed: isDisabled ? null : () => context.goNamed(AliasRouteNames.wordPacks),
+                    onPressed:
+                        isDisabled
+                            ? null
+                            : () async {
+                              await context.pushNamed(AliasRouteNames.wordPacks);
+                              if (context.mounted) {
+                                context.read<AliasMainBloc>().add(
+                                  GetSelectedWordPackNameEvent(locale: context.locale.languageCode),
+                                );
+                              }
+                            },
                     icon: const Icon(Icons.category),
-                    label: Text('${context.localizations.alias_wordPack} • Movies'),
+                    label: Text(_getWordPackName(state)),
                   ),
 
                   if (state is AliasMainError) ...[
@@ -150,6 +164,19 @@ class _AliasMainScreenState extends State<AliasMainScreen> {
         ),
       ),
     );
+  }
+
+  String _getWordPackName(AliasMainState state) {
+    final selectedWordPackName = (state is AliasMainLoaded ? state.selectedWordPackName : '') ?? '';
+
+    final sb = StringBuffer();
+    sb.write(context.localizations.alias_wordPack);
+    if (selectedWordPackName.isNotEmpty) {
+      sb.write(' • ');
+      sb.write(selectedWordPackName);
+    }
+
+    return sb.toString();
   }
 }
 

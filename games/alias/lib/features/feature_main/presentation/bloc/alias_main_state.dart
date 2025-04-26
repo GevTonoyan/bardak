@@ -18,7 +18,9 @@ class AliasMainLoading extends AliasMainState {
 /// Represents the loaded state of the [AliasMainBloc].
 /// This state indicates that the word packs have been successfully fetched and cached.
 class AliasMainLoaded extends AliasMainState {
-  const AliasMainLoaded();
+  final String? selectedWordPackName;
+
+  const AliasMainLoaded({this.selectedWordPackName});
 }
 
 /// Represents an error state in the [AliasMainBloc].

@@ -4,6 +4,7 @@ import 'package:alias/features/feature_main/data/repositories/alias_main_reposit
 import 'package:alias/features/feature_main/domain/repositories/alias_main_repository.dart';
 import 'package:alias/features/feature_main/domain/usecases/are_word_packs_cached_usecase.dart';
 import 'package:alias/features/feature_main/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
+import 'package:alias/features/feature_main/domain/usecases/get_selected_word_pack_name_usecase.dart';
 import 'package:alias/features/feature_settings/alias_settings_scope.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -17,6 +18,9 @@ void injectAliasMainScope() {
     ..registerLazySingleton<AreWordPacksCachedUseCase>(() => AreWordPacksCachedUseCase(sl()))
     ..registerLazySingleton<FetchAndCacheWordPacksUseCase>(
       () => FetchAndCacheWordPacksUseCase(sl()),
+    )
+    ..registerLazySingleton<GetSelectedWordPackNameUseCase>(
+      () => GetSelectedWordPackNameUseCase(sl()),
     );
 
   // Register the repository
@@ -29,7 +33,9 @@ void injectAliasMainScope() {
     ..registerLazySingleton<AliasMainRemoteDataSource>(
       () => AliasMainRemoteDataSourceImpl(firestore: sl()),
     )
-    ..registerLazySingleton<AliasMainLocalDataSource>(() => AliasMainLocalDataSourceImpl());
+    ..registerLazySingleton<AliasMainLocalDataSource>(
+      () => AliasMainLocalDataSourceImpl(preferences: sl()),
+    );
 
   sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
 }

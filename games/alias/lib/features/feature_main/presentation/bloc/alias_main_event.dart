@@ -11,3 +11,10 @@ final class CheckAndCacheAliasWords extends AliasMainEvent {
 
   const CheckAndCacheAliasWords({required this.locale});
 }
+
+/// Event to get the selected word pack name.
+final class GetSelectedWordPackNameEvent extends AliasMainEvent {
+  final String locale;
+
+  const GetSelectedWordPackNameEvent({required this.locale});
+}
