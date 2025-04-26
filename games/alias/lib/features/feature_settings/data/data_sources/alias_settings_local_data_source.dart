@@ -23,7 +23,7 @@ class AliasSettingsLocalDataSourceImpl implements AliasSettingsLocalDataSource {
 
   @override
   Future<AliasSettingsEntity> getAliasSettings() async {
-    final gameDuration = preferences.getInt(AliasConstants.gameDurationKey);
+    final gameDuration = preferences.getInt(AliasConstants.roundDurationKey);
 
     final pointsToWin = preferences.getInt(AliasConstants.pointsToWinKey);
 
@@ -36,7 +36,7 @@ class AliasSettingsLocalDataSourceImpl implements AliasSettingsLocalDataSource {
     final wordsPerCard = preferences.getInt(AliasConstants.wordsPerCardKey);
 
     return AliasSettingsEntity.fromPreferences(
-      gameDuration: gameDuration,
+      roundDuration: gameDuration,
       pointsToWin: pointsToWin,
       soundEnabled: isSoundEnabled,
       allowSkipping: allowSkipping,
@@ -53,7 +53,7 @@ class AliasSettingsLocalDataSourceImpl implements AliasSettingsLocalDataSource {
     late final bool success;
 
     switch (key) {
-      case AliasConstants.gameDurationKey:
+      case AliasConstants.roundDurationKey:
         success = await preferences.setInt(key, value as int);
       case AliasConstants.pointsToWinKey:
         success = await preferences.setInt(key, value as int);

@@ -1,4 +1,4 @@
-import 'package:alias/alias_route.dart';
+import 'package:alias/core/alias_route.dart';
 import 'package:alias/core/constants.dart';
 import 'package:alias/features/feature_main/feature_main_scope.dart';
 import 'package:alias/features/feature_settings/alias_settings_scope.dart';

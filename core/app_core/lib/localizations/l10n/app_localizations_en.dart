@@ -132,6 +132,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alias_failedLoadWords => 'Couldn\'t load words';
 
   @override
+  String get alias_preGameTitle => 'Get Ready';
+
+  @override
+  String get alias_preGameTeamSetup => 'Team Setup';
+
+  @override
+  String get alias_preGameTeam => 'Team';
+
+  @override
+  String get alias_preGameAddTeam => 'Add Team';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override

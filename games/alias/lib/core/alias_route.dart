@@ -1,5 +1,6 @@
 import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:alias/features/feature_main/presentation/ui/alias_main_screen.dart';
+import 'package:alias/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
 import 'package:alias/features/feature_pre_game/presentation/ui/alias_pre_game_screen.dart';
 import 'package:alias/features/feature_rules/presentation/ui/alias_rules_screen.dart';
 import 'package:alias/features/feature_settings/presentation/bloc/alias_settings_bloc.dart';
@@ -9,7 +10,7 @@ import 'package:alias/features/feature_word_pack/presentation/ui/alias_word_pack
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'features/feature_settings/alias_settings_scope.dart';
+import '../features/feature_settings/alias_settings_scope.dart';
 
 class AliasRouteNames {
   static const mainMenu = 'alias_main';
@@ -58,7 +59,11 @@ final aliasRouter = GoRoute(
     GoRoute(
       path: AliasRouteNames.preGame,
       name: AliasRouteNames.preGame,
-      builder: (context, state) => const AliasPreGameScreen(),
+      builder:
+          (context, state) => BlocProvider(
+            create: (_) => AliasPreGameBloc(getAliasSettingsUseCase: sl()),
+            child: const AliasPreGameScreen(),
+          ),
     ),
   ],
 );

@@ -3,7 +3,7 @@ import 'package:alias/core/constants.dart';
 /// This class represents the settings for the Alias game.
 /// It contains various properties that define the game settings.
 class AliasSettingsEntity {
-  final int gameDuration;
+  final int roundDuration;
   final int pointsToWin;
   final bool soundEnabled;
   final bool allowSkipping;
@@ -11,7 +11,7 @@ class AliasSettingsEntity {
   final int wordsPerCard;
 
   const AliasSettingsEntity({
-    this.gameDuration = AliasConstants.defaultGameDuration,
+    this.roundDuration = AliasConstants.defaultRoundDuration,
     this.pointsToWin = AliasConstants.defaultPointsToWin,
     this.soundEnabled = true,
     this.allowSkipping = true,
@@ -21,7 +21,7 @@ class AliasSettingsEntity {
 
   factory AliasSettingsEntity.initial() {
     return const AliasSettingsEntity(
-      gameDuration: AliasConstants.defaultGameDuration,
+      roundDuration: AliasConstants.defaultRoundDuration,
       pointsToWin: AliasConstants.defaultPointsToWin,
       soundEnabled: true,
       allowSkipping: true,
@@ -31,7 +31,7 @@ class AliasSettingsEntity {
   }
 
   factory AliasSettingsEntity.fromPreferences({
-    int? gameDuration,
+    int? roundDuration,
     int? pointsToWin,
     bool? soundEnabled,
     bool? allowSkipping,
@@ -39,7 +39,7 @@ class AliasSettingsEntity {
     int? wordsPerCard,
   }) {
     return AliasSettingsEntity(
-      gameDuration: gameDuration ?? AliasConstants.defaultGameDuration,
+      roundDuration: roundDuration ?? AliasConstants.defaultRoundDuration,
       pointsToWin: pointsToWin ?? AliasConstants.defaultPointsToWin,
       soundEnabled: soundEnabled ?? true,
       allowSkipping: allowSkipping ?? true,
@@ -49,7 +49,7 @@ class AliasSettingsEntity {
   }
 
   AliasSettingsEntity copyWith({
-    int? gameDuration,
+    int? roundDuration,
     int? pointsToWin,
     bool? soundEnabled,
     bool? allowSkipping,
@@ -57,7 +57,7 @@ class AliasSettingsEntity {
     int? wordsPerCard,
   }) {
     return AliasSettingsEntity(
-      gameDuration: gameDuration ?? this.gameDuration,
+      roundDuration: roundDuration ?? this.roundDuration,
       pointsToWin: pointsToWin ?? this.pointsToWin,
       soundEnabled: soundEnabled ?? this.soundEnabled,
       allowSkipping: allowSkipping ?? this.allowSkipping,
@@ -76,7 +76,7 @@ class AliasSettingsEntity {
       return false;
     }
 
-    return gameDuration == other.gameDuration &&
+    return roundDuration == other.roundDuration &&
         pointsToWin == other.pointsToWin &&
         soundEnabled == other.soundEnabled &&
         allowSkipping == other.allowSkipping &&
@@ -86,12 +86,12 @@ class AliasSettingsEntity {
 
   @override
   String toString() {
-    return 'AliasSettingsEntity(gameDuration: $gameDuration, pointsToWin: $pointsToWin, soundEnabled: $soundEnabled, allowSkipping: $allowSkipping, skipPenalty: $penaltyForSkipping, wordsPerCard: $wordsPerCard)';
+    return 'AliasSettingsEntity(roundDuration: $roundDuration, pointsToWin: $pointsToWin, soundEnabled: $soundEnabled, allowSkipping: $allowSkipping, skipPenalty: $penaltyForSkipping, wordsPerCard: $wordsPerCard)';
   }
 
   @override
   int get hashCode {
-    return gameDuration.hashCode ^
+    return roundDuration.hashCode ^
         pointsToWin.hashCode ^
         soundEnabled.hashCode ^
         allowSkipping.hashCode ^

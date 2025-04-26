@@ -5,9 +5,9 @@ class AliasConstants {
   static const aliasCoverImagePath = 'assets/images/alias.png';
 
   // Settings
-  static const defaultGameDuration = 60;
-  static const minGameDuration = 20;
-  static const maxGameDuration = 300;
+  static const defaultRoundDuration = 60;
+  static const minRoundDuration = 20;
+  static const maxRoundDuration = 300;
   static const defaultPointsToWin = 100;
   static const minPointsToWin = 30;
   static const maxPointsToWin = 200;
@@ -16,7 +16,7 @@ class AliasConstants {
   static const maxWordsPerCard = 10;
 
   // Shared preferences keys
-  static const gameDurationKey = 'game_duration';
+  static const roundDurationKey = 'round_duration';
   static const pointsToWinKey = 'points_to_win';
   static const isSoundEnabledKey = 'is_sound_enabled';
   static const allowSkippingKey = 'allow_skipping';

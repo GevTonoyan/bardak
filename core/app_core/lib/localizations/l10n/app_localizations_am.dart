@@ -132,6 +132,18 @@ class AppLocalizationsAm extends AppLocalizations {
   String get alias_failedLoadWords => 'Բառերը բեռնելը ձախողվեց';
 
   @override
+  String get alias_preGameTitle => 'Պատրաստվեք';
+
+  @override
+  String get alias_preGameTeamSetup => 'Թիմերի կարգավորում';
+
+  @override
+  String get alias_preGameTeam => 'Թիմ';
+
+  @override
+  String get alias_preGameAddTeam => 'Ավելացնել թիմ';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override

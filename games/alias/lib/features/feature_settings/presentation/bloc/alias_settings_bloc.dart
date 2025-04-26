@@ -38,12 +38,12 @@ class AliasSettingsBloc extends Bloc<AliasSettingsEvent, AliasSettingsLoaded> {
   }
 
   void _onChangeGameDuration(ChangeGameDuration event, Emitter<AliasSettingsLoaded> emit) {
-    final updatedSettings = state.aliasSettings.copyWith(gameDuration: event.gameDuration);
+    final updatedSettings = state.aliasSettings.copyWith(roundDuration: event.gameDuration);
     emit(AliasSettingsLoaded(aliasSettings: updatedSettings));
 
     if (event.persist) {
       updateAliasSettingUseCase(
-        UpdateAliasSettingParams(key: AliasConstants.gameDurationKey, value: event.gameDuration),
+        UpdateAliasSettingParams(key: AliasConstants.roundDurationKey, value: event.gameDuration),
       );
     }
   }

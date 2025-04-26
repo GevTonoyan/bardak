@@ -1,4 +1,4 @@
-import 'package:alias/alias_route.dart';
+import 'package:alias/core/alias_route.dart';
 import 'package:alias/core/constants.dart';
 import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:app_core/extensions/context_extension.dart';

@@ -343,6 +343,30 @@ abstract class AppLocalizations {
   /// **'Couldn\'t load words'**
   String get alias_failedLoadWords;
 
+  /// No description provided for @alias_preGameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Ready'**
+  String get alias_preGameTitle;
+
+  /// No description provided for @alias_preGameTeamSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Team Setup'**
+  String get alias_preGameTeamSetup;
+
+  /// No description provided for @alias_preGameTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get alias_preGameTeam;
+
+  /// No description provided for @alias_preGameAddTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Team'**
+  String get alias_preGameAddTeam;
+
   /// No description provided for @general________________________________________________.
   ///
   /// In en, this message translates to:
