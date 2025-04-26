@@ -134,7 +134,7 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                         const SizedBox(height: 20),
 
                         AliasSettingStepper(
-                          label: context.localizations.alias_settings_gameDuration,
+                          label: context.localizations.alias_settings_roundDuration,
                           value: preGameConfig.roundDuration,
                           min: AliasConstants.minRoundDuration,
                           max: AliasConstants.maxRoundDuration,

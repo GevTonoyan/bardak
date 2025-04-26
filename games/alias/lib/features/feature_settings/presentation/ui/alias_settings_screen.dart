@@ -42,7 +42,7 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
                     ),
                   ),
                   AliasSettingStepper(
-                    label: context.localizations.alias_settings_gameDuration,
+                    label: context.localizations.alias_settings_roundDuration,
                     value: aliasSettings.roundDuration,
                     min: AliasConstants.minRoundDuration,
                     max: AliasConstants.maxRoundDuration,

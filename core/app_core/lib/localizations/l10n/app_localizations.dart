@@ -289,11 +289,11 @@ abstract class AppLocalizations {
   /// **'General'**
   String get alias_settings_general;
 
-  /// No description provided for @alias_settings_gameDuration.
+  /// No description provided for @alias_settings_roundDuration.
   ///
   /// In en, this message translates to:
-  /// **'Game Duration (sec)'**
-  String get alias_settings_gameDuration;
+  /// **'Round Duration (sec)'**
+  String get alias_settings_roundDuration;
 
   /// No description provided for @alias_settings_pointsToWin.
   ///

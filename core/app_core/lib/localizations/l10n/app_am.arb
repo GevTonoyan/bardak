@@ -32,7 +32,7 @@
   "alias_cardModeRule6": "Միավորները հաշվարկվում են գուշակված բառերի քանակով",
   "alias_settings": "Ալիասի կարգավորումներ",
   "alias_settings_general": "Ընդհանուր",
-  "alias_settings_gameDuration": "Խաղի տեւողությունը (վրկ)",
+  "alias_settings_roundDuration": "Ռաունդի տևողությունը (վրկ)",
   "alias_settings_pointsToWin": "Միավորներ հաղթելու համար",
   "alias_settings_soundEffects": "Ձայնային էֆեկտներ",
   "alias_settings_allowSkipping": "Թույլ տալ բաց թողնել",

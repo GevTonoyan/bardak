@@ -105,7 +105,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alias_settings_general => 'General';
 
   @override
-  String get alias_settings_gameDuration => 'Game Duration (sec)';
+  String get alias_settings_roundDuration => 'Round Duration (sec)';
 
   @override
   String get alias_settings_pointsToWin => 'Points to Win';

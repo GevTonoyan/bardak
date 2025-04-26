@@ -32,7 +32,7 @@
   "alias_cardModeRule6": "Счёт основан на количестве угаданных слов",
   "alias_settings": "Настройки Алиаса",
   "alias_settings_general": "Общие",
-  "alias_settings_gameDuration": "Длительность игры (сек)",
+  "alias_settings_roundDuration": "Длительность раунда (сек)",
   "alias_settings_pointsToWin": "Очки для победы",
   "alias_settings_soundEffects": "Звуковые эффекты",
   "alias_settings_allowSkipping": "Разрешить пропуск",

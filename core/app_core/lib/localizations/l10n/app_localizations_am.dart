@@ -105,7 +105,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get alias_settings_general => 'Ընդհանուր';
 
   @override
-  String get alias_settings_gameDuration => 'Խաղի տեւողությունը (վրկ)';
+  String get alias_settings_roundDuration => 'Ռաունդի տևողությունը (վրկ)';
 
   @override
   String get alias_settings_pointsToWin => 'Միավորներ հաղթելու համար';

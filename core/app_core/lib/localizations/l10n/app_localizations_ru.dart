@@ -105,7 +105,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get alias_settings_general => 'Общие';
 
   @override
-  String get alias_settings_gameDuration => 'Длительность игры (сек)';
+  String get alias_settings_roundDuration => 'Длительность раунда (сек)';
 
   @override
   String get alias_settings_pointsToWin => 'Очки для победы';

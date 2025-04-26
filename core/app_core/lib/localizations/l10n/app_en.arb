@@ -32,7 +32,7 @@
   "alias_cardModeRule6": "Score is based on the number guessed words",
   "alias_settings": "Alias Settings",
   "alias_settings_general": "General",
-  "alias_settings_gameDuration": "Game Duration (sec)",
+  "alias_settings_roundDuration": "Round Duration (sec)",
   "alias_settings_pointsToWin": "Points to Win",
   "alias_settings_soundEffects": "Sound Effects",
   "alias_settings_allowSkipping": "Allow Skipping",
