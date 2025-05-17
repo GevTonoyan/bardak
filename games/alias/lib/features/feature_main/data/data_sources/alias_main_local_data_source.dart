@@ -1,4 +1,4 @@
-import 'package:alias/core/constants.dart';
+import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_main/domain/entities/alias_word_pack_entity.dart';
 import 'package:alias/features/feature_main/domain/usecases/are_word_packs_cached_usecase.dart';
 import 'package:alias/features/feature_main/domain/usecases/get_selected_word_pack_name_usecase.dart';

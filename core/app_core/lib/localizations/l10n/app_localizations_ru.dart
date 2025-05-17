@@ -60,6 +60,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get alias_wordPack => 'Пакет слов';
 
   @override
+  String get alias_round => 'Раунд';
+
+  @override
   String get alias_rulesTitle => 'Правила Алиаса';
 
   @override
@@ -142,6 +145,25 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get alias_preGameAddTeam => 'Добавить команду';
+
+  @override
+  String alias_roundOverview_teamTurn(Object teamName) {
+    return 'Сейчас ход команды $teamName.';
+  }
+
+  @override
+  String alias_roundOverview_point(num points) {
+    String _temp0 = intl.Intl.pluralLogic(
+      points,
+      locale: localeName,
+      other: '$points очков',
+      one: '$points очко',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alias_roundOverview_roundScores => 'Очки по раундам:';
 
   @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';

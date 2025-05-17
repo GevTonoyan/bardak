@@ -199,6 +199,12 @@ abstract class AppLocalizations {
   /// **'Word Pack'**
   String get alias_wordPack;
 
+  /// No description provided for @alias_round.
+  ///
+  /// In en, this message translates to:
+  /// **'Round'**
+  String get alias_round;
+
   /// No description provided for @alias_rulesTitle.
   ///
   /// In en, this message translates to:
@@ -366,6 +372,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Team'**
   String get alias_preGameAddTeam;
+
+  /// No description provided for @alias_roundOverview_teamTurn.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s {teamName}\'s turn!'**
+  String alias_roundOverview_teamTurn(Object teamName);
+
+  /// No description provided for @alias_roundOverview_point.
+  ///
+  /// In en, this message translates to:
+  /// **'{points, plural, one {{points} point} other {{points} points}}'**
+  String alias_roundOverview_point(num points);
+
+  /// No description provided for @alias_roundOverview_roundScores.
+  ///
+  /// In en, this message translates to:
+  /// **'Round Scores:'**
+  String get alias_roundOverview_roundScores;
 
   /// No description provided for @general________________________________________________.
   ///

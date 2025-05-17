@@ -1,4 +1,4 @@
-import 'package:alias/core/constants.dart';
+import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_settings/presentation/bloc/alias_settings_bloc.dart';
 import 'package:alias/features/feature_settings/presentation/bloc/alias_settings_event.dart';
 import 'package:alias/features/feature_settings/presentation/bloc/alias_settings_state.dart';

@@ -60,6 +60,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alias_wordPack => 'Word Pack';
 
   @override
+  String get alias_round => 'Round';
+
+  @override
   String get alias_rulesTitle => 'Alias Rules';
 
   @override
@@ -142,6 +145,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alias_preGameAddTeam => 'Add Team';
+
+  @override
+  String alias_roundOverview_teamTurn(Object teamName) {
+    return 'It\'s $teamName\'s turn!';
+  }
+
+  @override
+  String alias_roundOverview_point(num points) {
+    String _temp0 = intl.Intl.pluralLogic(
+      points,
+      locale: localeName,
+      other: '$points points',
+      one: '$points point',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alias_roundOverview_roundScores => 'Round Scores:';
 
   @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';

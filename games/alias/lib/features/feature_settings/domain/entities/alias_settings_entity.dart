@@ -1,4 +1,4 @@
-import 'package:alias/core/constants.dart';
+import 'package:alias/core/alias_constants.dart';
 
 /// This class represents the settings for the Alias game.
 /// It contains various properties that define the game settings.

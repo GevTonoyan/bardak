@@ -1,4 +1,4 @@
-import 'package:alias/core/constants.dart';
+import 'package:alias/core/alias_constants.dart';
 
 /// AliasPreGameConfig is a data class that holds the configuration settings for the Alias game.
 class AliasPreGameConfig {

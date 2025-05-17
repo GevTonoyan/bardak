@@ -1,10 +1,12 @@
-import 'package:alias/core/constants.dart';
+import 'package:alias/core/alias_route.dart';
+import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
 import 'package:alias/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
 import 'package:app_core/extensions/context_extension.dart';
 import 'package:app_core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AliasPreGameScreen extends StatefulWidget {
   const AliasPreGameScreen({super.key});
@@ -196,7 +198,12 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                     width: double.maxFinite,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        // Start game logic
+                        if (state is AliasPreGameLoadedState) {
+                          context.goNamed(
+                            AliasRouteNames.roundOverview,
+                            extra: state.preGameConfig,
+                          );
+                        }
                       },
                       icon: const Icon(Icons.play_arrow),
                       label: Text(context.localizations.general_startGame),

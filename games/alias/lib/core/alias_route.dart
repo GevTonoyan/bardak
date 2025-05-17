@@ -1,5 +1,9 @@
 import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:alias/features/feature_main/presentation/ui/alias_main_screen.dart';
+import 'package:alias/features/feature_play/presentation/bloc/alias_play_bloc.dart';
+import 'package:alias/features/feature_play/presentation/ui/alias_play_session_area.dart';
+import 'package:alias/features/feature_play/presentation/ui/alias_round_overview_screen.dart';
+import 'package:alias/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
 import 'package:alias/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
 import 'package:alias/features/feature_pre_game/presentation/ui/alias_pre_game_screen.dart';
 import 'package:alias/features/feature_rules/presentation/ui/alias_rules_screen.dart';
@@ -9,7 +13,9 @@ import 'package:alias/features/feature_word_pack/presentation/bloc/alias_word_pa
 import 'package:alias/features/feature_word_pack/presentation/ui/alias_word_packs_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
+import '../features/feature_play/presentation/ui/alias_game_summary_screen.dart'
+    show AliasGameSummaryScreen;
+import '../features/feature_play/presentation/ui/alias_gameplay_screen.dart';
 import '../features/feature_settings/alias_settings_scope.dart';
 
 class AliasRouteNames {
@@ -18,6 +24,12 @@ class AliasRouteNames {
   static const info = 'info';
   static const wordPacks = 'word_packs';
   static const preGame = 'pre_game';
+
+  static const playSession = 'alias_play_session';
+  static const roundOverview = 'alias_round_overview';
+  static const countdown = 'alias_countdown';
+  static const gameplay = 'alias_gameplay';
+  static const gameSummary = 'alias_game_summary';
 }
 
 final aliasRouter = GoRoute(
@@ -70,5 +82,59 @@ final aliasRouter = GoRoute(
             child: const AliasPreGameScreen(),
           ),
     ),
+
+    GoRoute(
+      path: AliasRouteNames.roundOverview,
+      name: AliasRouteNames.roundOverview,
+      builder: (context, state) {
+        final preGameConfig = state.extra as AliasPreGameConfig;
+
+        return BlocProvider(
+          create: (_) => AliasPlayBloc(preGameConfig: preGameConfig),
+          child: const AliasRoundOverviewScreen(),
+        );
+      },
+      routes: [
+        GoRoute(
+          path: AliasRouteNames.gameplay,
+          name: AliasRouteNames.gameplay,
+          builder: (context, state) {
+            return const AliasGameplayScreen();
+          },
+        ),
+      ],
+    ),
+
+    // ShellRoute(
+    //   builder: (context, state, child) {
+    //     return AliasPlaySessionArea(child: child); // Provides AliasPlaySessionBloc
+    //   },
+    //   routes: [
+    //     // Round Overview Screen (entry screen)
+    //     GoRoute(
+    //       path: 'alias_round_overview',
+    //       name: 'alias_round_overview',
+    //       builder: (context, state) {
+    //         return const AliasRoundOverviewScreen();
+    //       },
+    //       routes: [
+    //         GoRoute(
+    //           path: 'gameplay',
+    //           name: 'alias_gameplay',
+    //           builder: (context, state) {
+    //             return const AliasGameplayScreen();
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    //
+    //     // Game Summary screen (sibling of RoundOverview)
+    //     GoRoute(
+    //       path: '/alias_game_summary',
+    //       name: 'alias_game_summary',
+    //       builder: (context, state) => const AliasGameSummaryScreen(),
+    //     ),
+    //   ],
+    // ),
   ],
 );

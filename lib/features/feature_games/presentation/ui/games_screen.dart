@@ -1,5 +1,5 @@
 import 'package:alias/core/alias_route.dart';
-import 'package:alias/core/constants.dart';
+import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_main/feature_main_scope.dart';
 import 'package:alias/features/feature_settings/alias_settings_scope.dart';
 import 'package:alias/features/feature_word_pack/alias_word_packs_scope.dart';

@@ -60,6 +60,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get alias_wordPack => 'Բառերի փաթեթ';
 
   @override
+  String get alias_round => 'Ռաունդ';
+
+  @override
   String get alias_rulesTitle => 'Ալիասի կանոնները';
 
   @override
@@ -142,6 +145,25 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get alias_preGameAddTeam => 'Ավելացնել թիմ';
+
+  @override
+  String alias_roundOverview_teamTurn(Object teamName) {
+    return 'Ընթացիկ հերթը՝ $teamName թիմինն է։';
+  }
+
+  @override
+  String alias_roundOverview_point(num points) {
+    String _temp0 = intl.Intl.pluralLogic(
+      points,
+      locale: localeName,
+      other: '$points միավոր',
+      one: '$points միավոր',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get alias_roundOverview_roundScores => 'Փուլի միավորներ:';
 
   @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';

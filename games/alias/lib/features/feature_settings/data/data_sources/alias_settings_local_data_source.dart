@@ -1,4 +1,4 @@
-import 'package:alias/core/constants.dart';
+import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_settings/domain/entities/alias_settings_entity.dart';
 import 'package:alias/features/feature_settings/domain/usecases/update_alias_setting_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
