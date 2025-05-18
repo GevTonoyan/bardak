@@ -39,16 +39,32 @@ class AliasRoundOverviewScreen extends StatelessWidget {
         backgroundColor: colors.background,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  context.localizations.alias_roundOverview_teamTurn(teams[0]['name'] as String),
-                  style: text.titleLarge.copyWith(
-                    color: colors.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        context.localizations.alias_roundOverview_teamTurn(
+                          teams[0]['name'] as String,
+                        ),
+                        style: text.titleLarge.copyWith(
+                          color: colors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      color: colors.onBackground,
+                      onPressed: () => context.pop(),
+                    ),
+                  ],
                 ),
+
                 const SizedBox(height: 24),
 
                 // Team Score Cards
@@ -164,7 +180,8 @@ class _TeamScoreCardState extends State<TeamScoreCard> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: Text(
-                    '• ${context.localizations.alias_round} ${roundIndex + 1}: ${context.localizations.alias_roundOverview_point(roundScore)}',
+                    '• ${context.localizations.alias_round} ${roundIndex + 1}: '
+                    '${context.localizations.alias_roundOverview_point(roundScore)}',
                     style:
                         isLast
                             ? text.bodySmall.copyWith(
