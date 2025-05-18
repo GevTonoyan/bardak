@@ -16,6 +16,7 @@ class AliasConstants {
   static const maxWordsPerCard = 10;
   static const minTeamCount = 2;
   static const maxTeamCount = 4;
+  static const teamNameMaxLength = 15;
 
   // Shared preferences keys
   static const roundDurationKey = 'round_duration';

@@ -97,7 +97,7 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                                 Expanded(
                                   child: TextFormField(
                                     controller: _teamControllers[index],
-                                    maxLength: 20,
+                                    maxLength: AliasConstants.teamNameMaxLength,
                                     decoration: InputDecoration(
                                       hintText:
                                           '${context.localizations.alias_preGameTeam} ${index + 1}',
@@ -106,7 +106,7 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                                     ),
                                   ),
                                 ),
-                                if (_teamControllers.length > 2)
+                                if (_teamControllers.length > AliasConstants.minTeamCount)
                                   IconButton(
                                     icon: const Icon(Icons.remove_circle_outline),
                                     color: colors.error,
@@ -120,19 +120,20 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                             ),
                           );
                         }),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: TextButton.icon(
-                            onPressed: () {
-                              final teamName =
-                                  '${context.localizations.alias_preGameTeam} ${_teamControllers.length + 1}';
-                              _teamControllers.add(TextEditingController(text: teamName));
-                              bloc.add(AddTeamEvent(teamName));
-                            },
-                            icon: const Icon(Icons.add),
-                            label: Text(context.localizations.alias_preGameAddTeam),
+                        if (_teamControllers.length < AliasConstants.maxTeamCount)
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextButton.icon(
+                              onPressed: () {
+                                final teamName =
+                                    '${context.localizations.alias_preGameTeam} ${_teamControllers.length + 1}';
+                                _teamControllers.add(TextEditingController(text: teamName));
+                                bloc.add(AddTeamEvent(teamName));
+                              },
+                              icon: const Icon(Icons.add),
+                              label: Text(context.localizations.alias_preGameAddTeam),
+                            ),
                           ),
-                        ),
                         const SizedBox(height: 20),
 
                         AliasSettingStepper(
