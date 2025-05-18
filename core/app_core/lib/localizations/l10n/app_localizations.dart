@@ -391,6 +391,18 @@ abstract class AppLocalizations {
   /// **'Round Scores:'**
   String get alias_roundOverview_roundScores;
 
+  /// No description provided for @alias_roundOverview_confirmExit_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit Game?'**
+  String get alias_roundOverview_confirmExit_title;
+
+  /// No description provided for @alias_roundOverview_confirmExit_message.
+  ///
+  /// In en, this message translates to:
+  /// **'If you close this screen, all game progress will be lost. Are you sure you want to exit?'**
+  String get alias_roundOverview_confirmExit_message;
+
   /// No description provided for @general________________________________________________.
   ///
   /// In en, this message translates to:
@@ -414,6 +426,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try Again'**
   String get general_tryAgain;
+
+  /// No description provided for @general_yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get general_yes;
+
+  /// No description provided for @general_no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get general_no;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

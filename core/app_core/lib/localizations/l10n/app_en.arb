@@ -49,8 +49,12 @@
   "alias_roundOverview_teamTurn": "It's {teamName}'s turn!",
   "alias_roundOverview_point": "{points, plural, one {{points} point} other {{points} points}}",
   "alias_roundOverview_roundScores": "Round Scores:",
+  "alias_roundOverview_confirmExit_title": "Exit Game?",
+  "alias_roundOverview_confirmExit_message": "If you close this screen, all game progress will be lost. Are you sure you want to exit?",
   "general________________________________________________": "general----------------------------------------------------------------------",
   "general_startGame": "Start Game",
   "general_checkInternet": "Check your internet connection",
-  "general_tryAgain": "Try Again"
+  "general_tryAgain": "Try Again",
+  "general_yes": "Yes",
+  "general_no": "No"
 }

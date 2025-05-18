@@ -166,6 +166,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alias_roundOverview_roundScores => 'Round Scores:';
 
   @override
+  String get alias_roundOverview_confirmExit_title => 'Exit Game?';
+
+  @override
+  String get alias_roundOverview_confirmExit_message => 'If you close this screen, all game progress will be lost. Are you sure you want to exit?';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override
@@ -176,4 +182,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get general_tryAgain => 'Try Again';
+
+  @override
+  String get general_yes => 'Yes';
+
+  @override
+  String get general_no => 'No';
 }

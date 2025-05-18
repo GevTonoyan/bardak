@@ -49,8 +49,12 @@
   "alias_roundOverview_teamTurn": "Сейчас ход команды {teamName}.",
   "alias_roundOverview_point": "{points, plural, one {{points} очко} other {{points} очков}}",
   "alias_roundOverview_roundScores": "Очки по раундам:",
+  "alias_roundOverview_confirmExit_title": "Выйти из игры?",
+  "alias_roundOverview_confirmExit_message": "Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?",
   "general________________________________________________": "general----------------------------------------------------------------------",
   "general_startGame": "Начать игру",
   "general_checkInternet": "Проверьте ваше интернет-соединение",
-  "general_tryAgain": "Попробовать снова"
+  "general_tryAgain": "Попробовать снова",
+  "general_yes": "Да",
+  "general_no": "Нет"
 }

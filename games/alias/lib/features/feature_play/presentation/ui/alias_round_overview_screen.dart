@@ -1,3 +1,4 @@
+import 'package:app_core/ui_kit/widgets/game_popup_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:app_core/extensions/context_extension.dart';
@@ -60,7 +61,16 @@ class AliasRoundOverviewScreen extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.close),
                       color: colors.onBackground,
-                      onPressed: () => context.pop(),
+                      onPressed: () {
+                        showGamePopupDialog(
+                          context: context,
+                          title: context.localizations.alias_roundOverview_confirmExit_title,
+                          message: context.localizations.alias_roundOverview_confirmExit_message,
+                          confirmText: context.localizations.general_yes,
+                          cancelText: context.localizations.general_no,
+                          onConfirm: () => context.pop(),
+                        );
+                      },
                     ),
                   ],
                 ),

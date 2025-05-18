@@ -49,8 +49,12 @@
   "alias_roundOverview_teamTurn": "Ընթացիկ հերթը՝ {teamName} թիմինն է։",
   "alias_roundOverview_point": "{points, plural, one {{points} միավոր} other {{points} միավոր}}",
   "alias_roundOverview_roundScores": "Փուլի միավորներ:",
+  "alias_roundOverview_confirmExit_title": "Դուրս գալ խաղից՞",
+  "alias_roundOverview_confirmExit_message": "Եթե փակեք այս էջը, խաղի ողջ ընթացքը կկորչի։ Վստա՞հ եք, որ ցանկանում եք դուրս գալ։",
   "general________________________________________________": "general----------------------------------------------------------------------",
   "general_startGame": "Սկսել խաղը",
   "general_checkInternet": "Ստուգեք ձեր ինտերնետային կապը",
-  "general_tryAgain": "Կրկին փորձել"
+  "general_tryAgain": "Կրկին փորձել",
+  "general_yes": "Այո",
+  "general_no": "Ոչ"
 }

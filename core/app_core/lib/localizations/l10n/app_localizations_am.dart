@@ -166,6 +166,12 @@ class AppLocalizationsAm extends AppLocalizations {
   String get alias_roundOverview_roundScores => 'Փուլի միավորներ:';
 
   @override
+  String get alias_roundOverview_confirmExit_title => 'Դուրս գալ խաղից՞';
+
+  @override
+  String get alias_roundOverview_confirmExit_message => 'Եթե փակեք այս էջը, խաղի ողջ ընթացքը կկորչի։ Վստա՞հ եք, որ ցանկանում եք դուրս գալ։';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override
@@ -176,4 +182,10 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get general_tryAgain => 'Կրկին փորձել';
+
+  @override
+  String get general_yes => 'Այո';
+
+  @override
+  String get general_no => 'Ոչ';
 }
