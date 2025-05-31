@@ -21,10 +21,13 @@ class AliasConstants {
   // Shared preferences keys
   static const roundDurationKey = 'round_duration';
   static const pointsToWinKey = 'points_to_win';
-  static const isSoundEnabledKey = 'is_sound_enabled';
+  static const soundEnabledKey = 'is_sound_enabled';
   static const allowSkippingKey = 'allow_skipping';
   static const penaltyForSkippingKey = 'penalty_for_skipping';
   static const wordsPerCardKey = 'words_per_card';
+  static const gameModeKey = 'game_mode';
+  static const teamNamesKey = 'team_names';
+  static const preGameConfigKey = 'pre_game_config';
 
   // Hive DB keys
   static const aliasWordPack = 'alias_word_packs';

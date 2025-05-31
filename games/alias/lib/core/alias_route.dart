@@ -1,7 +1,7 @@
+import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:alias/features/feature_main/presentation/ui/alias_main_screen.dart';
 import 'package:alias/features/feature_play/presentation/bloc/alias_play_bloc.dart';
-import 'package:alias/features/feature_play/presentation/ui/alias_play_session_area.dart';
 import 'package:alias/features/feature_play/presentation/ui/alias_round_overview_screen.dart';
 import 'package:alias/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
 import 'package:alias/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
@@ -13,8 +13,6 @@ import 'package:alias/features/feature_word_pack/presentation/bloc/alias_word_pa
 import 'package:alias/features/feature_word_pack/presentation/ui/alias_word_packs_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../features/feature_play/presentation/ui/alias_game_summary_screen.dart'
-    show AliasGameSummaryScreen;
 import '../features/feature_play/presentation/ui/alias_gameplay_screen.dart';
 import '../features/feature_settings/alias_settings_scope.dart';
 
@@ -87,10 +85,22 @@ final aliasRouter = GoRoute(
       path: AliasRouteNames.roundOverview,
       name: AliasRouteNames.roundOverview,
       builder: (context, state) {
-        final preGameConfig = state.extra as AliasPreGameConfig;
+        final preGameConfigString =
+            state.uri.queryParameters[AliasConstants.preGameConfigKey] as String;
+        final preGameConfig = AliasPreGameConfig.fromJson(preGameConfigString);
 
         return BlocProvider(
-          create: (_) => AliasPlayBloc(preGameConfig: preGameConfig),
+          create:
+              (_) => AliasPlayBloc(
+                teamNames: preGameConfig.teamNames,
+                roundDuration: preGameConfig.roundDuration,
+                pointsToWin: preGameConfig.pointsToWin,
+                wordsPerCard: preGameConfig.wordsPerCard,
+                penaltyForSkipping: preGameConfig.penaltyForSkipping,
+                allowSkipping: preGameConfig.allowSkipping,
+                gameMode: preGameConfig.gameMode,
+                soundEnabled: preGameConfig.soundEnabled,
+              ),
           child: const AliasRoundOverviewScreen(),
         );
       },
@@ -104,37 +114,5 @@ final aliasRouter = GoRoute(
         ),
       ],
     ),
-
-    // ShellRoute(
-    //   builder: (context, state, child) {
-    //     return AliasPlaySessionArea(child: child); // Provides AliasPlaySessionBloc
-    //   },
-    //   routes: [
-    //     // Round Overview Screen (entry screen)
-    //     GoRoute(
-    //       path: 'alias_round_overview',
-    //       name: 'alias_round_overview',
-    //       builder: (context, state) {
-    //         return const AliasRoundOverviewScreen();
-    //       },
-    //       routes: [
-    //         GoRoute(
-    //           path: 'gameplay',
-    //           name: 'alias_gameplay',
-    //           builder: (context, state) {
-    //             return const AliasGameplayScreen();
-    //           },
-    //         ),
-    //       ],
-    //     ),
-    //
-    //     // Game Summary screen (sibling of RoundOverview)
-    //     GoRoute(
-    //       path: '/alias_game_summary',
-    //       name: 'alias_game_summary',
-    //       builder: (context, state) => const AliasGameSummaryScreen(),
-    //     ),
-    //   ],
-    // ),
   ],
 );

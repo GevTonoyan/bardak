@@ -10,9 +10,10 @@ class AliasPlaySessionArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AliasPlayBloc(preGameConfig: AliasPreGameConfig.initial()),
-      child: child,
-    );
+    // return BlocProvider(
+    //   create: (_) => AliasPlayBloc(preGameConfig: AliasPreGameConfig.initial()),
+    //   child: child,
+    // );
+    return child;
   }
 }

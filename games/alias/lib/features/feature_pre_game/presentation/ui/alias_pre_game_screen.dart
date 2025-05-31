@@ -202,7 +202,14 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                         if (state is AliasPreGameLoadedState) {
                           context.goNamed(
                             AliasRouteNames.roundOverview,
-                            extra: state.preGameConfig,
+                            queryParameters: {
+                              AliasConstants.preGameConfigKey:
+                                  state.preGameConfig
+                                      .copyWith(
+                                        teamNames: _teamControllers.map((c) => c.text).toList(),
+                                      )
+                                      .toJson(),
+                            },
                           );
                         }
                       },

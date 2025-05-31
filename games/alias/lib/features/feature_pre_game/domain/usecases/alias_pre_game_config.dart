@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:alias/core/alias_constants.dart';
 
 /// AliasPreGameConfig is a data class that holds the configuration settings for the Alias game.
@@ -57,10 +59,63 @@ class AliasPreGameConfig {
     );
   }
 
+  String toJson() {
+    final Map<String, dynamic> data = {
+      AliasConstants.gameModeKey: gameMode.toString(),
+      AliasConstants.roundDurationKey: roundDuration,
+      AliasConstants.pointsToWinKey: pointsToWin,
+      AliasConstants.soundEnabledKey: soundEnabled,
+      AliasConstants.wordsPerCardKey: wordsPerCard,
+      AliasConstants.allowSkippingKey: allowSkipping,
+      AliasConstants.penaltyForSkippingKey: penaltyForSkipping,
+      AliasConstants.teamNamesKey: teamNames,
+    };
+
+    return jsonEncode(data);
+  }
+
+  static AliasPreGameConfig fromJson(String json) {
+    final Map<String, dynamic> data = jsonDecode(json);
+    return AliasPreGameConfig(
+      gameMode: AliasGameMode.fromString(data[AliasConstants.gameModeKey]),
+      roundDuration: data[AliasConstants.roundDurationKey] as int,
+      pointsToWin: data[AliasConstants.pointsToWinKey] as int,
+      soundEnabled: data[AliasConstants.soundEnabledKey] as bool,
+      wordsPerCard: data[AliasConstants.wordsPerCardKey] as int,
+      allowSkipping: data[AliasConstants.allowSkippingKey] as bool,
+      penaltyForSkipping: data[AliasConstants.penaltyForSkippingKey] as bool,
+      teamNames: List<String>.from(data[AliasConstants.teamNamesKey] as List),
+    );
+  }
+
   @override
   String toString() {
     return 'AliasPreGameConfig(gameMode: $gameMode, roundDuration: $roundDuration, pointsToWin: $pointsToWin, soundEnabled: $soundEnabled, wordsPerCard: $wordsPerCard, allowSkipping: $allowSkipping, penaltyForSkipping: $penaltyForSkipping, teamNames: $teamNames)';
   }
 }
 
-enum AliasGameMode { card, singleWord }
+enum AliasGameMode {
+  card,
+  singleWord;
+
+  @override
+  String toString() {
+    switch (this) {
+      case AliasGameMode.card:
+        return 'card';
+      case AliasGameMode.singleWord:
+        return 'single word';
+    }
+  }
+
+  static AliasGameMode fromString(String value) {
+    switch (value.toLowerCase()) {
+      case 'card':
+        return AliasGameMode.card;
+      case 'single word':
+        return AliasGameMode.singleWord;
+      default:
+        throw ArgumentError('Unknown game mode: $value');
+    }
+  }
+}

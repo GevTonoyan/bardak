@@ -27,7 +27,7 @@ class AliasSettingsLocalDataSourceImpl implements AliasSettingsLocalDataSource {
 
     final pointsToWin = preferences.getInt(AliasConstants.pointsToWinKey);
 
-    final isSoundEnabled = preferences.getBool(AliasConstants.isSoundEnabledKey);
+    final isSoundEnabled = preferences.getBool(AliasConstants.soundEnabledKey);
 
     final allowSkipping = preferences.getBool(AliasConstants.allowSkippingKey);
 
@@ -57,7 +57,7 @@ class AliasSettingsLocalDataSourceImpl implements AliasSettingsLocalDataSource {
         success = await preferences.setInt(key, value as int);
       case AliasConstants.pointsToWinKey:
         success = await preferences.setInt(key, value as int);
-      case AliasConstants.isSoundEnabledKey:
+      case AliasConstants.soundEnabledKey:
         success = await preferences.setBool(key, value as bool);
       case AliasConstants.allowSkippingKey:
         success = await preferences.setBool(key, value as bool);

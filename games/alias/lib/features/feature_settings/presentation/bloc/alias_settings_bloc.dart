@@ -64,7 +64,7 @@ class AliasSettingsBloc extends Bloc<AliasSettingsEvent, AliasSettingsLoaded> {
     emit(AliasSettingsLoaded(aliasSettings: updatedSettings));
 
     updateAliasSettingUseCase(
-      UpdateAliasSettingParams(key: AliasConstants.isSoundEnabledKey, value: event.soundEffects),
+      UpdateAliasSettingParams(key: AliasConstants.soundEnabledKey, value: event.soundEffects),
     );
   }
 

@@ -1,5 +1,9 @@
+import 'package:alias/features/feature_play/domain/entities/alias_game_state_entity.dart';
+import 'package:alias/features/feature_play/presentation/bloc/alias_play_bloc.dart';
+import 'package:app_core/ui_kit/widgets/app_loader.dart';
 import 'package:app_core/ui_kit/widgets/game_popup_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:app_core/extensions/context_extension.dart';
 
@@ -11,28 +15,12 @@ class AliasRoundOverviewScreen extends StatelessWidget {
     final colors = context.appTheme.colors;
     final text = context.appTheme.typography;
 
-    final teams = [
-      {
-        'name': 'Team Alpha',
-        'score': 24,
-        'rounds': [4, 7, 3, 7, 23, 23, 123, 123, 23, 3, 23, 23, 23, 3, 23, 32, 32, 23, 23, 2],
-      },
-      {
-        'name': 'Team Beta',
-        'score': 21,
-        'rounds': [4, 7, 3, 7, 23, 23, 123, 123, 23, 3, 23, 23, 23, 3, 23, 32, 32, 23, 23, 2],
-      },
-      {
-        'name': 'Team Beta',
-        'score': 21,
-        'rounds': [4, 7, 3, 7, 23, 23, 123, 123, 23, 3, 23, 23, 23, 3, 23, 32, 32, 23, 23, 2],
-      },
-      {
-        'name': 'Team Beta',
-        'score': 21,
-        'rounds': [4, 7, 3, 7, 23, 23, 123, 123, 23, 3, 23, 23, 23, 3, 23, 32, 32, 23, 23, 2],
-      },
-    ];
+    final bloc = context.watch<AliasPlayBloc>();
+    if (bloc.state is! AliasPlayLoaded) {
+      return const AppLoader();
+    }
+
+    final gameState = (bloc.state as AliasPlayLoaded).gameState;
 
     return PopScope(
       canPop: false,
@@ -50,7 +38,7 @@ class AliasRoundOverviewScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         context.localizations.alias_roundOverview_teamTurn(
-                          teams[0]['name'] as String,
+                          gameState.teamStates[gameState.currentTeamIndex].name,
                         ),
                         style: text.titleLarge.copyWith(
                           color: colors.primary,
@@ -84,21 +72,21 @@ class AliasRoundOverviewScreen extends StatelessWidget {
                       Expanded(
                         child: Row(
                           children: [
-                            Expanded(child: TeamScoreCard()),
+                            Expanded(child: _TeamScoreCard(team: gameState.teamStates[0])),
                             const SizedBox(width: 12),
-                            Expanded(child: TeamScoreCard()),
+                            Expanded(child: _TeamScoreCard(team: gameState.teamStates[1])),
                           ],
                         ),
                       ),
-                      if (teams.length > 2) ...[
+                      if (gameState.teamStates.length > 2) ...[
                         const SizedBox(height: 12),
                         Expanded(
                           child: Row(
                             children: [
-                              Expanded(child: TeamScoreCard()),
+                              Expanded(child: _TeamScoreCard(team: gameState.teamStates[2])),
                               const SizedBox(width: 12),
-                              if (teams.length == 4) ...[
-                                Expanded(child: TeamScoreCard()),
+                              if (gameState.teamStates.length == 4) ...[
+                                Expanded(child: _TeamScoreCard(team: gameState.teamStates[3])),
                               ] else ...[
                                 Expanded(child: Container()),
                               ],
@@ -128,14 +116,16 @@ class AliasRoundOverviewScreen extends StatelessWidget {
   }
 }
 
-class TeamScoreCard extends StatefulWidget {
-  const TeamScoreCard({super.key});
+class _TeamScoreCard extends StatefulWidget {
+  final AliasTeamStateEntity team;
+
+  const _TeamScoreCard({required this.team});
 
   @override
-  State<TeamScoreCard> createState() => _TeamScoreCardState();
+  State<_TeamScoreCard> createState() => _TeamScoreCardState();
 }
 
-class _TeamScoreCardState extends State<TeamScoreCard> {
+class _TeamScoreCardState extends State<_TeamScoreCard> {
   final scrollController = ScrollController();
 
   @override
@@ -148,14 +138,10 @@ class _TeamScoreCardState extends State<TeamScoreCard> {
 
   @override
   Widget build(BuildContext context) {
-    final team = {
-      'name': 'Team Alpha',
-      'score': 24,
-      'rounds': [4, 7, 3, 7, 1, 1, 12, 32, 21, 42, 21, 234, 314, 1],
-    };
-
     final colors = context.appTheme.colors;
     final text = context.appTheme.typography;
+
+    final team = widget.team;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -168,24 +154,24 @@ class _TeamScoreCardState extends State<TeamScoreCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'team 1',
+            team.name,
             style: text.titleMedium.copyWith(fontWeight: FontWeight.w600, color: colors.primary),
           ),
           const SizedBox(height: 4),
-          Text(context.localizations.alias_roundOverview_point(21), style: text.titleLarge),
-          const SizedBox(height: 8),
           Text(
-            context.localizations.alias_roundOverview_roundScores,
-            style: text.bodySmall.copyWith(color: colors.onSurface),
+            context.localizations.alias_roundOverview_point(team.totalScore),
+            style: text.titleLarge,
           ),
+          const SizedBox(height: 8),
+          Text(context.localizations.alias_roundOverview_roundScores, style: text.labelMedium),
           const SizedBox(height: 4),
           Expanded(
             child: ListView.builder(
               controller: scrollController,
-              itemCount: (team['rounds'] as List).length,
+              itemCount: team.roundScores.length,
               itemBuilder: (_, roundIndex) {
-                final roundScore = (team['rounds'] as List)[roundIndex];
-                final isLast = roundIndex == (team['rounds'] as List).length - 1;
+                final roundScore = team.roundScores[roundIndex];
+                final isLast = roundIndex == team.roundScores.length - 1;
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 2),
