@@ -1,3 +1,4 @@
+import 'package:alias/core/alias_route.dart';
 import 'package:alias/features/feature_play/domain/entities/alias_game_state_entity.dart';
 import 'package:alias/features/feature_play/presentation/bloc/alias_play_bloc.dart';
 import 'package:app_core/ui_kit/widgets/app_loader.dart';
@@ -102,7 +103,7 @@ class AliasRoundOverviewScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () => context.goNamed('alias_gameplay'),
+                    onPressed: () => context.pushNamed(AliasRouteNames.gameplay),
                     icon: const Icon(Icons.play_arrow),
                     label: Text(context.localizations.general_startGame),
                   ),
