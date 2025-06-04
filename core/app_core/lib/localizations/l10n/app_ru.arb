@@ -51,6 +51,7 @@
   "alias_roundOverview_roundScores": "Очки по раундам:",
   "alias_roundOverview_confirmExit_title": "Выйти из игры?",
   "alias_roundOverview_confirmExit_message": "Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?",
+  "alias_countdown_go": "Вперёд!",
   "general________________________________________________": "general----------------------------------------------------------------------",
   "general_startGame": "Начать игру",
   "general_checkInternet": "Проверьте ваше интернет-соединение",

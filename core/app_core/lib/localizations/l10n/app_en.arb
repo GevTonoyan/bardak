@@ -51,6 +51,7 @@
   "alias_roundOverview_roundScores": "Round Scores:",
   "alias_roundOverview_confirmExit_title": "Exit Game?",
   "alias_roundOverview_confirmExit_message": "If you close this screen, all game progress will be lost. Are you sure you want to exit?",
+  "alias_countdown_go": "Go!",
   "general________________________________________________": "general----------------------------------------------------------------------",
   "general_startGame": "Start Game",
   "general_checkInternet": "Check your internet connection",

@@ -2,6 +2,7 @@ import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:alias/features/feature_main/presentation/ui/alias_main_screen.dart';
 import 'package:alias/features/feature_play/presentation/bloc/alias_play_bloc.dart';
+import 'package:alias/features/feature_play/presentation/ui/alias_countdown_screen.dart';
 import 'package:alias/features/feature_play/presentation/ui/alias_round_overview_screen.dart';
 import 'package:alias/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
 import 'package:alias/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
@@ -110,6 +111,13 @@ final aliasRouter = GoRoute(
           name: AliasRouteNames.gameplay,
           builder: (context, state) {
             return const AliasGameplayScreen();
+          },
+        ),
+        GoRoute(
+          path: AliasRouteNames.countdown,
+          name: AliasRouteNames.countdown,
+          builder: (context, state) {
+            return const AliasCountdownScreen();
           },
         ),
       ],

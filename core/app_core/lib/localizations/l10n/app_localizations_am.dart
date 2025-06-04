@@ -172,6 +172,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get alias_roundOverview_confirmExit_message => 'Եթե փակեք այս էջը, խաղի ողջ ընթացքը կկորչի։ Վստա՞հ եք, որ ցանկանում եք դուրս գալ։';
 
   @override
+  String get alias_countdown_go => 'Գնացինք!';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override

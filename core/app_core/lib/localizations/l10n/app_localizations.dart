@@ -403,6 +403,12 @@ abstract class AppLocalizations {
   /// **'If you close this screen, all game progress will be lost. Are you sure you want to exit?'**
   String get alias_roundOverview_confirmExit_message;
 
+  /// No description provided for @alias_countdown_go.
+  ///
+  /// In en, this message translates to:
+  /// **'Go!'**
+  String get alias_countdown_go;
+
   /// No description provided for @general________________________________________________.
   ///
   /// In en, this message translates to:

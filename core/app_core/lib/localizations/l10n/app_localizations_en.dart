@@ -172,6 +172,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alias_roundOverview_confirmExit_message => 'If you close this screen, all game progress will be lost. Are you sure you want to exit?';
 
   @override
+  String get alias_countdown_go => 'Go!';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override

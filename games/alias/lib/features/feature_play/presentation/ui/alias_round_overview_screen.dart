@@ -103,7 +103,7 @@ class AliasRoundOverviewScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () => context.pushNamed(AliasRouteNames.gameplay),
+                    onPressed: () => context.pushNamed(AliasRouteNames.countdown),
                     icon: const Icon(Icons.play_arrow),
                     label: Text(context.localizations.general_startGame),
                   ),

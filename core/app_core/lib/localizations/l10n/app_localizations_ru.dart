@@ -172,6 +172,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get alias_roundOverview_confirmExit_message => 'Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?';
 
   @override
+  String get alias_countdown_go => 'Вперёд!';
+
+  @override
   String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override
