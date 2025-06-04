@@ -4,6 +4,12 @@ class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
 
   @override
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    print('[Bloc Created] ${bloc.runtimeType}');
+  }
+
+  @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
     print('[Bloc Event] ${bloc.runtimeType} → ${event.runtimeType}');
@@ -21,5 +27,11 @@ class AppBlocObserver extends BlocObserver {
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     print('[Bloc Error] ${bloc.runtimeType} → $error');
     super.onError(bloc, error, stackTrace);
+  }
+
+  @override
+  void onClose(BlocBase bloc) {
+    print('[Bloc Closed] ${bloc.runtimeType}');
+    super.onClose(bloc);
   }
 }
