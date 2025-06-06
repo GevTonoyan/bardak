@@ -20,7 +20,6 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(context.localizations.settings, style: textStyles.headlineMedium)),
       body: BlocBuilder<SettingsBloc, SettingsStateLoaded>(
-        bloc: bloc..add(GetSettings()),
         builder: (context, state) {
           final settings = state.settings;
 

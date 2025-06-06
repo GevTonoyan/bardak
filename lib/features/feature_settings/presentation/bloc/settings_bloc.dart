@@ -18,6 +18,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsStateLoaded> {
     on<GetSettings>(_getSettings);
     on<ChangeTheme>(_changeTheme);
     on<ChangeLocale>(_changeLocale);
+    add(GetSettings());
   }
 
   void _getSettings(GetSettings event, Emitter<SettingsStateLoaded> emit) {
