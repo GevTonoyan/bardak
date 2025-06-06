@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:alias/core/alias_route.dart';
 import 'package:app_core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AliasCountdownScreen extends StatefulWidget {
   const AliasCountdownScreen({super.key});
@@ -53,7 +55,7 @@ class _AliasCountdownScreenState extends State<AliasCountdownScreen> with Ticker
   void _handleCountdownFinished() {
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) {
-        Navigator.of(context).pop(); // Or push to next screen
+        context.pushNamed(AliasRouteNames.gameplay);
       }
     });
   }

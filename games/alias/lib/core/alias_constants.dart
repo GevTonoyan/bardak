@@ -13,7 +13,7 @@ class AliasConstants {
   static const maxPointsToWin = 200;
   static const defaultWordsPerCard = 7;
   static const minWordsPerCard = 3;
-  static const maxWordsPerCard = 10;
+  static const maxWordsPerCard = 8;
   static const minTeamCount = 2;
   static const maxTeamCount = 4;
   static const teamNameMaxLength = 15;
