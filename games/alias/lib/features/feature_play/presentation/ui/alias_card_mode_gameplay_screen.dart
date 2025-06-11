@@ -9,10 +9,12 @@ class AliasCardModeGameplayScreen extends StatefulWidget {
   const AliasCardModeGameplayScreen({super.key});
 
   @override
-  State<AliasCardModeGameplayScreen> createState() => _AliasCardModeGameplayScreenState();
+  State<AliasCardModeGameplayScreen> createState() =>
+      _AliasCardModeGameplayScreenState();
 }
 
-class _AliasCardModeGameplayScreenState extends State<AliasCardModeGameplayScreen> {
+class _AliasCardModeGameplayScreenState
+    extends State<AliasCardModeGameplayScreen> {
   final List<String> words = [
     'Mountain',
     'Laptop',
@@ -25,19 +27,20 @@ class _AliasCardModeGameplayScreenState extends State<AliasCardModeGameplayScree
   ];
 
   final Set<int> selectedIndexes = {};
-  int remainingSeconds = 60; // Will be dynamic later
+  int remainingSeconds = 20; // Will be dynamic later
   late final Ticker _ticker;
+  var isTickerPaused = false;
 
   @override
   void initState() {
     super.initState();
     _ticker = Ticker(_onTick)..start();
     // Disable back swipe
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   }
 
   void _onTick(Duration elapsed) {
-    final seconds = 60 - elapsed.inSeconds;
+    final seconds = 20 - elapsed.inSeconds;
     if (seconds <= 0) {
       _ticker.stop();
       setState(() => remainingSeconds = 0);
@@ -77,19 +80,35 @@ class _AliasCardModeGameplayScreenState extends State<AliasCardModeGameplayScree
             children: [
               // Top bar with timer & close
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 child: Row(
                   children: [
                     Text(
                       '$remainingSeconds',
-                      style: text.headlineLarge.copyWith(color: colors.primary),
+                      style: text.displayMedium.copyWith(
+                        color:
+                            remainingSeconds <= 5
+                                ? colors.error
+                                : remainingSeconds <= 15
+                                ? colors.warning
+                                : colors.primary,
+                      ),
                     ),
                     const Spacer(),
                     // Pause Button
                     IconButton(
-                      icon: const Icon(Icons.pause),
+                      icon:
+                          isTickerPaused
+                              ? const Icon(Icons.play_arrow)
+                              : const Icon(Icons.pause),
                       onPressed: () {
-                        _ticker.stop();
+                        setState(() {
+                          _ticker.isActive ? _ticker.stop() : _ticker.start();
+                          isTickerPaused = !isTickerPaused;
+                        });
                       },
                     ),
 
@@ -98,8 +117,14 @@ class _AliasCardModeGameplayScreenState extends State<AliasCardModeGameplayScree
                       onPressed: () {
                         showGamePopupDialog(
                           context: context,
-                          title: context.localizations.alias_roundOverview_confirmExit_title,
-                          message: context.localizations.alias_roundOverview_confirmExit_message,
+                          title:
+                              context
+                                  .localizations
+                                  .alias_roundOverview_confirmExit_title,
+                          message:
+                              context
+                                  .localizations
+                                  .alias_roundOverview_confirmExit_message,
                           confirmText: context.localizations.general_yes,
                           cancelText: context.localizations.general_no,
                           onConfirm: () => context.pop(),
@@ -113,40 +138,63 @@ class _AliasCardModeGameplayScreenState extends State<AliasCardModeGameplayScree
               // Word cards
               Expanded(
                 child: Center(
-                  child: ListView.builder(
+                  child: ListView.separated(
                     shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: words.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
                       final isSelected = selectedIndexes.contains(index);
-                      return GestureDetector(
-                        onTap: () => _toggleSelection(index),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 700),
-                          margin: const EdgeInsets.symmetric(vertical: 6),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color:
-                                isSelected ? colors.success.withValues(alpha: 0.2) : colors.surface,
-                            border: Border.all(
-                              color: isSelected ? colors.success : colors.outline,
-                              width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
+                      return Material(
+                        color:
+                            isSelected
+                                ? colors.success.withValues(alpha: 0.2)
+                                : colors.surface,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(
+                            color: isSelected ? colors.success : colors.outline,
+                            width: 1.5,
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  words[index],
-                                  style: text.titleMedium.copyWith(
-                                    color: colors.onSurface,
-                                    fontWeight: FontWeight.w500,
+                        ),
+                        child: InkWell(
+                          onTap: () => _toggleSelection(index),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    words[index],
+                                    style: text.titleMedium.copyWith(
+                                      color: colors.onSurface,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              if (isSelected) Icon(Icons.check_circle, color: colors.success),
-                            ],
+                                if (isSelected)
+                                  AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 300),
+                                    transitionBuilder: (child, animation) {
+                                      return ScaleTransition(
+                                        scale: animation,
+                                        child: child,
+                                      );
+                                    },
+                                    child:
+                                        isSelected
+                                            ? Icon(
+                                              Icons.check_circle,
+                                              key: const ValueKey(true),
+                                              color: colors.success,
+                                            )
+                                            : const SizedBox.shrink(
+                                              key: ValueKey(false),
+                                            ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                       );
