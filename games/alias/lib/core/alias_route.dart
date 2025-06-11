@@ -1,7 +1,7 @@
 import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:alias/features/feature_main/presentation/ui/alias_main_screen.dart';
-import 'package:alias/features/feature_gameplay/presentation/bloc/alias_play_bloc.dart';
+import 'package:alias/features/feature_gameplay/presentation/bloc/blocs/alias_gameplay_bloc/alias_gameplay_bloc.dart';
 import 'package:alias/features/feature_gameplay/presentation/ui/alias_card_mode_gameplay_screen.dart';
 import 'package:alias/features/feature_gameplay/presentation/ui/alias_countdown_screen.dart';
 import 'package:alias/features/feature_gameplay/presentation/ui/alias_round_overview_screen.dart';
@@ -98,7 +98,7 @@ final aliasRouter = GoRoute(
 
         return BlocProvider(
           create:
-              (_) => AliasPlayBloc(
+              (_) => AliasGameplayBloc(
                 teamNames: preGameConfig.teamNames,
                 roundDuration: preGameConfig.roundDuration,
                 pointsToWin: preGameConfig.pointsToWin,

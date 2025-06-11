@@ -1,6 +1,6 @@
 import 'package:alias/core/alias_route.dart';
 import 'package:alias/features/feature_gameplay/domain/entities/alias_game_state_entity.dart';
-import 'package:alias/features/feature_gameplay/presentation/bloc/alias_play_bloc.dart';
+import 'package:alias/features/feature_gameplay/presentation/bloc/blocs/alias_gameplay_bloc/alias_gameplay_bloc.dart';
 import 'package:app_core/ui_kit/widgets/app_loader.dart';
 import 'package:app_core/ui_kit/widgets/game_popup_dialog.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class AliasRoundOverviewScreen extends StatelessWidget {
     final colors = context.appTheme.colors;
     final text = context.appTheme.typography;
 
-    final bloc = context.watch<AliasPlayBloc>();
+    final bloc = context.watch<AliasGameplayBloc>();
     if (bloc.state is! AliasPlayLoaded) {
       return const AppLoader();
     }

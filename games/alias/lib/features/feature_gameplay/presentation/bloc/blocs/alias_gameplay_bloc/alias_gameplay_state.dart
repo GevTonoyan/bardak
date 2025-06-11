@@ -1,11 +1,11 @@
-part of 'alias_play_bloc.dart';
+part of 'alias_gameplay_bloc.dart';
 
 abstract class AliasPlayState {
   const AliasPlayState();
 }
 
-class AliasPlayInitial extends AliasPlayState {
-  const AliasPlayInitial();
+class AliasGameplayInitial extends AliasPlayState {
+  const AliasGameplayInitial();
 }
 
 class AliasPlayLoaded extends AliasPlayState {

@@ -2,12 +2,12 @@ import 'package:alias/features/feature_gameplay/domain/entities/alias_game_state
 import 'package:alias/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'alias_play_event.dart';
+part 'alias_gameplay_event.dart';
 
-part 'alias_play_state.dart';
+part 'alias_gameplay_state.dart';
 
-class AliasPlayBloc extends Bloc<AliasPlayEvent, AliasPlayState> {
-  AliasPlayBloc({
+class AliasGameplayBloc extends Bloc<AliasGameplayEvent, AliasPlayState> {
+  AliasGameplayBloc({
     required AliasGameMode gameMode,
     required List<String> teamNames,
     required int roundDuration,
@@ -21,7 +21,10 @@ class AliasPlayBloc extends Bloc<AliasPlayEvent, AliasPlayState> {
            AliasGameStateEntity(
              teamStates:
                  teamNames
-                     .map((name) => AliasTeamStateEntity(name: name, roundScores: []))
+                     .map(
+                       (name) =>
+                           AliasTeamStateEntity(name: name, roundScores: []),
+                     )
                      .toList(),
              gameMode: gameMode,
              soundEnabled: soundEnabled,
