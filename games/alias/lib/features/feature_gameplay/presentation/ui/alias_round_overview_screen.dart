@@ -1,6 +1,6 @@
 import 'package:alias/core/alias_route.dart';
-import 'package:alias/features/feature_play/domain/entities/alias_game_state_entity.dart';
-import 'package:alias/features/feature_play/presentation/bloc/alias_play_bloc.dart';
+import 'package:alias/features/feature_gameplay/domain/entities/alias_game_state_entity.dart';
+import 'package:alias/features/feature_gameplay/presentation/bloc/alias_play_bloc.dart';
 import 'package:app_core/ui_kit/widgets/app_loader.dart';
 import 'package:app_core/ui_kit/widgets/game_popup_dialog.dart';
 import 'package:flutter/material.dart';

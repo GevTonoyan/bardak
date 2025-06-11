@@ -1,4 +1,4 @@
-// feature_play/presentation/screens/alias_gameplay_screen.dart
+// feature_gameplay/presentation/screens/alias_gameplay_screen.dart
 import 'package:flutter/material.dart';
 
 class AliasGameplayScreen extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:alias/features/feature_play/domain/entities/alias_game_state_entity.dart';
+import 'package:alias/features/feature_gameplay/domain/entities/alias_game_state_entity.dart';
 import 'package:alias/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
