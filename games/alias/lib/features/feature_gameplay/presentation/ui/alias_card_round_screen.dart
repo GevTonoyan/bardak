@@ -5,16 +5,14 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
-class AliasCardModeGameplayScreen extends StatefulWidget {
-  const AliasCardModeGameplayScreen({super.key});
+class AliasCardRoundScreen extends StatefulWidget {
+  const AliasCardRoundScreen({super.key});
 
   @override
-  State<AliasCardModeGameplayScreen> createState() =>
-      _AliasCardModeGameplayScreenState();
+  State<AliasCardRoundScreen> createState() => _AliasCardRoundScreenState();
 }
 
-class _AliasCardModeGameplayScreenState
-    extends State<AliasCardModeGameplayScreen> {
+class _AliasCardRoundScreenState extends State<AliasCardRoundScreen> {
   final List<String> words = [
     'Mountain',
     'Laptop',

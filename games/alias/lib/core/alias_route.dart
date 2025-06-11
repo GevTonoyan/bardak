@@ -2,7 +2,7 @@ import 'package:alias/core/alias_constants.dart';
 import 'package:alias/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:alias/features/feature_main/presentation/ui/alias_main_screen.dart';
 import 'package:alias/features/feature_gameplay/presentation/bloc/blocs/alias_gameplay_bloc/alias_gameplay_bloc.dart';
-import 'package:alias/features/feature_gameplay/presentation/ui/alias_card_mode_gameplay_screen.dart';
+import 'package:alias/features/feature_gameplay/presentation/ui/alias_card_round_screen.dart';
 import 'package:alias/features/feature_gameplay/presentation/ui/alias_countdown_screen.dart';
 import 'package:alias/features/feature_gameplay/presentation/ui/alias_round_overview_screen.dart';
 import 'package:alias/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
@@ -43,7 +43,7 @@ final aliasRouter = GoRoute(
               areWordPacksCached: sl(),
               getSelectedWordPackName: sl(),
             ),
-        child: AliasCardModeGameplayScreen(), //const AliasMainScreen(),
+        child: AliasCardRoundScreen(), //const AliasMainScreen(),
       ),
   routes: [
     GoRoute(
