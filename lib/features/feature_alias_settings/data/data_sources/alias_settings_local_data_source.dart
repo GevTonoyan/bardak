@@ -1,8 +1,6 @@
-import 'package:boardify/alias_route.dart';
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/alias_constants.dart';
-import 'package:boardify/features/feature_alias_settings/alias_settings_scope.dart';
 import 'package:boardify/features/feature_alias_settings/data/data_sources/alias_settings_local_data_source.dart';
 import 'package:boardify/features/feature_alias_settings/data/repositories/alias_settings_repository_impl.dart';
 import 'package:boardify/features/feature_alias_settings/domain/entities/alias_settings_entity.dart';
@@ -12,19 +10,16 @@ import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_event.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_state.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/ui/alias_settings_screen.dart';
-import 'package:boardify/features/feature_gameplay/domain/entities/alias_game_state_entity.dart';
 import 'package:boardify/features/feature_gameplay/presentation/bloc/blocs/alias_gameplay_bloc/alias_gameplay_bloc.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_card_round_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_countdown_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_gameplay_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_round_overview_screen.dart';
-import 'package:boardify/features/feature_main/feature_main_scope.dart';
 import 'package:boardify/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:boardify/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
 import 'package:boardify/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
 import 'package:boardify/features/feature_pre_game/presentation/ui/alias_pre_game_screen.dart';
 import 'package:boardify/features/feature_rules/presentation/ui/alias_rules_screen.dart';
-import 'package:boardify/features/feature_word_pack/alias_word_packs_scope.dart';
 import 'package:boardify/features/feature_word_pack/presentation/bloc/alias_word_packs_bloc.dart';
 import 'package:boardify/features/feature_word_pack/presentation/ui/alias_word_packs_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,69 +30,76 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:boardify/core/ui_kit/theme/app_theme_provider.dart';
-import 'package:boardify/core/ui_kit/widgets/game_card.dart';
-import 'package:boardify/core/constants.dart';
-import 'package:boardify/core/router/app_router.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class GamesScreen extends StatelessWidget {
-  const GamesScreen({super.key});
+/// This is the data source for the alias settings.
+/// It uses shared preferences to store and retrieve the settings.
+abstract interface class AliasSettingsLocalDataSource {
+  /// Retrieves the alias settings from shared preferences.
+  Future<AliasSettingsEntity> getAliasSettings();
+
+  /// Updates a specific alias setting in shared preferences.
+  /// The [params] parameter contains the key and value to update.
+  /// Returns true if the update was successful, false otherwise.
+  Future<bool> updateAliasSetting(UpdateAliasSettingParams params);
+}
+
+/// Implementation of the [AliasSettingsLocalDataSource] interface.
+class AliasSettingsLocalDataSourceImpl implements AliasSettingsLocalDataSource {
+  final SharedPreferences preferences;
+
+  const AliasSettingsLocalDataSourceImpl({required this.preferences});
 
   @override
-  Widget build(BuildContext context) {
-    final colors = AppThemeProvider.of(context).colors;
-    final textStyles = AppThemeProvider.of(context).typography;
+  Future<AliasSettingsEntity> getAliasSettings() async {
+    final gameDuration = preferences.getInt(AliasConstants.roundDurationKey);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Boardify', style: textStyles.headlineMedium),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              context.goNamed(RouteNames.settings);
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.localizations.games_availableGames,
-              style: textStyles.titleLarge.copyWith(color: colors.onBackground),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView(
-                children: [
-                  GameCard(
-                    title: context.localizations.alias_title,
-                    description: context.localizations.games_aliasDescription,
-                    heroTag: AliasConstants.heroTag,
-                    imageAssetPath: AppConstants.aliasImagePath,
-                    onTap: () async {
-                      // TODO come up with precise way to inject all alias settings
-                      await injectAliasSettingsScope();
-                      await injectWordPacksScope();
-                      injectAliasMainScope();
-                      if (context.mounted) {
-                        context.goNamed(AliasRouteNames.mainMenu);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    final pointsToWin = preferences.getInt(AliasConstants.pointsToWinKey);
+
+    final isSoundEnabled = preferences.getBool(AliasConstants.soundEnabledKey);
+
+    final allowSkipping = preferences.getBool(AliasConstants.allowSkippingKey);
+
+    final penaltyForSkipping = preferences.getBool(
+      AliasConstants.penaltyForSkippingKey,
     );
+
+    final wordsPerCard = preferences.getInt(AliasConstants.wordsPerCardKey);
+
+    return AliasSettingsEntity.fromPreferences(
+      roundDuration: gameDuration,
+      pointsToWin: pointsToWin,
+      soundEnabled: isSoundEnabled,
+      allowSkipping: allowSkipping,
+      penaltyForSkipping: penaltyForSkipping,
+      wordsPerCard: wordsPerCard,
+    );
+  }
+
+  @override
+  Future<bool> updateAliasSetting(UpdateAliasSettingParams params) async {
+    final key = params.key;
+    final value = params.value;
+
+    late final bool success;
+
+    switch (key) {
+      case AliasConstants.roundDurationKey:
+        success = await preferences.setInt(key, value as int);
+      case AliasConstants.pointsToWinKey:
+        success = await preferences.setInt(key, value as int);
+      case AliasConstants.soundEnabledKey:
+        success = await preferences.setBool(key, value as bool);
+      case AliasConstants.allowSkippingKey:
+        success = await preferences.setBool(key, value as bool);
+      case AliasConstants.penaltyForSkippingKey:
+        success = await preferences.setBool(key, value as bool);
+      case AliasConstants.wordsPerCardKey:
+        success = await preferences.setInt(key, value as int);
+      default:
+        success = false;
+    }
+
+    return success;
   }
 }

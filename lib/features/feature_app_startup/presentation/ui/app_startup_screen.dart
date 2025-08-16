@@ -1,4 +1,4 @@
-import 'package:app_core/ui_kit/widgets/app_loader.dart';
+import 'package:boardify/core/ui_kit/widgets/app_loader.dart';
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/features/feature_app_startup/presentation/bloc/app_startup_bloc.dart';
 import 'package:flutter/material.dart';

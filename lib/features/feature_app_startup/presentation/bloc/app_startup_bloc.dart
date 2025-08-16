@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app_core/localizations/common/supported_locales.dart';
+import 'package:boardify/core/localizations/common/supported_locales.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'app_startup_event.dart';

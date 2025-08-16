@@ -1,4 +1,4 @@
-import 'package:app_core/localizations/common/supported_locales.dart';
+import 'package:boardify/core/localizations/common/supported_locales.dart';
 import 'package:boardify/core/constants.dart';
 import 'package:boardify/features/feature_settings/domain/entities/settings_entity.dart';
 import 'package:boardify/features/feature_settings/domain/usecases/get_settings_usecase.dart';

@@ -1,4 +1,4 @@
-import 'package:alias/core/alias_route.dart';
+import 'package:boardify/alias_route.dart';
 import 'package:boardify/features/feature_app_startup/presentation/ui/app_startup_screen.dart';
 import 'package:boardify/features/feature_games/presentation/ui/games_screen.dart';
 import 'package:boardify/features/feature_settings/presentation/ui/settings_screen.dart';

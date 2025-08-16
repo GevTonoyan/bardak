@@ -1,10 +1,10 @@
-import 'package:app_core/localizations/common/supported_locales.dart';
-import 'package:app_core/localizations/l10n/app_localizations.dart';
-import 'package:app_core/ui_kit/theme/app_theme/app_theme_data_builder.dart';
-import 'package:app_core/ui_kit/theme/app_theme_provider.dart';
-import 'package:app_core/ui_kit/theme/colors/app_dark_colors.dart';
-import 'package:app_core/ui_kit/theme/colors/app_light_colors.dart';
-import 'package:app_core/ui_kit/theme/text_styles/app_text_styles.dart';
+import 'package:boardify/core/localizations/common/supported_locales.dart';
+import 'package:boardify/core/localizations/l10n/app_localizations.dart';
+import 'package:boardify/core/ui_kit/theme/app_theme/app_theme_data_builder.dart';
+import 'package:boardify/core/ui_kit/theme/app_theme_provider.dart';
+import 'package:boardify/core/ui_kit/theme/colors/app_dark_colors.dart';
+import 'package:boardify/core/ui_kit/theme/colors/app_light_colors.dart';
+import 'package:boardify/core/ui_kit/theme/text_styles/app_text_styles.dart';
 import 'package:boardify/core/dependency_injection/di.dart';
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/features/feature_app_startup/presentation/bloc/app_startup_bloc.dart';

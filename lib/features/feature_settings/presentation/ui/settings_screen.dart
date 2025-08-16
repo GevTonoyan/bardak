@@ -1,6 +1,6 @@
-import 'package:app_core/extensions/context_extension.dart';
-import 'package:app_core/localizations/common/supported_locales.dart';
-import 'package:app_core/ui_kit/widgets/circular_flag_icon.dart';
+import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/localizations/common/supported_locales.dart';
+import 'package:boardify/core/ui_kit/widgets/circular_flag_icon.dart';
 import 'package:boardify/features/feature_settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +18,12 @@ class SettingsScreen extends StatelessWidget {
     final bloc = context.read<SettingsBloc>();
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.localizations.settings, style: textStyles.headlineMedium)),
+      appBar: AppBar(
+        title: Text(
+          context.localizations.settings,
+          style: textStyles.headlineMedium,
+        ),
+      ),
       body: BlocBuilder<SettingsBloc, SettingsStateLoaded>(
         builder: (context, state) {
           final settings = state.settings;
@@ -36,7 +41,9 @@ class SettingsScreen extends StatelessWidget {
                 child: SwitchListTile(
                   title: Text(
                     context.localizations.settings_darkMode,
-                    style: textStyles.titleMedium.copyWith(color: colors.onSurface),
+                    style: textStyles.titleMedium.copyWith(
+                      color: colors.onSurface,
+                    ),
                   ),
                   value: settings.isDarkMode,
                   onChanged: (value) => bloc.add(ChangeTheme(value)),
@@ -58,11 +65,18 @@ class SettingsScreen extends StatelessWidget {
                   side: BorderSide(color: colors.outline),
                 ),
                 child: ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  leading: CircularFlagIcon(assetPath: settings.locale.flagAssetPath),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  leading: CircularFlagIcon(
+                    assetPath: settings.locale.flagAssetPath,
+                  ),
                   title: Text(
                     context.localizations.settings_localeName,
-                    style: textStyles.titleMedium.copyWith(color: colors.onSurface),
+                    style: textStyles.titleMedium.copyWith(
+                      color: colors.onSurface,
+                    ),
                   ),
                   trailing: Icon(Icons.arrow_drop_down, color: colors.primary),
                   onTap: () => _showLocaleSelector(context),
@@ -97,9 +111,14 @@ class SettingsScreen extends StatelessWidget {
                   leading: CircularFlagIcon(assetPath: locale.flagAssetPath),
                   title: Text(
                     locale.name(context),
-                    style: theme.typography.bodyMedium.copyWith(color: theme.colors.onSurface),
+                    style: theme.typography.bodyMedium.copyWith(
+                      color: theme.colors.onSurface,
+                    ),
                   ),
-                  trailing: isSelected ? Icon(Icons.check, color: theme.colors.primary) : null,
+                  trailing:
+                      isSelected
+                          ? Icon(Icons.check, color: theme.colors.primary)
+                          : null,
                   onTap: () {
                     context.pop();
                     bloc.add(ChangeLocale(locale));

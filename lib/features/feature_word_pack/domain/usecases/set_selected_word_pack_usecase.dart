@@ -1,12 +1,14 @@
+import 'dart:async';
+
+import 'package:boardify/alias_constants.dart';
+import 'package:boardify/alias_constants.dart';
+import 'package:boardify/alias_constants.dart';
 import 'package:boardify/alias_route.dart';
-import 'package:boardify/alias_constants.dart';
-import 'package:boardify/alias_constants.dart';
-import 'package:boardify/alias_constants.dart';
-import 'package:boardify/features/feature_alias_settings/alias_settings_scope.dart';
 import 'package:boardify/features/feature_alias_settings/data/data_sources/alias_settings_local_data_source.dart';
 import 'package:boardify/features/feature_alias_settings/data/repositories/alias_settings_repository_impl.dart';
 import 'package:boardify/features/feature_alias_settings/domain/entities/alias_settings_entity.dart';
 import 'package:boardify/features/feature_alias_settings/domain/repositories/alias_settings_repository.dart';
+import 'package:boardify/features/feature_alias_settings/domain/usecases/get_alias_settings_usecase.dart';
 import 'package:boardify/features/feature_alias_settings/domain/usecases/update_alias_setting_usecase.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_bloc.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_event.dart';
@@ -18,13 +20,24 @@ import 'package:boardify/features/feature_gameplay/presentation/ui/alias_card_ro
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_countdown_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_gameplay_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_round_overview_screen.dart';
-import 'package:boardify/features/feature_main/feature_main_scope.dart';
+import 'package:boardify/features/feature_main/data/data_sources/alias_main_local_data_source.dart';
+import 'package:boardify/features/feature_main/data/data_sources/alias_main_remote_data_source.dart';
+import 'package:boardify/features/feature_main/data/repositories/alias_main_repository_impl.dart';
+import 'package:boardify/features/feature_main/domain/entities/alias_word_pack_entity.dart';
+import 'package:boardify/features/feature_main/domain/repositories/alias_main_repository.dart';
+import 'package:boardify/features/feature_main/domain/usecases/are_word_packs_cached_usecase.dart';
+import 'package:boardify/features/feature_main/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
+import 'package:boardify/features/feature_main/domain/usecases/get_selected_word_pack_name_usecase.dart';
 import 'package:boardify/features/feature_main/presentation/bloc/alias_main_bloc.dart';
 import 'package:boardify/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
 import 'package:boardify/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
 import 'package:boardify/features/feature_pre_game/presentation/ui/alias_pre_game_screen.dart';
 import 'package:boardify/features/feature_rules/presentation/ui/alias_rules_screen.dart';
-import 'package:boardify/features/feature_word_pack/alias_word_packs_scope.dart';
+import 'package:boardify/features/feature_word_pack/data/data_sources/word_packs_local_data_source.dart';
+import 'package:boardify/features/feature_word_pack/domain/entities/word_pack_info_entity.dart';
+import 'package:boardify/features/feature_word_pack/domain/repositories/word_packs_repository.dart';
+import 'package:boardify/features/feature_word_pack/domain/usecases/get_word_packs_usecase.dart';
+import 'package:boardify/features/feature_word_pack/domain/usecases/set_selected_word_pack_usecase.dart';
 import 'package:boardify/features/feature_word_pack/presentation/bloc/alias_word_packs_bloc.dart';
 import 'package:boardify/features/feature_word_pack/presentation/ui/alias_word_packs_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,69 +48,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:boardify/core/ui_kit/theme/app_theme_provider.dart';
-import 'package:boardify/core/ui_kit/widgets/game_card.dart';
-import 'package:boardify/core/constants.dart';
-import 'package:boardify/core/router/app_router.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class GamesScreen extends StatelessWidget {
-  const GamesScreen({super.key});
+/// Stores the user's selected word pack ID to local cache.
+class SetSelectedWordPackUseCase {
+  final WordPacksRepository repository;
 
-  @override
-  Widget build(BuildContext context) {
-    final colors = AppThemeProvider.of(context).colors;
-    final textStyles = AppThemeProvider.of(context).typography;
+  SetSelectedWordPackUseCase(this.repository);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Boardify', style: textStyles.headlineMedium),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              context.goNamed(RouteNames.settings);
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.localizations.games_availableGames,
-              style: textStyles.titleLarge.copyWith(color: colors.onBackground),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView(
-                children: [
-                  GameCard(
-                    title: context.localizations.alias_title,
-                    description: context.localizations.games_aliasDescription,
-                    heroTag: AliasConstants.heroTag,
-                    imageAssetPath: AppConstants.aliasImagePath,
-                    onTap: () async {
-                      // TODO come up with precise way to inject all alias settings
-                      await injectAliasSettingsScope();
-                      await injectWordPacksScope();
-                      injectAliasMainScope();
-                      if (context.mounted) {
-                        context.goNamed(AliasRouteNames.mainMenu);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  Future<void> call(SetSelectedWordPackParams params) {
+    return repository.setSelectedWordPack(params);
   }
+}
+
+class SetSelectedWordPackParams {
+  final String localeCode;
+  final String packId;
+
+  const SetSelectedWordPackParams({required this.localeCode, required this.packId});
 }

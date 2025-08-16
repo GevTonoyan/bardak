@@ -1,4 +1,4 @@
-import 'package:app_core/localizations/common/supported_locales.dart';
+import 'package:boardify/core/localizations/common/supported_locales.dart';
 
 class SettingsEntity {
   final bool isDarkMode;
