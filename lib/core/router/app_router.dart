@@ -1,22 +1,21 @@
-import 'package:boardify/features/feature_gameplay/presentation/ui/alias_gameplay_screen.dart';
-import 'package:boardify/features/feature_gameplay/presentation/ui/alias_round_overview_screen.dart';
+import 'package:boardify/core/dependency_injection/di.dart';
+import 'package:boardify/features/gameplay/presentation/ui/gameplay_screen.dart';
+import 'package:boardify/features/gameplay/presentation/ui/round_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/features/settings/presentation/ui/settings_screen.dart';
-import 'package:boardify/features/feature_gameplay/presentation/bloc/blocs/alias_gameplay_bloc/alias_gameplay_bloc.dart';
-import 'package:boardify/features/feature_gameplay/presentation/ui/alias_countdown_screen.dart';
-import 'package:boardify/features/feature_main/presentation/bloc/alias_main_bloc.dart';
-import 'package:boardify/features/feature_main/presentation/ui/alias_main_screen.dart';
-import 'package:boardify/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
-import 'package:boardify/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
-import 'package:boardify/features/feature_pre_game/presentation/ui/alias_pre_game_screen.dart';
-import 'package:boardify/features/feature_rules/presentation/ui/alias_rules_screen.dart';
-import 'package:boardify/features/feature_word_pack/presentation/bloc/alias_word_packs_bloc.dart';
-import 'package:boardify/features/feature_word_pack/presentation/ui/alias_word_packs_screen.dart';
+import 'package:boardify/features/gameplay/presentation/bloc/blocs/gameplay_bloc/gameplay_bloc.dart';
+import 'package:boardify/features/gameplay/presentation/ui/countdown_screen.dart';
+import 'package:boardify/features/home/presentation/bloc/home_bloc.dart';
+import 'package:boardify/features/home/presentation/ui/home_screen.dart';
+import 'package:boardify/features/pre_game/domain/entities/alias_pre_game_config.dart';
+import 'package:boardify/features/pre_game/presentation/bloc/alias_pre_game_bloc.dart';
+import 'package:boardify/features/pre_game/presentation/ui/alias_pre_game_screen.dart';
+import 'package:boardify/features/rules/presentation/ui/alias_rules_screen.dart';
+import 'package:boardify/features/word_pack/presentation/bloc/alias_word_packs_bloc.dart';
+import 'package:boardify/features/word_pack/presentation/ui/alias_word_packs_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../features/feature_pre_game/alias_pre_game_scope.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -31,12 +30,12 @@ final appRouter = GoRouter(
       builder:
           (context, state) => BlocProvider(
             create:
-                (_) => AliasMainBloc(
+                (_) => HomeBloc(
                   fetchAndCacheWordPacks: sl(),
                   areWordPacksCached: sl(),
                   getSelectedWordPackName: sl(),
                 ),
-            child: AliasMainScreen(), //const AliasMainScreen(),
+            child: HomeScreen(), //const AliasMainScreen(),
           ),
       routes: [
         GoRoute(
@@ -85,7 +84,7 @@ final appRouter = GoRouter(
 
             return BlocProvider(
               create:
-                  (_) => AliasGameplayBloc(
+                  (_) => GameplayBloc(
                     teamNames: preGameConfig.teamNames,
                     roundDuration: preGameConfig.roundDuration,
                     pointsToWin: preGameConfig.pointsToWin,
@@ -95,7 +94,7 @@ final appRouter = GoRouter(
                     gameMode: preGameConfig.gameMode,
                     soundEnabled: preGameConfig.soundEnabled,
                   ),
-              child: const AliasRoundOverviewScreen(),
+              child: const RoundOverviewScreen(),
             );
           },
           routes: [
@@ -103,14 +102,14 @@ final appRouter = GoRouter(
               path: RouteNames.gameplay,
               name: RouteNames.gameplay,
               builder: (context, state) {
-                return const AliasGameplayScreen();
+                return const GameplayScreen();
               },
             ),
             GoRoute(
               path: RouteNames.countdown,
               name: RouteNames.countdown,
               builder: (context, state) {
-                return const AliasCountdownScreen();
+                return const CountdownScreen();
               },
             ),
           ],

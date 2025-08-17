@@ -5,8 +5,8 @@ import 'package:boardify/features/settings/domain/usecases/get_game_settings_use
 import 'package:boardify/features/settings/domain/usecases/get_app_settings_usecase.dart';
 import 'package:boardify/features/settings/domain/usecases/update_app_settings_usecase.dart';
 import 'package:boardify/features/settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:boardify/features/feature_main/feature_main_scope.dart';
-import 'package:boardify/features/feature_word_pack/alias_word_packs_scope.dart';
+import 'package:boardify/features/home/feature_home_scope.dart';
+import 'package:boardify/features/word_pack/alias_word_packs_scope.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +16,7 @@ Future<void> injectDependencies() async {
   final prefs = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => prefs);
 
-  /// Register the usecases
+  /// Register the entities
   sl
     ..registerLazySingleton<GetAppSettingsUseCase>(
       () => GetAppSettingsUseCase(sl()),
@@ -42,5 +42,5 @@ Future<void> injectDependencies() async {
   );
 
   await injectWordPacksScope();
-   injectAliasMainScope();
+   injectHomeScope();
 }
