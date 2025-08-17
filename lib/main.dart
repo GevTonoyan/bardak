@@ -10,7 +10,6 @@ import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
-import 'package:boardify/features/feature_app_startup/presentation/bloc/app_startup_bloc.dart';
 import 'package:boardify/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,6 @@ void main() async {
   await injectDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Todo init Hive only once, at the start of the game alias
   // Todo check path_provider, if not used - remove
   // Init Hive in alias module
   await Hive.initFlutter();
@@ -35,9 +33,6 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => AppStartupBloc()..add(const GetAppStartupData()),
-        ),
         BlocProvider(
           create:
               (_) => SettingsBloc(

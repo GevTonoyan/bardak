@@ -1,10 +1,8 @@
-import 'package:boardify/features/feature_app_startup/presentation/ui/app_startup_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_gameplay_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_round_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:boardify/alias_constants.dart';
-import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/features/settings/presentation/ui/settings_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/bloc/blocs/alias_gameplay_bloc/alias_gameplay_bloc.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_countdown_screen.dart';
@@ -23,18 +21,10 @@ import '../../features/feature_pre_game/alias_pre_game_scope.dart';
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
-  initialLocation: RouteNames.appStartup,
+  initialLocation: RouteNames.mainMenu,
   navigatorKey: rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
-    GoRoute(
-      path: RouteNames.appStartup,
-      name: RouteNames.appStartup,
-      redirect: (context, state) => RouteNames.appStartup,
-      builder: (context, state) {
-        return const AppStartupScreen();
-      },
-    ),
     GoRoute(
       path: RouteNames.mainMenu,
       name: RouteNames.mainMenu,
@@ -132,7 +122,6 @@ final appRouter = GoRouter(
 
 class RouteNames {
   static const initial = '/';
-  static const appStartup = '/app_startup';
   static const mainMenu = '/alias_main';
   static const aliasSettings = 'settings';
   static const info = 'info';
