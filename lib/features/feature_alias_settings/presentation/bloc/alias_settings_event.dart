@@ -1,6 +1,28 @@
+import 'package:boardify/core/localizations/common/supported_locales.dart';
+
 /// Base class for all events related to alias settings.
 sealed class AliasSettingsEvent {
   const AliasSettingsEvent();
+}
+
+class GetSettings extends AliasSettingsEvent {
+  const GetSettings();
+}
+
+class GetAppSettings extends AliasSettingsEvent {
+  const GetAppSettings();
+}
+
+class ChangeTheme extends AliasSettingsEvent {
+  const ChangeTheme(this.isDarkMode);
+
+  final bool isDarkMode;
+}
+
+class ChangeLocale extends AliasSettingsEvent {
+  const ChangeLocale(this.locale);
+
+  final AppLocales locale;
 }
 
 class GetAliasSettings extends AliasSettingsEvent {

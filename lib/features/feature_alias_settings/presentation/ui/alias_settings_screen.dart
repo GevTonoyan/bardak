@@ -1,27 +1,15 @@
 import 'package:boardify/alias_constants.dart';
-import 'package:boardify/alias_constants.dart';
+import 'package:boardify/core/localizations/common/supported_locales.dart';
+import 'package:boardify/core/ui_kit/widgets/circular_flag_icon.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_bloc.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_event.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_state.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/ui/alias_settings_screen.dart';
-import 'package:boardify/features/feature_gameplay/presentation/bloc/blocs/alias_gameplay_bloc/alias_gameplay_bloc.dart';
-import 'package:boardify/features/feature_gameplay/presentation/ui/alias_card_round_screen.dart';
-import 'package:boardify/features/feature_gameplay/presentation/ui/alias_countdown_screen.dart';
-import 'package:boardify/features/feature_gameplay/presentation/ui/alias_gameplay_screen.dart';
-import 'package:boardify/features/feature_gameplay/presentation/ui/alias_round_overview_screen.dart';
-import 'package:boardify/features/feature_main/presentation/bloc/alias_main_bloc.dart';
-import 'package:boardify/features/feature_pre_game/domain/usecases/alias_pre_game_config.dart';
-import 'package:boardify/features/feature_pre_game/presentation/bloc/alias_pre_game_bloc.dart';
-import 'package:boardify/features/feature_pre_game/presentation/ui/alias_pre_game_screen.dart';
-import 'package:boardify/features/feature_rules/presentation/ui/alias_rules_screen.dart';
-import 'package:boardify/features/feature_word_pack/presentation/bloc/alias_word_packs_bloc.dart';
-import 'package:boardify/features/feature_word_pack/presentation/ui/alias_word_packs_screen.dart';
+import 'package:boardify/features/feature_alias_settings/domain/entities/app_settings_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AliasSettingsScreen extends StatefulWidget {
   const AliasSettingsScreen({super.key});
@@ -32,24 +20,37 @@ class AliasSettingsScreen extends StatefulWidget {
 
 class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<AliasSettingsBloc>().add(GetSettings());
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = context.appTheme;
     final colors = theme.colors;
     final text = theme.typography;
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.localizations.alias_settings, style: text.titleLarge)),
+      appBar: AppBar(
+        title: Text(
+          context.localizations.alias_settings,
+          style: text.titleLarge,
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-          child: BlocBuilder<AliasSettingsBloc, AliasSettingsLoaded>(
-            bloc: context.read<AliasSettingsBloc>()..add(GetAliasSettings()),
+          child: BlocBuilder<AliasSettingsBloc, SettingsState>(
             builder: (context, state) {
               final bloc = context.read<AliasSettingsBloc>();
-              final aliasSettings = state.aliasSettings;
+              final aliasSettings = state.gameSettings;
+
+              final settings = state.appSettings;
 
               return ListView(
                 children: [
+                  // Alias Settings
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
@@ -63,7 +64,12 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
                     min: AliasConstants.minRoundDuration,
                     max: AliasConstants.maxRoundDuration,
                     onChanged: (int value, {bool persist = true}) {
-                      bloc.add(ChangeGameDuration(gameDuration: value, persist: persist));
+                      bloc.add(
+                        ChangeGameDuration(
+                          gameDuration: value,
+                          persist: persist,
+                        ),
+                      );
                     },
                   ),
                   AliasSettingStepper(
@@ -72,14 +78,18 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
                     min: AliasConstants.minPointsToWin,
                     max: AliasConstants.maxPointsToWin,
                     onChanged: (int value, {bool persist = true}) {
-                      bloc.add(ChangePointsToWin(pointsToWin: value, persist: persist));
+                      bloc.add(
+                        ChangePointsToWin(pointsToWin: value, persist: persist),
+                      );
                     },
                   ),
                   Card(
                     child: SwitchListTile(
                       title: Text(
                         context.localizations.alias_settings_soundEffects,
-                        style: text.bodyMedium.copyWith(color: colors.onSurface),
+                        style: text.bodyMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
                       ),
                       value: aliasSettings.soundEnabled,
                       onChanged: (v) {
@@ -100,7 +110,9 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
                     child: SwitchListTile(
                       title: Text(
                         context.localizations.alias_settings_allowSkipping,
-                        style: text.bodyMedium.copyWith(color: colors.onSurface),
+                        style: text.bodyMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
                       ),
                       value: aliasSettings.allowSkipping,
                       onChanged: (v) {
@@ -113,7 +125,9 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
                     child: SwitchListTile(
                       title: Text(
                         context.localizations.alias_settings_penaltyForSkipping,
-                        style: text.bodyMedium.copyWith(color: colors.onSurface),
+                        style: text.bodyMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
                       ),
                       value: aliasSettings.penaltyForSkipping,
                       onChanged: (v) {
@@ -136,8 +150,75 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
                     min: AliasConstants.minWordsPerCard,
                     max: AliasConstants.maxWordsPerCard,
                     onChanged: (int value, {bool persist = true}) {
-                      bloc.add(ChangeWordsPerCard(wordsPerCard: value, persist: persist));
+                      bloc.add(
+                        ChangeWordsPerCard(
+                          wordsPerCard: value,
+                          persist: persist,
+                        ),
+                      );
                     },
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // General Settings
+                  // 🔘 Dark Mode Toggle
+                  Card(
+                    color: colors.surface,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(color: colors.outline),
+                    ),
+                    child: SwitchListTile(
+                      title: Text(
+                        context.localizations.settings_darkMode,
+                        style: text.titleMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
+                      ),
+                      value: settings.isDarkMode,
+                      onChanged: (value) => bloc.add(ChangeTheme(value)),
+                      secondary: Icon(
+                        settings.isDarkMode
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                        color: colors.primary,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // 🌐 Language Selector Card
+                  Card(
+                    color: colors.surface,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(color: colors.outline),
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      leading: CircularFlagIcon(
+                        assetPath: settings.locale.flagAssetPath,
+                      ),
+                      title: Text(
+                        context.localizations.settings_localeName,
+                        style: text.titleMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_drop_down,
+                        color: colors.primary,
+                      ),
+                      onTap: () => _showLocaleSelector(context),
+                    ),
                   ),
                 ],
               );
@@ -145,6 +226,47 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showLocaleSelector(BuildContext context) {
+    final bloc = context.read<AliasSettingsBloc>();
+    final currentLocale = bloc.state.appSettings.locale;
+
+    final theme = context.appTheme;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: theme.colors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return ListView(
+          shrinkWrap: true,
+          children:
+              AppLocales.values.map((locale) {
+                final isSelected = locale == currentLocale;
+                return ListTile(
+                  leading: CircularFlagIcon(assetPath: locale.flagAssetPath),
+                  title: Text(
+                    locale.name(context),
+                    style: theme.typography.bodyMedium.copyWith(
+                      color: theme.colors.onSurface,
+                    ),
+                  ),
+                  trailing:
+                      isSelected
+                          ? Icon(Icons.check, color: theme.colors.primary)
+                          : null,
+                  onTap: () {
+                    context.pop();
+                    bloc.add(ChangeLocale(locale));
+                  },
+                );
+              }).toList(),
+        );
+      },
     );
   }
 }

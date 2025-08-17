@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:boardify/alias_route.dart';
+import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +11,8 @@ class AliasCountdownScreen extends StatefulWidget {
   State<AliasCountdownScreen> createState() => _AliasCountdownScreenState();
 }
 
-class _AliasCountdownScreenState extends State<AliasCountdownScreen> with TickerProviderStateMixin {
+class _AliasCountdownScreenState extends State<AliasCountdownScreen>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
@@ -22,7 +23,10 @@ class _AliasCountdownScreenState extends State<AliasCountdownScreen> with Ticker
   void initState() {
     super.initState();
 
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
 
     _scaleAnimation = Tween<double>(
       begin: 0.5,
@@ -55,7 +59,7 @@ class _AliasCountdownScreenState extends State<AliasCountdownScreen> with Ticker
   void _handleCountdownFinished() {
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) {
-        context.pushNamed(AliasRouteNames.gameplay);
+        context.pushNamed(RouteNames.gameplay);
       }
     });
   }
@@ -81,7 +85,9 @@ class _AliasCountdownScreenState extends State<AliasCountdownScreen> with Ticker
               child: Transform.scale(
                 scale: _scaleAnimation.value,
                 child: Text(
-                  _count > 0 ? '$_count' : context.localizations.alias_countdown_go,
+                  _count > 0
+                      ? '$_count'
+                      : context.localizations.alias_countdown_go,
                   style: TextStyle(
                     fontSize: _count > 0 ? 120 : 50,
                     fontWeight: FontWeight.bold,

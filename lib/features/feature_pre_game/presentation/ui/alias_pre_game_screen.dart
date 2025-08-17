@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/alias_constants.dart';
-import 'package:boardify/alias_route.dart';
+import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/features/feature_alias_settings/data/data_sources/alias_settings_local_data_source.dart';
 import 'package:boardify/features/feature_alias_settings/data/repositories/alias_settings_repository_impl.dart';
-import 'package:boardify/features/feature_alias_settings/domain/entities/alias_settings_entity.dart';
+import 'package:boardify/features/feature_alias_settings/domain/entities/game_settings_entity.dart';
 import 'package:boardify/features/feature_alias_settings/domain/repositories/alias_settings_repository.dart';
-import 'package:boardify/features/feature_alias_settings/domain/usecases/get_alias_settings_usecase.dart';
-import 'package:boardify/features/feature_alias_settings/domain/usecases/update_alias_setting_usecase.dart';
+import 'package:boardify/features/feature_alias_settings/domain/usecases/get_agame_settings_usecase.dart';
+import 'package:boardify/features/feature_alias_settings/domain/usecases/update_game_settings_usecase.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_bloc.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_event.dart';
 import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_state.dart';
@@ -240,7 +240,7 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                       onPressed: () {
                         if (state is AliasPreGameLoadedState) {
                           context.goNamed(
-                            AliasRouteNames.roundOverview,
+                            RouteNames.roundOverview,
                             queryParameters: {
                               AliasConstants.preGameConfigKey:
                                   state.preGameConfig

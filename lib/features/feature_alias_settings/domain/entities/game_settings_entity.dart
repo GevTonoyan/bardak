@@ -2,7 +2,7 @@ import 'package:boardify/alias_constants.dart';
 
 /// This class represents the settings for the Alias game.
 /// It contains various properties that define the game settings.
-class AliasSettingsEntity {
+class GameSettingsEntity {
   final int roundDuration;
   final int pointsToWin;
   final bool soundEnabled;
@@ -10,7 +10,7 @@ class AliasSettingsEntity {
   final bool penaltyForSkipping;
   final int wordsPerCard;
 
-  const AliasSettingsEntity({
+  const GameSettingsEntity({
     this.roundDuration = AliasConstants.defaultRoundDuration,
     this.pointsToWin = AliasConstants.defaultPointsToWin,
     this.soundEnabled = true,
@@ -19,8 +19,8 @@ class AliasSettingsEntity {
     this.wordsPerCard = AliasConstants.defaultWordsPerCard,
   });
 
-  factory AliasSettingsEntity.initial() {
-    return const AliasSettingsEntity(
+  factory GameSettingsEntity.initial() {
+    return const GameSettingsEntity(
       roundDuration: AliasConstants.defaultRoundDuration,
       pointsToWin: AliasConstants.defaultPointsToWin,
       soundEnabled: true,
@@ -30,7 +30,7 @@ class AliasSettingsEntity {
     );
   }
 
-  factory AliasSettingsEntity.fromPreferences({
+  factory GameSettingsEntity.fromPreferences({
     int? roundDuration,
     int? pointsToWin,
     bool? soundEnabled,
@@ -38,7 +38,7 @@ class AliasSettingsEntity {
     bool? penaltyForSkipping,
     int? wordsPerCard,
   }) {
-    return AliasSettingsEntity(
+    return GameSettingsEntity(
       roundDuration: roundDuration ?? AliasConstants.defaultRoundDuration,
       pointsToWin: pointsToWin ?? AliasConstants.defaultPointsToWin,
       soundEnabled: soundEnabled ?? true,
@@ -48,7 +48,7 @@ class AliasSettingsEntity {
     );
   }
 
-  AliasSettingsEntity copyWith({
+  GameSettingsEntity copyWith({
     int? roundDuration,
     int? pointsToWin,
     bool? soundEnabled,
@@ -56,7 +56,7 @@ class AliasSettingsEntity {
     bool? penaltyForSkipping,
     int? wordsPerCard,
   }) {
-    return AliasSettingsEntity(
+    return GameSettingsEntity(
       roundDuration: roundDuration ?? this.roundDuration,
       pointsToWin: pointsToWin ?? this.pointsToWin,
       soundEnabled: soundEnabled ?? this.soundEnabled,
@@ -72,7 +72,7 @@ class AliasSettingsEntity {
       return true;
     }
 
-    if (other is! AliasSettingsEntity) {
+    if (other is! GameSettingsEntity) {
       return false;
     }
 
