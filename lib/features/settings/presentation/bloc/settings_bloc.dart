@@ -1,23 +1,23 @@
 import 'dart:async';
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/constants.dart';
-import 'package:boardify/features/feature_alias_settings/domain/entities/game_settings_entity.dart';
-import 'package:boardify/features/feature_alias_settings/domain/usecases/get_agame_settings_usecase.dart';
-import 'package:boardify/features/feature_alias_settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_event.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_state.dart';
-import 'package:boardify/features/feature_alias_settings/domain/usecases/get_app_settings_usecase.dart';
-import 'package:boardify/features/feature_alias_settings/domain/entities/app_settings_entity.dart';
-import 'package:boardify/features/feature_alias_settings/domain/usecases/update_app_settings_usecase.dart';
+import 'package:boardify/features/settings/domain/entities/game_settings_entity.dart';
+import 'package:boardify/features/settings/domain/usecases/get_game_settings_usecase.dart';
+import 'package:boardify/features/settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
+import 'package:boardify/features/settings/domain/usecases/get_app_settings_usecase.dart';
+import 'package:boardify/features/settings/domain/entities/app_settings_entity.dart';
+import 'package:boardify/features/settings/domain/usecases/update_app_settings_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AliasSettingsBloc extends Bloc<AliasSettingsEvent, SettingsState> {
+class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final GetGameSettingsUseCase getGameSettingsUseCase;
   final UpdateGameSettingSUseCase updateAliasSettingUseCase;
   final GetAppSettingsUseCase getAppSettingsUseCase;
   final UpdateAppSettingsUseCase updateAppSettingsUseCase;
 
-  AliasSettingsBloc({
+  SettingsBloc({
     required this.getGameSettingsUseCase,
     required this.updateAliasSettingUseCase,
     required this.getAppSettingsUseCase,
@@ -106,7 +106,7 @@ class AliasSettingsBloc extends Bloc<AliasSettingsEvent, SettingsState> {
 
     if (event.persist) {
       updateAliasSettingUseCase(
-        UpdateAliasSettingParams(
+        UpdateGameSettingsParams(
           key: AliasConstants.roundDurationKey,
           value: event.gameDuration,
         ),
@@ -125,7 +125,7 @@ class AliasSettingsBloc extends Bloc<AliasSettingsEvent, SettingsState> {
 
     if (event.persist) {
       updateAliasSettingUseCase(
-        UpdateAliasSettingParams(
+        UpdateGameSettingsParams(
           key: AliasConstants.pointsToWinKey,
           value: event.pointsToWin,
         ),
@@ -143,7 +143,7 @@ class AliasSettingsBloc extends Bloc<AliasSettingsEvent, SettingsState> {
     emit(state.copyWith(gameSettings: updatedSettings));
 
     updateAliasSettingUseCase(
-      UpdateAliasSettingParams(
+      UpdateGameSettingsParams(
         key: AliasConstants.soundEnabledKey,
         value: event.soundEffects,
       ),
@@ -160,7 +160,7 @@ class AliasSettingsBloc extends Bloc<AliasSettingsEvent, SettingsState> {
     emit(state.copyWith(gameSettings: updatedSettings));
 
     updateAliasSettingUseCase(
-      UpdateAliasSettingParams(
+      UpdateGameSettingsParams(
         key: AliasConstants.allowSkippingKey,
         value: event.allowSkipping,
       ),
@@ -177,7 +177,7 @@ class AliasSettingsBloc extends Bloc<AliasSettingsEvent, SettingsState> {
     emit(state.copyWith(gameSettings: updatedSettings));
 
     updateAliasSettingUseCase(
-      UpdateAliasSettingParams(
+      UpdateGameSettingsParams(
         key: AliasConstants.penaltyForSkippingKey,
         value: event.penaltyForSkipping,
       ),
@@ -195,7 +195,7 @@ class AliasSettingsBloc extends Bloc<AliasSettingsEvent, SettingsState> {
 
     if (event.persist) {
       updateAliasSettingUseCase(
-        UpdateAliasSettingParams(
+        UpdateGameSettingsParams(
           key: AliasConstants.wordsPerCardKey,
           value: event.wordsPerCard,
         ),

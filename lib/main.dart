@@ -7,9 +7,9 @@ import 'package:boardify/core/ui_kit/theme/colors/app_light_colors.dart';
 import 'package:boardify/core/ui_kit/theme/text_styles/app_text_styles.dart';
 import 'package:boardify/core/dependency_injection/di.dart';
 import 'package:boardify/core/router/app_router.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_bloc.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_event.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_state.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
 import 'package:boardify/features/feature_app_startup/presentation/bloc/app_startup_bloc.dart';
 import 'package:boardify/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,7 +40,7 @@ void main() async {
         ),
         BlocProvider(
           create:
-              (_) => AliasSettingsBloc(
+              (_) => SettingsBloc(
                 getGameSettingsUseCase: sl(),
                 updateAliasSettingUseCase: sl(),
                 getAppSettingsUseCase: sl(),
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AliasSettingsBloc, SettingsState>(
+    return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         final appColor =
             state.appSettings.isDarkMode ? AppDarkColors() : AppLightColors();

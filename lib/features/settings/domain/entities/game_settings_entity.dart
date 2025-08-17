@@ -1,8 +1,9 @@
 import 'package:boardify/alias_constants.dart';
+import 'package:equatable/equatable.dart';
 
 /// This class represents the settings for the Alias game.
 /// It contains various properties that define the game settings.
-class GameSettingsEntity {
+class GameSettingsEntity extends Equatable {
   final int roundDuration;
   final int pointsToWin;
   final bool soundEnabled;
@@ -67,35 +68,17 @@ class GameSettingsEntity {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-
-    if (other is! GameSettingsEntity) {
-      return false;
-    }
-
-    return roundDuration == other.roundDuration &&
-        pointsToWin == other.pointsToWin &&
-        soundEnabled == other.soundEnabled &&
-        allowSkipping == other.allowSkipping &&
-        penaltyForSkipping == other.penaltyForSkipping &&
-        wordsPerCard == other.wordsPerCard;
-  }
-
-  @override
   String toString() {
-    return 'AliasSettingsEntity(roundDuration: $roundDuration, pointsToWin: $pointsToWin, soundEnabled: $soundEnabled, allowSkipping: $allowSkipping, skipPenalty: $penaltyForSkipping, wordsPerCard: $wordsPerCard)';
+    return 'GameSettingsEntity(roundDuration: $roundDuration, pointsToWin: $pointsToWin, soundEnabled: $soundEnabled, allowSkipping: $allowSkipping, skipPenalty: $penaltyForSkipping, wordsPerCard: $wordsPerCard)';
   }
 
   @override
-  int get hashCode {
-    return roundDuration.hashCode ^
-        pointsToWin.hashCode ^
-        soundEnabled.hashCode ^
-        allowSkipping.hashCode ^
-        penaltyForSkipping.hashCode ^
-        wordsPerCard.hashCode;
-  }
+  List<Object?> get props => [
+    roundDuration,
+    pointsToWin,
+    soundEnabled,
+    allowSkipping,
+    penaltyForSkipping,
+    wordsPerCard,
+  ];
 }

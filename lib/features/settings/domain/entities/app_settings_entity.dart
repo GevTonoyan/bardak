@@ -1,6 +1,7 @@
 import 'package:boardify/core/localizations/common/supported_locales.dart';
+import 'package:equatable/equatable.dart';
 
-class AppSettingsEntity {
+class AppSettingsEntity extends Equatable {
   final bool isDarkMode;
   final AppLocales locale;
 
@@ -28,21 +29,10 @@ class AppSettingsEntity {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    if (runtimeType != other.runtimeType) return false;
-
-    return other is AppSettingsEntity &&
-        other.isDarkMode == isDarkMode &&
-        other.locale == locale;
-  }
-
-  @override
-  int get hashCode => isDarkMode.hashCode ^ locale.hashCode;
-
-  @override
   String toString() {
-    return 'SettingsEntity(isDarkMode: $isDarkMode, locale: $locale)';
+    return 'AppSettingsEntity(isDarkMode: $isDarkMode, locale: $locale)';
   }
+
+  @override
+  List<Object?> get props => [isDarkMode, locale];
 }

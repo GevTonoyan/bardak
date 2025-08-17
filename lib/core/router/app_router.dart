@@ -4,8 +4,8 @@ import 'package:boardify/features/feature_gameplay/presentation/ui/alias_round_o
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:boardify/alias_constants.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_bloc.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/ui/alias_settings_screen.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:boardify/features/settings/presentation/ui/settings_screen.dart';
 import 'package:boardify/features/feature_gameplay/presentation/bloc/blocs/alias_gameplay_bloc/alias_gameplay_bloc.dart';
 import 'package:boardify/features/feature_gameplay/presentation/ui/alias_countdown_screen.dart';
 import 'package:boardify/features/feature_main/presentation/bloc/alias_main_bloc.dart';
@@ -52,7 +52,7 @@ final appRouter = GoRouter(
         GoRoute(
           path: RouteNames.aliasSettings,
           name: RouteNames.aliasSettings,
-          builder: (context, state) => const AliasSettingsScreen(),
+          builder: (context, state) => const SettingsScreen(),
         ),
         GoRoute(
           path: RouteNames.info,
@@ -134,7 +134,7 @@ class RouteNames {
   static const initial = '/';
   static const appStartup = '/app_startup';
   static const mainMenu = '/alias_main';
-  static const aliasSettings = 'alias_settings';
+  static const aliasSettings = 'settings';
   static const info = 'info';
   static const wordPacks = 'word_packs';
   static const preGame = 'pre_game';

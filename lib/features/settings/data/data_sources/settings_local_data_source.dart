@@ -1,14 +1,14 @@
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/constants.dart';
-import 'package:boardify/features/feature_alias_settings/domain/entities/app_settings_entity.dart';
-import 'package:boardify/features/feature_alias_settings/domain/entities/game_settings_entity.dart';
-import 'package:boardify/features/feature_alias_settings/domain/usecases/update_app_settings_usecase.dart';
-import 'package:boardify/features/feature_alias_settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:boardify/features/settings/domain/entities/app_settings_entity.dart';
+import 'package:boardify/features/settings/domain/entities/game_settings_entity.dart';
+import 'package:boardify/features/settings/domain/usecases/update_app_settings_usecase.dart';
+import 'package:boardify/features/settings/domain/usecases/update_game_settings_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// This is the data source for the alias settings.
 /// It uses shared preferences to store and retrieve the settings.
-abstract interface class AliasSettingsLocalDataSource {
+abstract interface class SettingsLocalDataSource {
   AppSettingsEntity getAppSettings();
 
   /// Updates a setting with the given [key] and [value].
@@ -20,14 +20,14 @@ abstract interface class AliasSettingsLocalDataSource {
   /// Updates a specific alias setting in shared preferences.
   /// The [params] parameter contains the key and value to update.
   /// Returns true if the update was successful, false otherwise.
-  Future<bool> updateAliasSetting(UpdateAliasSettingParams params);
+  Future<bool> updateAliasSetting(UpdateGameSettingsParams params);
 }
 
-/// Implementation of the [AliasSettingsLocalDataSource] interface.
-class AliasSettingsLocalDataSourceImpl implements AliasSettingsLocalDataSource {
+/// Implementation of the [SettingsLocalDataSource] interface.
+class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   final SharedPreferences preferences;
 
-  const AliasSettingsLocalDataSourceImpl({required this.preferences});
+  const SettingsLocalDataSourceImpl({required this.preferences});
 
   @override
   AppSettingsEntity getAppSettings() {
@@ -86,7 +86,7 @@ class AliasSettingsLocalDataSourceImpl implements AliasSettingsLocalDataSource {
   }
 
   @override
-  Future<bool> updateAliasSetting(UpdateAliasSettingParams params) async {
+  Future<bool> updateAliasSetting(UpdateGameSettingsParams params) async {
     final key = params.key;
     final value = params.value;
 

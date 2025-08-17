@@ -1,28 +1,27 @@
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/localizations/common/supported_locales.dart';
 import 'package:boardify/core/ui_kit/widgets/circular_flag_icon.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_bloc.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_event.dart';
-import 'package:boardify/features/feature_alias_settings/presentation/bloc/alias_settings_state.dart';
-import 'package:boardify/features/feature_alias_settings/domain/entities/app_settings_entity.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
+import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class AliasSettingsScreen extends StatefulWidget {
-  const AliasSettingsScreen({super.key});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  State<AliasSettingsScreen> createState() => _AliasSettingsScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AliasSettingsBloc>().add(GetSettings());
+    context.read<SettingsBloc>().add(GetSettings());
   }
 
   @override
@@ -41,9 +40,9 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-          child: BlocBuilder<AliasSettingsBloc, SettingsState>(
+          child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
-              final bloc = context.read<AliasSettingsBloc>();
+              final bloc = context.read<SettingsBloc>();
               final aliasSettings = state.gameSettings;
 
               final settings = state.appSettings;
@@ -230,7 +229,7 @@ class _AliasSettingsScreenState extends State<AliasSettingsScreen> {
   }
 
   void _showLocaleSelector(BuildContext context) {
-    final bloc = context.read<AliasSettingsBloc>();
+    final bloc = context.read<SettingsBloc>();
     final currentLocale = bloc.state.appSettings.locale;
 
     final theme = context.appTheme;

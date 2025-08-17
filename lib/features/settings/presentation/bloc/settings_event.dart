@@ -1,35 +1,35 @@
 import 'package:boardify/core/localizations/common/supported_locales.dart';
 
-/// Base class for all events related to alias settings.
-sealed class AliasSettingsEvent {
-  const AliasSettingsEvent();
+/// Base class for all events related to settings.
+sealed class SettingsEvent {
+  const SettingsEvent();
 }
 
-class GetSettings extends AliasSettingsEvent {
+class GetSettings extends SettingsEvent {
   const GetSettings();
 }
 
-class GetAppSettings extends AliasSettingsEvent {
+class GetAppSettings extends SettingsEvent {
   const GetAppSettings();
 }
 
-class ChangeTheme extends AliasSettingsEvent {
+class ChangeTheme extends SettingsEvent {
   const ChangeTheme(this.isDarkMode);
 
   final bool isDarkMode;
 }
 
-class ChangeLocale extends AliasSettingsEvent {
+class ChangeLocale extends SettingsEvent {
   const ChangeLocale(this.locale);
 
   final AppLocales locale;
 }
 
-class GetAliasSettings extends AliasSettingsEvent {
+class GetAliasSettings extends SettingsEvent {
   const GetAliasSettings();
 }
 
-class ChangeGameDuration extends AliasSettingsEvent {
+class ChangeGameDuration extends SettingsEvent {
   /// The new game duration in seconds.
   final int gameDuration;
 
@@ -39,7 +39,7 @@ class ChangeGameDuration extends AliasSettingsEvent {
   const ChangeGameDuration({required this.gameDuration, this.persist = true});
 }
 
-class ChangePointsToWin extends AliasSettingsEvent {
+class ChangePointsToWin extends SettingsEvent {
   /// The new points to win value.
   final int pointsToWin;
 
@@ -49,25 +49,25 @@ class ChangePointsToWin extends AliasSettingsEvent {
   const ChangePointsToWin({required this.pointsToWin, this.persist = true});
 }
 
-class ChangeSoundEffects extends AliasSettingsEvent {
+class ChangeSoundEffects extends SettingsEvent {
   final bool soundEffects;
 
   const ChangeSoundEffects(this.soundEffects);
 }
 
-class ChangeAllowSkipping extends AliasSettingsEvent {
+class ChangeAllowSkipping extends SettingsEvent {
   final bool allowSkipping;
 
   const ChangeAllowSkipping(this.allowSkipping);
 }
 
-class ChangePenaltyForSkipping extends AliasSettingsEvent {
+class ChangePenaltyForSkipping extends SettingsEvent {
   final bool penaltyForSkipping;
 
   const ChangePenaltyForSkipping(this.penaltyForSkipping);
 }
 
-class ChangeWordsPerCard extends AliasSettingsEvent {
+class ChangeWordsPerCard extends SettingsEvent {
   /// The new number of words per card.
   final int wordsPerCard;
 

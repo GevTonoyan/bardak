@@ -1,7 +1,7 @@
-import 'package:boardify/features/feature_alias_settings/domain/repositories/alias_settings_repository.dart';
+import 'package:boardify/features/settings/domain/repositories/settings_repository.dart';
 
 class UpdateAppSettingsUseCase {
-  final AliasSettingsRepository settingsRepository;
+  final SettingsRepository settingsRepository;
 
   const UpdateAppSettingsUseCase(this.settingsRepository);
 
