@@ -7,10 +7,10 @@ class AppColorsProvider extends InheritedWidget {
   final AppColors colors;
 
   const AppColorsProvider({
-    Key? key,
+    super.key,
     required this.colors,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   static AppColors of(BuildContext context) {
     final provider =
