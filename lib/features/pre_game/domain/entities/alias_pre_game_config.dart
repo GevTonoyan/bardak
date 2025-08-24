@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:boardify/alias_constants.dart';
 
 /// AliasPreGameConfig is a data class that holds the configuration settings for the Alias game.
-class AliasPreGameConfig {
-  final AliasGameMode gameMode;
+class AliasPreGameEntity {
+  final GameMode gameMode;
   final int roundDuration;
   final int pointsToWin;
   final bool soundEnabled;
@@ -13,7 +13,7 @@ class AliasPreGameConfig {
   final bool penaltyForSkipping;
   final List<String> teamNames;
 
-  const AliasPreGameConfig({
+  const AliasPreGameEntity({
     required this.gameMode,
     required this.roundDuration,
     required this.pointsToWin,
@@ -24,21 +24,21 @@ class AliasPreGameConfig {
     required this.teamNames,
   });
 
-  factory AliasPreGameConfig.initial() {
-    return AliasPreGameConfig(
+  factory AliasPreGameEntity.initial() {
+    return AliasPreGameEntity(
       roundDuration: AliasConstants.defaultRoundDuration,
       pointsToWin: AliasConstants.defaultPointsToWin,
       soundEnabled: true,
       allowSkipping: true,
       penaltyForSkipping: true,
       wordsPerCard: AliasConstants.defaultWordsPerCard,
-      gameMode: AliasGameMode.card,
+      gameMode: GameMode.card,
       teamNames: ['Team 1', 'Team 2'],
     );
   }
 
-  AliasPreGameConfig copyWith({
-    AliasGameMode? gameMode,
+  AliasPreGameEntity copyWith({
+    GameMode? gameMode,
     int? roundDuration,
     int? pointsToWin,
     bool? soundEnabled,
@@ -47,7 +47,7 @@ class AliasPreGameConfig {
     bool? penaltyForSkipping,
     List<String>? teamNames,
   }) {
-    return AliasPreGameConfig(
+    return AliasPreGameEntity(
       gameMode: gameMode ?? this.gameMode,
       roundDuration: roundDuration ?? this.roundDuration,
       pointsToWin: pointsToWin ?? this.pointsToWin,
@@ -74,10 +74,10 @@ class AliasPreGameConfig {
     return jsonEncode(data);
   }
 
-  static AliasPreGameConfig fromJson(String json) {
+  static AliasPreGameEntity fromJson(String json) {
     final Map<String, dynamic> data = jsonDecode(json);
-    return AliasPreGameConfig(
-      gameMode: AliasGameMode.fromString(data[AliasConstants.gameModeKey]),
+    return AliasPreGameEntity(
+      gameMode: GameMode.fromString(data[AliasConstants.gameModeKey]),
       roundDuration: data[AliasConstants.roundDurationKey] as int,
       pointsToWin: data[AliasConstants.pointsToWinKey] as int,
       soundEnabled: data[AliasConstants.soundEnabledKey] as bool,
@@ -94,26 +94,26 @@ class AliasPreGameConfig {
   }
 }
 
-enum AliasGameMode {
+enum GameMode {
   card,
   singleWord;
 
   @override
   String toString() {
     switch (this) {
-      case AliasGameMode.card:
+      case GameMode.card:
         return 'card';
-      case AliasGameMode.singleWord:
+      case GameMode.singleWord:
         return 'single word';
     }
   }
 
-  static AliasGameMode fromString(String value) {
+  static GameMode fromString(String value) {
     switch (value.toLowerCase()) {
       case 'card':
-        return AliasGameMode.card;
+        return GameMode.card;
       case 'single word':
-        return AliasGameMode.singleWord;
+        return GameMode.singleWord;
       default:
         throw ArgumentError('Unknown game mode: $value');
     }

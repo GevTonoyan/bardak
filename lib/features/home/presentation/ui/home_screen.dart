@@ -1,6 +1,8 @@
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/features/home/presentation/bloc/home_bloc.dart';
+import 'package:boardify/features/pre_game/presentation/ui/pre_game_screen.dart';
+import 'package:boardify/features/settings/presentation/ui/settings_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
@@ -8,6 +10,8 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  static const routePath = '/home';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -50,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: const Icon(Icons.settings),
                         color: theme.colors.onBackground,
                         onPressed:
-                            () => context.goNamed(RouteNames.aliasSettings),
+                            () => context.goNamed(SettingsScreen.routePath),
                       ),
                       IconButton(
                         icon: const Icon(Icons.info_outline),
@@ -63,12 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // 🖼 Hero Image
                   Expanded(
-                    child: Hero(
-                      tag: AliasConstants.heroTag,
-                      child: Image.asset(
-                        AliasConstants.aliasCoverImagePath,
-                        fit: BoxFit.contain,
-                      ),
+                    child: Image.asset(
+                      AliasConstants.aliasCoverImagePath,
+                      fit: BoxFit.contain,
                     ),
                   ),
 
@@ -79,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed:
                         isDisabled
                             ? null
-                            : () => context.goNamed(RouteNames.preGame),
+                            : () => context.goNamed(PreGameScreen.routePath),
                     icon: const Icon(Icons.play_arrow),
                     label: Text(context.localizations.general_startGame),
                   ),

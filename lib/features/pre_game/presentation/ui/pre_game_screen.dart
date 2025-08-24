@@ -1,30 +1,32 @@
-
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/router/app_router.dart';
+import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
+import 'package:boardify/features/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/features/pre_game/domain/entities/alias_pre_game_config.dart';
-import 'package:boardify/features/pre_game/presentation/bloc/alias_pre_game_bloc.dart';
+import 'package:boardify/features/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:flutter/material.dart';
 
+class PreGameScreen extends StatefulWidget {
+  const PreGameScreen({super.key});
 
-class AliasPreGameScreen extends StatefulWidget {
-  const AliasPreGameScreen({super.key});
+  static const routePath = 'pre_game';
 
   @override
-  State<AliasPreGameScreen> createState() => _AliasPreGameScreenState();
+  State<PreGameScreen> createState() => _PreGameScreenState();
 }
 
-class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
+class _PreGameScreenState extends State<PreGameScreen> {
   final List<TextEditingController> _teamControllers = [];
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<AliasPreGameBloc>().add(
-      GetAliasPreGameConfig(
+    context.read<PreGameBloc>().add(
+      GetPreGameConfig(
         teamNames: [
           '${context.localizations.alias_preGameTeam} 1',
           '${context.localizations.alias_preGameTeam} 2',
@@ -33,11 +35,15 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
     );
 
     _teamControllers.add(
-      TextEditingController(text: '${context.localizations.alias_preGameTeam} 1'),
+      TextEditingController(
+        text: '${context.localizations.alias_preGameTeam} 1',
+      ),
     );
 
     _teamControllers.add(
-      TextEditingController(text: '${context.localizations.alias_preGameTeam} 2'),
+      TextEditingController(
+        text: '${context.localizations.alias_preGameTeam} 2',
+      ),
     );
   }
 
@@ -55,19 +61,19 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
     final colors = theme.colors;
     final text = theme.typography;
 
-    final bloc = context.read<AliasPreGameBloc>();
+    final bloc = context.read<PreGameBloc>();
 
     return Scaffold(
       appBar: AppBar(title: Text(context.localizations.alias_preGameTitle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
-          child: BlocBuilder<AliasPreGameBloc, AliasPreGameState>(
+          child: BlocBuilder<PreGameBloc, PreGameState>(
             builder: (context, state) {
               final preGameConfig =
-                  state is AliasPreGameLoadedState
+                  state is PreGameLoadedState
                       ? state.preGameConfig
-                      : AliasPreGameConfig.initial();
+                      : AliasPreGameEntity.initial();
 
               return Column(
                 children: [
@@ -76,7 +82,9 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                       children: [
                         Text(
                           context.localizations.alias_selectMode,
-                          style: text.titleMedium.copyWith(color: colors.onBackground),
+                          style: text.titleMedium.copyWith(
+                            color: colors.onBackground,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         _GameModeSelector(
@@ -88,7 +96,9 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
 
                         Text(
                           context.localizations.alias_preGameTeamSetup,
-                          style: text.titleMedium.copyWith(color: colors.onBackground),
+                          style: text.titleMedium.copyWith(
+                            color: colors.onBackground,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         ...List.generate(_teamControllers.length, (index) {
@@ -108,9 +118,12 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                                     ),
                                   ),
                                 ),
-                                if (_teamControllers.length > AliasConstants.minTeamCount)
+                                if (_teamControllers.length >
+                                    AliasConstants.minTeamCount)
                                   IconButton(
-                                    icon: const Icon(Icons.remove_circle_outline),
+                                    icon: const Icon(
+                                      Icons.remove_circle_outline,
+                                    ),
                                     color: colors.error,
                                     onPressed: () {
                                       _teamControllers[index].dispose();
@@ -122,24 +135,32 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                             ),
                           );
                         }),
-                        if (_teamControllers.length < AliasConstants.maxTeamCount)
+                        if (_teamControllers.length <
+                            AliasConstants.maxTeamCount)
                           Align(
                             alignment: Alignment.centerLeft,
                             child: TextButton.icon(
                               onPressed: () {
                                 final teamName =
                                     '${context.localizations.alias_preGameTeam} ${_teamControllers.length + 1}';
-                                _teamControllers.add(TextEditingController(text: teamName));
+                                _teamControllers.add(
+                                  TextEditingController(text: teamName),
+                                );
                                 bloc.add(AddTeamEvent(teamName));
                               },
                               icon: const Icon(Icons.add),
-                              label: Text(context.localizations.alias_preGameAddTeam),
+                              label: Text(
+                                context.localizations.alias_preGameAddTeam,
+                              ),
                             ),
                           ),
                         const SizedBox(height: 20),
 
                         AliasSettingStepper(
-                          label: context.localizations.alias_settings_roundDuration,
+                          label:
+                              context
+                                  .localizations
+                                  .alias_settings_roundDuration,
                           value: preGameConfig.roundDuration,
                           min: AliasConstants.minRoundDuration,
                           max: AliasConstants.maxRoundDuration,
@@ -148,7 +169,8 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                           },
                         ),
                         AliasSettingStepper(
-                          label: context.localizations.alias_settings_pointsToWin,
+                          label:
+                              context.localizations.alias_settings_pointsToWin,
                           value: preGameConfig.pointsToWin,
                           min: AliasConstants.minPointsToWin,
                           max: AliasConstants.maxPointsToWin,
@@ -156,9 +178,12 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                             bloc.add(ChangePointsToWinEvent(value));
                           },
                         ),
-                        if (preGameConfig.gameMode == AliasGameMode.card)
+                        if (preGameConfig.gameMode == GameMode.card)
                           AliasSettingStepper(
-                            label: context.localizations.alias_settings_wordsPerCard,
+                            label:
+                                context
+                                    .localizations
+                                    .alias_settings_wordsPerCard,
                             value: preGameConfig.wordsPerCard,
                             min: AliasConstants.minWordsPerCard,
                             max: AliasConstants.maxWordsPerCard,
@@ -166,12 +191,16 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                               bloc.add(ChangeWordsPerCardEvent(value));
                             },
                           ),
-                        if (preGameConfig.gameMode == AliasGameMode.singleWord) ...[
+                        if (preGameConfig.gameMode == GameMode.singleWord) ...[
                           Card(
                             child: SwitchListTile(
                               title: Text(
-                                context.localizations.alias_settings_allowSkipping,
-                                style: text.bodyMedium.copyWith(color: colors.onSurface),
+                                context
+                                    .localizations
+                                    .alias_settings_allowSkipping,
+                                style: text.bodyMedium.copyWith(
+                                  color: colors.onSurface,
+                                ),
                               ),
                               value: preGameConfig.allowSkipping,
                               onChanged: (value) {
@@ -183,8 +212,12 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                           Card(
                             child: SwitchListTile(
                               title: Text(
-                                context.localizations.alias_settings_penaltyForSkipping,
-                                style: text.bodyMedium.copyWith(color: colors.onSurface),
+                                context
+                                    .localizations
+                                    .alias_settings_penaltyForSkipping,
+                                style: text.bodyMedium.copyWith(
+                                  color: colors.onSurface,
+                                ),
                               ),
                               value: preGameConfig.penaltyForSkipping,
                               onChanged: (value) {
@@ -201,18 +234,29 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
                     width: double.maxFinite,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        if (state is AliasPreGameLoadedState) {
-                          context.goNamed(
-                            RouteNames.roundOverview,
-                            queryParameters: {
-                              AliasConstants.preGameConfigKey:
-                                  state.preGameConfig
-                                      .copyWith(
-                                        teamNames: _teamControllers.map((c) => c.text).toList(),
-                                      )
-                                      .toJson(),
-                            },
+                        if (state is PreGameLoadedState) {
+                          final preGameConfig = state.preGameConfig;
+                          final gameSession = GameSessionEntity(
+                            gameMode: preGameConfig.gameMode,
+                            teamStates:
+                                preGameConfig.teamNames.map((teamName) {
+                                  return AliasTeamStateEntity(
+                                    name: teamName,
+                                    roundScores: [],
+                                  );
+                                }).toList(),
+                            roundDuration: preGameConfig.roundDuration,
+                            pointsToWin: preGameConfig.pointsToWin,
+                            soundEnabled: preGameConfig.soundEnabled,
+                            wordsPerCard: preGameConfig.wordsPerCard,
+                            allowSkipping: preGameConfig.allowSkipping,
+                            penaltyForSkipping:
+                                preGameConfig.penaltyForSkipping,
+                            currentTeamIndex: 0,
+                            currentRoundIndex: 0,
                           );
+
+                          _navigateToGameSession(gameSession);
                         }
                       },
                       icon: const Icon(Icons.play_arrow),
@@ -227,10 +271,14 @@ class _AliasPreGameScreenState extends State<AliasPreGameScreen> {
       ),
     );
   }
+
+  void _navigateToGameSession(GameSessionEntity gameSession) {
+    context.pushNamed(GameSessionScreen.routePath, extra: gameSession);
+  }
 }
 
 class _GameModeSelector extends StatelessWidget {
-  final void Function(AliasGameMode mode) onChanged;
+  final void Function(GameMode mode) onChanged;
 
   const _GameModeSelector({required this.onChanged});
 
@@ -240,26 +288,26 @@ class _GameModeSelector extends StatelessWidget {
     final colors = theme.colors;
     final text = theme.typography;
 
-    final bloc = context.read<AliasPreGameBloc>();
+    final bloc = context.read<PreGameBloc>();
     final selectedGameMode =
-        bloc.state is AliasPreGameLoadedState
-            ? (bloc.state as AliasPreGameLoadedState).preGameConfig.gameMode
-            : AliasGameMode.card;
+        bloc.state is PreGameLoadedState
+            ? (bloc.state as PreGameLoadedState).preGameConfig.gameMode
+            : GameMode.card;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: List.generate(AliasGameMode.values.length, (index) {
-        final isSelected = selectedGameMode == AliasGameMode.values[index];
+      children: List.generate(GameMode.values.length, (index) {
+        final isSelected = selectedGameMode == GameMode.values[index];
 
-        final gameMode = AliasGameMode.values[index];
+        final gameMode = GameMode.values[index];
         final title = switch (gameMode) {
-          AliasGameMode.card => context.localizations.alias_mode2,
-          AliasGameMode.singleWord => context.localizations.alias_mode1,
+          GameMode.card => context.localizations.alias_mode2,
+          GameMode.singleWord => context.localizations.alias_mode1,
         };
 
         return GestureDetector(
           onTap: () {
-            onChanged.call(AliasGameMode.values[index]);
+            onChanged.call(GameMode.values[index]);
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 250),
@@ -270,7 +318,9 @@ class _GameModeSelector extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: colors.shadow.withValues(alpha: isSelected ? 0.3 : 0.1),
+                  color: colors.shadow.withValues(
+                    alpha: isSelected ? 0.3 : 0.1,
+                  ),
                   offset: const Offset(0, 2),
                   blurRadius: 6,
                 ),

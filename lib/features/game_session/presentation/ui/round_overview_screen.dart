@@ -1,6 +1,7 @@
 import 'package:boardify/core/router/app_router.dart';
-import 'package:boardify/features/gameplay/domain/entities/alias_game_state_entity.dart';
-import 'package:boardify/features/gameplay/presentation/bloc/blocs/gameplay_bloc/gameplay_bloc.dart';
+import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
+import 'package:boardify/features/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/features/game_session/presentation/ui/countdown_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
@@ -16,12 +17,12 @@ class RoundOverviewScreen extends StatelessWidget {
     final colors = context.appTheme.colors;
     final text = context.appTheme.typography;
 
-    final bloc = context.watch<GameplayBloc>();
-    if (bloc.state is! PlayLoaded) {
+    final bloc = context.watch<GameSessionBloc>();
+    if (bloc.state is! GameSessionLoaded) {
       return const AppLoader();
     }
 
-    final gameState = (bloc.state as PlayLoaded).gameState;
+    final gameState = (bloc.state as GameSessionLoaded).gameState;
 
     return PopScope(
       canPop: false,
@@ -125,7 +126,7 @@ class RoundOverviewScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () => context.pushNamed(RouteNames.countdown),
+                    onPressed: () => context.pushNamed(RouteNames.cardRound),
                     icon: const Icon(Icons.play_arrow),
                     label: Text(context.localizations.general_startGame),
                   ),

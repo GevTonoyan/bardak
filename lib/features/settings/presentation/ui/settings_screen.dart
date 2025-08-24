@@ -13,6 +13,8 @@ import 'package:go_router/go_router.dart';
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
+  static const routePath = 'settings';
+
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/features/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class CountdownScreen extends StatefulWidget {
@@ -59,7 +61,7 @@ class _CountdownScreenState extends State<CountdownScreen>
   void _handleCountdownFinished() {
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) {
-        context.pushNamed(RouteNames.gameplay);
+        //context.pushNamed(RouteNames.gameplay);
       }
     });
   }
@@ -74,6 +76,8 @@ class _CountdownScreenState extends State<CountdownScreen>
   @override
   Widget build(BuildContext context) {
     final colors = context.appTheme.colors;
+
+    final gameStateEntity = context.read<GameSessionBloc>().state;
 
     return Scaffold(
       body: Center(

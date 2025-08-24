@@ -1,7 +1,7 @@
 import 'package:boardify/features/pre_game/domain/entities/alias_pre_game_config.dart';
 
-class AliasGameStateEntity {
-  AliasGameStateEntity({
+class GameSessionEntity {
+  GameSessionEntity({
     required this.gameMode,
     required this.teamStates,
     required this.roundDuration,
@@ -16,7 +16,7 @@ class AliasGameStateEntity {
     this.winningTeamIndex,
   });
 
-  final AliasGameMode gameMode;
+  final GameMode gameMode;
 
   /// Ordered list of team states including score history
   final List<AliasTeamStateEntity> teamStates;

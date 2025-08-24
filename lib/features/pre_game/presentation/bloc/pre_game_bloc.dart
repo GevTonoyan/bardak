@@ -5,18 +5,18 @@ import 'package:boardify/features/pre_game/domain/entities/alias_pre_game_config
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
- part 'alias_pre_game_event.dart';
+ part 'pre_game_event.dart';
 
-part 'alias_pre_game_state.dart';
+part 'pre_game_state.dart';
 
-// TODO make aliassettings repos and data sources in common feature, also get Alias Settings usecase
+// TODO make alias settings repos and data sources in common feature, also get Alias Settings usecase
 
-class AliasPreGameBloc extends Bloc<AliasPreGameEvent, AliasPreGameState> {
+class PreGameBloc extends Bloc<PreGameEvent, PreGameState> {
   final GetGameSettingsUseCase getAliasSettingsUseCase;
 
-  AliasPreGameBloc({required this.getAliasSettingsUseCase})
-    : super(const AliasPreGameInitialState()) {
-    on<GetAliasPreGameConfig>(_getAliasPreGameConfig);
+  PreGameBloc({required this.getAliasSettingsUseCase})
+    : super(const PreGameInitialState()) {
+    on<GetPreGameConfig>(_getAliasPreGameConfig);
     on<ChangeGameModeEvent>(_changeGameMode);
     on<ChangeRoundDurationEvent>(_changeRoundDuration);
     on<ChangePointsToWinEvent>(_changePointsToWin);
@@ -28,14 +28,14 @@ class AliasPreGameBloc extends Bloc<AliasPreGameEvent, AliasPreGameState> {
   }
 
   FutureOr<void> _getAliasPreGameConfig(
-    GetAliasPreGameConfig event,
-    Emitter<AliasPreGameState> emit,
+    GetPreGameConfig event,
+    Emitter<PreGameState> emit,
   ) async {
-    emit(const AliasPreGameLoadingState());
+    emit(const PreGameLoadingState());
     final result = getAliasSettingsUseCase();
 
-    final preGameConfig = AliasPreGameConfig(
-      gameMode: AliasGameMode.card,
+    final preGameConfig = AliasPreGameEntity(
+      gameMode: GameMode.card,
       roundDuration: result.roundDuration,
       pointsToWin: result.pointsToWin,
       soundEnabled: result.soundEnabled,
@@ -45,79 +45,79 @@ class AliasPreGameBloc extends Bloc<AliasPreGameEvent, AliasPreGameState> {
       teamNames: event.teamNames,
     );
 
-    emit(AliasPreGameLoadedState(preGameConfig));
+    emit(PreGameLoadedState(preGameConfig));
   }
 
-  void _changeGameMode(ChangeGameModeEvent event, Emitter<AliasPreGameState> emit) {
+  void _changeGameMode(ChangeGameModeEvent event, Emitter<PreGameState> emit) {
     final currentState = state;
-    if (currentState is AliasPreGameLoadedState) {
+    if (currentState is PreGameLoadedState) {
       final updatedConfig = currentState.preGameConfig.copyWith(gameMode: event.gameMode);
-      emit(AliasPreGameLoadedState(updatedConfig));
+      emit(PreGameLoadedState(updatedConfig));
     }
   }
 
-  void _changeRoundDuration(ChangeRoundDurationEvent event, Emitter<AliasPreGameState> emit) {
+  void _changeRoundDuration(ChangeRoundDurationEvent event, Emitter<PreGameState> emit) {
     final currentState = state;
-    if (currentState is AliasPreGameLoadedState) {
+    if (currentState is PreGameLoadedState) {
       final updatedConfig = currentState.preGameConfig.copyWith(roundDuration: event.roundDuration);
-      emit(AliasPreGameLoadedState(updatedConfig));
+      emit(PreGameLoadedState(updatedConfig));
     }
   }
 
-  void _changePointsToWin(ChangePointsToWinEvent event, Emitter<AliasPreGameState> emit) {
+  void _changePointsToWin(ChangePointsToWinEvent event, Emitter<PreGameState> emit) {
     final currentState = state;
-    if (currentState is AliasPreGameLoadedState) {
+    if (currentState is PreGameLoadedState) {
       final updatedConfig = currentState.preGameConfig.copyWith(pointsToWin: event.pointsToWin);
-      emit(AliasPreGameLoadedState(updatedConfig));
+      emit(PreGameLoadedState(updatedConfig));
     }
   }
 
-  void _changeWordsPerCard(ChangeWordsPerCardEvent event, Emitter<AliasPreGameState> emit) {
+  void _changeWordsPerCard(ChangeWordsPerCardEvent event, Emitter<PreGameState> emit) {
     final currentState = state;
-    if (currentState is AliasPreGameLoadedState) {
+    if (currentState is PreGameLoadedState) {
       final updatedConfig = currentState.preGameConfig.copyWith(wordsPerCard: event.wordsPerCard);
-      emit(AliasPreGameLoadedState(updatedConfig));
+      emit(PreGameLoadedState(updatedConfig));
     }
   }
 
-  void _changeAllowSkipping(ChangeAllowSkippingEvent event, Emitter<AliasPreGameState> emit) {
+  void _changeAllowSkipping(ChangeAllowSkippingEvent event, Emitter<PreGameState> emit) {
     final currentState = state;
-    if (currentState is AliasPreGameLoadedState) {
+    if (currentState is PreGameLoadedState) {
       final updatedConfig = currentState.preGameConfig.copyWith(allowSkipping: event.allowSkipping);
-      emit(AliasPreGameLoadedState(updatedConfig));
+      emit(PreGameLoadedState(updatedConfig));
     }
   }
 
   void _changePenaltyForSkipping(
     ChangePenaltyForSkippingEvent event,
-    Emitter<AliasPreGameState> emit,
+    Emitter<PreGameState> emit,
   ) {
     final currentState = state;
-    if (currentState is AliasPreGameLoadedState) {
+    if (currentState is PreGameLoadedState) {
       final updatedConfig = currentState.preGameConfig.copyWith(
         penaltyForSkipping: event.penaltyForSkipping,
       );
-      emit(AliasPreGameLoadedState(updatedConfig));
+      emit(PreGameLoadedState(updatedConfig));
     }
   }
 
-  void _addTeam(AddTeamEvent event, Emitter<AliasPreGameState> emit) {
+  void _addTeam(AddTeamEvent event, Emitter<PreGameState> emit) {
     final currentState = state;
-    if (currentState is AliasPreGameLoadedState) {
+    if (currentState is PreGameLoadedState) {
       final updatedConfig = currentState.preGameConfig.copyWith(
         teamNames: [...currentState.preGameConfig.teamNames, event.teamName],
       );
-      emit(AliasPreGameLoadedState(updatedConfig));
+      emit(PreGameLoadedState(updatedConfig));
     }
   }
 
-  void _removeTeam(RemoveTeamEvent event, Emitter<AliasPreGameState> emit) {
+  void _removeTeam(RemoveTeamEvent event, Emitter<PreGameState> emit) {
     final currentState = state;
-    if (currentState is AliasPreGameLoadedState) {
+    if (currentState is PreGameLoadedState) {
       final updatedConfig = currentState.preGameConfig.copyWith(
         teamNames: [...currentState.preGameConfig.teamNames..removeAt(event.index)],
       );
-      emit(AliasPreGameLoadedState(updatedConfig));
+      emit(PreGameLoadedState(updatedConfig));
     }
   }
 }
