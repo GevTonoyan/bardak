@@ -1,6 +1,8 @@
 import 'package:boardify/core/dependency_injection/di.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/ui/game_session_screen.dart';
+import 'package:boardify/features/round/domain/card_round_entity.dart';
+import 'package:boardify/features/round/presentation/blocs/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/features/round/presentation/ui/card_round_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -80,7 +82,20 @@ final appRouter = GoRouter(
                   path: RouteNames.cardRound,
                   name: RouteNames.cardRound,
                   builder: (context, state) {
-                    return const CardRoundScreen();
+                    final roundEntity = state.extra as CardRoundEntity;
+
+                    final words = _getMockedWords();
+
+                    return BlocProvider(
+                      create:
+                          (_) => CardRoundBloc(
+                            words: words,
+                            wordsPerCard: roundEntity.wordsPerCard,
+                          ),
+                      child: CardRoundScreen(
+                        initialRoundDuration: roundEntity.roundDuration,
+                      ),
+                    );
                   },
                 ),
               ],
@@ -91,6 +106,51 @@ final appRouter = GoRouter(
     ),
   ],
 );
+
+List<String> _getMockedWords() {
+  //create 40 unique english words and return them as a set
+  return [
+    'Mountain',
+    'Laptop',
+    'Book',
+    'Guitar',
+    'River',
+    'Spaceship',
+    'Chocolate',
+    'Umbrella',
+    'Ocean',
+    'Forest',
+    'Desert',
+    'Castle',
+    'Dragon',
+    'Knight',
+    'Wizard',
+    'Pirate',
+    'Treasure',
+    'Island',
+    'Volcano',
+    'Canyon',
+    'Bridge',
+    'Tower',
+    'Garden',
+    'Library',
+    'Museum',
+    'Theater',
+    'Cinema',
+    'Restaurant',
+    'Cafe',
+    'Market',
+    'School',
+    'Hospital',
+    'Airport',
+    'Station',
+    'Hotel',
+    'Beach',
+    'Park',
+    'Zoo',
+    'Aquarium',
+  ];
+}
 
 class RouteNames {
   static const initial = '/';

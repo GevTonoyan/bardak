@@ -5,13 +5,13 @@ class AliasConstants {
 
   // Settings
   static const defaultRoundDuration = 60;
-  static const minRoundDuration = 20;
-  static const maxRoundDuration = 300;
+  static const minRoundDuration = 30;
+  static const maxRoundDuration = 120;
   static const defaultPointsToWin = 60;
   static const minPointsToWin = 30;
-  static const maxPointsToWin = 200;
+  static const maxPointsToWin = 120;
   static const defaultWordsPerCard = 6;
-  static const minWordsPerCard = 3;
+  static const minWordsPerCard = 4;
   static const maxWordsPerCard = 8;
   static const minTeamCount = 2;
   static const maxTeamCount = 4;

@@ -1,7 +1,7 @@
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:boardify/features/game_session/presentation/ui/countdown_screen.dart';
+import 'package:boardify/features/round/domain/card_round_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
@@ -126,7 +126,21 @@ class RoundOverviewScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () => context.pushNamed(RouteNames.cardRound),
+                    onPressed: () async {
+                      if (bloc.state is! GameSessionLoaded) return;
+
+                      final gameSession =
+                          (bloc.state as GameSessionLoaded).gameState;
+
+                      final roundResult = await context.pushNamed(
+                        RouteNames.cardRound,
+                        extra: CardRoundEntity(
+                          roundDuration: gameSession.roundDuration,
+                          wordsPerCard: gameSession.wordsPerCard,
+                        ),
+                      );
+                      print(roundResult);
+                    },
                     icon: const Icon(Icons.play_arrow),
                     label: Text(context.localizations.general_startGame),
                   ),
