@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:boardify/features/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:boardify/features/word_pack/domain/repositories/word_packs_repository.dart';
 
-
 /// Gets all available word packs for the given locale from local cache.
 class GetWordPacksUseCase {
-  final WordPacksRepository repository;
-
   GetWordPacksUseCase(this.repository);
+
+  final WordPacksRepository repository;
 
   Future<AliasWordPackInfoResultEntity> call(GetWordPacksParams params) {
     return repository.getWordPacks(params);
@@ -17,7 +16,7 @@ class GetWordPacksUseCase {
 
 /// Parameters required to fetch cached word packs.
 class GetWordPacksParams {
-  final String localeCode;
-
   const GetWordPacksParams({required this.localeCode});
+
+  final String localeCode;
 }

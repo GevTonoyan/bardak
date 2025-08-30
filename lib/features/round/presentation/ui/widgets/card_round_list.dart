@@ -1,9 +1,7 @@
 import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:boardify/features/round/domain/card_round_result.dart';
 import 'package:boardify/features/round/presentation/blocs/card_round_bloc/card_round_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class CardRoundList extends StatefulWidget {
   const CardRoundList({super.key});
@@ -58,7 +56,7 @@ class _CardRoundListState extends State<CardRoundList> {
                 child: InkWell(
                   onTap:
                       () => context.read<CardRoundBloc>().add(
-                        ToggleWord(currentWord, !isSelected),
+                        ToggleWord(isSelected: !isSelected, word: currentWord),
                       ),
                   borderRadius: BorderRadius.circular(16),
                   child: Container(
@@ -112,7 +110,9 @@ class _CardRoundListState extends State<CardRoundList> {
                                       width: 24,
                                       height: 24,
                                       decoration: BoxDecoration(
-                                        color: colors.outline.withOpacity(0.3),
+                                        color: colors.outline.withValues(
+                                          alpha: 0.3,
+                                        ),
                                         shape: BoxShape.circle,
                                       ),
                                     ),

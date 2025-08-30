@@ -3,9 +3,9 @@ import 'package:boardify/features/settings/domain/repositories/settings_reposito
 
 /// Use case to get the app settings from the repository
 class GetAppSettingsUseCase {
-  final SettingsRepository _settingsRepository;
-
   GetAppSettingsUseCase(this._settingsRepository);
+
+  final SettingsRepository _settingsRepository;
 
   AppSettingsEntity call() {
     return _settingsRepository.getAppSettings();

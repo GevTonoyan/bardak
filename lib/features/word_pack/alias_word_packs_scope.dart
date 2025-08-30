@@ -8,25 +8,24 @@ import 'package:boardify/features/word_pack/domain/usecases/set_selected_word_pa
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-final sl = GetIt.instance;
+final GetIt sl = GetIt.instance;
 
 Future<void> injectWordPacksScope() async {
   if (sl.isRegistered<WordPacksRepository>()) {
     return;
   }
 
-  // Register use cases
   sl
-    ..registerLazySingleton<GetWordPacksUseCase>(() => GetWordPacksUseCase(sl()))
-    ..registerLazySingleton<SetSelectedWordPackUseCase>(() => SetSelectedWordPackUseCase(sl()));
+    ..registerLazySingleton<GetWordPacksUseCase>(
+      () => GetWordPacksUseCase(sl()),
+    )
+    ..registerLazySingleton<SetSelectedWordPackUseCase>(
+      () => SetSelectedWordPackUseCase(sl()),
+    )
+    ..registerLazySingleton<WordPacksRepository>(
+      () => WordPacksRepositoryImpl(localDataSource: sl()),
+    );
 
-  // Register repository
-  sl.registerLazySingleton<WordPacksRepository>(
-    () => WordPacksRepositoryImpl(localDataSource: sl()),
-  );
-
-  // Register local data source
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<WordPacksLocalDataSource>(
     () => WordPacksLocalDataSourceImpl(sharedPreferences),

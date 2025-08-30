@@ -1,13 +1,13 @@
 import 'package:boardify/alias_constants.dart';
+import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/localizations/common/supported_locales.dart';
+import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:boardify/core/ui_kit/widgets/circular_flag_icon.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<SettingsBloc>().add(GetSettings());
+    context.read<SettingsBloc>().add(const GetSettings());
   }
 
   @override
@@ -34,10 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          context.localizations.alias_settings,
-          style: text.titleLarge,
-        ),
+        title: Text(context.l10n.alias_settings, style: text.titleLarge),
       ),
       body: SafeArea(
         child: Padding(
@@ -55,12 +52,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
-                      context.localizations.alias_settings_general,
+                      context.l10n.alias_settings_general,
                       style: text.titleMedium.copyWith(color: colors.primary),
                     ),
                   ),
                   AliasSettingStepper(
-                    label: context.localizations.alias_settings_roundDuration,
+                    label: context.l10n.alias_settings_roundDuration,
                     value: aliasSettings.roundDuration,
                     min: AliasConstants.minRoundDuration,
                     max: AliasConstants.maxRoundDuration,
@@ -74,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                   AliasSettingStepper(
-                    label: context.localizations.alias_settings_pointsToWin,
+                    label: context.l10n.alias_settings_pointsToWin,
                     value: aliasSettings.pointsToWin,
                     min: AliasConstants.minPointsToWin,
                     max: AliasConstants.maxPointsToWin,
@@ -87,14 +84,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Card(
                     child: SwitchListTile(
                       title: Text(
-                        context.localizations.alias_settings_soundEffects,
+                        context.l10n.alias_settings_soundEffects,
                         style: text.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),
                       value: aliasSettings.soundEnabled,
                       onChanged: (v) {
-                        bloc.add(ChangeSoundEffects(v));
+                        bloc.add(ChangeSoundEffects(soundEffects: v));
                       },
                       activeColor: colors.primary,
                     ),
@@ -103,21 +100,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
-                      context.localizations.alias_singleWordMode,
+                      context.l10n.alias_singleWordMode,
                       style: text.titleMedium.copyWith(color: colors.primary),
                     ),
                   ),
                   Card(
                     child: SwitchListTile(
                       title: Text(
-                        context.localizations.alias_settings_allowSkipping,
+                        context.l10n.alias_settings_allowSkipping,
                         style: text.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),
                       value: aliasSettings.allowSkipping,
                       onChanged: (v) {
-                        bloc.add(ChangeAllowSkipping(v));
+                        bloc.add(ChangeAllowSkipping(allowSkipping: v));
                       },
                       activeColor: colors.primary,
                     ),
@@ -125,14 +122,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Card(
                     child: SwitchListTile(
                       title: Text(
-                        context.localizations.alias_settings_penaltyForSkipping,
+                        context.l10n.alias_settings_penaltyForSkipping,
                         style: text.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),
                       value: aliasSettings.penaltyForSkipping,
                       onChanged: (v) {
-                        bloc.add(ChangePenaltyForSkipping(v));
+                        bloc.add(
+                          ChangePenaltyForSkipping(penaltyForSkipping: v),
+                        );
                       },
                       activeColor: colors.primary,
                     ),
@@ -141,12 +140,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
-                      context.localizations.alias_mode2,
+                      context.l10n.alias_mode2,
                       style: text.titleMedium.copyWith(color: colors.primary),
                     ),
                   ),
                   AliasSettingStepper(
-                    label: context.localizations.alias_settings_wordsPerCard,
+                    label: context.l10n.alias_settings_wordsPerCard,
                     value: aliasSettings.wordsPerCard,
                     min: AliasConstants.minWordsPerCard,
                     max: AliasConstants.maxWordsPerCard,
@@ -172,13 +171,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     child: SwitchListTile(
                       title: Text(
-                        context.localizations.settings_darkMode,
+                        context.l10n.settings_darkMode,
                         style: text.titleMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),
                       value: settings.isDarkMode,
-                      onChanged: (value) => bloc.add(ChangeTheme(value)),
+                      onChanged:
+                          (value) => bloc.add(ChangeTheme(isDarkMode: value)),
                       secondary: Icon(
                         settings.isDarkMode
                             ? Icons.dark_mode
@@ -209,7 +209,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         assetPath: settings.locale.flagAssetPath,
                       ),
                       title: Text(
-                        context.localizations.settings_localeName,
+                        context.l10n.settings_localeName,
                         style: text.titleMedium.copyWith(
                           color: colors.onSurface,
                         ),
@@ -236,7 +236,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final theme = context.appTheme;
 
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       backgroundColor: theme.colors.surface,
       shape: const RoundedRectangleBorder(

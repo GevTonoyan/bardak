@@ -10,12 +10,18 @@ class AliasWordPacksInitial extends AliasWordPacksState {}
 
 /// State when word packs are successfully loaded.
 class AliasWordPacksLoaded extends AliasWordPacksState {
+  const AliasWordPacksLoaded({
+    required this.packs,
+    required this.selectedPackId,
+  });
+
   final List<AliasWordPackInfoEntity> packs;
   final String? selectedPackId;
 
-  const AliasWordPacksLoaded({required this.packs, required this.selectedPackId});
-
-  AliasWordPacksLoaded copyWith({List<AliasWordPackInfoEntity>? packs, String? selectedPackId}) {
+  AliasWordPacksLoaded copyWith({
+    List<AliasWordPackInfoEntity>? packs,
+    String? selectedPackId,
+  }) {
     return AliasWordPacksLoaded(
       packs: packs ?? this.packs,
       selectedPackId: selectedPackId ?? this.selectedPackId,
@@ -25,7 +31,7 @@ class AliasWordPacksLoaded extends AliasWordPacksState {
 
 /// Error state when loading word packs fails.
 class AliasWordPacksError extends AliasWordPacksState {
-  final String message;
-
   const AliasWordPacksError(this.message);
+
+  final String message;
 }

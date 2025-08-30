@@ -25,9 +25,9 @@ abstract interface class SettingsLocalDataSource {
 
 /// Implementation of the [SettingsLocalDataSource] interface.
 class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
-  final SharedPreferences preferences;
-
   const SettingsLocalDataSourceImpl({required this.preferences});
+
+  final SharedPreferences preferences;
 
   @override
   AppSettingsEntity getAppSettings() {

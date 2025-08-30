@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GameSessionScreen extends StatefulWidget {
-  const GameSessionScreen({super.key, required this.gameSessionEntity});
+  const GameSessionScreen({required this.gameSessionEntity, super.key});
 
   final GameSessionEntity? gameSessionEntity;
 
   static const routePath = 'game_session';
-
 
   @override
   State<GameSessionScreen> createState() => _GameSessionScreenState();
@@ -42,7 +41,7 @@ class _GameSessionScreenState extends State<GameSessionScreen> {
 
     return BlocProvider(
       create: (_) => GameSessionBloc(initialGameState: session),
-      child: RoundOverviewScreen(),
+      child: const RoundOverviewScreen(),
     );
   }
 }

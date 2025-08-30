@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppTextStyles {
-  static final AppTextStyles _instance = AppTextStyles._internal();
-
   factory AppTextStyles() => _instance;
 
   AppTextStyles._internal();
+
+  static final AppTextStyles _instance = AppTextStyles._internal();
 
   final TextStyle displayLarge = const TextStyle(
     fontSize: 57,

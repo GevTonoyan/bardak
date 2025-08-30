@@ -5,7 +5,7 @@ sealed class CardRoundEvent {
 }
 
 class ToggleWord extends CardRoundEvent {
-  const ToggleWord(this.word, this.isSelected);
+  const ToggleWord({required this.word, required this.isSelected});
 
   final String word;
   final bool isSelected;

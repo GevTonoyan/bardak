@@ -11,9 +11,9 @@ abstract interface class HomeRemoteDataSource {
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
-  final FirebaseFirestore firestore;
 
   const HomeRemoteDataSourceImpl({required this.firestore});
+  final FirebaseFirestore firestore;
 
   @override
   Future<List<AliasWordPackEntity>> getWordPacks(

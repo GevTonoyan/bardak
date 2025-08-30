@@ -18,7 +18,7 @@ class _RoundHeaderState extends State<CardRoundHeader>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late int remainingSeconds;
   late Timer _timer;
-  var isTimerPaused = false;
+  bool isTimerPaused = false;
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _RoundHeaderState extends State<CardRoundHeader>
             --remainingSeconds;
           } else {
             timer.cancel();
-            context.read<CardRoundBloc>().add(CompleteRoundRequested());
+            context.read<CardRoundBloc>().add(const CompleteRoundRequested());
           }
         });
       }
@@ -106,17 +106,13 @@ class _RoundHeaderState extends State<CardRoundHeader>
             onPressed: () {
               showGamePopupDialog(
                 context: context,
-                title:
-                    context.localizations.alias_roundOverview_confirmExit_title,
-                message:
-                    context
-                        .localizations
-                        .alias_roundOverview_confirmExit_message,
-                confirmText: context.localizations.general_yes,
-                cancelText: context.localizations.general_no,
+                title: context.l10n.alias_roundOverview_confirmExit_title,
+                message: context.l10n.alias_roundOverview_confirmExit_message,
+                confirmText: context.l10n.general_yes,
+                cancelText: context.l10n.general_no,
                 onConfirm:
                     () => context.read<CardRoundBloc>().add(
-                      CompleteRoundRequested(),
+                      const CompleteRoundRequested(),
                     ),
               );
             },

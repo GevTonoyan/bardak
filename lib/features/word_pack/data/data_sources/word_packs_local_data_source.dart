@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
-
 /// Local data source for accessing and storing word pack information.
 abstract interface class WordPacksLocalDataSource {
   /// Returns cached word packs for the given locale.
@@ -20,13 +19,17 @@ abstract interface class WordPacksLocalDataSource {
 
 /// Implementation of the [WordPacksLocalDataSource] using Hive and SharedPreferences for local storage.
 class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
-  final SharedPreferences preferences;
-
   const WordPacksLocalDataSourceImpl(this.preferences);
 
+  final SharedPreferences preferences;
+
   @override
-  Future<AliasWordPackInfoResultEntity> getWordPacks(GetWordPacksParams params) async {
-    final box = await Hive.openBox('${AliasConstants.aliasWordPack}_${params.localeCode}');
+  Future<AliasWordPackInfoResultEntity> getWordPacks(
+    GetWordPacksParams params,
+  ) async {
+    final box = await Hive.openBox(
+      '${AliasConstants.aliasWordPack}_${params.localeCode}',
+    );
     final packsList = <AliasWordPackInfoEntity>[];
 
     for (final key in box.keys) {
@@ -35,7 +38,9 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
         final map = Map<String, dynamic>.from(data);
         final name = map[AliasConstants.aliasWordPackName] as String? ?? key;
         final emoji = map[AliasConstants.aliasWordPackEmoji] as String? ?? '';
-        packsList.add(AliasWordPackInfoEntity(id: key, name: name, emoji: emoji));
+        packsList.add(
+          AliasWordPackInfoEntity(id: key, name: name, emoji: emoji),
+        );
       }
     }
 
@@ -45,7 +50,10 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
 
     selectedPackId ??= packsList.isNotEmpty ? packsList.first.id : 'all';
 
-    return AliasWordPackInfoResultEntity(packs: packsList, selectedPackId: selectedPackId);
+    return AliasWordPackInfoResultEntity(
+      packs: packsList,
+      selectedPackId: selectedPackId,
+    );
   }
 
   @override

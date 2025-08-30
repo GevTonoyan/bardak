@@ -9,12 +9,6 @@ class CardRoundState {
     required this.completed,
   });
 
-  final List<String> words;
-  final int wordsPerCard;
-  final int page;
-  final Set<String> guessed;
-  final bool completed;
-
   factory CardRoundState.initial({
     required List<String> words,
     required int wordsPerCard,
@@ -25,6 +19,12 @@ class CardRoundState {
     guessed: <String>{},
     completed: false,
   );
+
+  final List<String> words;
+  final int wordsPerCard;
+  final int page;
+  final Set<String> guessed;
+  final bool completed;
 
   CardRoundState copyWith({int? page, Set<String>? guessed, bool? completed}) {
     return CardRoundState(

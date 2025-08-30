@@ -34,7 +34,7 @@ class CardRoundScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
-                    child: CardRoundList(),
+                    child: const CardRoundList(),
                   ),
                 ),
               ],

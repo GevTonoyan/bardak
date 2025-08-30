@@ -7,9 +7,9 @@ import 'package:boardify/features/settings/domain/usecases/update_game_settings_
 
 /// This is the implementation of the [SettingsRepository] interface.
 class SettingsRepositoryImpl implements SettingsRepository {
-  final SettingsLocalDataSource dataSource;
-
   const SettingsRepositoryImpl({required this.dataSource});
+
+  final SettingsLocalDataSource dataSource;
 
   @override
   GameSettingsEntity getGameSettings() => dataSource.getAliasSettings();

@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 Future<void> showGamePopupDialog({
   required BuildContext context,
   required String title,
+  required VoidCallback onConfirm,
   String? message,
   String? confirmText,
   String? cancelText,
-  required VoidCallback onConfirm,
   VoidCallback? onCancel,
 }) {
-  final localizations = context.localizations;
+  final localizations = context.l10n;
 
   return showDialog(
     context: context,
@@ -29,22 +29,22 @@ Future<void> showGamePopupDialog({
 }
 
 class GamePopupDialog extends StatelessWidget {
+  const GamePopupDialog({
+    required this.title,
+    required this.confirmText,
+    required this.cancelText,
+    required this.onConfirm,
+    super.key,
+    this.message,
+    this.onCancel,
+  });
+
   final String title;
   final String? message;
   final String confirmText;
   final String cancelText;
   final VoidCallback onConfirm;
   final VoidCallback? onCancel;
-
-  const GamePopupDialog({
-    super.key,
-    required this.title,
-    this.message,
-    required this.confirmText,
-    required this.cancelText,
-    required this.onConfirm,
-    this.onCancel,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +62,12 @@ class GamePopupDialog extends StatelessWidget {
           children: [
             Text(
               title,
-              style: text.titleLarge.copyWith(fontWeight: FontWeight.bold, color: colors.onSurface),
+              style: text.titleLarge.copyWith(
+                fontWeight: FontWeight.bold,
+                color: colors.onSurface,
+              ),
             ),
-            if (message?.isNotEmpty == true) ...[
+            if (message != null && message!.isNotEmpty) ...[
               const SizedBox(height: 12),
               Text(
                 message!,
@@ -85,7 +88,9 @@ class GamePopupDialog extends StatelessWidget {
                       foregroundColor: colors.onSurface,
                       side: BorderSide(color: colors.outline),
                       textStyle: text.titleSmall,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     child: Text(cancelText),
                   ),
@@ -101,7 +106,9 @@ class GamePopupDialog extends StatelessWidget {
                       backgroundColor: colors.primary,
                       foregroundColor: colors.onPrimary,
                       textStyle: text.titleSmall,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     child: Text(confirmText),
                   ),

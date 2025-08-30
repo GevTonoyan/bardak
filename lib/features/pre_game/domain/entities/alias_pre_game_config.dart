@@ -2,17 +2,9 @@ import 'dart:convert';
 
 import 'package:boardify/alias_constants.dart';
 
-/// AliasPreGameConfig is a data class that holds the configuration settings for the Alias game.
+/// AliasPreGameConfig is a data class that holds the configuration
+/// settings for the Alias game.
 class AliasPreGameEntity {
-  final GameMode gameMode;
-  final int roundDuration;
-  final int pointsToWin;
-  final bool soundEnabled;
-  final int wordsPerCard;
-  final bool allowSkipping;
-  final bool penaltyForSkipping;
-  final List<String> teamNames;
-
   const AliasPreGameEntity({
     required this.gameMode,
     required this.roundDuration,
@@ -24,8 +16,22 @@ class AliasPreGameEntity {
     required this.teamNames,
   });
 
-  factory AliasPreGameEntity.initial() {
+  factory AliasPreGameEntity.fromJson(String json) {
+    final data = jsonDecode(json) as Map<String, dynamic>;
     return AliasPreGameEntity(
+      gameMode: GameMode.fromString(data[AliasConstants.gameModeKey]),
+      roundDuration: data[AliasConstants.roundDurationKey] as int,
+      pointsToWin: data[AliasConstants.pointsToWinKey] as int,
+      soundEnabled: data[AliasConstants.soundEnabledKey] as bool,
+      wordsPerCard: data[AliasConstants.wordsPerCardKey] as int,
+      allowSkipping: data[AliasConstants.allowSkippingKey] as bool,
+      penaltyForSkipping: data[AliasConstants.penaltyForSkippingKey] as bool,
+      teamNames: List<String>.from(data[AliasConstants.teamNamesKey] as List),
+    );
+  }
+
+  factory AliasPreGameEntity.initial() {
+    return const AliasPreGameEntity(
       roundDuration: AliasConstants.defaultRoundDuration,
       pointsToWin: AliasConstants.defaultPointsToWin,
       soundEnabled: true,
@@ -36,6 +42,15 @@ class AliasPreGameEntity {
       teamNames: ['Team 1', 'Team 2'],
     );
   }
+
+  final GameMode gameMode;
+  final int roundDuration;
+  final int pointsToWin;
+  final bool soundEnabled;
+  final int wordsPerCard;
+  final bool allowSkipping;
+  final bool penaltyForSkipping;
+  final List<String> teamNames;
 
   AliasPreGameEntity copyWith({
     GameMode? gameMode,
@@ -60,7 +75,7 @@ class AliasPreGameEntity {
   }
 
   String toJson() {
-    final Map<String, dynamic> data = {
+    final data = <String, dynamic>{
       AliasConstants.gameModeKey: gameMode.toString(),
       AliasConstants.roundDurationKey: roundDuration,
       AliasConstants.pointsToWinKey: pointsToWin,
@@ -74,23 +89,16 @@ class AliasPreGameEntity {
     return jsonEncode(data);
   }
 
-  static AliasPreGameEntity fromJson(String json) {
-    final Map<String, dynamic> data = jsonDecode(json);
-    return AliasPreGameEntity(
-      gameMode: GameMode.fromString(data[AliasConstants.gameModeKey]),
-      roundDuration: data[AliasConstants.roundDurationKey] as int,
-      pointsToWin: data[AliasConstants.pointsToWinKey] as int,
-      soundEnabled: data[AliasConstants.soundEnabledKey] as bool,
-      wordsPerCard: data[AliasConstants.wordsPerCardKey] as int,
-      allowSkipping: data[AliasConstants.allowSkippingKey] as bool,
-      penaltyForSkipping: data[AliasConstants.penaltyForSkippingKey] as bool,
-      teamNames: List<String>.from(data[AliasConstants.teamNamesKey] as List),
-    );
-  }
-
   @override
   String toString() {
-    return 'AliasPreGameConfig(gameMode: $gameMode, roundDuration: $roundDuration, pointsToWin: $pointsToWin, soundEnabled: $soundEnabled, wordsPerCard: $wordsPerCard, allowSkipping: $allowSkipping, penaltyForSkipping: $penaltyForSkipping, teamNames: $teamNames)';
+    return 'AliasPreGameEntity{gameMode: $gameMode,'
+        ' roundDuration: $roundDuration,'
+        ' pointsToWin: $pointsToWin,'
+        ' soundEnabled: $soundEnabled,'
+        ' wordsPerCard: $wordsPerCard,'
+        ' allowSkipping: $allowSkipping,'
+        ' penaltyForSkipping: $penaltyForSkipping,'
+        ' teamNames: $teamNames}';
   }
 }
 

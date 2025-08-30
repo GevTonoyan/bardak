@@ -7,63 +7,63 @@ sealed class PreGameEvent {
 
 /// Event to get the alias pre game config.
 class GetPreGameConfig extends PreGameEvent {
-  final List<String> teamNames;
-
   const GetPreGameConfig({required this.teamNames});
+
+  final List<String> teamNames;
 }
 
 /// Change game mode event.
 class ChangeGameModeEvent extends PreGameEvent {
-  final GameMode gameMode;
-
   const ChangeGameModeEvent(this.gameMode);
+
+  final GameMode gameMode;
 }
 
 /// Change round duration event.
 class ChangeRoundDurationEvent extends PreGameEvent {
-  final int roundDuration;
-
   const ChangeRoundDurationEvent(this.roundDuration);
+
+  final int roundDuration;
 }
 
 /// Change points to win event.
 class ChangePointsToWinEvent extends PreGameEvent {
-  final int pointsToWin;
-
   const ChangePointsToWinEvent(this.pointsToWin);
+
+  final int pointsToWin;
 }
 
 ///  Change words per card event.
 class ChangeWordsPerCardEvent extends PreGameEvent {
-  final int wordsPerCard;
-
   const ChangeWordsPerCardEvent(this.wordsPerCard);
+
+  final int wordsPerCard;
 }
 
 /// Change allow skipping event.
 class ChangeAllowSkippingEvent extends PreGameEvent {
-  final bool allowSkipping;
+  const ChangeAllowSkippingEvent({required this.allowSkipping});
 
-  const ChangeAllowSkippingEvent(this.allowSkipping);
+  final bool allowSkipping;
 }
 
 /// Change penalty for skipping event.
 class ChangePenaltyForSkippingEvent extends PreGameEvent {
-  final bool penaltyForSkipping;
+  const ChangePenaltyForSkippingEvent({required this.penaltyForSkipping});
 
-  const ChangePenaltyForSkippingEvent(this.penaltyForSkipping);
+  final bool penaltyForSkipping;
 }
 
 /// Add new team event.
 class AddTeamEvent extends PreGameEvent {
-  final String teamName;
-
   const AddTeamEvent(this.teamName);
+
+  final String teamName;
 }
 
 /// Remove team event.
 class RemoveTeamEvent extends PreGameEvent {
-  final int index;
-
   const RemoveTeamEvent(this.index);
+
+  final int index;
 }

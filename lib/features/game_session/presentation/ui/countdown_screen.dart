@@ -1,10 +1,6 @@
 import 'dart:async';
-import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:boardify/features/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class CountdownScreen extends StatefulWidget {
   const CountdownScreen({super.key});
@@ -36,8 +32,8 @@ class _CountdownScreenState extends State<CountdownScreen>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
 
     _opacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
+      begin: 0,
+      end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
     _startCountdown();
@@ -49,8 +45,9 @@ class _CountdownScreenState extends State<CountdownScreen>
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_count > 0) {
         setState(() => _count--);
-        _controller.reset();
-        _controller.forward();
+        _controller
+          ..reset()
+          ..forward();
       } else {
         timer.cancel();
         _handleCountdownFinished();
@@ -77,8 +74,6 @@ class _CountdownScreenState extends State<CountdownScreen>
   Widget build(BuildContext context) {
     final colors = context.appTheme.colors;
 
-    final gameStateEntity = context.read<GameSessionBloc>().state;
-
     return Scaffold(
       body: Center(
         child: AnimatedBuilder(
@@ -91,7 +86,7 @@ class _CountdownScreenState extends State<CountdownScreen>
                 child: Text(
                   _count > 0
                       ? '$_count'
-                      : context.localizations.alias_countdown_go,
+                      : context.l10n.alias_countdown_go,
                   style: TextStyle(
                     fontSize: _count > 0 ? 120 : 50,
                     fontWeight: FontWeight.bold,

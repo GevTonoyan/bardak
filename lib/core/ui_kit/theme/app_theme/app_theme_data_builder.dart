@@ -3,10 +3,10 @@ import 'package:boardify/core/ui_kit/theme/text_styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AppThemeDataBuilder {
-  final AppColors colors;
-  final AppTextStyles textStyles;
 
   AppThemeDataBuilder({required this.colors, required this.textStyles});
+  final AppColors colors;
+  final AppTextStyles textStyles;
 
   ThemeData build() {
     final colorScheme = ColorScheme(

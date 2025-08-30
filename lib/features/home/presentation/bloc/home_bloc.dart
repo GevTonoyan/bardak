@@ -8,18 +8,18 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final AreWordPacksCachedUseCase areWordPacksCached;
-  final FetchAndCacheWordPacksUseCase fetchAndCacheWordPacks;
-  final GetSelectedWordPackNameUseCase getSelectedWordPackName;
-
   HomeBloc({
     required this.fetchAndCacheWordPacks,
     required this.areWordPacksCached,
     required this.getSelectedWordPackName,
-  }) : super(HomeStateInitial()) {
+  }) : super(const HomeStateInitial()) {
     on<InitializeAliasHomeEvent>(_onInitializeAliasHomeEvent);
     on<GetSelectedWordPackNameEvent>(_onGetSelectedWordPackName);
   }
+
+  final AreWordPacksCachedUseCase areWordPacksCached;
+  final FetchAndCacheWordPacksUseCase fetchAndCacheWordPacks;
+  final GetSelectedWordPackNameUseCase getSelectedWordPackName;
 
   Future<void> _onInitializeAliasHomeEvent(
     InitializeAliasHomeEvent event,

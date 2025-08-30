@@ -4,13 +4,6 @@ import 'package:equatable/equatable.dart';
 /// This class represents the settings for the Alias game.
 /// It contains various properties that define the game settings.
 class GameSettingsEntity extends Equatable {
-  final int roundDuration;
-  final int pointsToWin;
-  final bool soundEnabled;
-  final bool allowSkipping;
-  final bool penaltyForSkipping;
-  final int wordsPerCard;
-
   const GameSettingsEntity({
     this.roundDuration = AliasConstants.defaultRoundDuration,
     this.pointsToWin = AliasConstants.defaultPointsToWin,
@@ -21,14 +14,7 @@ class GameSettingsEntity extends Equatable {
   });
 
   factory GameSettingsEntity.initial() {
-    return const GameSettingsEntity(
-      roundDuration: AliasConstants.defaultRoundDuration,
-      pointsToWin: AliasConstants.defaultPointsToWin,
-      soundEnabled: true,
-      allowSkipping: true,
-      penaltyForSkipping: true,
-      wordsPerCard: AliasConstants.defaultWordsPerCard,
-    );
+    return const GameSettingsEntity();
   }
 
   factory GameSettingsEntity.fromPreferences({
@@ -48,6 +34,13 @@ class GameSettingsEntity extends Equatable {
       wordsPerCard: wordsPerCard ?? AliasConstants.defaultWordsPerCard,
     );
   }
+
+  final int roundDuration;
+  final int pointsToWin;
+  final bool soundEnabled;
+  final bool allowSkipping;
+  final bool penaltyForSkipping;
+  final int wordsPerCard;
 
   GameSettingsEntity copyWith({
     int? roundDuration,
@@ -69,7 +62,12 @@ class GameSettingsEntity extends Equatable {
 
   @override
   String toString() {
-    return 'GameSettingsEntity(roundDuration: $roundDuration, pointsToWin: $pointsToWin, soundEnabled: $soundEnabled, allowSkipping: $allowSkipping, skipPenalty: $penaltyForSkipping, wordsPerCard: $wordsPerCard)';
+    return 'GameSettingsEntity(roundDuration: $roundDuration, '
+        'pointsToWin: $pointsToWin, '
+        'soundEnabled: $soundEnabled, '
+        'allowSkipping: $allowSkipping, '
+        'skipPenalty: $penaltyForSkipping, '
+        'wordsPerCard: $wordsPerCard)';
   }
 
   @override

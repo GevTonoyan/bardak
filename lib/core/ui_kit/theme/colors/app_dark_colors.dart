@@ -1,5 +1,5 @@
+import 'package:boardify/core/ui_kit/theme/colors/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
 
 class AppDarkColors implements AppColors {
   @override

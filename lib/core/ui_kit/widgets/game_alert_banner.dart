@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 enum GameAlertType { success, error, warning, info }
 
 class GameAlertBanner extends StatelessWidget {
+  const GameAlertBanner({
+    required this.message,
+    required this.type,
+    super.key,
+    this.onTap,
+  });
+
   final String message;
   final GameAlertType type;
   final VoidCallback? onTap;
-
-  const GameAlertBanner({super.key, required this.message, required this.type, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +49,12 @@ class GameAlertBanner extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
                 ],
-                border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
@@ -58,7 +63,7 @@ class GameAlertBanner extends StatelessWidget {
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: contentColor.withOpacity(0.1),
+                      color: contentColor.withValues(alpha: 0.1),
                     ),
                     child: Icon(icon, size: 24, color: contentColor),
                   ),

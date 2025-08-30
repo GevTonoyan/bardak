@@ -1,12 +1,12 @@
-import 'package:boardify/features/settings/domain/entities/game_settings_entity.dart';
 import 'package:boardify/features/settings/domain/entities/app_settings_entity.dart';
+import 'package:boardify/features/settings/domain/entities/game_settings_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class SettingsState extends Equatable {
+  const SettingsState({required this.appSettings, required this.gameSettings});
+
   final AppSettingsEntity appSettings;
   final GameSettingsEntity gameSettings;
-
-  const SettingsState({required this.appSettings, required this.gameSettings});
 
   SettingsState copyWith({
     AppSettingsEntity? appSettings,

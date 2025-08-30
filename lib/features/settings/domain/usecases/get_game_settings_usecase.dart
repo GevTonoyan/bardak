@@ -2,9 +2,9 @@ import 'package:boardify/features/settings/domain/entities/game_settings_entity.
 import 'package:boardify/features/settings/domain/repositories/settings_repository.dart';
 
 class GetGameSettingsUseCase {
-  final SettingsRepository aliasSettingsRepository;
-
   const GetGameSettingsUseCase(this.aliasSettingsRepository);
+
+  final SettingsRepository aliasSettingsRepository;
 
   GameSettingsEntity call() => aliasSettingsRepository.getGameSettings();
 }

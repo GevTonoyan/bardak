@@ -17,7 +17,7 @@ class PreGameLoadingState extends PreGameState {
 
 /// State when the alias settings are loaded.
 class PreGameLoadedState extends PreGameState {
-  final AliasPreGameEntity preGameConfig;
-
   const PreGameLoadedState(this.preGameConfig);
+
+  final AliasPreGameEntity preGameConfig;
 }

@@ -2,20 +2,20 @@ import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class GameCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final String imageAssetPath;
-  final VoidCallback onTap;
-  final String heroTag;
-
   const GameCard({
-    super.key,
     required this.title,
     required this.description,
     required this.imageAssetPath,
     required this.onTap,
     required this.heroTag,
+    super.key,
   });
+
+  final String title;
+  final String description;
+  final String imageAssetPath;
+  final VoidCallback onTap;
+  final String heroTag;
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +35,22 @@ class GameCard extends StatelessWidget {
             children: [
               Hero(
                 tag: heroTag,
-                child: Image.asset(imageAssetPath, height: 64, width: 64, fit: BoxFit.contain),
+                child: Image.asset(
+                  imageAssetPath,
+                  height: 64,
+                  width: 64,
+                  fit: BoxFit.contain,
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: text.titleMedium.copyWith(color: colors.onSurface)),
+                    Text(
+                      title,
+                      style: text.titleMedium.copyWith(color: colors.onSurface),
+                    ),
                     const SizedBox(height: 8),
                     Text(
                       description,

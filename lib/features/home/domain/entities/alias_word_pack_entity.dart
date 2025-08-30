@@ -1,14 +1,9 @@
 class AliasWordPackEntity {
-  final String id; // e.g., "movies"
-  final String name; // e.g., "🎬 Movies"
-  final String emoji; // e.g., "🧩"
-  final List<String> words;
-
   const AliasWordPackEntity({
     required this.id,
     required this.name,
-    this.emoji = '🧩',
     required this.words,
+    this.emoji = '🧩',
   });
 
   /// Creates an AliasWordPackEntity from Firestore JSON-like map.
@@ -23,4 +18,9 @@ class AliasWordPackEntity {
       words: List<String>.from(json['words'] ?? const []),
     );
   }
+
+  final String id; // e.g., "movies"
+  final String name; // e.g., "🎬 Movies"
+  final String emoji; // e.g., "🧩"
+  final List<String> words;
 }

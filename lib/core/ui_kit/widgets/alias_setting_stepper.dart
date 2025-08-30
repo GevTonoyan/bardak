@@ -4,20 +4,20 @@ import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class AliasSettingStepper extends StatefulWidget {
-  final String label;
-  final int value;
-  final int min;
-  final int max;
-  final void Function(int value, {bool persist}) onChanged;
-
   const AliasSettingStepper({
-    super.key,
     required this.label,
     required this.value,
     required this.min,
     required this.max,
     required this.onChanged,
+    super.key,
   });
+
+  final String label;
+  final int value;
+  final int min;
+  final int max;
+  final void Function(int value, {bool persist}) onChanged;
 
   @override
   State<AliasSettingStepper> createState() => _SettingStepperState();
@@ -61,8 +61,8 @@ class _SettingStepperState extends State<AliasSettingStepper> {
     final text = context.appTheme.typography;
     final colors = context.appTheme.colors;
 
-    final bool canDecrement = widget.value > widget.min;
-    final bool canIncrement = widget.value < widget.max;
+    final canDecrement = widget.value > widget.min;
+    final canIncrement = widget.value < widget.max;
 
     return Card(
       child: Padding(

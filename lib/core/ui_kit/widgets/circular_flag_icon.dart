@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CircularFlagIcon extends StatelessWidget {
+  const CircularFlagIcon({required this.assetPath, super.key, this.size = 28});
+
   final String assetPath;
   final double size;
-
-  const CircularFlagIcon({super.key, required this.assetPath, this.size = 28});
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,13 @@
+import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/router/app_router.dart';
+import 'package:boardify/core/ui_kit/widgets/app_loader.dart';
+import 'package:boardify/core/ui_kit/widgets/game_popup_dialog.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:boardify/features/round/domain/card_round_entity.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:flutter/material.dart';
-import 'package:boardify/core/ui_kit/widgets/app_loader.dart';
-import 'package:boardify/core/ui_kit/widgets/game_popup_dialog.dart';
 
 class RoundOverviewScreen extends StatelessWidget {
   const RoundOverviewScreen({super.key});
@@ -39,7 +39,7 @@ class RoundOverviewScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        context.localizations.alias_roundOverview_teamTurn(
+                        context.l10n.alias_roundOverview_teamTurn(
                           gameState.teamStates[gameState.currentTeamIndex].name,
                         ),
                         style: text.titleLarge.copyWith(
@@ -56,14 +56,14 @@ class RoundOverviewScreen extends StatelessWidget {
                           context: context,
                           title:
                               context
-                                  .localizations
+                                  .l10n
                                   .alias_roundOverview_confirmExit_title,
                           message:
                               context
-                                  .localizations
+                                  .l10n
                                   .alias_roundOverview_confirmExit_message,
-                          confirmText: context.localizations.general_yes,
-                          cancelText: context.localizations.general_no,
+                          confirmText: context.l10n.general_yes,
+                          cancelText: context.l10n.general_no,
                           onConfirm: () => context.pop(),
                         );
                       },
@@ -132,17 +132,16 @@ class RoundOverviewScreen extends StatelessWidget {
                       final gameSession =
                           (bloc.state as GameSessionLoaded).gameState;
 
-                      final roundResult = await context.pushNamed(
+                      await context.pushNamed(
                         RouteNames.cardRound,
                         extra: CardRoundEntity(
                           roundDuration: gameSession.roundDuration,
                           wordsPerCard: gameSession.wordsPerCard,
                         ),
                       );
-                      print(roundResult);
                     },
                     icon: const Icon(Icons.play_arrow),
-                    label: Text(context.localizations.general_startGame),
+                    label: Text(context.l10n.general_startGame),
                   ),
                 ),
               ],
@@ -155,9 +154,9 @@ class RoundOverviewScreen extends StatelessWidget {
 }
 
 class _TeamScoreCard extends StatefulWidget {
-  final AliasTeamStateEntity team;
-
   const _TeamScoreCard({required this.team});
+
+  final AliasTeamStateEntity team;
 
   @override
   State<_TeamScoreCard> createState() => _TeamScoreCardState();
@@ -206,12 +205,12 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
           ),
           const SizedBox(height: 4),
           Text(
-            context.localizations.alias_roundOverview_point(team.totalScore),
+            context.l10n.alias_roundOverview_point(team.totalScore),
             style: text.titleLarge,
           ),
           const SizedBox(height: 8),
           Text(
-            context.localizations.alias_roundOverview_roundScores,
+            context.l10n.alias_roundOverview_roundScores,
             style: text.labelMedium,
           ),
           const SizedBox(height: 4),
@@ -226,8 +225,8 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: Text(
-                    '• ${context.localizations.alias_round} ${roundIndex + 1}: '
-                    '${context.localizations.alias_roundOverview_point(roundScore)}',
+                    '• ${context.l10n.alias_round} ${roundIndex + 1}: '
+                    '${context.l10n.alias_roundOverview_point(roundScore)}',
                     style:
                         isLast
                             ? text.bodySmall.copyWith(

@@ -14,14 +14,14 @@ class AliasRulesScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(context.localizations.alias_rulesTitle, style: text.titleLarge),
+          title: Text(context.l10n.alias_rulesTitle, style: text.titleLarge),
           bottom: TabBar(
             indicatorColor: colors.primary,
             labelColor: colors.primary,
             unselectedLabelColor: colors.onSurface.withValues(alpha: 0.6),
             tabs: [
-              Tab(text: context.localizations.alias_mode1),
-              Tab(text: context.localizations.alias_mode2),
+              Tab(text: context.l10n.alias_mode1),
+              Tab(text: context.l10n.alias_mode2),
             ],
           ),
         ),
@@ -29,22 +29,22 @@ class AliasRulesScreen extends StatelessWidget {
           children: [
             _RuleList(
               rules: [
-                context.localizations.alias_singleModeRule1,
-                context.localizations.alias_singleModeRule2,
-                context.localizations.alias_singleModeRule3,
-                context.localizations.alias_singleModeRule4,
-                context.localizations.alias_singleModeRule5,
-                context.localizations.alias_singleModeRule6,
+                context.l10n.alias_singleModeRule1,
+                context.l10n.alias_singleModeRule2,
+                context.l10n.alias_singleModeRule3,
+                context.l10n.alias_singleModeRule4,
+                context.l10n.alias_singleModeRule5,
+                context.l10n.alias_singleModeRule6,
               ],
             ),
             _RuleList(
               rules: [
-                context.localizations.alias_cardModeRule1,
-                context.localizations.alias_cardModeRule2,
-                context.localizations.alias_cardModeRule3,
-                context.localizations.alias_cardModeRule4,
-                context.localizations.alias_cardModeRule5,
-                context.localizations.alias_cardModeRule6,
+                context.l10n.alias_cardModeRule1,
+                context.l10n.alias_cardModeRule2,
+                context.l10n.alias_cardModeRule3,
+                context.l10n.alias_cardModeRule4,
+                context.l10n.alias_cardModeRule5,
+                context.l10n.alias_cardModeRule6,
               ],
             ),
           ],
@@ -55,9 +55,9 @@ class AliasRulesScreen extends StatelessWidget {
 }
 
 class _RuleList extends StatelessWidget {
-  final List<String> rules;
-
   const _RuleList({required this.rules});
+
+  final List<String> rules;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _RuleList extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.all(24),
       itemCount: rules.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         return Container(
           decoration: BoxDecoration(
@@ -88,7 +88,10 @@ class _RuleList extends StatelessWidget {
               Text(_emojiBullet(index), style: const TextStyle(fontSize: 20)),
               const SizedBox(width: 12),
               Expanded(
-                child: Text(rules[index], style: text.bodyMedium.copyWith(color: colors.onSurface)),
+                child: Text(
+                  rules[index],
+                  style: text.bodyMedium.copyWith(color: colors.onSurface),
+                ),
               ),
             ],
           ),

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class NeumorphicToggle extends StatelessWidget {
+  const NeumorphicToggle({
+    required this.options,
+    required this.selectedIndex,
+    required this.onChanged,
+    super.key,
+    this.height = 48,
+  });
+
   final List<String> options;
   final int selectedIndex;
   final void Function(int) onChanged;
   final double height;
-
-  const NeumorphicToggle({
-    super.key,
-    required this.options,
-    required this.selectedIndex,
-    required this.onChanged,
-    this.height = 48,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,10 @@ class NeumorphicToggle extends StatelessWidget {
                 child: Text(
                   options[i],
                   style: theme.textTheme.labelLarge!.copyWith(
-                    color: selected ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface,
+                    color:
+                        selected
+                            ? theme.colorScheme.onPrimary
+                            : theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

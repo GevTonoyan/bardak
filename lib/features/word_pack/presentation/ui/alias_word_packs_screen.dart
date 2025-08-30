@@ -1,9 +1,7 @@
-
-import 'package:boardify/features/word_pack/presentation/bloc/alias_word_packs_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/features/word_pack/presentation/bloc/alias_word_packs_bloc.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AliasWordPackScreen extends StatefulWidget {
   const AliasWordPackScreen({super.key});
@@ -16,7 +14,9 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<AliasWordPacksBloc>().add(LoadWordPacks(context.locale.languageCode));
+    context.read<AliasWordPacksBloc>().add(
+      LoadWordPacks(context.locale.languageCode),
+    );
   }
 
   @override
@@ -25,7 +25,7 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
     final colors = context.appTheme.colors;
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.localizations.alias_wordPack)),
+      appBar: AppBar(title: Text(context.l10n.alias_wordPack)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -39,10 +39,14 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.error_outline, color: colors.error, size: 48),
+                        Icon(
+                          Icons.error_outline,
+                          color: colors.error,
+                          size: 48,
+                        ),
                         const SizedBox(height: 16),
                         Text(
-                          context.localizations.alias_word_packs_fail,
+                          context.l10n.alias_word_packs_fail,
                           style: text.titleMedium.copyWith(color: colors.error),
                           textAlign: TextAlign.center,
                         ),
@@ -74,7 +78,10 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
                             context.read<AliasWordPacksBloc>().add(
                               SelectWordPack(
                                 packId: pack.id,
-                                localeCode: Localizations.localeOf(context).languageCode,
+                                localeCode:
+                                    Localizations.localeOf(
+                                      context,
+                                    ).languageCode,
                               ),
                             );
                           },
@@ -106,13 +113,6 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
 }
 
 class _PackCard extends StatelessWidget {
-  final String packName;
-  final String emoji;
-  final Color startColor;
-  final Color endColor;
-  final bool isSelected;
-  final VoidCallback onTap;
-
   const _PackCard({
     required this.packName,
     required this.emoji,
@@ -121,6 +121,13 @@ class _PackCard extends StatelessWidget {
     required this.onTap,
     this.isSelected = false,
   });
+
+  final String packName;
+  final String emoji;
+  final Color startColor;
+  final Color endColor;
+  final bool isSelected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +167,10 @@ class _PackCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               packName,
-              style: text.titleMedium.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              style: text.titleMedium.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
           ],

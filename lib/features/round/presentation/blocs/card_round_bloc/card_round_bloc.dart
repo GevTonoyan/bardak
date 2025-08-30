@@ -14,7 +14,7 @@ class CardRoundBloc extends Bloc<CardRoundEvent, CardRoundState> {
   void _onToggleWord(ToggleWord event, Emitter<CardRoundState> emit) {
     final guessed = {...state.guessed};
 
-    // Fast path: UNSELECT → we already know the card isn't "all guessed" anymore
+    // UNSELECT → we already know the card isn't "all guessed" anymore
     if (!event.isSelected) {
       guessed.remove(event.word);
       emit(state.copyWith(guessed: guessed));

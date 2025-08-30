@@ -2,17 +2,7 @@ import 'package:boardify/core/localizations/common/supported_locales.dart';
 import 'package:equatable/equatable.dart';
 
 class AppSettingsEntity extends Equatable {
-  final bool isDarkMode;
-  final AppLocales locale;
-
   const AppSettingsEntity({required this.isDarkMode, required this.locale});
-
-  AppSettingsEntity copyWith({bool? isDarkMode, AppLocales? locale}) {
-    return AppSettingsEntity(
-      isDarkMode: isDarkMode ?? this.isDarkMode,
-      locale: locale ?? this.locale,
-    );
-  }
 
   factory AppSettingsEntity.fromPreferences({
     String? locale,
@@ -25,7 +15,17 @@ class AppSettingsEntity extends Equatable {
   }
 
   factory AppSettingsEntity.defaultSettings() {
-    return AppSettingsEntity(isDarkMode: false, locale: AppLocales.en);
+    return const AppSettingsEntity(isDarkMode: false, locale: AppLocales.en);
+  }
+
+  final bool isDarkMode;
+  final AppLocales locale;
+
+  AppSettingsEntity copyWith({bool? isDarkMode, AppLocales? locale}) {
+    return AppSettingsEntity(
+      isDarkMode: isDarkMode ?? this.isDarkMode,
+      locale: locale ?? this.locale,
+    );
   }
 
   @override

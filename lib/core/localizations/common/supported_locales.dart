@@ -48,11 +48,11 @@ enum AppLocales {
   String name(BuildContext context) {
     switch (this) {
       case AppLocales.en:
-        return context.localizations.settings_localeEnglish;
+        return context.l10n.settings_localeEnglish;
       case AppLocales.ru:
-        return context.localizations.settings_localeRussian;
+        return context.l10n.settings_localeRussian;
       case AppLocales.am:
-        return context.localizations.settings_localeArmenian;
+        return context.l10n.settings_localeArmenian;
     }
   }
 

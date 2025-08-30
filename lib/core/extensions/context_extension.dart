@@ -9,9 +9,7 @@ extension ContextExtension on BuildContext {
     return result;
   }
 
-  AppLocalizations get localizations => AppLocalizations.of(this);
-
   AppLocalizations get l10n => AppLocalizations.of(this);
 
-  Locale get locale => localizations.locale;
+  Locale get locale => l10n.locale;
 }

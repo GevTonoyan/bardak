@@ -12,7 +12,7 @@ enum Locales {
   final Locale locale;
 }
 
-final l10n = GlobalAppLocalizations.appLocalizations;
+final AppLocalizations l10n = GlobalAppLocalizations.appLocalizations;
 
 abstract class GlobalAppLocalizations {
   const GlobalAppLocalizations();
@@ -21,7 +21,7 @@ abstract class GlobalAppLocalizations {
   static List<Locale> supportedLocales = AppLocalizations.supportedLocales;
 
   static final _defaultAppLocalizations = AppLocalizationsEn();
-  static final _defaultFallbackLocale = Locales.en.locale;
+  static final Locale _defaultFallbackLocale = Locales.en.locale;
 
   /// Load locale without [BuildContext]
   static Future<void> _loadLocale(Locale? locale) async {

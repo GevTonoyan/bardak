@@ -1,12 +1,12 @@
 import 'package:boardify/alias_constants.dart';
+import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/features/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/features/pre_game/presentation/ui/pre_game_screen.dart';
 import 'package:boardify/features/settings/presentation/ui/settings_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,8 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final bloc = context.read<HomeBloc>();
-    bloc.add(InitializeAliasHomeEvent(locale: context.locale.languageCode));
+    context.read<HomeBloc>().add(
+      InitializeAliasHomeEvent(locale: context.locale.languageCode),
+    );
   }
 
   @override
@@ -82,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? null
                             : () => context.goNamed(PreGameScreen.routePath),
                     icon: const Icon(Icons.play_arrow),
-                    label: Text(context.localizations.general_startGame),
+                    label: Text(context.l10n.general_startGame),
                   ),
                   const SizedBox(height: 12),
 
@@ -130,7 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  '${context.localizations.alias_failedLoadWords} ${context.localizations.general_checkInternet}',
+                                  '${context.l10n.alias_failedLoadWords}'
+                                  ' ${context.l10n.general_checkInternet}',
                                   style: textStyles.bodyMedium.copyWith(
                                     color: colors.error,
                                     fontWeight: FontWeight.w600,
@@ -150,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             icon: Icon(Icons.refresh, color: colors.onPrimary),
                             label: Text(
-                              context.localizations.general_tryAgain,
+                              context.l10n.general_tryAgain,
                               style: textStyles.labelLarge.copyWith(
                                 color: colors.onPrimary,
                               ),
@@ -183,11 +185,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final selectedWordPackName =
         (state is HomeStateLoaded ? state.selectedWordPackName : '') ?? '';
 
-    final sb = StringBuffer();
-    sb.write(context.localizations.alias_wordPack);
+    final sb = StringBuffer()..write(context.l10n.alias_wordPack);
     if (selectedWordPackName.isNotEmpty) {
-      sb.write(' • ');
-      sb.write(selectedWordPackName);
+      sb
+        ..write(' • ')
+        ..write(selectedWordPackName);
     }
 
     return sb.toString();
@@ -195,16 +197,16 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class GameModeSelector extends StatelessWidget {
-  final int selectedIndex;
-  final void Function(int) onChanged;
-  final List<String> modes;
-
   const GameModeSelector({
-    super.key,
     required this.selectedIndex,
     required this.onChanged,
     required this.modes,
+    super.key,
   });
+
+  final int selectedIndex;
+  final void Function(int) onChanged;
+  final List<String> modes;
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +215,6 @@ class GameModeSelector extends StatelessWidget {
     final textStyles = theme.typography;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: List.generate(modes.length, (i) {
         final isSelected = selectedIndex == i;
 

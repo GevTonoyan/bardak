@@ -7,15 +7,15 @@ sealed class AliasWordPacksEvent {
 
 /// Loads all available word packs from the local cache.
 class LoadWordPacks extends AliasWordPacksEvent {
-  final String localeCode;
-
   const LoadWordPacks(this.localeCode);
+
+  final String localeCode;
 }
 
 /// Sets the selected word pack ID in preferences.
 class SelectWordPack extends AliasWordPacksEvent {
+  const SelectWordPack({required this.packId, required this.localeCode});
+
   final String packId;
   final String localeCode;
-
-  const SelectWordPack({required this.packId, required this.localeCode});
 }

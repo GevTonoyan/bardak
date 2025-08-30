@@ -1,22 +1,18 @@
 import 'dart:async';
+
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/constants.dart';
+import 'package:boardify/features/settings/domain/entities/app_settings_entity.dart';
 import 'package:boardify/features/settings/domain/entities/game_settings_entity.dart';
+import 'package:boardify/features/settings/domain/usecases/get_app_settings_usecase.dart';
 import 'package:boardify/features/settings/domain/usecases/get_game_settings_usecase.dart';
+import 'package:boardify/features/settings/domain/usecases/update_app_settings_usecase.dart';
 import 'package:boardify/features/settings/domain/usecases/update_game_settings_usecase.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
-import 'package:boardify/features/settings/domain/usecases/get_app_settings_usecase.dart';
-import 'package:boardify/features/settings/domain/entities/app_settings_entity.dart';
-import 'package:boardify/features/settings/domain/usecases/update_app_settings_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  final GetGameSettingsUseCase getGameSettingsUseCase;
-  final UpdateGameSettingSUseCase updateAliasSettingUseCase;
-  final GetAppSettingsUseCase getAppSettingsUseCase;
-  final UpdateAppSettingsUseCase updateAppSettingsUseCase;
-
   SettingsBloc({
     required this.getGameSettingsUseCase,
     required this.updateAliasSettingUseCase,
@@ -40,6 +36,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<ChangeTheme>(_changeTheme);
     on<ChangeLocale>(_changeLocale);
   }
+
+  final GetGameSettingsUseCase getGameSettingsUseCase;
+  final UpdateGameSettingSUseCase updateAliasSettingUseCase;
+  final GetAppSettingsUseCase getAppSettingsUseCase;
+  final UpdateAppSettingsUseCase updateAppSettingsUseCase;
 
   FutureOr<void> _onGetSettings(
     GetSettings event,
@@ -89,9 +90,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     try {
       final settings = getGameSettingsUseCase();
       emit(state.copyWith(gameSettings: settings));
-    } on Exception catch (e) {
-      //TODO create error handler and logger
-      print('Error fetching settings: $e');
+    } on Exception catch (_) {
+      // TODO(Gevorg): create error handler and logger
     }
   }
 

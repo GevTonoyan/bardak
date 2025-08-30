@@ -6,16 +6,16 @@ import 'package:boardify/features/word_pack/domain/repositories/word_packs_repos
 import 'package:boardify/features/word_pack/domain/usecases/get_word_packs_usecase.dart';
 import 'package:boardify/features/word_pack/domain/usecases/set_selected_word_pack_usecase.dart';
 
-
-
 /// Implementation of the [WordPacksRepository] interface.
 class WordPacksRepositoryImpl implements WordPacksRepository {
-  final WordPacksLocalDataSource localDataSource;
-
   const WordPacksRepositoryImpl({required this.localDataSource});
 
+  final WordPacksLocalDataSource localDataSource;
+
   @override
-  Future<AliasWordPackInfoResultEntity> getWordPacks(GetWordPacksParams params) {
+  Future<AliasWordPackInfoResultEntity> getWordPacks(
+    GetWordPacksParams params,
+  ) {
     return localDataSource.getWordPacks(params);
   }
 
