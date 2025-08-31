@@ -4,9 +4,9 @@ import 'package:boardify/alias_constants.dart';
 import 'package:boardify/features/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:boardify/features/word_pack/domain/usecases/get_word_packs_usecase.dart';
 import 'package:boardify/features/word_pack/domain/usecases/set_selected_word_pack_usecase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for accessing and storing word pack information.
 abstract interface class WordPacksLocalDataSource {

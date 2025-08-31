@@ -2,9 +2,9 @@ import 'package:boardify/alias_constants.dart';
 import 'package:boardify/features/home/domain/entities/alias_word_pack_entity.dart';
 import 'package:boardify/features/home/domain/usecases/are_word_packs_cached_usecase.dart';
 import 'package:boardify/features/home/domain/usecases/get_selected_word_pack_name_usecase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Handles caching and reading data locally using Hive.
 abstract interface class HomeLocalDataSource {
@@ -20,9 +20,9 @@ abstract interface class HomeLocalDataSource {
 
 /// Implementation of [HomeLocalDataSource] using Hive for local storage.
 class HomeLocalDataSourceImpl implements HomeLocalDataSource {
-  final SharedPreferences preferences;
 
   const HomeLocalDataSourceImpl({required this.preferences});
+  final SharedPreferences preferences;
 
   @override
   Future<bool> arePacksPresentInHive(AreWordPacksCachedParams params) async {

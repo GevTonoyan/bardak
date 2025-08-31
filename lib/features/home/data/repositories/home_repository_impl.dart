@@ -7,13 +7,13 @@ import 'package:boardify/features/home/domain/usecases/get_selected_word_pack_na
 
 /// AliasMainRepositoryImpl is the implementation of the [HomeRepository]
 class HomeRepositoryImpl implements HomeRepository {
-  final HomeRemoteDataSource remoteDataSource;
-  final HomeLocalDataSource localDataSource;
 
   const HomeRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,
   });
+  final HomeRemoteDataSource remoteDataSource;
+  final HomeLocalDataSource localDataSource;
 
   @override
   Future<bool> areWordPacksCached(AreWordPacksCachedParams params) {
