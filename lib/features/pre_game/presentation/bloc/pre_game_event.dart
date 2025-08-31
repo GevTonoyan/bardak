@@ -19,7 +19,7 @@ class ChangeGameModeEvent extends PreGameEvent {
   final GameMode gameMode;
 }
 
-/// Change round duration event.
+/// Change card_round duration event.
 class ChangeRoundDurationEvent extends PreGameEvent {
   const ChangeRoundDurationEvent(this.roundDuration);
 

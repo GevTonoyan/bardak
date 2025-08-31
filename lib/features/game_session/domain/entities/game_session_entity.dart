@@ -46,7 +46,7 @@ class AliasTeamStateEntity {
 
   final String name;
 
-  /// Score for each round (index matches round number)
+  /// Score for each card_round (index matches card_round number)
   final List<int> roundScores;
 
   int get totalScore => roundScores.fold(0, (sum, score) => sum + score);

@@ -32,7 +32,7 @@ class SingleWordRoundBloc
         state.penaltyForSkipping ? max(0, state.score - 1) : state.score,
     };
 
-    final completed = state.index >= state.words.length-1;
+    final completed = state.index >= state.words.length - 1;
 
     emit(
       state.copyWith(
