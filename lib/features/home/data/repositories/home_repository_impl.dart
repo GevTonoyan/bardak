@@ -7,7 +7,6 @@ import 'package:boardify/features/home/domain/usecases/get_selected_word_pack_na
 
 /// AliasMainRepositoryImpl is the implementation of the [HomeRepository]
 class HomeRepositoryImpl implements HomeRepository {
-
   const HomeRepositoryImpl({
     required this.remoteDataSource,
     required this.localDataSource,

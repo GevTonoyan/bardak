@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  '${context.l10n.alias_failedLoadWords}'
+                                  '${context.l10n.failedLoadWords}'
                                   ' ${context.l10n.general_checkInternet}',
                                   style: typography.bodyMedium.copyWith(
                                     color: colors.error,
@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final selectedWordPackName =
         (state is HomeStateLoaded ? state.selectedWordPackName : '') ?? '';
 
-    final sb = StringBuffer()..write(context.l10n.alias_wordPack);
+    final sb = StringBuffer()..write(context.l10n.wordPack);
     if (selectedWordPackName.isNotEmpty) {
       sb
         ..write(' • ')

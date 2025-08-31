@@ -37,7 +37,7 @@ class RoundOverviewScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        context.l10n.alias_roundOverview_teamTurn(
+                        context.l10n.roundOverview_teamTurn(
                           gameState.teamStates[gameState.currentTeamIndex].name,
                         ),
                         style: text.titleLarge.copyWith(
@@ -52,14 +52,9 @@ class RoundOverviewScreen extends StatelessWidget {
                       onPressed: () {
                         showGamePopupDialog(
                           context: context,
-                          title:
-                              context
-                                  .l10n
-                                  .alias_roundOverview_confirmExit_title,
+                          title: context.l10n.roundOverview_confirmExit_title,
                           message:
-                              context
-                                  .l10n
-                                  .alias_roundOverview_confirmExit_message,
+                              context.l10n.roundOverview_confirmExit_message,
                           confirmText: context.l10n.general_yes,
                           cancelText: context.l10n.general_no,
                           onConfirm: () => context.pop(),
@@ -211,12 +206,12 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
           ),
           const SizedBox(height: 4),
           Text(
-            context.l10n.alias_roundOverview_point(team.totalScore),
+            context.l10n.roundOverview_point(team.totalScore),
             style: typography.titleLarge,
           ),
           const SizedBox(height: 8),
           Text(
-            context.l10n.alias_roundOverview_roundScores,
+            context.l10n.roundOverview_roundScores,
             style: typography.labelMedium,
           ),
           const SizedBox(height: 4),
@@ -231,8 +226,8 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: Text(
-                    '• ${context.l10n.alias_round} ${roundIndex + 1}: '
-                    '${context.l10n.alias_roundOverview_point(roundScore)}',
+                    '• ${context.l10n.round} ${roundIndex + 1}: '
+                    '${context.l10n.roundOverview_point(roundScore)}',
                     style:
                         isLast
                             ? typography.bodySmall.copyWith(

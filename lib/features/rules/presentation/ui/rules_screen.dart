@@ -14,17 +14,14 @@ class RulesScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            context.l10n.alias_rulesTitle,
-            style: typography.titleLarge,
-          ),
+          title: Text(context.l10n.rulesTitle, style: typography.titleLarge),
           bottom: TabBar(
             indicatorColor: colors.primary,
             labelColor: colors.primary,
             unselectedLabelColor: colors.onSurface.withValues(alpha: 0.6),
             tabs: [
-              Tab(text: context.l10n.alias_mode1),
-              Tab(text: context.l10n.alias_mode2),
+              Tab(text: context.l10n.mode1),
+              Tab(text: context.l10n.mode2),
             ],
           ),
         ),
@@ -32,22 +29,22 @@ class RulesScreen extends StatelessWidget {
           children: [
             _RuleList(
               rules: [
-                context.l10n.alias_singleModeRule1,
-                context.l10n.alias_singleModeRule2,
-                context.l10n.alias_singleModeRule3,
-                context.l10n.alias_singleModeRule4,
-                context.l10n.alias_singleModeRule5,
-                context.l10n.alias_singleModeRule6,
+                context.l10n.singleModeRule1,
+                context.l10n.singleModeRule2,
+                context.l10n.singleModeRule3,
+                context.l10n.singleModeRule4,
+                context.l10n.singleModeRule5,
+                context.l10n.singleModeRule6,
               ],
             ),
             _RuleList(
               rules: [
-                context.l10n.alias_cardModeRule1,
-                context.l10n.alias_cardModeRule2,
-                context.l10n.alias_cardModeRule3,
-                context.l10n.alias_cardModeRule4,
-                context.l10n.alias_cardModeRule5,
-                context.l10n.alias_cardModeRule6,
+                context.l10n.cardModeRule1,
+                context.l10n.cardModeRule2,
+                context.l10n.cardModeRule3,
+                context.l10n.cardModeRule4,
+                context.l10n.cardModeRule5,
+                context.l10n.cardModeRule6,
               ],
             ),
           ],

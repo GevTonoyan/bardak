@@ -9,18 +9,7 @@ class AppLocalizationsAm extends AppLocalizations {
   AppLocalizationsAm([String locale = 'am']) : super(locale);
 
   @override
-  String get games_________________________________________________ =>
-      'games----------------------------------------------------------------------';
-
-  @override
-  String get games_availableGames => 'Առկա խաղեր';
-
-  @override
-  String get games_aliasDescription => 'Գուշակեք բառերը ձեր թիմի հետ';
-
-  @override
-  String get settings______________________________________________ =>
-      'settings----------------------------------------------------------------------';
+  String get settings______________________________________________ => 'settings----------------------------------------------------------------------';
 
   @override
   String get settings => 'Կարգավորումներ';
@@ -41,132 +30,114 @@ class AppLocalizationsAm extends AppLocalizations {
   String get settings_localeEnglish => 'English';
 
   @override
-  String get alias________________________________________________ =>
-      'alias----------------------------------------------------------------------';
+  String get alias________________________________________________ => 'alias----------------------------------------------------------------------';
 
   @override
-  String get alias_title => 'Ալիաս';
+  String get mode1 => 'Մի բառ';
 
   @override
-  String get alias_mode1 => 'Մի բառ';
+  String get mode2 => 'Քարտի ռեժիմ';
 
   @override
-  String get alias_mode2 => 'Քարտի ռեժիմ';
+  String get singleWordMode => 'Մի բառի ռեժիմ';
 
   @override
-  String get alias_singleWordMode => 'Մի բառի ռեժիմ';
+  String get selectMode => 'Ընտրեք խաղի ռեժիմը';
 
   @override
-  String get alias_selectMode => 'Ընտրեք խաղի ռեժիմը';
+  String get wordPack => 'Բառերի փաթեթ';
 
   @override
-  String get alias_wordPack => 'Բառերի փաթեթ';
+  String get round => 'Ռաունդ';
 
   @override
-  String get alias_round => 'Ռաունդ';
+  String get rulesTitle => 'Կանոնները';
 
   @override
-  String get alias_rulesTitle => 'Ալիասի կանոնները';
+  String get singleModeRule1 => 'Մի խաղացող բացատրում է մեկ բառ';
 
   @override
-  String get alias_singleModeRule1 => 'Մի խաղացող բացատրում է մեկ բառ';
+  String get singleModeRule2 => 'Թիմը փորձում է գուշակել հնարավորինս շատ բառեր, մինչ ժամանակը կավարտվի';
 
   @override
-  String get alias_singleModeRule2 =>
-      'Թիմը փորձում է գուշակել հնարավորինս շատ բառեր, մինչ ժամանակը կավարտվի';
+  String get singleModeRule3 => 'Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ';
 
   @override
-  String get alias_singleModeRule3 =>
-      'Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ';
+  String get singleModeRule4 => 'Թիմակիցները կարող են գուշակել այնքան անգամ, որքան ցանկանում են';
 
   @override
-  String get alias_singleModeRule4 =>
-      'Թիմակիցները կարող են գուշակել այնքան անգամ, որքան ցանկանում են';
+  String get singleModeRule5 => 'Երբ բառը ճիշտ գուշակվում է, նոր բառ է հայտնվում';
 
   @override
-  String get alias_singleModeRule5 =>
-      'Երբ բառը ճիշտ գուշակվում է, նոր բառ է հայտնվում';
+  String get singleModeRule6 => 'Եթե բառը բաց թողնվի, 1 միավոր է հանվում (կարող է փոխվել կարգավորումներում)';
 
   @override
-  String get alias_singleModeRule6 =>
-      'Եթե բառը բաց թողնվի, 1 միավոր է հանվում (կարող է փոխվել կարգավորումներում)';
+  String get cardModeRule1 => 'Բացատրողը ստանում է քարտ, որի վրա մի քանի բառ կա (Սովորաբար 5-7)';
 
   @override
-  String get alias_cardModeRule1 =>
-      'Բացատրողը ստանում է քարտ, որի վրա մի քանի բառ կա (Սովորաբար 5-7)';
+  String get cardModeRule2 => 'Քարտի բոլոր բառերը պետք է գուշակվեն, մինչ ժամանակը կավարտվի';
 
   @override
-  String get alias_cardModeRule2 =>
-      'Քարտի բոլոր բառերը պետք է գուշակվեն, մինչ ժամանակը կավարտվի';
+  String get cardModeRule3 => 'Խաղացողները կարող են գուշակել բառերը ցանկացած հերթականությամբ';
 
   @override
-  String get alias_cardModeRule3 =>
-      'Խաղացողները կարող են գուշակել բառերը ցանկացած հերթականությամբ';
+  String get cardModeRule4 => 'Բաց թողնելը թույլ չի տրվում՝ դուք պետք է գուշակեք քարտի բոլոր բառերը';
 
   @override
-  String get alias_cardModeRule4 =>
-      'Բաց թողնելը թույլ չի տրվում՝ դուք պետք է գուշակեք քարտի բոլոր բառերը';
+  String get cardModeRule5 => 'Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ';
 
   @override
-  String get alias_cardModeRule5 =>
-      'Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ';
+  String get cardModeRule6 => 'Միավորները հաշվարկվում են գուշակված բառերի քանակով';
 
   @override
-  String get alias_cardModeRule6 =>
-      'Միավորները հաշվարկվում են գուշակված բառերի քանակով';
+  String get settings_general => 'Ընդհանուր';
 
   @override
-  String get alias_settings => 'Ալիասի կարգավորումներ';
+  String get settings_roundDuration => 'Ռաունդի տևողությունը (վրկ)';
 
   @override
-  String get alias_settings_general => 'Ընդհանուր';
+  String get settings_pointsToWin => 'Միավորներ հաղթելու համար';
 
   @override
-  String get alias_settings_roundDuration => 'Ռաունդի տևողությունը (վրկ)';
+  String get settings_soundEffects => 'Ձայնային էֆեկտներ';
 
   @override
-  String get alias_settings_pointsToWin => 'Միավորներ հաղթելու համար';
+  String get settings_allowSkipping => 'Թույլ տալ բաց թողնել';
 
   @override
-  String get alias_settings_soundEffects => 'Ձայնային էֆեկտներ';
+  String get settings_penaltyForSkipping => 'Պատիժ բաց թողնելու համար';
 
   @override
-  String get alias_settings_allowSkipping => 'Թույլ տալ բաց թողնել';
+  String get settings_wordsPerCard => 'Քարտի բառերի քանակը';
 
   @override
-  String get alias_settings_penaltyForSkipping => 'Պատիժ բաց թողնելու համար';
+  String get settings_reset => 'Վերականգնել կարգավորումները';
 
   @override
-  String get alias_settings_wordsPerCard => 'Քարտի բառերի քանակը';
+  String get word_packs_fail => 'Բառերի փաթեթները բեռնելը ձախողվեց';
 
   @override
-  String get alias_settings_reset => 'Վերականգնել կարգավորումները';
+  String get failedLoadWords => 'Բառերը բեռնելը ձախողվեց';
 
   @override
-  String get alias_word_packs_fail => 'Բառերի փաթեթները բեռնելը ձախողվեց';
+  String get preGameTitle => 'Պատրաստվեք';
 
   @override
-  String get alias_failedLoadWords => 'Բառերը բեռնելը ձախողվեց';
+  String get preGameTeamSetup => 'Թիմերի կարգավորում';
 
   @override
-  String get alias_preGameTitle => 'Պատրաստվեք';
+  String get preGameTeam => 'Թիմ';
 
   @override
-  String get alias_preGameTeamSetup => 'Թիմերի կարգավորում';
+  String get preGameAddTeam => 'Ավելացնել թիմ';
 
   @override
-  String get alias_preGameTeam => 'Թիմ';
-
-  @override
-  String get alias_preGameAddTeam => 'Ավելացնել թիմ';
-
-  @override
-  String alias_roundOverview_teamTurn(Object teamName) {
+  String roundOverview_teamTurn(Object teamName) {
     return 'Ընթացիկ հերթը՝ $teamName թիմինն է։';
   }
 
   @override
-  String alias_roundOverview_point(num points) {
+  String roundOverview_point(num points) {
     String _temp0 = intl.Intl.pluralLogic(
       points,
       locale: localeName,
@@ -177,21 +148,19 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get alias_roundOverview_roundScores => 'Փուլի միավորներ:';
+  String get roundOverview_roundScores => 'Փուլի միավորներ:';
 
   @override
-  String get alias_roundOverview_confirmExit_title => 'Դուրս գալ խաղից՞';
+  String get roundOverview_confirmExit_title => 'Դուրս գալ խաղից՞';
 
   @override
-  String get alias_roundOverview_confirmExit_message =>
-      'Եթե փակեք այս էջը, խաղի ողջ ընթացքը կկորչի։ Վստա՞հ եք, որ ցանկանում եք դուրս գալ։';
+  String get roundOverview_confirmExit_message => 'Եթե փակեք այս էջը, խաղի ողջ ընթացքը կկորչի։ Վստա՞հ եք, որ ցանկանում եք դուրս գալ։';
 
   @override
-  String get alias_countdown_go => 'Գնացինք!';
+  String get countdown_go => 'Գնացինք!';
 
   @override
-  String get general________________________________________________ =>
-      'general----------------------------------------------------------------------';
+  String get general________________________________________________ => 'general----------------------------------------------------------------------';
 
   @override
   String get general_startGame => 'Սկսել խաղը';

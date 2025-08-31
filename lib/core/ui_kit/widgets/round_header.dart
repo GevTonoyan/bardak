@@ -107,8 +107,8 @@ class _RoundHeaderState extends State<RoundHeader>
             onPressed: () {
               showGamePopupDialog(
                 context: context,
-                title: context.l10n.alias_roundOverview_confirmExit_title,
-                message: context.l10n.alias_roundOverview_confirmExit_message,
+                title: context.l10n.roundOverview_confirmExit_title,
+                message: context.l10n.roundOverview_confirmExit_message,
                 confirmText: context.l10n.general_yes,
                 cancelText: context.l10n.general_no,
                 onConfirm: widget.onRoundComplete,

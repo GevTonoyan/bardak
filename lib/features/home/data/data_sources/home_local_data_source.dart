@@ -20,7 +20,6 @@ abstract interface class HomeLocalDataSource {
 
 /// Implementation of [HomeLocalDataSource] using Hive for local storage.
 class HomeLocalDataSourceImpl implements HomeLocalDataSource {
-
   const HomeLocalDataSourceImpl({required this.preferences});
   final SharedPreferences preferences;
 

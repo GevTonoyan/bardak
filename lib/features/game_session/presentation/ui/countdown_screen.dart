@@ -83,7 +83,7 @@ class _CountdownScreenState extends State<CountdownScreen>
               child: Transform.scale(
                 scale: _scaleAnimation.value,
                 child: Text(
-                  _count > 0 ? '$_count' : context.l10n.alias_countdown_go,
+                  _count > 0 ? '$_count' : context.l10n.countdown_go,
                   style: TextStyle(
                     fontSize: _count > 0 ? 120 : 50,
                     fontWeight: FontWeight.bold,

@@ -28,15 +28,15 @@ class _PreGameScreenState extends State<PreGameScreen> {
     context.read<PreGameBloc>().add(
       GetPreGameConfig(
         teamNames: [
-          '${context.l10n.alias_preGameTeam} 1',
-          '${context.l10n.alias_preGameTeam} 2',
+          '${context.l10n.preGameTeam} 1',
+          '${context.l10n.preGameTeam} 2',
         ],
       ),
     );
 
     _teamControllers
-      ..add(TextEditingController(text: '${context.l10n.alias_preGameTeam} 1'))
-      ..add(TextEditingController(text: '${context.l10n.alias_preGameTeam} 2'));
+      ..add(TextEditingController(text: '${context.l10n.preGameTeam} 1'))
+      ..add(TextEditingController(text: '${context.l10n.preGameTeam} 2'));
   }
 
   @override
@@ -52,7 +52,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
     final bloc = context.read<PreGameBloc>();
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.alias_preGameTitle)),
+      appBar: AppBar(title: Text(context.l10n.preGameTitle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
@@ -69,7 +69,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                     child: ListView(
                       children: [
                         Text(
-                          context.l10n.alias_selectMode,
+                          context.l10n.selectMode,
                           style: typography.titleMedium.copyWith(
                             color: colors.onBackground,
                           ),
@@ -83,7 +83,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                         const SizedBox(height: 24),
 
                         Text(
-                          context.l10n.alias_preGameTeamSetup,
+                          context.l10n.preGameTeamSetup,
                           style: typography.titleMedium.copyWith(
                             color: colors.onBackground,
                           ),
@@ -100,7 +100,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                                     maxLength: AliasConstants.teamNameMaxLength,
                                     decoration: InputDecoration(
                                       hintText:
-                                          '${context.l10n.alias_preGameTeam} '
+                                          '${context.l10n.preGameTeam} '
                                           '${index + 1}',
                                       border: const OutlineInputBorder(),
                                       counterText: '',
@@ -131,7 +131,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                             child: TextButton.icon(
                               onPressed: () {
                                 final teamName =
-                                    '${context.l10n.alias_preGameTeam} '
+                                    '${context.l10n.preGameTeam} '
                                     '${_teamControllers.length + 1}';
                                 _teamControllers.add(
                                   TextEditingController(text: teamName),
@@ -139,13 +139,13 @@ class _PreGameScreenState extends State<PreGameScreen> {
                                 bloc.add(AddTeamEvent(teamName));
                               },
                               icon: const Icon(Icons.add),
-                              label: Text(context.l10n.alias_preGameAddTeam),
+                              label: Text(context.l10n.preGameAddTeam),
                             ),
                           ),
                         const SizedBox(height: 20),
 
                         AliasSettingStepper(
-                          label: context.l10n.alias_settings_roundDuration,
+                          label: context.l10n.settings_roundDuration,
                           value: preGameConfig.roundDuration,
                           min: AliasConstants.minRoundDuration,
                           max: AliasConstants.maxRoundDuration,
@@ -154,7 +154,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                           },
                         ),
                         AliasSettingStepper(
-                          label: context.l10n.alias_settings_pointsToWin,
+                          label: context.l10n.settings_pointsToWin,
                           value: preGameConfig.pointsToWin,
                           min: AliasConstants.minPointsToWin,
                           max: AliasConstants.maxPointsToWin,
@@ -164,7 +164,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                         ),
                         if (preGameConfig.gameMode == GameMode.card)
                           AliasSettingStepper(
-                            label: context.l10n.alias_settings_wordsPerCard,
+                            label: context.l10n.settings_wordsPerCard,
                             value: preGameConfig.wordsPerCard,
                             min: AliasConstants.minWordsPerCard,
                             max: AliasConstants.maxWordsPerCard,
@@ -176,7 +176,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                           Card(
                             child: SwitchListTile(
                               title: Text(
-                                context.l10n.alias_settings_allowSkipping,
+                                context.l10n.settings_allowSkipping,
                                 style: typography.bodyMedium.copyWith(
                                   color: colors.onSurface,
                                 ),
@@ -195,7 +195,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                           Card(
                             child: SwitchListTile(
                               title: Text(
-                                context.l10n.alias_settings_penaltyForSkipping,
+                                context.l10n.settings_penaltyForSkipping,
                                 style: typography.bodyMedium.copyWith(
                                   color: colors.onSurface,
                                 ),
@@ -285,8 +285,8 @@ class _GameModeSelector extends StatelessWidget {
 
         final gameMode = GameMode.values[index];
         final title = switch (gameMode) {
-          GameMode.card => context.l10n.alias_mode2,
-          GameMode.singleWord => context.l10n.alias_mode1,
+          GameMode.card => context.l10n.mode2,
+          GameMode.singleWord => context.l10n.mode1,
         };
 
         return GestureDetector(

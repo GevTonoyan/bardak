@@ -63,8 +63,7 @@ import 'app_localizations_ru.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,8 +71,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,38 +83,19 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('am'),
     Locale('en'),
-    Locale('ru'),
+    Locale('ru')
   ];
-
-  /// No description provided for @games_________________________________________________.
-  ///
-  /// In en, this message translates to:
-  /// **'games----------------------------------------------------------------------'**
-  String get games_________________________________________________;
-
-  /// No description provided for @games_availableGames.
-  ///
-  /// In en, this message translates to:
-  /// **'Available Games'**
-  String get games_availableGames;
-
-  /// No description provided for @games_aliasDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Guess words with your team'**
-  String get games_aliasDescription;
 
   /// No description provided for @settings______________________________________________.
   ///
@@ -166,251 +145,239 @@ abstract class AppLocalizations {
   /// **'alias----------------------------------------------------------------------'**
   String get alias________________________________________________;
 
-  /// No description provided for @alias_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Alias'**
-  String get alias_title;
-
-  /// No description provided for @alias_mode1.
+  /// No description provided for @mode1.
   ///
   /// In en, this message translates to:
   /// **'Single Word'**
-  String get alias_mode1;
+  String get mode1;
 
-  /// No description provided for @alias_mode2.
+  /// No description provided for @mode2.
   ///
   /// In en, this message translates to:
   /// **'Card Mode'**
-  String get alias_mode2;
+  String get mode2;
 
-  /// No description provided for @alias_singleWordMode.
+  /// No description provided for @singleWordMode.
   ///
   /// In en, this message translates to:
   /// **'Single Word Mode'**
-  String get alias_singleWordMode;
+  String get singleWordMode;
 
-  /// No description provided for @alias_selectMode.
+  /// No description provided for @selectMode.
   ///
   /// In en, this message translates to:
   /// **'Select Game Mode'**
-  String get alias_selectMode;
+  String get selectMode;
 
-  /// No description provided for @alias_wordPack.
+  /// No description provided for @wordPack.
   ///
   /// In en, this message translates to:
   /// **'Word Pack'**
-  String get alias_wordPack;
+  String get wordPack;
 
-  /// No description provided for @alias_round.
+  /// No description provided for @round.
   ///
   /// In en, this message translates to:
   /// **'Round'**
-  String get alias_round;
+  String get round;
 
-  /// No description provided for @alias_rulesTitle.
+  /// No description provided for @rulesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Alias Rules'**
-  String get alias_rulesTitle;
+  /// **'Rules'**
+  String get rulesTitle;
 
-  /// No description provided for @alias_singleModeRule1.
+  /// No description provided for @singleModeRule1.
   ///
   /// In en, this message translates to:
   /// **'One player explains a single word at a time.'**
-  String get alias_singleModeRule1;
+  String get singleModeRule1;
 
-  /// No description provided for @alias_singleModeRule2.
+  /// No description provided for @singleModeRule2.
   ///
   /// In en, this message translates to:
   /// **'The team tries to guess as many words as possible before the timer runs out.'**
-  String get alias_singleModeRule2;
+  String get singleModeRule2;
 
-  /// No description provided for @alias_singleModeRule3.
+  /// No description provided for @singleModeRule3.
   ///
   /// In en, this message translates to:
   /// **'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.'**
-  String get alias_singleModeRule3;
+  String get singleModeRule3;
 
-  /// No description provided for @alias_singleModeRule4.
+  /// No description provided for @singleModeRule4.
   ///
   /// In en, this message translates to:
   /// **'Teammates can guess as many times as they want.'**
-  String get alias_singleModeRule4;
+  String get singleModeRule4;
 
-  /// No description provided for @alias_singleModeRule5.
+  /// No description provided for @singleModeRule5.
   ///
   /// In en, this message translates to:
   /// **'When guessed correctly, a new word appears.'**
-  String get alias_singleModeRule5;
+  String get singleModeRule5;
 
-  /// No description provided for @alias_singleModeRule6.
+  /// No description provided for @singleModeRule6.
   ///
   /// In en, this message translates to:
   /// **'If the word is skipped, 1 point is deducted (can be changed in settings).'**
-  String get alias_singleModeRule6;
+  String get singleModeRule6;
 
-  /// No description provided for @alias_cardModeRule1.
+  /// No description provided for @cardModeRule1.
   ///
   /// In en, this message translates to:
   /// **'The explainer receives a card with multiple words (usually 5–7).'**
-  String get alias_cardModeRule1;
+  String get cardModeRule1;
 
-  /// No description provided for @alias_cardModeRule2.
+  /// No description provided for @cardModeRule2.
   ///
   /// In en, this message translates to:
   /// **'All words on the card must be guessed before the timer runs out.'**
-  String get alias_cardModeRule2;
+  String get cardModeRule2;
 
-  /// No description provided for @alias_cardModeRule3.
+  /// No description provided for @cardModeRule3.
   ///
   /// In en, this message translates to:
   /// **'Players can guess the words in any order.'**
-  String get alias_cardModeRule3;
+  String get cardModeRule3;
 
-  /// No description provided for @alias_cardModeRule4.
+  /// No description provided for @cardModeRule4.
   ///
   /// In en, this message translates to:
   /// **'Skipping is not allowed — you must guess every word on the card.'**
-  String get alias_cardModeRule4;
+  String get cardModeRule4;
 
-  /// No description provided for @alias_cardModeRule5.
+  /// No description provided for @cardModeRule5.
   ///
   /// In en, this message translates to:
   /// **'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.'**
-  String get alias_cardModeRule5;
+  String get cardModeRule5;
 
-  /// No description provided for @alias_cardModeRule6.
+  /// No description provided for @cardModeRule6.
   ///
   /// In en, this message translates to:
   /// **'Score is based on the number guessed words'**
-  String get alias_cardModeRule6;
+  String get cardModeRule6;
 
-  /// No description provided for @alias_settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Alias Settings'**
-  String get alias_settings;
-
-  /// No description provided for @alias_settings_general.
+  /// No description provided for @settings_general.
   ///
   /// In en, this message translates to:
   /// **'General'**
-  String get alias_settings_general;
+  String get settings_general;
 
-  /// No description provided for @alias_settings_roundDuration.
+  /// No description provided for @settings_roundDuration.
   ///
   /// In en, this message translates to:
   /// **'Round Duration (sec)'**
-  String get alias_settings_roundDuration;
+  String get settings_roundDuration;
 
-  /// No description provided for @alias_settings_pointsToWin.
+  /// No description provided for @settings_pointsToWin.
   ///
   /// In en, this message translates to:
   /// **'Points to Win'**
-  String get alias_settings_pointsToWin;
+  String get settings_pointsToWin;
 
-  /// No description provided for @alias_settings_soundEffects.
+  /// No description provided for @settings_soundEffects.
   ///
   /// In en, this message translates to:
   /// **'Sound Effects'**
-  String get alias_settings_soundEffects;
+  String get settings_soundEffects;
 
-  /// No description provided for @alias_settings_allowSkipping.
+  /// No description provided for @settings_allowSkipping.
   ///
   /// In en, this message translates to:
   /// **'Allow Skipping'**
-  String get alias_settings_allowSkipping;
+  String get settings_allowSkipping;
 
-  /// No description provided for @alias_settings_penaltyForSkipping.
+  /// No description provided for @settings_penaltyForSkipping.
   ///
   /// In en, this message translates to:
   /// **'Penalty for Skipping'**
-  String get alias_settings_penaltyForSkipping;
+  String get settings_penaltyForSkipping;
 
-  /// No description provided for @alias_settings_wordsPerCard.
+  /// No description provided for @settings_wordsPerCard.
   ///
   /// In en, this message translates to:
   /// **'Words per Card'**
-  String get alias_settings_wordsPerCard;
+  String get settings_wordsPerCard;
 
-  /// No description provided for @alias_settings_reset.
+  /// No description provided for @settings_reset.
   ///
   /// In en, this message translates to:
   /// **'Reset Settings'**
-  String get alias_settings_reset;
+  String get settings_reset;
 
-  /// No description provided for @alias_word_packs_fail.
+  /// No description provided for @word_packs_fail.
   ///
   /// In en, this message translates to:
   /// **'Failed to load word packs'**
-  String get alias_word_packs_fail;
+  String get word_packs_fail;
 
-  /// No description provided for @alias_failedLoadWords.
+  /// No description provided for @failedLoadWords.
   ///
   /// In en, this message translates to:
   /// **'Couldn\'t load words'**
-  String get alias_failedLoadWords;
+  String get failedLoadWords;
 
-  /// No description provided for @alias_preGameTitle.
+  /// No description provided for @preGameTitle.
   ///
   /// In en, this message translates to:
   /// **'Get Ready'**
-  String get alias_preGameTitle;
+  String get preGameTitle;
 
-  /// No description provided for @alias_preGameTeamSetup.
+  /// No description provided for @preGameTeamSetup.
   ///
   /// In en, this message translates to:
   /// **'Team Setup'**
-  String get alias_preGameTeamSetup;
+  String get preGameTeamSetup;
 
-  /// No description provided for @alias_preGameTeam.
+  /// No description provided for @preGameTeam.
   ///
   /// In en, this message translates to:
   /// **'Team'**
-  String get alias_preGameTeam;
+  String get preGameTeam;
 
-  /// No description provided for @alias_preGameAddTeam.
+  /// No description provided for @preGameAddTeam.
   ///
   /// In en, this message translates to:
   /// **'Add Team'**
-  String get alias_preGameAddTeam;
+  String get preGameAddTeam;
 
-  /// No description provided for @alias_roundOverview_teamTurn.
+  /// No description provided for @roundOverview_teamTurn.
   ///
   /// In en, this message translates to:
   /// **'It\'s {teamName}\'s turn!'**
-  String alias_roundOverview_teamTurn(Object teamName);
+  String roundOverview_teamTurn(Object teamName);
 
-  /// No description provided for @alias_roundOverview_point.
+  /// No description provided for @roundOverview_point.
   ///
   /// In en, this message translates to:
   /// **'{points, plural, one {{points} point} other {{points} points}}'**
-  String alias_roundOverview_point(num points);
+  String roundOverview_point(num points);
 
-  /// No description provided for @alias_roundOverview_roundScores.
+  /// No description provided for @roundOverview_roundScores.
   ///
   /// In en, this message translates to:
   /// **'Round Scores:'**
-  String get alias_roundOverview_roundScores;
+  String get roundOverview_roundScores;
 
-  /// No description provided for @alias_roundOverview_confirmExit_title.
+  /// No description provided for @roundOverview_confirmExit_title.
   ///
   /// In en, this message translates to:
   /// **'Exit Game?'**
-  String get alias_roundOverview_confirmExit_title;
+  String get roundOverview_confirmExit_title;
 
-  /// No description provided for @alias_roundOverview_confirmExit_message.
+  /// No description provided for @roundOverview_confirmExit_message.
   ///
   /// In en, this message translates to:
   /// **'If you close this screen, all game progress will be lost. Are you sure you want to exit?'**
-  String get alias_roundOverview_confirmExit_message;
+  String get roundOverview_confirmExit_message;
 
-  /// No description provided for @alias_countdown_go.
+  /// No description provided for @countdown_go.
   ///
   /// In en, this message translates to:
   /// **'Go!'**
-  String get alias_countdown_go;
+  String get countdown_go;
 
   /// No description provided for @general________________________________________________.
   ///
@@ -449,8 +416,7 @@ abstract class AppLocalizations {
   String get general_no;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -459,28 +425,26 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['am', 'en', 'ru'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['am', 'en', 'ru'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'am':
-      return AppLocalizationsAm();
-    case 'en':
-      return AppLocalizationsEn();
-    case 'ru':
-      return AppLocalizationsRu();
+    case 'am': return AppLocalizationsAm();
+    case 'en': return AppLocalizationsEn();
+    case 'ru': return AppLocalizationsRu();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

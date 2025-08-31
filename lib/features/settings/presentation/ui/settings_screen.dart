@@ -31,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.alias_settings, style: typography.titleLarge),
+        title: Text(context.l10n.settings, style: typography.titleLarge),
       ),
       body: SafeArea(
         child: Padding(
@@ -49,14 +49,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
-                      context.l10n.alias_settings_general,
+                      context.l10n.settings_general,
                       style: typography.titleMedium.copyWith(
                         color: colors.primary,
                       ),
                     ),
                   ),
                   AliasSettingStepper(
-                    label: context.l10n.alias_settings_roundDuration,
+                    label: context.l10n.settings_roundDuration,
                     value: aliasSettings.roundDuration,
                     min: AliasConstants.minRoundDuration,
                     max: AliasConstants.maxRoundDuration,
@@ -70,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                   AliasSettingStepper(
-                    label: context.l10n.alias_settings_pointsToWin,
+                    label: context.l10n.settings_pointsToWin,
                     value: aliasSettings.pointsToWin,
                     min: AliasConstants.minPointsToWin,
                     max: AliasConstants.maxPointsToWin,
@@ -83,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Card(
                     child: SwitchListTile(
                       title: Text(
-                        context.l10n.alias_settings_soundEffects,
+                        context.l10n.settings_soundEffects,
                         style: typography.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
@@ -99,7 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
-                      context.l10n.alias_singleWordMode,
+                      context.l10n.singleWordMode,
                       style: typography.titleMedium.copyWith(
                         color: colors.primary,
                       ),
@@ -108,7 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Card(
                     child: SwitchListTile(
                       title: Text(
-                        context.l10n.alias_settings_allowSkipping,
+                        context.l10n.settings_allowSkipping,
                         style: typography.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
@@ -123,7 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Card(
                     child: SwitchListTile(
                       title: Text(
-                        context.l10n.alias_settings_penaltyForSkipping,
+                        context.l10n.settings_penaltyForSkipping,
                         style: typography.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
@@ -141,14 +141,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
-                      context.l10n.alias_mode2,
+                      context.l10n.mode2,
                       style: typography.titleMedium.copyWith(
                         color: colors.primary,
                       ),
                     ),
                   ),
                   AliasSettingStepper(
-                    label: context.l10n.alias_settings_wordsPerCard,
+                    label: context.l10n.settings_wordsPerCard,
                     value: aliasSettings.wordsPerCard,
                     min: AliasConstants.minWordsPerCard,
                     max: AliasConstants.maxWordsPerCard,

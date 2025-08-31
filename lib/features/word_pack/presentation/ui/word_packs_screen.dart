@@ -23,7 +23,7 @@ class _WordPackScreenState extends State<WordPackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.alias_wordPack)),
+      appBar: AppBar(title: Text(context.l10n.wordPack)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -44,7 +44,7 @@ class _WordPackScreenState extends State<WordPackScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          context.l10n.alias_word_packs_fail,
+                          context.l10n.word_packs_fail,
                           style: typography.titleMedium.copyWith(
                             color: colors.error,
                           ),
