@@ -7,5 +7,5 @@ part 'game_session_state.dart';
 
 class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
   GameSessionBloc({required GameSessionEntity initialGameState})
-    : super(GameSessionLoaded(initialGameState));
+    : super(GameSessionState(initialGameState));
 }

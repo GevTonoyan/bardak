@@ -6,10 +6,13 @@ import 'package:boardify/features/home/presentation/ui/home_screen.dart';
 import 'package:boardify/features/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/features/pre_game/presentation/ui/pre_game_screen.dart';
 import 'package:boardify/features/round/domain/card_round_entity.dart';
-import 'package:boardify/features/round/presentation/blocs/card_round_bloc/card_round_bloc.dart';
+import 'package:boardify/features/round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/features/round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/features/rules/presentation/ui/rules_screen.dart';
 import 'package:boardify/features/settings/presentation/ui/settings_screen.dart';
+import 'package:boardify/features/single_word_round/domain/single_word_round_entity.dart';
+import 'package:boardify/features/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
+import 'package:boardify/features/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:boardify/features/word_pack/presentation/bloc/word_packs_bloc.dart';
 import 'package:boardify/features/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
@@ -79,8 +82,8 @@ final appRouter = GoRouter(
               },
               routes: [
                 GoRoute(
-                  path: RouteNames.cardRound,
-                  name: RouteNames.cardRound,
+                  path: CardRoundScreen.routePath,
+                  name: CardRoundScreen.routePath,
                   builder: (context, state) {
                     final roundEntity = state.extra! as CardRoundEntity;
 
@@ -95,6 +98,26 @@ final appRouter = GoRouter(
                       child: CardRoundScreen(
                         initialRoundDuration: roundEntity.roundDuration,
                       ),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: SingleWordRoundScreen.routePath,
+                  name: SingleWordRoundScreen.routePath,
+                  builder: (context, state) {
+                    final roundEntity = state.extra! as SingleWordRoundEntity;
+
+                    final words = _getMockedWords();
+
+                    return BlocProvider(
+                      create:
+                          (_) => SingleWordRoundBloc(
+                            words: words,
+                            roundDuration: roundEntity.roundDuration,
+                            allowSkipping: roundEntity.allowSkipping,
+                            penaltyForSkipping: roundEntity.penaltyForSkipping,
+                          ),
+                      child: const SingleWordRoundScreen(),
                     );
                   },
                 ),
@@ -160,5 +183,4 @@ class RouteNames {
   static const countdown = 'countdown';
   static const gameplay = 'gameplay';
   static const gameSummary = 'game_summary';
-  static const cardRound = 'card_round';
 }

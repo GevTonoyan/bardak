@@ -1,5 +1,5 @@
 import 'package:boardify/features/round/domain/card_round_result.dart';
-import 'package:boardify/features/round/presentation/blocs/card_round_bloc/card_round_bloc.dart';
+import 'package:boardify/features/round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/features/round/presentation/ui/widgets/card_round_header.dart';
 import 'package:boardify/features/round/presentation/ui/widgets/card_round_list.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 
 class CardRoundScreen extends StatelessWidget {
   const CardRoundScreen({required this.initialRoundDuration, super.key});
+
+  static const routePath = 'card_round';
 
   final int initialRoundDuration;
 

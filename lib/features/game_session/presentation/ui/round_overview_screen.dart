@@ -1,11 +1,13 @@
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
-import 'package:boardify/core/router/app_router.dart';
-import 'package:boardify/core/ui_kit/widgets/app_loader.dart';
 import 'package:boardify/core/ui_kit/widgets/game_popup_dialog.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/features/round/domain/card_round_entity.dart';
+import 'package:boardify/features/round/presentation/ui/card_round_screen.dart';
+import 'package:boardify/features/single_word_round/domain/single_word_round_entity.dart';
+import 'package:boardify/features/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -18,12 +20,7 @@ class RoundOverviewScreen extends StatelessWidget {
     final colors = context.appTheme.colors;
     final text = context.appTheme.typography;
 
-    final bloc = context.watch<GameSessionBloc>();
-    if (bloc.state is! GameSessionLoaded) {
-      return const AppLoader();
-    }
-
-    final gameState = (bloc.state as GameSessionLoaded).gameState;
+    final gameState = context.watch<GameSessionBloc>().state.gameState;
 
     return PopScope(
       canPop: false,
@@ -127,20 +124,7 @@ class RoundOverviewScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () async {
-                      if (bloc.state is! GameSessionLoaded) return;
-
-                      final gameSession =
-                          (bloc.state as GameSessionLoaded).gameState;
-
-                      await context.pushNamed(
-                        RouteNames.cardRound,
-                        extra: CardRoundEntity(
-                          roundDuration: gameSession.roundDuration,
-                          wordsPerCard: gameSession.wordsPerCard,
-                        ),
-                      );
-                    },
+                    onPressed: () => _navigateToRoundScreen(context),
                     icon: const Icon(Icons.play_arrow),
                     label: Text(context.l10n.general_startGame),
                   ),
@@ -151,6 +135,30 @@ class RoundOverviewScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _navigateToRoundScreen(BuildContext context) async {
+    final gameSession = context.read<GameSessionBloc>().state.gameState;
+
+    final (routeName, extra) = switch (gameSession.gameMode) {
+      GameMode.card => (
+        CardRoundScreen.routePath,
+        CardRoundEntity(
+          roundDuration: gameSession.roundDuration,
+          wordsPerCard: gameSession.wordsPerCard,
+        ),
+      ),
+      GameMode.singleWord => (
+        SingleWordRoundScreen.routePath,
+        SingleWordRoundEntity(
+          roundDuration: gameSession.roundDuration,
+          penaltyForSkipping: gameSession.penaltyForSkipping,
+          allowSkipping: gameSession.allowSkipping,
+        ),
+      ),
+    };
+
+    await context.pushNamed(routeName, extra: extra);
   }
 }
 

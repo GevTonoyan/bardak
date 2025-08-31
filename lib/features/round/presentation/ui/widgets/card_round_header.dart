@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/game_popup_dialog.dart';
-import 'package:boardify/features/round/presentation/blocs/card_round_bloc/card_round_bloc.dart';
+import 'package:boardify/features/round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
