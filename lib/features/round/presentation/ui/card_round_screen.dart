@@ -1,6 +1,6 @@
 import 'package:boardify/features/round/domain/card_round_result.dart';
 import 'package:boardify/features/round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
-import 'package:boardify/features/round/presentation/ui/widgets/card_round_header.dart';
+import 'package:boardify/core/ui_kit/widgets/round_header.dart';
 import 'package:boardify/features/round/presentation/ui/widgets/card_round_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +32,14 @@ class CardRoundScreen extends StatelessWidget {
           body: SafeArea(
             child: Column(
               children: [
-                CardRoundHeader(initialRoundDuration: initialRoundDuration),
+                RoundHeader(
+                  initialRoundDuration: initialRoundDuration,
+                  onRoundComplete: () {
+                    context.read<CardRoundBloc>().add(
+                      const CompleteRoundRequested(),
+                    );
+                  },
+                ),
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),

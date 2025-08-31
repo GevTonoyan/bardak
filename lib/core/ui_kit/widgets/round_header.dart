@@ -2,20 +2,23 @@ import 'dart:async';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/game_popup_dialog.dart';
-import 'package:boardify/features/round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CardRoundHeader extends StatefulWidget {
-  const CardRoundHeader({required this.initialRoundDuration, super.key});
+class RoundHeader extends StatefulWidget {
+  const RoundHeader({
+    required this.initialRoundDuration,
+    required this.onRoundComplete,
+    super.key,
+  });
 
   final int initialRoundDuration;
+  final VoidCallback onRoundComplete;
 
   @override
-  State<CardRoundHeader> createState() => _RoundHeaderState();
+  State<RoundHeader> createState() => _RoundHeaderState();
 }
 
-class _RoundHeaderState extends State<CardRoundHeader>
+class _RoundHeaderState extends State<RoundHeader>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late int remainingSeconds;
   late Timer _timer;
@@ -55,7 +58,7 @@ class _RoundHeaderState extends State<CardRoundHeader>
             --remainingSeconds;
           } else {
             timer.cancel();
-            context.read<CardRoundBloc>().add(const CompleteRoundRequested());
+            widget.onRoundComplete();
           }
         });
       }
@@ -108,10 +111,7 @@ class _RoundHeaderState extends State<CardRoundHeader>
                 message: context.l10n.alias_roundOverview_confirmExit_message,
                 confirmText: context.l10n.general_yes,
                 cancelText: context.l10n.general_no,
-                onConfirm:
-                    () => context.read<CardRoundBloc>().add(
-                      const CompleteRoundRequested(),
-                    ),
+                onConfirm: widget.onRoundComplete,
               );
             },
           ),

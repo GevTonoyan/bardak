@@ -107,7 +107,7 @@ final appRouter = GoRouter(
                   builder: (context, state) {
                     final roundEntity = state.extra! as SingleWordRoundEntity;
 
-                    final words = _getMockedWords();
+                    final words = _getMockedWords().sublist(0, 10);
 
                     return BlocProvider(
                       create:
