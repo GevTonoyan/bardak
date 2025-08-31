@@ -8,13 +8,16 @@ class AliasRulesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.appTheme;
     final colors = theme.colors;
-    final text = theme.typography;
+    final typography = theme.typography;
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(context.l10n.alias_rulesTitle, style: text.titleLarge),
+          title: Text(
+            context.l10n.alias_rulesTitle,
+            style: typography.titleLarge,
+          ),
           bottom: TabBar(
             indicatorColor: colors.primary,
             labelColor: colors.primary,

@@ -1,4 +1,5 @@
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/core/ui_kit/widgets/app_loader.dart';
 import 'package:boardify/core/ui_kit/widgets/game_popup_dialog.dart';
@@ -175,9 +176,6 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
-    final text = context.appTheme.typography;
-
     final team = widget.team;
 
     return Container(
@@ -198,7 +196,7 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
         children: [
           Text(
             team.name,
-            style: text.titleMedium.copyWith(
+            style: typography.titleMedium.copyWith(
               fontWeight: FontWeight.w600,
               color: colors.primary,
             ),
@@ -206,12 +204,12 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
           const SizedBox(height: 4),
           Text(
             context.l10n.alias_roundOverview_point(team.totalScore),
-            style: text.titleLarge,
+            style: typography.titleLarge,
           ),
           const SizedBox(height: 8),
           Text(
             context.l10n.alias_roundOverview_roundScores,
-            style: text.labelMedium,
+            style: typography.labelMedium,
           ),
           const SizedBox(height: 4),
           Expanded(
@@ -229,11 +227,11 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
                     '${context.l10n.alias_roundOverview_point(roundScore)}',
                     style:
                         isLast
-                            ? text.bodySmall.copyWith(
+                            ? typography.bodySmall.copyWith(
                               color: colors.primary,
                               fontWeight: FontWeight.w600,
                             )
-                            : text.bodySmall.copyWith(
+                            : typography.bodySmall.copyWith(
                               color: colors.onSurface.withValues(alpha: 0.7),
                             ),
                   ),

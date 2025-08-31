@@ -1,5 +1,6 @@
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/features/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/features/pre_game/presentation/ui/pre_game_screen.dart';
@@ -31,10 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.appTheme;
-    final colors = theme.colors;
-    final textStyles = theme.typography;
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -53,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.settings),
-                        color: theme.colors.onBackground,
+                        color: colors.onBackground,
                         onPressed:
                             () => context.goNamed(SettingsScreen.routePath),
                       ),
@@ -133,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Text(
                                   '${context.l10n.alias_failedLoadWords}'
                                   ' ${context.l10n.general_checkInternet}',
-                                  style: textStyles.bodyMedium.copyWith(
+                                  style: typography.bodyMedium.copyWith(
                                     color: colors.error,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -153,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: Icon(Icons.refresh, color: colors.onPrimary),
                             label: Text(
                               context.l10n.general_tryAgain,
-                              style: textStyles.labelLarge.copyWith(
+                              style: typography.labelLarge.copyWith(
                                 color: colors.onPrimary,
                               ),
                             ),

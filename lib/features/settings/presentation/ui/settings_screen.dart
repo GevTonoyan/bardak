@@ -1,5 +1,6 @@
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/localizations/common/supported_locales.dart';
 import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:boardify/core/ui_kit/widgets/circular_flag_icon.dart';
@@ -28,13 +29,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.appTheme;
-    final colors = theme.colors;
-    final text = theme.typography;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.alias_settings, style: text.titleLarge),
+        title: Text(context.l10n.alias_settings, style: typography.titleLarge),
       ),
       body: SafeArea(
         child: Padding(
@@ -53,7 +50,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
                       context.l10n.alias_settings_general,
-                      style: text.titleMedium.copyWith(color: colors.primary),
+                      style: typography.titleMedium.copyWith(
+                        color: colors.primary,
+                      ),
                     ),
                   ),
                   AliasSettingStepper(
@@ -85,7 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: SwitchListTile(
                       title: Text(
                         context.l10n.alias_settings_soundEffects,
-                        style: text.bodyMedium.copyWith(
+                        style: typography.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),
@@ -101,14 +100,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
                       context.l10n.alias_singleWordMode,
-                      style: text.titleMedium.copyWith(color: colors.primary),
+                      style: typography.titleMedium.copyWith(
+                        color: colors.primary,
+                      ),
                     ),
                   ),
                   Card(
                     child: SwitchListTile(
                       title: Text(
                         context.l10n.alias_settings_allowSkipping,
-                        style: text.bodyMedium.copyWith(
+                        style: typography.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),
@@ -123,7 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: SwitchListTile(
                       title: Text(
                         context.l10n.alias_settings_penaltyForSkipping,
-                        style: text.bodyMedium.copyWith(
+                        style: typography.bodyMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),
@@ -141,7 +142,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
                       context.l10n.alias_mode2,
-                      style: text.titleMedium.copyWith(color: colors.primary),
+                      style: typography.titleMedium.copyWith(
+                        color: colors.primary,
+                      ),
                     ),
                   ),
                   AliasSettingStepper(
@@ -172,7 +175,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: SwitchListTile(
                       title: Text(
                         context.l10n.settings_darkMode,
-                        style: text.titleMedium.copyWith(
+                        style: typography.titleMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),
@@ -210,7 +213,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       title: Text(
                         context.l10n.settings_localeName,
-                        style: text.titleMedium.copyWith(
+                        style: typography.titleMedium.copyWith(
                           color: colors.onSurface,
                         ),
                       ),

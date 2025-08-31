@@ -1,4 +1,5 @@
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/features/word_pack/presentation/bloc/alias_word_packs_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,9 +22,6 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.appTheme.typography;
-    final colors = context.appTheme.colors;
-
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.alias_wordPack)),
       body: SafeArea(
@@ -47,7 +45,9 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
                         const SizedBox(height: 16),
                         Text(
                           context.l10n.alias_word_packs_fail,
-                          style: text.titleMedium.copyWith(color: colors.error),
+                          style: typography.titleMedium.copyWith(
+                            color: colors.error,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/game_popup_dialog.dart';
 import 'package:boardify/features/round/presentation/blocs/card_round_bloc/card_round_bloc.dart';
 import 'package:flutter/material.dart';
@@ -63,9 +64,6 @@ class _RoundHeaderState extends State<CardRoundHeader>
 
   @override
   Widget build(BuildContext context) {
-    final typography = context.appTheme.typography;
-    final colors = context.appTheme.colors;
-
     Color timeColor() {
       if (remainingSeconds <= 5) return colors.error;
       if (remainingSeconds <= 10) return colors.warning;

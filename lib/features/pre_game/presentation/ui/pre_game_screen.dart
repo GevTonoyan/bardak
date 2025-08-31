@@ -1,5 +1,6 @@
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/ui/game_session_screen.dart';
@@ -48,10 +49,6 @@ class _PreGameScreenState extends State<PreGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.appTheme;
-    final colors = theme.colors;
-    final text = theme.typography;
-
     final bloc = context.read<PreGameBloc>();
 
     return Scaffold(
@@ -73,7 +70,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                       children: [
                         Text(
                           context.l10n.alias_selectMode,
-                          style: text.titleMedium.copyWith(
+                          style: typography.titleMedium.copyWith(
                             color: colors.onBackground,
                           ),
                         ),
@@ -87,7 +84,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
 
                         Text(
                           context.l10n.alias_preGameTeamSetup,
-                          style: text.titleMedium.copyWith(
+                          style: typography.titleMedium.copyWith(
                             color: colors.onBackground,
                           ),
                         ),
@@ -180,7 +177,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                             child: SwitchListTile(
                               title: Text(
                                 context.l10n.alias_settings_allowSkipping,
-                                style: text.bodyMedium.copyWith(
+                                style: typography.bodyMedium.copyWith(
                                   color: colors.onSurface,
                                 ),
                               ),
@@ -199,7 +196,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                             child: SwitchListTile(
                               title: Text(
                                 context.l10n.alias_settings_penaltyForSkipping,
-                                style: text.bodyMedium.copyWith(
+                                style: typography.bodyMedium.copyWith(
                                   color: colors.onSurface,
                                 ),
                               ),

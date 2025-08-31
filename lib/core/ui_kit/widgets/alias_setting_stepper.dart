@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
 class AliasSettingStepper extends StatefulWidget {
@@ -58,9 +57,6 @@ class _SettingStepperState extends State<AliasSettingStepper> {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.appTheme.typography;
-    final colors = context.appTheme.colors;
-
     final canDecrement = widget.value > widget.min;
     final canIncrement = widget.value < widget.max;
 
@@ -73,7 +69,7 @@ class _SettingStepperState extends State<AliasSettingStepper> {
             Expanded(
               child: Text(
                 widget.label,
-                style: text.bodyMedium.copyWith(color: colors.onSurface),
+                style: typography.bodyMedium.copyWith(color: colors.onSurface),
               ),
             ),
             SizedBox(
@@ -93,7 +89,9 @@ class _SettingStepperState extends State<AliasSettingStepper> {
                   ),
                   Text(
                     '${widget.value}',
-                    style: text.titleMedium.copyWith(color: colors.onSurface),
+                    style: typography.titleMedium.copyWith(
+                      color: colors.onSurface,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () => _changeValue(true, persist: true),

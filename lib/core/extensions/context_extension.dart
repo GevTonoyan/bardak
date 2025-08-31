@@ -1,7 +1,7 @@
 import 'package:boardify/core/localizations/l10n/app_localizations.dart';
 import 'package:boardify/core/localizations/localized_string.dart';
 import 'package:boardify/core/ui_kit/theme/app_theme_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 extension ContextExtension on BuildContext {
   AppThemeData get appTheme {

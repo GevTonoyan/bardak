@@ -1,4 +1,4 @@
-import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/features/round/presentation/blocs/card_round_bloc/card_round_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +13,6 @@ class CardRoundList extends StatefulWidget {
 class _CardRoundListState extends State<CardRoundList> {
   @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
-    final typography = context.appTheme.typography;
-
     return BlocBuilder<CardRoundBloc, CardRoundState>(
       builder: (context, state) {
         final words = state.visible;

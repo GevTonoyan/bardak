@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:boardify/core/extensions/context_extension.dart';
+import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
 class CountdownScreen extends StatefulWidget {
@@ -72,8 +73,6 @@ class _CountdownScreenState extends State<CountdownScreen>
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
-
     return Scaffold(
       body: Center(
         child: AnimatedBuilder(
@@ -84,9 +83,7 @@ class _CountdownScreenState extends State<CountdownScreen>
               child: Transform.scale(
                 scale: _scaleAnimation.value,
                 child: Text(
-                  _count > 0
-                      ? '$_count'
-                      : context.l10n.alias_countdown_go,
+                  _count > 0 ? '$_count' : context.l10n.alias_countdown_go,
                   style: TextStyle(
                     fontSize: _count > 0 ? 120 : 50,
                     fontWeight: FontWeight.bold,
