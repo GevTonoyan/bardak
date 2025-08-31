@@ -1,19 +1,19 @@
-part of 'alias_word_packs_bloc.dart';
+part of 'word_packs_bloc.dart';
 
 /// Events related to Alias Word Packs.
-sealed class AliasWordPacksEvent {
-  const AliasWordPacksEvent();
+sealed class WordPacksEvent {
+  const WordPacksEvent();
 }
 
 /// Loads all available word packs from the local cache.
-class LoadWordPacks extends AliasWordPacksEvent {
+class LoadWordPacks extends WordPacksEvent {
   const LoadWordPacks(this.localeCode);
 
   final String localeCode;
 }
 
 /// Sets the selected word pack ID in preferences.
-class SelectWordPack extends AliasWordPacksEvent {
+class SelectWordPack extends WordPacksEvent {
   const SelectWordPack({required this.packId, required this.localeCode});
 
   final String packId;

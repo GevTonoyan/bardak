@@ -19,5 +19,5 @@ class PreGameLoadingState extends PreGameState {
 class PreGameLoadedState extends PreGameState {
   const PreGameLoadedState(this.preGameConfig);
 
-  final AliasPreGameEntity preGameConfig;
+  final PreGameEntity preGameConfig;
 }

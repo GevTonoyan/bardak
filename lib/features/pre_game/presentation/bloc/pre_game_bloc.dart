@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:boardify/features/pre_game/domain/entities/alias_pre_game_config.dart';
+import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/features/settings/domain/usecases/get_game_settings_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +34,7 @@ class PreGameBloc extends Bloc<PreGameEvent, PreGameState> {
     emit(const PreGameLoadingState());
     final result = getAliasSettingsUseCase();
 
-    final preGameConfig = AliasPreGameEntity(
+    final preGameConfig = PreGameEntity(
       gameMode: GameMode.card,
       roundDuration: result.roundDuration,
       pointsToWin: result.pointsToWin,

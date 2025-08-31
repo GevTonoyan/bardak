@@ -8,10 +8,10 @@ import 'package:boardify/features/pre_game/presentation/ui/pre_game_screen.dart'
 import 'package:boardify/features/round/domain/card_round_entity.dart';
 import 'package:boardify/features/round/presentation/blocs/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/features/round/presentation/ui/card_round_screen.dart';
-import 'package:boardify/features/rules/presentation/ui/alias_rules_screen.dart';
+import 'package:boardify/features/rules/presentation/ui/rules_screen.dart';
 import 'package:boardify/features/settings/presentation/ui/settings_screen.dart';
-import 'package:boardify/features/word_pack/presentation/bloc/alias_word_packs_bloc.dart';
-import 'package:boardify/features/word_pack/presentation/ui/alias_word_packs_screen.dart';
+import 'package:boardify/features/word_pack/presentation/bloc/word_packs_bloc.dart';
+import 'package:boardify/features/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +46,7 @@ final appRouter = GoRouter(
         GoRoute(
           path: RouteNames.info,
           name: RouteNames.info,
-          builder: (context, state) => const AliasRulesScreen(),
+          builder: (context, state) => const RulesScreen(),
         ),
         GoRoute(
           path: RouteNames.wordPacks,
@@ -54,11 +54,11 @@ final appRouter = GoRouter(
           builder:
               (context, state) => BlocProvider(
                 create:
-                    (_) => AliasWordPacksBloc(
+                    (_) => WordPacksBloc(
                       getWordPacks: sl(),
                       setSelectedWordPack: sl(),
                     ),
-                child: const AliasWordPackScreen(),
+                child: const WordPackScreen(),
               ),
         ),
         GoRoute(

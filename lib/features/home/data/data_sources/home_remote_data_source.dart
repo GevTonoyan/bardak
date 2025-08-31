@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// Handles fetching data from Firebase Firestore.
 abstract interface class HomeRemoteDataSource {
   /// Returns all word packs for a given locale from Firestore.
-  Future<List<AliasWordPackEntity>> getWordPacks(
+  Future<List<WordPackEntity>> getWordPacks(
     FetchAndCacheWordPacksParams params,
   );
 }
@@ -16,7 +16,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   final FirebaseFirestore firestore;
 
   @override
-  Future<List<AliasWordPackEntity>> getWordPacks(
+  Future<List<WordPackEntity>> getWordPacks(
     FetchAndCacheWordPacksParams params,
   ) async {
     final doc =
@@ -29,7 +29,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
     final packs =
         data.entries.map((entry) {
-          return AliasWordPackEntity.fromFirestore(
+          return WordPackEntity.fromFirestore(
             entry.key,
             Map<String, dynamic>.from(entry.value),
           );

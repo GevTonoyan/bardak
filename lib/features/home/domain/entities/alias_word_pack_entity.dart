@@ -1,5 +1,5 @@
-class AliasWordPackEntity {
-  const AliasWordPackEntity({
+class WordPackEntity {
+  const WordPackEntity({
     required this.id,
     required this.name,
     required this.words,
@@ -7,11 +7,8 @@ class AliasWordPackEntity {
   });
 
   /// Creates an AliasWordPackEntity from Firestore JSON-like map.
-  factory AliasWordPackEntity.fromFirestore(
-    String id,
-    Map<String, dynamic> json,
-  ) {
-    return AliasWordPackEntity(
+  factory WordPackEntity.fromFirestore(String id, Map<String, dynamic> json) {
+    return WordPackEntity(
       id: id,
       name: json['name'] as String,
       emoji: json['emoji'] as String? ?? '🧩',

@@ -6,7 +6,7 @@ import 'package:boardify/features/settings/domain/usecases/get_app_settings_usec
 import 'package:boardify/features/settings/domain/usecases/get_game_settings_usecase.dart';
 import 'package:boardify/features/settings/domain/usecases/update_app_settings_usecase.dart';
 import 'package:boardify/features/settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:boardify/features/word_pack/alias_word_packs_scope.dart';
+import 'package:boardify/features/word_pack/word_packs_scope.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -11,7 +11,7 @@ abstract interface class HomeLocalDataSource {
   /// Saves all word packs for a given locale to Hive.
   Future<void> cacheWordPacks(
     String localeCode,
-    List<AliasWordPackEntity> packs,
+    List<WordPackEntity> packs,
   );
 
   /// Checks if word packs are already cached in Hive for a given locale.
@@ -45,7 +45,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   @override
   Future<void> cacheWordPacks(
     String localeCode,
-    List<AliasWordPackEntity> packs,
+    List<WordPackEntity> packs,
   ) async {
     final box = await Hive.openBox(
       '${AliasConstants.aliasWordPack}_$localeCode',

@@ -4,7 +4,7 @@ import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/ui/game_session_screen.dart';
-import 'package:boardify/features/pre_game/domain/entities/alias_pre_game_config.dart';
+import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/features/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +61,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
               final preGameConfig =
                   state is PreGameLoadedState
                       ? state.preGameConfig
-                      : AliasPreGameEntity.initial();
+                      : PreGameEntity.initial();
 
               return Column(
                 children: [

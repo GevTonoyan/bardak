@@ -4,8 +4,8 @@ import 'package:boardify/alias_constants.dart';
 
 /// AliasPreGameConfig is a data class that holds the configuration
 /// settings for the Alias game.
-class AliasPreGameEntity {
-  const AliasPreGameEntity({
+class PreGameEntity {
+  const PreGameEntity({
     required this.gameMode,
     required this.roundDuration,
     required this.pointsToWin,
@@ -16,9 +16,9 @@ class AliasPreGameEntity {
     required this.teamNames,
   });
 
-  factory AliasPreGameEntity.fromJson(String json) {
+  factory PreGameEntity.fromJson(String json) {
     final data = jsonDecode(json) as Map<String, dynamic>;
-    return AliasPreGameEntity(
+    return PreGameEntity(
       gameMode: GameMode.fromString(data[AliasConstants.gameModeKey]),
       roundDuration: data[AliasConstants.roundDurationKey] as int,
       pointsToWin: data[AliasConstants.pointsToWinKey] as int,
@@ -30,8 +30,8 @@ class AliasPreGameEntity {
     );
   }
 
-  factory AliasPreGameEntity.initial() {
-    return const AliasPreGameEntity(
+  factory PreGameEntity.initial() {
+    return const PreGameEntity(
       roundDuration: AliasConstants.defaultRoundDuration,
       pointsToWin: AliasConstants.defaultPointsToWin,
       soundEnabled: true,
@@ -52,7 +52,7 @@ class AliasPreGameEntity {
   final bool penaltyForSkipping;
   final List<String> teamNames;
 
-  AliasPreGameEntity copyWith({
+  PreGameEntity copyWith({
     GameMode? gameMode,
     int? roundDuration,
     int? pointsToWin,
@@ -62,7 +62,7 @@ class AliasPreGameEntity {
     bool? penaltyForSkipping,
     List<String>? teamNames,
   }) {
-    return AliasPreGameEntity(
+    return PreGameEntity(
       gameMode: gameMode ?? this.gameMode,
       roundDuration: roundDuration ?? this.roundDuration,
       pointsToWin: pointsToWin ?? this.pointsToWin,

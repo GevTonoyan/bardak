@@ -1,4 +1,4 @@
-import 'package:boardify/features/pre_game/domain/entities/alias_pre_game_config.dart';
+import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:flutter/material.dart';
 
 class SessionScope extends InheritedWidget {
@@ -8,7 +8,7 @@ class SessionScope extends InheritedWidget {
     super.key,
   });
 
-  final AliasPreGameEntity preGameEntity;
+  final PreGameEntity preGameEntity;
 
   static SessionScope of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<SessionScope>()!;

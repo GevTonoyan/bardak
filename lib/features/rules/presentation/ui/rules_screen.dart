@@ -1,8 +1,8 @@
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
-class AliasRulesScreen extends StatelessWidget {
-  const AliasRulesScreen({super.key});
+class RulesScreen extends StatelessWidget {
+  const RulesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

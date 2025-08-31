@@ -1,21 +1,21 @@
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
-import 'package:boardify/features/word_pack/presentation/bloc/alias_word_packs_bloc.dart';
+import 'package:boardify/features/word_pack/presentation/bloc/word_packs_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AliasWordPackScreen extends StatefulWidget {
-  const AliasWordPackScreen({super.key});
+class WordPackScreen extends StatefulWidget {
+  const WordPackScreen({super.key});
 
   @override
-  State<AliasWordPackScreen> createState() => _AliasWordPackScreenState();
+  State<WordPackScreen> createState() => _WordPackScreenState();
 }
 
-class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
+class _WordPackScreenState extends State<WordPackScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<AliasWordPacksBloc>().add(
+    context.read<WordPacksBloc>().add(
       LoadWordPacks(context.locale.languageCode),
     );
   }
@@ -27,12 +27,12 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: BlocBuilder<AliasWordPacksBloc, AliasWordPacksState>(
+          child: BlocBuilder<WordPacksBloc, WordPacksState>(
             builder: (context, state) {
               switch (state) {
-                case AliasWordPacksInitial():
+                case WordPacksInitial():
                   return const SizedBox.shrink();
-                case AliasWordPacksError():
+                case WordPacksError():
                   return Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -53,7 +53,7 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
                       ],
                     ),
                   );
-                case AliasWordPacksLoaded():
+                case WordPacksLoaded():
                   {
                     final packs = state.packs;
                     final selectedId = state.selectedPackId;
@@ -75,7 +75,7 @@ class _AliasWordPackScreenState extends State<AliasWordPackScreen> {
                           endColor: gradientColors[1],
                           isSelected: selectedId == pack.id,
                           onTap: () {
-                            context.read<AliasWordPacksBloc>().add(
+                            context.read<WordPacksBloc>().add(
                               SelectWordPack(
                                 packId: pack.id,
                                 localeCode:
