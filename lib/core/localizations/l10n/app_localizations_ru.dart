@@ -9,7 +9,8 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get games_________________________________________________ => 'games----------------------------------------------------------------------';
+  String get games_________________________________________________ =>
+      'games----------------------------------------------------------------------';
 
   @override
   String get games_availableGames => 'Доступные игры';
@@ -18,7 +19,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get games_aliasDescription => 'Угадай слова с вашей командой';
 
   @override
-  String get settings______________________________________________ => 'settings----------------------------------------------------------------------';
+  String get settings______________________________________________ =>
+      'settings----------------------------------------------------------------------';
 
   @override
   String get settings => 'Настройки';
@@ -39,7 +41,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings_localeEnglish => 'English';
 
   @override
-  String get alias________________________________________________ => 'alias----------------------------------------------------------------------';
+  String get alias________________________________________________ =>
+      'alias----------------------------------------------------------------------';
 
   @override
   String get alias_title => 'Алиас';
@@ -69,34 +72,43 @@ class AppLocalizationsRu extends AppLocalizations {
   String get alias_singleModeRule1 => 'Один игрок объясняет одно слово за раз.';
 
   @override
-  String get alias_singleModeRule2 => 'Команда пытается угадать как можно больше слов, пока не истечёт время.';
+  String get alias_singleModeRule2 =>
+      'Команда пытается угадать как можно больше слов, пока не истечёт время.';
 
   @override
-  String get alias_singleModeRule3 => 'Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.';
+  String get alias_singleModeRule3 =>
+      'Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.';
 
   @override
   String get alias_singleModeRule4 => 'Товарищи по команде ';
 
   @override
-  String get alias_singleModeRule5 => 'Можете угадывать столько раз, сколько захотите';
+  String get alias_singleModeRule5 =>
+      'Можете угадывать столько раз, сколько захотите';
 
   @override
-  String get alias_singleModeRule6 => 'Когда слово угадано правильно, появляется новое слово';
+  String get alias_singleModeRule6 =>
+      'Когда слово угадано правильно, появляется новое слово';
 
   @override
-  String get alias_cardModeRule1 => 'Объясняющий получает карточку с несколькими словами (обычно 5–7).';
+  String get alias_cardModeRule1 =>
+      'Объясняющий получает карточку с несколькими словами (обычно 5–7).';
 
   @override
-  String get alias_cardModeRule2 => 'Все слова на карточке должны быть угаданы до истечения времени';
+  String get alias_cardModeRule2 =>
+      'Все слова на карточке должны быть угаданы до истечения времени';
 
   @override
-  String get alias_cardModeRule3 => 'Игроки могут угадывать слова в любом порядке.';
+  String get alias_cardModeRule3 =>
+      'Игроки могут угадывать слова в любом порядке.';
 
   @override
-  String get alias_cardModeRule4 => 'Пропускать нельзя — нужно угадать каждое слово на карточке';
+  String get alias_cardModeRule4 =>
+      'Пропускать нельзя — нужно угадать каждое слово на карточке';
 
   @override
-  String get alias_cardModeRule5 => 'Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.';
+  String get alias_cardModeRule5 =>
+      'Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.';
 
   @override
   String get alias_cardModeRule6 => 'Счёт основан на количестве угаданных слов';
@@ -169,13 +181,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get alias_roundOverview_confirmExit_title => 'Выйти из игры?';
 
   @override
-  String get alias_roundOverview_confirmExit_message => 'Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?';
+  String get alias_roundOverview_confirmExit_message =>
+      'Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?';
 
   @override
   String get alias_countdown_go => 'Вперёд!';
 
   @override
-  String get general________________________________________________ => 'general----------------------------------------------------------------------';
+  String get general________________________________________________ =>
+      'general----------------------------------------------------------------------';
 
   @override
   String get general_startGame => 'Начать игру';

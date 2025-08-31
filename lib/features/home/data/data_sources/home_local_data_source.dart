@@ -9,10 +9,7 @@ import 'package:hive_flutter/adapters.dart';
 /// Handles caching and reading data locally using Hive.
 abstract interface class HomeLocalDataSource {
   /// Saves all word packs for a given locale to Hive.
-  Future<void> cacheWordPacks(
-    String localeCode,
-    List<WordPackEntity> packs,
-  );
+  Future<void> cacheWordPacks(String localeCode, List<WordPackEntity> packs);
 
   /// Checks if word packs are already cached in Hive for a given locale.
   Future<bool> arePacksPresentInHive(AreWordPacksCachedParams params);
