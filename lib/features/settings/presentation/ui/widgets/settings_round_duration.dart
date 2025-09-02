@@ -1,13 +1,15 @@
 import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsRoundDuration extends StatelessWidget {
-  const SettingsRoundDuration({required this.roundDuration, super.key});
+  const SettingsRoundDuration({
+    required this.roundDuration,
+    required this.onDurationChanged,
+    super.key,
+  });
 
   final int roundDuration;
+  final void Function(int) onDurationChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,7 @@ class SettingsRoundDuration extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            context.read<SettingsBloc>().add(
-                              ChangeGameDuration(gameDuration: duration),
-                            );
+                            onDurationChanged(duration);
                           },
                           borderRadius: BorderRadius.circular(20),
                           child: AnimatedContainer(

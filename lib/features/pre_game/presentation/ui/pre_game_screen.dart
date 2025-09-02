@@ -6,6 +6,8 @@ import 'package:boardify/features/game_session/domain/entities/game_session_enti
 import 'package:boardify/features/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/features/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:boardify/features/settings/presentation/ui/widgets/settings_points_to_win.dart';
+import 'package:boardify/features/settings/presentation/ui/widgets/settings_round_duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -144,22 +146,16 @@ class _PreGameScreenState extends State<PreGameScreen> {
                           ),
                         const SizedBox(height: 20),
 
-                        AliasSettingStepper(
-                          label: context.l10n.settings_roundDuration,
-                          value: preGameConfig.roundDuration,
-                          min: AliasConstants.minRoundDuration,
-                          max: AliasConstants.maxRoundDuration,
-                          onChanged: (int value, {bool persist = true}) {
-                            bloc.add(ChangeRoundDurationEvent(value));
+                        SettingsRoundDuration(
+                          roundDuration: preGameConfig.roundDuration,
+                          onDurationChanged: (duration) {
+                            bloc.add(ChangeRoundDurationEvent(duration));
                           },
                         ),
-                        AliasSettingStepper(
-                          label: context.l10n.settings_pointsToWin,
-                          value: preGameConfig.pointsToWin,
-                          min: AliasConstants.minPointsToWin,
-                          max: AliasConstants.maxPointsToWin,
-                          onChanged: (int value, {bool persist = true}) {
-                            bloc.add(ChangePointsToWinEvent(value));
+                        SettingsPointsToWin(
+                          pointsToWin: preGameConfig.pointsToWin,
+                          onPointsToWinChanged: (points) {
+                            bloc.add(ChangePointsToWinEvent(points));
                           },
                         ),
                         if (preGameConfig.gameMode == GameMode.card)
@@ -212,6 +208,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                             ),
                           ),
                         ],
+                        const SizedBox(height: 24),
                       ],
                     ),
                   ),

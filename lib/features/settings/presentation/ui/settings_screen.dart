@@ -59,8 +59,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   SettingsRoundDuration(
                     roundDuration: gameSettings.roundDuration,
+                    onDurationChanged: (duration) {
+                      context.read<SettingsBloc>().add(
+                        ChangeGameDuration(gameDuration: duration),
+                      );
+                    },
                   ),
-                  SettingsPointsToWin(pointsToWin: gameSettings.pointsToWin),
+                  SettingsPointsToWin(
+                    pointsToWin: gameSettings.pointsToWin,
+                    onPointsToWinChanged: (points) {
+                      context.read<SettingsBloc>().add(
+                        ChangePointsToWin(pointsToWin: points),
+                      );
+                    },
+                  ),
                   Card(
                     child: SwitchListTile(
                       title: Text(

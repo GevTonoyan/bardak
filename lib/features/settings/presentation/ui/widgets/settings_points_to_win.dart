@@ -1,13 +1,15 @@
 import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsPointsToWin extends StatelessWidget {
-  const SettingsPointsToWin({required this.pointsToWin, super.key});
+  const SettingsPointsToWin({
+    required this.pointsToWin,
+    required this.onPointsToWinChanged,
+    super.key,
+  });
 
   final int pointsToWin;
+  final void Function(int) onPointsToWinChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,7 @@ class SettingsPointsToWin extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            context.read<SettingsBloc>().add(
-                              ChangePointsToWin(pointsToWin: points),
-                            );
+                            onPointsToWinChanged(points);
                           },
                           borderRadius: BorderRadius.circular(20),
                           child: AnimatedContainer(
