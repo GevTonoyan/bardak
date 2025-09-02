@@ -7,6 +7,8 @@ import 'package:boardify/core/ui_kit/widgets/circular_flag_icon.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
+import 'package:boardify/features/settings/presentation/ui/widgets/settings_points_to_win.dart';
+import 'package:boardify/features/settings/presentation/ui/widgets/settings_round_duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -39,9 +41,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (context, state) {
               final bloc = context.read<SettingsBloc>();
-              final aliasSettings = state.gameSettings;
+              final gameSettings = state.gameSettings;
 
-              final settings = state.appSettings;
+              final appSettings = state.appSettings;
 
               return ListView(
                 children: [
@@ -55,31 +57,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-                  AliasSettingStepper(
-                    label: context.l10n.settings_roundDuration,
-                    value: aliasSettings.roundDuration,
-                    min: AliasConstants.minRoundDuration,
-                    max: AliasConstants.maxRoundDuration,
-                    onChanged: (int value, {bool persist = true}) {
-                      bloc.add(
-                        ChangeGameDuration(
-                          gameDuration: value,
-                          persist: persist,
-                        ),
-                      );
-                    },
+                  SettingsRoundDuration(
+                    roundDuration: gameSettings.roundDuration,
                   ),
-                  AliasSettingStepper(
-                    label: context.l10n.settings_pointsToWin,
-                    value: aliasSettings.pointsToWin,
-                    min: AliasConstants.minPointsToWin,
-                    max: AliasConstants.maxPointsToWin,
-                    onChanged: (int value, {bool persist = true}) {
-                      bloc.add(
-                        ChangePointsToWin(pointsToWin: value, persist: persist),
-                      );
-                    },
-                  ),
+                  SettingsPointsToWin(pointsToWin: gameSettings.pointsToWin),
                   Card(
                     child: SwitchListTile(
                       title: Text(
@@ -88,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: colors.onSurface,
                         ),
                       ),
-                      value: aliasSettings.soundEnabled,
+                      value: gameSettings.soundEnabled,
                       onChanged: (v) {
                         bloc.add(ChangeSoundEffects(soundEffects: v));
                       },
@@ -113,7 +94,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: colors.onSurface,
                         ),
                       ),
-                      value: aliasSettings.allowSkipping,
+                      value: gameSettings.allowSkipping,
                       onChanged: (v) {
                         bloc.add(ChangeAllowSkipping(allowSkipping: v));
                       },
@@ -128,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: colors.onSurface,
                         ),
                       ),
-                      value: aliasSettings.penaltyForSkipping,
+                      value: gameSettings.penaltyForSkipping,
                       onChanged: (v) {
                         bloc.add(
                           ChangePenaltyForSkipping(penaltyForSkipping: v),
@@ -149,7 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   AliasSettingStepper(
                     label: context.l10n.settings_wordsPerCard,
-                    value: aliasSettings.wordsPerCard,
+                    value: gameSettings.wordsPerCard,
                     min: AliasConstants.minWordsPerCard,
                     max: AliasConstants.maxWordsPerCard,
                     onChanged: (int value, {bool persist = true}) {
@@ -179,11 +160,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: colors.onSurface,
                         ),
                       ),
-                      value: settings.isDarkMode,
+                      value: appSettings.isDarkMode,
                       onChanged:
                           (value) => bloc.add(ChangeTheme(isDarkMode: value)),
                       secondary: Icon(
-                        settings.isDarkMode
+                        appSettings.isDarkMode
                             ? Icons.dark_mode
                             : Icons.light_mode,
                         color: colors.primary,
@@ -209,7 +190,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         vertical: 8,
                       ),
                       leading: CircularFlagIcon(
-                        assetPath: settings.locale.flagAssetPath,
+                        assetPath: appSettings.locale.flagAssetPath,
                       ),
                       title: Text(
                         context.l10n.settings_localeName,
