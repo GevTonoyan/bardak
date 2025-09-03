@@ -3,6 +3,7 @@ import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/setting_option_chips.dart';
 import 'package:boardify/core/ui_kit/widgets/setting_stepper.dart';
+import 'package:boardify/core/ui_kit/widgets/setting_switch_tile.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
@@ -174,43 +175,25 @@ class _PreGameScreenState extends State<PreGameScreen> {
                             },
                           ),
                         if (preGameConfig.gameMode == GameMode.singleWord) ...[
-                          Card(
-                            child: SwitchListTile(
-                              title: Text(
-                                context.l10n.settings_allowSkipping,
-                                style: typography.bodyMedium.copyWith(
-                                  color: colors.onSurface,
-                                ),
-                              ),
-                              value: preGameConfig.allowSkipping,
-                              onChanged: (value) {
-                                bloc.add(
-                                  ChangeAllowSkippingEvent(
-                                    allowSkipping: value,
-                                  ),
-                                );
-                              },
-                              activeColor: colors.primary,
-                            ),
+                          SettingSwitchTile(
+                            title: context.l10n.settings_allowSkipping,
+                            value: preGameConfig.allowSkipping,
+                            onChanged: (value) {
+                              bloc.add(
+                                ChangeAllowSkippingEvent(allowSkipping: value),
+                              );
+                            },
                           ),
-                          Card(
-                            child: SwitchListTile(
-                              title: Text(
-                                context.l10n.settings_penaltyForSkipping,
-                                style: typography.bodyMedium.copyWith(
-                                  color: colors.onSurface,
+                          SettingSwitchTile(
+                            title: context.l10n.settings_penaltyForSkipping,
+                            value: preGameConfig.penaltyForSkipping,
+                            onChanged: (value) {
+                              bloc.add(
+                                ChangePenaltyForSkippingEvent(
+                                  penaltyForSkipping: value,
                                 ),
-                              ),
-                              value: preGameConfig.penaltyForSkipping,
-                              onChanged: (value) {
-                                bloc.add(
-                                  ChangePenaltyForSkippingEvent(
-                                    penaltyForSkipping: value,
-                                  ),
-                                );
-                              },
-                              activeColor: colors.primary,
-                            ),
+                              );
+                            },
                           ),
                         ],
                         const SizedBox(height: 24),

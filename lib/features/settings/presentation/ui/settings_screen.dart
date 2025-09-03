@@ -5,6 +5,7 @@ import 'package:boardify/core/localizations/common/supported_locales.dart';
 import 'package:boardify/core/ui_kit/widgets/circular_flag_icon.dart';
 import 'package:boardify/core/ui_kit/widgets/setting_option_chips.dart';
 import 'package:boardify/core/ui_kit/widgets/setting_stepper.dart';
+import 'package:boardify/core/ui_kit/widgets/setting_switch_tile.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
@@ -55,7 +56,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
+
                   Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    clipBehavior: Clip.antiAlias,
                     child: SwitchListTile(
                       title: Text(
                         context.l10n.settings_darkMode,
@@ -78,6 +84,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    clipBehavior: Clip.antiAlias,
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -130,20 +140,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                   ),
-                  Card(
-                    child: SwitchListTile(
-                      title: Text(
-                        context.l10n.settings_soundEffects,
-                        style: typography.bodyMedium.copyWith(
-                          color: colors.onSurface,
-                        ),
-                      ),
-                      value: gameSettings.soundEnabled,
-                      onChanged: (v) {
-                        bloc.add(ChangeSoundEffects(soundEffects: v));
-                      },
-                      activeColor: colors.primary,
-                    ),
+                  SettingSwitchTile(
+                    title: context.l10n.settings_soundEffects,
+                    value: gameSettings.soundEnabled,
+                    onChanged: (value) {
+                      bloc.add(ChangeSoundEffects(soundEffects: value));
+                    },
                   ),
                   const SizedBox(height: 24),
                   Padding(
@@ -155,37 +157,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-                  Card(
-                    child: SwitchListTile(
-                      title: Text(
-                        context.l10n.settings_allowSkipping,
-                        style: typography.bodyMedium.copyWith(
-                          color: colors.onSurface,
-                        ),
-                      ),
-                      value: gameSettings.allowSkipping,
-                      onChanged: (v) {
-                        bloc.add(ChangeAllowSkipping(allowSkipping: v));
-                      },
-                      activeColor: colors.primary,
-                    ),
+
+                  SettingSwitchTile(
+                    title: context.l10n.settings_allowSkipping,
+                    value: gameSettings.allowSkipping,
+                    onChanged: (value) {
+                      bloc.add(ChangeAllowSkipping(allowSkipping: value));
+                    },
                   ),
-                  Card(
-                    child: SwitchListTile(
-                      title: Text(
-                        context.l10n.settings_penaltyForSkipping,
-                        style: typography.bodyMedium.copyWith(
-                          color: colors.onSurface,
-                        ),
-                      ),
-                      value: gameSettings.penaltyForSkipping,
-                      onChanged: (v) {
-                        bloc.add(
-                          ChangePenaltyForSkipping(penaltyForSkipping: v),
-                        );
-                      },
-                      activeColor: colors.primary,
-                    ),
+                  SettingSwitchTile(
+                    title: context.l10n.settings_penaltyForSkipping,
+                    value: gameSettings.penaltyForSkipping,
+                    onChanged: (value) {
+                      bloc.add(
+                        ChangePenaltyForSkipping(penaltyForSkipping: value),
+                      );
+                    },
                   ),
                   const SizedBox(height: 24),
                   Padding(
