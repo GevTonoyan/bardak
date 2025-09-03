@@ -2,13 +2,12 @@ import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/localizations/common/supported_locales.dart';
-import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
 import 'package:boardify/core/ui_kit/widgets/circular_flag_icon.dart';
+import 'package:boardify/core/ui_kit/widgets/setting_option_chips.dart';
+import 'package:boardify/core/ui_kit/widgets/setting_stepper.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
 import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
-import 'package:boardify/features/settings/presentation/ui/widgets/settings_points_to_win.dart';
-import 'package:boardify/features/settings/presentation/ui/widgets/settings_round_duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +46,59 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
               return ListView(
                 children: [
-                  // Alias Settings
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Text(
+                      context.l10n.app_settings,
+                      style: typography.titleMedium.copyWith(
+                        color: colors.primary,
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: SwitchListTile(
+                      title: Text(
+                        context.l10n.settings_darkMode,
+                        style: typography.titleMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
+                      ),
+                      value: appSettings.isDarkMode,
+                      onChanged:
+                          (value) => bloc.add(ChangeTheme(isDarkMode: value)),
+                      secondary: Icon(
+                        appSettings.isDarkMode
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                        color: colors.primary,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ),
+                      leading: CircularFlagIcon(
+                        assetPath: appSettings.locale.flagAssetPath,
+                      ),
+                      title: Text(
+                        context.l10n.settings_localeName,
+                        style: typography.titleMedium.copyWith(
+                          color: colors.onSurface,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_drop_down,
+                        color: colors.primary,
+                      ),
+                      onTap: () => _showLocaleSelector(context),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
@@ -57,17 +108,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-                  SettingsRoundDuration(
-                    roundDuration: gameSettings.roundDuration,
-                    onDurationChanged: (duration) {
+
+                  SettingOptionChips(
+                    title: context.l10n.settings_roundDuration,
+                    options: const [30, 60, 90, 120],
+                    currentValue: gameSettings.roundDuration,
+                    onOptionChanged: (duration) {
                       context.read<SettingsBloc>().add(
                         ChangeGameDuration(gameDuration: duration),
                       );
                     },
                   ),
-                  SettingsPointsToWin(
-                    pointsToWin: gameSettings.pointsToWin,
-                    onPointsToWinChanged: (points) {
+
+                  SettingOptionChips(
+                    title: context.l10n.settings_pointsToWin,
+                    options: const [30, 60, 90, 120],
+                    currentValue: gameSettings.pointsToWin,
+                    onOptionChanged: (points) {
                       context.read<SettingsBloc>().add(
                         ChangePointsToWin(pointsToWin: points),
                       );
@@ -140,7 +197,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-                  AliasSettingStepper(
+                  SettingStepper(
                     label: context.l10n.settings_wordsPerCard,
                     value: gameSettings.wordsPerCard,
                     min: AliasConstants.minWordsPerCard,
@@ -153,69 +210,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       );
                     },
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // General Settings
-                  // 🔘 Dark Mode Toggle
-                  Card(
-                    color: colors.surface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      side: BorderSide(color: colors.outline),
-                    ),
-                    child: SwitchListTile(
-                      title: Text(
-                        context.l10n.settings_darkMode,
-                        style: typography.titleMedium.copyWith(
-                          color: colors.onSurface,
-                        ),
-                      ),
-                      value: appSettings.isDarkMode,
-                      onChanged:
-                          (value) => bloc.add(ChangeTheme(isDarkMode: value)),
-                      secondary: Icon(
-                        appSettings.isDarkMode
-                            ? Icons.dark_mode
-                            : Icons.light_mode,
-                        color: colors.primary,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // 🌐 Language Selector Card
-                  Card(
-                    color: colors.surface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      side: BorderSide(color: colors.outline),
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      leading: CircularFlagIcon(
-                        assetPath: appSettings.locale.flagAssetPath,
-                      ),
-                      title: Text(
-                        context.l10n.settings_localeName,
-                        style: typography.titleMedium.copyWith(
-                          color: colors.onSurface,
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_drop_down,
-                        color: colors.primary,
-                      ),
-                      onTap: () => _showLocaleSelector(context),
-                    ),
                   ),
                 ],
               );

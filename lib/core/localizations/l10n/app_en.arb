@@ -2,6 +2,7 @@
   "@@locale": "en",
   "settings______________________________________________": "settings----------------------------------------------------------------------",
   "settings": "Settings",
+  "app_settings": "App Settings",
   "settings_darkMode": "Dark Mode",
   "settings_localeName": "English",
   "settings_localeArmenian": "Հայերեն",

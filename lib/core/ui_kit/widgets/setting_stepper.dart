@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
-class AliasSettingStepper extends StatefulWidget {
-  const AliasSettingStepper({
+class SettingStepper extends StatefulWidget {
+  const SettingStepper({
     required this.label,
     required this.value,
     required this.min,
@@ -19,10 +19,10 @@ class AliasSettingStepper extends StatefulWidget {
   final void Function(int value, {bool persist}) onChanged;
 
   @override
-  State<AliasSettingStepper> createState() => _SettingStepperState();
+  State<SettingStepper> createState() => _SettingStepperState();
 }
 
-class _SettingStepperState extends State<AliasSettingStepper> {
+class _SettingStepperState extends State<SettingStepper> {
   Timer? _holdTimer;
   int _lastValue = 0;
 

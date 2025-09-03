@@ -1,13 +1,12 @@
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
-import 'package:boardify/core/ui_kit/widgets/alias_setting_stepper.dart';
+import 'package:boardify/core/ui_kit/widgets/setting_option_chips.dart';
+import 'package:boardify/core/ui_kit/widgets/setting_stepper.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/features/pre_game/presentation/bloc/pre_game_bloc.dart';
-import 'package:boardify/features/settings/presentation/ui/widgets/settings_points_to_win.dart';
-import 'package:boardify/features/settings/presentation/ui/widgets/settings_round_duration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -146,20 +145,26 @@ class _PreGameScreenState extends State<PreGameScreen> {
                           ),
                         const SizedBox(height: 20),
 
-                        SettingsRoundDuration(
-                          roundDuration: preGameConfig.roundDuration,
-                          onDurationChanged: (duration) {
+                        SettingOptionChips(
+                          title: context.l10n.settings_roundDuration,
+                          options: const [30, 60, 90, 120],
+                          currentValue: preGameConfig.roundDuration,
+                          onOptionChanged: (duration) {
                             bloc.add(ChangeRoundDurationEvent(duration));
                           },
                         ),
-                        SettingsPointsToWin(
-                          pointsToWin: preGameConfig.pointsToWin,
-                          onPointsToWinChanged: (points) {
+
+                        SettingOptionChips(
+                          title: context.l10n.settings_pointsToWin,
+                          options: const [30, 60, 90, 120],
+                          currentValue: preGameConfig.pointsToWin,
+                          onOptionChanged: (points) {
                             bloc.add(ChangePointsToWinEvent(points));
                           },
                         ),
+
                         if (preGameConfig.gameMode == GameMode.card)
-                          AliasSettingStepper(
+                          SettingStepper(
                             label: context.l10n.settings_wordsPerCard,
                             value: preGameConfig.wordsPerCard,
                             min: AliasConstants.minWordsPerCard,

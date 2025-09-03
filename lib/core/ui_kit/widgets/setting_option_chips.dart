@@ -1,15 +1,19 @@
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
-class SettingsPointsToWin extends StatelessWidget {
-  const SettingsPointsToWin({
-    required this.pointsToWin,
-    required this.onPointsToWinChanged,
+class SettingOptionChips extends StatelessWidget {
+  const SettingOptionChips({
+    required this.title,
+    required this.options,
+    required this.currentValue,
+    required this.onOptionChanged,
     super.key,
   });
 
-  final int pointsToWin;
-  final void Function(int) onPointsToWinChanged;
+  final String title;
+  final List<int> options;
+  final int currentValue;
+  final void Function(int) onOptionChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +26,14 @@ class SettingsPointsToWin extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              context.l10n.settings_pointsToWin,
-              style: typography.bodyMedium,
-            ),
+            Text(title, style: typography.bodyMedium),
             const SizedBox(height: 12),
             Row(
               spacing: 8,
               children:
-                  [30, 60, 90, 120].map((points) {
-                    final isSelected = points == pointsToWin;
+                  options.map((option) {
+                    final isSelected = option == currentValue;
+
                     return AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeInOut,
@@ -41,7 +43,7 @@ class SettingsPointsToWin extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            onPointsToWinChanged(points);
+                            onOptionChanged(option);
                           },
                           borderRadius: BorderRadius.circular(20),
                           child: AnimatedContainer(
@@ -64,7 +66,7 @@ class SettingsPointsToWin extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                '$points',
+                                '$option',
                                 style: typography.bodyMedium.copyWith(
                                   color:
                                       isSelected

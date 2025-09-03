@@ -15,6 +15,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get settings => 'Կարգավորումներ';
 
   @override
+  String get app_settings => 'Հավելվածի կարգավորումներ';
+
+  @override
   String get settings_darkMode => ' Մութ ռեժիմ';
 
   @override
