@@ -9,7 +9,8 @@ class AppLocalizationsAm extends AppLocalizations {
   AppLocalizationsAm([String locale = 'am']) : super(locale);
 
   @override
-  String get settings______________________________________________ => 'settings----------------------------------------------------------------------';
+  String get settings______________________________________________ =>
+      'settings----------------------------------------------------------------------';
 
   @override
   String get settings => 'Կարգավորումներ';
@@ -33,7 +34,8 @@ class AppLocalizationsAm extends AppLocalizations {
   String get settings_localeEnglish => 'English';
 
   @override
-  String get alias________________________________________________ => 'alias----------------------------------------------------------------------';
+  String get alias________________________________________________ =>
+      'alias----------------------------------------------------------------------';
 
   @override
   String get mode1 => 'Մի բառ';
@@ -60,37 +62,48 @@ class AppLocalizationsAm extends AppLocalizations {
   String get singleModeRule1 => 'Մի խաղացող բացատրում է մեկ բառ';
 
   @override
-  String get singleModeRule2 => 'Թիմը փորձում է գուշակել հնարավորինս շատ բառեր, մինչ ժամանակը կավարտվի';
+  String get singleModeRule2 =>
+      'Թիմը փորձում է գուշակել հնարավորինս շատ բառեր, մինչ ժամանակը կավարտվի';
 
   @override
-  String get singleModeRule3 => 'Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ';
+  String get singleModeRule3 =>
+      'Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ';
 
   @override
-  String get singleModeRule4 => 'Թիմակիցները կարող են գուշակել այնքան անգամ, որքան ցանկանում են';
+  String get singleModeRule4 =>
+      'Թիմակիցները կարող են գուշակել այնքան անգամ, որքան ցանկանում են';
 
   @override
-  String get singleModeRule5 => 'Երբ բառը ճիշտ գուշակվում է, նոր բառ է հայտնվում';
+  String get singleModeRule5 =>
+      'Երբ բառը ճիշտ գուշակվում է, նոր բառ է հայտնվում';
 
   @override
-  String get singleModeRule6 => 'Եթե բառը բաց թողնվի, 1 միավոր է հանվում (կարող է փոխվել կարգավորումներում)';
+  String get singleModeRule6 =>
+      'Եթե բառը բաց թողնվի, 1 միավոր է հանվում (կարող է փոխվել կարգավորումներում)';
 
   @override
-  String get cardModeRule1 => 'Բացատրողը ստանում է քարտ, որի վրա մի քանի բառ կա (Սովորաբար 5-7)';
+  String get cardModeRule1 =>
+      'Բացատրողը ստանում է քարտ, որի վրա մի քանի բառ կա (Սովորաբար 5-7)';
 
   @override
-  String get cardModeRule2 => 'Քարտի բոլոր բառերը պետք է գուշակվեն, մինչ ժամանակը կավարտվի';
+  String get cardModeRule2 =>
+      'Քարտի բոլոր բառերը պետք է գուշակվեն, մինչ ժամանակը կավարտվի';
 
   @override
-  String get cardModeRule3 => 'Խաղացողները կարող են գուշակել բառերը ցանկացած հերթականությամբ';
+  String get cardModeRule3 =>
+      'Խաղացողները կարող են գուշակել բառերը ցանկացած հերթականությամբ';
 
   @override
-  String get cardModeRule4 => 'Բաց թողնելը թույլ չի տրվում՝ դուք պետք է գուշակեք քարտի բոլոր բառերը';
+  String get cardModeRule4 =>
+      'Բաց թողնելը թույլ չի տրվում՝ դուք պետք է գուշակեք քարտի բոլոր բառերը';
 
   @override
-  String get cardModeRule5 => 'Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ';
+  String get cardModeRule5 =>
+      'Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ';
 
   @override
-  String get cardModeRule6 => 'Միավորները հաշվարկվում են գուշակված բառերի քանակով';
+  String get cardModeRule6 =>
+      'Միավորները հաշվարկվում են գուշակված բառերի քանակով';
 
   @override
   String get settings_general => 'Ընդհանուր';
@@ -157,13 +170,15 @@ class AppLocalizationsAm extends AppLocalizations {
   String get roundOverview_confirmExit_title => 'Դուրս գալ խաղից՞';
 
   @override
-  String get roundOverview_confirmExit_message => 'Եթե փակեք այս էջը, խաղի ողջ ընթացքը կկորչի։ Վստա՞հ եք, որ ցանկանում եք դուրս գալ։';
+  String get roundOverview_confirmExit_message =>
+      'Եթե փակեք այս էջը, խաղի ողջ ընթացքը կկորչի։ Վստա՞հ եք, որ ցանկանում եք դուրս գալ։';
 
   @override
   String get countdown_go => 'Գնացինք!';
 
   @override
-  String get general________________________________________________ => 'general----------------------------------------------------------------------';
+  String get general________________________________________________ =>
+      'general----------------------------------------------------------------------';
 
   @override
   String get general_startGame => 'Սկսել խաղը';

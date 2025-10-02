@@ -9,7 +9,8 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get settings______________________________________________ => 'settings----------------------------------------------------------------------';
+  String get settings______________________________________________ =>
+      'settings----------------------------------------------------------------------';
 
   @override
   String get settings => 'Settings';
@@ -33,7 +34,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_localeEnglish => 'English';
 
   @override
-  String get alias________________________________________________ => 'alias----------------------------------------------------------------------';
+  String get alias________________________________________________ =>
+      'alias----------------------------------------------------------------------';
 
   @override
   String get mode1 => 'Single Word';
@@ -60,34 +62,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get singleModeRule1 => 'One player explains a single word at a time.';
 
   @override
-  String get singleModeRule2 => 'The team tries to guess as many words as possible before the timer runs out.';
+  String get singleModeRule2 =>
+      'The team tries to guess as many words as possible before the timer runs out.';
 
   @override
-  String get singleModeRule3 => 'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.';
+  String get singleModeRule3 =>
+      'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.';
 
   @override
-  String get singleModeRule4 => 'Teammates can guess as many times as they want.';
+  String get singleModeRule4 =>
+      'Teammates can guess as many times as they want.';
 
   @override
   String get singleModeRule5 => 'When guessed correctly, a new word appears.';
 
   @override
-  String get singleModeRule6 => 'If the word is skipped, 1 point is deducted (can be changed in settings).';
+  String get singleModeRule6 =>
+      'If the word is skipped, 1 point is deducted (can be changed in settings).';
 
   @override
-  String get cardModeRule1 => 'The explainer receives a card with multiple words (usually 5–7).';
+  String get cardModeRule1 =>
+      'The explainer receives a card with multiple words (usually 5–7).';
 
   @override
-  String get cardModeRule2 => 'All words on the card must be guessed before the timer runs out.';
+  String get cardModeRule2 =>
+      'All words on the card must be guessed before the timer runs out.';
 
   @override
   String get cardModeRule3 => 'Players can guess the words in any order.';
 
   @override
-  String get cardModeRule4 => 'Skipping is not allowed — you must guess every word on the card.';
+  String get cardModeRule4 =>
+      'Skipping is not allowed — you must guess every word on the card.';
 
   @override
-  String get cardModeRule5 => 'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.';
+  String get cardModeRule5 =>
+      'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.';
 
   @override
   String get cardModeRule6 => 'Score is based on the number guessed words';
@@ -157,13 +167,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get roundOverview_confirmExit_title => 'Exit Game?';
 
   @override
-  String get roundOverview_confirmExit_message => 'If you close this screen, all game progress will be lost. Are you sure you want to exit?';
+  String get roundOverview_confirmExit_message =>
+      'If you close this screen, all game progress will be lost. Are you sure you want to exit?';
 
   @override
   String get countdown_go => 'Go!';
 
   @override
-  String get general________________________________________________ => 'general----------------------------------------------------------------------';
+  String get general________________________________________________ =>
+      'general----------------------------------------------------------------------';
 
   @override
   String get general_startGame => 'Start Game';

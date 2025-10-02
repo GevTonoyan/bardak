@@ -9,7 +9,8 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get settings______________________________________________ => 'settings----------------------------------------------------------------------';
+  String get settings______________________________________________ =>
+      'settings----------------------------------------------------------------------';
 
   @override
   String get settings => 'Настройки';
@@ -33,7 +34,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings_localeEnglish => 'English';
 
   @override
-  String get alias________________________________________________ => 'alias----------------------------------------------------------------------';
+  String get alias________________________________________________ =>
+      'alias----------------------------------------------------------------------';
 
   @override
   String get mode1 => 'Одно слово';
@@ -60,34 +62,42 @@ class AppLocalizationsRu extends AppLocalizations {
   String get singleModeRule1 => 'Один игрок объясняет одно слово за раз.';
 
   @override
-  String get singleModeRule2 => 'Команда пытается угадать как можно больше слов, пока не истечёт время.';
+  String get singleModeRule2 =>
+      'Команда пытается угадать как можно больше слов, пока не истечёт время.';
 
   @override
-  String get singleModeRule3 => 'Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.';
+  String get singleModeRule3 =>
+      'Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.';
 
   @override
   String get singleModeRule4 => 'Товарищи по команде ';
 
   @override
-  String get singleModeRule5 => 'Можете угадывать столько раз, сколько захотите';
+  String get singleModeRule5 =>
+      'Можете угадывать столько раз, сколько захотите';
 
   @override
-  String get singleModeRule6 => 'Когда слово угадано правильно, появляется новое слово';
+  String get singleModeRule6 =>
+      'Когда слово угадано правильно, появляется новое слово';
 
   @override
-  String get cardModeRule1 => 'Объясняющий получает карточку с несколькими словами (обычно 5–7).';
+  String get cardModeRule1 =>
+      'Объясняющий получает карточку с несколькими словами (обычно 5–7).';
 
   @override
-  String get cardModeRule2 => 'Все слова на карточке должны быть угаданы до истечения времени';
+  String get cardModeRule2 =>
+      'Все слова на карточке должны быть угаданы до истечения времени';
 
   @override
   String get cardModeRule3 => 'Игроки могут угадывать слова в любом порядке.';
 
   @override
-  String get cardModeRule4 => 'Пропускать нельзя — нужно угадать каждое слово на карточке';
+  String get cardModeRule4 =>
+      'Пропускать нельзя — нужно угадать каждое слово на карточке';
 
   @override
-  String get cardModeRule5 => 'Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.';
+  String get cardModeRule5 =>
+      'Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.';
 
   @override
   String get cardModeRule6 => 'Счёт основан на количестве угаданных слов';
@@ -157,13 +167,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get roundOverview_confirmExit_title => 'Выйти из игры?';
 
   @override
-  String get roundOverview_confirmExit_message => 'Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?';
+  String get roundOverview_confirmExit_message =>
+      'Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?';
 
   @override
   String get countdown_go => 'Вперёд!';
 
   @override
-  String get general________________________________________________ => 'general----------------------------------------------------------------------';
+  String get general________________________________________________ =>
+      'general----------------------------------------------------------------------';
 
   @override
   String get general_startGame => 'Начать игру';

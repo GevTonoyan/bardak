@@ -1,6 +1,7 @@
 import 'package:boardify/core/extensions/context_extension.dart';
-import 'package:boardify/core/extensions/state_extension.dart';
+import 'package:boardify/features/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:boardify/features/word_pack/presentation/bloc/word_packs_bloc.dart';
+import 'package:boardify/features/word_pack/presentation/ui/pack_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,75 +26,84 @@ class _WordPackScreenState extends State<WordPackScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.wordPack)),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: BlocBuilder<WordPacksBloc, WordPacksState>(
-            builder: (context, state) {
-              switch (state) {
-                case WordPacksInitial():
-                  return const SizedBox.shrink();
-                case WordPacksError():
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.error_outline,
-                          color: colors.error,
-                          size: 48,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          context.l10n.word_packs_fail,
-                          style: typography.titleMedium.copyWith(
-                            color: colors.error,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  );
-                case WordPacksLoaded():
-                  {
-                    final packs = state.packs;
-                    final selectedId = state.selectedPackId;
-
-                    return GridView.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.9,
-                      shrinkWrap: true,
-                      children: List.generate(packs.length, (index) {
-                        final pack = packs[index];
-                        final gradientColors = _gradientColorsForPack(index);
-
-                        return _PackCard(
-                          packName: pack.name,
-                          emoji: pack.emoji,
-                          startColor: gradientColors[0],
-                          endColor: gradientColors[1],
-                          isSelected: selectedId == pack.id,
-                          onTap: () {
-                            context.read<WordPacksBloc>().add(
-                              SelectWordPack(
-                                packId: pack.id,
-                                localeCode:
-                                    Localizations.localeOf(
-                                      context,
-                                    ).languageCode,
-                              ),
-                            );
-                          },
-                        );
-                      }),
-                    );
-                  }
-              }
-            },
-          ),
+        child: BlocBuilder<WordPacksBloc, WordPacksState>(
+          builder: (context, state) {
+            return switch (state) {
+              WordPacksInitial() => const SizedBox.shrink(),
+              WordPacksError() => const _Error(),
+              WordPacksLoaded(
+                packs: final packs,
+                selectedPackId: final selectedId,
+              ) =>
+                _Success(packs: packs, selectedId: selectedId),
+            };
+          },
         ),
       ),
+    );
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appTheme.colors;
+    final typography = context.appTheme.typography;
+
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error_outline, color: colors.error, size: 48),
+          const SizedBox(height: 16),
+          Text(
+            context.l10n.word_packs_fail,
+            style: typography.titleMedium.copyWith(color: colors.error),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Success extends StatelessWidget {
+  const _Success({required this.packs, this.selectedId});
+
+  final List<AliasWordPackInfoEntity> packs;
+  final String? selectedId;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      padding: const EdgeInsets.all(16),
+      crossAxisCount: 2,
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
+      childAspectRatio: 0.9,
+      shrinkWrap: true,
+      children: List.generate(packs.length, (index) {
+        final pack = packs[index];
+        final gradientColors = _gradientColorsForPack(index);
+
+        return PackCard(
+          packName: pack.name,
+          emoji: pack.emoji,
+          startColor: gradientColors[0],
+          endColor: gradientColors[1],
+          isSelected: selectedId == pack.id,
+          onTap: () {
+            context.read<WordPacksBloc>().add(
+              SelectWordPack(
+                packId: pack.id,
+                localeCode: Localizations.localeOf(context).languageCode,
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 
@@ -109,73 +119,5 @@ class _WordPackScreenState extends State<WordPackScreen> {
       [Color(0xFF00C9FF), Color(0xFF92FE9D)],
     ];
     return gradients[index % gradients.length];
-  }
-}
-
-class _PackCard extends StatelessWidget {
-  const _PackCard({
-    required this.packName,
-    required this.emoji,
-    required this.startColor,
-    required this.endColor,
-    required this.onTap,
-    this.isSelected = false,
-  });
-
-  final String packName;
-  final String emoji;
-  final Color startColor;
-  final Color endColor;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = context.appTheme.typography;
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [startColor, endColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: endColor.withValues(alpha: 0.5),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
-            ),
-            if (isSelected)
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.7),
-                blurRadius: 10,
-                spreadRadius: 2,
-              ),
-          ],
-          border: isSelected ? Border.all(color: Colors.white, width: 2) : null,
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(emoji, style: const TextStyle(fontSize: 40)),
-            const SizedBox(height: 12),
-            Text(
-              packName,
-              style: text.titleMedium.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
