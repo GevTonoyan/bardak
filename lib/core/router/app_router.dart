@@ -69,7 +69,11 @@ final appRouter = GoRouter(
           name: PreGameScreen.routePath,
           builder:
               (context, state) => BlocProvider(
-                create: (_) => PreGameBloc(getAliasSettingsUseCase: sl()),
+                create:
+                    (_) => PreGameBloc(
+                      getAliasSettingsUseCase: sl(),
+                      getWordsByPack: sl(),
+                    ),
                 child: const PreGameScreen(),
               ),
           routes: [
@@ -87,12 +91,10 @@ final appRouter = GoRouter(
                   builder: (context, state) {
                     final roundEntity = state.extra! as CardRoundEntity;
 
-                    final words = _getMockedWords();
-
                     return BlocProvider(
                       create:
                           (_) => CardRoundBloc(
-                            words: words,
+                            words: roundEntity.words,
                             wordsPerCard: roundEntity.wordsPerCard,
                           ),
                       child: CardRoundScreen(

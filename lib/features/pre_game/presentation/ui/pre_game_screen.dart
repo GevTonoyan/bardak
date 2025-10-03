@@ -33,6 +33,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
           '${context.l10n.preGameTeam} 1',
           '${context.l10n.preGameTeam} 2',
         ],
+        localeCode: context.locale.languageCode,
       ),
     );
 
@@ -224,6 +225,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                                 preGameConfig.penaltyForSkipping,
                             currentTeamIndex: 0,
                             currentRoundIndex: 0,
+                            words: preGameConfig.words,
                           );
 
                           _navigateToGameSession(gameSession);

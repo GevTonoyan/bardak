@@ -12,6 +12,7 @@ class GameSessionEntity {
     required this.penaltyForSkipping,
     required this.currentTeamIndex,
     required this.currentRoundIndex,
+    required this.words,
     this.isGameFinished = false,
     this.winningTeamIndex,
   });
@@ -39,6 +40,9 @@ class GameSessionEntity {
   /// Game end state
   final bool isGameFinished;
   final int? winningTeamIndex;
+
+  /// List of all words
+  final List<String> words;
 }
 
 class AliasTeamStateEntity {

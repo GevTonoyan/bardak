@@ -141,6 +141,7 @@ class RoundOverviewScreen extends StatelessWidget {
         CardRoundEntity(
           roundDuration: gameSession.roundDuration,
           wordsPerCard: gameSession.wordsPerCard,
+          words: gameSession.words,
         ),
       ),
       GameMode.singleWord => (

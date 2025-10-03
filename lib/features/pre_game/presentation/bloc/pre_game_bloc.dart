@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/features/settings/domain/usecases/get_game_settings_usecase.dart';
+import 'package:boardify/features/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'pre_game_event.dart';
@@ -12,8 +13,10 @@ part 'pre_game_state.dart';
 //  sources in common feature, also get Alias Settings usecase
 
 class PreGameBloc extends Bloc<PreGameEvent, PreGameState> {
-  PreGameBloc({required this.getAliasSettingsUseCase})
-    : super(const PreGameInitialState()) {
+  PreGameBloc({
+    required this.getAliasSettingsUseCase,
+    required this.getWordsByPack,
+  }) : super(const PreGameInitialState()) {
     on<GetPreGameConfig>(_getAliasPreGameConfig);
     on<ChangeGameModeEvent>(_changeGameMode);
     on<ChangeRoundDurationEvent>(_changeRoundDuration);
@@ -26,23 +29,28 @@ class PreGameBloc extends Bloc<PreGameEvent, PreGameState> {
   }
 
   final GetGameSettingsUseCase getAliasSettingsUseCase;
+  final GetWordsByPackUseCase getWordsByPack;
 
   FutureOr<void> _getAliasPreGameConfig(
     GetPreGameConfig event,
     Emitter<PreGameState> emit,
   ) async {
     emit(const PreGameLoadingState());
-    final result = getAliasSettingsUseCase();
+    final settings = getAliasSettingsUseCase();
+    final words = await getWordsByPack(
+      GetWordsByPackParams(localeCode: event.localeCode),
+    );
 
     final preGameConfig = PreGameEntity(
       gameMode: GameMode.card,
-      roundDuration: result.roundDuration,
-      pointsToWin: result.pointsToWin,
-      soundEnabled: result.soundEnabled,
-      wordsPerCard: result.wordsPerCard,
-      allowSkipping: result.allowSkipping,
-      penaltyForSkipping: result.penaltyForSkipping,
+      roundDuration: settings.roundDuration,
+      pointsToWin: settings.pointsToWin,
+      soundEnabled: settings.soundEnabled,
+      wordsPerCard: settings.wordsPerCard,
+      allowSkipping: settings.allowSkipping,
+      penaltyForSkipping: settings.penaltyForSkipping,
       teamNames: event.teamNames,
+      words: words,
     );
 
     emit(PreGameLoadedState(preGameConfig));

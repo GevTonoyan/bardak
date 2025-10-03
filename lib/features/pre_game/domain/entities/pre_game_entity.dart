@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:boardify/alias_constants.dart';
 
 /// AliasPreGameConfig is a data class that holds the configuration
-/// settings for the Alias game.
+/// settings for the Alias game session.
 class PreGameEntity {
   const PreGameEntity({
     required this.gameMode,
@@ -14,21 +12,8 @@ class PreGameEntity {
     required this.allowSkipping,
     required this.penaltyForSkipping,
     required this.teamNames,
+    required this.words,
   });
-
-  factory PreGameEntity.fromJson(String json) {
-    final data = jsonDecode(json) as Map<String, dynamic>;
-    return PreGameEntity(
-      gameMode: GameMode.fromString(data[AliasConstants.gameModeKey]),
-      roundDuration: data[AliasConstants.roundDurationKey] as int,
-      pointsToWin: data[AliasConstants.pointsToWinKey] as int,
-      soundEnabled: data[AliasConstants.soundEnabledKey] as bool,
-      wordsPerCard: data[AliasConstants.wordsPerCardKey] as int,
-      allowSkipping: data[AliasConstants.allowSkippingKey] as bool,
-      penaltyForSkipping: data[AliasConstants.penaltyForSkippingKey] as bool,
-      teamNames: List<String>.from(data[AliasConstants.teamNamesKey] as List),
-    );
-  }
 
   factory PreGameEntity.initial() {
     return const PreGameEntity(
@@ -40,6 +25,7 @@ class PreGameEntity {
       wordsPerCard: AliasConstants.defaultWordsPerCard,
       gameMode: GameMode.card,
       teamNames: ['Team 1', 'Team 2'],
+      words: [],
     );
   }
 
@@ -51,6 +37,7 @@ class PreGameEntity {
   final bool allowSkipping;
   final bool penaltyForSkipping;
   final List<String> teamNames;
+  final List<String> words;
 
   PreGameEntity copyWith({
     GameMode? gameMode,
@@ -61,6 +48,7 @@ class PreGameEntity {
     bool? allowSkipping,
     bool? penaltyForSkipping,
     List<String>? teamNames,
+    List<String>? words,
   }) {
     return PreGameEntity(
       gameMode: gameMode ?? this.gameMode,
@@ -71,22 +59,8 @@ class PreGameEntity {
       allowSkipping: allowSkipping ?? this.allowSkipping,
       penaltyForSkipping: penaltyForSkipping ?? this.penaltyForSkipping,
       teamNames: teamNames ?? this.teamNames,
+      words: words ?? this.words,
     );
-  }
-
-  String toJson() {
-    final data = <String, dynamic>{
-      AliasConstants.gameModeKey: gameMode.toString(),
-      AliasConstants.roundDurationKey: roundDuration,
-      AliasConstants.pointsToWinKey: pointsToWin,
-      AliasConstants.soundEnabledKey: soundEnabled,
-      AliasConstants.wordsPerCardKey: wordsPerCard,
-      AliasConstants.allowSkippingKey: allowSkipping,
-      AliasConstants.penaltyForSkippingKey: penaltyForSkipping,
-      AliasConstants.teamNamesKey: teamNames,
-    };
-
-    return jsonEncode(data);
   }
 
   @override
@@ -98,7 +72,8 @@ class PreGameEntity {
         ' wordsPerCard: $wordsPerCard,'
         ' allowSkipping: $allowSkipping,'
         ' penaltyForSkipping: $penaltyForSkipping,'
-        ' teamNames: $teamNames}';
+        ' teamNames: $teamNames}'
+        ' words: $words';
   }
 }
 
@@ -113,17 +88,6 @@ enum GameMode {
         return 'card';
       case GameMode.singleWord:
         return 'single word';
-    }
-  }
-
-  static GameMode fromString(String value) {
-    switch (value.toLowerCase()) {
-      case 'card':
-        return GameMode.card;
-      case 'single word':
-        return GameMode.singleWord;
-      default:
-        throw ArgumentError('Unknown game mode: $value');
     }
   }
 }

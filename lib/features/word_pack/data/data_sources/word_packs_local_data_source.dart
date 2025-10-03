@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:boardify/alias_constants.dart';
 import 'package:boardify/features/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:boardify/features/word_pack/domain/usecases/get_word_packs_usecase.dart';
+import 'package:boardify/features/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
 import 'package:boardify/features/word_pack/domain/usecases/set_selected_word_pack_usecase.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -12,6 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract interface class WordPacksLocalDataSource {
   /// Returns cached word packs for the given locale.
   Future<AliasWordPackInfoResultEntity> getWordPacks(GetWordPacksParams params);
+
+  /// Returns list of words for the given pack ID and locale.
+  Future<List<String>> getWordsByPack(GetWordsByPackParams params);
 
   /// Saves the selected word pack for the given locale.
   Future<void> setSelectedWordPack(SetSelectedWordPackParams params);
@@ -36,10 +40,19 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
       final data = box.get(key);
       if (data is Map) {
         final map = Map<String, dynamic>.from(data);
+
         final name = map[AliasConstants.aliasWordPackName] as String? ?? key;
         final emoji = map[AliasConstants.aliasWordPackEmoji] as String? ?? '';
+        final words =
+            map[AliasConstants.aliasWordPackWords] as List<String>? ?? [];
+
         packsList.add(
-          AliasWordPackInfoEntity(id: key, name: name, emoji: emoji),
+          AliasWordPackInfoEntity(
+            id: key,
+            name: name,
+            emoji: emoji,
+            words: words,
+          ),
         );
       }
     }
@@ -54,6 +67,25 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
       packs: packsList,
       selectedPackId: selectedPackId,
     );
+  }
+
+  @override
+  Future<List<String>> getWordsByPack(GetWordsByPackParams params) async {
+    final box = await Hive.openBox(
+      '${AliasConstants.aliasWordPack}_${params.localeCode}',
+    );
+
+    final selectedPackId = preferences.getString(
+      '${AliasConstants.aliasSelectedWordPackKey}_${params.localeCode}',
+    );
+
+    final pack = box.get(selectedPackId ?? 'all');
+    if (pack is! Map) return [];
+
+    final words =
+        pack[AliasConstants.aliasWordPackWords] as List<String>? ?? [];
+
+    return words;
   }
 
   @override

@@ -7,9 +7,10 @@ sealed class PreGameEvent {
 
 /// Event to get the alias pre game config.
 class GetPreGameConfig extends PreGameEvent {
-  const GetPreGameConfig({required this.teamNames});
+  const GetPreGameConfig({required this.teamNames, required this.localeCode});
 
   final List<String> teamNames;
+  final String localeCode;
 }
 
 /// Change game mode event.
