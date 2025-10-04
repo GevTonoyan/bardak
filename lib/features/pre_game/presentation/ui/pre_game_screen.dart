@@ -245,7 +245,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
   }
 
   void _navigateToGameSession(GameSessionEntity gameSession) {
-    context.pushNamed(GameSessionScreen.routePath, extra: gameSession);
+    context.goNamed(GameSessionScreen.routePath, extra: gameSession);
   }
 }
 

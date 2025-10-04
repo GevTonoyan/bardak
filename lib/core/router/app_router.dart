@@ -76,54 +76,52 @@ final appRouter = GoRouter(
                     ),
                 child: const PreGameScreen(),
               ),
+        ),
+        GoRoute(
+          path: GameSessionScreen.routePath,
+          name: GameSessionScreen.routePath,
+          builder: (context, state) {
+            final gameSessionEntity = state.extra as GameSessionEntity?;
+            return GameSessionScreen(gameSessionEntity: gameSessionEntity);
+          },
           routes: [
             GoRoute(
-              path: GameSessionScreen.routePath,
-              name: GameSessionScreen.routePath,
+              path: CardRoundScreen.routePath,
+              name: CardRoundScreen.routePath,
               builder: (context, state) {
-                final gameSessionEntity = state.extra as GameSessionEntity?;
-                return GameSessionScreen(gameSessionEntity: gameSessionEntity);
-              },
-              routes: [
-                GoRoute(
-                  path: CardRoundScreen.routePath,
-                  name: CardRoundScreen.routePath,
-                  builder: (context, state) {
-                    final roundEntity = state.extra! as CardRoundEntity;
+                final roundEntity = state.extra! as CardRoundEntity;
 
-                    return BlocProvider(
-                      create:
-                          (_) => CardRoundBloc(
-                            words: roundEntity.words,
-                            wordsPerCard: roundEntity.wordsPerCard,
-                          ),
-                      child: CardRoundScreen(
-                        initialRoundDuration: roundEntity.roundDuration,
+                return BlocProvider(
+                  create:
+                      (_) => CardRoundBloc(
+                        words: roundEntity.words,
+                        wordsPerCard: roundEntity.wordsPerCard,
                       ),
-                    );
-                  },
-                ),
-                GoRoute(
-                  path: SingleWordRoundScreen.routePath,
-                  name: SingleWordRoundScreen.routePath,
-                  builder: (context, state) {
-                    final roundEntity = state.extra! as SingleWordRoundEntity;
+                  child: CardRoundScreen(
+                    initialRoundDuration: roundEntity.roundDuration,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              path: SingleWordRoundScreen.routePath,
+              name: SingleWordRoundScreen.routePath,
+              builder: (context, state) {
+                final roundEntity = state.extra! as SingleWordRoundEntity;
 
-                    final words = _getMockedWords().sublist(0, 10);
+                final words = _getMockedWords().sublist(0, 10);
 
-                    return BlocProvider(
-                      create:
-                          (_) => SingleWordRoundBloc(
-                            words: words,
-                            roundDuration: roundEntity.roundDuration,
-                            allowSkipping: roundEntity.allowSkipping,
-                            penaltyForSkipping: roundEntity.penaltyForSkipping,
-                          ),
-                      child: const SingleWordRoundScreen(),
-                    );
-                  },
-                ),
-              ],
+                return BlocProvider(
+                  create:
+                      (_) => SingleWordRoundBloc(
+                        words: words,
+                        roundDuration: roundEntity.roundDuration,
+                        allowSkipping: roundEntity.allowSkipping,
+                        penaltyForSkipping: roundEntity.penaltyForSkipping,
+                      ),
+                  child: const SingleWordRoundScreen(),
+                );
+              },
             ),
           ],
         ),
