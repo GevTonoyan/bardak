@@ -1,17 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-class CardRoundResult extends Equatable {
-  const CardRoundResult({
-    required this.guessedCount,
-    required this.seenWordsCount,
-  });
+class RoundResult extends Equatable {
+  const RoundResult({required this.guessedCount, required this.seenWordsCount});
 
   final int guessedCount;
   final int seenWordsCount;
 
   @override
   String toString() {
-    return 'CardRoundResult{guessedCount: $guessedCount, '
+    return 'Round result{guessedCount: $guessedCount, '
         'seenWordsCount: $seenWordsCount}';
   }
 

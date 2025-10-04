@@ -1,5 +1,6 @@
 import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/round_header.dart';
+import 'package:boardify/features/game_session/domain/entities/card_round_result.dart';
 import 'package:boardify/features/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,12 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
     return BlocListener<SingleWordRoundBloc, SingleWordRoundState>(
       listener: (context, state) {
         if (state.completed) {
-          context.pop();
+          context.pop(
+            RoundResult(
+              guessedCount: state.score,
+              seenWordsCount: state.index + 1,
+            ),
+          );
         }
       },
       child: PopScope(
@@ -103,22 +109,25 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 48,
+                        spacing: 24,
                         children: [
-                          AnimatedBuilder(
-                            animation: _wordAnimationController,
-                            builder: (context, child) {
-                              return Transform.scale(
-                                scale:
-                                    1.0 +
-                                    (_wordAnimationController.value * 0.1),
-                                child: Text(
-                                  roundState.words[roundState.index],
-                                  style: typography.displayMedium,
-                                  textAlign: TextAlign.center,
-                                ),
-                              );
-                            },
+                          SizedBox(
+                            height: 90,
+                            child: AnimatedBuilder(
+                              animation: _wordAnimationController,
+                              builder: (context, child) {
+                                return Transform.scale(
+                                  scale:
+                                      1.0 +
+                                      (_wordAnimationController.value * 0.1),
+                                  child: Text(
+                                    roundState.words[roundState.index],
+                                    style: typography.displaySmall,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

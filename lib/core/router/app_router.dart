@@ -109,12 +109,10 @@ final appRouter = GoRouter(
               builder: (context, state) {
                 final roundEntity = state.extra! as SingleWordRoundEntity;
 
-                final words = _getMockedWords().sublist(0, 10);
-
                 return BlocProvider(
                   create:
                       (_) => SingleWordRoundBloc(
-                        words: words,
+                        words: roundEntity.words,
                         roundDuration: roundEntity.roundDuration,
                         allowSkipping: roundEntity.allowSkipping,
                         penaltyForSkipping: roundEntity.penaltyForSkipping,
@@ -129,51 +127,6 @@ final appRouter = GoRouter(
     ),
   ],
 );
-
-List<String> _getMockedWords() {
-  //create 40 unique english words and return them as a set
-  return [
-    'Mountain',
-    'Laptop',
-    'Book',
-    'Guitar',
-    'River',
-    'Spaceship',
-    'Chocolate',
-    'Umbrella',
-    'Ocean',
-    'Forest',
-    'Desert',
-    'Castle',
-    'Dragon',
-    'Knight',
-    'Wizard',
-    'Pirate',
-    'Treasure',
-    'Island',
-    'Volcano',
-    'Canyon',
-    'Bridge',
-    'Tower',
-    'Garden',
-    'Library',
-    'Museum',
-    'Theater',
-    'Cinema',
-    'Restaurant',
-    'Cafe',
-    'Market',
-    'School',
-    'Hospital',
-    'Airport',
-    'Station',
-    'Hotel',
-    'Beach',
-    'Park',
-    'Zoo',
-    'Aquarium',
-  ];
-}
 
 class RouteNames {
   static const initial = '/';

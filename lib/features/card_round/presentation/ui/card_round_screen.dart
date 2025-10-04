@@ -1,5 +1,5 @@
 import 'package:boardify/core/ui_kit/widgets/round_header.dart';
-import 'package:boardify/features/card_round/domain/card_round_result.dart';
+import 'package:boardify/features/game_session/domain/entities/card_round_result.dart';
 import 'package:boardify/features/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/features/card_round/presentation/ui/widgets/card_round_list.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class CardRoundScreen extends StatelessWidget {
       listener: (context, state) {
         if (state.completed) {
           context.pop(
-            CardRoundResult(
+            RoundResult(
               guessedCount: state.guessed.length,
               seenWordsCount: state.seenWordsCount,
             ),
