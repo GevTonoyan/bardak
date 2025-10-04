@@ -48,9 +48,10 @@ extension CardRoundStateX on CardRoundState {
   bool get visibleAllGuessed =>
       visible.isNotEmpty && visible.every(guessed.contains);
 
-  Set<String> get seenSoFar {
+  /// Number of words that have been shown so far
+  int get seenWordsCount {
     final end = (page * wordsPerCard) + visible.length;
-    return words.take(end).toSet();
+    return end.clamp(0, totalWords);
   }
 
   bool get allGuessed => guessed.length == words.length;

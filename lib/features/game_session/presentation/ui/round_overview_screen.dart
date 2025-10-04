@@ -2,6 +2,7 @@ import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/ui_kit/widgets/game_popup_dialog.dart';
 import 'package:boardify/features/card_round/domain/card_round_entity.dart';
+import 'package:boardify/features/card_round/domain/card_round_result.dart';
 import 'package:boardify/features/card_round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
@@ -133,28 +134,38 @@ class RoundOverviewScreen extends StatelessWidget {
   }
 
   Future<void> _navigateToRoundScreen(BuildContext context) async {
-    final gameSession = context.read<GameSessionBloc>().state.gameState;
+    final gameSessionBloc = context.read<GameSessionBloc>();
+    final gameState = gameSessionBloc.state.gameState;
 
-    final (routeName, extra) = switch (gameSession.gameMode) {
+    final (routeName, extra) = switch (gameState.gameMode) {
       GameMode.card => (
         CardRoundScreen.routePath,
         CardRoundEntity(
-          roundDuration: gameSession.roundDuration,
-          wordsPerCard: gameSession.wordsPerCard,
-          words: gameSession.words,
+          roundDuration: gameState.roundDuration,
+          wordsPerCard: gameState.wordsPerCard,
+          words: gameState.words,
         ),
       ),
       GameMode.singleWord => (
         SingleWordRoundScreen.routePath,
         SingleWordRoundEntity(
-          roundDuration: gameSession.roundDuration,
-          penaltyForSkipping: gameSession.penaltyForSkipping,
-          allowSkipping: gameSession.allowSkipping,
+          roundDuration: gameState.roundDuration,
+          penaltyForSkipping: gameState.penaltyForSkipping,
+          allowSkipping: gameState.allowSkipping,
         ),
       ),
     };
 
-    await context.pushNamed(routeName, extra: extra);
+    final roundResult =
+        await context.pushNamed(routeName, extra: extra) as CardRoundResult?;
+    if (roundResult != null) {
+      gameSessionBloc.add(
+        RoundEnded(
+          guessedCount: roundResult.guessedCount,
+          wordsShown: roundResult.seenWordsCount,
+        ),
+      );
+    }
   }
 }
 

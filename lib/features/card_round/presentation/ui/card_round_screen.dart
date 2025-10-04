@@ -21,7 +21,7 @@ class CardRoundScreen extends StatelessWidget {
           context.pop(
             CardRoundResult(
               guessedCount: state.guessed.length,
-              seenWords: state.seenSoFar,
+              seenWordsCount: state.seenWordsCount,
             ),
           );
         }
