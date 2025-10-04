@@ -11,10 +11,10 @@ part 'game_session_state.dart';
 class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
   GameSessionBloc({required GameSessionEntity initialGameState})
     : super(GameSessionState(initialGameState)) {
-    on<RoundEnded>(_onWordsConsumed);
+    on<RoundEnded>(_onRoundEnded);
   }
 
-  FutureOr<void> _onWordsConsumed(
+  FutureOr<void> _onRoundEnded(
     RoundEnded event,
     Emitter<GameSessionState> emit,
   ) {
@@ -34,12 +34,16 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
       false => (currentTeamIndex + 1, gameState.currentRoundIndex),
     };
 
+    final winnerTeamIndex = gameState.getWinningTeamIndex();
+
     emit(
       GameSessionState(
         state.gameState.copyWith(
           words: newRemainingWords,
           currentRoundIndex: nextRoundIndex,
           currentTeamIndex: nextTeamIndex,
+          isGameFinished: winnerTeamIndex != null,
+          winningTeamIndex: winnerTeamIndex,
         ),
       ),
     );

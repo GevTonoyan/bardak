@@ -6,6 +6,7 @@ import 'package:boardify/features/card_round/presentation/ui/card_round_screen.d
 import 'package:boardify/features/game_session/domain/entities/card_round_result.dart';
 import 'package:boardify/features/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/features/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/features/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:boardify/features/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/features/single_word_round/domain/single_word_round_entity.dart';
 import 'package:boardify/features/single_word_round/presentation/ui/single_word_round_screen.dart';
@@ -23,109 +24,121 @@ class RoundOverviewScreen extends StatelessWidget {
 
     final gameState = context.watch<GameSessionBloc>().state.gameState;
 
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        backgroundColor: colors.background,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        context.l10n.roundOverview_teamTurn(
-                          gameState.teamStates[gameState.currentTeamIndex].name,
-                        ),
-                        style: text.titleLarge.copyWith(
-                          color: colors.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      color: colors.onBackground,
-                      onPressed: () {
-                        showGamePopupDialog(
-                          context: context,
-                          title: context.l10n.roundOverview_confirmExit_title,
-                          message:
-                              context.l10n.roundOverview_confirmExit_message,
-                          confirmText: context.l10n.general_yes,
-                          cancelText: context.l10n.general_no,
-                          onConfirm: () => context.pop(),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+    return BlocListener<GameSessionBloc, GameSessionState>(
+      listener: (BuildContext context, GameSessionState state) {
+        if (state.gameState.isGameFinished) {
+          final winningTeam =
+              state.gameState.teamStates[state.gameState.winningTeamIndex!];
 
-                const SizedBox(height: 24),
-
-                // Team Score Cards
-                Expanded(
-                  child: Column(
+          context.goNamed(GameSummaryScreen.routePath);
+        }
+      },
+      child: PopScope(
+        canPop: false,
+        child: Scaffold(
+          backgroundColor: colors.background,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: _TeamScoreCard(
-                                team: gameState.teamStates[0],
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: _TeamScoreCard(
-                                team: gameState.teamStates[1],
-                              ),
-                            ),
-                          ],
+                        child: Text(
+                          context.l10n.roundOverview_teamTurn(
+                            gameState
+                                .teamStates[gameState.currentTeamIndex]
+                                .name,
+                          ),
+                          style: text.titleLarge.copyWith(
+                            color: colors.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      if (gameState.teamStates.length > 2) ...[
-                        const SizedBox(height: 12),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        color: colors.onBackground,
+                        onPressed: () {
+                          showGamePopupDialog(
+                            context: context,
+                            title: context.l10n.roundOverview_confirmExit_title,
+                            message:
+                                context.l10n.roundOverview_confirmExit_message,
+                            confirmText: context.l10n.general_yes,
+                            cancelText: context.l10n.general_no,
+                            onConfirm: () => context.pop(),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Team Score Cards
+                  Expanded(
+                    child: Column(
+                      children: [
                         Expanded(
                           child: Row(
                             children: [
                               Expanded(
                                 child: _TeamScoreCard(
-                                  team: gameState.teamStates[2],
+                                  team: gameState.teamStates[0],
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              if (gameState.teamStates.length == 4) ...[
-                                Expanded(
-                                  child: _TeamScoreCard(
-                                    team: gameState.teamStates[3],
-                                  ),
+                              Expanded(
+                                child: _TeamScoreCard(
+                                  team: gameState.teamStates[1],
                                 ),
-                              ] else ...[
-                                Expanded(child: Container()),
-                              ],
+                              ),
                             ],
                           ),
                         ),
+                        if (gameState.teamStates.length > 2) ...[
+                          const SizedBox(height: 12),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: _TeamScoreCard(
+                                    team: gameState.teamStates[2],
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                if (gameState.teamStates.length == 4) ...[
+                                  Expanded(
+                                    child: _TeamScoreCard(
+                                      team: gameState.teamStates[3],
+                                    ),
+                                  ),
+                                ] else ...[
+                                  Expanded(child: Container()),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () => _navigateToRoundScreen(context),
-                    icon: const Icon(Icons.play_arrow),
-                    label: Text(context.l10n.general_startGame),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () => _navigateToRoundScreen(context),
+                      icon: const Icon(Icons.play_arrow),
+                      label: Text(context.l10n.general_startGame),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -49,6 +49,8 @@ class GameSessionEntity {
     int? currentTeamIndex,
     int? currentRoundIndex,
     List<String>? words,
+    bool? isGameFinished,
+    int? winningTeamIndex,
   }) {
     return GameSessionEntity(
       gameMode: gameMode,
@@ -62,9 +64,44 @@ class GameSessionEntity {
       currentTeamIndex: currentTeamIndex ?? this.currentTeamIndex,
       currentRoundIndex: currentRoundIndex ?? this.currentRoundIndex,
       words: words ?? this.words,
-      isGameFinished: isGameFinished,
-      winningTeamIndex: winningTeamIndex,
+      isGameFinished: isGameFinished ?? this.isGameFinished,
+      winningTeamIndex: winningTeamIndex ?? this.winningTeamIndex,
     );
+  }
+}
+
+extension GameSessionEntityX on GameSessionEntity {
+  /// Returns the index of the winning team, or `null` if the game must continue
+  int?   getWinningTeamIndex() {
+    // 1️⃣ Teams that reached or exceeded pointsToWin
+    final qualifiedTeams =
+        teamStates
+            .asMap()
+            .entries
+            .where((e) => e.value.totalScore >= pointsToWin)
+            .toList();
+
+    // If no one qualified yet → no winner
+    if (qualifiedTeams.isEmpty) return null;
+
+    // 2️⃣ If exactly one team qualified → winner
+    if (qualifiedTeams.length == 1) {
+      return qualifiedTeams.first.key;
+    }
+
+    // 3️⃣ If multiple teams qualified → check if one leads
+    final maxScore = qualifiedTeams
+        .map((e) => e.value.totalScore)
+        .reduce((a, b) => a > b ? a : b);
+
+    final topTeams =
+        qualifiedTeams.where((e) => e.value.totalScore == maxScore).toList();
+
+    // If tie at top, continue playing
+    if (topTeams.length > 1) return null;
+
+    // Otherwise, single leader among qualified → winner
+    return topTeams.first.key;
   }
 }
 
