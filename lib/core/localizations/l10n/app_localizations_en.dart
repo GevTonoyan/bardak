@@ -174,6 +174,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get countdown_go => 'Go!';
 
   @override
+  String get summary_gameOver => 'Game Over';
+
+  @override
+  String get summary_winner => 'Winner';
+
+  @override
+  String get summary_playAgain => 'Play Again';
+
+  @override
+  String get summary_mainMenu => 'Main Menu';
+
+  @override
   String get general________________________________________________ =>
       'general----------------------------------------------------------------------';
 

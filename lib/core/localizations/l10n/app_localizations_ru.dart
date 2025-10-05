@@ -174,6 +174,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get countdown_go => 'Вперёд!';
 
   @override
+  String get summary_gameOver => 'Игра окончена';
+
+  @override
+  String get summary_winner => 'Победитель';
+
+  @override
+  String get summary_playAgain => 'Играть снова';
+
+  @override
+  String get summary_mainMenu => 'Главное меню';
+
+  @override
   String get general________________________________________________ =>
       'general----------------------------------------------------------------------';
 

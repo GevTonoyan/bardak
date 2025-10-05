@@ -34,7 +34,8 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
       false => (currentTeamIndex + 1, gameState.currentRoundIndex),
     };
 
-    final winnerTeamIndex = gameState.getWinningTeamIndex();
+    final winnerTeamIndex =
+        allTeamsPlayedRound ? gameState.getWinningTeamIndex() : null;
 
     emit(
       GameSessionState(

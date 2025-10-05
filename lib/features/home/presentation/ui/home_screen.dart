@@ -2,6 +2,7 @@ import 'package:boardify/alias_constants.dart';
 import 'package:boardify/core/extensions/context_extension.dart';
 import 'package:boardify/core/extensions/state_extension.dart';
 import 'package:boardify/core/router/app_router.dart';
+import 'package:boardify/features/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:boardify/features/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/features/pre_game/presentation/ui/pre_game_screen.dart';
 import 'package:boardify/features/settings/presentation/ui/settings_screen.dart';
@@ -57,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconButton(
                         icon: const Icon(Icons.info_outline),
                         color: colors.onBackground,
-                        onPressed: () => context.goNamed(RouteNames.info),
+                        //onPressed: () => context.goNamed(RouteNames.info),
+                        onPressed:
+                            () => context.goNamed(GameSummaryScreen.routePath),
                       ),
                     ],
                   ),

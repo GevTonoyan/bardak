@@ -177,6 +177,18 @@ class AppLocalizationsAm extends AppLocalizations {
   String get countdown_go => 'Գնացինք!';
 
   @override
+  String get summary_gameOver => 'Խաղը ավարտված է';
+
+  @override
+  String get summary_winner => 'Հաղթող';
+
+  @override
+  String get summary_playAgain => 'Կրկին խաղալ';
+
+  @override
+  String get summary_mainMenu => 'Գլխավոր մենյու';
+
+  @override
   String get general________________________________________________ =>
       'general----------------------------------------------------------------------';
 

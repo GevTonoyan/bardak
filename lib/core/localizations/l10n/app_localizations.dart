@@ -388,6 +388,30 @@ abstract class AppLocalizations {
   /// **'Go!'**
   String get countdown_go;
 
+  /// No description provided for @summary_gameOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Game Over'**
+  String get summary_gameOver;
+
+  /// No description provided for @summary_winner.
+  ///
+  /// In en, this message translates to:
+  /// **'Winner'**
+  String get summary_winner;
+
+  /// No description provided for @summary_playAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Play Again'**
+  String get summary_playAgain;
+
+  /// No description provided for @summary_mainMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Menu'**
+  String get summary_mainMenu;
+
   /// No description provided for @general________________________________________________.
   ///
   /// In en, this message translates to:

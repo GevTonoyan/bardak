@@ -72,7 +72,7 @@ class GameSessionEntity {
 
 extension GameSessionEntityX on GameSessionEntity {
   /// Returns the index of the winning team, or `null` if the game must continue
-  int?   getWinningTeamIndex() {
+  int? getWinningTeamIndex() {
     // 1️⃣ Teams that reached or exceeded pointsToWin
     final qualifiedTeams =
         teamStates
