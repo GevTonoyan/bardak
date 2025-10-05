@@ -58,9 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconButton(
                         icon: const Icon(Icons.info_outline),
                         color: colors.onBackground,
-                        //onPressed: () => context.goNamed(RouteNames.info),
-                        onPressed:
-                            () => context.goNamed(GameSummaryScreen.routePath),
+                        onPressed: () => context.goNamed(RouteNames.info),
                       ),
                     ],
                   ),
