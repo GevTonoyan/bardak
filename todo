@@ -1,1 +1,5 @@
+BUGS
+1. Game doesn't end, when there are no more words.
+
+FEATURES
 1. Make bloc names generic , also state and event names similar to each other
