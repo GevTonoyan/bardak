@@ -61,10 +61,9 @@ class _PreGameScreenState extends State<PreGameScreen> {
           padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
           child: BlocBuilder<PreGameBloc, PreGameState>(
             builder: (context, state) {
-              final preGameConfig =
-                  state is PreGameLoadedState
-                      ? state.preGameConfig
-                      : PreGameEntity.initial();
+              final preGameConfig = state is PreGameLoadedState
+                  ? state.preGameConfig
+                  : PreGameEntity.initial();
 
               return Column(
                 children: [
@@ -207,15 +206,16 @@ class _PreGameScreenState extends State<PreGameScreen> {
                       onPressed: () {
                         if (state is PreGameLoadedState) {
                           final preGameConfig = state.preGameConfig;
+                          preGameConfig.words.shuffle();
+
                           final gameSession = GameSessionEntity(
                             gameMode: preGameConfig.gameMode,
-                            teamStates:
-                                preGameConfig.teamNames.map((teamName) {
-                                  return AliasTeamStateEntity(
-                                    name: teamName,
-                                    roundScores: [],
-                                  );
-                                }).toList(),
+                            teamStates: preGameConfig.teamNames.map((teamName) {
+                              return AliasTeamStateEntity(
+                                name: teamName,
+                                roundScores: [],
+                              );
+                            }).toList(),
                             roundDuration: preGameConfig.roundDuration,
                             pointsToWin: preGameConfig.pointsToWin,
                             soundEnabled: preGameConfig.soundEnabled,
@@ -261,10 +261,9 @@ class _GameModeSelector extends StatelessWidget {
     final text = theme.typography;
 
     final bloc = context.read<PreGameBloc>();
-    final selectedGameMode =
-        bloc.state is PreGameLoadedState
-            ? (bloc.state as PreGameLoadedState).preGameConfig.gameMode
-            : GameMode.card;
+    final selectedGameMode = bloc.state is PreGameLoadedState
+        ? (bloc.state as PreGameLoadedState).preGameConfig.gameMode
+        : GameMode.card;
 
     return Row(
       children: List.generate(GameMode.values.length, (index) {
