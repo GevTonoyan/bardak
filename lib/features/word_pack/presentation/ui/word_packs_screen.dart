@@ -77,14 +77,10 @@ class _Success extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
+    return ListView.separated(
       padding: const EdgeInsets.all(16),
-      crossAxisCount: 2,
-      mainAxisSpacing: 16,
-      crossAxisSpacing: 16,
-      childAspectRatio: 0.9,
       shrinkWrap: true,
-      children: List.generate(packs.length, (index) {
+      itemBuilder: (BuildContext context, int index) {
         final pack = packs[index];
         final gradientColors = _gradientColorsForPack(index);
 
@@ -103,7 +99,9 @@ class _Success extends StatelessWidget {
             );
           },
         );
-      }),
+      },
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemCount: packs.length,
     );
   }
 

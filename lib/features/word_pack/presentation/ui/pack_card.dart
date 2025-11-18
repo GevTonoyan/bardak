@@ -50,11 +50,10 @@ class PackCard extends StatelessWidget {
           border: isSelected ? Border.all(color: Colors.white, width: 2) : null,
         ),
         padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          spacing: 12,
           children: [
             Text(emoji, style: const TextStyle(fontSize: 40)),
-            const SizedBox(height: 12),
             Text(
               packName,
               style: text.titleMedium.copyWith(
