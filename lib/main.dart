@@ -33,13 +33,12 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create:
-              (_) => SettingsBloc(
-                getGameSettingsUseCase: sl(),
-                updateAliasSettingUseCase: sl(),
-                getAppSettingsUseCase: sl(),
-                updateAppSettingsUseCase: sl(),
-              )..add(const GetAppSettings()),
+          create: (_) => SettingsBloc(
+            getGameSettingsUseCase: sl(),
+            updateAliasSettingUseCase: sl(),
+            getAppSettingsUseCase: sl(),
+            updateAppSettingsUseCase: sl(),
+          )..add(const GetAppSettings()),
         ),
       ],
       child: const MyApp(),
@@ -54,17 +53,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        final appColor =
-            state.appSettings.isDarkMode ? AppDarkColors() : AppLightColors();
+        final appColor = state.appSettings.isDarkMode
+            ? AppDarkColors()
+            : AppLightColors();
 
         final themeData = AppThemeData(
           colors: appColor,
           typography: AppTextStyles(),
-          themeData:
-              AppThemeDataBuilder(
-                colors: appColor,
-                textStyles: AppTextStyles(),
-              ).build(),
+          themeData: AppThemeDataBuilder(
+            colors: appColor,
+            textStyles: AppTextStyles(),
+          ).build(),
         );
 
         return AppThemeProvider(
