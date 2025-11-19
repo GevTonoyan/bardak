@@ -2,6 +2,7 @@ import 'package:boardify/core/dependency_injection/di.dart';
 import 'package:boardify/core/localizations/common/supported_locales.dart';
 import 'package:boardify/core/localizations/l10n/app_localizations.dart';
 import 'package:boardify/core/logging/app_bloc_observer.dart';
+import 'package:boardify/core/remote_config/remote_config.dart';
 import 'package:boardify/core/router/app_router.dart';
 import 'package:boardify/core/ui_kit/theme/app_theme/app_theme_data_builder.dart';
 import 'package:boardify/core/ui_kit/theme/app_theme_provider.dart';
@@ -23,6 +24,7 @@ void main() async {
   // (add splash screen while loading dependencies)
   await injectDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await AliasRemoteConfig.initialize();
 
   // TODO(Gevorg): check path_provider, if not used - remove
   await Hive.initFlutter();
