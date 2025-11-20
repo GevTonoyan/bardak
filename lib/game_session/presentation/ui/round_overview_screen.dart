@@ -27,10 +27,10 @@ class RoundOverviewScreen extends StatelessWidget {
     return BlocListener<GameSessionBloc, GameSessionState>(
       listener: (BuildContext context, GameSessionState state) {
         if (state.gameState.isGameFinished) {
-          final winningTeam =
-              state.gameState.teamStates[state.gameState.winningTeamIndex!];
-
-          context.goNamed(GameSummaryScreen.routePath);
+          context.goNamed(
+            GameSummaryScreen.routePath,
+            extra: state.gameState.teamStates,
+          );
         }
       },
       child: PopScope(
@@ -285,15 +285,14 @@ class _TeamScoreCardState extends State<_TeamScoreCard> {
                   child: Text(
                     '• ${context.l10n.round} ${roundIndex + 1}: '
                     '${context.l10n.roundOverview_point(roundScore)}',
-                    style:
-                        isLast
-                            ? typography.bodySmall.copyWith(
-                              color: colors.primary,
-                              fontWeight: FontWeight.w600,
-                            )
-                            : typography.bodySmall.copyWith(
-                              color: colors.onSurface.withValues(alpha: 0.7),
-                            ),
+                    style: isLast
+                        ? typography.bodySmall.copyWith(
+                            color: colors.primary,
+                            fontWeight: FontWeight.w600,
+                          )
+                        : typography.bodySmall.copyWith(
+                            color: colors.onSurface.withValues(alpha: 0.7),
+                          ),
                   ),
                 );
               },

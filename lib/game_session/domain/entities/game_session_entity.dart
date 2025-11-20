@@ -74,12 +74,11 @@ extension GameSessionEntityX on GameSessionEntity {
   /// Returns the index of the winning team, or `null` if the game must continue
   int? getWinningTeamIndex() {
     // 1️⃣ Teams that reached or exceeded pointsToWin
-    final qualifiedTeams =
-        teamStates
-            .asMap()
-            .entries
-            .where((e) => e.value.totalScore >= pointsToWin)
-            .toList();
+    final qualifiedTeams = teamStates
+        .asMap()
+        .entries
+        .where((e) => e.value.totalScore >= pointsToWin)
+        .toList();
 
     // If no one qualified yet → no winner
     if (qualifiedTeams.isEmpty) return null;
@@ -94,8 +93,9 @@ extension GameSessionEntityX on GameSessionEntity {
         .map((e) => e.value.totalScore)
         .reduce((a, b) => a > b ? a : b);
 
-    final topTeams =
-        qualifiedTeams.where((e) => e.value.totalScore == maxScore).toList();
+    final topTeams = qualifiedTeams
+        .where((e) => e.value.totalScore == maxScore)
+        .toList();
 
     // If tie at top, continue playing
     if (topTeams.length > 1) return null;
@@ -125,4 +125,12 @@ class AliasTeamStateEntity {
   }
 
   int get totalScore => roundScores.fold(0, (sum, score) => sum + score);
+}
+
+extension TeamStatesX on List<AliasTeamStateEntity> {
+  AliasTeamStateEntity get winner {
+    return reduce(
+      (current, next) => next.totalScore > current.totalScore ? next : current,
+    );
+  }
 }

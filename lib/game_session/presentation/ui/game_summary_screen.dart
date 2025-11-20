@@ -1,5 +1,5 @@
-import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:boardify/pre_game/presentation/ui/pre_game_screen.dart';
+import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,6 +7,7 @@ class GameSummaryScreen extends StatelessWidget {
   const GameSummaryScreen({required this.winningTeamName, super.key});
 
   static const routePath = 'game_summary';
+
   final String winningTeamName;
 
   @override
