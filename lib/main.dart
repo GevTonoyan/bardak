@@ -1,18 +1,18 @@
-import 'package:boardify/core/dependency_injection/di.dart';
-import 'package:boardify/core/localizations/common/supported_locales.dart';
-import 'package:boardify/core/localizations/l10n/app_localizations.dart';
-import 'package:boardify/core/logging/app_bloc_observer.dart';
-import 'package:boardify/core/remote_config/remote_config.dart';
-import 'package:boardify/core/router/app_router.dart';
-import 'package:boardify/core/ui_kit/theme/app_theme/app_theme_data_builder.dart';
-import 'package:boardify/core/ui_kit/theme/app_theme_provider.dart';
-import 'package:boardify/core/ui_kit/theme/colors/app_dark_colors.dart';
-import 'package:boardify/core/ui_kit/theme/colors/app_light_colors.dart';
-import 'package:boardify/core/ui_kit/theme/text_styles/app_text_styles.dart';
-import 'package:boardify/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:boardify/features/settings/presentation/bloc/settings_event.dart';
-import 'package:boardify/features/settings/presentation/bloc/settings_state.dart';
+import 'package:boardify/app_ui/theme/app_theme/app_theme_data_builder.dart';
+import 'package:boardify/app_ui/theme/app_theme_provider.dart';
+import 'package:boardify/app_ui/theme/colors/app_dark_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_light_colors.dart';
+import 'package:boardify/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:boardify/firebase_options.dart';
+import 'package:boardify/localizations/common/supported_locales.dart';
+import 'package:boardify/localizations/l10n/app_localizations.dart';
+import 'package:boardify/logging/app_bloc_observer.dart';
+import 'package:boardify/router/app_router.dart';
+import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
+import 'package:boardify/settings/presentation/bloc/settings_event.dart';
+import 'package:boardify/settings/presentation/bloc/settings_state.dart';
+import 'package:boardify/utils/dependency_injection/di.dart';
+import 'package:boardify/utils/remote_config/remote_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +24,7 @@ void main() async {
   // (add splash screen while loading dependencies)
   await injectDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await AliasRemoteConfig.initialize();
+  await AppRemoteConfig.initialize();
 
   // TODO(Gevorg): check path_provider, if not used - remove
   await Hive.initFlutter();
