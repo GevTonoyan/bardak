@@ -6,7 +6,9 @@ part 'card_round_state.dart';
 
 class CardRoundBloc extends Bloc<CardRoundEvent, CardRoundState> {
   CardRoundBloc({required List<String> words, required int wordsPerCard})
-    : super(CardRoundState.initial(words: words, wordsPerCard: wordsPerCard)) {
+    : super(
+        CardRoundState.initial(words: words, wordsPerCard: wordsPerCard),
+      ) {
     on<ToggleWord>(_onToggleWord);
     on<CompleteRoundRequested>(_onCompleteRoundRequested);
   }

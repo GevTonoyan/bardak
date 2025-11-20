@@ -1,5 +1,5 @@
-import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
+import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,33 +28,40 @@ class _CardRoundListState extends State<CardRoundList> {
             return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              transform:
-                  isSelected
-                      ? (Matrix4.identity()..scale(1.02))
-                      : Matrix4.identity(),
+              transform: isSelected
+                  ? (Matrix4.identity()..scale(1.02))
+                  : Matrix4.identity(),
               child: Material(
-                color:
-                    isSelected
-                        ? colors.success.withValues(alpha: 0.15)
-                        : colors.surface,
+                color: isSelected
+                    ? colors.success.withValues(alpha: 0.15)
+                    : colors.surface,
                 elevation: isSelected ? 8 : 2,
                 shadowColor: colors.shadow,
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                   side: BorderSide(
-                    color:
-                        isSelected
-                            ? colors.success
-                            : colors.outline.withValues(alpha: 0.3),
+                    color: isSelected
+                        ? colors.success
+                        : colors.outline.withValues(alpha: 0.3),
                     width: isSelected ? 2 : 1,
                   ),
                 ),
                 child: InkWell(
-                  onTap:
-                      () => context.read<CardRoundBloc>().add(
-                        ToggleWord(isSelected: !isSelected, word: currentWord),
-                      ),
+                  onTap: () {
+                    context.read<CardRoundBloc>().add(
+                      ToggleWord(isSelected: !isSelected, word: currentWord),
+                    );
+                    // final soundEnabled = context
+                    //     .read<GameSessionBloc>()
+                    //     .state
+                    //     .gameState
+                    //     .soundEnabled;
+                    //
+                    // if (soundEnabled) {
+                    //   unawaited(SystemSound.play(SystemSoundType.click));
+                    // }
+                  },
                   borderRadius: BorderRadius.circular(16),
                   child: Container(
                     padding: const EdgeInsets.all(20),
@@ -64,10 +71,9 @@ class _CardRoundListState extends State<CardRoundList> {
                           child: Text(
                             words[index],
                             style: typography.titleLarge.copyWith(
-                              color:
-                                  isSelected
-                                      ? colors.success
-                                      : colors.onSurface,
+                              color: isSelected
+                                  ? colors.success
+                                  : colors.onSurface,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -87,32 +93,31 @@ class _CardRoundListState extends State<CardRoundList> {
                                 ),
                               );
                             },
-                            child:
-                                isSelected
-                                    ? Container(
-                                      key: const ValueKey(true),
-                                      padding: const EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                        color: colors.success,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        Icons.check,
-                                        color: colors.onPrimary,
-                                        size: 16,
-                                      ),
-                                    )
-                                    : Container(
-                                      key: const ValueKey(false),
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: colors.outline.withValues(
-                                          alpha: 0.3,
-                                        ),
-                                        shape: BoxShape.circle,
-                                      ),
+                            child: isSelected
+                                ? Container(
+                                    key: const ValueKey(true),
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: colors.success,
+                                      shape: BoxShape.circle,
                                     ),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: colors.onPrimary,
+                                      size: 16,
+                                    ),
+                                  )
+                                : Container(
+                                    key: const ValueKey(false),
+                                    width: 24,
+                                    height: 24,
+                                    decoration: BoxDecoration(
+                                      color: colors.outline.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
                           ),
                         ),
                       ],
