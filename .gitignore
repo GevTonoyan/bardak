@@ -45,3 +45,9 @@ app.*.map.json
 /android/app/release
 
 pubspec.lock
+
+Podfile.lock
+
+#mason
+.mason
+mason-lock.json
