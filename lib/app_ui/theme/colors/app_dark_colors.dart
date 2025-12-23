@@ -1,7 +1,18 @@
 import 'package:boardify/app_ui/theme/colors/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class AppDarkColors implements AppColors {
+class AppDarkColors extends AppColors {
+  @override
+  LinearGradient get main => const LinearGradient(
+    colors: [
+      Color(0xFF9C59FE),
+      Color(0xFF6F53FD),
+    ],
+  );
+
+  @override
+  Color get secondary => const Color(0xFF723FBC);
+
   @override
   Color get primary => const Color(0xFF6750A4);
 
@@ -19,9 +30,6 @@ class AppDarkColors implements AppColors {
 
   @override
   Color get onSurface => const Color(0xFFF4EFF4);
-
-  @override
-  Color get secondary => const Color(0xFFCCC2DC);
 
   @override
   Color get onSecondary => const Color(0xFF332D41);

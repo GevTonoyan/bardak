@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 
 abstract class AppColors {
+  LinearGradient get main;
+
+  Color get secondary;
+
+  Color green = const Color(0xFF59CA42);
+
+  Color red = const Color(0xFFD42B2B);
+
+  Color blue = const Color(0xFF4068F5);
+
+  Color white = const Color(0xFFFFFFFF);
+
+  Color white10 = const Color(0xFFFFFFFF).withValues(alpha: 0.1);
+
+  Color white20 = const Color(0xFFFFFFFF).withValues(alpha: 0.2);
+
+  Color white30 = const Color(0xFFFFFFFF).withValues(alpha: 0.3);
+
+  Color white50 = const Color(0xFFFFFFFF).withValues(alpha: 0.5);
+
   Color get primary;
 
   Color get onPrimary;
@@ -14,8 +34,6 @@ abstract class AppColors {
   Color get onSurface;
 
   Color get surfaceVariant;
-
-  Color get secondary;
 
   Color get onSecondary;
 
