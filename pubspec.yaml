@@ -26,15 +26,24 @@ dependencies:
   shared_preferences: ^2.5.3
 
 dev_dependencies:
+  build_runner: 2.10.4
+  flutter_gen_runner: 5.12.0
   flutter_test:
     sdk: flutter
 
   very_good_analysis: ^10.0.0
+
 
 flutter:
   uses-material-design: true
   generate: true
 
   assets:
+    - assets/
     - assets/images/
     - assets/icons/flags/
+
+flutter_gen:
+  integrations:
+    flutter_svg: true
+  output: lib/assets/
