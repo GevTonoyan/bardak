@@ -43,6 +43,11 @@ flutter:
     - assets/images/
     - assets/icons/flags/
 
+  fonts:
+    - family: NishikiTeki
+      fonts:
+        - asset: assets/fonts/NishikiTeki.ttf
+
 flutter_gen:
   integrations:
     flutter_svg: true
