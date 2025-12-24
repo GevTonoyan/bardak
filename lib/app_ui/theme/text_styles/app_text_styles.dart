@@ -7,6 +7,13 @@ class AppTextStyles {
 
   static final AppTextStyles _instance = AppTextStyles._internal();
 
+  final TextStyle medium = const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    height: 1,
+    letterSpacing: 18 * 0.03,
+  );
+
   final TextStyle displayLarge = const TextStyle(
     fontSize: 57,
     fontWeight: FontWeight.bold,
