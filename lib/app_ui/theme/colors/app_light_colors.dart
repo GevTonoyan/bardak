@@ -60,7 +60,4 @@ class AppLightColors extends AppColors {
 
   @override
   Color get surfaceVariant => const Color(0xFFF2F2F2);
-
-  @override
-  Color get shadow => const Color(0x33000000);
 }
