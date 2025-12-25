@@ -7,9 +7,33 @@ class AppTextStyles {
 
   static final AppTextStyles _instance = AppTextStyles._internal();
 
+  final TextStyle regular24 = const TextStyle(
+    fontSize: 24,
+    fontWeight: .w500,
+    fontFamily: 'NishikiTeki',
+    height: 28 / 24,
+    letterSpacing: 24 * 0.02,
+  );
+
+  final TextStyle regular20 = const TextStyle(
+    fontSize: 20,
+    fontWeight: .w500,
+    fontFamily: 'NishikiTeki',
+    height: 24 / 20,
+    letterSpacing: 20 * 0.02,
+  );
+
+  final TextStyle regular18 = const TextStyle(
+    fontSize: 18,
+    fontWeight: .w500,
+    fontFamily: 'NishikiTeki',
+    height: 20 / 18,
+    letterSpacing: 18 * 0.02,
+  );
+
   final TextStyle medium = const TextStyle(
     fontSize: 18,
-    fontWeight: FontWeight.w500,
+    fontWeight: .w500,
     height: 1,
     letterSpacing: 18 * 0.03,
   );

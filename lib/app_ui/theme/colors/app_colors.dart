@@ -11,6 +11,10 @@ abstract class AppColors {
 
   Color blue = const Color(0xFF4068F5);
 
+  Color purple = const Color(0xFFA473E9);
+
+  Color black = const Color(0xFF000000);
+
   Color white = const Color(0xFFFFFFFF);
 
   Color white10 = const Color(0xFFFFFFFF).withValues(alpha: 0.1);
