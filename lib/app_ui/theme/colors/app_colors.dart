@@ -13,6 +13,8 @@ abstract class AppColors {
 
   Color purple = const Color(0xFFA473E9);
 
+  Color shadow = const Color(0xFFB9B9B9);
+
   Color black = const Color(0xFF000000);
 
   Color white = const Color(0xFFFFFFFF);
@@ -56,6 +58,4 @@ abstract class AppColors {
   Color get warning;
 
   Color get info;
-
-  Color get shadow;
 }
