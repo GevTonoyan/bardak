@@ -4,8 +4,8 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.2
-  flutter: ">=3.35.7"
+  sdk: ^3.10.1
+  flutter: ">=3.38.3"
 
 dependencies:
   cloud_firestore: ^6.1.0
@@ -20,6 +20,7 @@ dependencies:
   flutter_svg: ^2.2.1
   get_it: ^8.2.0
   go_router: ^16.2.4
+  gradient_borders: ^1.0.2
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   intl: any
@@ -47,6 +48,9 @@ flutter:
     - family: NishikiTeki
       fonts:
         - asset: assets/fonts/NishikiTeki.ttf
+    - family: Digitalt
+      fonts:
+        - asset: assets/fonts/Digitalt.ttf
 
 flutter_gen:
   integrations:
