@@ -55,12 +55,31 @@ class Assets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const SvgGenImage logoAm = SvgGenImage('assets/logo_am.svg');
+  static const SvgGenImage question = SvgGenImage('assets/question.svg');
+  static const SvgGenImage rewardClosed = SvgGenImage(
+    'assets/reward_closed.svg',
+  );
+  static const SvgGenImage rewardOpened = SvgGenImage(
+    'assets/reward_opened.svg',
+  );
   static const SvgGenImage shadowEffect = SvgGenImage(
     'assets/shadow_effect.svg',
   );
+  static const SvgGenImage shiner = SvgGenImage('assets/shiner.svg');
+  static const SvgGenImage volume = SvgGenImage('assets/volume.svg');
 
   /// List of all assets
-  static List<SvgGenImage> get values => [back, coin, logoAm, shadowEffect];
+  static List<SvgGenImage> get values => [
+    back,
+    coin,
+    logoAm,
+    question,
+    rewardClosed,
+    rewardOpened,
+    shadowEffect,
+    shiner,
+    volume,
+  ];
 }
 
 class AssetGenImage {
