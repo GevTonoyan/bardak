@@ -1,5 +1,4 @@
-import 'package:boardify/app_ui/theme/colors/app_colors.dart'
-    show AppColors;
+import 'package:boardify/app_ui/theme/colors/app_colors.dart' show AppColors;
 import 'package:flutter/material.dart';
 
 class AppColorsProvider extends InheritedWidget {
@@ -12,8 +11,8 @@ class AppColorsProvider extends InheritedWidget {
   final AppColors colors;
 
   static AppColors of(BuildContext context) {
-    final provider =
-        context.dependOnInheritedWidgetOfExactType<AppColorsProvider>();
+    final provider = context
+        .dependOnInheritedWidgetOfExactType<AppColorsProvider>();
     assert(provider != null, 'AppThemeProvider not found in context');
     return provider!.colors;
   }
