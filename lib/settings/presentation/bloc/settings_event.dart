@@ -1,3 +1,4 @@
+import 'package:boardify/app_ui/theme/app_color_scheme.dart';
 import 'package:boardify/localizations/common/supported_locales.dart';
 
 /// Base class for all events related to settings.
@@ -17,6 +18,12 @@ class ChangeTheme extends SettingsEvent {
   const ChangeTheme({required this.isDarkMode});
 
   final bool isDarkMode;
+}
+
+class ChangeColorScheme extends SettingsEvent {
+  const ChangeColorScheme({required this.colorScheme});
+
+  final AppColorScheme colorScheme;
 }
 
 class ChangeLocale extends SettingsEvent {

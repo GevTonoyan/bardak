@@ -1,7 +1,4 @@
 import 'dart:async';
-
-import 'package:boardify/utils/constants/constants.dart';
-import 'package:boardify/utils/constants/constants.dart';
 import 'package:boardify/settings/domain/entities/app_settings_entity.dart';
 import 'package:boardify/settings/domain/entities/game_settings_entity.dart';
 import 'package:boardify/settings/domain/usecases/get_app_settings_usecase.dart';
@@ -10,6 +7,7 @@ import 'package:boardify/settings/domain/usecases/update_app_settings_usecase.da
 import 'package:boardify/settings/domain/usecases/update_game_settings_usecase.dart';
 import 'package:boardify/settings/presentation/bloc/settings_event.dart';
 import 'package:boardify/settings/presentation/bloc/settings_state.dart';
+import 'package:boardify/utils/constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
@@ -34,6 +32,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<ChangeWordsPerCard>(_changeWordsPerCard);
     on<GetAppSettings>(_getAppSettings);
     on<ChangeTheme>(_changeTheme);
+    on<ChangeColorScheme>(_changeColorScheme);
     on<ChangeLocale>(_changeLocale);
   }
 
@@ -69,6 +68,29 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         value: event.isDarkMode,
       ),
     );
+  }
+
+  FutureOr<void> _changeColorScheme(
+    ChangeColorScheme event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final appSettings = state.appSettings;
+    if (appSettings.colorScheme == event.colorScheme) {
+      return;
+    }
+
+    final newSettings = appSettings.copyWith(
+      colorScheme: event.colorScheme,
+    );
+
+    await updateAppSettingsUseCase(
+      UpdateAppSettingsParams(
+        key: AppConstants.appColorSchemeKey,
+        value: event.colorScheme.name,
+      ),
+    );
+
+    emit(state.copyWith(appSettings: newSettings));
   }
 
   void _changeLocale(ChangeLocale event, Emitter<SettingsState> emit) {
