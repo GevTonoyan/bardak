@@ -3,3 +3,7 @@ BUGS
 
 FEATURES
 1. Make bloc names generic , also state and event names similar to each other
+
+
+Improvements
+Update Settings enhancement, in data source when we update, the switch maybe redundant

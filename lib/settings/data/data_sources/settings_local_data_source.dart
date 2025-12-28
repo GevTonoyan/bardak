@@ -32,10 +32,12 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   AppSettingsEntity getAppSettings() {
     final darkMode = preferences.getBool(AppConstants.appThemeKey) ?? false;
     final locale = preferences.getString(AppConstants.appLocaleKey);
+    final colorScheme = preferences.getString(AppConstants.appColorSchemeKey);
 
     return AppSettingsEntity.fromPreferences(
       isDarkMode: darkMode,
       locale: locale,
+      colorScheme: colorScheme,
     );
   }
 
@@ -47,6 +49,11 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
       case AppConstants.appThemeKey:
         success = await preferences.setBool(params.key, params.value as bool);
       case AppConstants.appLocaleKey:
+        success = await preferences.setString(
+          params.key,
+          params.value as String,
+        );
+      case AppConstants.appColorSchemeKey:
         success = await preferences.setString(
           params.key,
           params.value as String,

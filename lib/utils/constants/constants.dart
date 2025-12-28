@@ -2,6 +2,7 @@ class AppConstants {
   //settings preferences keys
   static const appThemeKey = 'app_theme_key';
   static const appLocaleKey = 'app_locale_key';
+  static const appColorSchemeKey = 'app_color_scheme_key';
 
   static const aliasCoverImagePath = 'assets/images/alias.png';
 
