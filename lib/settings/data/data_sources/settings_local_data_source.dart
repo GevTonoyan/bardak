@@ -33,11 +33,13 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
     final darkMode = preferences.getBool(AppConstants.appThemeKey) ?? false;
     final locale = preferences.getString(AppConstants.appLocaleKey);
     final colorScheme = preferences.getString(AppConstants.appColorSchemeKey);
+    final soundEnabled = preferences.getBool(AppConstants.soundEnabledKey);
 
     return AppSettingsEntity.fromPreferences(
       isDarkMode: darkMode,
       locale: locale,
       colorScheme: colorScheme,
+      soundEnabled: soundEnabled,
     );
   }
 
@@ -58,6 +60,8 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
           params.key,
           params.value as String,
         );
+      case AppConstants.soundEnabledKey:
+        success = await preferences.setBool(params.key, params.value as bool);
       default:
         success = false;
     }
@@ -71,8 +75,6 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
 
     final pointsToWin = preferences.getInt(AppConstants.pointsToWinKey);
 
-    final isSoundEnabled = preferences.getBool(AppConstants.soundEnabledKey);
-
     final allowSkipping = preferences.getBool(AppConstants.allowSkippingKey);
 
     final penaltyForSkipping = preferences.getBool(
@@ -84,7 +86,6 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
     return GameSettingsEntity.fromPreferences(
       roundDuration: gameDuration,
       pointsToWin: pointsToWin,
-      soundEnabled: isSoundEnabled,
       allowSkipping: allowSkipping,
       penaltyForSkipping: penaltyForSkipping,
       wordsPerCard: wordsPerCard,

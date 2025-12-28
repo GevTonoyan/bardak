@@ -45,7 +45,6 @@ class PreGameBloc extends Bloc<PreGameEvent, PreGameState> {
       gameMode: GameMode.card,
       roundDuration: settings.roundDuration,
       pointsToWin: settings.pointsToWin,
-      soundEnabled: settings.soundEnabled,
       wordsPerCard: settings.wordsPerCard,
       allowSkipping: settings.allowSkipping,
       penaltyForSkipping: settings.penaltyForSkipping,

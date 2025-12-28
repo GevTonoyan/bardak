@@ -155,21 +155,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void _changeSoundEffects(
+  Future<void> _changeSoundEffects(
     ChangeSoundEffects event,
     Emitter<SettingsState> emit,
-  ) {
-    final updatedSettings = state.gameSettings.copyWith(
+  ) async {
+    final updatedSettings = state.appSettings.copyWith(
       soundEnabled: event.soundEffects,
     );
-    emit(state.copyWith(gameSettings: updatedSettings));
 
-    updateAliasSettingUseCase(
-      UpdateGameSettingsParams(
+    await updateAppSettingsUseCase(
+      UpdateAppSettingsParams(
         key: AppConstants.soundEnabledKey,
         value: event.soundEffects,
       ),
     );
+
+    emit(state.copyWith(appSettings: updatedSettings));
   }
 
   void _changeAllowSkipping(

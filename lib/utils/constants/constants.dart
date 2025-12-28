@@ -3,6 +3,7 @@ class AppConstants {
   static const appThemeKey = 'app_theme_key';
   static const appLocaleKey = 'app_locale_key';
   static const appColorSchemeKey = 'app_color_scheme_key';
+  static const soundEnabledKey = 'is_sound_enabled';
 
   static const aliasCoverImagePath = 'assets/images/alias.png';
 
@@ -23,7 +24,6 @@ class AppConstants {
   // Shared preferences keys
   static const roundDurationKey = 'round_duration';
   static const pointsToWinKey = 'points_to_win';
-  static const soundEnabledKey = 'is_sound_enabled';
   static const allowSkippingKey = 'allow_skipping';
   static const penaltyForSkippingKey = 'penalty_for_skipping';
   static const wordsPerCardKey = 'words_per_card';
