@@ -70,8 +70,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       value: appSettings.isDarkMode,
-                      onChanged:
-                          (value) => bloc.add(ChangeTheme(isDarkMode: value)),
+                      onChanged: (value) =>
+                          bloc.add(ChangeTheme(isDarkMode: value)),
                       secondary: Icon(
                         appSettings.isDarkMode
                             ? Icons.dark_mode
@@ -138,13 +138,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       context.read<SettingsBloc>().add(
                         ChangePointsToWin(pointsToWin: points),
                       );
-                    },
-                  ),
-                  SettingSwitchTile(
-                    title: context.l10n.settings_soundEffects,
-                    value: gameSettings.soundEnabled,
-                    onChanged: (value) {
-                      bloc.add(ChangeSoundEffects(soundEffects: value));
                     },
                   ),
                   const SizedBox(height: 24),
@@ -222,27 +215,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (context) {
         return ListView(
           shrinkWrap: true,
-          children:
-              AppLocales.values.map((locale) {
-                final isSelected = locale == currentLocale;
-                return ListTile(
-                  leading: CircularFlagIcon(assetPath: locale.flagAssetPath),
-                  title: Text(
-                    locale.name(context),
-                    style: theme.typography.bodyMedium.copyWith(
-                      color: theme.colors.onSurface,
-                    ),
-                  ),
-                  trailing:
-                      isSelected
-                          ? Icon(Icons.check, color: theme.colors.primary)
-                          : null,
-                  onTap: () {
-                    context.pop();
-                    bloc.add(ChangeLocale(locale));
-                  },
-                );
-              }).toList(),
+          children: AppLocales.values.map((locale) {
+            final isSelected = locale == currentLocale;
+            return ListTile(
+              leading: CircularFlagIcon(assetPath: locale.flagAssetPath),
+              title: Text(
+                locale.name(context),
+                style: theme.typography.bodyMedium.copyWith(
+                  color: theme.colors.onSurface,
+                ),
+              ),
+              trailing: isSelected
+                  ? Icon(Icons.check, color: theme.colors.primary)
+                  : null,
+              onTap: () {
+                context.pop();
+                bloc.add(ChangeLocale(locale));
+              },
+            );
+          }).toList(),
         );
       },
     );

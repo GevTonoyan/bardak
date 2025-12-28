@@ -1,6 +1,3 @@
-import 'package:boardify/utils/constants/constants.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:boardify/app_ui/widgets/setting_option_chips.dart';
 import 'package:boardify/app_ui/widgets/setting_stepper.dart';
 import 'package:boardify/app_ui/widgets/setting_switch_tile.dart';
@@ -8,6 +5,9 @@ import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:boardify/utils/constants/constants.dart';
+import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -126,8 +126,7 @@ class _PreGameScreenState extends State<PreGameScreen> {
                             ),
                           );
                         }),
-                        if (_teamControllers.length <
-                            AppConstants.maxTeamCount)
+                        if (_teamControllers.length < AppConstants.maxTeamCount)
                           Align(
                             alignment: Alignment.centerLeft,
                             child: TextButton.icon(
@@ -218,7 +217,8 @@ class _PreGameScreenState extends State<PreGameScreen> {
                             }).toList(),
                             roundDuration: preGameConfig.roundDuration,
                             pointsToWin: preGameConfig.pointsToWin,
-                            soundEnabled: preGameConfig.soundEnabled,
+                            // TODO read from app settings bloc
+                            soundEnabled: true,
                             wordsPerCard: preGameConfig.wordsPerCard,
                             allowSkipping: preGameConfig.allowSkipping,
                             penaltyForSkipping:

@@ -7,7 +7,6 @@ class PreGameEntity {
     required this.gameMode,
     required this.roundDuration,
     required this.pointsToWin,
-    required this.soundEnabled,
     required this.wordsPerCard,
     required this.allowSkipping,
     required this.penaltyForSkipping,
@@ -19,7 +18,6 @@ class PreGameEntity {
     return const PreGameEntity(
       roundDuration: AppConstants.defaultRoundDuration,
       pointsToWin: AppConstants.defaultPointsToWin,
-      soundEnabled: true,
       allowSkipping: true,
       penaltyForSkipping: true,
       wordsPerCard: AppConstants.defaultWordsPerCard,
@@ -32,7 +30,6 @@ class PreGameEntity {
   final GameMode gameMode;
   final int roundDuration;
   final int pointsToWin;
-  final bool soundEnabled;
   final int wordsPerCard;
   final bool allowSkipping;
   final bool penaltyForSkipping;
@@ -43,7 +40,6 @@ class PreGameEntity {
     GameMode? gameMode,
     int? roundDuration,
     int? pointsToWin,
-    bool? soundEnabled,
     int? wordsPerCard,
     bool? allowSkipping,
     bool? penaltyForSkipping,
@@ -54,7 +50,6 @@ class PreGameEntity {
       gameMode: gameMode ?? this.gameMode,
       roundDuration: roundDuration ?? this.roundDuration,
       pointsToWin: pointsToWin ?? this.pointsToWin,
-      soundEnabled: soundEnabled ?? this.soundEnabled,
       wordsPerCard: wordsPerCard ?? this.wordsPerCard,
       allowSkipping: allowSkipping ?? this.allowSkipping,
       penaltyForSkipping: penaltyForSkipping ?? this.penaltyForSkipping,
@@ -68,7 +63,6 @@ class PreGameEntity {
     return 'AliasPreGameEntity{gameMode: $gameMode,'
         ' roundDuration: $roundDuration,'
         ' pointsToWin: $pointsToWin,'
-        ' soundEnabled: $soundEnabled,'
         ' wordsPerCard: $wordsPerCard,'
         ' allowSkipping: $allowSkipping,'
         ' penaltyForSkipping: $penaltyForSkipping,'
@@ -79,7 +73,8 @@ class PreGameEntity {
 
 enum GameMode {
   card,
-  singleWord;
+  singleWord
+  ;
 
   @override
   String toString() {
