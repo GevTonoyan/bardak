@@ -2,7 +2,7 @@ import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-enum ButtonSize { large, medium, small }
+enum ButtonSize { extraLarge, large, medium, small }
 
 class AppButton extends StatefulWidget {
   const AppButton({
@@ -16,6 +16,7 @@ class AppButton extends StatefulWidget {
     this.icon,
     this.suffix,
     this.onPressed,
+    this.child,
     super.key,
   });
 
@@ -28,6 +29,7 @@ class AppButton extends StatefulWidget {
   final Widget? icon;
   final Widget? suffix;
   final VoidCallback? onPressed;
+  final Widget? child;
 
   final bool isPressed;
 
@@ -116,22 +118,24 @@ class _AppButtonState extends State<AppButton> {
                     ),
                   ],
                 ),
-                child: Row(
-                  mainAxisAlignment: .center,
-                  spacing: 10,
-                  children: [
-                    ?widget.icon,
-                    Text(
-                      widget.label,
-                      style: _labelTextStyle().copyWith(
-                        color: effectivePressed
-                            ? (widget.pressedTextColor ?? colors.white)
-                            : colors.white,
-                      ),
+                child:
+                    widget.child ??
+                    Row(
+                      mainAxisAlignment: .center,
+                      spacing: 10,
+                      children: [
+                        ?widget.icon,
+                        Text(
+                          widget.label,
+                          style: _labelTextStyle().copyWith(
+                            color: effectivePressed
+                                ? (widget.pressedTextColor ?? colors.white)
+                                : colors.white,
+                          ),
+                        ),
+                        ?widget.suffix,
+                      ],
                     ),
-                    ?widget.suffix,
-                  ],
-                ),
               ),
             ],
           ),
@@ -141,6 +145,7 @@ class _AppButtonState extends State<AppButton> {
   }
 
   (double, double) get _buttonHeight => switch (widget.size) {
+    .extraLarge => (157, 147),
     .large => (60, 50),
     .medium => (50, 42),
     .small => (42, 36),
@@ -150,26 +155,26 @@ class _AppButtonState extends State<AppButton> {
     final typography = context.appTheme.typography;
 
     return switch (widget.size) {
-      .large => typography.regular24,
+      .large || .extraLarge => typography.regular24,
       .medium => typography.regular20,
       .small => typography.regular18,
     };
   }
 
   Offset get _baseShadowOffset => switch (widget.size) {
-    .large => const Offset(0, 4),
+    .large || .extraLarge => const Offset(0, 4),
     .medium => const Offset(0, 3),
     .small => const Offset(0, 2),
   };
 
   Offset get _baseShadowOffsetPressed => switch (widget.size) {
-    .large => const Offset(0, 2),
+    .large || .extraLarge => const Offset(0, 2),
     .medium => const Offset(0, 1),
     .small => const Offset(0, 1),
   };
 
   Offset get _faceShadowOffset => switch (widget.size) {
-    .large => const Offset(0, 10),
+    .large || .extraLarge => const Offset(0, 10),
     .medium => const Offset(0, 8),
     .small => const Offset(0, 6),
   };
