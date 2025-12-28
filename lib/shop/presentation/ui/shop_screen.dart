@@ -1,8 +1,20 @@
 import 'package:boardify/app_ui/theme/app_color_scheme.dart';
+import 'package:boardify/app_ui/theme/colors/app_black_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_blue_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_green_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_light_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_pink_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_purple_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_red_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_yellow_colors.dart';
 import 'package:boardify/app_ui/widgets/app_background.dart';
+import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
+import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/settings/presentation/bloc/settings_event.dart';
+import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +26,9 @@ class ShopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
     return AppBackground(
       overlayChild: SafeArea(
         child: Column(
@@ -29,30 +44,63 @@ class ShopScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
+                padding: const EdgeInsets.all(20),
                 itemBuilder: (context, index) {
                   final scheme = AppColorScheme.values[index];
-
-                  return InkWell(
-                    onTap: () {
+                  return AppButton(
+                    label: scheme.displayName(context),
+                    color: _buttonBackgroundColor(colors, scheme),
+                    size: .extraLarge,
+                    onPressed: () {
                       context.read<SettingsBloc>().add(
                         ChangeColorScheme(colorScheme: scheme),
                       );
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      margin: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 12,
                       ),
-                      child: Text(
-                        scheme.displayName(context),
-                        style: const TextStyle(color: Colors.black),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              crossAxisAlignment: .start,
+                              mainAxisAlignment: .end,
+                              spacing: 8,
+                              children: [
+                                Text(
+                                  '500',
+                                  style: typography.regular24.copyWith(
+                                    color: colors.white,
+                                    fontFamily: 'Digitalt',
+                                  ),
+                                ),
+                                Assets.coin.svg(width: 18, height: 18),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              crossAxisAlignment: .end,
+                              spacing: 8,
+                              children: [
+                                Assets.lock.svg(),
+                                Text(
+                                  scheme.displayName(context),
+                                  style: typography.regular24.copyWith(
+                                    color: colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
                 },
-                separatorBuilder: (_, _) => const SizedBox(),
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
                 itemCount: AppColorScheme.values.length,
               ),
             ),
@@ -61,5 +109,18 @@ class ShopScreen extends StatelessWidget {
       ),
       child: Container(),
     );
+  }
+
+  Color _buttonBackgroundColor(AppColors colors, AppColorScheme colorScheme) {
+    return switch (colorScheme) {
+      .main => AppLightColors().secondary,
+      .purple => AppPurpleColors().secondary,
+      .yellow => AppYellowColors().secondary,
+      .blue => AppBlueColors().secondary,
+      .green => AppGreenColors().secondary,
+      .pink => AppPinkColors().secondary,
+      .red => AppRedColors().secondary,
+      .black => AppBlackColors().secondary,
+    };
   }
 }
