@@ -8,8 +8,11 @@ import 'package:boardify/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/home/presentation/ui/home_screen.dart';
 import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/pre_game/presentation/ui/pre_game_screen.dart';
+import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
 import 'package:boardify/rules/presentation/ui/rules_screen.dart';
 import 'package:boardify/settings/presentation/ui/settings_screen.dart';
+import 'package:boardify/settings/presentation/ui/settings_screen_v2.dart';
+import 'package:boardify/shop/presentation/ui/shop_screen.dart';
 import 'package:boardify/single_word_round/domain/single_word_round_entity.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
@@ -44,7 +47,20 @@ final appRouter = GoRouter(
         GoRoute(
           path: SettingsScreen.routePath,
           name: SettingsScreen.routePath,
-          builder: (context, state) => const SettingsScreen(),
+          //builder: (context, state) => const SettingsScreen(),
+          pageBuilder: (context, state) {
+            return const SettingsScreenV2();
+          },
+        ),
+        GoRoute(
+          path: RewardsScreen.routePath,
+          name: RewardsScreen.routePath,
+          builder: (context, state) => const RewardsScreen(),
+        ),
+        GoRoute(
+          path: ShopScreen.routePath,
+          name: ShopScreen.routePath,
+          builder: (context, state) => const ShopScreen(),
         ),
         GoRoute(
           path: RouteNames.info,
