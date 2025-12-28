@@ -9,45 +9,65 @@ class AppButton extends StatefulWidget {
     required this.label,
     required this.color,
     this.size = .large,
+    this.isPressed = false,
+    this.animateOnPress = true,
+    this.pressedColor,
+    this.pressedTextColor,
+    this.icon,
+    this.suffix,
     this.onPressed,
     super.key,
   });
 
   final String label;
-  final ButtonSize size;
   final Color color;
+  final ButtonSize size;
+  final bool animateOnPress;
+  final Color? pressedColor;
+  final Color? pressedTextColor;
+  final Widget? icon;
+  final Widget? suffix;
   final VoidCallback? onPressed;
+
+  final bool isPressed;
+
+  bool get enabled => onPressed != null;
 
   @override
   State<AppButton> createState() => _AppButtonState();
 }
 
 class _AppButtonState extends State<AppButton> {
-  bool _pressed = false;
+  bool _pressedByGesture = false;
 
   void _setPressed(bool v) {
-    //if (!widget.enabled) return;
-    if (_pressed == v) return;
-    setState(() => _pressed = v);
+    if (!widget.enabled) return;
+    if (!widget.animateOnPress) return;
+    if (widget.isPressed) return;
+    if (_pressedByGesture == v) return;
+    setState(() => _pressedByGesture = v);
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appTheme.colors;
 
+    final effectivePressed = widget.isPressed || _pressedByGesture; // <-
+
     final (baseHeight, faceHeight) = _buttonHeight;
-    final currentHeight = _pressed ? faceHeight : baseHeight;
+    final currentHeight = effectivePressed ? faceHeight : baseHeight;
 
     return GestureDetector(
-      onTapDown: (_) => _setPressed(true),
-      onTapCancel: () => _setPressed(false),
-      onTapUp: (_) => _setPressed(false),
+      onTapDown: widget.enabled ? (_) => _setPressed(true) : null,
+      onTapCancel: widget.enabled ? () => _setPressed(false) : null,
+      onTapUp: widget.enabled ? (_) => _setPressed(false) : null,
       onTap: widget.onPressed,
       child: Container(
         height: baseHeight,
         alignment: Alignment.bottomCenter,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 110),
+          curve: Curves.easeOut,
           width: double.maxFinite,
           height: currentHeight,
           child: Stack(
@@ -56,24 +76,18 @@ class _AppButtonState extends State<AppButton> {
                 height: baseHeight,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: widget.color,
+                  color: effectivePressed ? widget.pressedColor : widget.color,
                   boxShadow: [
-                    if (_pressed)
-                      BoxShadow(
-                        offset: _baseShadowOffsetPressed,
-                        color: Colors.black.withValues(alpha: 0.25),
-                        blurRadius: 2,
-                      )
-                    else
-                      BoxShadow(
-                        offset: _baseShadowOffset,
-                        color: colors.black.withValues(alpha: 0.25),
-                        blurRadius: 2,
-                      ),
+                    BoxShadow(
+                      offset: effectivePressed
+                          ? _baseShadowOffsetPressed
+                          : _baseShadowOffset,
+                      color: Colors.black.withValues(alpha: 0.25),
+                      blurRadius: 2,
+                    ),
                   ],
                 ),
               ),
-
               Container(
                 height: faceHeight,
                 decoration: BoxDecoration(
@@ -94,17 +108,29 @@ class _AppButtonState extends State<AppButton> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      offset: _pressed ? Offset.zero : _faceShadowOffset,
+                      offset: effectivePressed
+                          ? Offset.zero
+                          : _faceShadowOffset,
                       color: Colors.black.withValues(alpha: 0.2),
                       blurRadius: 2,
                     ),
                   ],
                 ),
-                child: Center(
-                  child: Text(
-                    widget.label,
-                    style: _labelTextStyle().copyWith(color: colors.white),
-                  ),
+                child: Row(
+                  mainAxisAlignment: .center,
+                  spacing: 10,
+                  children: [
+                    ?widget.icon,
+                    Text(
+                      widget.label,
+                      style: _labelTextStyle().copyWith(
+                        color: effectivePressed
+                            ? (widget.pressedTextColor ?? colors.white)
+                            : colors.white,
+                      ),
+                    ),
+                    ?widget.suffix,
+                  ],
                 ),
               ),
             ],
