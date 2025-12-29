@@ -2,10 +2,16 @@ import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
+const _containerSize = 40.0;
 const _iconSize = 18.0;
 
-class AppIconButton extends StatelessWidget {
-  const AppIconButton({required this.onTap, required this.child, super.key});
+class AppIconButton extends StatefulWidget {
+  const AppIconButton({
+    required this.onTap,
+    required this.child,
+    this.isPressed = false,
+    super.key,
+  });
 
   factory AppIconButton.back({
     required VoidCallback onTap,
@@ -31,18 +37,38 @@ class AppIconButton extends StatelessWidget {
 
   final Widget child;
   final VoidCallback onTap;
+  final bool isPressed;
+
+  @override
+  State<AppIconButton> createState() => _AppIconButtonState();
+}
+
+class _AppIconButtonState extends State<AppIconButton> {
+  bool _pressed = false;
+
+  void _setPressed(bool value) {
+    if (_pressed == value) return;
+    setState(() => _pressed = value);
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appTheme.colors;
 
-    return InkWell(
-      onTap: onTap,
+    final normalBg = colors.secondary;
+    final pressedBg = colors.black.withValues(alpha: 0.4);
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTapDown: (_) => _setPressed(true),
+      onTapCancel: () => _setPressed(false),
+      onTapUp: (_) => _setPressed(false),
+      onTap: widget.onTap,
       child: Container(
-        height: 40,
-        width: 40,
+        height: _containerSize,
+        width: _containerSize,
         decoration: BoxDecoration(
-          color: colors.secondary,
+          color: _pressed ? pressedBg : normalBg,
           border: Border.all(color: colors.white, width: 3),
           shape: BoxShape.circle,
           boxShadow: [
@@ -57,7 +83,7 @@ class AppIconButton extends StatelessWidget {
             color: colors.white,
             size: _iconSize,
           ),
-          child: Center(child: child),
+          child: Center(child: widget.child),
         ),
       ),
     );
