@@ -8,7 +8,7 @@ import 'package:boardify/app_ui/theme/colors/app_pink_colors.dart';
 import 'package:boardify/app_ui/theme/colors/app_purple_colors.dart';
 import 'package:boardify/app_ui/theme/colors/app_red_colors.dart';
 import 'package:boardify/app_ui/theme/colors/app_yellow_colors.dart';
-import 'package:boardify/app_ui/widgets/app_background.dart';
+import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/assets/assets.gen.dart';
@@ -29,8 +29,10 @@ class ShopScreen extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
 
-    return AppBackground(
-      overlayChild: SafeArea(
+    return ScreenBackground(
+      shadowHeight: 850,
+      child: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             Padding(
@@ -44,7 +46,7 @@ class ShopScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
                 itemBuilder: (context, index) {
                   final scheme = AppColorScheme.values[index];
                   return AppButton(
@@ -107,7 +109,6 @@ class ShopScreen extends StatelessWidget {
           ],
         ),
       ),
-      child: Container(),
     );
   }
 
