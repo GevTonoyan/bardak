@@ -1,4 +1,5 @@
 import 'package:boardify/app_ui/widgets/app_button.dart';
+import 'package:boardify/app_ui/widgets/app_switch.dart';
 import 'package:boardify/app_ui/widgets/bottom_sheet.dart';
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
@@ -49,11 +50,7 @@ class SettingsScreenV2Body extends StatelessWidget {
             settingsBloc.add(ChangeSoundEffects(soundEffects: !enabled));
           },
           color: colors.white20,
-          suffix: Switch(
-            activeThumbColor: colors.green,
-            activeTrackColor: colors.white,
-            inactiveThumbColor: colors.white,
-            inactiveTrackColor: colors.white20,
+          suffix: AppSwitch(
             value: appSettings.soundEnabled,
             onChanged: (value) {
               settingsBloc.add(ChangeSoundEffects(soundEffects: value));
