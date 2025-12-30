@@ -101,13 +101,12 @@ void showAlertBanner(
   final overlay = Overlay.of(context);
 
   final entry = OverlayEntry(
-    builder:
-        (_) => Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: GameAlertBanner(message: message, type: type),
-        ),
+    builder: (_) => Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: GameAlertBanner(message: message, type: type),
+    ),
   );
 
   _currentBannerEntry = entry;

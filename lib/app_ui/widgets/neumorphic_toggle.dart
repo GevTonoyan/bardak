@@ -55,10 +55,9 @@ class NeumorphicToggle extends StatelessWidget {
                 child: Text(
                   options[i],
                   style: theme.textTheme.labelLarge!.copyWith(
-                    color:
-                        selected
-                            ? theme.colorScheme.onPrimary
-                            : theme.colorScheme.onSurface,
+                    color: selected
+                        ? theme.colorScheme.onPrimary
+                        : theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

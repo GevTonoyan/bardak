@@ -20,8 +20,8 @@ class AppThemeProvider extends InheritedWidget {
   final AppThemeData data;
 
   static AppThemeData of(BuildContext context) {
-    final result =
-        context.dependOnInheritedWidgetOfExactType<AppThemeProvider>();
+    final result = context
+        .dependOnInheritedWidgetOfExactType<AppThemeProvider>();
     assert(result != null, 'No AppThemeProvider found in context');
     return result!.data;
   }

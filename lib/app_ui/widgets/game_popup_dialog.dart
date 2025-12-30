@@ -16,15 +16,14 @@ Future<void> showGamePopupDialog({
   return showDialog(
     context: context,
     barrierDismissible: false,
-    builder:
-        (_) => GamePopupDialog(
-          title: title,
-          message: message,
-          confirmText: confirmText ?? localizations.general_yes,
-          cancelText: cancelText ?? localizations.general_no,
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-        ),
+    builder: (_) => GamePopupDialog(
+      title: title,
+      message: message,
+      confirmText: confirmText ?? localizations.general_yes,
+      cancelText: cancelText ?? localizations.general_no,
+      onConfirm: onConfirm,
+      onCancel: onCancel,
+    ),
   );
 }
 
