@@ -1,5 +1,5 @@
 import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
 const _containerSize = 40.0;
@@ -13,10 +13,7 @@ class AppIconButton extends StatefulWidget {
     super.key,
   });
 
-  factory AppIconButton.back({
-    required VoidCallback onTap,
-    Key? key,
-  }) {
+  factory AppIconButton.back({required VoidCallback onTap, Key? key}) {
     return AppIconButton(
       key: key,
       onTap: onTap,
@@ -24,10 +21,7 @@ class AppIconButton extends StatefulWidget {
     );
   }
 
-  factory AppIconButton.settings({
-    required VoidCallback onTap,
-    Key? key,
-  }) {
+  factory AppIconButton.settings({required VoidCallback onTap, Key? key}) {
     return AppIconButton(
       key: key,
       onTap: onTap,
@@ -53,38 +47,45 @@ class _AppIconButtonState extends State<AppIconButton> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
-
-    final normalBg = colors.secondary;
-    final pressedBg = colors.black.withValues(alpha: 0.4);
-
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
       onTapDown: (_) => _setPressed(true),
       onTapCancel: () => _setPressed(false),
       onTapUp: (_) => _setPressed(false),
       onTap: widget.onTap,
-      child: Container(
-        height: _containerSize,
-        width: _containerSize,
-        decoration: BoxDecoration(
-          color: _pressed ? pressedBg : normalBg,
-          border: Border.all(color: colors.white, width: 3),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              offset: const Offset(0, 3),
-              color: colors.shadow,
+      child: Stack(
+        children: [
+          Container(
+            height: _containerSize,
+            width: _containerSize,
+            decoration: BoxDecoration(
+              color: colors.secondary,
+              border: Border.all(color: colors.white, width: 3),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, 3),
+                  color: colors.shadow,
+                ),
+              ],
             ),
-          ],
-        ),
-        child: IconTheme(
-          data: IconThemeData(
-            color: colors.white,
-            size: _iconSize,
+            child: IconTheme(
+              data: IconThemeData(
+                color: colors.white,
+                size: _iconSize,
+              ),
+              child: Center(child: widget.child),
+            ),
           ),
-          child: Center(child: widget.child),
-        ),
+          if (_pressed)
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: colors.black.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
