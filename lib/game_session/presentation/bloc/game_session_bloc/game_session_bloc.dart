@@ -20,8 +20,9 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
   ) {
     final gameState = state.gameState;
 
-    final newRemainingWords =
-        state.gameState.words.skip(event.wordsShown).toList();
+    final newRemainingWords = state.gameState.words
+        .skip(event.wordsShown)
+        .toList();
 
     final currentTeamIndex = gameState.currentTeamIndex;
     gameState.teamStates[currentTeamIndex].addRoundScore(event.guessedCount);
@@ -34,8 +35,9 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
       false => (currentTeamIndex + 1, gameState.currentRoundIndex),
     };
 
-    final winnerTeamIndex =
-        allTeamsPlayedRound ? gameState.getWinningTeamIndex() : null;
+    final winnerTeamIndex = allTeamsPlayedRound
+        ? gameState.getWinningTeamIndex()
+        : null;
 
     emit(
       GameSessionState(

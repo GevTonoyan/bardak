@@ -19,21 +19,22 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<List<WordPackEntity>> getWordPacks(
     FetchAndCacheWordPacksParams params,
   ) async {
-    final doc =
-        await firestore.collection('word_packs').doc(params.localeCode).get();
+    final doc = await firestore
+        .collection('word_packs')
+        .doc(params.localeCode)
+        .get();
 
     if (!doc.exists) return [];
 
     final data = doc.data();
     if (data == null) return [];
 
-    final packs =
-        data.entries.map((entry) {
-          return WordPackEntity.fromFirestore(
-            entry.key,
-            Map<String, dynamic>.from(entry.value),
-          );
-        }).toList();
+    final packs = data.entries.map((entry) {
+      return WordPackEntity.fromFirestore(
+        entry.key,
+        Map<String, dynamic>.from(entry.value),
+      );
+    }).toList();
 
     return packs;
   }

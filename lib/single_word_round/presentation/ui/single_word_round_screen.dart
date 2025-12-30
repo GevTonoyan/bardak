@@ -136,22 +136,20 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                                 _ActionButton(
                                   icon: Icons.close,
                                   color: colors.error,
-                                  onPressed:
-                                      () => bloc.add(
-                                        const ResolveCurrentWord(
-                                          WordResolution.skipped,
-                                        ),
-                                      ),
+                                  onPressed: () => bloc.add(
+                                    const ResolveCurrentWord(
+                                      WordResolution.skipped,
+                                    ),
+                                  ),
                                 ),
                               _ActionButton(
                                 icon: Icons.check,
                                 color: colors.success,
-                                onPressed:
-                                    () => bloc.add(
-                                      const ResolveCurrentWord(
-                                        WordResolution.guessed,
-                                      ),
-                                    ),
+                                onPressed: () => bloc.add(
+                                  const ResolveCurrentWord(
+                                    WordResolution.guessed,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
