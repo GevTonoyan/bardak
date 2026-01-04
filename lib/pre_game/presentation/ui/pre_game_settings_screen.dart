@@ -40,6 +40,9 @@ class _PreGameSettingsBody extends StatelessWidget {
     final settingsBloc = context.watch<SettingsBloc>();
     final gameSettings = settingsBloc.state.gameSettings;
 
+    final roundDuration = gameSettings.roundDuration;
+    final pointsToWin = gameSettings.pointsToWin;
+
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
       child: Column(
@@ -81,15 +84,23 @@ class _PreGameSettingsBody extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           AppButton(
-            label: '60 վրկ',
+            label: '$roundDuration վրկ',
             color: colors.white20,
             animateOnPress: false,
             icon: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                settingsBloc.add(
+                  ChangeGameDuration(gameDuration: roundDuration - 5),
+                );
+              },
               icon: Icon(Icons.remove, color: colors.white),
             ),
             suffix: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                settingsBloc.add(
+                  ChangeGameDuration(gameDuration: roundDuration + 5),
+                );
+              },
               icon: Icon(Icons.add, color: colors.white),
             ),
           ),
@@ -100,15 +111,23 @@ class _PreGameSettingsBody extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           AppButton(
-            label: '90 միավոր',
+            label: '$pointsToWin միավոր',
             color: colors.white20,
             animateOnPress: false,
             icon: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                settingsBloc.add(
+                  ChangePointsToWin(pointsToWin: pointsToWin - 5),
+                );
+              },
               icon: Icon(Icons.remove, color: colors.white),
             ),
             suffix: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                settingsBloc.add(
+                  ChangePointsToWin(pointsToWin: pointsToWin + 5),
+                );
+              },
               icon: Icon(Icons.add, color: colors.white),
             ),
           ),
