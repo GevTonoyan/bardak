@@ -56,6 +56,8 @@ class Assets {
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const SvgGenImage lock = SvgGenImage('assets/lock.svg');
   static const SvgGenImage logoAm = SvgGenImage('assets/logo_am.svg');
+  static const SvgGenImage minus = SvgGenImage('assets/minus.svg');
+  static const SvgGenImage plus = SvgGenImage('assets/plus.svg');
   static const SvgGenImage question = SvgGenImage('assets/question.svg');
   static const SvgGenImage rewardClosed = SvgGenImage(
     'assets/reward_closed.svg',
@@ -75,6 +77,8 @@ class Assets {
     coin,
     lock,
     logoAm,
+    minus,
+    plus,
     question,
     rewardClosed,
     rewardOpened,
