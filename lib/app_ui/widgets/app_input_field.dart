@@ -1,38 +1,32 @@
-import 'package:boardify/utils/extensions/state_extension.dart';
+import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-class AppInputField extends StatefulWidget {
+class AppInputField extends StatelessWidget {
   const AppInputField({
-    required this.label,
-    required this.color,
+    required this.controller,
     this.suffix,
     this.onPressed,
-
     super.key,
   });
 
-  final String label;
-  final Color color;
+  final TextEditingController controller;
   final Widget? suffix;
   final VoidCallback? onPressed;
 
   @override
-  State<AppInputField> createState() => _AppInputFieldState();
-}
-
-class _AppInputFieldState extends State<AppInputField> {
-  @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return GestureDetector(
-      onTap: widget.onPressed,
+      onTap: onPressed,
       child: Stack(
         children: [
           Container(
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: widget.color,
+              color: colors.white20,
               boxShadow: [
                 BoxShadow(
                   offset: const Offset(0, 4),
@@ -47,7 +41,7 @@ class _AppInputFieldState extends State<AppInputField> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: widget.color,
+              color: colors.white20,
               border: GradientBoxBorder(
                 width: 2,
                 gradient: LinearGradient(
@@ -74,7 +68,8 @@ class _AppInputFieldState extends State<AppInputField> {
               children: [
                 Expanded(
                   child: TextFormField(
-                    style: typography.regular24.copyWith(
+                    controller: controller,
+                    style: context.typography.regular24.copyWith(
                       color: colors.white,
                     ),
                     autocorrect: false,
@@ -87,7 +82,7 @@ class _AppInputFieldState extends State<AppInputField> {
                     ),
                   ),
                 ),
-                ?widget.suffix,
+                ?suffix,
               ],
             ),
           ),

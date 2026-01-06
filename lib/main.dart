@@ -1,7 +1,15 @@
+import 'package:boardify/app_ui/theme/app_color_scheme.dart';
 import 'package:boardify/app_ui/theme/app_theme/app_theme_data_builder.dart';
 import 'package:boardify/app_ui/theme/app_theme_provider.dart';
-import 'package:boardify/app_ui/theme/colors/app_dark_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_black_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_blue_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_green_colors.dart';
 import 'package:boardify/app_ui/theme/colors/app_light_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_pink_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_purple_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_red_colors.dart';
+import 'package:boardify/app_ui/theme/colors/app_yellow_colors.dart';
 import 'package:boardify/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:boardify/firebase_options.dart';
 import 'package:boardify/localizations/common/supported_locales.dart';
@@ -55,9 +63,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        final appColor = state.appSettings.isDarkMode
-            ? AppDarkColors()
-            : AppLightColors();
+        final appColor = getColors(state.appSettings.colorScheme);
 
         final themeData = AppThemeData(
           colors: appColor,
@@ -81,5 +87,18 @@ class MyApp extends StatelessWidget {
         );
       },
     );
+  }
+
+  AppColors getColors(AppColorScheme scheme) {
+    return switch (scheme) {
+      .main => AppLightColors(),
+      .purple => AppPurpleColors(),
+      .yellow => AppYellowColors(),
+      .blue => AppBlueColors(),
+      .green => AppGreenColors(),
+      .pink => AppPinkColors(),
+      .red => AppRedColors(),
+      .black => AppBlackColors(),
+    };
   }
 }

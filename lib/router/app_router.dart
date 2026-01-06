@@ -10,6 +10,7 @@ import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/pre_game/presentation/ui/pre_game_screen.dart';
 import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart';
+import 'package:boardify/pre_game/presentation/ui/setup_team_names_screen.dart';
 import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
 import 'package:boardify/rules/presentation/ui/rules_screen.dart';
 import 'package:boardify/settings/presentation/ui/settings_screen.dart';
@@ -25,7 +26,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+final shellNavigatorKey = GlobalKey<NavigatorState>();
 final gameSessionNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
@@ -56,6 +58,7 @@ final appRouter = GoRouter(
         GoRoute(
           path: PreGameSettingsScreen.routePath,
           name: PreGameSettingsScreen.routePath,
+          parentNavigatorKey: rootNavigatorKey,
           pageBuilder: (context, state) {
             final params = state.uri.queryParameters;
             final gameModeString = params[PreGameSettingsScreen.gameModeKey]!;
@@ -64,6 +67,30 @@ final appRouter = GoRouter(
             );
             return PreGameSettingsScreen(selectedMode: gameMode);
           },
+          routes: [
+            GoRoute(
+              parentNavigatorKey: rootNavigatorKey,
+              path: SetupTeamNamesScreen.routePath,
+              name: SetupTeamNamesScreen.routePath,
+              pageBuilder: (context, state) {
+                return const SetupTeamNamesScreen();
+              },
+              routes: [
+                GoRoute(
+                  parentNavigatorKey: rootNavigatorKey,
+                  path: WordPackScreen.routePath,
+                  name: WordPackScreen.routePath,
+                  builder: (context, state) => BlocProvider(
+                    create: (_) => WordPacksBloc(
+                      getWordPacks: sl(),
+                      setSelectedWordPack: sl(),
+                    ),
+                    child: const WordPackScreen(),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         GoRoute(
           path: RewardsScreen.routePath,
@@ -80,17 +107,17 @@ final appRouter = GoRouter(
           name: RouteNames.info,
           builder: (context, state) => const RulesScreen(),
         ),
-        GoRoute(
-          path: RouteNames.wordPacks,
-          name: RouteNames.wordPacks,
-          builder: (context, state) => BlocProvider(
-            create: (_) => WordPacksBloc(
-              getWordPacks: sl(),
-              setSelectedWordPack: sl(),
-            ),
-            child: const WordPackScreen(),
-          ),
-        ),
+        // GoRoute(
+        //   path: RouteNames.wordPacks,
+        //   name: RouteNames.wordPacks,
+        //   builder: (context, state) => BlocProvider(
+        //     create: (_) => WordPacksBloc(
+        //       getWordPacks: sl(),
+        //       setSelectedWordPack: sl(),
+        //     ),
+        //     child: const WordPackScreen(),
+        //   ),
+        // ),
         // GoRoute(
         //   path: PreGameScreen.routePath,
         //   name: PreGameScreen.routePath,

@@ -1,12 +1,18 @@
+import 'package:boardify/app_ui/widgets/app_button.dart';
+import 'package:boardify/app_ui/widgets/app_icon_button.dart';
+import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
+import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/home/presentation/bloc/home_bloc.dart';
-import 'package:boardify/pre_game/presentation/ui/pre_game_screen.dart';
-import 'package:boardify/router/app_router.dart';
+import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart';
+import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
 import 'package:boardify/settings/presentation/ui/settings_screen.dart';
-import 'package:boardify/utils/constants/constants.dart';
+import 'package:boardify/shop/presentation/ui/shop_screen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,147 +38,204 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              // Check if the word packs are cached
-              final isDisabled = state is! HomeStateLoaded;
+    final colors = context.appTheme.colors;
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // 🔙 Back + ℹ️ Rules
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.settings),
-                        color: colors.onBackground,
-                        onPressed: () =>
-                            context.goNamed(SettingsScreen.routePath),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.info_outline),
-                        color: colors.onBackground,
-                        onPressed: () => context.goNamed(RouteNames.info),
-                      ),
-                    ],
+    return Material(
+      child: Stack(
+        children: [
+          Scaffold(
+            body: Container(
+              decoration: BoxDecoration(gradient: colors.main),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 20,
                   ),
-                  const SizedBox(height: 20),
+                  child: BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      // Check if the word packs are cached
+                      final isDisabled = state is! HomeStateLoaded;
 
-                  // 🖼 Hero Image
-                  Expanded(
-                    child: Image.asset(
-                      AppConstants.aliasCoverImagePath,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // ▶️ Start Game
-                  ElevatedButton.icon(
-                    onPressed: isDisabled
-                        ? null
-                        : () => context.goNamed(PreGameScreen.routePath),
-                    icon: const Icon(Icons.play_arrow),
-                    label: Text(context.l10n.general_startGame),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // 🎬 Word Pack
-                  OutlinedButton.icon(
-                    onPressed: isDisabled
-                        ? null
-                        : () async {
-                            await context.pushNamed(RouteNames.wordPacks);
-                            if (context.mounted) {
-                              context.read<HomeBloc>().add(
-                                GetSelectedWordPackNameEvent(
-                                  locale: context.locale.languageCode,
-                                ),
-                              );
-                            }
-                          },
-                    icon: const Icon(Icons.category),
-                    label: Text(_getWordPackName(state)),
-                  ),
-
-                  if (state is HomeStateError) ...[
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: colors.error.withValues(alpha: 0.08),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: colors.error, width: 1.2),
-                      ),
-                      child: Column(
+                      return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(
-                                Icons.wifi_off,
-                                color: colors.error,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  '${context.l10n.failedLoadWords}'
-                                  ' ${context.l10n.general_checkInternet}',
-                                  style: typography.bodyMedium.copyWith(
-                                    color: colors.error,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              // IconButton(
+                              //   icon: const Icon(Icons.settings),
+                              //   color: colors.onBackground,
+                              //   onPressed: () =>
+                              //       context.goNamed(SettingsScreen.routePath),
+                              // ),
+                              AppIconButton.settings(
+                                onTap: () => context.goNamed(
+                                  SettingsScreen.routePath,
                                 ),
+                              ),
+                              AppIconTextButton(
+                                number: 1000,
+                                onTap: () {
+                                  context.goNamed(ShopScreen.routePath);
+                                },
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          OutlinedButton.icon(
-                            onPressed: () {
-                              context.read<HomeBloc>().add(
-                                InitializeAliasHomeEvent(
-                                  locale: context.locale.languageCode,
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.refresh, color: colors.onPrimary),
-                            label: Text(
-                              context.l10n.general_tryAgain,
-                              style: typography.labelLarge.copyWith(
-                                color: colors.onPrimary,
-                              ),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: colors.primary,
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            height: 165,
+                            width: 279,
+                            child: Assets.logoAm.svg(),
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
 
-                  const SizedBox(height: 20),
-                ],
-              );
-            },
+                          if (state is HomeStateError) ...[
+                            const SizedBox(height: 20),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: colors.error.withValues(alpha: 0.08),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: colors.error,
+                                  width: 1.2,
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.wifi_off,
+                                        color: colors.error,
+                                        size: 24,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          '${context.l10n.failedLoadWords}'
+                                          ' ${context.l10n.general_checkInternet}',
+                                          style: typography.bodyMedium.copyWith(
+                                            color: colors.error,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                  OutlinedButton.icon(
+                                    onPressed: () {
+                                      context.read<HomeBloc>().add(
+                                        InitializeAliasHomeEvent(
+                                          locale: context.locale.languageCode,
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.refresh,
+                                      color: colors.onPrimary,
+                                    ),
+                                    label: Text(
+                                      context.l10n.general_tryAgain,
+                                      style: typography.labelLarge.copyWith(
+                                        color: colors.onPrimary,
+                                      ),
+                                    ),
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: colors.primary,
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      side: BorderSide.none,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+
+                          const SizedBox(height: 20),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SvgPicture.asset('assets/shadow_effect.svg'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 100),
+            child: Column(
+              spacing: 20,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppButton(
+                  label: 'Classic Alias',
+                  color: colors.green,
+                  onPressed: () {
+                    _navigateToGameSettings(GameMode.card);
+                  },
+                ),
+                AppButton(
+                  label: 'One Word Mode',
+                  color: colors.purple,
+                  onPressed: () {
+                    _navigateToGameSettings(GameMode.singleWord);
+                  },
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: AlignmentGeometry.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 44),
+              child: Row(
+                spacing: 12,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: AppButton(
+                      label: 'Rewards',
+                      color: colors.white20,
+                      onPressed: () => context.goNamed(RewardsScreen.routePath),
+                    ),
+                  ),
+
+                  Expanded(
+                    child: AppButton(
+                      label: 'Shop',
+                      color: colors.blue,
+                      onPressed: () {
+                        context.goNamed(ShopScreen.routePath);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  void _navigateToGameSettings(GameMode gameMode) {
+    context.goNamed(
+      PreGameSettingsScreen.routePath,
+      queryParameters: {PreGameSettingsScreen.gameModeKey: gameMode.name},
     );
   }
 
