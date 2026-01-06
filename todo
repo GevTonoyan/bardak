@@ -1,5 +1,10 @@
 BUGS
 1. Game doesn't end, when there are no more words.
+2. App buttons in settings screen with +- icon buttons fix, numbers with different font.
+ BlocBuilder enhancements
+3. Continue button placement in bottom sheets at the bottom
+
+
 
 FEATURES
 1. Make bloc names generic , also state and event names similar to each other
