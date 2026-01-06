@@ -1,12 +1,18 @@
+import 'dart:async';
+
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_switch.dart';
 import 'package:boardify/app_ui/widgets/bottom_sheet.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:boardify/pre_game/presentation/ui/setup_team_names_screen.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/settings/presentation/bloc/settings_event.dart';
+import 'package:boardify/utils/dependency_injection/di.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class PreGameSettingsScreen extends Page<void> {
   const PreGameSettingsScreen({required this.selectedMode, super.key});
@@ -149,7 +155,13 @@ class _PreGameSettingsBody extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 40),
-          AppButton(label: 'Շարունակել', color: colors.green, onPressed: () {}),
+          AppButton(
+            label: 'Շարունակել',
+            color: colors.green,
+            onPressed: () {
+              unawaited(context.pushNamed(SetupTeamNamesScreen.routePath));
+            },
+          ),
         ],
       ),
     );
