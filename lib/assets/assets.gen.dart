@@ -58,6 +58,8 @@ class Assets {
   static const SvgGenImage lock = SvgGenImage('assets/lock.svg');
   static const SvgGenImage logoAm = SvgGenImage('assets/logo_am.svg');
   static const SvgGenImage minus = SvgGenImage('assets/minus.svg');
+  static const SvgGenImage pause = SvgGenImage('assets/pause.svg');
+  static const SvgGenImage play = SvgGenImage('assets/play.svg');
   static const SvgGenImage plus = SvgGenImage('assets/plus.svg');
   static const SvgGenImage question = SvgGenImage('assets/question.svg');
   static const SvgGenImage rewardClosed = SvgGenImage(
@@ -80,6 +82,8 @@ class Assets {
     lock,
     logoAm,
     minus,
+    pause,
+    play,
     plus,
     question,
     rewardClosed,
