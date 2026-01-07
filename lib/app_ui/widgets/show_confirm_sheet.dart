@@ -14,7 +14,6 @@ Future<void> showConfirmSheet({
   required String confirmText,
   required String cancelText,
   required VoidCallback onConfirm,
-  required VoidCallback onCancel,
 }) async {
   await showModalBottomSheet<void>(
     context: context,
@@ -51,7 +50,7 @@ Future<void> showConfirmSheet({
                 AppButton(
                   color: colors.red,
                   label: cancelText,
-                  onPressed: onCancel,
+                  onPressed: () => context.pop(),
                 ),
                 height20,
                 AppButton(
