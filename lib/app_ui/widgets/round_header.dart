@@ -1,8 +1,11 @@
 import 'dart:async';
+
+import 'package:boardify/app_ui/widgets/app_icon_button.dart';
+import 'package:boardify/app_ui/widgets/round_timer.dart';
+import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
-import 'package:boardify/app_ui/widgets/game_popup_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RoundHeader extends StatefulWidget {
   const RoundHeader({
@@ -67,56 +70,51 @@ class _RoundHeaderState extends State<RoundHeader>
 
   @override
   Widget build(BuildContext context) {
-    Color timeColor() {
-      if (remainingSeconds <= 5) return colors.error;
-      if (remainingSeconds <= 10) return colors.warning;
-      return colors.success;
-    }
+    final l10n = context.l10n;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
       child: Row(
+        mainAxisAlignment: .spaceBetween,
         children: [
-          Text(
-            '$remainingSeconds',
-            style: typography.displayLarge.copyWith(
-              color: timeColor(),
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Spacer(),
-          IconButton(
-            icon: Icon(
-              isTimerPaused ? Icons.play_arrow : Icons.pause,
-              color: colors.primary,
-            ),
-            onPressed: () {
-              setState(() {
-                if (_timer.isActive) {
-                  _timer.cancel();
-                } else {
-                  remainingSeconds--;
-                  _startTimer();
-                }
-                isTimerPaused = !isTimerPaused;
-              });
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.close, color: colors.error),
-            onPressed: () {
-              showGamePopupDialog(
+          AppIconButton.close(
+            onTap: () async {
+              await showConfirmSheet(
                 context: context,
-                title: context.l10n.roundOverview_confirmExit_title,
-                message: context.l10n.roundOverview_confirmExit_message,
-                confirmText: context.l10n.general_yes,
-                cancelText: context.l10n.general_no,
-                onConfirm: widget.onRoundComplete,
+                title: l10n.roundOverview_confirmExit_title,
+                description: l10n.roundOverview_confirmExit_message,
+                confirmText: l10n.general_yes,
+                cancelText: l10n.general_no,
+                onConfirm: () {
+                  context.pop();
+                  widget.onRoundComplete();
+                },
               );
             },
           ),
+          RoundTimer(seconds: remainingSeconds),
+          if (isTimerPaused)
+            AppIconButton.play(
+              onTap: _onPausePlayPressed,
+            )
+          else
+            AppIconButton.pause(
+              onTap: _onPausePlayPressed,
+            ),
         ],
       ),
     );
+  }
+
+  void _onPausePlayPressed() {
+    setState(() {
+      if (_timer.isActive) {
+        _timer.cancel();
+      } else {
+        remainingSeconds--;
+        _startTimer();
+      }
+      isTimerPaused = !isTimerPaused;
+    });
   }
 }

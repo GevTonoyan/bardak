@@ -51,6 +51,7 @@ class Assets {
   const Assets._();
 
   static const SvgGenImage back = SvgGenImage('assets/back.svg');
+  static const SvgGenImage clock = SvgGenImage('assets/clock.svg');
   static const SvgGenImage close = SvgGenImage('assets/close.svg');
   static const SvgGenImage coin = SvgGenImage('assets/coin.svg');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
@@ -77,6 +78,7 @@ class Assets {
   /// List of all assets
   static List<SvgGenImage> get values => [
     back,
+    clock,
     close,
     coin,
     lock,
