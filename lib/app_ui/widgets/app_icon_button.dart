@@ -29,6 +29,14 @@ class AppIconButton extends StatefulWidget {
     );
   }
 
+  factory AppIconButton.close({required VoidCallback onTap, Key? key}) {
+    return AppIconButton(
+      key: key,
+      onTap: onTap,
+      child: Assets.close.svg(width: 18, height: 18),
+    );
+  }
+
   final Widget child;
   final VoidCallback onTap;
   final bool isPressed;
