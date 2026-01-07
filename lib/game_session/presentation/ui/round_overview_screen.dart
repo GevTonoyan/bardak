@@ -1,8 +1,8 @@
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
-import 'package:boardify/app_ui/widgets/game_popup_dialog.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
+import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:boardify/card_round/domain/card_round_entity.dart';
 import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/game_session/domain/entities/card_round_result.dart';
@@ -47,12 +47,17 @@ class RoundOverviewScreen extends StatelessWidget {
                   padding: const EdgeInsetsGeometry.only(left: 20, top: 20),
                   child: AppIconButton.close(
                     onTap: () async {
-                      await showGamePopupDialog(
+                      await showConfirmSheet(
                         context: context,
-                        title: context.l10n.roundOverview_confirmExit_title,
-                        message: context.l10n.roundOverview_confirmExit_message,
-                        confirmText: context.l10n.general_yes,
-                        cancelText: context.l10n.general_no,
+                        title: 'Լքե՞լ խաղը',
+                        description: 'Վստա՞հ եք որ ցանկանում եք ավարտել խաղը',
+                        cancelText: 'Այո,լքել խաղը',
+                        confirmText: 'Չեղարկել',
+                        onCancel: () {
+                          context
+                            ..pop()
+                            ..pop();
+                        },
                         onConfirm: () => context.pop(),
                       );
                     },
