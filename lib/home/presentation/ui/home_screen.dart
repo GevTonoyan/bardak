@@ -1,7 +1,10 @@
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
+import 'package:boardify/app_ui/widgets/coin_amount.dart';
 import 'package:boardify/assets/assets.gen.dart';
+import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
+import 'package:boardify/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart';
@@ -74,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   SettingsScreen.routePath,
                                 ),
                               ),
-                              AppIconTextButton(
-                                number: 1000,
+                              CoinAmount(
+                                amount: 1000,
                                 onTap: () {
                                   context.goNamed(ShopScreen.routePath);
                                 },

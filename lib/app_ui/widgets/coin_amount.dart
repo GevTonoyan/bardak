@@ -1,31 +1,33 @@
 import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:boardify/utils/extensions/int_extension.dart';
 import 'package:flutter/material.dart';
 
-class RoundTimer extends StatelessWidget {
-  const RoundTimer({required this.seconds, super.key});
+class CoinAmount extends StatelessWidget {
+  const CoinAmount({required this.amount, this.onTap, super.key});
 
-  final int seconds;
+  final int amount;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final typography = context.typography;
 
     return AppIconTextButton(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      color: colors.green,
+      onTap: onTap,
       child: Row(
         spacing: 6,
         children: [
           Text(
-            seconds.toString(),
-            style: context.typography.regular28.copyWith(
+            amount.toDotThousands,
+            style: typography.medium.copyWith(
               color: colors.white,
               fontFamily: 'Digitalt',
             ),
           ),
-          Assets.clock.svg(width: 18, height: 18),
+          Assets.coin.svg(width: 18, height: 18),
         ],
       ),
     );
