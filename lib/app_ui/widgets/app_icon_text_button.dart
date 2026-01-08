@@ -7,6 +7,7 @@ class AppIconTextButton extends StatefulWidget {
     this.onTap,
     this.padding,
     this.color,
+    this.gradient,
     super.key,
   });
 
@@ -14,6 +15,7 @@ class AppIconTextButton extends StatefulWidget {
   final VoidCallback? onTap;
   final EdgeInsets? padding;
   final Color? color;
+  final Gradient? gradient;
 
   @override
   State<AppIconTextButton> createState() => _AppIconTextButtonState();
@@ -43,6 +45,7 @@ class _AppIconTextButtonState extends State<AppIconTextButton> {
             padding: widget.padding ?? const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: widget.color ?? colors.secondary,
+              gradient: widget.gradient,
               border: Border.all(color: colors.white, width: 3),
               borderRadius: borderRadius,
               boxShadow: [
