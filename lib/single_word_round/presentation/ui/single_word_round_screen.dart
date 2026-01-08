@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/round_header.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
+import 'package:boardify/app_ui/widgets/show_points_badge.dart';
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/game_session/domain/entities/card_round_result.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
@@ -118,11 +121,20 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                               child: AppButton(
                                 label: 'Փաս',
                                 color: colors.white20,
-                                onPressed: () => bloc.add(
-                                  const ResolveCurrentWord(
-                                    WordResolution.skipped,
-                                  ),
-                                ),
+                                onPressed: () {
+                                  bloc.add(
+                                    const ResolveCurrentWord(
+                                      WordResolution.skipped,
+                                    ),
+                                  );
+
+                                  unawaited(
+                                    showPointsBadge(
+                                      context,
+                                      points: '-1',
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           Expanded(
@@ -130,11 +142,17 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                               label: '️Ճիշտ է',
                               icon: Assets.check.svg(width: 22, height: 22),
                               color: colors.green,
-                              onPressed: () => bloc.add(
-                                const ResolveCurrentWord(
-                                  WordResolution.guessed,
-                                ),
-                              ),
+                              onPressed: () {
+                                bloc.add(
+                                  const ResolveCurrentWord(
+                                    WordResolution.guessed,
+                                  ),
+                                );
+
+                                unawaited(
+                                  showPointsBadge(context, points: '+1'),
+                                );
+                              },
                             ),
                           ),
                         ],
