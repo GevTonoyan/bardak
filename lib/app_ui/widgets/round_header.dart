@@ -5,6 +5,7 @@ import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
 import 'package:boardify/app_ui/widgets/round_timer.dart';
 import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -86,8 +87,9 @@ class _RoundHeaderState extends State<RoundHeader>
                 description: l10n.roundOverview_confirmExit_message,
                 confirmText: l10n.general_yes,
                 cancelText: l10n.general_no,
+                confirmColor: colors.red,
+                cancelColor: colors.green,
                 onConfirm: () {
-                  context.pop();
                   widget.onRoundComplete();
                 },
               );

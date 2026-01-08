@@ -51,8 +51,10 @@ class RoundOverviewScreen extends StatelessWidget {
                         context: context,
                         title: 'Լքե՞լ խաղը',
                         description: 'Վստա՞հ եք որ ցանկանում եք ավարտել խաղը',
-                        cancelText: 'Այո,լքել խաղը',
-                        confirmText: 'Չեղարկել',
+                        confirmText: 'Այո,լքել խաղը',
+                        cancelText: 'Չեղարկել',
+                        confirmColor: colors.red,
+                        cancelColor: colors.green,
                         onConfirm: () => context.pop(),
                       );
                     },
