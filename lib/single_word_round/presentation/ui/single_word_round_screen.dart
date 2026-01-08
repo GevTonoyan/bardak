@@ -8,6 +8,7 @@ import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/game_session/domain/entities/card_round_result.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_card.dart';
+import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,8 +89,26 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                           ),
                         ),
                         Center(
-                          child: SingleWordCard(
+                          child: _SwipeableSingleWordCard(
+                            key: ValueKey(roundState.index),
                             word: roundState.words[roundState.index],
+                            allowSkipping: roundState.allowSkipping,
+                            onGuessed: () {
+                              bloc.add(
+                                const ResolveCurrentWord(
+                                  WordResolution.guessed,
+                                ),
+                              );
+                              unawaited(showPointsBadge(context, points: '+1'));
+                            },
+                            onSkipped: () {
+                              bloc.add(
+                                const ResolveCurrentWord(
+                                  WordResolution.skipped,
+                                ),
+                              );
+                              unawaited(showPointsBadge(context, points: '-1'));
+                            },
                           ),
                         ),
                         RotatedBox(
@@ -165,6 +184,57 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SwipeableSingleWordCard extends StatelessWidget {
+  const _SwipeableSingleWordCard({
+    required super.key,
+    required this.word,
+    required this.allowSkipping,
+    required this.onGuessed,
+    required this.onSkipped,
+  });
+
+  final String word;
+  final bool allowSkipping;
+  final VoidCallback onGuessed;
+  final VoidCallback onSkipped;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
+    // Decide directions:
+    // - Swipe RIGHT  -> guessed
+    // - Swipe LEFT   -> skipped (only if allowSkipping)
+    final direction = allowSkipping
+        ? DismissDirection.horizontal
+        : DismissDirection.startToEnd; // only right
+
+    return Dismissible(
+      key: key!,
+      direction: direction,
+
+      confirmDismiss: (d) async {
+        if (d == DismissDirection.startToEnd) {
+          onGuessed();
+          return true;
+        }
+        if (d == DismissDirection.endToStart) {
+          if (!allowSkipping) return false;
+          onSkipped();
+          return true;
+        }
+        return false;
+      },
+
+      // We already fired action in confirmDismiss.
+      onDismissed: (_) {},
+
+      child: SingleWordCard(word: word),
     );
   }
 }
