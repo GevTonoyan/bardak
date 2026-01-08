@@ -3,7 +3,7 @@ BUGS
 2. App buttons in settings screen with +- icon buttons fix, numbers with different font.
  BlocBuilder enhancements
 3. Continue button placement in bottom sheets at the bottom
-
+4. SingleWordCard shadow effects transparent background change
 
 
 FEATURES
