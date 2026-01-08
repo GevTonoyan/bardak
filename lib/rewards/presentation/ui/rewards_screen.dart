@@ -1,5 +1,6 @@
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
+import 'package:boardify/app_ui/widgets/coin_amount.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/rewards/presentation/ui/reward_item.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
@@ -29,7 +30,7 @@ class RewardsScreen extends StatelessWidget {
                 mainAxisAlignment: .spaceBetween,
                 children: [
                   AppIconButton.back(onTap: () => context.pop()),
-                  AppIconTextButton(number: 123, onTap: () {}),
+                  const CoinAmount(amount: 1000),
                 ],
               ),
             ),

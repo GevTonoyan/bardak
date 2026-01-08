@@ -1,19 +1,19 @@
-import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/utils/extensions/int_extension.dart';
 import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
-const _containerHeight = 40.0;
-
 class AppIconTextButton extends StatefulWidget {
   const AppIconTextButton({
-    required this.number,
-    required this.onTap,
+    required this.child,
+    this.onTap,
+    this.padding,
+    this.color,
     super.key,
   });
 
-  final int number;
-  final VoidCallback onTap;
+  final Widget child;
+  final VoidCallback? onTap;
+  final EdgeInsets? padding;
+  final Color? color;
 
   @override
   State<AppIconTextButton> createState() => _AppIconTextButtonState();
@@ -23,6 +23,7 @@ class _AppIconTextButtonState extends State<AppIconTextButton> {
   bool _pressed = false;
 
   void _setPressed(bool value) {
+    if (widget.onTap == null) return;
     if (_pressed == value) return;
     setState(() => _pressed = value);
   }
@@ -39,10 +40,9 @@ class _AppIconTextButtonState extends State<AppIconTextButton> {
       child: Stack(
         children: [
           Container(
-            height: _containerHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: widget.padding ?? const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: colors.secondary,
+              color: widget.color ?? colors.secondary,
               border: Border.all(color: colors.white, width: 3),
               borderRadius: borderRadius,
               boxShadow: [
@@ -52,19 +52,7 @@ class _AppIconTextButtonState extends State<AppIconTextButton> {
                 ),
               ],
             ),
-            child: Row(
-              spacing: 6,
-              children: [
-                Text(
-                  widget.number.toDotThousands,
-                  style: typography.medium.copyWith(
-                    color: colors.white,
-                    fontFamily: 'Digitalt',
-                  ),
-                ),
-                Assets.coin.svg(width: 18, height: 18),
-              ],
-            ),
+            child: widget.child,
           ),
           if (_pressed)
             Positioned.fill(

@@ -11,6 +11,7 @@ import 'package:boardify/app_ui/theme/colors/app_yellow_colors.dart';
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
+import 'package:boardify/app_ui/widgets/coin_amount.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
@@ -42,10 +43,7 @@ class ShopScreen extends StatelessWidget {
                 mainAxisAlignment: .spaceBetween,
                 children: [
                   AppIconButton.back(onTap: () => context.pop()),
-                  AppIconTextButton(
-                    number: 1000,
-                    onTap: () {},
-                  ),
+                  const CoinAmount(amount: 1000),
                 ],
               ),
             ),
