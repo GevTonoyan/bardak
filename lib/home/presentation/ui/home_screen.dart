@@ -188,7 +188,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: 'Classic Alias',
                   color: colors.green,
                   onPressed: () {
-                    _navigateToGameSettings(GameMode.card);
+                    final gameSession = GameSessionEntity(
+                      gameMode: GameMode.singleWord,
+                      teamStates:
+                          ['Թիմ Առաջին', 'Թիմ երկրորդ', 'team 3', 'team 4'].map(
+                            (teamName) {
+                              return AliasTeamStateEntity(
+                                name: teamName,
+                                roundScores: [],
+                              );
+                            },
+                          ).toList(),
+                      roundDuration: 560,
+                      pointsToWin: 60,
+                      soundEnabled: true,
+                      wordsPerCard: 6,
+                      allowSkipping: true,
+                      penaltyForSkipping: true,
+                      currentTeamIndex: 0,
+                      currentRoundIndex: 0,
+                      words: [
+                        'one',
+                        'two',
+                        'three',
+                        'four',
+                        'five',
+                        'six',
+                        'seven',
+                        'eight',
+                        'nine',
+                        'ten',
+                        'eleven',
+                        'twelve',
+                        'thirteen',
+                        'fourteen',
+                        'fifteen',
+                        'sixteen',
+                        'seventeen',
+                        'eighteen',
+                        'nineteen',
+                        'twenty',
+                        'twenty one',
+                        'twenty two',
+                        'twenty three',
+                        'twenty four',
+                        'twenty five',
+                        'twenty six',
+                        'twenty seven',
+                        'twenty eight',
+                        'twenty nine',
+                        'thirty',
+                      ],
+                    );
+
+                    context.goNamed(
+                      GameSessionScreen.routePath,
+                      extra: gameSession,
+                    );
+
+                    //_navigateToGameSettings(GameMode.card);
                   },
                 ),
                 AppButton(

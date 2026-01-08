@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
@@ -13,6 +12,8 @@ Future<void> showConfirmSheet({
   required String description,
   required String confirmText,
   required String cancelText,
+  required Color confirmColor,
+  required Color cancelColor,
   required VoidCallback onConfirm,
 }) async {
   await showModalBottomSheet<void>(
@@ -48,15 +49,20 @@ Future<void> showConfirmSheet({
                 Text(description, textAlign: .center, style: textStyle),
                 height40,
                 AppButton(
-                  color: colors.red,
-                  label: cancelText,
-                  onPressed: () => context.pop(),
+                  color: confirmColor,
+                  label: confirmText,
+                  onPressed: () {
+                    context.pop();
+                    onConfirm.call();
+                  },
                 ),
                 height20,
                 AppButton(
-                  color: colors.green,
-                  label: confirmText,
-                  onPressed: onConfirm,
+                  color: cancelColor,
+                  label: cancelText,
+                  onPressed: () {
+                    context.pop();
+                  },
                 ),
               ],
             ),
