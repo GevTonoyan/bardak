@@ -1,7 +1,11 @@
-import 'package:boardify/utils/extensions/state_extension.dart';
+import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/round_header.dart';
+import 'package:boardify/app_ui/widgets/screen_background.dart';
+import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/game_session/domain/entities/card_round_result.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
+import 'package:boardify/single_word_round/presentation/ui/single_word_card.dart';
+import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -52,8 +56,9 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
       },
       child: PopScope(
         canPop: false,
-        child: Scaffold(
-          body: SafeArea(
+        child: ScreenBackground(
+          shadowHeight: 200,
+          child: SafeArea(
             child: Column(
               children: [
                 RoundHeader(
@@ -64,133 +69,82 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                     );
                   },
                 ),
-
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: colors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: colors.primary, width: 2),
-                  ),
-                  child: Row(
-                    spacing: 8,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.star, color: colors.primary, size: 20),
-                      Text(
-                        'Score: ${roundState.score}',
-                        style: typography.titleMedium.copyWith(
-                          color: colors.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
                 Expanded(
-                  child: Center(
-                    child: Container(
-                      margin: const EdgeInsets.all(24),
-                      padding: const EdgeInsets.all(32),
-                      decoration: BoxDecoration(
-                        color: colors.surface,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: colors.shadow,
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 24,
-                        children: [
-                          SizedBox(
-                            height: 90,
-                            child: AnimatedBuilder(
-                              animation: _wordAnimationController,
-                              builder: (context, child) {
-                                return Transform.scale(
-                                  scale:
-                                      1.0 +
-                                      (_wordAnimationController.value * 0.1),
-                                  child: Text(
-                                    roundState.words[roundState.index],
-                                    style: typography.displaySmall,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                );
-                              },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      mainAxisAlignment: .spaceBetween,
+                      children: [
+                        RotatedBox(
+                          quarterTurns: 3,
+                          child: Text(
+                            'Փաս',
+                            style: typography.regular20.copyWith(
+                              color: colors.white30,
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              if (roundState.allowSkipping)
-                                _ActionButton(
-                                  icon: Icons.close,
-                                  color: colors.error,
-                                  onPressed: () => bloc.add(
-                                    const ResolveCurrentWord(
-                                      WordResolution.skipped,
-                                    ),
-                                  ),
-                                ),
-                              _ActionButton(
-                                icon: Icons.check,
-                                color: colors.success,
+                        ),
+                        Center(
+                          child: SingleWordCard(
+                            word: roundState.words[roundState.index],
+                          ),
+                        ),
+                        RotatedBox(
+                          quarterTurns: 3,
+                          child: Text(
+                            '️Ճիշտ է',
+                            style: typography.regular20.copyWith(
+                              color: colors.white30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: .center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 40,
+                      ),
+                      child: Row(
+                        spacing: 20,
+                        children: [
+                          if (roundState.allowSkipping)
+                            Expanded(
+                              child: AppButton(
+                                label: 'Փաս',
+                                color: colors.white20,
                                 onPressed: () => bloc.add(
                                   const ResolveCurrentWord(
-                                    WordResolution.guessed,
+                                    WordResolution.skipped,
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
+                          Expanded(
+                            child: AppButton(
+                              label: '️Ճիշտ է',
+                              icon: Assets.check.svg(width: 22, height: 22),
+                              color: colors.green,
+                              onPressed: () => bloc.add(
+                                const ResolveCurrentWord(
+                                  WordResolution.guessed,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ActionButton extends StatelessWidget {
-  const _ActionButton({
-    required this.icon,
-    required this.color,
-    required this.onPressed,
-  });
-
-  final IconData icon;
-  final Color color;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(30),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.1),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: color, size: 32),
         ),
       ),
     );
