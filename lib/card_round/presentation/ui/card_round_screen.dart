@@ -1,7 +1,8 @@
 import 'package:boardify/app_ui/widgets/round_header.dart';
-import 'package:boardify/game_session/domain/entities/card_round_result.dart';
+import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
-import 'package:boardify/card_round/presentation/ui/widgets/card_round_list.dart';
+import 'package:boardify/card_round/presentation/ui/widgets/multiple_words_card.dart';
+import 'package:boardify/game_session/domain/entities/card_round_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -28,8 +29,9 @@ class CardRoundScreen extends StatelessWidget {
       },
       child: PopScope(
         canPop: false,
-        child: Scaffold(
-          body: SafeArea(
+        child: ScreenBackground(
+          shadowHeight: 200,
+          child: SafeArea(
             child: Column(
               children: [
                 RoundHeader(
@@ -40,10 +42,13 @@ class CardRoundScreen extends StatelessWidget {
                     );
                   },
                 ),
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    child: const CardRoundList(),
+
+                const Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      child: MultipleWordsCard(),
+                    ),
                   ),
                 ),
               ],
