@@ -1,9 +1,15 @@
-import 'package:boardify/pre_game/presentation/ui/pre_game_screen.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'dart:math' as math;
+
+import 'package:boardify/app_ui/widgets/app_button.dart';
+import 'package:boardify/app_ui/widgets/app_icon_button.dart';
+import 'package:boardify/app_ui/widgets/highlighted_text.dart';
+import 'package:boardify/app_ui/widgets/screen_background.dart';
+import 'package:boardify/utils/extensions/state_extension.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class GameSummaryScreen extends StatelessWidget {
+class GameSummaryScreen extends StatefulWidget {
   const GameSummaryScreen({required this.winningTeamName, super.key});
 
   static const routePath = 'game_summary';
@@ -11,105 +17,82 @@ class GameSummaryScreen extends StatelessWidget {
   final String winningTeamName;
 
   @override
+  State<GameSummaryScreen> createState() => _GameSummaryScreenState();
+}
+
+class _GameSummaryScreenState extends State<GameSummaryScreen> {
+  late final ConfettiController _controller = ConfettiController(
+    duration: const Duration(seconds: 6),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _controller.play();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
-    final typography = context.appTheme.typography;
-
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      context.l10n.summary_gameOver,
-                      style: typography.headlineLarge.copyWith(
-                        color: colors.onBackground,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              colors.primary,
-                              colors.primary.withValues(alpha: 0.8),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
+    return Stack(
+      children: [
+        ScreenBackground(
+          shadowHeight: 200,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 44),
+              child: Column(
+                mainAxisAlignment: .spaceBetween,
+                crossAxisAlignment: .start,
+                children: [
+                  AppIconButton.close(onTap: () => context.pop()),
+                  Column(
+                    children: [
+                      Center(
                         child: Column(
+                          spacing: 16,
                           children: [
-                            Icon(
-                              Icons.emoji_events,
-                              size: 48,
-                              color: colors.onPrimary,
-                            ),
-                            const SizedBox(height: 16),
                             Text(
-                              context.l10n.summary_winner,
-                              style: typography.titleMedium.copyWith(
-                                color: colors.onPrimary.withValues(alpha: 0.8),
-                                fontWeight: FontWeight.w500,
+                              'Հաղթեց՝',
+                              style: typography.regular24.copyWith(
+                                color: colors.white,
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              winningTeamName,
-                              textAlign: TextAlign.center,
-                              style: typography.headlineMedium.copyWith(
-                                color: colors.onPrimary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            HighlightedText(text: widget.winningTeamName),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Action buttons
-              Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () => context.goNamed(PreGameScreen.routePath),
-                      icon: const Icon(Icons.refresh),
-                      label: Text(context.l10n.summary_playAgain),
-                    ),
+                    ],
                   ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: () => context.pop(),
-                      icon: const Icon(Icons.home),
-                      label: Text(context.l10n.summary_mainMenu),
-                    ),
+                  AppButton(
+                    label: 'Շարունակել',
+                    color: colors.green,
+                    onPressed: () => context.pop(),
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
+            confettiController: _controller,
+            blastDirection: math.pi / 2,
+            blastDirectionality: BlastDirectionality.explosive,
+            maxBlastForce: 15,
+            emissionFrequency: 0.05,
+            numberOfParticles: 50,
+          ),
+        ),
+      ],
     );
   }
 }
