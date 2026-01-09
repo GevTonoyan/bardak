@@ -1,6 +1,7 @@
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
+import 'package:boardify/app_ui/widgets/highlighted_text.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:boardify/card_round/domain/card_round_entity.dart';
@@ -72,20 +73,10 @@ class RoundOverviewScreen extends StatelessWidget {
                             color: colors.white,
                           ),
                         ),
-                        Container(
-                          padding: const .all(16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: colors.secondary,
-                          ),
-                          child: Text(
-                            gameState
-                                .teamStates[gameState.currentTeamIndex]
-                                .name,
-                            style: typography.regular28.copyWith(
-                              color: colors.white,
-                            ),
-                          ),
+                        HighlightedText(
+                          text: gameState
+                              .teamStates[gameState.currentTeamIndex]
+                              .name,
                         ),
                       ],
                     ),
