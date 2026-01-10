@@ -25,8 +25,8 @@ class SingleWordCard extends StatelessWidget {
             border: GradientBoxBorder(
               width: 3,
               gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+                begin: .topCenter,
+                end: .bottomCenter,
                 colors: [
                   colors.white.withValues(alpha: 0.3),
                   colors.white.withValues(alpha: 0.05),
@@ -39,6 +39,7 @@ class SingleWordCard extends StatelessWidget {
               BoxShadow(
                 offset: const Offset(0, 10),
                 color: colors.black.withValues(alpha: 0.2),
+                blurStyle: BlurStyle.outer,
               ),
             ],
           ),
