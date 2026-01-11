@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class SingleWordCard extends StatelessWidget {
-  const SingleWordCard({required this.word, super.key});
+  const SingleWordCard({required this.word, required this.angle, super.key});
 
   final String word;
+  final double angle;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,8 @@ class SingleWordCard extends StatelessWidget {
       height: 340,
       width: 262,
       child: Transform.rotate(
-        angle: 2.25 * math.pi / 180,
+        //angle: 2.25 * math.pi / 180,
+        angle: angle,
         child: Container(
           decoration: BoxDecoration(
             color: colors.white30,
