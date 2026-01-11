@@ -3,6 +3,7 @@ part of 'single_word_round_bloc.dart';
 class SingleWordRoundState {
   const SingleWordRoundState({
     required this.words,
+    required this.guessedIndexes,
     required this.score,
     required this.index,
     required this.roundDuration,
@@ -18,6 +19,7 @@ class SingleWordRoundState {
     required bool penaltyForSkipping,
   }) => SingleWordRoundState(
     words: words,
+    guessedIndexes: {},
     score: 0,
     index: 0,
     roundDuration: roundDuration,
@@ -28,6 +30,7 @@ class SingleWordRoundState {
 
   SingleWordRoundState copyWith({
     List<String>? words,
+    Set<int>? guessedIndexes,
     int? score,
     int? index,
     int? roundDuration,
@@ -37,6 +40,7 @@ class SingleWordRoundState {
   }) {
     return SingleWordRoundState(
       words: words ?? this.words,
+      guessedIndexes: guessedIndexes ?? this.guessedIndexes,
       score: score ?? this.score,
       index: index ?? this.index,
       roundDuration: roundDuration ?? this.roundDuration,
@@ -47,10 +51,25 @@ class SingleWordRoundState {
   }
 
   final List<String> words;
+  final Set<int> guessedIndexes;
   final int score;
   final int index;
   final int roundDuration;
   final bool completed;
   final bool allowSkipping;
   final bool penaltyForSkipping;
+}
+
+extension SingleWordRoundStateX on SingleWordRoundState {
+  List<ReviewedWord> reviewedWords() {
+    final reviewedWords = <ReviewedWord>[];
+
+    for (var i = 0; i < index; ++i) {
+      final word = words[i];
+      final isGuessed = guessedIndexes.contains(i);
+      reviewedWords.add((word: word, isGuessed: isGuessed));
+    }
+
+    return reviewedWords;
+  }
 }

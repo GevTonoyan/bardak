@@ -6,7 +6,7 @@ import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:boardify/card_round/domain/card_round_entity.dart';
 import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
-import 'package:boardify/game_session/domain/entities/card_round_result.dart';
+import 'package:boardify/game_session/domain/entities/round_result.dart';
 import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';

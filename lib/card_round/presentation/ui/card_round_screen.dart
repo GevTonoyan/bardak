@@ -2,7 +2,7 @@ import 'package:boardify/app_ui/widgets/round_header.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/card_round/presentation/ui/widgets/multiple_words_card.dart';
-import 'package:boardify/game_session/domain/entities/card_round_result.dart';
+import 'package:boardify/game_session/domain/entities/round_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -23,6 +23,8 @@ class CardRoundScreen extends StatelessWidget {
             RoundResult(
               guessedCount: state.guessed.length,
               seenWordsCount: state.seenWordsCount,
+              //TODO
+              reviewedWords: [],
             ),
           );
         }
