@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/round_header.dart';
@@ -8,7 +9,6 @@ import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/game_session/domain/entities/card_round_result.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_card.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +26,8 @@ class SingleWordRoundScreen extends StatefulWidget {
 class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
     with TickerProviderStateMixin {
   late AnimationController _wordAnimationController;
+
+  double _signedSwipeProgress = 0;
 
   @override
   void initState() {
@@ -46,6 +48,17 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
   Widget build(BuildContext context) {
     final bloc = context.watch<SingleWordRoundBloc>();
     final roundState = bloc.state;
+
+    const fullAt = 0.4;
+    final t = (_signedSwipeProgress.abs() / fullAt).clamp(0.0, 1.0);
+
+    final passColor = (_signedSwipeProgress < 0 && roundState.allowSkipping)
+        ? Color.lerp(colors.white30, colors.red, t)! // <-- use your "red" color
+        : colors.white30;
+
+    final correctColor = (_signedSwipeProgress > 0)
+        ? Color.lerp(colors.white30, colors.green, t)!
+        : colors.white30;
 
     return BlocListener<SingleWordRoundBloc, SingleWordRoundState>(
       listener: (context, state) {
@@ -77,47 +90,68 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Row(
-                      mainAxisAlignment: .spaceBetween,
                       children: [
-                        RotatedBox(
-                          quarterTurns: 3,
-                          child: Text(
-                            'Փաս',
-                            style: typography.regular20.copyWith(
-                              color: colors.white30,
+                        if (roundState.allowSkipping)
+                          RotatedBox(
+                            quarterTurns: 3,
+                            child: AnimatedDefaultTextStyle(
+                              duration: const Duration(milliseconds: 80),
+                              curve: Curves.easeOut,
+                              style: typography.regular20.copyWith(
+                                color: passColor,
+                              ),
+                              child: const Text('Փաս'),
+                            ),
+                          ),
+                        Expanded(
+                          child: Center(
+                            child: _SwipeableSingleWordCard(
+                              key: ValueKey(roundState.index),
+                              word: roundState.words[roundState.index],
+                              allowSkipping: roundState.allowSkipping,
+                              onGuessed: () {
+                                setState(() {
+                                  _signedSwipeProgress = 0.0;
+                                });
+                                bloc.add(
+                                  const ResolveCurrentWord(
+                                    WordResolution.guessed,
+                                  ),
+                                );
+                                unawaited(
+                                  showPointsBadge(context, points: '+1'),
+                                );
+                              },
+                              onSkipped: () {
+                                setState(() {
+                                  _signedSwipeProgress = 0.0;
+                                });
+                                bloc.add(
+                                  const ResolveCurrentWord(
+                                    WordResolution.skipped,
+                                  ),
+                                );
+                                unawaited(
+                                  showPointsBadge(context, points: '-1'),
+                                );
+                              },
+                              onSwipeProgressChanged: (progress) {
+                                setState(
+                                  () => _signedSwipeProgress = progress,
+                                );
+                              },
                             ),
                           ),
                         ),
-                        Center(
-                          child: _SwipeableSingleWordCard(
-                            key: ValueKey(roundState.index),
-                            word: roundState.words[roundState.index],
-                            allowSkipping: roundState.allowSkipping,
-                            onGuessed: () {
-                              bloc.add(
-                                const ResolveCurrentWord(
-                                  WordResolution.guessed,
-                                ),
-                              );
-                              unawaited(showPointsBadge(context, points: '+1'));
-                            },
-                            onSkipped: () {
-                              bloc.add(
-                                const ResolveCurrentWord(
-                                  WordResolution.skipped,
-                                ),
-                              );
-                              unawaited(showPointsBadge(context, points: '-1'));
-                            },
-                          ),
-                        ),
                         RotatedBox(
                           quarterTurns: 3,
-                          child: Text(
-                            '️Ճիշտ է',
+                          child: AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 80),
+                            curve: Curves.easeOut,
                             style: typography.regular20.copyWith(
-                              color: colors.white30,
+                              color: correctColor,
                             ),
+                            child: const Text('️Ճիշտ է'),
                           ),
                         ),
                       ],
@@ -188,53 +222,85 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
   }
 }
 
-class _SwipeableSingleWordCard extends StatelessWidget {
+class _SwipeableSingleWordCard extends StatefulWidget {
   const _SwipeableSingleWordCard({
     required super.key,
     required this.word,
     required this.allowSkipping,
     required this.onGuessed,
     required this.onSkipped,
+    required this.onSwipeProgressChanged,
   });
 
   final String word;
   final bool allowSkipping;
   final VoidCallback onGuessed;
   final VoidCallback onSkipped;
+  final ValueChanged<double> onSwipeProgressChanged;
+
+  @override
+  State<_SwipeableSingleWordCard> createState() =>
+      _SwipeableSingleWordCardState();
+}
+
+class _SwipeableSingleWordCardState extends State<_SwipeableSingleWordCard> {
+  static const _maxAngleDeg = 10.25;
+  static const double _maxAngleRad = _maxAngleDeg * math.pi / 180.0;
+  static const _fullAtProgress = 0.4; // <-- full tilt here
+  var _angle = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final typography = context.typography;
-
-    // Decide directions:
-    // - Swipe RIGHT  -> guessed
-    // - Swipe LEFT   -> skipped (only if allowSkipping)
-    final direction = allowSkipping
+    final direction = widget.allowSkipping
         ? DismissDirection.horizontal
         : DismissDirection.startToEnd; // only right
 
     return Dismissible(
-      key: key!,
+      key: widget.key!,
       direction: direction,
+      onDismissed: (d) {
+        // reset label colors immediately
+        widget.onSwipeProgressChanged(0);
 
-      confirmDismiss: (d) async {
         if (d == DismissDirection.startToEnd) {
-          onGuessed();
-          return true;
+          widget.onGuessed();
+        } else if (d == DismissDirection.endToStart) {
+          if (!widget.allowSkipping) return;
+          widget.onSkipped();
         }
-        if (d == DismissDirection.endToStart) {
-          if (!allowSkipping) return false;
-          onSkipped();
-          return true;
-        }
-        return false;
       },
 
-      // We already fired action in confirmDismiss.
-      onDismissed: (_) {},
+      confirmDismiss: (d) async {
+        if (d == DismissDirection.startToEnd) return true;
+        if (d == DismissDirection.endToStart) return widget.allowSkipping;
+        return false;
+      },
+      movementDuration: const Duration(milliseconds: 220),
+      resizeDuration: const Duration(milliseconds: 120),
+      onUpdate: (details) {
+        // normalize so that 0.4 => 1.0
+        final t = (details.progress / _fullAtProgress).clamp(0.0, 1.0);
 
-      child: SingleWordCard(word: word),
+        // make it feel nicer (optional)
+        final curvedT = Curves.easeOut.transform(t);
+
+        // sign: right swipe +, left swipe -
+        final sign = (details.direction == DismissDirection.endToStart)
+            ? -1.0
+            : 1.0;
+
+        setState(() {
+          _angle = sign * _maxAngleRad * curvedT;
+          // or: _angle = sign * (lerpDouble(0, _maxAngleRad, curvedT) ?? 0);
+        });
+
+        widget.onSwipeProgressChanged(sign * details.progress);
+      },
+
+      child: SingleWordCard(
+        word: widget.word,
+        angle: _angle,
+      ),
     );
   }
 }
