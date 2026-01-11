@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:boardify/game_session/domain/entities/round_result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'single_word_round_event.dart';
@@ -31,6 +32,10 @@ class SingleWordRoundBloc
       WordResolution.skipped =>
         state.penaltyForSkipping ? max(0, state.score - 1) : state.score,
     };
+
+    if (e.resolution == WordResolution.guessed) {
+      state.guessedIndexes.add(state.index);
+    }
 
     final completed = state.index >= state.words.length - 1;
 
