@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
@@ -82,17 +83,48 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
           ),
         ),
         Align(
-          alignment: Alignment.topCenter,
+          alignment: .topCenter,
           child: ConfettiWidget(
             confettiController: _controller,
             blastDirection: math.pi / 2,
             blastDirectionality: BlastDirectionality.explosive,
             maxBlastForce: 15,
             emissionFrequency: 0.05,
-            numberOfParticles: 50,
+            numberOfParticles: 75,
+            createParticlePath: _drawStar,
           ),
         ),
       ],
     );
+  }
+
+  /// This code was taken from confetti official documentation example
+  /// https://pub.dev/packages/confetti/example
+  Path _drawStar(Size size) {
+    double degToRad(double deg) => deg * (pi / 180.0);
+
+    const numberOfPoints = 5;
+    final halfWidth = size.width / 2;
+    final externalRadius = halfWidth;
+    final internalRadius = halfWidth / 2.5;
+    final degreesPerStep = degToRad(360 / numberOfPoints);
+    final halfDegreesPerStep = degreesPerStep / 2;
+    final path = Path();
+    final fullAngle = degToRad(360);
+    path.moveTo(size.width, halfWidth);
+
+    for (double step = 0; step < fullAngle; step += degreesPerStep) {
+      path
+        ..lineTo(
+          halfWidth + externalRadius * cos(step),
+          halfWidth + externalRadius * sin(step),
+        )
+        ..lineTo(
+          halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+          halfWidth + internalRadius * sin(step + halfDegreesPerStep),
+        );
+    }
+    path.close();
+    return path;
   }
 }
