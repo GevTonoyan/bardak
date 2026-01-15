@@ -1,17 +1,15 @@
+import 'dart:async';
+
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/highlighted_text.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
-import 'package:boardify/card_round/domain/card_round_entity.dart';
 import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
-import 'package:boardify/game_session/domain/entities/round_result.dart';
-import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:boardify/single_word_round/domain/single_word_round_entity.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +18,8 @@ import 'package:go_router/go_router.dart';
 
 class RoundOverviewScreen extends StatelessWidget {
   const RoundOverviewScreen({super.key});
+
+  static const routePath = 'roundOverview';
 
   @override
   Widget build(BuildContext context) {
@@ -107,65 +107,18 @@ class RoundOverviewScreen extends StatelessWidget {
 
     switch (gameState.gameMode) {
       case GameMode.card:
-        await _navigateToCardRound(context, gameState);
+        await _navigateToCardRound(context);
       case GameMode.singleWord:
-        await _navigateToSingleWordRound(context, gameState);
+        await _navigateToSingleWordRound(context);
     }
   }
 
-  Future<void> _navigateToCardRound(
-    BuildContext context,
-    GameSessionEntity gameState,
-  ) async {
-    final cardRoundEntity = CardRoundEntity(
-      roundDuration: gameState.roundDuration,
-      wordsPerCard: gameState.wordsPerCard,
-      words: gameState.words,
-    );
-
-    final roundResult =
-        await context.pushNamed(
-              CardRoundScreen.routePath,
-              extra: cardRoundEntity,
-            )
-            as RoundResult?;
-
-    if (roundResult != null && context.mounted) {
-      context.read<GameSessionBloc>().add(
-        RoundEnded(
-          guessedCount: roundResult.guessedCount,
-          wordsShown: roundResult.seenWordsCount,
-        ),
-      );
-    }
+  Future<void> _navigateToCardRound(BuildContext context) async {
+    context.pushReplacementNamed(CardRoundScreen.routePath);
   }
 
-  Future<void> _navigateToSingleWordRound(
-    BuildContext context,
-    GameSessionEntity gameState,
-  ) async {
-    final singleWordRoundEntity = SingleWordRoundEntity(
-      words: gameState.words,
-      roundDuration: gameState.roundDuration,
-      penaltyForSkipping: gameState.penaltyForSkipping,
-      allowSkipping: gameState.allowSkipping,
-    );
-
-    final roundResult =
-        await context.pushNamed(
-              SingleWordRoundScreen.routePath,
-              extra: singleWordRoundEntity,
-            )
-            as RoundResult?;
-
-    if (roundResult != null && context.mounted) {
-      context.read<GameSessionBloc>().add(
-        RoundEnded(
-          guessedCount: roundResult.guessedCount,
-          wordsShown: roundResult.seenWordsCount,
-        ),
-      );
-    }
+  Future<void> _navigateToSingleWordRound(BuildContext context) async {
+    context.pushReplacementNamed(SingleWordRoundScreen.routePath);
   }
 }
 

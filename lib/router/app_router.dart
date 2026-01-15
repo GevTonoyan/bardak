@@ -1,9 +1,11 @@
-import 'package:boardify/card_round/domain/card_round_entity.dart';
 import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
+import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:boardify/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
+import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
+import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
 import 'package:boardify/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/home/presentation/ui/home_screen.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
@@ -16,7 +18,6 @@ import 'package:boardify/rules/presentation/ui/rules_screen.dart';
 import 'package:boardify/settings/presentation/ui/settings_screen.dart';
 import 'package:boardify/settings/presentation/ui/settings_screen_v2.dart';
 import 'package:boardify/shop/presentation/ui/shop_screen.dart';
-import 'package:boardify/single_word_round/domain/single_word_round_entity.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:boardify/utils/dependency_injection/di.dart';
@@ -29,6 +30,8 @@ import 'package:go_router/go_router.dart';
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
 final gameSessionNavigatorKey = GlobalKey<NavigatorState>();
+
+const _gameSessionPath = 'gameSession';
 
 final appRouter = GoRouter(
   initialLocation: HomeScreen.routePath,
@@ -140,46 +143,67 @@ final appRouter = GoRouter(
             child: const PreGameScreen(),
           ),
         ),
-        GoRoute(
-          path: GameSessionScreen.routePath,
-          name: GameSessionScreen.routePath,
-          builder: (context, state) {
+
+        ShellRoute(
+          navigatorKey: gameSessionNavigatorKey,
+          builder: (context, state, child) {
             final gameSessionEntity = state.extra as GameSessionEntity?;
-            return GameSessionScreen(gameSessionEntity: gameSessionEntity);
+            return GameSessionScreen(
+              gameSessionEntity: gameSessionEntity,
+              child: child,
+            );
           },
           routes: [
             GoRoute(
-              path: CardRoundScreen.routePath,
+              path: '$_gameSessionPath/${RoundOverviewScreen.routePath}',
+              name: RoundOverviewScreen.routePath,
+              builder: (context, state) => const RoundOverviewScreen(),
+            ),
+            GoRoute(
+              path: '$_gameSessionPath/${CardRoundScreen.routePath}',
               name: CardRoundScreen.routePath,
               builder: (context, state) {
-                final roundEntity = state.extra! as CardRoundEntity;
+                final gameState = context
+                    .read<GameSessionBloc>()
+                    .state
+                    .gameState;
 
                 return BlocProvider(
                   create: (_) => CardRoundBloc(
-                    words: roundEntity.words,
-                    wordsPerCard: roundEntity.wordsPerCard,
+                    words: gameState.words,
+                    wordsPerCard: gameState.wordsPerCard,
                   ),
                   child: CardRoundScreen(
-                    initialRoundDuration: roundEntity.roundDuration,
+                    initialRoundDuration: gameState.roundDuration,
                   ),
                 );
               },
             ),
             GoRoute(
-              path: SingleWordRoundScreen.routePath,
+              path: '$_gameSessionPath/${SingleWordRoundScreen.routePath}',
               name: SingleWordRoundScreen.routePath,
               builder: (context, state) {
-                final roundEntity = state.extra! as SingleWordRoundEntity;
+                final gameState = context
+                    .read<GameSessionBloc>()
+                    .state
+                    .gameState;
 
                 return BlocProvider(
                   create: (_) => SingleWordRoundBloc(
-                    words: roundEntity.words,
-                    roundDuration: roundEntity.roundDuration,
-                    allowSkipping: roundEntity.allowSkipping,
-                    penaltyForSkipping: roundEntity.penaltyForSkipping,
+                    words: gameState.words,
+                    roundDuration: gameState.roundDuration,
+                    allowSkipping: gameState.allowSkipping,
+                    penaltyForSkipping: gameState.penaltyForSkipping,
                   ),
                   child: const SingleWordRoundScreen(),
                 );
+              },
+            ),
+            GoRoute(
+              path: '$_gameSessionPath/${RoundReviewScreen.routePath}',
+              name: RoundReviewScreen.routePath,
+              builder: (context, state) {
+                return const RoundReviewScreen();
               },
             ),
           ],

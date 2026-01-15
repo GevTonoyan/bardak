@@ -23,6 +23,8 @@ class CardRoundState {
   final List<String> words;
   final int wordsPerCard;
   final int page;
+
+  // TODO(Gevorg): words can be repeated, so we need another way to store them
   final Set<String> guessed;
   final bool completed;
 
@@ -59,4 +61,16 @@ extension CardRoundStateX on CardRoundState {
   int get totalWords => words.length;
 
   int get maxPage => (totalWords / wordsPerCard).ceil() - 1;
+
+  List<ReviewedWord> wordsToReview() {
+    final reviewedWords = <ReviewedWord>[];
+
+    for (var i = 0; i < seenWordsCount; ++i) {
+      final word = words[i];
+      final isGuessed = guessed.contains(word);
+      reviewedWords.add((word: word, isGuessed: isGuessed));
+    }
+
+    return reviewedWords;
+  }
 }

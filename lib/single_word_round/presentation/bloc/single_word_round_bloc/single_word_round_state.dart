@@ -61,10 +61,10 @@ class SingleWordRoundState {
 }
 
 extension SingleWordRoundStateX on SingleWordRoundState {
-  List<ReviewedWord> reviewedWords() {
+  List<ReviewedWord> wordsToReview() {
     final reviewedWords = <ReviewedWord>[];
 
-    for (var i = 0; i < index; ++i) {
+    for (var i = 0; i <= index; ++i) {
       final word = words[i];
       final isGuessed = guessedIndexes.contains(i);
       reviewedWords.add((word: word, isGuessed: isGuessed));
