@@ -42,11 +42,26 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ScreenBackground(
-          shadowHeight: 200,
-          child: SafeArea(
+    return Material(
+      child: Stack(
+        children: [
+          ScreenBackground(
+            shadowHeight: 200,
+            child: Container(),
+          ),
+          Align(
+            alignment: .topCenter,
+            child: ConfettiWidget(
+              confettiController: _controller,
+              blastDirection: math.pi / 2,
+              blastDirectionality: BlastDirectionality.explosive,
+              maxBlastForce: 15,
+              emissionFrequency: 0.05,
+              numberOfParticles: 75,
+              createParticlePath: _drawStar,
+            ),
+          ),
+          SafeArea(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 44),
               child: Column(
@@ -81,20 +96,8 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
               ),
             ),
           ),
-        ),
-        Align(
-          alignment: .topCenter,
-          child: ConfettiWidget(
-            confettiController: _controller,
-            blastDirection: math.pi / 2,
-            blastDirectionality: BlastDirectionality.explosive,
-            maxBlastForce: 15,
-            emissionFrequency: 0.05,
-            numberOfParticles: 75,
-            createParticlePath: _drawStar,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
