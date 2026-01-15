@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
+import 'package:boardify/game_session/domain/entities/round_result.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,12 +11,13 @@ part 'game_session_state.dart';
 
 class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
   GameSessionBloc({required GameSessionEntity initialGameState})
-    : super(GameSessionState(initialGameState)) {
-    on<RoundEnded>(_onRoundEnded);
+    : super(GameSessionState(gameState: initialGameState)) {
+    on<RoundFinishedForReview>(_onRoundFinishedForReview);
+    on<RoundFinished>(_onRoundEnded);
   }
 
   FutureOr<void> _onRoundEnded(
-    RoundEnded event,
+    RoundFinished event,
     Emitter<GameSessionState> emit,
   ) {
     final gameState = state.gameState;
@@ -41,7 +43,7 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
 
     emit(
       GameSessionState(
-        state.gameState.copyWith(
+        gameState: state.gameState.copyWith(
           words: newRemainingWords,
           currentRoundIndex: nextRoundIndex,
           currentTeamIndex: nextTeamIndex,
@@ -51,4 +53,9 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
       ),
     );
   }
+
+  void _onRoundFinishedForReview(
+    RoundFinishedForReview event,
+    Emitter<GameSessionState> emit,
+  ) => emit(state.copyWith(pendingReviewWords: event.reviewedWords));
 }

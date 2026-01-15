@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:boardify/app_ui/widgets/round_header.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/card_round/presentation/ui/widgets/multiple_words_card.dart';
 import 'package:boardify/game_session/domain/entities/round_result.dart';
+import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,14 +23,10 @@ class CardRoundScreen extends StatelessWidget {
     return BlocListener<CardRoundBloc, CardRoundState>(
       listener: (context, state) {
         if (state.completed) {
-          context.pop(
-            RoundResult(
-              guessedCount: state.guessed.length,
-              seenWordsCount: state.seenWordsCount,
-              //TODO
-              reviewedWords: [],
-            ),
+          context.read<GameSessionBloc>().add(
+            RoundFinishedForReview(reviewedWords: state.wordsToReview()),
           );
+           context.pushReplacementNamed(RoundReviewScreen.routePath);
         }
       },
       child: PopScope(

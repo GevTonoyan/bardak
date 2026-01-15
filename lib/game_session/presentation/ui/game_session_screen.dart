@@ -1,13 +1,17 @@
 import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GameSessionScreen extends StatefulWidget {
-  const GameSessionScreen({required this.gameSessionEntity, super.key});
+  const GameSessionScreen({
+    required this.gameSessionEntity,
+    required this.child,
+    super.key,
+  });
 
   final GameSessionEntity? gameSessionEntity;
+  final Widget child;
 
   static const routePath = 'game_session';
 
@@ -41,7 +45,7 @@ class _GameSessionScreenState extends State<GameSessionScreen> {
 
     return BlocProvider(
       create: (_) => GameSessionBloc(initialGameState: session),
-      child: const RoundOverviewScreen(),
+      child: widget.child,
     );
   }
 }

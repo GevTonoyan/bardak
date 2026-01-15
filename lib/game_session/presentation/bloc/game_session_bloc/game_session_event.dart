@@ -4,8 +4,19 @@ sealed class GameSessionEvent extends Equatable {
   const GameSessionEvent();
 }
 
-class RoundEnded extends GameSessionEvent {
-  const RoundEnded({required this.wordsShown, required this.guessedCount});
+class RoundFinishedForReview extends GameSessionEvent {
+  const RoundFinishedForReview({
+    required this.reviewedWords,
+  });
+
+  final List<ReviewedWord> reviewedWords;
+
+  @override
+  List<Object?> get props => [reviewedWords];
+}
+
+class RoundFinished extends GameSessionEvent {
+  const RoundFinished({required this.wordsShown, required this.guessedCount});
 
   final int wordsShown;
   final int guessedCount;
