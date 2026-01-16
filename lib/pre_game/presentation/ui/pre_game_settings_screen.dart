@@ -5,6 +5,7 @@ import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/app_switch.dart';
 import 'package:boardify/app_ui/widgets/bottom_sheet.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/pre_game/presentation/ui/setup_team_names_screen.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/settings/presentation/bloc/settings_event.dart';
@@ -179,6 +180,7 @@ class _PreGameSettingsBodyState extends State<_PreGameSettingsBody> {
             label: 'Շարունակել',
             color: colors.green,
             onPressed: () {
+              context.read<PreGameBloc>().add(ChangeGameModeEvent(gameMode));
               unawaited(context.pushNamed(SetupTeamNamesScreen.routePath));
             },
           ),
