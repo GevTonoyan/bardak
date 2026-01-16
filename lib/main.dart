@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
           data: themeData,
           child: MaterialApp.router(
             routerConfig: appRouter,
-            title: 'Boardify',
+            title: 'Alias Pro',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocales.supportedLocales,
             locale: state.appSettings.locale.locale,
