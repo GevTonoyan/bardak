@@ -1,10 +1,17 @@
 import 'dart:async';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:boardify/app_ui/widgets/screen_background.dart';
+import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
+import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CountdownScreen extends StatefulWidget {
   const CountdownScreen({super.key});
+
+  static const routePath = 'countdown';
 
   @override
   State<CountdownScreen> createState() => _CountdownScreenState();
@@ -14,7 +21,6 @@ class _CountdownScreenState extends State<CountdownScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
-  late Animation<double> _opacityAnimation;
   int _count = 3;
   Timer? _countdownTimer;
 
@@ -30,22 +36,20 @@ class _CountdownScreenState extends State<CountdownScreen>
     _scaleAnimation = Tween<double>(
       begin: 0.5,
       end: 1.2,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
 
-    _opacityAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
-
-    _startCountdown();
+    unawaited(_startCountdown());
   }
 
-  void _startCountdown() {
-    _controller.forward();
+  Future<void> _startCountdown() async {
+    _controller
+      ..reset()
+      ..forward();
 
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_count > 0) {
+      if (_count > 1) {
         setState(() => _count--);
+
         _controller
           ..reset()
           ..forward();
@@ -57,11 +61,14 @@ class _CountdownScreenState extends State<CountdownScreen>
   }
 
   void _handleCountdownFinished() {
-    Future.delayed(const Duration(milliseconds: 400), () {
-      if (mounted) {
-        //context.pushNamed(RouteNames.gameplay);
-      }
-    });
+    final gameSessionBloc = context.read<GameSessionBloc>();
+    final gameMode = gameSessionBloc.state.gameState.gameMode;
+
+    final path = switch (gameMode) {
+      .card => CardRoundScreen.routePath,
+      .singleWord => SingleWordRoundScreen.routePath,
+    };
+    context.pushReplacementNamed(path);
   }
 
   @override
@@ -73,22 +80,35 @@ class _CountdownScreenState extends State<CountdownScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return ScreenBackground(
+      child: Center(
         child: AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
-            return Opacity(
-              opacity: _opacityAnimation.value,
-              child: Transform.scale(
-                scale: _scaleAnimation.value,
+            return Transform.scale(
+              scale: _scaleAnimation.value,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 100),
+                switchInCurve: Curves.easeOut,
+                switchOutCurve: Curves.easeIn,
+                transitionBuilder: (child, anim) {
+                  final scale = Tween<double>(
+                    begin: 0.95,
+                    end: 1.0,
+                  ).animate(anim);
+                  return FadeTransition(
+                    opacity: anim,
+                    child: ScaleTransition(scale: scale, child: child),
+                  );
+                },
                 child: Text(
-                  _count > 0 ? '$_count' : context.l10n.countdown_go,
+                  '$_count',
+                  key: ValueKey(_count),
                   style: TextStyle(
-                    fontSize: _count > 0 ? 120 : 50,
-                    fontWeight: FontWeight.bold,
-                    color: _count > 0 ? colors.primary : colors.success,
-                    shadows: [Shadow(blurRadius: 10, color: colors.shadow)],
+                    color: colors.white,
+                    fontSize: 91,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Digitalt',
                   ),
                 ),
               ),

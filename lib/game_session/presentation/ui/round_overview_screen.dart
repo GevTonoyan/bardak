@@ -8,6 +8,7 @@ import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/game_session/presentation/ui/countdown_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
@@ -25,7 +26,10 @@ class RoundOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final gameState = context.watch<GameSessionBloc>().state.gameState;
+    final gameState = context
+        .watch<GameSessionBloc>()
+        .state
+        .gameState;
 
     return BlocListener<GameSessionBloc, GameSessionState>(
       listener: (BuildContext context, GameSessionState state) {
@@ -103,14 +107,14 @@ class RoundOverviewScreen extends StatelessWidget {
 
   Future<void> _navigateToRoundScreen(BuildContext context) async {
     final gameSessionBloc = context.read<GameSessionBloc>();
-    final gameState = gameSessionBloc.state.gameState;
+    final gameMode = gameSessionBloc.state.gameState.gameMode;
 
-    switch (gameState.gameMode) {
-      case GameMode.card:
-        await _navigateToCardRound(context);
-      case GameMode.singleWord:
-        await _navigateToSingleWordRound(context);
-    }
+    final path = switch(gameMode){
+          .card => CardRoundScreen.routePath,
+          .singleWord => SingleWordRoundScreen.routePath,
+    };
+
+    context.pushReplacementNamed(CountdownScreen.routePath);
   }
 
   Future<void> _navigateToCardRound(BuildContext context) async {
@@ -130,7 +134,10 @@ class _TeamScores extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
 
-    final gameState = context.watch<GameSessionBloc>().state.gameState;
+    final gameState = context
+        .watch<GameSessionBloc>()
+        .state
+        .gameState;
     final teams = gameState.teamStates;
 
     return Column(

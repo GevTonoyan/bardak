@@ -2,6 +2,7 @@ import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round
 import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/game_session/presentation/ui/countdown_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
@@ -160,21 +161,28 @@ final appRouter = GoRouter(
               builder: (context, state) => const RoundOverviewScreen(),
             ),
             GoRoute(
+              path: '$_gameSessionPath/${CountdownScreen.routePath}',
+              name: CountdownScreen.routePath,
+              builder: (context, state) => const CountdownScreen(),
+            ),
+            GoRoute(
               path: '$_gameSessionPath/${CardRoundScreen.routePath}',
               name: CardRoundScreen.routePath,
-              builder: (context, state) {
+              pageBuilder: (context, state) {
                 final gameState = context
                     .read<GameSessionBloc>()
                     .state
                     .gameState;
 
-                return BlocProvider(
-                  create: (_) => CardRoundBloc(
-                    words: gameState.words,
-                    wordsPerCard: gameState.wordsPerCard,
-                  ),
-                  child: CardRoundScreen(
-                    initialRoundDuration: gameState.roundDuration,
+                return NoTransitionPage(
+                  child: BlocProvider(
+                    create: (_) => CardRoundBloc(
+                      words: gameState.words,
+                      wordsPerCard: gameState.wordsPerCard,
+                    ),
+                    child: CardRoundScreen(
+                      initialRoundDuration: gameState.roundDuration,
+                    ),
                   ),
                 );
               },
@@ -182,20 +190,22 @@ final appRouter = GoRouter(
             GoRoute(
               path: '$_gameSessionPath/${SingleWordRoundScreen.routePath}',
               name: SingleWordRoundScreen.routePath,
-              builder: (context, state) {
+              pageBuilder: (context, state) {
                 final gameState = context
                     .read<GameSessionBloc>()
                     .state
                     .gameState;
 
-                return BlocProvider(
-                  create: (_) => SingleWordRoundBloc(
-                    words: gameState.words,
-                    roundDuration: gameState.roundDuration,
-                    allowSkipping: gameState.allowSkipping,
-                    penaltyForSkipping: gameState.penaltyForSkipping,
+                return NoTransitionPage(
+                  child: BlocProvider(
+                    create: (_) => SingleWordRoundBloc(
+                      words: gameState.words,
+                      roundDuration: gameState.roundDuration,
+                      allowSkipping: gameState.allowSkipping,
+                      penaltyForSkipping: gameState.penaltyForSkipping,
+                    ),
+                    child: const SingleWordRoundScreen(),
                   ),
-                  child: const SingleWordRoundScreen(),
                 );
               },
             ),
