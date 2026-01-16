@@ -9,27 +9,10 @@ class AppThemeDataBuilder {
   final AppTextStyles textStyles;
 
   ThemeData build() {
-    final colorScheme = ColorScheme(
-      brightness: Brightness.light,
-      primary: colors.primary,
-      onPrimary: colors.onPrimary,
-      secondary: colors.secondary,
-      onSecondary: colors.onSecondary,
-      surface: colors.surface,
-      onSurface: colors.onSurface,
-      error: colors.error,
-      onError: colors.onError,
-    );
-
     return ThemeData(
       useMaterial3: true,
-      colorScheme: colorScheme,
-      scaffoldBackgroundColor: colors.background,
-      appBarTheme: AppBarTheme(
-        backgroundColor: colors.surface,
-        foregroundColor: colors.onSurface,
-        elevation: 0,
-      ),
+
+      appBarTheme: const AppBarTheme(elevation: 0),
       textTheme: TextTheme(
         displayLarge: textStyles.displayLarge,
         displayMedium: textStyles.displayMedium,
@@ -49,8 +32,6 @@ class AppThemeDataBuilder {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          foregroundColor: colors.onPrimary,
-          backgroundColor: colors.primary,
           textStyle: textStyles.titleMedium,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

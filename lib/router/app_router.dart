@@ -15,7 +15,6 @@ import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart'
 import 'package:boardify/pre_game/presentation/ui/setup_team_names_screen.dart';
 import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
 import 'package:boardify/rules/presentation/ui/rules_screen.dart';
-import 'package:boardify/settings/presentation/ui/settings_screen.dart';
 import 'package:boardify/settings/presentation/ui/settings_screen_v2.dart';
 import 'package:boardify/shop/presentation/ui/shop_screen.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
@@ -56,7 +55,7 @@ final appRouter = GoRouter(
           path: SettingsScreen.routePath,
           name: SettingsScreen.routePath,
           pageBuilder: (context, state) {
-            return const SettingsScreenV2();
+            return const SettingsScreen();
           },
         ),
 

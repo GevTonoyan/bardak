@@ -33,8 +33,6 @@ class _WordPackScreenState extends State<WordPackScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final preGameBloc = context.read<PreGameBloc>();
-
     return ScreenBackground(
       shadowHeight: 850,
       child: SafeArea(
@@ -83,11 +81,11 @@ class _Error extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.error_outline, color: colors.error, size: 48),
+          Icon(Icons.error_outline, color: colors.red, size: 48),
           const SizedBox(height: 16),
           Text(
             context.l10n.word_packs_fail,
-            style: typography.titleMedium.copyWith(color: colors.error),
+            style: typography.titleMedium.copyWith(color: colors.red),
             textAlign: TextAlign.center,
           ),
         ],

@@ -9,8 +9,10 @@ import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SettingsScreenV2 extends Page<void> {
-  const SettingsScreenV2({super.key});
+class SettingsScreen extends Page<void> {
+  const SettingsScreen({super.key});
+
+  static const routePath = 'settings';
 
   @override
   Route<void> createRoute(BuildContext context) {

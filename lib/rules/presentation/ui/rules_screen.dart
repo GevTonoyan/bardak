@@ -16,9 +16,6 @@ class RulesScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(context.l10n.rulesTitle, style: typography.titleLarge),
           bottom: TabBar(
-            indicatorColor: colors.primary,
-            labelColor: colors.primary,
-            unselectedLabelColor: colors.onSurface.withValues(alpha: 0.6),
             tabs: [
               Tab(text: context.l10n.mode1),
               Tab(text: context.l10n.mode2),
@@ -71,7 +68,6 @@ class _RuleList extends StatelessWidget {
       itemBuilder: (context, index) {
         return Container(
           decoration: BoxDecoration(
-            color: colors.surface,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
@@ -90,7 +86,6 @@ class _RuleList extends StatelessWidget {
               Expanded(
                 child: Text(
                   rules[index],
-                  style: text.bodyMedium.copyWith(color: colors.onSurface),
                 ),
               ),
             ],

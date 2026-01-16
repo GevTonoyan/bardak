@@ -26,36 +26,4 @@ abstract class AppColors {
   Color white30 = const Color(0xFFFFFFFF).withValues(alpha: 0.3);
 
   Color white50 = const Color(0xFFFFFFFF).withValues(alpha: 0.5);
-
-  Color get primary;
-
-  Color get onPrimary;
-
-  Color get background;
-
-  Color get onBackground;
-
-  Color get surface;
-
-  Color get onSurface;
-
-  Color get surfaceVariant;
-
-  Color get onSecondary;
-
-  Color get error;
-
-  Color get onError;
-
-  Color get outline;
-
-  Color get divider;
-
-  Color get disabled;
-
-  Color get success;
-
-  Color get warning;
-
-  Color get info;
 }
