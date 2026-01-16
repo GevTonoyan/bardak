@@ -177,6 +177,9 @@ class _Success extends StatelessWidget {
 
     final preGame = context.read<PreGameBloc>().state;
 
+    final words = packs.firstWhere((pack) => pack.id == selectedPackId).words
+      ..shuffle();
+
     return GameSessionEntity(
       gameMode: preGame.gameMode,
       teamStates: preGame.teamNames.map((teamName) {
@@ -194,7 +197,7 @@ class _Success extends StatelessWidget {
       penaltyForSkipping: gameSettings.penaltyForSkipping,
       currentTeamIndex: 0,
       currentRoundIndex: 0,
-      words: packs.firstWhere((pack) => pack.id == selectedPackId).words,
+      words: words,
     );
   }
 }
