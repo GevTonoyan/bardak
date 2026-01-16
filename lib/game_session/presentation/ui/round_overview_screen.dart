@@ -26,10 +26,7 @@ class RoundOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final gameState = context
-        .watch<GameSessionBloc>()
-        .state
-        .gameState;
+    final gameState = context.watch<GameSessionBloc>().state.gameState;
 
     return BlocListener<GameSessionBloc, GameSessionState>(
       listener: (BuildContext context, GameSessionState state) {
@@ -109,9 +106,9 @@ class RoundOverviewScreen extends StatelessWidget {
     final gameSessionBloc = context.read<GameSessionBloc>();
     final gameMode = gameSessionBloc.state.gameState.gameMode;
 
-    final path = switch(gameMode){
-          .card => CardRoundScreen.routePath,
-          .singleWord => SingleWordRoundScreen.routePath,
+    final path = switch (gameMode) {
+      .card => CardRoundScreen.routePath,
+      .singleWord => SingleWordRoundScreen.routePath,
     };
 
     context.pushReplacementNamed(CountdownScreen.routePath);
@@ -134,10 +131,7 @@ class _TeamScores extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
 
-    final gameState = context
-        .watch<GameSessionBloc>()
-        .state
-        .gameState;
+    final gameState = context.watch<GameSessionBloc>().state.gameState;
     final teams = gameState.teamStates;
 
     return Column(
