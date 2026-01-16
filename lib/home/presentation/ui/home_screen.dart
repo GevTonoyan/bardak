@@ -1,10 +1,9 @@
+import 'dart:async';
+
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
-import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
 import 'package:boardify/app_ui/widgets/coin_amount.dart';
 import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
-import 'package:boardify/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart';
@@ -187,74 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 AppButton(
                   label: 'Classic Alias',
                   color: colors.green,
-                  onPressed: () {
-                    final gameSession = GameSessionEntity(
-                      gameMode: GameMode.singleWord,
-                      teamStates:
-                          ['Թիմ Առաջին', 'Թիմ երկրորդ', 'team 3', 'team 4'].map(
-                            (teamName) {
-                              return AliasTeamStateEntity(
-                                name: teamName,
-                                roundScores: [],
-                              );
-                            },
-                          ).toList(),
-                      roundDuration: 560,
-                      pointsToWin: 60,
-                      soundEnabled: true,
-                      wordsPerCard: 6,
-                      allowSkipping: true,
-                      penaltyForSkipping: true,
-                      currentTeamIndex: 0,
-                      currentRoundIndex: 0,
-                      words: [
-                        'one',
-                        'two',
-                        'three',
-                        'four',
-                        'five',
-                        'six',
-                        'seven',
-                        'eight',
-                        'nine',
-                        'ten',
-                        'eleven',
-                        'twelve',
-                        'thirteen',
-                        'fourteen',
-                        'fifteen',
-                        'sixteen',
-                        'seventeen',
-                        'eighteen',
-                        'nineteen',
-                        'twenty',
-                        'twenty one',
-                        'twenty two',
-                        'twenty three',
-                        'twenty four',
-                        'twenty five',
-                        'twenty six',
-                        'twenty seven',
-                        'twenty eight',
-                        'twenty nine',
-                        'thirty',
-                      ],
-                    );
-
-                    context.goNamed(
-                      GameSessionScreen.routePath,
-                      extra: gameSession,
-                    );
-
-                    //_navigateToGameSettings(GameMode.card);
-                  },
+                  onPressed: () => _navigateToGameSettings(GameMode.card),
                 ),
                 AppButton(
                   label: 'One Word Mode',
                   color: colors.purple,
-                  onPressed: () {
-                    _navigateToGameSettings(GameMode.singleWord);
-                  },
+                  onPressed: () => _navigateToGameSettings(GameMode.singleWord),
                 ),
               ],
             ),
@@ -294,24 +231,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _navigateToGameSettings(GameMode gameMode) {
-    context.goNamed(
-      PreGameSettingsScreen.routePath,
-      queryParameters: {PreGameSettingsScreen.gameModeKey: gameMode.name},
+    unawaited(
+      context.pushNamed(
+        PreGameSettingsScreen.routePath,
+        queryParameters: {PreGameSettingsScreen.gameModeKey: gameMode.name},
+      ),
     );
-  }
-
-  String _getWordPackName(HomeState state) {
-    final selectedWordPackName =
-        (state is HomeStateLoaded ? state.selectedWordPackName : '') ?? '';
-
-    final sb = StringBuffer()..write(context.l10n.wordPack);
-    if (selectedWordPackName.isNotEmpty) {
-      sb
-        ..write(' • ')
-        ..write(selectedWordPackName);
-    }
-
-    return sb.toString();
   }
 }
 
