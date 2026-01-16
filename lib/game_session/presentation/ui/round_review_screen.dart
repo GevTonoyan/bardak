@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
@@ -38,7 +36,20 @@ class _RoundReviewScreenState extends State<RoundReviewScreen> {
           children: [
             Padding(
               padding: const .all(20),
-              child: AppIconButton.close(onTap: () {}),
+              child: AppIconButton.close(
+                onTap: () {
+                  gameSessionBloc.add(
+                    RoundFinished(
+                      wordsShown: reviewedWords.length,
+                      guessedCount: reviewedWords
+                          .where((e) => e.isGuessed)
+                          .length,
+                    ),
+                  );
+
+                  context.pushReplacementNamed(RoundOverviewScreen.routePath);
+                },
+              ),
             ),
             Padding(
               padding: const .symmetric(horizontal: 20),
