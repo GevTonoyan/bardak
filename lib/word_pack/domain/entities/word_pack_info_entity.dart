@@ -1,12 +1,8 @@
-/// Contains the list of word packs and the currently selected pack ID.
+/// Contains the list of word packs.
 class AliasWordPackInfoResultEntity {
-  const AliasWordPackInfoResultEntity({
-    required this.packs,
-    required this.selectedPackId,
-  });
+  const AliasWordPackInfoResultEntity({required this.packs});
 
   final List<AliasWordPackInfoEntity> packs;
-  final String? selectedPackId;
 }
 
 /// Describes a single word pack with its ID, name, emoji and list of words.

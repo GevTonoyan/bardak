@@ -4,7 +4,6 @@ import 'package:boardify/utils/constants/constants.dart';
 import 'package:boardify/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:boardify/word_pack/domain/usecases/get_word_packs_usecase.dart';
 import 'package:boardify/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
-import 'package:boardify/word_pack/domain/usecases/set_selected_word_pack_usecase.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,9 +15,6 @@ abstract interface class WordPacksLocalDataSource {
 
   /// Returns list of words for the given pack ID and locale.
   Future<List<String>> getWordsByPack(GetWordsByPackParams params);
-
-  /// Saves the selected word pack for the given locale.
-  Future<void> setSelectedWordPack(SetSelectedWordPackParams params);
 }
 
 /// Implementation of the [WordPacksLocalDataSource] using Hive and SharedPreferences for local storage.
@@ -63,10 +59,7 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
 
     selectedPackId ??= packsList.isNotEmpty ? packsList.first.id : 'all';
 
-    return AliasWordPackInfoResultEntity(
-      packs: packsList,
-      selectedPackId: selectedPackId,
-    );
+    return AliasWordPackInfoResultEntity(packs: packsList);
   }
 
   @override
@@ -85,13 +78,5 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
     final words = pack[AppConstants.aliasWordPackWords] as List<String>? ?? [];
 
     return words;
-  }
-
-  @override
-  Future<void> setSelectedWordPack(SetSelectedWordPackParams params) async {
-    await preferences.setString(
-      '${AppConstants.aliasSelectedWordPackKey}_${params.localeCode}',
-      params.packId,
-    );
   }
 }

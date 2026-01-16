@@ -5,34 +5,19 @@ import 'package:boardify/utils/constants/constants.dart';
 class PreGameEntity {
   const PreGameEntity({
     required this.gameMode,
-    required this.roundDuration,
-    required this.pointsToWin,
-    required this.wordsPerCard,
-    required this.allowSkipping,
-    required this.penaltyForSkipping,
     required this.teamNames,
     required this.words,
   });
 
   factory PreGameEntity.initial() {
     return const PreGameEntity(
-      roundDuration: AppConstants.defaultRoundDuration,
-      pointsToWin: AppConstants.defaultPointsToWin,
-      allowSkipping: true,
-      penaltyForSkipping: true,
-      wordsPerCard: AppConstants.defaultWordsPerCard,
       gameMode: GameMode.card,
-      teamNames: ['Team 1', 'Team 2'],
+      teamNames: [],
       words: [],
     );
   }
 
   final GameMode gameMode;
-  final int roundDuration;
-  final int pointsToWin;
-  final int wordsPerCard;
-  final bool allowSkipping;
-  final bool penaltyForSkipping;
   final List<String> teamNames;
   final List<String> words;
 
@@ -48,11 +33,6 @@ class PreGameEntity {
   }) {
     return PreGameEntity(
       gameMode: gameMode ?? this.gameMode,
-      roundDuration: roundDuration ?? this.roundDuration,
-      pointsToWin: pointsToWin ?? this.pointsToWin,
-      wordsPerCard: wordsPerCard ?? this.wordsPerCard,
-      allowSkipping: allowSkipping ?? this.allowSkipping,
-      penaltyForSkipping: penaltyForSkipping ?? this.penaltyForSkipping,
       teamNames: teamNames ?? this.teamNames,
       words: words ?? this.words,
     );
@@ -61,11 +41,6 @@ class PreGameEntity {
   @override
   String toString() {
     return 'AliasPreGameEntity{gameMode: $gameMode,'
-        ' roundDuration: $roundDuration,'
-        ' pointsToWin: $pointsToWin,'
-        ' wordsPerCard: $wordsPerCard,'
-        ' allowSkipping: $allowSkipping,'
-        ' penaltyForSkipping: $penaltyForSkipping,'
         ' teamNames: $teamNames}'
         ' words: $words';
   }
