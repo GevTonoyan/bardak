@@ -1,23 +1,36 @@
 part of 'pre_game_bloc.dart';
 
-/// AliasPreGameState is the base class for all states in the [PreGameBloc].
-sealed class PreGameState {
-  const PreGameState();
-}
+class PreGameState extends Equatable {
+  const PreGameState({
+    required this.gameMode,
+    required this.teamNames,
+    required this.words,
+  });
 
-/// Initial state of the [PreGameBloc].
-class PreGameInitialState extends PreGameState {
-  const PreGameInitialState();
-}
+  factory PreGameState.initial() {
+    return const PreGameState(
+      gameMode: GameMode.card,
+      teamNames: <String>[],
+      words: <String>[],
+    );
+  }
 
-/// State when the alias settings are loading.
-class PreGameLoadingState extends PreGameState {
-  const PreGameLoadingState();
-}
+  final GameMode gameMode;
+  final List<String> teamNames;
+  final List<String> words;
 
-/// State when the alias settings are loaded.
-class PreGameLoadedState extends PreGameState {
-  const PreGameLoadedState(this.preGameConfig);
+  PreGameState copyWith({
+    GameMode? gameMode,
+    List<String>? teamNames,
+    List<String>? words,
+  }) {
+    return PreGameState(
+      gameMode: gameMode ?? this.gameMode,
+      teamNames: teamNames ?? this.teamNames,
+      words: words ?? this.words,
+    );
+  }
 
-  final PreGameEntity preGameConfig;
+  @override
+  List<Object?> get props => [gameMode, teamNames, words];
 }

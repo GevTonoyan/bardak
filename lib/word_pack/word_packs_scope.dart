@@ -5,7 +5,6 @@ import 'package:boardify/word_pack/data/repositories/word_packs_repository_impl.
 import 'package:boardify/word_pack/domain/repositories/word_packs_repository.dart';
 import 'package:boardify/word_pack/domain/usecases/get_word_packs_usecase.dart';
 import 'package:boardify/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
-import 'package:boardify/word_pack/domain/usecases/set_selected_word_pack_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,9 +21,6 @@ Future<void> injectWordPacksScope() async {
     )
     ..registerLazySingleton<GetWordsByPackUseCase>(
       () => GetWordsByPackUseCase(sl()),
-    )
-    ..registerLazySingleton<SetSelectedWordPackUseCase>(
-      () => SetSelectedWordPackUseCase(sl()),
     )
     ..registerLazySingleton<WordPacksRepository>(
       () => WordPacksRepositoryImpl(localDataSource: sl()),

@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:boardify/utils/constants/constants.dart';
 import 'package:boardify/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:boardify/word_pack/domain/usecases/get_word_packs_usecase.dart';
-import 'package:boardify/word_pack/domain/usecases/set_selected_word_pack_usecase.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'word_packs_event.dart';
@@ -10,14 +11,12 @@ part 'word_packs_event.dart';
 part 'word_packs_state.dart';
 
 class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
-  WordPacksBloc({required this.getWordPacks, required this.setSelectedWordPack})
-    : super(WordPacksInitial()) {
+  WordPacksBloc({required this.getWordPacks}) : super(WordPacksInitial()) {
     on<LoadWordPacks>(_onLoadWordPacks);
     on<SelectWordPack>(_onSelectWordPack);
   }
 
   final GetWordPacksUseCase getWordPacks;
-  final SetSelectedWordPackUseCase setSelectedWordPack;
 
   Future<void> _onLoadWordPacks(
     LoadWordPacks event,
@@ -30,7 +29,7 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
       emit(
         WordPacksLoaded(
           packs: result.packs,
-          selectedPackId: result.selectedPackId,
+          selectedPackId: AppConstants.defaultPackId,
         ),
       );
     } on Exception catch (e) {
@@ -43,12 +42,5 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
       final currentState = state as WordPacksLoaded;
       emit(currentState.copyWith(selectedPackId: event.packId));
     }
-
-    setSelectedWordPack(
-      SetSelectedWordPackParams(
-        packId: event.packId,
-        localeCode: event.localeCode,
-      ),
-    );
   }
 }

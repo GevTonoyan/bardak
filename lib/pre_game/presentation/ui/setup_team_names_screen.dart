@@ -5,11 +5,13 @@ import 'package:boardify/app_ui/widgets/app_input_field.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/bottom_sheet.dart';
 import 'package:boardify/assets/assets.gen.dart';
+import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/utils/constants/constants.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:boardify/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SetupTeamNamesScreen extends Page<void> {
@@ -51,6 +53,8 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<PreGameBloc>();
+
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
       child: Column(
@@ -106,6 +110,11 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
             label: 'Շարունակել',
             color: colors.green,
             onPressed: () {
+              final teamNames = _teamControllers
+                  .map((controller) => controller.text)
+                  .toList();
+              bloc.add(AddTeamsEvent(teamNames));
+
               unawaited(context.pushNamed(WordPackScreen.routePath));
             },
           ),

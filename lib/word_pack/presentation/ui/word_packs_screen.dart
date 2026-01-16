@@ -2,8 +2,9 @@ import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
-import 'package:boardify/game_session/presentation/ui/game_session_screen.dart';
-import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
+import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:boardify/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:boardify/word_pack/presentation/bloc/word_packs_bloc.dart';
@@ -32,6 +33,8 @@ class _WordPackScreenState extends State<WordPackScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final preGameBloc = context.read<PreGameBloc>();
+
     return ScreenBackground(
       shadowHeight: 850,
       child: SafeArea(
@@ -94,10 +97,10 @@ class _Error extends StatelessWidget {
 }
 
 class _Success extends StatelessWidget {
-  const _Success({required this.packs, this.selectedId});
+  const _Success({required this.packs, required this.selectedId});
 
   final List<AliasWordPackInfoEntity> packs;
-  final String? selectedId;
+  final String selectedId;
 
   @override
   Widget build(BuildContext context) {
@@ -137,26 +140,15 @@ class _Success extends StatelessWidget {
             label: 'Go',
             color: context.colors.green,
             onPressed: () {
-              final gameSession = GameSessionEntity(
-                gameMode: GameMode.singleWord,
-                teamStates: ['team 1', 'team 2'].map((teamName) {
-                  return AliasTeamStateEntity(
-                    name: teamName,
-                    roundScores: [],
-                  );
-                }).toList(),
-                roundDuration: 60,
-                pointsToWin: 60,
-                soundEnabled: true,
-                wordsPerCard: 6,
-                allowSkipping: true,
-                penaltyForSkipping: true,
-                currentTeamIndex: 0,
-                currentRoundIndex: 0,
-                words: [],
+              final gameSession = _buildGameSessionEntity(
+                context,
+                packs,
+                selectedId,
               );
-
-              context.goNamed(GameSessionScreen.routePath, extra: gameSession);
+              context.goNamed(
+                RoundOverviewScreen.routePath,
+                extra: gameSession,
+              );
             },
           ),
         ),
@@ -176,5 +168,35 @@ class _Success extends StatelessWidget {
       [Color(0xFF00C9FF), Color(0xFF92FE9D)],
     ];
     return gradients[index % gradients.length];
+  }
+
+  GameSessionEntity _buildGameSessionEntity(
+    BuildContext context,
+    List<AliasWordPackInfoEntity> packs,
+    String selectedPackId,
+  ) {
+    final gameSettings = context.read<SettingsBloc>().state.gameSettings;
+
+    final preGame = context.read<PreGameBloc>().state;
+
+    return GameSessionEntity(
+      gameMode: preGame.gameMode,
+      teamStates: preGame.teamNames.map((teamName) {
+        return AliasTeamStateEntity(
+          name: teamName,
+          roundScores: [],
+        );
+      }).toList(),
+      roundDuration: gameSettings.roundDuration,
+      pointsToWin: gameSettings.pointsToWin,
+      // TODO
+      soundEnabled: false,
+      wordsPerCard: gameSettings.wordsPerCard,
+      allowSkipping: gameSettings.allowSkipping,
+      penaltyForSkipping: gameSettings.penaltyForSkipping,
+      currentTeamIndex: 0,
+      currentRoundIndex: 0,
+      words: packs.firstWhere((pack) => pack.id == selectedPackId).words,
+    );
   }
 }

@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:boardify/app_ui/widgets/app_button.dart';
+import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/app_switch.dart';
 import 'package:boardify/app_ui/widgets/bottom_sheet.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/pre_game/presentation/ui/setup_team_names_screen.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/settings/presentation/bloc/settings_event.dart';
-import 'package:boardify/utils/dependency_injection/di.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,10 +32,17 @@ class PreGameSettingsScreen extends Page<void> {
   }
 }
 
-class _PreGameSettingsBody extends StatelessWidget {
+class _PreGameSettingsBody extends StatefulWidget {
   const _PreGameSettingsBody(this.selectedMode);
 
   final GameMode selectedMode;
+
+  @override
+  State<_PreGameSettingsBody> createState() => _PreGameSettingsBodyState();
+}
+
+class _PreGameSettingsBodyState extends State<_PreGameSettingsBody> {
+  late GameMode gameMode = widget.selectedMode;
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +60,12 @@ class _PreGameSettingsBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: .start,
         children: [
-          const SizedBox(height: 40),
+          height40,
           Text(
             'Ռեժիմ',
             style: typography.regular24.copyWith(color: colors.white),
           ),
-          const SizedBox(height: 20),
+          height20,
           Row(
             spacing: 10,
             children: [
@@ -67,18 +73,28 @@ class _PreGameSettingsBody extends StatelessWidget {
                 child: AppButton(
                   label: 'Կլասիկ',
                   color: colors.white20,
-                  isPressed: selectedMode == GameMode.card,
+                  isPressed: gameMode == GameMode.card,
                   pressedColor: colors.white,
                   pressedTextColor: colors.secondary,
+                  onPressed: () {
+                    setState(() {
+                      gameMode = GameMode.card;
+                    });
+                  },
                 ),
               ),
               Expanded(
                 child: AppButton(
                   label: 'Մեկ բառ',
                   color: colors.white20,
-                  isPressed: selectedMode == GameMode.singleWord,
+                  isPressed: gameMode == GameMode.singleWord,
                   pressedColor: colors.white,
                   pressedTextColor: colors.secondary,
+                  onPressed: () {
+                    setState(() {
+                      gameMode = GameMode.singleWord;
+                    });
+                  },
                 ),
               ),
             ],
@@ -137,23 +153,27 @@ class _PreGameSettingsBody extends StatelessWidget {
               icon: Icon(Icons.add, color: colors.white),
             ),
           ),
-          const SizedBox(height: 40),
-          AppButton(
-            label: 'Կարելի է բաց թողել',
-            animateOnPress: false,
-            onPressed: () {
-              settingsBloc.add(
-                ChangeAllowSkipping(allowSkipping: !gameSettings.allowSkipping),
-              );
-            },
-            color: colors.white20,
-            suffix: AppSwitch(
-              value: gameSettings.allowSkipping,
-              onChanged: (value) {
-                settingsBloc.add(ChangeAllowSkipping(allowSkipping: value));
+          if (gameMode == .singleWord) ...[
+            const SizedBox(height: 40),
+            AppButton(
+              label: 'Կարելի է բաց թողել',
+              animateOnPress: false,
+              onPressed: () {
+                settingsBloc.add(
+                  ChangeAllowSkipping(
+                    allowSkipping: !gameSettings.allowSkipping,
+                  ),
+                );
               },
+              color: colors.white20,
+              suffix: AppSwitch(
+                value: gameSettings.allowSkipping,
+                onChanged: (value) {
+                  settingsBloc.add(ChangeAllowSkipping(allowSkipping: value));
+                },
+              ),
             ),
-          ),
+          ],
           const SizedBox(height: 40),
           AppButton(
             label: 'Շարունակել',

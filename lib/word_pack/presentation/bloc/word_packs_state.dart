@@ -13,7 +13,7 @@ class WordPacksLoaded extends WordPacksState {
   const WordPacksLoaded({required this.packs, required this.selectedPackId});
 
   final List<AliasWordPackInfoEntity> packs;
-  final String? selectedPackId;
+  final String selectedPackId;
 
   WordPacksLoaded copyWith({
     List<AliasWordPackInfoEntity>? packs,
