@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
 
   AppColors getColors(AppColorScheme scheme) {
     return switch (scheme) {
-      .main => AppLightColors(),
+      .main => AppMainColors(),
       .purple => AppPurpleColors(),
       .yellow => AppYellowColors(),
       .blue => AppBlueColors(),
