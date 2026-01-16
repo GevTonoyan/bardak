@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
+import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/coin_amount.dart';
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/home/presentation/bloc/home_bloc.dart';
@@ -11,7 +12,6 @@ import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
 import 'package:boardify/settings/presentation/ui/settings_screen.dart';
 import 'package:boardify/shop/presentation/ui/shop_screen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -56,21 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
-                      // Check if the word packs are cached
-                      final isDisabled = state is! HomeStateLoaded;
-
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // IconButton(
-                              //   icon: const Icon(Icons.settings),
-                              //   color: colors.onBackground,
-                              //   onPressed: () =>
-                              //       context.goNamed(SettingsScreen.routePath),
-                              // ),
                               AppIconButton.settings(
                                 onTap: () => context.goNamed(
                                   SettingsScreen.routePath,
@@ -84,87 +75,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
+                          height20,
                           SizedBox(
                             height: 165,
                             width: 279,
                             child: Assets.logoAm.svg(),
                           ),
-
-                          if (state is HomeStateError) ...[
-                            const SizedBox(height: 20),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color: colors.error.withValues(alpha: 0.08),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: colors.error,
-                                  width: 1.2,
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.wifi_off,
-                                        color: colors.error,
-                                        size: 24,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          '${context.l10n.failedLoadWords}'
-                                          ' ${context.l10n.general_checkInternet}',
-                                          style: typography.bodyMedium.copyWith(
-                                            color: colors.error,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 12),
-                                  OutlinedButton.icon(
-                                    onPressed: () {
-                                      context.read<HomeBloc>().add(
-                                        InitializeAliasHomeEvent(
-                                          locale: context.locale.languageCode,
-                                        ),
-                                      );
-                                    },
-                                    icon: Icon(
-                                      Icons.refresh,
-                                      color: colors.onPrimary,
-                                    ),
-                                    label: Text(
-                                      context.l10n.general_tryAgain,
-                                      style: typography.labelLarge.copyWith(
-                                        color: colors.onPrimary,
-                                      ),
-                                    ),
-                                    style: OutlinedButton.styleFrom(
-                                      backgroundColor: colors.primary,
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                      ),
-                                      side: BorderSide.none,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-
-                          const SizedBox(height: 20),
+                          height20,
                         ],
                       );
                     },
@@ -236,61 +153,6 @@ class _HomeScreenState extends State<HomeScreen> {
         PreGameSettingsScreen.routePath,
         queryParameters: {PreGameSettingsScreen.gameModeKey: gameMode.name},
       ),
-    );
-  }
-}
-
-class GameModeSelector extends StatelessWidget {
-  const GameModeSelector({
-    required this.selectedIndex,
-    required this.onChanged,
-    required this.modes,
-    super.key,
-  });
-
-  final int selectedIndex;
-  final void Function(int) onChanged;
-  final List<String> modes;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.appTheme;
-    final colors = theme.colors;
-    final textStyles = theme.typography;
-
-    return Row(
-      children: List.generate(modes.length, (i) {
-        final isSelected = selectedIndex == i;
-
-        return GestureDetector(
-          onTap: () => onChanged(i),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 250),
-            margin: const EdgeInsets.symmetric(horizontal: 6),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            decoration: BoxDecoration(
-              color: isSelected ? colors.primary : colors.surface,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: colors.shadow.withValues(
-                    alpha: isSelected ? 0.3 : 0.1,
-                  ),
-                  offset: const Offset(0, 2),
-                  blurRadius: 6,
-                ),
-              ],
-            ),
-            child: Text(
-              modes[i],
-              style: textStyles.bodyMedium.copyWith(
-                color: isSelected ? colors.onPrimary : colors.onSurface,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-              ),
-            ),
-          ),
-        );
-      }),
     );
   }
 }
