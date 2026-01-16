@@ -117,7 +117,7 @@ class ShopScreen extends StatelessWidget {
 
   Color _buttonBackgroundColor(AppColors colors, AppColorScheme colorScheme) {
     return switch (colorScheme) {
-      .main => AppLightColors().secondary,
+      .main => AppMainColors().secondary,
       .purple => AppPurpleColors().secondary,
       .yellow => AppYellowColors().secondary,
       .blue => AppBlueColors().secondary,
