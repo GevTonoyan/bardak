@@ -26,7 +26,7 @@ class CardRoundScreen extends StatelessWidget {
           context.read<GameSessionBloc>().add(
             RoundFinishedForReview(reviewedWords: state.wordsToReview()),
           );
-           context.pushReplacementNamed(RoundReviewScreen.routePath);
+          context.pushReplacementNamed(RoundReviewScreen.routePath);
         }
       },
       child: PopScope(
