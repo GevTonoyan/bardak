@@ -1,0 +1,192 @@
+# Alias Pro - Flutter Clean Architecture & BLoC Rules (Cursor)
+
+## 0) Goals
+- **Consistency**: One obvious way to write UI, state, and data code.
+- **Enforceability**: Rules are written as **MUST / MUST NOT / SHOULD** so Cursor can follow them.
+- **Testability**: BLoCs and UseCases are easy to unit-test without Flutter.
+
+---
+
+## 1) Code Style
+- **Concise & Technical**: Prefer declarative Dart. Use `=>` for single-line methods/getters.
+- **Line length**: Max **80 chars** per line.
+- **Formatting**:
+  - Always use **trailing commas**.
+  - Run `dart format .` before commit.
+- **Naming**:
+  - Use descriptive boolean names with auxiliary verbs:
+    - `isLoading`, `hasError`, `canPlay`, `shouldShowAd`.
+  - Prefer domain naming over UI naming in domain/data layers.
+- **Composition**:
+  - Prefer composition over inheritance.
+  - Prefer private widgets (`_SmallWidget`) over `_buildX()` methods.
+
+---
+
+## 2) Architecture: Clean Hub
+### Layers (strict)
+- **domain**
+  - Entities, value objects, abstract repositories, use cases.
+  - **MUST NOT** import Flutter or `dart:ui`.
+- **data**
+  - Models/DTOs, repository implementations, data sources (Hive/Firestore).
+  - Maps exceptions/errors into domain failures.
+- **presentation**
+  - BLoCs/Cubits, pages, widgets, routing integration.
+
+### Feature structure (recommended & consistent)
+Each feature/module should follow:
+
+- `feature_x/`
+  - `domain/`
+    - `entities/`
+    - `repositories/` (abstract)
+    - `usecases/`
+  - `data/`
+    - `models/`
+    - `datasources/`
+      - `local/`
+      - `remote/`
+    - `repositories/` (impl)
+  - `presentation/`
+    - `bloc/`
+    - `pages/`
+    - `widgets/`
+
+### Dependency Rule (critical)
+- Presentation (BLoC/UI) **MUST** depend on **UseCases** only.
+- Presentation **MUST NOT** depend on repositories or data sources directly.
+
+---
+
+## 3) Dependency Injection (GetIt)
+- **Composition roots only**:
+  - Only `di/` modules, route builders, and feature entrypoints may call `getIt<T>()`.
+- **BLoCs MUST use constructor injection**:
+  - BLoCs receive UseCases via constructor parameters.
+  - BLoCs **MUST NOT** call `getIt()` internally.
+- **Widgets SHOULD NOT** call `getIt()`:
+  - Widgets receive BLoCs via `BlocProvider` or dependencies via constructors.
+
+Example:
+- ✅ `BlocProvider(create: (_) => MyBloc(getIt<GetXUseCase>()))`
+- ❌ `class MyBloc { MyBloc() : _useCase = getIt<GetXUseCase>(); }`
+
+---
+
+## 4) Navigation (GoRouter)
+- Use `GoRouter`.
+- Routes **MUST** be defined in a central configuration file.
+- Route names/paths **MUST** be constants.
+- Route builders are allowed to access `getIt()` (composition root).
+
+---
+
+## 5) State Management (BLoC)
+### Base rules
+- Use `BlocBuilder`, `BlocListener`, `BlocSelector` intentionally.
+- **Events/States MUST be `sealed`** for exhaustive switching.
+- Use `equatable` for all events and states.
+
+### Concurrency (avoid double-tap bugs)
+- Every async event handler **MUST** choose an explicit transformer:
+  - `restartable()` for refresh/search
+  - `droppable()` for spammy taps
+  - `sequential()` when order matters
+- If not using transformers, you **MUST** justify in code comments.
+
+### State shape
+- Prefer explicit flags:
+  - `isLoading`, `isSaving`, `hasError`
+- Errors in state should be typed (domain failures), not raw strings.
+- UI layer maps failures to localized messages.
+
+---
+
+## 6) Errors & Result Handling (recommended standard)
+- UseCases return typed results:
+  - `Future<Result<T>>` (or `Either<Failure, T>`).
+- Data layer catches exceptions and maps them into domain `Failure`.
+- Presentation **MUST NOT** catch random exceptions from repositories.
+
+Suggested conventions:
+- `Failure` is a sealed hierarchy (e.g., `NetworkFailure`, `CacheFailure`, etc.)
+- `Result<T>` is:
+  - `Result.success(T value)`
+  - `Result.failure(Failure failure)`
+
+---
+
+## 7) Storage & Backend (Firebase & Hive)
+### Local (Hive)
+- Hive is used for:
+  - Board game metadata
+  - Offline session data
+  - Cached word packs / settings
+- Local data sources **MUST** hide Hive details behind an interface.
+
+### Remote (Firestore)
+- Firestore is used for:
+  - Multiplayer state sync
+  - User-owned cloud data (if enabled)
+- Remote data sources **MUST** be isolated from presentation.
+- Feature flags are controlled via `FirebaseRemoteConfig`.
+
+### Data models
+- Models **MUST** support `fromJson/toJson`.
+- Prefer **mapping** (`Model <-> Entity`) over inheritance.
+  - If you extend entities, models **MUST NOT** add behavior—only serialization/mapping.
+
+---
+
+## 8) UI & Styling (Boardify tokens)
+- **Tokens-only UI**:
+  - All colors and text styles **MUST** come from `AppColors` and `AppTextStyles`.
+  - Access them via context extensions (e.g., `context.appColors`, `context.appTextStyles`).
+  - **MUST NOT** use raw `Color(...)`, `TextStyle(...)`, or ad-hoc values in UI.
+- **Immutability**:
+  - Use `const` constructors for all immutable widgets.
+- **Assets**:
+  - Use `flutter_gen` only: `Assets.images.name.image()`.
+  - **MUST NOT** use raw asset paths in UI.
+- **Game UI**:
+  - Use `confetti` for wins.
+  - Use `gradient_borders` for active/selected highlights.
+- **Responsiveness**:
+  - Use `LayoutBuilder` for boards and dynamic layouts.
+
+---
+
+## 9) Performance & Debugging
+- **Images**:
+  - Use `cached_network_image` for remote covers.
+  - Always provide `errorBuilder`/fallback UI.
+- **Logs**:
+  - Use `log()` from `dart:developer`.
+  - **MUST NOT** use `print()` or `debugPrint()`.
+- **Rebuild control**:
+  - Use `const` where possible.
+  - Prefer `BlocSelector` for partial rebuilds.
+
+---
+
+## 10) Testing Rules (high impact)
+- **UseCase tests**:
+  - Pure Dart tests with mocked repositories.
+- **BLoC tests**:
+  - Use `bloc_test` and assert state sequences.
+- **Widget tests**:
+  - Provide fake blocs/usecases.
+  - Widgets should not depend on real `getIt()` in tests.
+
+---
+
+## 11) Code Generation
+- Run:
+  - `dart run build_runner build --delete-conflicting-outputs`
+- Files:
+  - Use `part 'filename.g.dart';`
+- Assets/fonts:
+  - Must use `flutter_gen`.
+
+---
