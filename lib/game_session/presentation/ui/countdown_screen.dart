@@ -109,6 +109,12 @@ class _CountdownScreenState extends State<CountdownScreen>
                     fontSize: 91,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Digitalt',
+                    shadows: [
+                      BoxShadow(
+                        color: colors.black.withValues(alpha: 0.2),
+                        offset: const Offset(0, 8.51),
+                      ),
+                    ],
                   ),
                 ),
               ),
