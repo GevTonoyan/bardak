@@ -1,11 +1,21 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class RewardItem extends StatefulWidget {
-  const RewardItem({super.key});
+  const RewardItem({
+    required this.onTap,
+    required this.isFront,
+    this.coins,
+    super.key,
+  });
+
+  final VoidCallback onTap;
+  final bool isFront;
+  final int? coins;
 
   @override
   State<RewardItem> createState() => _RewardItemState();
@@ -16,7 +26,7 @@ class _RewardItemState extends State<RewardItem>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  var _isFront = true;
+  late bool _isFront = widget.isFront;
 
   @override
   void initState() {
@@ -33,15 +43,14 @@ class _RewardItemState extends State<RewardItem>
     );
   }
 
-  void _toggleCard() {
+  Future<void> _toggleCard() async {
     if (_isFront) {
-      unawaited(_controller.forward());
-    } else {
-      unawaited(_controller.reverse());
+      await _controller.forward();
+      setState(() {
+        _isFront = !_isFront;
+        widget.onTap.call();
+      });
     }
-    setState(() {
-      _isFront = !_isFront;
-    });
   }
 
   @override
@@ -52,22 +61,43 @@ class _RewardItemState extends State<RewardItem>
 
   @override
   Widget build(BuildContext context) {
+    // TODO(Gevorg): optimize widget tree, too many Transforms
     return Center(
       child: GestureDetector(
         onTap: _toggleCard,
         child: AnimatedBuilder(
           animation: _animation,
           builder: (_, _) {
-            return Transform(
-              transform: Matrix4.rotationY(_animation.value * 3.14159),
-              alignment: Alignment.center,
-              child: _animation.value < 0.5
-                  ? const _FrontCard()
-                  : Transform.scale(
-                      scaleX: -1,
-                      scaleY: 1,
-                      child: const _BackCard(),
+            return Stack(
+              children: [
+                Transform(
+                  transform: Matrix4.rotationY(_animation.value * math.pi),
+                  alignment: Alignment.center,
+                  child: _isFront && _animation.value < 0.5
+                      ? const _FrontCard()
+                      : Transform.scale(
+                          scaleX: -1,
+                          child: Transform.scale(
+                            scaleX: -1,
+                            scaleY: 1,
+                            child: const _BackCard(),
+                          ),
+                        ),
+                ),
+                if (widget.coins != null)
+                  Center(
+                    child: Transform.rotate(
+                      angle: 9.25 * math.pi / 180,
+                      child: Text(
+                        widget.coins!.toString(),
+                        style: context.typography.regular28.copyWith(
+                          fontFamily: 'Digitalt',
+                          color: context.colors.white,
+                        ),
+                      ),
                     ),
+                  ),
+              ],
             );
           },
         ),

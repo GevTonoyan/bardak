@@ -1,10 +1,12 @@
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
-import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
-import 'package:boardify/app_ui/widgets/coin_amount.dart';
+import 'package:boardify/app_ui/widgets/coin_balance_widget.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
-import 'package:boardify/rewards/presentation/ui/reward_item.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:boardify/rewards/domain/entities/coin_balance_entity.dart';
+import 'package:boardify/rewards/presentation/bloc/rewards_cubit.dart';
+import 'package:boardify/rewards/presentation/ui/rewards_loot_grid.dart';
+import 'package:boardify/rewards/presentation/ui/rewards_loot_locked.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class RewardsScreen extends StatelessWidget {
@@ -14,7 +16,6 @@ class RewardsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
     return ScreenBackground(
       shadowHeight: 850,
       child: SafeArea(
@@ -30,32 +31,17 @@ class RewardsScreen extends StatelessWidget {
                 mainAxisAlignment: .spaceBetween,
                 children: [
                   AppIconButton.back(onTap: () => context.pop()),
-                  const CoinAmount(amount: 1000),
+                  const CoinBalanceWidget(),
                 ],
               ),
             ),
             const SizedBox(height: 150),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: colors.white,
-                boxShadow: [
-                  BoxShadow(color: colors.shadow, offset: const Offset(0, 12)),
-                ],
-              ),
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 3,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                padding: EdgeInsets.zero,
-                children: List.generate(9, (index) {
-                  return const RewardItem();
-                }),
-              ),
+            BlocBuilder<RewardsCubit, CoinBalanceEntity>(
+              builder: (context, coinsBalance) {
+                return coinsBalance.openedCountToday >= maxOpensPerDay
+                    ? const Expanded(child: RewardsLootLocked())
+                    : const RewardsLootGrid();
+              },
             ),
           ],
         ),

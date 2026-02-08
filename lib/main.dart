@@ -15,6 +15,7 @@ import 'package:boardify/firebase_options.dart';
 import 'package:boardify/localizations/common/supported_locales.dart';
 import 'package:boardify/localizations/l10n/app_localizations.dart';
 import 'package:boardify/logging/app_bloc_observer.dart';
+import 'package:boardify/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:boardify/router/app_router.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/settings/presentation/bloc/settings_event.dart';
@@ -49,6 +50,12 @@ void main() async {
             getAppSettingsUseCase: sl(),
             updateAppSettingsUseCase: sl(),
           )..add(const GetAppSettings()),
+        ),
+        BlocProvider(
+          create: (_) => RewardsCubit(
+            getCoinsStateUseCase: sl(),
+            updateCoinsUseCase: sl(),
+          )..getCoinsState(),
         ),
       ],
       child: const MyApp(),

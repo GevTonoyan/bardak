@@ -1,4 +1,5 @@
 import 'package:boardify/home/feature_home_scope.dart';
+import 'package:boardify/rewards/inject_rewards_scope.dart';
 import 'package:boardify/settings/data/data_sources/settings_local_data_source.dart';
 import 'package:boardify/settings/data/repositories/settings_repository_impl.dart';
 import 'package:boardify/settings/domain/repositories/settings_repository.dart';
@@ -35,6 +36,7 @@ Future<void> injectDependencies() async {
       () => SettingsLocalDataSourceImpl(preferences: sl()),
     );
 
+  await injectRewardsScope();
   await injectWordPacksScope();
   injectHomeScope();
 }
