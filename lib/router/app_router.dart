@@ -58,6 +58,11 @@ final appRouter = GoRouter(
             return const SettingsScreen();
           },
         ),
+        GoRoute(
+          path: RulesScreen.routePath,
+          name: RulesScreen.routePath,
+          pageBuilder: (context, state) => const RulesScreen(),
+        ),
 
         ShellRoute(
           parentNavigatorKey: rootNavigatorKey,
@@ -113,11 +118,6 @@ final appRouter = GoRouter(
           path: ShopScreen.routePath,
           name: ShopScreen.routePath,
           builder: (context, state) => const ShopScreen(),
-        ),
-        GoRoute(
-          path: RouteNames.info,
-          name: RouteNames.info,
-          builder: (context, state) => const RulesScreen(),
         ),
         ShellRoute(
           navigatorKey: gameSessionNavigatorKey,
