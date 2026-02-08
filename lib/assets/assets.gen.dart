@@ -57,6 +57,7 @@ class Assets {
   static const SvgGenImage coin = SvgGenImage('assets/coin.svg');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const SvgGenImage info = SvgGenImage('assets/info.svg');
   static const SvgGenImage lock = SvgGenImage('assets/lock.svg');
   static const SvgGenImage logoAm = SvgGenImage('assets/logo_am.svg');
   static const SvgGenImage minus = SvgGenImage('assets/minus.svg');
@@ -83,6 +84,7 @@ class Assets {
     clock,
     close,
     coin,
+    info,
     lock,
     logoAm,
     minus,
