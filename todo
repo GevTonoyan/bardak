@@ -4,7 +4,7 @@ BUGS
  BlocBuilder enhancements
 3. Continue button placement in bottom sheets at the bottom
 4. SingleWordCard shadow effects transparent background change
-
+5. Some texts contain numbers (we need rich texts with different font families for such cases).
 
 FEATURES
 1. Make bloc names generic , also state and event names similar to each other

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
-import 'package:boardify/app_ui/widgets/coin_amount.dart';
+import 'package:boardify/app_ui/widgets/coin_balance_widget.dart';
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
@@ -67,8 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   SettingsScreen.routePath,
                                 ),
                               ),
-                              CoinAmount(
-                                amount: 1000,
+                              CoinBalanceWidget(
                                 onTap: () {
                                   context.goNamed(ShopScreen.routePath);
                                 },
