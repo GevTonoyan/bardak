@@ -1,10 +1,10 @@
-import 'package:boardify/home/domain/repositories/home_repository.dart';
+import 'package:boardify/word_pack/domain/repositories/word_packs_repository.dart';
 
 /// Checks if word packs for a given locale are cached locally (in Hive).
-class AreWordPacksCachedUseCase {
-  AreWordPacksCachedUseCase(this.repository);
+class ArePacksCachedUseCase {
+  ArePacksCachedUseCase(this.repository);
 
-  final HomeRepository repository;
+  final WordPacksRepository repository;
 
   Future<bool> call(AreWordPacksCachedParams params) async =>
       repository.areWordPacksCached(params);

@@ -31,6 +31,17 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [alias];
 }
 
+class $AssetsPackImagesGen {
+  const $AssetsPackImagesGen();
+
+  /// File path: assets/pack_images/main_pack.png
+  AssetGenImage get mainPack =>
+      const AssetGenImage('assets/pack_images/main_pack.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [mainPack];
+}
+
 class $AssetsIconsFlagsGen {
   const $AssetsIconsFlagsGen();
 
@@ -55,12 +66,14 @@ class Assets {
   static const SvgGenImage clock = SvgGenImage('assets/clock.svg');
   static const SvgGenImage close = SvgGenImage('assets/close.svg');
   static const SvgGenImage coin = SvgGenImage('assets/coin.svg');
+  static const SvgGenImage download = SvgGenImage('assets/download.svg');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const SvgGenImage info = SvgGenImage('assets/info.svg');
   static const SvgGenImage lock = SvgGenImage('assets/lock.svg');
   static const SvgGenImage logoAm = SvgGenImage('assets/logo_am.svg');
   static const SvgGenImage minus = SvgGenImage('assets/minus.svg');
+  static const $AssetsPackImagesGen packImages = $AssetsPackImagesGen();
   static const SvgGenImage pause = SvgGenImage('assets/pause.svg');
   static const SvgGenImage play = SvgGenImage('assets/play.svg');
   static const SvgGenImage plus = SvgGenImage('assets/plus.svg');
@@ -84,6 +97,7 @@ class Assets {
     clock,
     close,
     coin,
+    download,
     info,
     lock,
     logoAm,

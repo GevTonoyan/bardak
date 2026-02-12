@@ -9,7 +9,7 @@ class GetWordPacksUseCase {
 
   final WordPacksRepository repository;
 
-  Future<AliasWordPackInfoResultEntity> call(GetWordPacksParams params) {
+  Future<WordPackInfoResultEntity> call(GetWordPacksParams params) {
     return repository.getWordPacks(params);
   }
 }

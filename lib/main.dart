@@ -22,6 +22,7 @@ import 'package:boardify/settings/presentation/bloc/settings_event.dart';
 import 'package:boardify/settings/presentation/bloc/settings_state.dart';
 import 'package:boardify/utils/dependency_injection/di.dart';
 import 'package:boardify/utils/remote_config/remote_config.dart';
+import 'package:boardify/word_pack/presentation/bloc/word_packs_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +44,15 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(
+          lazy: false,
+          create: (_) => WordPacksBloc(
+            getWordPacks: sl(),
+            areWordPacksCached: sl(),
+            fetchAndCacheWordPacks: sl(),
+            getWordsVersion: sl(),
+          )..add(const CacheWordPacksIfNeeded()),
+        ),
         BlocProvider(
           create: (_) => SettingsBloc(
             getGameSettingsUseCase: sl(),

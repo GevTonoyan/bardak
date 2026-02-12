@@ -5,7 +5,6 @@ import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/coin_balance_widget.dart';
 import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart';
 import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
@@ -14,34 +13,17 @@ import 'package:boardify/settings/presentation/ui/settings_screen_v2.dart';
 import 'package:boardify/shop/presentation/ui/shop_screen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   static const routePath = '/home';
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int selectedModeIndex = 0;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    context.read<HomeBloc>().add(
-      InitializeAliasHomeEvent(locale: context.locale.languageCode),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
+    final colors = context.colors;
 
     return Material(
       child: Stack(
@@ -55,42 +37,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     horizontal: 20,
                     vertical: 20,
                   ),
-                  child: BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              AppIconButton.settings(
-                                onTap: () => context.goNamed(
-                                  SettingsScreen.routePath,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              AppIconButton.info(
-                                onTap: () => context.goNamed(
-                                  RulesScreen.routePath,
-                                ),
-                              ),
-                              const Spacer(),
-                              CoinBalanceWidget(
-                                onTap: () {
-                                  context.goNamed(ShopScreen.routePath);
-                                },
-                              ),
-                            ],
+                          AppIconButton.settings(
+                            onTap: () => context.goNamed(
+                              SettingsScreen.routePath,
+                            ),
                           ),
-                          height20,
-                          SizedBox(
-                            height: 165,
-                            width: 279,
-                            child: Assets.logoAm.svg(),
+                          const SizedBox(width: 10),
+                          AppIconButton.info(
+                            onTap: () => context.goNamed(
+                              RulesScreen.routePath,
+                            ),
                           ),
-                          height20,
+                          const Spacer(),
+                          CoinBalanceWidget(
+                            onTap: () {
+                              context.goNamed(ShopScreen.routePath);
+                            },
+                          ),
                         ],
-                      );
-                    },
+                      ),
+                      height20,
+                      SizedBox(
+                        height: 165,
+                        width: 279,
+                        child: Assets.logoAm.svg(),
+                      ),
+                      height20,
+                    ],
                   ),
                 ),
               ),
@@ -109,12 +87,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 AppButton(
                   label: 'Classic Alias',
                   color: colors.green,
-                  onPressed: () => _navigateToGameSettings(GameMode.card),
+                  onPressed: () => _navigateToGameSettings(context, .card),
                 ),
                 AppButton(
                   label: 'One Word Mode',
                   color: colors.purple,
-                  onPressed: () => _navigateToGameSettings(GameMode.singleWord),
+                  onPressed: () =>
+                      _navigateToGameSettings(context, .singleWord),
                 ),
               ],
             ),
@@ -153,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _navigateToGameSettings(GameMode gameMode) {
+  void _navigateToGameSettings(BuildContext context, GameMode gameMode) {
     unawaited(
       context.pushNamed(
         PreGameSettingsScreen.routePath,

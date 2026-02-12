@@ -32,7 +32,6 @@ class RewardsCubit extends Cubit<CoinBalanceEntity> {
     if (state.openedCountToday > maxOpensPerDay) return;
 
     try {
-
       final updatedBoxes = Map<int, int>.from(state.openedBoxes)
         ..[index] = coins;
 
