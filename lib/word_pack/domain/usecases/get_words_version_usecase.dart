@@ -1,12 +1,12 @@
-import 'package:boardify/home/domain/repositories/home_repository.dart';
+import 'package:boardify/word_pack/domain/repositories/word_packs_repository.dart';
 
 class GetWordsVersionUseCase {
-  const GetWordsVersionUseCase(this._homeRepository);
+  const GetWordsVersionUseCase(this._repository);
 
-  final HomeRepository _homeRepository;
+  final WordPacksRepository _repository;
 
   int call({required GetWordsVersionParams params}) =>
-      _homeRepository.getWordsVersion(params);
+      _repository.getWordsVersion(params);
 }
 
 /// Parameters required to fetch the version of words.

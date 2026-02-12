@@ -1,11 +1,11 @@
-import 'package:boardify/home/domain/repositories/home_repository.dart';
+import 'package:boardify/word_pack/domain/repositories/word_packs_repository.dart';
 
 /// Fetches all word packs from Firestore for a given locale
 /// and stores them in Hive.
 class FetchAndCacheWordPacksUseCase {
   FetchAndCacheWordPacksUseCase(this.repository);
 
-  final HomeRepository repository;
+  final WordPacksRepository repository;
 
   Future<void> call(FetchAndCacheWordPacksParams params) async {
     await repository.fetchAndCacheWordPacks(params);

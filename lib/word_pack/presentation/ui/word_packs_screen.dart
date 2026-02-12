@@ -1,5 +1,5 @@
-import 'package:boardify/app_ui/widgets/app_button.dart';
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
+import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
 import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
@@ -8,7 +8,7 @@ import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:boardify/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:boardify/word_pack/presentation/bloc/word_packs_bloc.dart';
-import 'package:boardify/word_pack/presentation/ui/pack_card.dart';
+import 'package:boardify/word_pack/presentation/ui/word_pack_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -34,12 +34,12 @@ class _WordPackScreenState extends State<WordPackScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenBackground(
-      shadowHeight: 850,
       child: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(left: 20, top: 20),
               child: Row(
                 mainAxisAlignment: .spaceBetween,
                 children: [
@@ -52,13 +52,12 @@ class _WordPackScreenState extends State<WordPackScreen> {
                 return switch (state) {
                   WordPacksInitial() => const SizedBox.shrink(),
                   WordPacksError() => const _Error(),
-                  WordPacksLoaded(
-                    packs: final packs,
-                    selectedPackId: final selectedId,
-                  ) =>
-                    Expanded(
-                      child: _Success(packs: packs, selectedId: selectedId),
-                    ),
+                  WordPacksLoaded(packs: final packs) => Expanded(
+                    child: _Success(packs: packs),
+                  ),
+                  WordPacksNotCached(fallbackPacks: final packs) => Expanded(
+                    child: _Success(packs: packs, shouldDownload: true),
+                  ),
                 };
               },
             ),
@@ -95,90 +94,56 @@ class _Error extends StatelessWidget {
 }
 
 class _Success extends StatelessWidget {
-  const _Success({required this.packs, required this.selectedId});
+  const _Success({required this.packs, this.shouldDownload = false});
 
-  final List<AliasWordPackInfoEntity> packs;
-  final String selectedId;
+  final List<WordPackEntity> packs;
+  final bool shouldDownload;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        height40,
         Expanded(
           child: ListView.separated(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 50),
-            shrinkWrap: true,
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
             itemBuilder: (BuildContext context, int index) {
               final pack = packs[index];
-              final gradientColors = _gradientColorsForPack(index);
 
-              return PackCard(
-                packName: pack.name,
-                emoji: pack.emoji,
-                startColor: gradientColors[0],
-                endColor: gradientColors[1],
-                isSelected: selectedId == pack.id,
+              return WordPackItem(
+                name: pack.name,
+                packWordsCount: pack.words.length,
+                shouldDownload: shouldDownload,
                 onTap: () {
+                  context.goNamed(
+                    RoundOverviewScreen.routePath,
+                    extra: _buildGameSessionEntity(context, pack),
+                  );
+                },
+                onDownload: () {
                   context.read<WordPacksBloc>().add(
-                    SelectWordPack(
-                      packId: pack.id,
-                      localeCode: Localizations.localeOf(context).languageCode,
-                    ),
+                    FetchAndCachePacks(locale: context.locale.languageCode),
                   );
                 },
               );
             },
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
+            separatorBuilder: (_, _) => const SizedBox(height: 14),
             itemCount: packs.length,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: AppButton(
-            label: 'Go',
-            color: context.colors.green,
-            onPressed: () {
-              final gameSession = _buildGameSessionEntity(
-                context,
-                packs,
-                selectedId,
-              );
-              context.goNamed(
-                RoundOverviewScreen.routePath,
-                extra: gameSession,
-              );
-            },
           ),
         ),
       ],
     );
   }
 
-  List<Color> _gradientColorsForPack(int index) {
-    const gradients = [
-      [Color(0xFF7F00FF), Color(0xFFE100FF)],
-      [Color(0xFF56CCF2), Color(0xFF2F80ED)],
-      [Color(0xFFFF512F), Color(0xFFDD2476)],
-      [Color(0xFF43CEA2), Color(0xFF185A9D)],
-      [Color(0xFFFFC371), Color(0xFFFF5F6D)],
-      [Color(0xFF00C6FF), Color(0xFF0072FF)],
-      [Color(0xFF00F260), Color(0xFF0575E6)],
-      [Color(0xFF00C9FF), Color(0xFF92FE9D)],
-    ];
-    return gradients[index % gradients.length];
-  }
-
   GameSessionEntity _buildGameSessionEntity(
     BuildContext context,
-    List<AliasWordPackInfoEntity> packs,
-    String selectedPackId,
+    WordPackEntity pack,
   ) {
     final gameSettings = context.read<SettingsBloc>().state.gameSettings;
 
     final preGame = context.read<PreGameBloc>().state;
 
-    final words = packs.firstWhere((pack) => pack.id == selectedPackId).words
-      ..shuffle();
+    final words = pack.words..shuffle();
 
     return GameSessionEntity(
       gameMode: preGame.gameMode,

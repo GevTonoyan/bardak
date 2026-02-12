@@ -1,17 +1,17 @@
-import 'package:boardify/home/domain/entities/alias_word_pack_entity.dart';
-import 'package:boardify/home/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
+import 'package:boardify/word_pack/domain/entities/word_pack_info_entity.dart';
+import 'package:boardify/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Handles fetching data from Firebase Firestore.
-abstract interface class HomeRemoteDataSource {
+abstract interface class WordPacksRemoteDataSource {
   /// Returns all word packs for a given locale from Firestore.
   Future<List<WordPackEntity>> getWordPacks(
     FetchAndCacheWordPacksParams params,
   );
 }
 
-class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
-  const HomeRemoteDataSourceImpl({required this.firestore});
+class WordPacksRemoteDataSourceImpl implements WordPacksRemoteDataSource {
+  const WordPacksRemoteDataSourceImpl({required this.firestore});
 
   final FirebaseFirestore firestore;
 

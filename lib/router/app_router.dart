@@ -7,7 +7,6 @@ import 'package:boardify/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
-import 'package:boardify/home/presentation/bloc/home_bloc.dart';
 import 'package:boardify/home/presentation/ui/home_screen.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
@@ -20,7 +19,6 @@ import 'package:boardify/shop/presentation/ui/shop_screen.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:boardify/utils/dependency_injection/di.dart';
-import 'package:boardify/word_pack/presentation/bloc/word_packs_bloc.dart';
 import 'package:boardify/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,15 +39,7 @@ final appRouter = GoRouter(
       parentNavigatorKey: rootNavigatorKey,
       path: HomeScreen.routePath,
       name: HomeScreen.routePath,
-      builder: (context, state) => BlocProvider(
-        create: (_) => HomeBloc(
-          fetchAndCacheWordPacks: sl(),
-          areWordPacksCached: sl(),
-          getSelectedWordPackName: sl(),
-          getWordsVersion: sl(),
-        ),
-        child: const HomeScreen(),
-      ),
+      builder: (context, state) => const HomeScreen(),
       routes: [
         GoRoute(
           path: SettingsScreen.routePath,
@@ -97,10 +87,7 @@ final appRouter = GoRouter(
                     GoRoute(
                       path: WordPackScreen.routePath,
                       name: WordPackScreen.routePath,
-                      builder: (context, state) => BlocProvider(
-                        create: (_) => WordPacksBloc(getWordPacks: sl()),
-                        child: const WordPackScreen(),
-                      ),
+                      builder: (context, state) => const WordPackScreen(),
                     ),
                   ],
                 ),
