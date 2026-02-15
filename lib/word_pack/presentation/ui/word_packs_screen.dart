@@ -161,6 +161,7 @@ class _Success extends StatelessWidget {
       allowSkipping: gameSettings.allowSkipping,
       penaltyForSkipping: gameSettings.penaltyForSkipping,
       currentTeamIndex: 0,
+      previousTeamIndex: 0,
       currentRoundIndex: 0,
       words: words,
     );

@@ -11,6 +11,7 @@ class GameSessionEntity {
     required this.allowSkipping,
     required this.penaltyForSkipping,
     required this.currentTeamIndex,
+    required this.previousTeamIndex,
     required this.currentRoundIndex,
     required this.words,
     this.isGameFinished = false,
@@ -35,7 +36,8 @@ class GameSessionEntity {
 
   /// Runtime flow
   final int currentTeamIndex;
-  late final int currentRoundIndex;
+  final int previousTeamIndex;
+  final int currentRoundIndex;
 
   /// Game end state
   final bool isGameFinished;
@@ -47,6 +49,7 @@ class GameSessionEntity {
   GameSessionEntity copyWith({
     List<AliasTeamStateEntity>? teamStates,
     int? currentTeamIndex,
+    int? previousTeamIndex,
     int? currentRoundIndex,
     List<String>? words,
     bool? isGameFinished,
@@ -62,6 +65,7 @@ class GameSessionEntity {
       allowSkipping: allowSkipping,
       penaltyForSkipping: penaltyForSkipping,
       currentTeamIndex: currentTeamIndex ?? this.currentTeamIndex,
+      previousTeamIndex: previousTeamIndex ?? this.previousTeamIndex,
       currentRoundIndex: currentRoundIndex ?? this.currentRoundIndex,
       words: words ?? this.words,
       isGameFinished: isGameFinished ?? this.isGameFinished,
@@ -122,6 +126,10 @@ class AliasTeamStateEntity {
 
   void addRoundScore(int score) {
     roundScores.add(score);
+  }
+
+  void changeLastScore(int newScore) {
+    roundScores.last = newScore;
   }
 
   int get totalScore => roundScores.fold(0, (sum, score) => sum + score);

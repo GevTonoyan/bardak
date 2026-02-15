@@ -10,6 +10,7 @@ import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:boardify/game_session/presentation/ui/countdown_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
+import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
@@ -26,7 +27,8 @@ class RoundOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final gameState = context.watch<GameSessionBloc>().state.gameState;
+    final state = context.watch<GameSessionBloc>().state;
+    final gameState = state.gameState;
 
     return BlocListener<GameSessionBloc, GameSessionState>(
       listener: (BuildContext context, GameSessionState state) {
@@ -85,6 +87,19 @@ class RoundOverviewScreen extends StatelessWidget {
                 ),
                 height40,
                 const Expanded(child: _TeamScores()),
+                if (state.pendingReviewWords?.isNotEmpty ?? false) ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: AppButton(
+                      label: 'Վերանայել',
+                      color: colors.white20,
+                      onPressed: () => context.pushReplacementNamed(
+                        RoundReviewScreen.routePath,
+                      ),
+                    ),
+                  ),
+                  height20,
+                ],
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: AppButton(

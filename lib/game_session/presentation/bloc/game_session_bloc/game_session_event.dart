@@ -24,3 +24,12 @@ class RoundFinished extends GameSessionEvent {
   @override
   List<Object?> get props => [wordsShown, guessedCount];
 }
+
+class RoundReviewFinished extends GameSessionEvent {
+  const RoundReviewFinished({required this.guessedCount});
+
+  final int guessedCount;
+
+  @override
+  List<Object?> get props => [guessedCount];
+}
