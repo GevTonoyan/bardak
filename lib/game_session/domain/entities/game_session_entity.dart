@@ -1,3 +1,4 @@
+import 'package:boardify/game_session/domain/entities/round_result.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 
 class GameSessionEntity {
@@ -16,6 +17,7 @@ class GameSessionEntity {
     required this.words,
     this.isGameFinished = false,
     this.winningTeamIndex,
+    this.pendingReviewWords,
   });
 
   final GameMode gameMode;
@@ -46,6 +48,9 @@ class GameSessionEntity {
   /// List of all words
   final List<String> words;
 
+  /// List of words to review
+  List<ReviewedWord>? pendingReviewWords;
+
   GameSessionEntity copyWith({
     List<AliasTeamStateEntity>? teamStates,
     int? currentTeamIndex,
@@ -54,6 +59,7 @@ class GameSessionEntity {
     List<String>? words,
     bool? isGameFinished,
     int? winningTeamIndex,
+    List<ReviewedWord>? pendingReviewWords,
   }) {
     return GameSessionEntity(
       gameMode: gameMode,
@@ -70,6 +76,7 @@ class GameSessionEntity {
       words: words ?? this.words,
       isGameFinished: isGameFinished ?? this.isGameFinished,
       winningTeamIndex: winningTeamIndex ?? this.winningTeamIndex,
+      pendingReviewWords: pendingReviewWords ?? this.pendingReviewWords,
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/show_points_badge.dart';
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
+import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_card.dart';
 import 'package:boardify/utils/extensions/state_extension.dart';
@@ -64,10 +64,13 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
     return BlocListener<SingleWordRoundBloc, SingleWordRoundState>(
       listener: (context, state) {
         if (state.completed) {
+          final reviewedWords = state.wordsToReview();
+
           context.read<GameSessionBloc>().add(
-            RoundFinishedForReview(reviewedWords: state.wordsToReview()),
+            RoundFinished(reviewedWords: reviewedWords),
           );
-          context.pushReplacementNamed(RoundReviewScreen.routePath);
+
+          context.pushReplacementNamed(RoundOverviewScreen.routePath);
         }
       },
       child: PopScope(
