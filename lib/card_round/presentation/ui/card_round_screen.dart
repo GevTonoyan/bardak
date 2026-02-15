@@ -1,3 +1,4 @@
+import 'package:boardify/app_ui/widgets/flip_card.dart';
 import 'package:boardify/app_ui/widgets/round_header.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
@@ -8,12 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class CardRoundScreen extends StatelessWidget {
+class CardRoundScreen extends StatefulWidget {
   const CardRoundScreen({required this.initialRoundDuration, super.key});
 
   static const routePath = 'card_round';
 
   final int initialRoundDuration;
+
+  @override
+  State<CardRoundScreen> createState() => _CardRoundScreenState();
+}
+
+class _CardRoundScreenState extends State<CardRoundScreen> {
+  bool _isPaused = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +44,30 @@ class CardRoundScreen extends StatelessWidget {
             child: Column(
               children: [
                 RoundHeader(
-                  initialRoundDuration: initialRoundDuration,
+                  initialRoundDuration: widget.initialRoundDuration,
                   onRoundComplete: () {
                     context.read<CardRoundBloc>().add(
                       const CompleteRoundRequested(),
                     );
                   },
+                  onPauseChanged: (paused) =>
+                      setState(() => _isPaused = paused),
                 ),
-
-                const Expanded(
+                Expanded(
                   child: Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
-                      child: MultipleWordsCard(),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: AspectRatio(
+                        aspectRatio: 0.8,
+                        child: FlipCard(
+                          isFlipped: _isPaused,
+                          front: IgnorePointer(
+                            ignoring: _isPaused,
+                            child: const MultipleWordsCard(),
+                          ),
+                          back: const MultipleWordsCardBack(),
+                        ),
+                      ),
                     ),
                   ),
                 ),

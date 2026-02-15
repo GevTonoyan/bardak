@@ -1,23 +1,23 @@
 import 'dart:async';
 
 import 'package:boardify/app_ui/widgets/app_icon_button.dart';
-import 'package:boardify/app_ui/widgets/app_icon_text_button.dart';
 import 'package:boardify/app_ui/widgets/round_timer.dart';
 import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:boardify/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class RoundHeader extends StatefulWidget {
   const RoundHeader({
     required this.initialRoundDuration,
     required this.onRoundComplete,
+    required this.onPauseChanged,
     super.key,
   });
 
   final int initialRoundDuration;
   final VoidCallback onRoundComplete;
+  final ValueChanged<bool> onPauseChanged;
 
   @override
   State<RoundHeader> createState() => _RoundHeaderState();
@@ -48,6 +48,7 @@ class _RoundHeaderState extends State<RoundHeader>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
+      widget.onPauseChanged(true);
       setState(() {
         isTimerPaused = true;
       });
@@ -110,6 +111,7 @@ class _RoundHeaderState extends State<RoundHeader>
   }
 
   void _onPausePlayPressed() {
+    widget.onPauseChanged(!isTimerPaused);
     setState(() {
       if (_timer.isActive) {
         _timer.cancel();
