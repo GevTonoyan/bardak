@@ -12,7 +12,6 @@ part 'game_session_state.dart';
 class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
   GameSessionBloc({required GameSessionEntity initialGameState})
     : super(GameSessionState(gameState: initialGameState)) {
-    on<RoundFinishedForReview>(_onRoundFinishedForReview);
     on<RoundFinished>(_onRoundEnded);
     on<RoundReviewFinished>(_onRoundReviewFinished);
   }
@@ -23,12 +22,13 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
   ) {
     final gameState = state.gameState;
 
-    final newRemainingWords = state.gameState.words
-        .skip(event.wordsShown)
-        .toList();
+    final wordsShown = event.reviewedWords.length;
+    final guessedCount = event.reviewedWords.where((e) => e.isGuessed).length;
+
+    final newRemainingWords = state.gameState.words.skip(wordsShown).toList();
 
     final currentTeamIndex = gameState.currentTeamIndex;
-    gameState.teamStates[currentTeamIndex].addRoundScore(event.guessedCount);
+    gameState.teamStates[currentTeamIndex].addRoundScore(guessedCount);
 
     final allTeamsPlayedRound =
         currentTeamIndex + 1 >= gameState.teamStates.length;
@@ -51,15 +51,11 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
           previousTeamIndex: currentTeamIndex,
           isGameFinished: winnerTeamIndex != null,
           winningTeamIndex: winnerTeamIndex,
+          pendingReviewWords: event.reviewedWords,
         ),
       ),
     );
   }
-
-  void _onRoundFinishedForReview(
-    RoundFinishedForReview event,
-    Emitter<GameSessionState> emit,
-  ) => emit(state.copyWith(pendingReviewWords: event.reviewedWords));
 
   FutureOr<void> _onRoundReviewFinished(
     RoundReviewFinished event,

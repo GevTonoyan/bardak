@@ -87,7 +87,8 @@ class RoundOverviewScreen extends StatelessWidget {
                 ),
                 height40,
                 const Expanded(child: _TeamScores()),
-                if (state.pendingReviewWords?.isNotEmpty ?? false) ...[
+                if (state.gameState.pendingReviewWords?.isNotEmpty ??
+                    false) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: AppButton(

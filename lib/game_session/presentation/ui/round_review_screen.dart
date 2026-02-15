@@ -26,7 +26,8 @@ class _RoundReviewScreenState extends State<RoundReviewScreen> {
     final typography = context.typography;
 
     final gameSessionBloc = context.read<GameSessionBloc>();
-    final reviewedWords = gameSessionBloc.state.pendingReviewWords ?? [];
+    final reviewedWords =
+        gameSessionBloc.state.gameState.pendingReviewWords ?? [];
 
     return ScreenBackground(
       child: SafeArea(
