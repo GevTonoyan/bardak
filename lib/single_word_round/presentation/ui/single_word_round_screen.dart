@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:boardify/app_ui/widgets/app_button.dart';
+import 'package:boardify/app_ui/widgets/flip_card.dart';
 import 'package:boardify/app_ui/widgets/round_header.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/show_points_badge.dart';
@@ -29,6 +30,8 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
   late AnimationController _wordAnimationController;
 
   double _signedSwipeProgress = 0;
+
+  var _isPaused = false;
 
   @override
   void initState() {
@@ -87,6 +90,9 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                       const CompleteRoundRequested(),
                     );
                   },
+                  onPauseChanged: (isPaused) => setState(() {
+                    _isPaused = isPaused;
+                  }),
                 ),
                 Expanded(
                   child: Padding(
@@ -142,6 +148,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                                   () => _signedSwipeProgress = progress,
                                 );
                               },
+                              isFlipped: _isPaused,
                             ),
                           ),
                         ),
@@ -160,61 +167,68 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                     ),
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: .center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 40,
-                      ),
-                      child: Row(
-                        spacing: 20,
-                        children: [
-                          if (roundState.allowSkipping)
-                            Expanded(
-                              child: AppButton(
-                                label: 'Փաս',
-                                color: colors.white20,
-                                onPressed: () {
-                                  bloc.add(
-                                    const ResolveCurrentWord(
-                                      WordResolution.skipped,
-                                    ),
-                                  );
-
-                                  unawaited(
-                                    showPointsBadge(
-                                      context,
-                                      points: '-1',
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                if (!_isPaused)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 40,
+                    ),
+                    child: Row(
+                      spacing: 20,
+                      children: [
+                        if (roundState.allowSkipping)
                           Expanded(
                             child: AppButton(
-                              label: '️Ճիշտ է',
-                              icon: Assets.check.svg(width: 22, height: 22),
-                              color: colors.green,
+                              label: 'Փաս',
+                              color: colors.white20,
                               onPressed: () {
                                 bloc.add(
                                   const ResolveCurrentWord(
-                                    WordResolution.guessed,
+                                    WordResolution.skipped,
                                   ),
                                 );
 
                                 unawaited(
-                                  showPointsBadge(context, points: '+1'),
+                                  showPointsBadge(
+                                    context,
+                                    points: '-1',
+                                  ),
                                 );
                               },
                             ),
                           ),
-                        ],
-                      ),
+                        Expanded(
+                          child: AppButton(
+                            label: '️Ճիշտ է',
+                            icon: Assets.check.svg(width: 22, height: 22),
+                            color: colors.green,
+                            onPressed: () {
+                              bloc.add(
+                                const ResolveCurrentWord(
+                                  WordResolution.guessed,
+                                ),
+                              );
+
+                              unawaited(
+                                showPointsBadge(context, points: '+1'),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                // TODO (Gevorg): handle height adjustment when buttons shouldn't be shown
+                if (_isPaused)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 40,
+                    ),
+                    child: SizedBox(
+                      height: 60,
+                    ),
+                  ),
               ],
             ),
           ),
@@ -232,6 +246,7 @@ class _SwipeableSingleWordCard extends StatefulWidget {
     required this.onGuessed,
     required this.onSkipped,
     required this.onSwipeProgressChanged,
+    required this.isFlipped,
   });
 
   final String word;
@@ -239,6 +254,7 @@ class _SwipeableSingleWordCard extends StatefulWidget {
   final VoidCallback onGuessed;
   final VoidCallback onSkipped;
   final ValueChanged<double> onSwipeProgressChanged;
+  final bool isFlipped;
 
   @override
   State<_SwipeableSingleWordCard> createState() =>
@@ -259,7 +275,7 @@ class _SwipeableSingleWordCardState extends State<_SwipeableSingleWordCard> {
 
     return Dismissible(
       key: widget.key!,
-      direction: direction,
+      direction: widget.isFlipped ? DismissDirection.none : direction,
       onDismissed: (d) {
         // reset label colors immediately
         widget.onSwipeProgressChanged(0);
@@ -299,9 +315,13 @@ class _SwipeableSingleWordCardState extends State<_SwipeableSingleWordCard> {
         widget.onSwipeProgressChanged(sign * details.progress);
       },
 
-      child: SingleWordCard(
-        word: widget.word,
-        angle: _angle,
+      child: FlipCard(
+        isFlipped: widget.isFlipped,
+        front: SingleWordCard(
+          word: widget.word,
+          angle: _angle,
+        ),
+        back: const SingleWordCardBack(),
       ),
     );
   }
