@@ -6,6 +6,7 @@ import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round
 import 'package:boardify/card_round/presentation/ui/widgets/multiple_words_card.dart';
 import 'package:boardify/game_session/domain/entities/round_result.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,10 +24,19 @@ class CardRoundScreen extends StatelessWidget {
     return BlocListener<CardRoundBloc, CardRoundState>(
       listener: (context, state) {
         if (state.completed) {
-          context.read<GameSessionBloc>().add(
-            RoundFinishedForReview(reviewedWords: state.wordsToReview()),
-          );
-          context.pushReplacementNamed(RoundReviewScreen.routePath);
+          final reviewedWords = state.wordsToReview();
+          context.read<GameSessionBloc>()
+            ..add(
+              RoundFinishedForReview(reviewedWords: state.wordsToReview()),
+            )
+            ..add(
+              RoundFinished(
+                wordsShown: reviewedWords.length,
+                guessedCount: reviewedWords.where((e) => e.isGuessed).length,
+              ),
+            );
+
+          context.pushReplacementNamed(RoundOverviewScreen.routePath);
         }
       },
       child: PopScope(

@@ -38,15 +38,6 @@ class _RoundReviewScreenState extends State<RoundReviewScreen> {
               padding: const .all(20),
               child: AppIconButton.close(
                 onTap: () {
-                  gameSessionBloc.add(
-                    RoundFinished(
-                      wordsShown: reviewedWords.length,
-                      guessedCount: reviewedWords
-                          .where((e) => e.isGuessed)
-                          .length,
-                    ),
-                  );
-
                   context.pushReplacementNamed(RoundOverviewScreen.routePath);
                 },
               ),
@@ -112,9 +103,17 @@ class _RoundReviewScreenState extends State<RoundReviewScreen> {
                 label: 'Շարունակել',
                 color: colors.green,
                 onPressed: () {
+                  // gameSessionBloc.add(
+                  //   RoundFinished(
+                  //     wordsShown: reviewedWords.length,
+                  //     guessedCount: reviewedWords
+                  //         .where((e) => e.isGuessed)
+                  //         .length,
+                  //   ),
+                  // );
+
                   gameSessionBloc.add(
-                    RoundFinished(
-                      wordsShown: reviewedWords.length,
+                    RoundReviewFinished(
                       guessedCount: reviewedWords
                           .where((e) => e.isGuessed)
                           .length,

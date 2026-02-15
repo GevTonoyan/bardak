@@ -14,6 +14,7 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
     : super(GameSessionState(gameState: initialGameState)) {
     on<RoundFinishedForReview>(_onRoundFinishedForReview);
     on<RoundFinished>(_onRoundEnded);
+    on<RoundReviewFinished>(_onRoundReviewFinished);
   }
 
   FutureOr<void> _onRoundEnded(
@@ -42,11 +43,12 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
         : null;
 
     emit(
-      GameSessionState(
+      state.copyWith(
         gameState: state.gameState.copyWith(
           words: newRemainingWords,
           currentRoundIndex: nextRoundIndex,
           currentTeamIndex: nextTeamIndex,
+          previousTeamIndex: currentTeamIndex,
           isGameFinished: winnerTeamIndex != null,
           winningTeamIndex: winnerTeamIndex,
         ),
@@ -58,4 +60,18 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
     RoundFinishedForReview event,
     Emitter<GameSessionState> emit,
   ) => emit(state.copyWith(pendingReviewWords: event.reviewedWords));
+
+  FutureOr<void> _onRoundReviewFinished(
+    RoundReviewFinished event,
+    Emitter<GameSessionState> emit,
+  ) {
+    final gameState = state.gameState;
+    final lastPlayedTeamIndex = gameState.previousTeamIndex;
+
+    gameState.teamStates[lastPlayedTeamIndex].changeLastScore(
+      event.guessedCount,
+    );
+
+    emit(state);
+  }
 }
