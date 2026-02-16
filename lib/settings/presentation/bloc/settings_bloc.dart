@@ -97,10 +97,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final newSettings = state.appSettings.copyWith(locale: event.locale);
     emit(state.copyWith(appSettings: newSettings));
 
-    updateAppSettingsUseCase(
-      UpdateAppSettingsParams(
-        key: AppConstants.appLocaleKey,
-        value: event.locale.jsonValue(),
+    unawaited(
+      updateAppSettingsUseCase(
+        UpdateAppSettingsParams(
+          key: AppConstants.appLocaleKey,
+          value: event.locale.jsonValue(),
+        ),
       ),
     );
   }

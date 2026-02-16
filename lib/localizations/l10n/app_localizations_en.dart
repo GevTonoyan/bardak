@@ -38,6 +38,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'alias----------------------------------------------------------------------';
 
   @override
+  String get rewards => 'Rewards';
+
+  @override
   String get mode1 => 'Single Word';
 
   @override

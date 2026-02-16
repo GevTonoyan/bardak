@@ -62,6 +62,7 @@ class _RewardItemState extends State<RewardItem>
   @override
   Widget build(BuildContext context) {
     // TODO(Gevorg): optimize widget tree, too many Transforms
+    // TODO(Gevorg): Reuse FlipWidget
     return Center(
       child: GestureDetector(
         onTap: _toggleCard,

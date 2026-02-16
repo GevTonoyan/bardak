@@ -38,6 +38,9 @@ class AppLocalizationsAm extends AppLocalizations {
       'alias----------------------------------------------------------------------';
 
   @override
+  String get rewards => 'Պարգևներ';
+
+  @override
   String get mode1 => 'Մի բառ';
 
   @override

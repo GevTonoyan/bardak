@@ -12,3 +12,4 @@ FEATURES
 
 Improvements
 Update Settings enhancement, in data source when we update, the switch maybe redundant
+Make AppColors sealed class and get rid of the enum

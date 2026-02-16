@@ -154,6 +154,12 @@ abstract class AppLocalizations {
   /// **'alias----------------------------------------------------------------------'**
   String get alias________________________________________________;
 
+  /// No description provided for @rewards.
+  ///
+  /// In en, this message translates to:
+  /// **'Rewards'**
+  String get rewards;
+
   /// No description provided for @mode1.
   ///
   /// In en, this message translates to:
