@@ -38,6 +38,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'alias----------------------------------------------------------------------';
 
   @override
+  String get rewards => 'Награды';
+
+  @override
   String get mode1 => 'Одно слово';
 
   @override

@@ -19,14 +19,14 @@ class SettingsScreen extends Page<void> {
     return buildAppBottomSheetRoute<void>(
       context: context,
       settings: this,
-      child: const SettingsScreenV2Body(),
+      child: const SettingsScreenBody(),
       title: context.l10n.settings,
     );
   }
 }
 
-class SettingsScreenV2Body extends StatelessWidget {
-  const SettingsScreenV2Body({super.key});
+class SettingsScreenBody extends StatelessWidget {
+  const SettingsScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {

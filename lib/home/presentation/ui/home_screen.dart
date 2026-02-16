@@ -5,11 +5,12 @@ import 'package:boardify/app_ui/widgets/app_icon_button.dart';
 import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/coin_balance_widget.dart';
 import 'package:boardify/assets/assets.gen.dart';
+import 'package:boardify/localizations/global_app_localizations.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart';
 import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
 import 'package:boardify/rules/presentation/ui/rules_screen.dart';
-import 'package:boardify/settings/presentation/ui/settings_screen_v2.dart';
+import 'package:boardify/settings/presentation/ui/settings_screen.dart';
 import 'package:boardify/shop/presentation/ui/shop_screen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AppButton(
-                      label: 'Rewards',
+                      label: context.l10n.rewards,
                       color: colors.white20,
                       onPressed: () => context.goNamed(RewardsScreen.routePath),
                     ),
