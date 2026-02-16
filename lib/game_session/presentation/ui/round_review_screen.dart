@@ -104,14 +104,6 @@ class _RoundReviewScreenState extends State<RoundReviewScreen> {
                 label: 'Շարունակել',
                 color: colors.green,
                 onPressed: () {
-                  // gameSessionBloc.add(
-                  //   RoundFinished(
-                  //     wordsShown: reviewedWords.length,
-                  //     guessedCount: reviewedWords
-                  //         .where((e) => e.isGuessed)
-                  //         .length,
-                  //   ),
-                  // );
 
                   gameSessionBloc.add(
                     RoundReviewFinished(
