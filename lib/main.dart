@@ -59,7 +59,7 @@ void main() async {
             updateAliasSettingUseCase: sl(),
             getAppSettingsUseCase: sl(),
             updateAppSettingsUseCase: sl(),
-          )..add(const GetAppSettings()),
+          )..add(const GetSettings()),
         ),
         BlocProvider(
           create: (_) => RewardsCubit(

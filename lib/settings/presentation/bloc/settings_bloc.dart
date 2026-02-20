@@ -119,17 +119,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void _onChangeGameDuration(
+  Future<void> _onChangeGameDuration(
     ChangeGameDuration event,
     Emitter<SettingsState> emit,
-  ) {
+  ) async {
     final updatedSettings = state.gameSettings.copyWith(
       roundDuration: event.gameDuration,
     );
     emit(state.copyWith(gameSettings: updatedSettings));
 
     if (event.persist) {
-      updateAliasSettingUseCase(
+      await updateAliasSettingUseCase(
         UpdateGameSettingsParams(
           key: AppConstants.roundDurationKey,
           value: event.gameDuration,
