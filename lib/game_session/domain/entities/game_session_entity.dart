@@ -79,6 +79,24 @@ class GameSessionEntity {
       pendingReviewWords: pendingReviewWords ?? this.pendingReviewWords,
     );
   }
+
+  Map<int, List<ReviewedWord>> pagedReviewedWords() {
+    final items = pendingReviewWords ?? const <ReviewedWord>[];
+    if (items.isEmpty) return const <int, List<ReviewedWord>>{};
+
+    final pages = <int, List<ReviewedWord>>{};
+    for (
+      var start = 0, page = 0;
+      start < items.length;
+      start += wordsPerCard, page++
+    ) {
+      final end = (start + wordsPerCard) > items.length
+          ? items.length
+          : (start + wordsPerCard);
+      pages[page] = items.sublist(start, end);
+    }
+    return pages;
+  }
 }
 
 extension GameSessionEntityX on GameSessionEntity {

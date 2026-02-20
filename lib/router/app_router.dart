@@ -1,7 +1,9 @@
 import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
+import 'package:boardify/game_session/domain/entities/round_result.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:boardify/game_session/presentation/bloc/round_review_bloc/round_review_bloc.dart';
 import 'package:boardify/game_session/presentation/ui/countdown_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_session_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
@@ -173,8 +175,23 @@ final appRouter = GoRouter(
             GoRoute(
               path: '$_gameSessionPath/${RoundReviewScreen.routePath}',
               name: RoundReviewScreen.routePath,
-              builder: (context, state) {
-                return const RoundReviewScreen();
+              pageBuilder: (context, state) {
+                final gameState = context
+                    .read<GameSessionBloc>()
+                    .state
+                    .gameState;
+                final pending =
+                    gameState.pendingReviewWords ?? const <ReviewedWord>[];
+                return NoTransitionPage(
+                  child: BlocProvider(
+                    create: (_) => RoundReviewBloc(
+                      words: List<ReviewedWord>.from(pending),
+                      gameMode: gameState.gameMode,
+                      wordsPerCard: gameState.wordsPerCard,
+                    ),
+                    child: const RoundReviewScreen(),
+                  ),
+                );
               },
             ),
           ],

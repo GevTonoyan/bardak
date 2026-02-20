@@ -25,7 +25,7 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CardRoundBloc, CardRoundState>(
+    return BlocConsumer<CardRoundBloc, CardRoundState>(
       listener: (context, state) {
         if (state.completed) {
           final reviewedWords = state.wordsToReview();
@@ -36,46 +36,62 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
           context.pushReplacementNamed(RoundOverviewScreen.routePath);
         }
       },
-      child: PopScope(
-        canPop: false,
-        child: ScreenBackground(
-          shadowHeight: 200,
-          child: SafeArea(
-            child: Column(
-              children: [
-                RoundHeader(
-                  initialRoundDuration: widget.initialRoundDuration,
-                  onRoundComplete: () {
-                    context.read<CardRoundBloc>().add(
-                      const CompleteRoundRequested(),
-                    );
-                  },
-                  onPauseChanged: (paused) =>
-                      setState(() => _isPaused = paused),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: AspectRatio(
-                        aspectRatio: 0.8,
-                        child: FlipCard(
-                          isFlipped: _isPaused,
-                          front: IgnorePointer(
-                            ignoring: _isPaused,
-                            child: const MultipleWordsCard(),
+      builder: (context, state) {
+        final bloc = context.read<CardRoundBloc>();
+        final state = context.read<CardRoundBloc>().state;
+
+        return PopScope(
+          canPop: false,
+          child: ScreenBackground(
+            shadowHeight: 200,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  RoundHeader(
+                    initialRoundDuration: widget.initialRoundDuration,
+                    onRoundComplete: () {
+                      context.read<CardRoundBloc>().add(
+                        const CompleteRoundRequested(),
+                      );
+                    },
+                    onPauseChanged: (paused) =>
+                        setState(() => _isPaused = paused),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: AspectRatio(
+                          aspectRatio: 0.8,
+                          child: FlipCard(
+                            isFlipped: _isPaused,
+                            front: IgnorePointer(
+                              ignoring: _isPaused,
+                              child: MultipleWordsCard(
+                                words: bloc.state.visible,
+                                guessed: state.guessed,
+                                onTap: ({required selected, required word}) {
+                                  bloc.add(
+                                    ToggleWord(
+                                      isSelected: selected,
+                                      word: word,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            back: const MultipleWordsCardBack(),
                           ),
-                          back: const MultipleWordsCardBack(),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
