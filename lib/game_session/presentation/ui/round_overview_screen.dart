@@ -8,7 +8,6 @@ import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:boardify/game_session/presentation/ui/countdown_screen.dart';
-import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -24,94 +23,88 @@ class RoundOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final state = context.watch<GameSessionBloc>().state;
-    final gameState = state.gameState;
+    final bloc = context.watch<GameSessionBloc>();
+    final gameState = bloc.state.gameState;
 
-    return BlocListener<GameSessionBloc, GameSessionState>(
-      listener: (BuildContext context, GameSessionState state) {
-        if (state.gameState.isGameFinished) {
-          context.goNamed(
-            GameSummaryScreen.routePath,
-            extra: state.gameState.teamStates,
-          );
-        }
-      },
-      child: PopScope(
-        canPop: false,
-        child: ScreenBackground(
-          shadowHeight: 300,
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: .start,
-              children: [
-                Padding(
-                  padding: const EdgeInsetsGeometry.only(left: 20, top: 20),
-                  child: AppIconButton.close(
-                    onTap: () async {
-                      await showConfirmSheet(
-                        context: context,
-                        title: 'Լքե՞լ խաղը',
-                        description: 'Վստա՞հ եք որ ցանկանում եք ավարտել խաղը',
-                        confirmText: 'Այո,լքել խաղը',
-                        cancelText: 'Չեղարկել',
-                        confirmColor: colors.red,
-                        cancelColor: colors.green,
-                        onConfirm: () => context.pop(),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsGeometry.all(40),
-                  child: Align(
-                    child: Column(
-                      spacing: 16,
-                      children: [
-                        Text(
-                          'Հաջորդ թիմը՝',
-                          style: typography.regular24.copyWith(
-                            color: colors.white,
-                          ),
-                        ),
-                        HighlightedText(
-                          text: gameState
-                              .teamStates[gameState.currentTeamIndex]
-                              .name,
-                        ),
-                      ],
+    return BlocBuilder<GameSessionBloc, GameSessionState>(
+      builder: (context, state) {
+        return PopScope(
+          canPop: false,
+          child: ScreenBackground(
+            shadowHeight: 300,
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: .start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsetsGeometry.only(left: 20, top: 20),
+                    child: AppIconButton.close(
+                      onTap: () async {
+                        await showConfirmSheet(
+                          context: context,
+                          title: 'Լքե՞լ խաղը',
+                          description: 'Վստա՞հ եք որ ցանկանում եք ավարտել խաղը',
+                          confirmText: 'Այո,լքել խաղը',
+                          cancelText: 'Չեղարկել',
+                          confirmColor: colors.red,
+                          cancelColor: colors.green,
+                          onConfirm: () => context.pop(),
+                        );
+                      },
                     ),
                   ),
-                ),
-                height40,
-                const Expanded(child: _TeamScores()),
-                if (state.gameState.pendingReviewWords?.isNotEmpty ??
-                    false) ...[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: AppButton(
-                      label: 'Վերանայել',
-                      color: colors.white20,
-                      onPressed: () => context.pushReplacementNamed(
-                        RoundReviewScreen.routePath,
+                    padding: const EdgeInsetsGeometry.all(40),
+                    child: Align(
+                      child: Column(
+                        spacing: 16,
+                        children: [
+                          Text(
+                            'Հաջորդ թիմը՝',
+                            style: typography.regular24.copyWith(
+                              color: colors.white,
+                            ),
+                          ),
+                          HighlightedText(
+                            text: gameState
+                                .teamStates[gameState.currentTeamIndex]
+                                .name,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  height20,
-                ],
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: AppButton(
-                    label: 'Շարունակել',
-                    color: colors.green,
-                    onPressed: () => _navigateToRoundScreen(context),
+                  height40,
+                  const Expanded(child: _TeamScores()),
+                  if (state.gameState.pendingReviewWords?.isNotEmpty ??
+                      false) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: AppButton(
+                        label: 'Վերանայել',
+                        color: colors.white20,
+                        onPressed: () => context.pushReplacementNamed(
+                          RoundReviewScreen.routePath,
+                        ),
+                      ),
+                    ),
+                    height20,
+                  ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: AppButton(
+                      label: 'Շարունակել',
+                      color: colors.green,
+                      onPressed: () => _navigateToRoundScreen(context),
+                    ),
                   ),
-                ),
-                height40,
-              ],
+                  height40,
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
