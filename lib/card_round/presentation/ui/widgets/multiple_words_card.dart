@@ -1,23 +1,36 @@
 import 'dart:math' as math;
 import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
+typedef WordTapCallback =
+    void Function({
+      required bool selected,
+      required String word,
+    });
+
 class MultipleWordsCard extends StatelessWidget {
-  const MultipleWordsCard({super.key});
+  const MultipleWordsCard({
+    required this.words,
+    required this.guessed,
+    required this.onTap,
+    super.key,
+  });
+
+  final List<String> words;
+  final Set<String> guessed;
+  final WordTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CardRoundBloc, CardRoundState>(
-      builder: (context, state) {
+    return Builder(
+      builder: (context) {
         final colors = context.colors;
         final typography = context.typography;
 
-        final words = state.visible;
-        final guessed = state.guessed;
+        // final words = state.visible;
+        // final guessed = state.guessed;
 
         return MultipleWordsCardShell(
           child: ListView.separated(
@@ -44,12 +57,13 @@ class MultipleWordsCard extends StatelessWidget {
                 child: GestureDetector(
                   behavior: .opaque,
                   onTap: () {
-                    context.read<CardRoundBloc>().add(
-                      ToggleWord(
-                        isSelected: !isSelected,
-                        word: currentWord,
-                      ),
-                    );
+                    onTap(selected: !isSelected, word: currentWord);
+                    // context.read<CardRoundBloc>().add(
+                    //   ToggleWord(
+                    //     isSelected: !isSelected,
+                    //     word: currentWord,
+                    //   ),
+                    // );
                   },
                   child: Container(
                     padding: const .all(16),

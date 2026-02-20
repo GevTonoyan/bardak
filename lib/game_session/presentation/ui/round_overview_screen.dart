@@ -6,13 +6,10 @@ import 'package:boardify/app_ui/widgets/app_spacings.dart';
 import 'package:boardify/app_ui/widgets/highlighted_text.dart';
 import 'package:boardify/app_ui/widgets/screen_background.dart';
 import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
-import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
 import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:boardify/game_session/presentation/ui/countdown_screen.dart';
 import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
-import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -119,23 +116,7 @@ class RoundOverviewScreen extends StatelessWidget {
   }
 
   Future<void> _navigateToRoundScreen(BuildContext context) async {
-    final gameSessionBloc = context.read<GameSessionBloc>();
-    final gameMode = gameSessionBloc.state.gameState.gameMode;
-
-    final path = switch (gameMode) {
-      .card => CardRoundScreen.routePath,
-      .singleWord => SingleWordRoundScreen.routePath,
-    };
-
     context.pushReplacementNamed(CountdownScreen.routePath);
-  }
-
-  Future<void> _navigateToCardRound(BuildContext context) async {
-    context.pushReplacementNamed(CardRoundScreen.routePath);
-  }
-
-  Future<void> _navigateToSingleWordRound(BuildContext context) async {
-    context.pushReplacementNamed(SingleWordRoundScreen.routePath);
   }
 }
 
