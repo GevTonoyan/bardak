@@ -9,6 +9,7 @@ import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/pre_game/presentation/ui/setup_team_names_screen.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
 import 'package:boardify/settings/presentation/bloc/settings_event.dart';
+import 'package:boardify/utils/constants/constants.dart';
 import 'package:boardify/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,6 +56,13 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
 
     final roundDuration = gameSettings.roundDuration;
     final pointsToWin = gameSettings.pointsToWin;
+
+    final canDecreaseRoundDuration =
+        roundDuration > AppConstants.minRoundDuration;
+    final canIncreaseRoundDuration =
+        roundDuration < AppConstants.maxRoundDuration;
+    final canDecreasePointsToWin = pointsToWin > AppConstants.minPointsToWin;
+    final canIncreasePointsToWin = pointsToWin < AppConstants.maxPointsToWin;
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
@@ -115,20 +123,38 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                     color: colors.white20,
                     animateOnPress: false,
                     icon: IconButton(
-                      onPressed: () {
-                        settingsBloc.add(
-                          ChangeGameDuration(gameDuration: roundDuration - 5),
-                        );
-                      },
-                      icon: Icon(Icons.remove, color: colors.white),
+                      onPressed: canDecreaseRoundDuration
+                          ? () {
+                              settingsBloc.add(
+                                ChangeGameDuration(
+                                  gameDuration: roundDuration - 5,
+                                ),
+                              );
+                            }
+                          : null,
+                      icon: Icon(
+                        Icons.remove,
+                        color: canDecreaseRoundDuration
+                            ? colors.white
+                            : colors.white20,
+                      ),
                     ),
                     suffix: IconButton(
-                      onPressed: () {
-                        settingsBloc.add(
-                          ChangeGameDuration(gameDuration: roundDuration + 5),
-                        );
-                      },
-                      icon: Icon(Icons.add, color: colors.white),
+                      onPressed: canIncreaseRoundDuration
+                          ? () {
+                              settingsBloc.add(
+                                ChangeGameDuration(
+                                  gameDuration: roundDuration + 5,
+                                ),
+                              );
+                            }
+                          : null,
+                      icon: Icon(
+                        Icons.add,
+                        color: canIncreaseRoundDuration
+                            ? colors.white
+                            : colors.white20,
+                      ),
                     ),
                   ),
                   height40,
@@ -142,20 +168,34 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                     color: colors.white20,
                     animateOnPress: false,
                     icon: IconButton(
-                      onPressed: () {
-                        settingsBloc.add(
-                          ChangePointsToWin(pointsToWin: pointsToWin - 5),
-                        );
-                      },
-                      icon: Icon(Icons.remove, color: colors.white),
+                      onPressed: canDecreasePointsToWin
+                          ? () {
+                              settingsBloc.add(
+                                ChangePointsToWin(pointsToWin: pointsToWin - 5),
+                              );
+                            }
+                          : null,
+                      icon: Icon(
+                        Icons.remove,
+                        color: canDecreasePointsToWin
+                            ? colors.white
+                            : colors.white20,
+                      ),
                     ),
                     suffix: IconButton(
-                      onPressed: () {
-                        settingsBloc.add(
-                          ChangePointsToWin(pointsToWin: pointsToWin + 5),
-                        );
-                      },
-                      icon: Icon(Icons.add, color: colors.white),
+                      onPressed: canIncreasePointsToWin
+                          ? () {
+                              settingsBloc.add(
+                                ChangePointsToWin(pointsToWin: pointsToWin + 5),
+                              );
+                            }
+                          : null,
+                      icon: Icon(
+                        Icons.add,
+                        color: canIncreasePointsToWin
+                            ? colors.white
+                            : colors.white20,
+                      ),
                     ),
                   ),
                   if (gameMode == .singleWord) ...[
