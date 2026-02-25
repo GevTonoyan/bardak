@@ -59,123 +59,133 @@ class _PreGameSettingsBodyState extends State<_PreGameSettingsBody> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
       child: Column(
-        crossAxisAlignment: .start,
         children: [
-          height40,
-          Text(
-            'Ռեժիմ',
-            style: typography.regular24.copyWith(color: colors.white),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: .start,
+                children: [
+                  height40,
+                  Text(
+                    'Ռեժիմ',
+                    style: typography.regular24.copyWith(color: colors.white),
+                  ),
+                  height20,
+                  Row(
+                    spacing: 10,
+                    children: [
+                      Expanded(
+                        child: AppButton(
+                          label: 'Կլասիկ',
+                          color: colors.white20,
+                          isPressed: gameMode == GameMode.card,
+                          pressedColor: colors.white,
+                          pressedTextColor: colors.secondary,
+                          onPressed: () {
+                            setState(() {
+                              gameMode = GameMode.card;
+                            });
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: AppButton(
+                          label: 'Մեկ բառ',
+                          color: colors.white20,
+                          isPressed: gameMode == GameMode.singleWord,
+                          pressedColor: colors.white,
+                          pressedTextColor: colors.secondary,
+                          onPressed: () {
+                            setState(() {
+                              gameMode = GameMode.singleWord;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  height40,
+                  Text(
+                    'Փուլի տևողությունը՝',
+                    style: typography.regular24.copyWith(color: colors.white),
+                  ),
+                  height20,
+                  AppButton(
+                    label: '$roundDuration վրկ',
+                    color: colors.white20,
+                    animateOnPress: false,
+                    icon: IconButton(
+                      onPressed: () {
+                        settingsBloc.add(
+                          ChangeGameDuration(gameDuration: roundDuration - 5),
+                        );
+                      },
+                      icon: Icon(Icons.remove, color: colors.white),
+                    ),
+                    suffix: IconButton(
+                      onPressed: () {
+                        settingsBloc.add(
+                          ChangeGameDuration(gameDuration: roundDuration + 5),
+                        );
+                      },
+                      icon: Icon(Icons.add, color: colors.white),
+                    ),
+                  ),
+                  height40,
+                  Text(
+                    'Միավոր հաղթելու համար՝',
+                    style: typography.regular24.copyWith(color: colors.white),
+                  ),
+                  height20,
+                  AppButton(
+                    label: '$pointsToWin միավոր',
+                    color: colors.white20,
+                    animateOnPress: false,
+                    icon: IconButton(
+                      onPressed: () {
+                        settingsBloc.add(
+                          ChangePointsToWin(pointsToWin: pointsToWin - 5),
+                        );
+                      },
+                      icon: Icon(Icons.remove, color: colors.white),
+                    ),
+                    suffix: IconButton(
+                      onPressed: () {
+                        settingsBloc.add(
+                          ChangePointsToWin(pointsToWin: pointsToWin + 5),
+                        );
+                      },
+                      icon: Icon(Icons.add, color: colors.white),
+                    ),
+                  ),
+                  if (gameMode == .singleWord) ...[
+                    height40,
+                    AppButton(
+                      label: 'Կարելի է բաց թողել',
+                      animateOnPress: false,
+                      onPressed: () {
+                        settingsBloc.add(
+                          ChangeAllowSkipping(
+                            allowSkipping: !gameSettings.allowSkipping,
+                          ),
+                        );
+                      },
+                      color: colors.white20,
+                      suffix: AppSwitch(
+                        value: gameSettings.allowSkipping,
+                        onChanged: (value) {
+                          settingsBloc.add(
+                            ChangeAllowSkipping(allowSkipping: value),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
           height20,
-          Row(
-            spacing: 10,
-            children: [
-              Expanded(
-                child: AppButton(
-                  label: 'Կլասիկ',
-                  color: colors.white20,
-                  isPressed: gameMode == GameMode.card,
-                  pressedColor: colors.white,
-                  pressedTextColor: colors.secondary,
-                  onPressed: () {
-                    setState(() {
-                      gameMode = GameMode.card;
-                    });
-                  },
-                ),
-              ),
-              Expanded(
-                child: AppButton(
-                  label: 'Մեկ բառ',
-                  color: colors.white20,
-                  isPressed: gameMode == GameMode.singleWord,
-                  pressedColor: colors.white,
-                  pressedTextColor: colors.secondary,
-                  onPressed: () {
-                    setState(() {
-                      gameMode = GameMode.singleWord;
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 40),
-          Text(
-            'Փուլի տևողությունը՝',
-            style: typography.regular24.copyWith(color: colors.white),
-          ),
-          const SizedBox(height: 20),
-          AppButton(
-            label: '$roundDuration վրկ',
-            color: colors.white20,
-            animateOnPress: false,
-            icon: IconButton(
-              onPressed: () {
-                settingsBloc.add(
-                  ChangeGameDuration(gameDuration: roundDuration - 5),
-                );
-              },
-              icon: Icon(Icons.remove, color: colors.white),
-            ),
-            suffix: IconButton(
-              onPressed: () {
-                settingsBloc.add(
-                  ChangeGameDuration(gameDuration: roundDuration + 5),
-                );
-              },
-              icon: Icon(Icons.add, color: colors.white),
-            ),
-          ),
-          const SizedBox(height: 40),
-          Text(
-            'Միավոր հաղթելու համար՝',
-            style: typography.regular24.copyWith(color: colors.white),
-          ),
-          const SizedBox(height: 20),
-          AppButton(
-            label: '$pointsToWin միավոր',
-            color: colors.white20,
-            animateOnPress: false,
-            icon: IconButton(
-              onPressed: () {
-                settingsBloc.add(
-                  ChangePointsToWin(pointsToWin: pointsToWin - 5),
-                );
-              },
-              icon: Icon(Icons.remove, color: colors.white),
-            ),
-            suffix: IconButton(
-              onPressed: () {
-                settingsBloc.add(
-                  ChangePointsToWin(pointsToWin: pointsToWin + 5),
-                );
-              },
-              icon: Icon(Icons.add, color: colors.white),
-            ),
-          ),
-          if (gameMode == .singleWord) ...[
-            const SizedBox(height: 40),
-            AppButton(
-              label: 'Կարելի է բաց թողել',
-              animateOnPress: false,
-              onPressed: () {
-                settingsBloc.add(
-                  ChangeAllowSkipping(
-                    allowSkipping: !gameSettings.allowSkipping,
-                  ),
-                );
-              },
-              color: colors.white20,
-              suffix: AppSwitch(
-                value: gameSettings.allowSkipping,
-                onChanged: (value) {
-                  settingsBloc.add(ChangeAllowSkipping(allowSkipping: value));
-                },
-              ),
-            ),
-          ],
-          const SizedBox(height: 40),
           AppButton(
             label: 'Շարունակել',
             color: colors.green,

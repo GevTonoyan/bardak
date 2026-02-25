@@ -58,54 +58,63 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
       child: Column(
-        crossAxisAlignment: .start,
         children: [
-          height40,
-          Text(
-            'Թիմեր՝',
-            style: typography.regular24.copyWith(color: colors.white),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: .start,
+                children: [
+                  height40,
+                  Text(
+                    'Թիմեր՝',
+                    style: typography.regular24.copyWith(color: colors.white),
+                  ),
+                  height20,
+                  Column(
+                    children: _teamControllers.map((controller) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: AppInputField(
+                                controller: controller,
+                                suffix:
+                                    _teamControllers.length >
+                                        AppConstants.minTeamCount
+                                    ? InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            controller.dispose();
+                                            _teamControllers.remove(controller);
+                                          });
+                                        },
+                                        child: Assets.minus.svg(),
+                                      )
+                                    : null,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  if (_teamControllers.length < AppConstants.maxTeamCount)
+                    AppButton(
+                      label: 'Ավելացնել',
+                      color: colors.white20,
+                      icon: Assets.plus.svg(),
+                      onPressed: () {
+                        setState(() {
+                          _teamControllers.add(TextEditingController());
+                        });
+                      },
+                    ),
+                ],
+              ),
+            ),
           ),
           height20,
-          Column(
-            children: _teamControllers.map((controller) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: AppInputField(
-                        controller: controller,
-                        suffix:
-                            _teamControllers.length > AppConstants.minTeamCount
-                            ? InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    controller.dispose();
-                                    _teamControllers.remove(controller);
-                                  });
-                                },
-                                child: Assets.minus.svg(),
-                              )
-                            : null,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-          if (_teamControllers.length < AppConstants.maxTeamCount)
-            AppButton(
-              label: 'Ավելացնել',
-              color: colors.white20,
-              icon: Assets.plus.svg(),
-              onPressed: () {
-                setState(() {
-                  _teamControllers.add(TextEditingController());
-                });
-              },
-            ),
-          const Spacer(),
           AppButton(
             label: 'Շարունակել',
             color: colors.green,
