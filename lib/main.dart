@@ -15,6 +15,7 @@ import 'package:boardify/firebase_options.dart';
 import 'package:boardify/localizations/common/supported_locales.dart';
 import 'package:boardify/localizations/l10n/app_localizations.dart';
 import 'package:boardify/logging/app_bloc_observer.dart';
+import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:boardify/router/app_router.dart';
 import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
@@ -67,6 +68,9 @@ void main() async {
             updateCoinsUseCase: sl(),
           )..getCoinsState(),
         ),
+        // TODO(GEVORG): make PreGameBloc available only where needed,
+        //  not for the whole tree
+        BlocProvider(create: (_) => PreGameBloc()),
       ],
       child: const MyApp(),
     ),
