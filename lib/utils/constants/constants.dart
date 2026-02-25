@@ -1,13 +1,9 @@
 class AppConstants {
-  static const defaultPackId = 'all';
-
   //settings preferences keys
   static const appThemeKey = 'app_theme_key';
   static const appLocaleKey = 'app_locale_key';
   static const appColorSchemeKey = 'app_color_scheme_key';
   static const soundEnabledKey = 'is_sound_enabled';
-
-  static const aliasCoverImagePath = 'assets/images/alias.png';
 
   // Settings
   static const defaultRoundDuration = 60;
@@ -21,7 +17,6 @@ class AppConstants {
   static const maxWordsPerCard = 8;
   static const minTeamCount = 2;
   static const maxTeamCount = 4;
-  static const teamNameMaxLength = 15;
 
   // Shared preferences keys
   static const roundDurationKey = 'round_duration';
@@ -29,10 +24,6 @@ class AppConstants {
   static const allowSkippingKey = 'allow_skipping';
   static const penaltyForSkippingKey = 'penalty_for_skipping';
   static const wordsPerCardKey = 'words_per_card';
-  static const gameModeKey = 'game_mode';
-  static const teamNamesKey = 'team_names';
-  static const preGameConfigKey = 'pre_game_config';
-
   static const wordsVersionKey = 'words_version';
 
   // Hive DB keys
