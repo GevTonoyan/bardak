@@ -18,6 +18,7 @@ Future<void> showConfirmSheet({
 }) async {
   await showModalBottomSheet<void>(
     context: context,
+    isScrollControlled: true,
     backgroundColor: context.colors.secondary,
     builder: (BuildContext context) {
       final colors = context.colors;
@@ -28,43 +29,45 @@ Future<void> showConfirmSheet({
       return Material(
         color: colors.secondary,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: .min,
-              children: [
-                SizedBox(
-                  height: 40,
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Text(title, style: textStyle),
-                      ),
-                      AppIconButton.back(onTap: () => context.pop()),
-                    ],
+        child: Flexible(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: .min,
+                children: [
+                  SizedBox(
+                    height: 40,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Text(title, style: textStyle),
+                        ),
+                        AppIconButton.back(onTap: () => context.pop()),
+                      ],
+                    ),
                   ),
-                ),
-                height40,
-                Text(description, textAlign: .center, style: textStyle),
-                height40,
-                AppButton(
-                  color: confirmColor,
-                  label: confirmText,
-                  onPressed: () {
-                    context.pop();
-                    onConfirm.call();
-                  },
-                ),
-                height20,
-                AppButton(
-                  color: cancelColor,
-                  label: cancelText,
-                  onPressed: () {
-                    context.pop();
-                  },
-                ),
-              ],
+                  height40,
+                  Text(description, textAlign: .center, style: textStyle),
+                  height40,
+                  AppButton(
+                    color: confirmColor,
+                    label: confirmText,
+                    onPressed: () {
+                      context.pop();
+                      onConfirm.call();
+                    },
+                  ),
+                  height20,
+                  AppButton(
+                    color: cancelColor,
+                    label: cancelText,
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
