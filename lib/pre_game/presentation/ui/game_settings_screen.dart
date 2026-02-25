@@ -27,22 +27,22 @@ class GameSettingsScreen extends Page<void> {
     return buildAppBottomSheetRoute<void>(
       context: context,
       settings: this,
-      child: _PreGameSettingsBody(selectedMode),
+      child: _GameSettingsBody(selectedMode),
       title: context.l10n.settings,
     );
   }
 }
 
-class _PreGameSettingsBody extends StatefulWidget {
-  const _PreGameSettingsBody(this.selectedMode);
+class _GameSettingsBody extends StatefulWidget {
+  const _GameSettingsBody(this.selectedMode);
 
   final GameMode selectedMode;
 
   @override
-  State<_PreGameSettingsBody> createState() => _PreGameSettingsBodyState();
+  State<_GameSettingsBody> createState() => _GameSettingsBodyState();
 }
 
-class _PreGameSettingsBodyState extends State<_PreGameSettingsBody> {
+class _GameSettingsBodyState extends State<_GameSettingsBody> {
   late GameMode gameMode = widget.selectedMode;
 
   @override

@@ -11,7 +11,6 @@ import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart
 import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
 import 'package:boardify/home/presentation/ui/home_screen.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:boardify/pre_game/presentation/ui/game_settings_screen.dart';
 import 'package:boardify/pre_game/presentation/ui/setup_team_names_screen.dart';
 import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
@@ -55,38 +54,29 @@ final appRouter = GoRouter(
           pageBuilder: (context, state) => const RulesScreen(),
         ),
 
-        ShellRoute(
-          parentNavigatorKey: rootNavigatorKey,
-          builder: (context, state, child) {
-            return BlocProvider(create: (_) => PreGameBloc(), child: child);
+        GoRoute(
+          path: GameSettingsScreen.routePath,
+          name: GameSettingsScreen.routePath,
+          pageBuilder: (context, state) {
+            final params = state.uri.queryParameters;
+            final gameModeString = params[GameSettingsScreen.gameModeKey]!;
+            final gameMode = GameMode.values.firstWhere(
+              (mode) => mode.name == gameModeString,
+            );
+            return GameSettingsScreen(selectedMode: gameMode);
           },
           routes: [
             GoRoute(
-              path: GameSettingsScreen.routePath,
-              name: GameSettingsScreen.routePath,
+              path: SetupTeamNamesScreen.routePath,
+              name: SetupTeamNamesScreen.routePath,
               pageBuilder: (context, state) {
-                final params = state.uri.queryParameters;
-                final gameModeString =
-                    params[GameSettingsScreen.gameModeKey]!;
-                final gameMode = GameMode.values.firstWhere(
-                  (mode) => mode.name == gameModeString,
-                );
-                return GameSettingsScreen(selectedMode: gameMode);
+                return const SetupTeamNamesScreen();
               },
               routes: [
                 GoRoute(
-                  path: SetupTeamNamesScreen.routePath,
-                  name: SetupTeamNamesScreen.routePath,
-                  pageBuilder: (context, state) {
-                    return const SetupTeamNamesScreen();
-                  },
-                  routes: [
-                    GoRoute(
-                      path: WordPackScreen.routePath,
-                      name: WordPackScreen.routePath,
-                      builder: (context, state) => const WordPackScreen(),
-                    ),
-                  ],
+                  path: WordPackScreen.routePath,
+                  name: WordPackScreen.routePath,
+                  builder: (context, state) => const WordPackScreen(),
                 ),
               ],
             ),
