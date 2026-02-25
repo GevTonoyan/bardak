@@ -12,7 +12,7 @@ import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
 import 'package:boardify/home/presentation/ui/home_screen.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
-import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart';
+import 'package:boardify/pre_game/presentation/ui/game_settings_screen.dart';
 import 'package:boardify/pre_game/presentation/ui/setup_team_names_screen.dart';
 import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
 import 'package:boardify/rules/presentation/ui/rules_screen.dart';
@@ -62,16 +62,16 @@ final appRouter = GoRouter(
           },
           routes: [
             GoRoute(
-              path: PreGameSettingsScreen.routePath,
-              name: PreGameSettingsScreen.routePath,
+              path: GameSettingsScreen.routePath,
+              name: GameSettingsScreen.routePath,
               pageBuilder: (context, state) {
                 final params = state.uri.queryParameters;
                 final gameModeString =
-                    params[PreGameSettingsScreen.gameModeKey]!;
+                    params[GameSettingsScreen.gameModeKey]!;
                 final gameMode = GameMode.values.firstWhere(
                   (mode) => mode.name == gameModeString,
                 );
-                return PreGameSettingsScreen(selectedMode: gameMode);
+                return GameSettingsScreen(selectedMode: gameMode);
               },
               routes: [
                 GoRoute(

@@ -14,10 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class PreGameSettingsScreen extends Page<void> {
-  const PreGameSettingsScreen({required this.selectedMode, super.key});
+class GameSettingsScreen extends Page<void> {
+  const GameSettingsScreen({required this.selectedMode, super.key});
 
-  static const routePath = 'preGameSettings';
+  static const routePath = 'gameSettings';
   static const gameModeKey = 'gameMode';
 
   final GameMode selectedMode;
