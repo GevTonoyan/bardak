@@ -22,7 +22,7 @@ Route<T> buildAppBottomSheetRoute<T>({
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const .all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
