@@ -7,7 +7,7 @@ import 'package:boardify/app_ui/widgets/coin_balance_widget.dart';
 import 'package:boardify/assets/assets.gen.dart';
 import 'package:boardify/localizations/global_app_localizations.dart';
 import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:boardify/pre_game/presentation/ui/pre_game_settings_screen.dart';
+import 'package:boardify/pre_game/presentation/ui/game_settings_screen.dart';
 import 'package:boardify/rewards/presentation/ui/rewards_screen.dart';
 import 'package:boardify/rules/presentation/ui/rules_screen.dart';
 import 'package:boardify/settings/presentation/ui/settings_screen.dart';
@@ -136,8 +136,8 @@ class HomeScreen extends StatelessWidget {
   void _navigateToGameSettings(BuildContext context, GameMode gameMode) {
     unawaited(
       context.pushNamed(
-        PreGameSettingsScreen.routePath,
-        queryParameters: {PreGameSettingsScreen.gameModeKey: gameMode.name},
+        GameSettingsScreen.routePath,
+        queryParameters: {GameSettingsScreen.gameModeKey: gameMode.name},
       ),
     );
   }
