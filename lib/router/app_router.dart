@@ -20,7 +20,6 @@ import 'package:boardify/settings/presentation/ui/settings_screen.dart';
 import 'package:boardify/shop/presentation/ui/shop_screen.dart';
 import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
-import 'package:boardify/utils/dependency_injection/di.dart';
 import 'package:boardify/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,11 +58,7 @@ final appRouter = GoRouter(
         ShellRoute(
           parentNavigatorKey: rootNavigatorKey,
           builder: (context, state, child) {
-            return BlocProvider(
-              create: (_) =>
-                  PreGameBloc(getWordPacks: sl(), getWordsByPack: sl()),
-              child: child,
-            );
+            return BlocProvider(create: (_) => PreGameBloc(), child: child);
           },
           routes: [
             GoRoute(
@@ -210,13 +205,3 @@ final appRouter = GoRouter(
     ),
   ],
 );
-
-class RouteNames {
-  static const initial = '/';
-  static const info = 'info';
-  static const wordPacks = 'word_packs';
-
-  static const countdown = 'countdown';
-  static const gameplay = 'gameplay';
-  static const gameSummary = 'game_summary';
-}
