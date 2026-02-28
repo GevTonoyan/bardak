@@ -1,5 +1,5 @@
-import 'package:boardify/game_session/domain/entities/round_result.dart';
-import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:alias_pro/game_session/domain/entities/round_result.dart';
+import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

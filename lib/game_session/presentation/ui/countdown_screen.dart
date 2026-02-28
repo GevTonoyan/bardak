@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:boardify/app_ui/widgets/screen_background.dart';
-import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
-import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
+import 'package:alias_pro/app_ui/widgets/screen_background.dart';
+import 'package:alias_pro/card_round/presentation/ui/card_round_screen.dart';
+import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:alias_pro/single_word_round/presentation/ui/single_word_round_screen.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

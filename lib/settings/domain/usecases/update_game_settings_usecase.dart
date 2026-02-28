@@ -1,4 +1,4 @@
-import 'package:boardify/settings/domain/repositories/settings_repository.dart';
+import 'package:alias_pro/settings/domain/repositories/settings_repository.dart';
 
 /// Use case for updating alias setting
 class UpdateGameSettingSUseCase {

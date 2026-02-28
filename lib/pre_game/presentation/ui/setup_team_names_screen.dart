@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:boardify/app_ui/widgets/app_button.dart';
-import 'package:boardify/app_ui/widgets/app_input_field.dart';
-import 'package:boardify/app_ui/widgets/app_spacings.dart';
-import 'package:boardify/app_ui/widgets/bottom_sheet.dart';
-import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/pre_game/presentation/bloc/pre_game_bloc.dart';
-import 'package:boardify/utils/constants/constants.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
-import 'package:boardify/word_pack/presentation/ui/word_packs_screen.dart';
+import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_input_field.dart';
+import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
+import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
+import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:alias_pro/utils/constants/constants.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
+import 'package:alias_pro/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

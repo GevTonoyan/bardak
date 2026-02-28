@@ -1,11 +1,11 @@
 import 'dart:math' as math;
 import 'dart:math';
 
-import 'package:boardify/app_ui/widgets/app_button.dart';
-import 'package:boardify/app_ui/widgets/app_icon_button.dart';
-import 'package:boardify/app_ui/widgets/highlighted_text.dart';
-import 'package:boardify/app_ui/widgets/screen_background.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
+import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
+import 'package:alias_pro/app_ui/widgets/screen_background.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

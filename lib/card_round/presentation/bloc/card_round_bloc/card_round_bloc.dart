@@ -1,4 +1,4 @@
-import 'package:boardify/game_session/domain/entities/round_result.dart';
+import 'package:alias_pro/game_session/domain/entities/round_result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'card_round_event.dart';

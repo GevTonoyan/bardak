@@ -1,12 +1,12 @@
-import 'package:boardify/rewards/inject_rewards_scope.dart';
-import 'package:boardify/settings/data/data_sources/settings_local_data_source.dart';
-import 'package:boardify/settings/data/repositories/settings_repository_impl.dart';
-import 'package:boardify/settings/domain/repositories/settings_repository.dart';
-import 'package:boardify/settings/domain/usecases/get_app_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/get_game_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/update_app_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:boardify/word_pack/word_packs_scope.dart';
+import 'package:alias_pro/rewards/inject_rewards_scope.dart';
+import 'package:alias_pro/settings/data/data_sources/settings_local_data_source.dart';
+import 'package:alias_pro/settings/data/repositories/settings_repository_impl.dart';
+import 'package:alias_pro/settings/domain/repositories/settings_repository.dart';
+import 'package:alias_pro/settings/domain/usecases/get_app_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/get_game_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/update_app_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:alias_pro/word_pack/word_packs_scope.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

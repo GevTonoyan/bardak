@@ -1,4 +1,4 @@
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class HighlightedText extends StatelessWidget {

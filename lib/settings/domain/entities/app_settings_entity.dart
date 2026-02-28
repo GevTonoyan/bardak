@@ -1,5 +1,5 @@
-import 'package:boardify/app_ui/theme/app_color_scheme.dart';
-import 'package:boardify/localizations/common/supported_locales.dart';
+import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
+import 'package:alias_pro/localizations/common/supported_locales.dart';
 import 'package:equatable/equatable.dart';
 
 class AppSettingsEntity extends Equatable {

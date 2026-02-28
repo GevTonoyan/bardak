@@ -1,4 +1,4 @@
-import 'package:boardify/utils/extensions/state_extension.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
 class AppIconTextButton extends StatefulWidget {

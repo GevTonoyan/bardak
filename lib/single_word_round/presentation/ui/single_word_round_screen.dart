@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:boardify/app_ui/widgets/app_button.dart';
-import 'package:boardify/app_ui/widgets/flip_card.dart';
-import 'package:boardify/app_ui/widgets/round_header.dart';
-import 'package:boardify/app_ui/widgets/screen_background.dart';
-import 'package:boardify/app_ui/widgets/show_points_badge.dart';
-import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
-import 'package:boardify/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
-import 'package:boardify/single_word_round/presentation/ui/single_word_card.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
+import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/flip_card.dart';
+import 'package:alias_pro/app_ui/widgets/round_header.dart';
+import 'package:alias_pro/app_ui/widgets/screen_background.dart';
+import 'package:alias_pro/app_ui/widgets/show_points_badge.dart';
+import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:alias_pro/game_session/presentation/ui/round_overview_screen.dart';
+import 'package:alias_pro/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
+import 'package:alias_pro/single_word_round/presentation/ui/single_word_card.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

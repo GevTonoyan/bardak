@@ -1,4 +1,4 @@
-import 'package:boardify/word_pack/domain/repositories/word_packs_repository.dart';
+import 'package:alias_pro/word_pack/domain/repositories/word_packs_repository.dart';
 
 class GetWordsVersionUseCase {
   const GetWordsVersionUseCase(this._repository);

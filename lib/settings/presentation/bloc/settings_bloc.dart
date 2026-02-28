@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'package:boardify/settings/domain/entities/app_settings_entity.dart';
-import 'package:boardify/settings/domain/entities/game_settings_entity.dart';
-import 'package:boardify/settings/domain/usecases/get_app_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/get_game_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/update_app_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:boardify/settings/presentation/bloc/settings_event.dart';
-import 'package:boardify/settings/presentation/bloc/settings_state.dart';
-import 'package:boardify/utils/constants/constants.dart';
+import 'package:alias_pro/settings/domain/entities/app_settings_entity.dart';
+import 'package:alias_pro/settings/domain/entities/game_settings_entity.dart';
+import 'package:alias_pro/settings/domain/usecases/get_app_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/get_game_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/update_app_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_event.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_state.dart';
+import 'package:alias_pro/utils/constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {

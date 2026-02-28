@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:boardify/app_ui/widgets/app_icon_button.dart';
-import 'package:boardify/app_ui/widgets/round_timer.dart';
-import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
+import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/round_timer.dart';
+import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
 class RoundHeader extends StatefulWidget {
