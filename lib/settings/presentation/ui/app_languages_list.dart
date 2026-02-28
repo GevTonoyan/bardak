@@ -1,10 +1,10 @@
-import 'package:boardify/app_ui/widgets/app_button.dart';
-import 'package:boardify/app_ui/widgets/language_icon.dart';
-import 'package:boardify/localizations/common/supported_locales.dart';
-import 'package:boardify/localizations/l10n/app_localizations.dart';
-import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
-import 'package:boardify/settings/presentation/bloc/settings_event.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/language_icon.dart';
+import 'package:alias_pro/localizations/common/supported_locales.dart';
+import 'package:alias_pro/localizations/l10n/app_localizations.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_bloc.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_event.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

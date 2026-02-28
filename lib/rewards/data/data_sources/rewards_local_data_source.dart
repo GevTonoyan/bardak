@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:boardify/rewards/domain/entities/coin_balance_entity.dart';
+import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for accessing and storing coin balance information.

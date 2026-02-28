@@ -1,5 +1,5 @@
-import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 enum AppLocales {

@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:boardify/app_ui/widgets/app_button.dart';
-import 'package:boardify/app_ui/widgets/app_icon_button.dart';
-import 'package:boardify/app_ui/widgets/app_spacings.dart';
-import 'package:boardify/app_ui/widgets/highlighted_text.dart';
-import 'package:boardify/app_ui/widgets/screen_background.dart';
-import 'package:boardify/app_ui/widgets/show_confirm_sheet.dart';
-import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:boardify/game_session/presentation/ui/countdown_screen.dart';
-import 'package:boardify/game_session/presentation/ui/round_review_screen.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
+import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
+import 'package:alias_pro/app_ui/widgets/screen_background.dart';
+import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
+import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:alias_pro/game_session/presentation/ui/countdown_screen.dart';
+import 'package:alias_pro/game_session/presentation/ui/round_review_screen.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

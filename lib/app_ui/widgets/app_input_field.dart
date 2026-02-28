@@ -1,4 +1,4 @@
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
@@ -73,8 +73,8 @@ class AppInputField extends StatelessWidget {
                       color: colors.white,
                     ),
                     autocorrect: false,
-                    cursorColor: colors.secondary,
-                    cursorWidth: 4,
+                    cursorColor: colors.white,
+                    cursorWidth: 3,
                     maxLength: 16,
                     decoration: const InputDecoration(
                       counterText: '',

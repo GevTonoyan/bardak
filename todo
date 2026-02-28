@@ -8,6 +8,7 @@ BUGS
 
 FEATURES
 1. Make bloc names generic , also state and event names similar to each other
+2. team names - add auto focus for new input fields and focus intiial for team1
 
 
 Improvements

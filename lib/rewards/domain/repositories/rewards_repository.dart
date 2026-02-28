@@ -1,4 +1,4 @@
-import 'package:boardify/rewards/domain/entities/coin_balance_entity.dart';
+import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
 
 /// Repository interface for managing coin balance and daily rewards.
 abstract interface class RewardsRepository {

@@ -1,6 +1,6 @@
-import 'package:boardify/card_round/presentation/ui/widgets/multiple_words_card.dart';
-import 'package:boardify/game_session/domain/entities/round_result.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/card_round/presentation/ui/widgets/multiple_words_card.dart';
+import 'package:alias_pro/game_session/domain/entities/round_result.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class CardReviewWidget extends StatefulWidget {

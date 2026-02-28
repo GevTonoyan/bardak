@@ -1,5 +1,5 @@
-import 'package:boardify/rewards/domain/entities/coin_balance_entity.dart';
-import 'package:boardify/rewards/domain/repositories/rewards_repository.dart';
+import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
+import 'package:alias_pro/rewards/domain/repositories/rewards_repository.dart';
 
 /// Use case for persisting an updated coin balance entity.
 class UpdateCoinsUseCase {

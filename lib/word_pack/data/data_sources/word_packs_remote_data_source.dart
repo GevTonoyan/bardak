@@ -1,5 +1,5 @@
-import 'package:boardify/word_pack/domain/entities/word_pack_info_entity.dart';
-import 'package:boardify/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
+import 'package:alias_pro/word_pack/domain/entities/word_pack_info_entity.dart';
+import 'package:alias_pro/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Handles fetching data from Firebase Firestore.

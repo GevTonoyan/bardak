@@ -1,6 +1,6 @@
-import 'package:boardify/app_ui/widgets/app_icon_button.dart';
-import 'package:boardify/assets/assets.gen.dart';
-import 'package:boardify/localizations/common/supported_locales.dart';
+import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/localizations/common/supported_locales.dart';
 import 'package:flutter/material.dart';
 
 class LanguageIcon extends StatelessWidget {

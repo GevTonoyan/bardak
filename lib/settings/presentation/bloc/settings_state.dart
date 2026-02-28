@@ -1,5 +1,5 @@
-import 'package:boardify/settings/domain/entities/app_settings_entity.dart';
-import 'package:boardify/settings/domain/entities/game_settings_entity.dart';
+import 'package:alias_pro/settings/domain/entities/app_settings_entity.dart';
+import 'package:alias_pro/settings/domain/entities/game_settings_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class SettingsState extends Equatable {

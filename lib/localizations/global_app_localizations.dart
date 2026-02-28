@@ -1,5 +1,5 @@
-import 'package:boardify/localizations/l10n/app_localizations.dart';
-import 'package:boardify/localizations/l10n/app_localizations_en.dart';
+import 'package:alias_pro/localizations/l10n/app_localizations.dart';
+import 'package:alias_pro/localizations/l10n/app_localizations_en.dart';
 import 'package:flutter/widgets.dart';
 
 enum Locales {

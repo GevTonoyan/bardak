@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:boardify/app_ui/widgets/app_button.dart';
-import 'package:boardify/app_ui/widgets/app_icon_button.dart';
-import 'package:boardify/app_ui/widgets/app_spacings.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

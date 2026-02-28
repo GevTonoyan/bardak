@@ -1,10 +1,10 @@
-import 'package:boardify/app_ui/widgets/flip_card.dart';
-import 'package:boardify/app_ui/widgets/round_header.dart';
-import 'package:boardify/app_ui/widgets/screen_background.dart';
-import 'package:boardify/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
-import 'package:boardify/card_round/presentation/ui/widgets/multiple_words_card.dart';
-import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:boardify/game_session/presentation/ui/round_overview_screen.dart';
+import 'package:alias_pro/app_ui/widgets/flip_card.dart';
+import 'package:alias_pro/app_ui/widgets/round_header.dart';
+import 'package:alias_pro/app_ui/widgets/screen_background.dart';
+import 'package:alias_pro/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
+import 'package:alias_pro/card_round/presentation/ui/widgets/multiple_words_card.dart';
+import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:alias_pro/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

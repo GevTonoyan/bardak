@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:boardify/localizations/common/supported_locales.dart';
-import 'package:boardify/utils/remote_config/remote_config.dart';
-import 'package:boardify/word_pack/domain/entities/word_pack_info_entity.dart';
-import 'package:boardify/word_pack/domain/usecases/are_packs_cached_usecase.dart';
-import 'package:boardify/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
-import 'package:boardify/word_pack/domain/usecases/get_word_packs_usecase.dart';
-import 'package:boardify/word_pack/domain/usecases/get_words_version_usecase.dart';
+import 'package:alias_pro/localizations/common/supported_locales.dart';
+import 'package:alias_pro/utils/remote_config/remote_config.dart';
+import 'package:alias_pro/word_pack/domain/entities/word_pack_info_entity.dart';
+import 'package:alias_pro/word_pack/domain/usecases/are_packs_cached_usecase.dart';
+import 'package:alias_pro/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
+import 'package:alias_pro/word_pack/domain/usecases/get_word_packs_usecase.dart';
+import 'package:alias_pro/word_pack/domain/usecases/get_words_version_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';

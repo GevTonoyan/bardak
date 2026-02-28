@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:boardify/rewards/presentation/bloc/rewards_cubit.dart';
-import 'package:boardify/rewards/presentation/ui/reward_item.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
+import 'package:alias_pro/rewards/presentation/ui/reward_item.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
