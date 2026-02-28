@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 
-import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';

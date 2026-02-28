@@ -1,4 +1,4 @@
-import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/language_icon.dart';
 import 'package:alias_pro/localizations/common/supported_locales.dart';
 import 'package:alias_pro/localizations/l10n/app_localizations.dart';

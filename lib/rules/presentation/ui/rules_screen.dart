@@ -1,4 +1,4 @@
-import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
 import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';

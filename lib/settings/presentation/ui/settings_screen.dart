@@ -1,4 +1,4 @@
-import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_switch.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
