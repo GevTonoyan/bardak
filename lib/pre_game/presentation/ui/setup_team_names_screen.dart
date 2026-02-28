@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_icon.dart';
 import 'package:alias_pro/app_ui/widgets/app_input_field.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
@@ -73,28 +74,28 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                   Column(
                     children: _teamControllers.map((controller) {
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: AppInputField(
-                                controller: controller,
-                                suffix:
-                                    _teamControllers.length >
-                                        AppConstants.minTeamCount
-                                    ? InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            controller.dispose();
-                                            _teamControllers.remove(controller);
-                                          });
-                                        },
-                                        child: Assets.minus.svg(),
-                                      )
-                                    : null,
-                              ),
-                            ),
-                          ],
+                        padding: const .only(bottom: 20),
+                        child: AppInputField(
+                          controller: controller,
+                          suffix:
+                              _teamControllers.length >
+                                  AppConstants.minTeamCount
+                              ? AppIcon(
+                                  icon: Container(
+                                    height: 4,
+                                    width: 20,
+                                    color: colors.white,
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      controller.dispose();
+                                      _teamControllers.remove(
+                                        controller,
+                                      );
+                                    });
+                                  },
+                                )
+                              : null,
                         ),
                       );
                     }).toList(),
@@ -103,7 +104,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                     AppButton(
                       label: 'Ավելացնել',
                       color: colors.white20,
-                      icon: Assets.plus.svg(),
+                      icon: Assets.icons.add.svg(),
                       onPressed: () {
                         setState(() {
                           _teamControllers.add(TextEditingController());

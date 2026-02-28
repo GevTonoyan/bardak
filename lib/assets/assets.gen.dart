@@ -17,8 +17,17 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/add.svg
+  SvgGenImage get add => const SvgGenImage('assets/icons/add.svg');
+
   /// Directory path: assets/icons/flags
   $AssetsIconsFlagsGen get flags => const $AssetsIconsFlagsGen();
+
+  /// File path: assets/icons/minus.svg
+  SvgGenImage get minus => const SvgGenImage('assets/icons/minus.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [add, minus];
 }
 
 class $AssetsImagesGen {
@@ -72,11 +81,9 @@ class Assets {
   static const SvgGenImage info = SvgGenImage('assets/info.svg');
   static const SvgGenImage lock = SvgGenImage('assets/lock.svg');
   static const SvgGenImage logoAm = SvgGenImage('assets/logo_am.svg');
-  static const SvgGenImage minus = SvgGenImage('assets/minus.svg');
   static const $AssetsPackImagesGen packImages = $AssetsPackImagesGen();
   static const SvgGenImage pause = SvgGenImage('assets/pause.svg');
   static const SvgGenImage play = SvgGenImage('assets/play.svg');
-  static const SvgGenImage plus = SvgGenImage('assets/plus.svg');
   static const SvgGenImage question = SvgGenImage('assets/question.svg');
   static const SvgGenImage rewardClosed = SvgGenImage(
     'assets/reward_closed.svg',
@@ -101,10 +108,8 @@ class Assets {
     info,
     lock,
     logoAm,
-    minus,
     pause,
     play,
-    plus,
     question,
     rewardClosed,
     rewardOpened,

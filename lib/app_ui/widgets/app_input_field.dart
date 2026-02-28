@@ -38,7 +38,7 @@ class AppInputField extends StatelessWidget {
           ),
           Container(
             height: 50,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const .only(left: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: colors.white20,
@@ -64,7 +64,7 @@ class AppInputField extends StatelessWidget {
               ],
             ),
             child: Row(
-              spacing: 10,
+              spacing: 14,
               children: [
                 Expanded(
                   child: TextFormField(
