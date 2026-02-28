@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_stepper_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_switch_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
-import 'package:alias_pro/app_ui/widgets/app_switch.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
 import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:alias_pro/pre_game/presentation/bloc/pre_game_bloc.dart';
@@ -61,8 +62,8 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
         roundDuration > AppConstants.minRoundDuration;
     final canIncreaseRoundDuration =
         roundDuration < AppConstants.maxRoundDuration;
-    final canDecreasePointsToWin = pointsToWin > AppConstants.minPointsToWin;
-    final canIncreasePointsToWin = pointsToWin < AppConstants.maxPointsToWin;
+    final canDecrementPointsToWin = pointsToWin > AppConstants.minPointsToWin;
+    final canIncrementPointsToWin = pointsToWin < AppConstants.maxPointsToWin;
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
@@ -118,44 +119,26 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                     style: typography.regular24.copyWith(color: colors.white),
                   ),
                   height20,
-                  AppButton(
+                  AppStepperButton(
                     label: '$roundDuration վրկ',
-                    color: colors.white20,
-                    animateOnPress: false,
-                    icon: IconButton(
-                      onPressed: canDecreaseRoundDuration
-                          ? () {
-                              settingsBloc.add(
-                                ChangeGameDuration(
-                                  gameDuration: roundDuration - 5,
-                                ),
-                              );
-                            }
-                          : null,
-                      icon: Icon(
-                        Icons.remove,
-                        color: canDecreaseRoundDuration
-                            ? colors.white
-                            : colors.white30,
-                      ),
-                    ),
-                    suffix: IconButton(
-                      onPressed: canIncreaseRoundDuration
-                          ? () {
-                              settingsBloc.add(
-                                ChangeGameDuration(
-                                  gameDuration: roundDuration + 5,
-                                ),
-                              );
-                            }
-                          : null,
-                      icon: Icon(
-                        Icons.add,
-                        color: canIncreaseRoundDuration
-                            ? colors.white
-                            : colors.white30,
-                      ),
-                    ),
+                    onDecrement: canDecreaseRoundDuration
+                        ? () {
+                            settingsBloc.add(
+                              ChangeGameDuration(
+                                gameDuration: roundDuration - 5,
+                              ),
+                            );
+                          }
+                        : null,
+                    onIncrement: canIncreaseRoundDuration
+                        ? () {
+                            settingsBloc.add(
+                              ChangeGameDuration(
+                                gameDuration: roundDuration + 5,
+                              ),
+                            );
+                          }
+                        : null,
                   ),
                   height40,
                   Text(
@@ -163,46 +146,28 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                     style: typography.regular24.copyWith(color: colors.white),
                   ),
                   height20,
-                  AppButton(
+                  AppStepperButton(
                     label: '$pointsToWin միավոր',
-                    color: colors.white20,
-                    animateOnPress: false,
-                    icon: IconButton(
-                      onPressed: canDecreasePointsToWin
-                          ? () {
-                              settingsBloc.add(
-                                ChangePointsToWin(pointsToWin: pointsToWin - 5),
-                              );
-                            }
-                          : null,
-                      icon: Icon(
-                        Icons.remove,
-                        color: canDecreasePointsToWin
-                            ? colors.white
-                            : colors.white30,
-                      ),
-                    ),
-                    suffix: IconButton(
-                      onPressed: canIncreasePointsToWin
-                          ? () {
-                              settingsBloc.add(
-                                ChangePointsToWin(pointsToWin: pointsToWin + 5),
-                              );
-                            }
-                          : null,
-                      icon: Icon(
-                        Icons.add,
-                        color: canIncreasePointsToWin
-                            ? colors.white
-                            : colors.white30,
-                      ),
-                    ),
+                    onDecrement: canDecrementPointsToWin
+                        ? () {
+                            settingsBloc.add(
+                              ChangePointsToWin(pointsToWin: pointsToWin - 5),
+                            );
+                          }
+                        : null,
+                    onIncrement: canIncrementPointsToWin
+                        ? () {
+                            settingsBloc.add(
+                              ChangePointsToWin(pointsToWin: pointsToWin + 5),
+                            );
+                          }
+                        : null,
                   ),
                   if (gameMode == .singleWord) ...[
                     height40,
-                    AppButton(
+                    AppSwitchButton(
                       label: 'Կարելի է բաց թողել',
-                      animateOnPress: false,
+                      value: gameSettings.allowSkipping,
                       onPressed: () {
                         settingsBloc.add(
                           ChangeAllowSkipping(
@@ -210,15 +175,11 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                           ),
                         );
                       },
-                      color: colors.white20,
-                      suffix: AppSwitch(
-                        value: gameSettings.allowSkipping,
-                        onChanged: (value) {
-                          settingsBloc.add(
-                            ChangeAllowSkipping(allowSkipping: value),
-                          );
-                        },
-                      ),
+                      onChanged: (value) {
+                        settingsBloc.add(
+                          ChangeAllowSkipping(allowSkipping: value),
+                        );
+                      },
                     ),
                   ],
                 ],

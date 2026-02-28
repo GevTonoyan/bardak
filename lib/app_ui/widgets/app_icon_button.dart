@@ -7,8 +7,8 @@ const _iconSize = 18.0;
 
 class AppIconButton extends StatefulWidget {
   const AppIconButton({
-    required this.onTap,
     required this.child,
+    this.onTap,
     this.isPressed = false,
     super.key,
   });
@@ -62,7 +62,7 @@ class AppIconButton extends StatefulWidget {
   }
 
   final Widget child;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool isPressed;
 
   @override

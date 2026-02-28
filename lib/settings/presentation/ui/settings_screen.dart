@@ -1,5 +1,5 @@
-import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
-import 'package:alias_pro/app_ui/widgets/app_switch.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_switch_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_bloc.dart';
@@ -43,23 +43,19 @@ class SettingsScreenBody extends StatelessWidget {
         const SizedBox(height: 30),
         const AppLanguagesList(),
         const SizedBox(height: 40),
-        AppButton(
-          label: 'Երաժշտություն',
+        AppSwitchButton(
+          label: 'Ձայներ',
+          value: appSettings.soundEnabled,
           icon: Assets.volume.svg(width: 24, height: 24),
-          animateOnPress: false,
           onPressed: () {
             final enabled = appSettings.soundEnabled;
             settingsBloc.add(ChangeSoundEffects(soundEffects: !enabled));
           },
-          color: colors.white20,
-          suffix: AppSwitch(
-            value: appSettings.soundEnabled,
-            onChanged: (value) {
-              settingsBloc.add(ChangeSoundEffects(soundEffects: value));
-            },
-          ),
+          onChanged: (value) {
+            settingsBloc.add(ChangeSoundEffects(soundEffects: value));
+          },
         ),
-        const SizedBox(height: 40),
+        height40,
         Text(
           'Խաղի մասին',
           style: typography.regular24.copyWith(color: colors.white),
