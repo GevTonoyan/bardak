@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/app_switch.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
@@ -136,7 +136,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                         Icons.remove,
                         color: canDecreaseRoundDuration
                             ? colors.white
-                            : colors.white20,
+                            : colors.white30,
                       ),
                     ),
                     suffix: IconButton(
@@ -153,7 +153,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                         Icons.add,
                         color: canIncreaseRoundDuration
                             ? colors.white
-                            : colors.white20,
+                            : colors.white30,
                       ),
                     ),
                   ),
@@ -179,7 +179,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                         Icons.remove,
                         color: canDecreasePointsToWin
                             ? colors.white
-                            : colors.white20,
+                            : colors.white30,
                       ),
                     ),
                     suffix: IconButton(
@@ -194,7 +194,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                         Icons.add,
                         color: canIncreasePointsToWin
                             ? colors.white
-                            : colors.white20,
+                            : colors.white30,
                       ),
                     ),
                   ),

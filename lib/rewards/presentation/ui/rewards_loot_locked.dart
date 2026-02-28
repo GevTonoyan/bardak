@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:alias_pro/shop/presentation/ui/shop_screen.dart';

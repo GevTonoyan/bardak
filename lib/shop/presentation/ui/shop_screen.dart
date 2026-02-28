@@ -8,7 +8,7 @@ import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_purple_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_red_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_yellow_colors.dart';
-import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';

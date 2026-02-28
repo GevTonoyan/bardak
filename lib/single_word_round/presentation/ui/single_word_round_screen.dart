@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:alias_pro/app_ui/widgets/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/flip_card.dart';
 import 'package:alias_pro/app_ui/widgets/round_header.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
