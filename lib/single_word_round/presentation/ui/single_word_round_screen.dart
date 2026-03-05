@@ -79,7 +79,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
       child: PopScope(
         canPop: false,
         child: ScreenBackground(
-          shadowHeight: 200,
+          shadowHeight: MediaQuery.of(context).size.height * 0.3,
           child: SafeArea(
             child: Column(
               children: [

@@ -30,16 +30,6 @@ class $AssetsIconsGen {
   List<SvgGenImage> get values => [add, minus];
 }
 
-class $AssetsImagesGen {
-  const $AssetsImagesGen();
-
-  /// File path: assets/images/alias.png
-  AssetGenImage get alias => const AssetGenImage('assets/images/alias.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [alias];
-}
-
 class $AssetsPackImagesGen {
   const $AssetsPackImagesGen();
 
@@ -77,7 +67,6 @@ class Assets {
   static const SvgGenImage coin = SvgGenImage('assets/coin.svg');
   static const SvgGenImage download = SvgGenImage('assets/download.svg');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
-  static const $AssetsImagesGen images = $AssetsImagesGen();
   static const SvgGenImage info = SvgGenImage('assets/info.svg');
   static const SvgGenImage lock = SvgGenImage('assets/lock.svg');
   static const SvgGenImage logoAm = SvgGenImage('assets/logo_am.svg');
@@ -90,9 +79,6 @@ class Assets {
   );
   static const SvgGenImage rewardOpened = SvgGenImage(
     'assets/reward_opened.svg',
-  );
-  static const SvgGenImage shadowEffect = SvgGenImage(
-    'assets/shadow_effect.svg',
   );
   static const SvgGenImage shiner = SvgGenImage('assets/shiner.svg');
   static const SvgGenImage volume = SvgGenImage('assets/volume.svg');
@@ -113,7 +99,6 @@ class Assets {
     question,
     rewardClosed,
     rewardOpened,
-    shadowEffect,
     shiner,
     volume,
   ];
