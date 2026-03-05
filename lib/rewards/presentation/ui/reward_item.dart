@@ -149,9 +149,9 @@ class _FrontCardState extends State<_FrontCard>
         children: [
           RotationTransition(
             turns: _controller,
-            child: Assets.shiner.svg(),
+            child: Assets.icons.shiner.svg(),
           ),
-          Center(child: Assets.question.svg(width: 16, height: 42)),
+          Center(child: Assets.icons.question.svg(width: 16, height: 42)),
         ],
       ),
     );
@@ -169,7 +169,7 @@ class _BackCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Assets.rewardOpened.svg(),
+      child: Assets.icons.rewardOpened.svg(),
     );
   }
 }

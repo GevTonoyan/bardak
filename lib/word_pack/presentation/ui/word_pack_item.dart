@@ -62,7 +62,7 @@ class WordPackItem extends StatelessWidget {
                 if (shouldDownload)
                   GestureDetector(
                     onTap: () => onDownload?.call(),
-                    child: Assets.download.svg(height: 32, width: 32),
+                    child: Assets.icons.download.svg(height: 32, width: 32),
                   ),
                 Text(
                   name,

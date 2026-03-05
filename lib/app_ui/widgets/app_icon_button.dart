@@ -17,7 +17,7 @@ class AppIconButton extends StatefulWidget {
     return AppIconButton(
       key: key,
       onTap: onTap,
-      child: Assets.back.svg(width: 18, height: 18),
+      child: Assets.icons.back.svg(width: 18, height: 18),
     );
   }
 
@@ -33,7 +33,7 @@ class AppIconButton extends StatefulWidget {
     return AppIconButton(
       key: key,
       onTap: onTap,
-      child: Assets.close.svg(width: 18, height: 18),
+      child: Assets.icons.close.svg(width: 18, height: 18),
     );
   }
 
@@ -41,7 +41,7 @@ class AppIconButton extends StatefulWidget {
     return AppIconButton(
       key: key,
       onTap: onTap,
-      child: Assets.info.svg(width: 15, height: 20),
+      child: Assets.icons.info.svg(width: 15, height: 20),
     );
   }
 
@@ -49,7 +49,7 @@ class AppIconButton extends StatefulWidget {
     return AppIconButton(
       key: key,
       onTap: onTap,
-      child: Assets.pause.svg(width: 18, height: 18),
+      child: Assets.icons.pause.svg(width: 18, height: 18),
     );
   }
 
@@ -57,7 +57,7 @@ class AppIconButton extends StatefulWidget {
     return AppIconButton(
       key: key,
       onTap: onTap,
-      child: Assets.play.svg(width: 18, height: 18),
+      child: Assets.icons.play.svg(width: 18, height: 18),
     );
   }
 

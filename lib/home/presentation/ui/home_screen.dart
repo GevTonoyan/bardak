@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     height: 165,
                     width: 279,
-                    child: Assets.logoAm.svg(),
+                    child: Assets.icons.logoAm.svg(),
                   ),
                   height20,
                 ],

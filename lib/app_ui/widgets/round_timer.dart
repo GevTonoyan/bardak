@@ -25,7 +25,7 @@ class RoundTimer extends StatelessWidget {
               fontFamily: 'Digitalt',
             ),
           ),
-          Assets.clock.svg(width: 18, height: 18),
+          Assets.icons.clock.svg(width: 18, height: 18),
         ],
       ),
     );

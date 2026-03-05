@@ -46,7 +46,7 @@ class SettingsScreenBody extends StatelessWidget {
         AppSwitchButton(
           label: 'Ձայներ',
           value: appSettings.soundEnabled,
-          icon: Assets.volume.svg(width: 24, height: 24),
+          icon: Assets.icons.volume.svg(width: 24, height: 24),
           onPressed: () {
             final enabled = appSettings.soundEnabled;
             settingsBloc.add(ChangeSoundEffects(soundEffects: !enabled));

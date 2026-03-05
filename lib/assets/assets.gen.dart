@@ -20,14 +20,83 @@ class $AssetsIconsGen {
   /// File path: assets/icons/add.svg
   SvgGenImage get add => const SvgGenImage('assets/icons/add.svg');
 
+  /// File path: assets/icons/back.svg
+  SvgGenImage get back => const SvgGenImage('assets/icons/back.svg');
+
+  /// File path: assets/icons/check.svg
+  SvgGenImage get check => const SvgGenImage('assets/icons/check.svg');
+
+  /// File path: assets/icons/clock.svg
+  SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
+
+  /// File path: assets/icons/close.svg
+  SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
+
+  /// File path: assets/icons/coin.svg
+  SvgGenImage get coin => const SvgGenImage('assets/icons/coin.svg');
+
+  /// File path: assets/icons/download.svg
+  SvgGenImage get download => const SvgGenImage('assets/icons/download.svg');
+
   /// Directory path: assets/icons/flags
   $AssetsIconsFlagsGen get flags => const $AssetsIconsFlagsGen();
+
+  /// File path: assets/icons/info.svg
+  SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
+
+  /// File path: assets/icons/lock.svg
+  SvgGenImage get lock => const SvgGenImage('assets/icons/lock.svg');
+
+  /// File path: assets/icons/logo_am.svg
+  SvgGenImage get logoAm => const SvgGenImage('assets/icons/logo_am.svg');
 
   /// File path: assets/icons/minus.svg
   SvgGenImage get minus => const SvgGenImage('assets/icons/minus.svg');
 
+  /// File path: assets/icons/pause.svg
+  SvgGenImage get pause => const SvgGenImage('assets/icons/pause.svg');
+
+  /// File path: assets/icons/play.svg
+  SvgGenImage get play => const SvgGenImage('assets/icons/play.svg');
+
+  /// File path: assets/icons/question.svg
+  SvgGenImage get question => const SvgGenImage('assets/icons/question.svg');
+
+  /// File path: assets/icons/reward_closed.svg
+  SvgGenImage get rewardClosed =>
+      const SvgGenImage('assets/icons/reward_closed.svg');
+
+  /// File path: assets/icons/reward_opened.svg
+  SvgGenImage get rewardOpened =>
+      const SvgGenImage('assets/icons/reward_opened.svg');
+
+  /// File path: assets/icons/shiner.svg
+  SvgGenImage get shiner => const SvgGenImage('assets/icons/shiner.svg');
+
+  /// File path: assets/icons/volume.svg
+  SvgGenImage get volume => const SvgGenImage('assets/icons/volume.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [add, minus];
+  List<SvgGenImage> get values => [
+    add,
+    back,
+    check,
+    clock,
+    close,
+    coin,
+    download,
+    info,
+    lock,
+    logoAm,
+    minus,
+    pause,
+    play,
+    question,
+    rewardClosed,
+    rewardOpened,
+    shiner,
+    volume,
+  ];
 }
 
 class $AssetsPackImagesGen {
@@ -60,48 +129,8 @@ class $AssetsIconsFlagsGen {
 class Assets {
   const Assets._();
 
-  static const SvgGenImage back = SvgGenImage('assets/back.svg');
-  static const SvgGenImage check = SvgGenImage('assets/check.svg');
-  static const SvgGenImage clock = SvgGenImage('assets/clock.svg');
-  static const SvgGenImage close = SvgGenImage('assets/close.svg');
-  static const SvgGenImage coin = SvgGenImage('assets/coin.svg');
-  static const SvgGenImage download = SvgGenImage('assets/download.svg');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
-  static const SvgGenImage info = SvgGenImage('assets/info.svg');
-  static const SvgGenImage lock = SvgGenImage('assets/lock.svg');
-  static const SvgGenImage logoAm = SvgGenImage('assets/logo_am.svg');
   static const $AssetsPackImagesGen packImages = $AssetsPackImagesGen();
-  static const SvgGenImage pause = SvgGenImage('assets/pause.svg');
-  static const SvgGenImage play = SvgGenImage('assets/play.svg');
-  static const SvgGenImage question = SvgGenImage('assets/question.svg');
-  static const SvgGenImage rewardClosed = SvgGenImage(
-    'assets/reward_closed.svg',
-  );
-  static const SvgGenImage rewardOpened = SvgGenImage(
-    'assets/reward_opened.svg',
-  );
-  static const SvgGenImage shiner = SvgGenImage('assets/shiner.svg');
-  static const SvgGenImage volume = SvgGenImage('assets/volume.svg');
-
-  /// List of all assets
-  static List<SvgGenImage> get values => [
-    back,
-    check,
-    clock,
-    close,
-    coin,
-    download,
-    info,
-    lock,
-    logoAm,
-    pause,
-    play,
-    question,
-    rewardClosed,
-    rewardOpened,
-    shiner,
-    volume,
-  ];
 }
 
 class AssetGenImage {

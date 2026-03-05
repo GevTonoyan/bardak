@@ -41,7 +41,7 @@ class SingleWordCardBack extends StatelessWidget {
       child: SizedBox(
         height: 100,
         width: 150,
-        child: Assets.logoAm.svg(
+        child: Assets.icons.logoAm.svg(
           fit: .fitWidth,
         ),
       ),

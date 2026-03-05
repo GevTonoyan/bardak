@@ -43,7 +43,7 @@ class RewardsLootLocked extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Assets.rewardOpened.svg(),
+                        child: Assets.icons.rewardOpened.svg(),
                       ),
                       Transform.rotate(
                         angle: 9.25 * math.pi / 180 * 2,

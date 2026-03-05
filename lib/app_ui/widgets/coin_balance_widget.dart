@@ -33,7 +33,7 @@ class CoinBalanceWidget extends StatelessWidget {
                   fontFamily: 'Digitalt',
                 ),
               ),
-              Assets.coin.svg(width: 18, height: 18),
+              Assets.icons.coin.svg(width: 18, height: 18),
             ],
           ),
         );
