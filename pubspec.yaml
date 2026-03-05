@@ -42,7 +42,6 @@ flutter:
 
   assets:
     - assets/
-    - assets/images/
     - assets/pack_images/
     - assets/icons/
     - assets/icons/flags/

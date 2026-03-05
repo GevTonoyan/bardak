@@ -31,7 +31,7 @@ class RoundOverviewScreen extends StatelessWidget {
         return PopScope(
           canPop: false,
           child: ScreenBackground(
-            shadowHeight: 300,
+            shadowHeight: MediaQuery.of(context).size.height * 0.35,
             child: SafeArea(
               child: Column(
                 crossAxisAlignment: .start,

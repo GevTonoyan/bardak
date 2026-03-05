@@ -17,7 +17,7 @@ class RewardsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenBackground(
-      shadowHeight: 850,
+      shadowHeight: MediaQuery.of(context).size.height * 0.8,
       child: SafeArea(
         child: Column(
           children: [

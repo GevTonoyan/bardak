@@ -31,7 +31,6 @@ class ShopScreen extends StatelessWidget {
     final typography = context.typography;
 
     return ScreenBackground(
-      shadowHeight: 850,
       child: SafeArea(
         bottom: false,
         child: Column(

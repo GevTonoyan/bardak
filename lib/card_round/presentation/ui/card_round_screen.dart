@@ -43,7 +43,7 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
         return PopScope(
           canPop: false,
           child: ScreenBackground(
-            shadowHeight: 200,
+            shadowHeight: MediaQuery.of(context).size.height * 0.2,
             child: SafeArea(
               child: Column(
                 children: [
