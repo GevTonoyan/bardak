@@ -81,7 +81,7 @@ class MultipleWordsCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        if (isSelected) Assets.check.svg(),
+                        if (isSelected) Assets.icons.check.svg(),
                       ],
                     ),
                   ),
@@ -110,7 +110,7 @@ class MultipleWordsCardBack extends StatelessWidget {
         child: SizedBox(
           height: 165,
           width: 279,
-          child: Assets.logoAm.svg(),
+          child: Assets.icons.logoAm.svg(),
         ),
       ),
     );

@@ -200,7 +200,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                         Expanded(
                           child: AppButton(
                             label: '️Ճիշտ է',
-                            icon: Assets.check.svg(width: 22, height: 22),
+                            icon: Assets.icons.check.svg(width: 22, height: 22),
                             color: colors.green,
                             onPressed: () {
                               bloc.add(

@@ -79,7 +79,7 @@ class ShopScreen extends StatelessWidget {
                                     fontFamily: 'Digitalt',
                                   ),
                                 ),
-                                Assets.coin.svg(width: 18, height: 18),
+                                Assets.icons.coin.svg(width: 18, height: 18),
                               ],
                             ),
                           ),
@@ -88,7 +88,7 @@ class ShopScreen extends StatelessWidget {
                               crossAxisAlignment: .end,
                               spacing: 8,
                               children: [
-                                Assets.lock.svg(),
+                                Assets.icons.lock.svg(),
                                 Text(
                                   scheme.displayName(context),
                                   style: typography.regular24.copyWith(

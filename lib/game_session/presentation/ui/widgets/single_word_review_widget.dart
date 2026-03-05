@@ -43,7 +43,7 @@ class SingleWordReviewWidget extends StatelessWidget {
                     color: colors.white,
                   ),
                 ),
-                if (isGuessed) Assets.check.svg(width: 24, height: 24),
+                if (isGuessed) Assets.icons.check.svg(width: 24, height: 24),
               ],
             ),
           ),
