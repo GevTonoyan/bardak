@@ -1,4 +1,5 @@
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
@@ -16,12 +17,13 @@ class RewardsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenBackground(
-      shadowHeight: MediaQuery.of(context).size.height * 0.8,
-      child: SafeArea(
-        child: Column(
-          children: [
-            Padding(
+    return GradientBackground(
+      useSafeArea: false,
+      child: Column(
+        children: [
+          SafeArea(
+            bottom: false,
+            child: Padding(
               padding: const EdgeInsets.only(
                 left: 20,
                 top: 20,
@@ -35,16 +37,20 @@ class RewardsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 150),
-            BlocBuilder<RewardsCubit, CoinBalanceEntity>(
-              builder: (context, coinsBalance) {
-                return coinsBalance.openedCountToday >= maxOpensPerDay
-                    ? const Expanded(child: RewardsLootLocked())
-                    : const RewardsLootGrid();
-              },
+          ),
+          height40,
+          Expanded(
+            child: ShadowBackground(
+              child: BlocBuilder<RewardsCubit, CoinBalanceEntity>(
+                builder: (context, coinsBalance) {
+                  return coinsBalance.openedCountToday >= maxOpensPerDay
+                      ? const RewardsLootLocked()
+                      : const RewardsLootGrid();
+                },
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

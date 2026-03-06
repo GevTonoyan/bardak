@@ -30,13 +30,14 @@ class RoundOverviewScreen extends StatelessWidget {
       builder: (context, state) {
         return PopScope(
           canPop: false,
-          child: ScreenBackground(
-            shadowHeight: MediaQuery.of(context).size.height * 0.35,
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: .start,
-                children: [
-                  Padding(
+          child: GradientBackground(
+            useSafeArea: false,
+            child: Column(
+              crossAxisAlignment: .start,
+              children: [
+                SafeArea(
+                  bottom: false,
+                  child: Padding(
                     padding: const EdgeInsetsGeometry.only(left: 20, top: 20),
                     child: AppIconButton.close(
                       onTap: () async {
@@ -53,54 +54,59 @@ class RoundOverviewScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsetsGeometry.all(40),
-                    child: Align(
-                      child: Column(
-                        spacing: 16,
-                        children: [
-                          Text(
-                            'Հաջորդ թիմը՝',
-                            style: typography.regular24.copyWith(
-                              color: colors.white,
-                            ),
+                ),
+                Padding(
+                  padding: const EdgeInsetsGeometry.all(40),
+                  child: Align(
+                    child: Column(
+                      spacing: 16,
+                      children: [
+                        Text(
+                          'Հաջորդ թիմը՝',
+                          style: typography.regular24.copyWith(
+                            color: colors.white,
                           ),
-                          HighlightedText(
-                            text: gameState
-                                .teamStates[gameState.currentTeamIndex]
-                                .name,
+                        ),
+                        HighlightedText(
+                          text: gameState
+                              .teamStates[gameState.currentTeamIndex]
+                              .name,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                height40,
+                const Expanded(child: _TeamScores()),
+                SizedBox(
+                  height: 300,
+                  child: ShadowBackground(
+                    child: Padding(
+                      padding: const .all(20),
+                      child: Column(
+                        mainAxisAlignment: .end,
+                        spacing: 20,
+                        children: [
+                          if (state.gameState.pendingReviewWords?.isNotEmpty ??
+                              false)
+                            AppButton(
+                              label: 'Վերանայել',
+                              color: colors.white20,
+                              onPressed: () => context.pushReplacementNamed(
+                                RoundReviewScreen.routePath,
+                              ),
+                            ),
+                          AppButton(
+                            label: 'Շարունակել',
+                            color: colors.green,
+                            onPressed: () => _navigateToRoundScreen(context),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  height40,
-                  const Expanded(child: _TeamScores()),
-                  if (state.gameState.pendingReviewWords?.isNotEmpty ??
-                      false) ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: AppButton(
-                        label: 'Վերանայել',
-                        color: colors.white20,
-                        onPressed: () => context.pushReplacementNamed(
-                          RoundReviewScreen.routePath,
-                        ),
-                      ),
-                    ),
-                    height20,
-                  ],
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: AppButton(
-                      label: 'Շարունակել',
-                      color: colors.green,
-                      onPressed: () => _navigateToRoundScreen(context),
-                    ),
-                  ),
-                  height40,
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

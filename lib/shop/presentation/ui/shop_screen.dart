@@ -30,7 +30,7 @@ class ShopScreen extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
 
-    return ScreenBackground(
+    return GradientBackground(
       child: SafeArea(
         bottom: false,
         child: Column(

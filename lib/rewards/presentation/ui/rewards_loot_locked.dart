@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:alias_pro/shop/presentation/ui/shop_screen.dart';
@@ -23,8 +24,8 @@ class RewardsLootLocked extends StatelessWidget {
     final totalReward = rewards.fold<int>(0, (acc, x) => acc + x);
 
     return Column(
-      mainAxisAlignment: .spaceBetween,
       children: [
+        height40,
         Padding(
           padding: const .symmetric(horizontal: 44),
           child: Column(
@@ -69,8 +70,9 @@ class RewardsLootLocked extends StatelessWidget {
             ],
           ),
         ),
+        const Spacer(),
         Padding(
-          padding: const .symmetric(horizontal: 20, vertical: 44),
+          padding: const .all(20),
           child: Column(
             spacing: 20,
             children: [

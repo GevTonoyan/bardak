@@ -45,8 +45,8 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
     return Material(
       child: Stack(
         children: [
-          ScreenBackground(
-            shadowHeight: 200,
+          GradientBackground(
+            useSafeArea: false,
             child: Container(),
           ),
           Align(
@@ -61,40 +61,49 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
               createParticlePath: _drawStar,
             ),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 44),
-              child: Column(
-                mainAxisAlignment: .spaceBetween,
-                crossAxisAlignment: .start,
+          Column(
+            mainAxisAlignment: .spaceBetween,
+            crossAxisAlignment: .start,
+            children: [
+              SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: const .only(left: 20, top: 20),
+                  child: AppIconButton.close(onTap: () => context.pop()),
+                ),
+              ),
+              Column(
                 children: [
-                  AppIconButton.close(onTap: () => context.pop()),
-                  Column(
-                    children: [
-                      Center(
-                        child: Column(
-                          spacing: 16,
-                          children: [
-                            Text(
-                              'Հաղթեց՝',
-                              style: typography.regular24.copyWith(
-                                color: colors.white,
-                              ),
-                            ),
-                            HighlightedText(text: widget.winningTeamName),
-                          ],
+                  Center(
+                    child: Column(
+                      spacing: 16,
+                      children: [
+                        Text(
+                          'Հաղթեց՝',
+                          style: typography.regular24.copyWith(
+                            color: colors.white,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  AppButton(
-                    label: 'Շարունակել',
-                    color: colors.green,
-                    onPressed: () => context.pop(),
+                        HighlightedText(text: widget.winningTeamName),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
+              SizedBox(
+                height: 200,
+                child: ShadowBackground(
+                  child: Padding(
+                    padding: const .all(20),
+                    child: AppButton(
+                      label: 'Շարունակել',
+                      color: colors.green,
+                      onPressed: () => context.pop(),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

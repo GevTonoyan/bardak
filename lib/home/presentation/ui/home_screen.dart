@@ -25,11 +25,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    return ScreenBackground(
-      shadowHeight: MediaQuery.of(context).size.height * 0.6,
-      child: Stack(
+    return GradientBackground(
+      useSafeArea: false,
+      child: Column(
+        spacing: 20,
         children: [
           SafeArea(
+            bottom: false,
             child: Padding(
               padding: const .all(20),
               child: Column(
@@ -59,60 +61,58 @@ class HomeScreen extends StatelessWidget {
                   height20,
                   SizedBox(
                     height: 165,
-                    width: 279,
+                    width: 200,
                     child: Assets.icons.logoAm.svg(),
                   ),
-                  height20,
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 200),
-            child: Column(
-              spacing: 20,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AppButton(
-                  label: 'Classic Alias',
-                  color: colors.green,
-                  onPressed: () => _navigateToGameSettings(context, .card),
-                ),
-                AppButton(
-                  label: 'One Word Mode',
-                  color: colors.purple,
-                  onPressed: () =>
-                      _navigateToGameSettings(context, .singleWord),
-                ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: AlignmentGeometry.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 44),
-              child: Row(
-                spacing: 12,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: AppButton(
-                      label: context.l10n.rewards,
-                      color: colors.white20,
-                      onPressed: () => context.goNamed(RewardsScreen.routePath),
+          Expanded(
+            child: ShadowBackground(
+              child: Padding(
+                padding: const .symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    height40,
+                    AppButton(
+                      label: 'Classic Alias',
+                      color: colors.green,
+                      onPressed: () => _navigateToGameSettings(context, .card),
                     ),
-                  ),
-
-                  Expanded(
-                    child: AppButton(
-                      label: 'Shop',
-                      color: colors.blue,
-                      onPressed: () {
-                        context.goNamed(ShopScreen.routePath);
-                      },
+                    height20,
+                    AppButton(
+                      label: 'One Word Mode',
+                      color: colors.purple,
+                      onPressed: () =>
+                          _navigateToGameSettings(context, .singleWord),
                     ),
-                  ),
-                ],
+                    const Spacer(),
+                    Row(
+                      spacing: 12,
+                      children: [
+                        Expanded(
+                          child: AppButton(
+                            label: context.l10n.rewards,
+                            color: colors.white20,
+                            onPressed: () =>
+                                context.goNamed(RewardsScreen.routePath),
+                          ),
+                        ),
+                        Expanded(
+                          child: AppButton(
+                            label: 'Shop',
+                            color: colors.blue,
+                            onPressed: () {
+                              context.goNamed(ShopScreen.routePath);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    height20,
+                  ],
+                ),
               ),
             ),
           ),

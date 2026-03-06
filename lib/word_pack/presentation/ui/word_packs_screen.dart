@@ -33,7 +33,7 @@ class _WordPackScreenState extends State<WordPackScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenBackground(
+    return GradientBackground(
       child: SafeArea(
         bottom: false,
         child: Column(
