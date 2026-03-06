@@ -23,7 +23,7 @@ class RoundReviewScreen extends StatelessWidget {
 
     return PopScope(
       canPop: false,
-      child: ScreenBackground(
+      child: GradientBackground(
         child: SafeArea(
           bottom: false,
           child: BlocBuilder<RoundReviewBloc, RoundReviewState>(

@@ -80,7 +80,7 @@ class _CountdownScreenState extends State<CountdownScreen>
 
   @override
   Widget build(BuildContext context) {
-    return ScreenBackground(
+    return GradientBackground(
       child: Center(
         child: AnimatedBuilder(
           animation: _controller,

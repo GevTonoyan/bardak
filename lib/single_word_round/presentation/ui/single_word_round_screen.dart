@@ -78,12 +78,12 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
       },
       child: PopScope(
         canPop: false,
-        child: ScreenBackground(
-          shadowHeight: MediaQuery.of(context).size.height * 0.3,
-          child: SafeArea(
-            child: Column(
-              children: [
-                RoundHeader(
+        child: GradientBackground(
+          useSafeArea: false,
+          child: Column(
+            children: [
+              SafeArea(
+                child: RoundHeader(
                   initialRoundDuration: roundState.roundDuration,
                   onRoundComplete: () {
                     context.read<SingleWordRoundBloc>().add(
@@ -94,143 +94,154 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                     _isPaused = isPaused;
                   }),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Row(
-                      children: [
-                        if (roundState.allowSkipping)
-                          RotatedBox(
-                            quarterTurns: 3,
-                            child: AnimatedDefaultTextStyle(
-                              duration: const Duration(milliseconds: 80),
-                              curve: Curves.easeOut,
-                              style: typography.regular20.copyWith(
-                                color: passColor,
-                              ),
-                              child: const Text('Փաս'),
-                            ),
-                          ),
-                        Expanded(
-                          child: Center(
-                            child: _SwipeableSingleWordCard(
-                              key: ValueKey(roundState.index),
-                              word: roundState.words[roundState.index],
-                              allowSkipping: roundState.allowSkipping,
-                              onGuessed: () {
-                                setState(() {
-                                  _signedSwipeProgress = 0.0;
-                                });
-                                bloc.add(
-                                  const ResolveCurrentWord(
-                                    WordResolution.guessed,
-                                  ),
-                                );
-                                unawaited(
-                                  showPointsBadge(context, points: '+1'),
-                                );
-                              },
-                              onSkipped: () {
-                                setState(() {
-                                  _signedSwipeProgress = 0.0;
-                                });
-                                bloc.add(
-                                  const ResolveCurrentWord(
-                                    WordResolution.skipped,
-                                  ),
-                                );
-                                unawaited(
-                                  showPointsBadge(context, points: '-1'),
-                                );
-                              },
-                              onSwipeProgressChanged: (progress) {
-                                setState(
-                                  () => _signedSwipeProgress = progress,
-                                );
-                              },
-                              isFlipped: _isPaused,
-                            ),
-                          ),
-                        ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    children: [
+                      if (roundState.allowSkipping)
                         RotatedBox(
                           quarterTurns: 3,
                           child: AnimatedDefaultTextStyle(
                             duration: const Duration(milliseconds: 80),
                             curve: Curves.easeOut,
                             style: typography.regular20.copyWith(
-                              color: correctColor,
+                              color: passColor,
                             ),
-                            child: const Text('️Ճիշտ է'),
+                            child: const Text('Փաս'),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                if (!_isPaused)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 40,
-                    ),
-                    child: Row(
-                      spacing: 20,
-                      children: [
-                        if (roundState.allowSkipping)
-                          Expanded(
-                            child: AppButton(
-                              label: 'Փաս',
-                              color: colors.white20,
-                              onPressed: () {
-                                bloc.add(
-                                  const ResolveCurrentWord(
-                                    WordResolution.skipped,
-                                  ),
-                                );
-
-                                unawaited(
-                                  showPointsBadge(
-                                    context,
-                                    points: '-1',
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        Expanded(
-                          child: AppButton(
-                            label: '️Ճիշտ է',
-                            icon: Assets.icons.check.svg(width: 22, height: 22),
-                            color: colors.green,
-                            onPressed: () {
+                      Expanded(
+                        child: Center(
+                          child: _SwipeableSingleWordCard(
+                            key: ValueKey(roundState.index),
+                            word: roundState.words[roundState.index],
+                            allowSkipping: roundState.allowSkipping,
+                            onGuessed: () {
+                              setState(() {
+                                _signedSwipeProgress = 0.0;
+                              });
                               bloc.add(
                                 const ResolveCurrentWord(
                                   WordResolution.guessed,
                                 ),
                               );
-
                               unawaited(
                                 showPointsBadge(context, points: '+1'),
                               );
                             },
+                            onSkipped: () {
+                              setState(() {
+                                _signedSwipeProgress = 0.0;
+                              });
+                              bloc.add(
+                                const ResolveCurrentWord(
+                                  WordResolution.skipped,
+                                ),
+                              );
+                              unawaited(
+                                showPointsBadge(context, points: '-1'),
+                              );
+                            },
+                            onSwipeProgressChanged: (progress) {
+                              setState(
+                                () => _signedSwipeProgress = progress,
+                              );
+                            },
+                            isFlipped: _isPaused,
                           ),
                         ),
-                      ],
+                      ),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 80),
+                          curve: Curves.easeOut,
+                          style: typography.regular20.copyWith(
+                            color: correctColor,
+                          ),
+                          child: const Text('️Ճիշտ է'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                child: ShadowBackground(
+                  child: Align(
+                    alignment: .bottomCenter,
+                    child: Builder(
+                      builder: (context) {
+                        if (!_isPaused) {
+                          return Padding(
+                            padding: const .all(20),
+                            child: Row(
+                              spacing: 20,
+                              children: [
+                                if (roundState.allowSkipping)
+                                  Expanded(
+                                    child: AppButton(
+                                      label: 'Փաս',
+                                      color: colors.white20,
+                                      onPressed: () {
+                                        bloc.add(
+                                          const ResolveCurrentWord(
+                                            WordResolution.skipped,
+                                          ),
+                                        );
+
+                                        unawaited(
+                                          showPointsBadge(
+                                            context,
+                                            points: '-1',
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                Expanded(
+                                  child: AppButton(
+                                    label: '️Ճիշտ է',
+                                    icon: Assets.icons.check.svg(
+                                      width: 22,
+                                      height: 22,
+                                    ),
+                                    color: colors.green,
+                                    onPressed: () {
+                                      bloc.add(
+                                        const ResolveCurrentWord(
+                                          WordResolution.guessed,
+                                        ),
+                                      );
+
+                                      unawaited(
+                                        showPointsBadge(context, points: '+1'),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        // TODO (Gevorg): handle height adjustment when buttons shouldn't be shown
+                        else {
+                          return const Padding(
+                            padding: .all(20),
+                            child: SizedBox(
+                              height: 60,
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
-                // TODO (Gevorg): handle height adjustment when buttons shouldn't be shown
-                if (_isPaused)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 40,
-                    ),
-                    child: SizedBox(
-                      height: 60,
-                    ),
-                  ),
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

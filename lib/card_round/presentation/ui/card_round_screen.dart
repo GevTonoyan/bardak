@@ -42,12 +42,12 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
 
         return PopScope(
           canPop: false,
-          child: ScreenBackground(
-            shadowHeight: MediaQuery.of(context).size.height * 0.2,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  RoundHeader(
+          child: GradientBackground(
+            useSafeArea: false,
+            child: Column(
+              children: [
+                SafeArea(
+                  child: RoundHeader(
                     initialRoundDuration: widget.initialRoundDuration,
                     onRoundComplete: () {
                       context.read<CardRoundBloc>().add(
@@ -57,37 +57,41 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
                     onPauseChanged: (paused) =>
                         setState(() => _isPaused = paused),
                   ),
-                  Expanded(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: AspectRatio(
-                          aspectRatio: 0.8,
-                          child: FlipCard(
-                            isFlipped: _isPaused,
-                            front: IgnorePointer(
-                              ignoring: _isPaused,
-                              child: MultipleWordsCard(
-                                words: bloc.state.visible,
-                                guessed: state.guessed,
-                                onTap: ({required selected, required word}) {
-                                  bloc.add(
-                                    ToggleWord(
-                                      isSelected: selected,
-                                      word: word,
-                                    ),
-                                  );
-                                },
-                              ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: const .symmetric(horizontal: 40),
+                      child: AspectRatio(
+                        aspectRatio: 0.8,
+                        child: FlipCard(
+                          isFlipped: _isPaused,
+                          front: IgnorePointer(
+                            ignoring: _isPaused,
+                            child: MultipleWordsCard(
+                              words: bloc.state.visible,
+                              guessed: state.guessed,
+                              onTap: ({required selected, required word}) {
+                                bloc.add(
+                                  ToggleWord(
+                                    isSelected: selected,
+                                    word: word,
+                                  ),
+                                );
+                              },
                             ),
-                            back: const MultipleWordsCardBack(),
                           ),
+                          back: const MultipleWordsCardBack(),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 200,
+                  child: ShadowBackground(child: SizedBox.shrink()),
+                ),
+              ],
             ),
           ),
         );
