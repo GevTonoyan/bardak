@@ -124,7 +124,7 @@ class _PointsBadge extends StatelessWidget {
                 colors: [Color(0xFFDF393C), Color(0xFF932123)],
               )
             : null,
-        padding: const .symmetric(horizontal: 15, vertical: 10),
+        padding: const .symmetric(horizontal: 14, vertical: 10),
         child: Text(
           '$points միավոր',
           style: typography.regular24.copyWith(color: colors.white),

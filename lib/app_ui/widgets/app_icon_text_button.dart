@@ -42,7 +42,7 @@ class _AppIconTextButtonState extends State<AppIconTextButton> {
       child: Stack(
         children: [
           Container(
-            padding: widget.padding ?? const EdgeInsets.all(10),
+            padding: widget.padding ?? const .all(10),
             decoration: BoxDecoration(
               color: widget.color ?? colors.secondary,
               gradient: widget.gradient,
