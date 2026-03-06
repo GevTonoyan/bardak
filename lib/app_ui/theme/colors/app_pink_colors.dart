@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class AppPinkColors extends AppColors {
   @override
   LinearGradient get main => const LinearGradient(
+    begin: .topCenter,
+    end: .bottomCenter,
     colors: [
       Color(0xFFED3B97),
       Color(0xFFA61C63),

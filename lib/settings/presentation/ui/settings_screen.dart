@@ -37,7 +37,6 @@ class SettingsScreenBody extends StatelessWidget {
     final appSettings = settingsBloc.state.appSettings;
 
     return Column(
-      crossAxisAlignment: .start,
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: 30),
@@ -57,13 +56,8 @@ class SettingsScreenBody extends StatelessWidget {
         ),
         height40,
         Text(
-          'Խաղի մասին',
-          style: typography.regular24.copyWith(color: colors.white),
-        ),
-        const SizedBox(height: 20),
-        Text(
           'Version 1.3.0',
-          style: typography.regular24.copyWith(color: colors.white),
+          style: typography.regular18.copyWith(color: colors.white30),
         ),
       ],
     );

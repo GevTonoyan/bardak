@@ -9,6 +9,8 @@ abstract class AppColors {
 
   Color red = const Color(0xFFD42B2B);
 
+  Color orange = const Color(0xFFE38417);
+
   Color blue = const Color(0xFF4068F5);
 
   Color purple = const Color(0xFFA473E9);

@@ -116,21 +116,29 @@ class _RuleList extends StatelessWidget {
     return ListView(
       children: rules
           .map((rule) {
-            return Row(
-              spacing: 8,
-              crossAxisAlignment: .start,
-              children: [
-                Text(
-                  '.',
-                  style: typography.regular38.copyWith(color: colors.white),
-                ),
-                Expanded(
-                  child: Text(
-                    rule,
-                    style: typography.regular20.copyWith(color: colors.white),
+            return Padding(
+              padding: const .only(bottom: 10),
+              child: Row(
+                spacing: 8,
+                crossAxisAlignment: .start,
+                children: [
+                  Container(
+                    width: 6,
+                    height: 6,
+                    margin: const .only(top: 8),
+                    decoration: BoxDecoration(
+                      shape: .circle,
+                      color: colors.white,
+                    ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Text(
+                      rule,
+                      style: typography.regular20.copyWith(color: colors.white),
+                    ),
+                  ),
+                ],
+              ),
             );
           })
           .toList(growable: false),
