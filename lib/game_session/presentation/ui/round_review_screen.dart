@@ -1,5 +1,6 @@
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:alias_pro/game_session/presentation/bloc/round_review_bloc/round_review_bloc.dart';
@@ -62,25 +63,27 @@ class RoundReviewScreen extends StatelessWidget {
                       ),
                     },
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 44,
-                    ),
-                    color: colors.secondary,
-                    child: AppButton(
-                      label: 'Շարունակել',
-                      color: colors.green,
-                      onPressed: () {
-                        context.read<GameSessionBloc>().add(
-                          RoundReviewFinished(
-                            guessedCount: reviewState.guessedCount,
-                          ),
-                        );
-                        context.pushReplacementNamed(
-                          RoundOverviewScreen.routePath,
-                        );
-                      },
+                  height20,
+                  SizedBox(
+                    height: 200,
+                    child: ShadowBackground(
+                      child: Padding(
+                        padding: const .all(20),
+                        child: AppButton(
+                          label: 'Շարունակել',
+                          color: colors.green,
+                          onPressed: () {
+                            context.read<GameSessionBloc>().add(
+                              RoundReviewFinished(
+                                guessedCount: reviewState.guessedCount,
+                              ),
+                            );
+                            context.pushReplacementNamed(
+                              RoundOverviewScreen.routePath,
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ],
