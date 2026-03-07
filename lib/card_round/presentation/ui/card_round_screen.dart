@@ -43,7 +43,6 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
         return PopScope(
           canPop: false,
           child: GradientBackground(
-            useSafeArea: false,
             child: Column(
               children: [
                 SafeArea(

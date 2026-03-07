@@ -31,7 +31,6 @@ class RoundOverviewScreen extends StatelessWidget {
         return PopScope(
           canPop: false,
           child: GradientBackground(
-            useSafeArea: false,
             child: Column(
               crossAxisAlignment: .start,
               children: [

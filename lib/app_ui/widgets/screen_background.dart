@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 class GradientBackground extends StatelessWidget {
   const GradientBackground({
     required this.child,
-    this.useSafeArea = true,
     super.key,
   });
 
   final Widget child;
-
-  final bool useSafeArea;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +19,7 @@ class GradientBackground extends StatelessWidget {
               decoration: BoxDecoration(gradient: context.colors.main),
             ),
           ),
-          if (useSafeArea) SafeArea(child: child) else child,
+          child,
         ],
       ),
     );

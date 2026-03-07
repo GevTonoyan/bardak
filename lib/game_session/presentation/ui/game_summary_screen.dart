@@ -46,7 +46,6 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
       child: Stack(
         children: [
           GradientBackground(
-            useSafeArea: false,
             child: Container(),
           ),
           Align(

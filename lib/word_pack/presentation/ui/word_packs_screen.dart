@@ -101,12 +101,14 @@ class _Success extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).padding.bottom;
+
     return Column(
       children: [
         height40,
         Expanded(
           child: ListView.separated(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
+            padding: .fromLTRB(20, 0, 20, 20 + bottomInset),
             itemBuilder: (BuildContext context, int index) {
               final pack = packs[index];
 

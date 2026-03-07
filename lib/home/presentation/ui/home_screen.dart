@@ -26,7 +26,6 @@ class HomeScreen extends StatelessWidget {
     final colors = context.colors;
 
     return GradientBackground(
-      useSafeArea: false,
       child: Column(
         spacing: 20,
         children: [
