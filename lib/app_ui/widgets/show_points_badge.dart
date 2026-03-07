@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 Future<void> showPointsBadge(
   BuildContext context, {
   required String points,
-  Duration duration = const Duration(milliseconds: 10500),
+  Duration duration = const Duration(seconds: 1),
 }) async {
   final overlay = Overlay.of(context);
 
@@ -45,20 +45,26 @@ class _PointsBadgeOverlayState extends State<_PointsBadgeOverlay>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 180),
-    reverseDuration: const Duration(milliseconds: 160),
+    duration: const Duration(milliseconds: 400),
+    reverseDuration: const Duration(milliseconds: 250),
   );
 
   late final Animation<double> _fade = CurvedAnimation(
     parent: _controller,
-    curve: Curves.easeOut,
-    reverseCurve: Curves.easeIn,
+    curve: Curves.linear,
+    reverseCurve: Curves.linear,
   );
 
-  late final Animation<Offset> _slide = Tween(
-    begin: const Offset(0, 0.15),
-    end: Offset.zero,
-  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+  late final Animation<Offset> _slide =
+      Tween<Offset>(
+        begin: const Offset(0, 1.2),
+        end: Offset.zero,
+      ).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Curves.linear,
+        ),
+      );
 
   Timer? _timer;
 
@@ -87,7 +93,7 @@ class _PointsBadgeOverlayState extends State<_PointsBadgeOverlay>
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding: EdgeInsets.only(bottom: safeBottom + 120),
+          padding: EdgeInsets.only(bottom: safeBottom + 160),
           child: SlideTransition(
             position: _slide,
             child: FadeTransition(
