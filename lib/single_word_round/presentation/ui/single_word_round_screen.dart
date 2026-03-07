@@ -79,7 +79,6 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
       child: PopScope(
         canPop: false,
         child: GradientBackground(
-          useSafeArea: false,
           child: Column(
             children: [
               SafeArea(

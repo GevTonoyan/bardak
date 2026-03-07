@@ -30,6 +30,8 @@ class ShopScreen extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
 
+    final bottomInset = MediaQuery.of(context).padding.bottom;
+
     return GradientBackground(
       child: SafeArea(
         bottom: false,
@@ -47,7 +49,7 @@ class ShopScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
+                padding: .fromLTRB(20, 0, 20, 20 + bottomInset),
                 itemBuilder: (context, index) {
                   final scheme = AppColorScheme.values[index];
                   return AppButton(

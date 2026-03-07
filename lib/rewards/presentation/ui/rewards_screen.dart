@@ -18,7 +18,6 @@ class RewardsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GradientBackground(
-      useSafeArea: false,
       child: Column(
         children: [
           SafeArea(
