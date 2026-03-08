@@ -75,7 +75,7 @@ class RoundReviewScreen extends StatelessWidget {
                           onPressed: () {
                             context.read<GameSessionBloc>().add(
                               RoundReviewFinished(
-                                guessedCount: reviewState.guessedCount,
+                                reviewedWords: reviewState.reviewedWords,
                               ),
                             );
                             context.pushReplacementNamed(

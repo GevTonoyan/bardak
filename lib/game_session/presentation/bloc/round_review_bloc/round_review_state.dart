@@ -11,7 +11,7 @@ class RoundReviewState extends Equatable {
   final GameMode gameMode;
   final int wordsPerCard;
 
-  int get guessedCount => reviewedWords.where((e) => e.isGuessed).length;
+  int get guessedCount => reviewedWords.where((e) => e.status.isGuessed).length;
 
   Map<int, List<ReviewedWord>> get pagedReviewedWords {
     if (reviewedWords.isEmpty) return const <int, List<ReviewedWord>>{};
@@ -35,7 +35,7 @@ class RoundReviewState extends Equatable {
     return {
       for (final entry in paged.entries)
         entry.key: entry.value
-            .where((e) => e.isGuessed)
+            .where((e) => e.status.isGuessed)
             .map((e) => e.word)
             .toSet(),
     };

@@ -23,12 +23,12 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
     final gameState = state.gameState;
 
     final wordsShown = event.reviewedWords.length;
-    final guessedCount = event.reviewedWords.where((e) => e.isGuessed).length;
+    final score = _calculateScore(event.reviewedWords);
 
     final newRemainingWords = state.gameState.words.skip(wordsShown).toList();
 
     final currentTeamIndex = gameState.currentTeamIndex;
-    gameState.teamStates[currentTeamIndex].addRoundScore(guessedCount);
+    gameState.teamStates[currentTeamIndex].addRoundScore(score);
 
     final allTeamsPlayedRound =
         currentTeamIndex + 1 >= gameState.teamStates.length;
@@ -65,9 +65,29 @@ class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
     final lastPlayedTeamIndex = gameState.previousTeamIndex;
 
     gameState.teamStates[lastPlayedTeamIndex].changeLastScore(
-      event.guessedCount,
+      _calculateScore(event.reviewedWords),
     );
 
-    emit(state);
+    emit(
+      state.copyWith(
+        gameState: state.gameState.copyWith(
+          pendingReviewWords: event.reviewedWords,
+        ),
+      ),
+    );
+  }
+
+  int _calculateScore(List<ReviewedWord> reviewedWords) {
+    var score = 0;
+
+    for (final word in reviewedWords) {
+      if (word.status.isGuessed) {
+        ++score;
+      } else if (word.status == WordReviewStatus.skipped) {
+        --score;
+      }
+    }
+
+    return score;
   }
 }

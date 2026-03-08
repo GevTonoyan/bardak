@@ -23,12 +23,12 @@ class SingleWordReviewWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final reviewedWord = reviewedWords[index];
         final word = reviewedWord.word;
-        final isGuessed = reviewedWord.isGuessed;
+        final isGuessed = reviewedWord.status.isGuessed;
 
         return GestureDetector(
           onTap: () => onToggle(index),
           child: Container(
-            padding: const .symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 16,
             ),

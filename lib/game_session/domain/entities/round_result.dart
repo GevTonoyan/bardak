@@ -1,25 +1,12 @@
-import 'package:equatable/equatable.dart';
-
-typedef ReviewedWord = ({String word, bool isGuessed});
-
-class RoundResult extends Equatable {
-  const RoundResult({
-    required this.guessedCount,
-    required this.seenWordsCount,
-    required this.reviewedWords,
-  });
-
-  final int guessedCount;
-  final int seenWordsCount;
-  final List<ReviewedWord> reviewedWords;
-
-  @override
-  String toString() {
-    return 'Round result{guessedCount: $guessedCount, '
-        'seenWordsCount: $seenWordsCount, '
-        'reviewedWords: $reviewedWords}';
-  }
-
-  @override
-  List<Object> get props => [guessedCount, seenWordsCount, reviewedWords];
+/// Resolution of a word in a round: guessed, skipped, or not guessed.
+enum WordReviewStatus {
+  guessed,
+  skipped,
+  notGuessed,
 }
+
+extension WordReviewStatusX on WordReviewStatus {
+  bool get isGuessed => this == WordReviewStatus.guessed;
+}
+
+typedef ReviewedWord = ({String word, WordReviewStatus status});
