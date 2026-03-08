@@ -105,7 +105,7 @@ class _Success extends StatelessWidget {
 
     return Column(
       children: [
-        height40,
+        height30,
         Expanded(
           child: ListView.separated(
             padding: .fromLTRB(20, 0, 20, 20 + bottomInset),

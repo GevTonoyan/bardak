@@ -34,6 +34,7 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
               padding: const .all(20),
               child: Column(
+                spacing: 30,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Row(
@@ -57,7 +58,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  height20,
                   SizedBox(
                     height: 165,
                     width: 200,

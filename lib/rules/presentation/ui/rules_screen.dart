@@ -39,9 +39,8 @@ class _RulesScreenBodyState extends State<_RulesScreenBody> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
       child: Column(
-        spacing: 20,
         children: [
-          height20,
+          height30,
           Row(
             spacing: 10,
             children: [
@@ -75,6 +74,7 @@ class _RulesScreenBodyState extends State<_RulesScreenBody> {
               ),
             ],
           ),
+          height20,
           Expanded(
             child: _RuleList(
               rules: switch (gameMode) {

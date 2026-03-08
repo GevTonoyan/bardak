@@ -1,5 +1,4 @@
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
-import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
@@ -19,6 +18,7 @@ class RewardsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientBackground(
       child: Column(
+        spacing: 30,
         children: [
           SafeArea(
             bottom: false,
@@ -37,7 +37,6 @@ class RewardsScreen extends StatelessWidget {
               ),
             ),
           ),
-          height40,
           Expanded(
             child: ShadowBackground(
               child: BlocBuilder<RewardsCubit, CoinBalanceEntity>(

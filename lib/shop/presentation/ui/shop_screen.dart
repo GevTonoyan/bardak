@@ -36,9 +36,10 @@ class ShopScreen extends StatelessWidget {
       child: SafeArea(
         bottom: false,
         child: Column(
+          spacing: 30,
           children: [
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const .only(left: 20, top: 20, right: 20),
               child: Row(
                 mainAxisAlignment: .spaceBetween,
                 children: [
