@@ -39,7 +39,7 @@ class SettingsScreenBody extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: 30),
+        height30,
         const AppLanguagesList(),
         const SizedBox(height: 40),
         AppSwitchButton(

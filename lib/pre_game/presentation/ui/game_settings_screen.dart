@@ -74,7 +74,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
               child: Column(
                 crossAxisAlignment: .start,
                 children: [
-                  height40,
+                  height30,
                   Text(
                     'Ռեժիմ',
                     style: typography.regular24.copyWith(color: colors.white),

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
-import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
@@ -55,7 +54,7 @@ class RoundOverviewScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsGeometry.all(40),
+                  padding: const EdgeInsetsGeometry.all(30),
                   child: Align(
                     child: Column(
                       spacing: 16,
@@ -75,7 +74,6 @@ class RoundOverviewScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                height40,
                 const Expanded(child: _TeamScores()),
                 SizedBox(
                   height: 300,

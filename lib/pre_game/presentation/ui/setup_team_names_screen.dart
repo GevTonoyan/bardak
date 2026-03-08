@@ -65,7 +65,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
               child: Column(
                 crossAxisAlignment: .start,
                 children: [
-                  height40,
+                  height30,
                   Text(
                     'Թիմեր՝',
                     style: typography.regular24.copyWith(color: colors.white),
