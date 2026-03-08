@@ -14,10 +14,10 @@ class RoundFinished extends GameSessionEvent {
 }
 
 class RoundReviewFinished extends GameSessionEvent {
-  const RoundReviewFinished({required this.guessedCount});
+  const RoundReviewFinished({required this.reviewedWords});
 
-  final int guessedCount;
+  final List<ReviewedWord> reviewedWords;
 
   @override
-  List<Object?> get props => [guessedCount];
+  List<Object?> get props => [reviewedWords];
 }

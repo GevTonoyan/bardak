@@ -67,8 +67,10 @@ extension CardRoundStateX on CardRoundState {
 
     for (var i = 0; i < seenWordsCount; ++i) {
       final word = words[i];
-      final isGuessed = guessed.contains(word);
-      reviewedWords.add((word: word, isGuessed: isGuessed));
+      final status = guessed.contains(word)
+          ? WordReviewStatus.guessed
+          : WordReviewStatus.notGuessed;
+      reviewedWords.add((word: word, status: status));
     }
 
     return reviewedWords;

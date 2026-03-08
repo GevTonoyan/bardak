@@ -33,8 +33,27 @@ class RoundReviewBloc extends Bloc<RoundReviewEvent, RoundReviewState> {
 
     final updated = List<ReviewedWord>.from(words);
     final item = updated[index];
-    updated[index] = (word: item.word, isGuessed: !item.isGuessed);
+    updated[index] = (
+      word: item.word,
+      status: _toggleStatus(current: item.status, index: index),
+    );
     emit(state.copyWith(reviewedWords: updated));
+  }
+
+  WordReviewStatus _toggleStatus({
+    required WordReviewStatus current,
+    required int index,
+  }) {
+    final isLastWord = index == state.reviewedWords.length - 1;
+
+    return switch (current) {
+      WordReviewStatus.guessed =>
+        (state.gameMode == GameMode.singleWord && !isLastWord)
+            ? WordReviewStatus.skipped
+            : WordReviewStatus.notGuessed,
+
+      _ => WordReviewStatus.guessed,
+    };
   }
 
   void _onGuessedWordsUpdated(
@@ -44,7 +63,12 @@ class RoundReviewBloc extends Bloc<RoundReviewEvent, RoundReviewState> {
     final guessedSet = event.guessedWords;
     final updated = state.reviewedWords
         .map(
-          (e) => (word: e.word, isGuessed: guessedSet.contains(e.word)),
+          (e) => (
+            word: e.word,
+            status: guessedSet.contains(e.word)
+                ? WordReviewStatus.guessed
+                : WordReviewStatus.notGuessed,
+          ),
         )
         .toList();
     emit(state.copyWith(reviewedWords: updated));

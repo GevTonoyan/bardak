@@ -66,8 +66,10 @@ extension SingleWordRoundStateX on SingleWordRoundState {
 
     for (var i = 0; i <= index; ++i) {
       final word = words[i];
-      final isGuessed = guessedIndexes.contains(i);
-      reviewedWords.add((word: word, isGuessed: isGuessed));
+      final status = guessedIndexes.contains(i)
+          ? WordReviewStatus.guessed
+          : (i < index ? WordReviewStatus.skipped : WordReviewStatus.notGuessed);
+      reviewedWords.add((word: word, status: status));
     }
 
     return reviewedWords;
