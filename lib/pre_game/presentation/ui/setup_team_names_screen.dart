@@ -15,6 +15,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+const _predefinedTeamNames = [
+  'Արծիվներ',
+  'Վագրեր',
+  'Առյusage',
+  'Կայծակներ',
+  'Փdelays',
+  'Հրdelays',
+];
+
 class SetupTeamNamesScreen extends Page<void> {
   const SetupTeamNamesScreen({super.key});
 
@@ -44,10 +53,21 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
     TextEditingController(text: '${context.l10n.preGameTeam} 2'),
   ];
 
+  late final _teamFocusNodes = <FocusNode>[FocusNode(), FocusNode()];
+
+  @override
+  void initState() {
+    super.initState();
+    _teamFocusNodes[0].requestFocus();
+  }
+
   @override
   void dispose() {
     for (final controller in _teamControllers) {
       controller.dispose();
+    }
+    for (final focusNode in _teamFocusNodes) {
+      focusNode.dispose();
     }
     super.dispose();
   }
@@ -72,33 +92,40 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                   ),
                   height20,
                   Column(
-                    children: _teamControllers.map((controller) {
-                      return Padding(
-                        padding: const .only(bottom: 20),
-                        child: AppInputField(
-                          controller: controller,
-                          suffix:
-                              _teamControllers.length >
-                                  AppConstants.minTeamCount
-                              ? AppIcon(
-                                  icon: Container(
-                                    height: 4,
-                                    width: 20,
-                                    color: colors.white,
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      controller.dispose();
-                                      _teamControllers.remove(
-                                        controller,
-                                      );
-                                    });
-                                  },
-                                )
-                              : null,
+                    children: [
+                      for (int i = 0; i < _teamControllers.length; i++)
+                        Padding(
+                          padding: const .only(bottom: 20),
+                          child: AppInputField(
+                            controller: _teamControllers[i],
+                            focusNode: _teamFocusNodes[i],
+                            suffix:
+                                _teamControllers.length >
+                                    AppConstants.minTeamCount
+                                ? AppIcon(
+                                    icon: Container(
+                                      height: 4,
+                                      width: 20,
+                                      color: colors.white,
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        _teamControllers[i].dispose();
+                                        _teamControllers.remove(
+                                          _teamControllers[i],
+                                        );
+
+                                        _teamFocusNodes[i].dispose();
+                                        _teamFocusNodes.remove(
+                                          _teamFocusNodes[i],
+                                        );
+                                      });
+                                    },
+                                  )
+                                : null,
+                          ),
                         ),
-                      );
-                    }).toList(),
+                    ],
                   ),
                   if (_teamControllers.length < AppConstants.maxTeamCount)
                     AppButton(
@@ -107,7 +134,13 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                       icon: Assets.icons.add.svg(),
                       onPressed: () {
                         setState(() {
-                          _teamControllers.add(TextEditingController());
+                          _teamControllers.add(
+                            TextEditingController(
+                              text: _getNextDefaultName(),
+                            ),
+                          );
+                          _teamFocusNodes.add(FocusNode());
+                          _teamFocusNodes.last.requestFocus();
                         });
                       },
                     ),
@@ -131,5 +164,15 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
         ],
       ),
     );
+  }
+
+  String _getNextDefaultName() {
+    final currentNames = _teamControllers.map((e) => e.text.trim()).toSet();
+
+    for (final name in _predefinedTeamNames) {
+      if (!currentNames.contains(name)) return name;
+    }
+
+    return '${context.l10n.preGameTeam} ${_teamControllers.length + 1}';
   }
 }

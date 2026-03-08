@@ -5,12 +5,15 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 class AppInputField extends StatelessWidget {
   const AppInputField({
     required this.controller,
+    this.focusNode,
     this.suffix,
     this.onPressed,
     super.key,
   });
 
   final TextEditingController controller;
+  final FocusNode? focusNode;
+
   final Widget? suffix;
   final VoidCallback? onPressed;
 
@@ -69,6 +72,7 @@ class AppInputField extends StatelessWidget {
                 Expanded(
                   child: TextFormField(
                     controller: controller,
+                    focusNode: focusNode,
                     style: context.typography.regular24.copyWith(
                       color: colors.white,
                     ),
