@@ -23,9 +23,7 @@ Future<void> showConfirmSheet({
     backgroundColor: context.colors.secondary,
     builder: (BuildContext context) {
       final colors = context.colors;
-      final textStyle = context.typography.regular24.copyWith(
-        color: colors.white,
-      );
+      final textStyle = context.typography.regular24;
 
       return Stack(
         children: [

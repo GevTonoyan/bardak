@@ -76,9 +76,7 @@ class MultipleWordsCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             currentWord,
-                            style: typography.regular24.copyWith(
-                              color: colors.white,
-                            ),
+                            style: typography.regular24,
                           ),
                         ),
                         if (isSelected) Assets.icons.check.svg(),

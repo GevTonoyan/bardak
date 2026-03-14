@@ -76,8 +76,8 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                 children: [
                   height30,
                   Text(
-                    'Ռեժիմ',
-                    style: typography.regular24.copyWith(color: colors.white),
+                    'Ռեժիމ',
+                    style: typography.regular24,
                   ),
                   height20,
                   Row(
@@ -116,7 +116,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                   height40,
                   Text(
                     'Փուլի տևողությունը՝',
-                    style: typography.regular24.copyWith(color: colors.white),
+                    style: typography.regular24,
                   ),
                   height20,
                   AppStepperButton(
@@ -143,7 +143,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                   height40,
                   Text(
                     'Միավոր հաղթելու համար՝',
-                    style: typography.regular24.copyWith(color: colors.white),
+                    style: typography.regular24,
                   ),
                   height20,
                   AppStepperButton(

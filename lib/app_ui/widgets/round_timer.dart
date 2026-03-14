@@ -32,7 +32,6 @@ class RoundTimer extends StatelessWidget {
                 seconds.toString(),
                 textAlign: .center,
                 style: context.typography.regular28.copyWith(
-                  color: colors.white,
                   fontFamily: 'Digitalt',
                 ),
               ),

@@ -15,8 +15,6 @@ class SingleWordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-
     return Transform.rotate(
       angle: angle,
       child: SingleWordCardShell(
@@ -24,7 +22,7 @@ class SingleWordCard extends StatelessWidget {
           child: Text(
             word,
             textAlign: .center,
-            style: context.typography.regular38.copyWith(color: colors.white),
+            style: context.typography.regular38,
           ),
         ),
       ),

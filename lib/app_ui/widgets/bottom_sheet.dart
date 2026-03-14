@@ -41,12 +41,7 @@ Route<T> buildAppBottomSheetRoute<T>({
                       child: Stack(
                         children: [
                           Center(
-                            child: Text(
-                              title,
-                              style: typography.regular24.copyWith(
-                                color: colors.white,
-                              ),
-                            ),
+                            child: Text(title, style: typography.regular24),
                           ),
                           AppIconButton.back(onTap: () => context.pop()),
                         ],

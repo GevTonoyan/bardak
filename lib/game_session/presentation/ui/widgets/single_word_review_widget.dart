@@ -39,9 +39,7 @@ class SingleWordReviewWidget extends StatelessWidget {
               children: [
                 Text(
                   word,
-                  style: typography.regular24.copyWith(
-                    color: colors.white,
-                  ),
+                  style: typography.regular24,
                 ),
                 if (isGuessed) Assets.icons.check.svg(width: 24, height: 24),
               ],

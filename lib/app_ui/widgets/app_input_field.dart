@@ -73,9 +73,7 @@ class AppInputField extends StatelessWidget {
                   child: TextFormField(
                     controller: controller,
                     focusNode: focusNode,
-                    style: context.typography.regular24.copyWith(
-                      color: colors.white,
-                    ),
+                    style: context.typography.regular24,
                     autocorrect: false,
                     cursorColor: colors.white,
                     cursorWidth: 3,

@@ -43,13 +43,11 @@ class AppStepperButton extends StatelessWidget {
             child: Text(
               label,
               textAlign: .center,
-              style: context.typography.regular24.copyWith(
-                color: colors.white,
-              ),
+              style: context.typography.regular24,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 20),
+            padding: const .only(right: 20),
             child: AppIcon(
               icon: IconTheme(
                 data: IconThemeData(

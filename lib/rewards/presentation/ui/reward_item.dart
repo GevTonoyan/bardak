@@ -93,7 +93,6 @@ class _RewardItemState extends State<RewardItem>
                         widget.coins!.toString(),
                         style: context.typography.regular28.copyWith(
                           fontFamily: 'Digitalt',
-                          color: context.colors.white,
                         ),
                       ),
                     ),

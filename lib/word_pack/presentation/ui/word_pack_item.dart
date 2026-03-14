@@ -48,7 +48,6 @@ class WordPackItem extends StatelessWidget {
               child: Text(
                 packWordsCount.toString(),
                 style: typography.regular24.copyWith(
-                  color: colors.white,
                   fontFamily: 'Digitalt',
                 ),
               ),
@@ -66,7 +65,7 @@ class WordPackItem extends StatelessWidget {
                   ),
                 Text(
                   name,
-                  style: typography.regular24.copyWith(color: colors.white),
+                  style: typography.regular24,
                 ),
               ],
             ),
