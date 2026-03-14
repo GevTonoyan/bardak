@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 
+import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
+import 'package:alias_pro/app_ui/widgets/smart_number_text.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:alias_pro/shop/presentation/ui/shop_screen.dart';
@@ -50,22 +52,17 @@ class RewardsLootLocked extends StatelessWidget {
                         angle: 9.25 * math.pi / 180 * 2,
                         child: Text(
                           reward.toString(),
-                          style: context.typography.regular28.copyWith(
-                            fontFamily: 'Digitalt',
-                            color: context.colors.white,
-                          ),
+                          style: context.typography.regular28.withNumericFont,
                         ),
                       ),
                     ],
                   );
                 }).toList(),
               ),
-              Text(
+              SmartNumberText(
                 'Հիանալի է!  Դուք ստացաք $totalReward միավոր',
                 textAlign: .center,
-                style: context.typography.regular28.copyWith(
-                  color: colors.white,
-                ),
+                style: context.typography.regular28,
               ),
             ],
           ),

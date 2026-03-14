@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -91,9 +92,7 @@ class _RewardItemState extends State<RewardItem>
                       angle: 9.25 * math.pi / 180,
                       child: Text(
                         widget.coins!.toString(),
-                        style: context.typography.regular28.copyWith(
-                          fontFamily: 'Digitalt',
-                        ),
+                        style: context.typography.regular28.withNumericFont,
                       ),
                     ),
                   ),
