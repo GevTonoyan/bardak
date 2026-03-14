@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alias_pro/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:alias_pro/card_round/presentation/ui/card_round_screen.dart';
 import 'package:alias_pro/game_session/domain/entities/game_session_entity.dart';
@@ -20,9 +22,33 @@ import 'package:alias_pro/shop/presentation/ui/shop_screen.dart';
 import 'package:alias_pro/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:alias_pro/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:alias_pro/word_pack/presentation/ui/word_packs_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+Page<T> _buildPlatformPage<T>({
+  required Widget child,
+  LocalKey? key,
+}) {
+  if (Platform.isAndroid) {
+    CustomTransitionPage<void>(
+      key: key,
+      child: child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: animation.drive(
+            Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).chain(CurveTween(curve: Curves.fastOutSlowIn)),
+          ),
+          child: child,
+        );
+      },
+    );
+  }
+  return CupertinoPage<T>(key: key, child: child);
+}
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final preGameNavigatorKey = GlobalKey<NavigatorState>();
@@ -39,7 +65,8 @@ final appRouter = GoRouter(
       parentNavigatorKey: rootNavigatorKey,
       path: HomeScreen.routePath,
       name: HomeScreen.routePath,
-      builder: (context, state) => const HomeScreen(),
+      pageBuilder: (context, state) =>
+          _buildPlatformPage(child: const HomeScreen()),
       routes: [
         GoRoute(
           path: SettingsScreen.routePath,
@@ -76,7 +103,8 @@ final appRouter = GoRouter(
                 GoRoute(
                   path: WordPackScreen.routePath,
                   name: WordPackScreen.routePath,
-                  builder: (context, state) => const WordPackScreen(),
+                  pageBuilder: (context, state) =>
+                      _buildPlatformPage(child: const WordPackScreen()),
                 ),
               ],
             ),
@@ -86,12 +114,14 @@ final appRouter = GoRouter(
         GoRoute(
           path: RewardsScreen.routePath,
           name: RewardsScreen.routePath,
-          builder: (context, state) => const RewardsScreen(),
+          pageBuilder: (context, state) =>
+              _buildPlatformPage(child: const RewardsScreen()),
         ),
         GoRoute(
           path: ShopScreen.routePath,
           name: ShopScreen.routePath,
-          builder: (context, state) => const ShopScreen(),
+          pageBuilder: (context, state) =>
+              _buildPlatformPage(child: const ShopScreen()),
         ),
         ShellRoute(
           navigatorKey: gameSessionNavigatorKey,
@@ -106,12 +136,14 @@ final appRouter = GoRouter(
             GoRoute(
               path: '$_gameSessionPath/${RoundOverviewScreen.routePath}',
               name: RoundOverviewScreen.routePath,
-              builder: (context, state) => const RoundOverviewScreen(),
+              pageBuilder: (context, state) =>
+                  _buildPlatformPage(child: const RoundOverviewScreen()),
             ),
             GoRoute(
               path: '$_gameSessionPath/${CountdownScreen.routePath}',
               name: CountdownScreen.routePath,
-              builder: (context, state) => const CountdownScreen(),
+              pageBuilder: (context, state) =>
+                  _buildPlatformPage(child: const CountdownScreen()),
             ),
             GoRoute(
               path: '$_gameSessionPath/${CardRoundScreen.routePath}',
@@ -184,11 +216,13 @@ final appRouter = GoRouter(
         GoRoute(
           path: GameSummaryScreen.routePath,
           name: GameSummaryScreen.routePath,
-          builder: (context, state) {
+          pageBuilder: (context, state) {
             final teamStates = state.extra! as List<AliasTeamStateEntity>;
             final winner = teamStates.winner;
 
-            return GameSummaryScreen(winningTeamName: winner.name);
+            return _buildPlatformPage(
+              child: GameSummaryScreen(winningTeamName: winner.name),
+            );
           },
         ),
       ],
