@@ -134,7 +134,7 @@ class _RuleList extends StatelessWidget {
                   Expanded(
                     child: Text(
                       rule,
-                      style: typography.regular20.copyWith(color: colors.white),
+                      style: typography.regular20,
                     ),
                   ),
                 ],

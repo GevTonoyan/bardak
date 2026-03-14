@@ -19,7 +19,7 @@ class RewardsLootGrid extends StatelessWidget {
         height40,
         Text(
           'Ընտրեք երեքը՝',
-          style: context.typography.regular24.copyWith(color: colors.white),
+          style: context.typography.regular24,
         ),
         height20,
         Container(

@@ -1,7 +1,6 @@
 import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_black_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_blue_colors.dart';
-import 'package:alias_pro/app_ui/theme/colors/app_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_green_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_light_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
@@ -27,7 +26,6 @@ class ShopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
     final typography = context.typography;
 
     final bottomInset = MediaQuery.of(context).padding.bottom;
@@ -55,7 +53,7 @@ class ShopScreen extends StatelessWidget {
                   final scheme = AppColorScheme.values[index];
                   return AppButton(
                     label: scheme.displayName(context),
-                    color: _buttonBackgroundColor(colors, scheme),
+                    color: _buttonBackgroundColor(scheme),
                     size: .extraLarge,
                     onPressed: () {
                       context.read<SettingsBloc>().add(
@@ -78,7 +76,6 @@ class ShopScreen extends StatelessWidget {
                                 Text(
                                   '500',
                                   style: typography.regular24.copyWith(
-                                    color: colors.white,
                                     fontFamily: 'Digitalt',
                                   ),
                                 ),
@@ -94,9 +91,7 @@ class ShopScreen extends StatelessWidget {
                                 Assets.icons.lock.svg(),
                                 Text(
                                   scheme.displayName(context),
-                                  style: typography.regular24.copyWith(
-                                    color: colors.white,
-                                  ),
+                                  style: typography.regular24,
                                 ),
                               ],
                             ),
@@ -116,7 +111,7 @@ class ShopScreen extends StatelessWidget {
     );
   }
 
-  Color _buttonBackgroundColor(AppColors colors, AppColorScheme colorScheme) {
+  Color _buttonBackgroundColor(AppColorScheme colorScheme) {
     return switch (colorScheme) {
       .main => AppMainColors().secondary,
       .purple => AppPurpleColors().secondary,

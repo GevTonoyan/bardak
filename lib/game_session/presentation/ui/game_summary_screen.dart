@@ -79,9 +79,7 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                       children: [
                         Text(
                           'Հաղթեց՝',
-                          style: typography.regular24.copyWith(
-                            color: colors.white,
-                          ),
+                          style: typography.regular24,
                         ),
                         HighlightedText(text: widget.winningTeamName),
                       ],

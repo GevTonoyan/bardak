@@ -19,9 +19,7 @@ class HighlightedText extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: typography.regular28.copyWith(
-          color: colors.white,
-        ),
+        style: typography.regular28,
       ),
     );
   }

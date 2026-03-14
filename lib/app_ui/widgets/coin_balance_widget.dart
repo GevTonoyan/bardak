@@ -29,7 +29,6 @@ class CoinBalanceWidget extends StatelessWidget {
               Text(
                 coins.toDotThousands,
                 style: typography.medium.copyWith(
-                  color: colors.white,
                   fontFamily: 'Digitalt',
                 ),
               ),

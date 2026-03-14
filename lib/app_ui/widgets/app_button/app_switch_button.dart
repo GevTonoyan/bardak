@@ -37,9 +37,7 @@ class AppSwitchButton extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: context.typography.regular24.copyWith(
-                color: colors.white,
-              ),
+              style: context.typography.regular24,
             ),
           ),
           Padding(

@@ -61,9 +61,7 @@ class RoundOverviewScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Հաջորդ թիմը՝',
-                          style: typography.regular24.copyWith(
-                            color: colors.white,
-                          ),
+                          style: typography.regular24,
                         ),
                         HighlightedText(
                           text: gameState
@@ -134,7 +132,7 @@ class _TeamScores extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20, bottom: 20),
           child: Text(
             'Ստատիստիկա՝',
-            style: typography.regular24.copyWith(color: colors.white),
+            style: typography.regular24,
           ),
         ),
         ...List.generate(teams.length, (index) {
@@ -148,12 +146,11 @@ class _TeamScores extends StatelessWidget {
               children: [
                 Text(
                   teamState.name,
-                  style: typography.regular24.copyWith(color: colors.white),
+                  style: typography.regular24,
                 ),
                 Text(
                   teamState.totalScore.toString(),
                   style: typography.regular24.copyWith(
-                    color: colors.white,
                     fontFamily: 'Digitalt',
                   ),
                 ),

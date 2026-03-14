@@ -91,8 +91,8 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                 children: [
                   height30,
                   Text(
-                    'Թիմեր՝',
-                    style: typography.regular24.copyWith(color: colors.white),
+                    'Թիમեर՝',
+                    style: typography.regular24,
                   ),
                   height20,
                   Column(
