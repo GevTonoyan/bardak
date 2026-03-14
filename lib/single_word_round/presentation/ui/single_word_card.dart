@@ -36,12 +36,8 @@ class SingleWordCardBack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleWordCardShell(
-      child: SizedBox(
-        height: 100,
-        width: 150,
-        child: Assets.icons.logoAm.svg(
-          fit: .fitWidth,
-        ),
+      child: Center(
+        child: Assets.logo.am.image(height: 130, fit: .contain),
       ),
     );
   }
