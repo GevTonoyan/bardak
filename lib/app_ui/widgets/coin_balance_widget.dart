@@ -1,3 +1,4 @@
+import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_text_button.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
@@ -14,7 +15,6 @@ class CoinBalanceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
     final typography = context.typography;
 
     return BlocBuilder<RewardsCubit, CoinBalanceEntity>(
@@ -28,9 +28,7 @@ class CoinBalanceWidget extends StatelessWidget {
             children: [
               Text(
                 coins.toDotThousands,
-                style: typography.medium.copyWith(
-                  fontFamily: 'Digitalt',
-                ),
+                style: typography.medium.withNumericFont,
               ),
               Assets.icons.coin.svg(width: 18, height: 18),
             ],

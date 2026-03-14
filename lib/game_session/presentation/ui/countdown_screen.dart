@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/card_round/presentation/ui/card_round_screen.dart';
 import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
@@ -104,18 +105,7 @@ class _CountdownScreenState extends State<CountdownScreen>
                 child: Text(
                   '$_count',
                   key: ValueKey(_count),
-                  style: TextStyle(
-                    color: colors.white,
-                    fontSize: 91,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Digitalt',
-                    shadows: [
-                      BoxShadow(
-                        color: colors.black.withValues(alpha: 0.2),
-                        offset: const Offset(0, 8.51),
-                      ),
-                    ],
-                  ),
+                  style: typography.countdownNumber.withNumericFont,
                 ),
               ),
             );

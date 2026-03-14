@@ -7,10 +7,26 @@ class AppTextStyles {
 
   static final AppTextStyles _instance = AppTextStyles._internal();
 
+  static const primaryFont = 'NishikiTeki';
+  static const numberFont = 'Digitalt';
+
+  final TextStyle countdownNumber = TextStyle(
+    fontSize: 91,
+    fontWeight: FontWeight.w500,
+    fontFamily: AppTextStyles.numberFont,
+    color: Colors.white,
+    shadows: [
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.2),
+        offset: const Offset(0, 8.51),
+      ),
+    ],
+  );
+
   final TextStyle regular38 = const TextStyle(
     fontSize: 38,
     fontWeight: .w500,
-    fontFamily: 'NishikiTeki',
+    fontFamily: primaryFont,
     height: 1,
     letterSpacing: 38 * 0.04,
     color: Colors.white,
@@ -19,7 +35,7 @@ class AppTextStyles {
   final TextStyle regular28 = const TextStyle(
     fontSize: 28,
     fontWeight: .w500,
-    fontFamily: 'NishikiTeki',
+    fontFamily: primaryFont,
     height: 1,
     letterSpacing: 28 * 0.02,
     color: Colors.white,
@@ -28,7 +44,7 @@ class AppTextStyles {
   final TextStyle regular24 = const TextStyle(
     fontSize: 24,
     fontWeight: .w500,
-    fontFamily: 'NishikiTeki',
+    fontFamily: primaryFont,
     height: 28 / 24,
     letterSpacing: 24 * 0.02,
     color: Colors.white,
@@ -37,7 +53,7 @@ class AppTextStyles {
   final TextStyle regular20 = const TextStyle(
     fontSize: 20,
     fontWeight: .w500,
-    fontFamily: 'NishikiTeki',
+    fontFamily: primaryFont,
     height: 24 / 20,
     letterSpacing: 20 * 0.02,
     color: Colors.white,
@@ -46,7 +62,7 @@ class AppTextStyles {
   final TextStyle regular18 = const TextStyle(
     fontSize: 18,
     fontWeight: .w500,
-    fontFamily: 'NishikiTeki',
+    fontFamily: primaryFont,
     height: 20 / 18,
     letterSpacing: 18 * 0.02,
     color: Colors.white,
@@ -168,4 +184,9 @@ class AppTextStyles {
     letterSpacing: 0.5,
     color: Colors.white,
   );
+}
+
+extension TextStyleX on TextStyle {
+  TextStyle get withNumericFont =>
+      copyWith(fontFamily: AppTextStyles.numberFont);
 }

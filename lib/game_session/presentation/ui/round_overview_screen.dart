@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
@@ -150,9 +151,7 @@ class _TeamScores extends StatelessWidget {
                 ),
                 Text(
                   teamState.totalScore.toString(),
-                  style: typography.regular24.copyWith(
-                    fontFamily: 'Digitalt',
-                  ),
+                  style: typography.regular24.withNumericFont,
                 ),
               ],
             ),

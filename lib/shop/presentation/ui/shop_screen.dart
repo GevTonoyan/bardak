@@ -7,6 +7,7 @@ import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_purple_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_red_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_yellow_colors.dart';
+import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
@@ -75,9 +76,7 @@ class ShopScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   '500',
-                                  style: typography.regular24.copyWith(
-                                    fontFamily: 'Digitalt',
-                                  ),
+                                  style: typography.regular24.withNumericFont,
                                 ),
                                 Assets.icons.coin.svg(width: 18, height: 18),
                               ],
