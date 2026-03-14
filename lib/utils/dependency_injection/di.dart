@@ -1,3 +1,4 @@
+import 'package:alias_pro/pre_game/pre_game_scope.dart';
 import 'package:alias_pro/rewards/inject_rewards_scope.dart';
 import 'package:alias_pro/settings/data/data_sources/settings_local_data_source.dart';
 import 'package:alias_pro/settings/data/repositories/settings_repository_impl.dart';
@@ -37,4 +38,5 @@ Future<void> injectDependencies() async {
 
   await injectRewardsScope();
   await injectWordPacksScope();
+  injectPreGameScope();
 }

@@ -5,32 +5,39 @@ class PreGameState extends Equatable {
     required this.gameMode,
     required this.teamNames,
     required this.words,
+    required this.predefinedTeamNames,
   });
 
-  factory PreGameState.initial() {
-    return const PreGameState(
+  factory PreGameState.initial({
+    required Map<AppLocales, Set<String>> predefinedTeamNames,
+  }) {
+    return PreGameState(
       gameMode: GameMode.card,
-      teamNames: <String>[],
-      words: <String>[],
+      teamNames: const <String>[],
+      words: const <String>[],
+      predefinedTeamNames: predefinedTeamNames,
     );
   }
 
   final GameMode gameMode;
   final List<String> teamNames;
   final List<String> words;
+  final Map<AppLocales, Set<String>> predefinedTeamNames;
 
   PreGameState copyWith({
     GameMode? gameMode,
     List<String>? teamNames,
     List<String>? words,
+    Map<AppLocales, Set<String>>? predefinedTeamNames,
   }) {
     return PreGameState(
       gameMode: gameMode ?? this.gameMode,
       teamNames: teamNames ?? this.teamNames,
       words: words ?? this.words,
+      predefinedTeamNames: predefinedTeamNames ?? this.predefinedTeamNames,
     );
   }
 
   @override
-  List<Object?> get props => [gameMode, teamNames, words];
+  List<Object?> get props => [gameMode, teamNames, words, predefinedTeamNames];
 }

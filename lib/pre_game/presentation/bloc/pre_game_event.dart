@@ -1,6 +1,6 @@
 part of 'pre_game_bloc.dart';
 
-/// AliasPreGameEvent is the base class for all events in the [PreGameBloc].
+/// Base class for all events in the [PreGameBloc].
 sealed class PreGameEvent {
   const PreGameEvent();
 }

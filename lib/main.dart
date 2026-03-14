@@ -70,7 +70,11 @@ void main() async {
         ),
         // TODO(GEVORG): make PreGameBloc available only where needed,
         //  not for the whole tree
-        BlocProvider(create: (_) => PreGameBloc()),
+        BlocProvider(
+          create: (_) => PreGameBloc(
+            getPredefinedTeamNamesUseCase: sl(),
+          ),
+        ),
       ],
       child: const MyApp(),
     ),

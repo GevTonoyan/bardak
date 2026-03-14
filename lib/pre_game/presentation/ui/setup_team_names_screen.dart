@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon.dart';
@@ -6,6 +7,7 @@ import 'package:alias_pro/app_ui/widgets/app_input_field.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/localizations/common/supported_locales.dart';
 import 'package:alias_pro/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:alias_pro/utils/constants/constants.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
@@ -14,15 +16,6 @@ import 'package:alias_pro/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-const _predefinedTeamNames = [
-  'Արծիվներ',
-  'Վագրեր',
-  'Առյusage',
-  'Կայծակներ',
-  'Փdelays',
-  'Հրdelays',
-];
 
 class SetupTeamNamesScreen extends Page<void> {
   const SetupTeamNamesScreen({super.key});
@@ -48,16 +41,27 @@ class _SetupTeamNamesBody extends StatefulWidget {
 }
 
 class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
-  late final _teamControllers = <TextEditingController>[
-    TextEditingController(text: '${context.l10n.preGameTeam} 1'),
-    TextEditingController(text: '${context.l10n.preGameTeam} 2'),
-  ];
-
-  late final _teamFocusNodes = <FocusNode>[FocusNode(), FocusNode()];
+  late final List<TextEditingController> _teamControllers;
+  late final List<FocusNode> _teamFocusNodes;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final appLocale = AppLocales.fromString(context.locale.languageCode);
+    final predefined =
+        context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ?? {};
+    final firstName = _pickDefaultName({}, predefined: predefined);
+    final secondName = _pickDefaultName({firstName}, predefined: predefined);
+    _teamControllers = [
+      TextEditingController(text: firstName),
+      TextEditingController(text: secondName),
+    ];
+    _teamFocusNodes = [FocusNode(), FocusNode()];
     _teamFocusNodes[0].requestFocus();
   }
 
@@ -168,11 +172,26 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
 
   String _getNextDefaultName() {
     final currentNames = _teamControllers.map((e) => e.text.trim()).toSet();
+    final appLocale = AppLocales.fromString(context.locale.languageCode);
+    final predefined =
+        context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ?? {};
+    return _pickDefaultName(currentNames, predefined: predefined);
+  }
 
-    for (final name in _predefinedTeamNames) {
-      if (!currentNames.contains(name)) return name;
+  /// Picks a random unused name from [predefined] that is not in [taken].
+  /// Falls back to "Team N" (where N = taken.length + 1) when exhausted.
+  static String _pickDefaultName(
+    Set<String> taken, {
+    Set<String> predefined = const {},
+  }) {
+    final available = predefined
+        .where((name) => !taken.contains(name))
+        .toList();
+
+    if (available.isNotEmpty) {
+      return available[Random().nextInt(available.length)];
     }
 
-    return '${context.l10n.preGameTeam} ${_teamControllers.length + 1}';
+    return 'Team ${taken.length + 1}';
   }
 }
