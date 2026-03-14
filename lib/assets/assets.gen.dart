@@ -47,9 +47,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/lock.svg
   SvgGenImage get lock => const SvgGenImage('assets/icons/lock.svg');
 
-  /// File path: assets/icons/logo_am.svg
-  SvgGenImage get logoAm => const SvgGenImage('assets/icons/logo_am.svg');
-
   /// File path: assets/icons/minus.svg
   SvgGenImage get minus => const SvgGenImage('assets/icons/minus.svg');
 
@@ -87,7 +84,6 @@ class $AssetsIconsGen {
     download,
     info,
     lock,
-    logoAm,
     minus,
     pause,
     play,
@@ -97,6 +93,16 @@ class $AssetsIconsGen {
     shiner,
     volume,
   ];
+}
+
+class $AssetsLogoGen {
+  const $AssetsLogoGen();
+
+  /// File path: assets/logo/am.png
+  AssetGenImage get am => const AssetGenImage('assets/logo/am.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [am];
 }
 
 class $AssetsPackImagesGen {
@@ -130,6 +136,7 @@ class Assets {
   const Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsPackImagesGen packImages = $AssetsPackImagesGen();
 }
 
