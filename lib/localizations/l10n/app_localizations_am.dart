@@ -9,20 +9,43 @@ class AppLocalizationsAm extends AppLocalizations {
   AppLocalizationsAm([String locale = 'am']) : super(locale);
 
   @override
-  String get settings______________________________________________ =>
-      'settings----------------------------------------------------------------------';
+  String get appVersion => 'Հավելվածի տարբերակը';
+
+  @override
+  String get proceed => 'Շարունակել';
+
+  @override
+  String get cancel => 'Չեղարկել';
+
+  @override
+  String get add => 'Ավելացնել';
+
+  @override
+  String get skip => 'Բաց թողնել';
+
+  @override
+  String get correct => 'Ճիշտ է';
+
+  @override
+  String get check => 'Ստուգել';
+
+  @override
+  String unit_sec(int count) {
+    return '$count վրկ';
+  }
+
+  @override
+  String unit_pts(int count) {
+    return '$count միավոր';
+  }
+
+  @override
+  String points_value(String value) {
+    return '$value միավոր';
+  }
 
   @override
   String get settings => 'Կարգավորումներ';
-
-  @override
-  String get app_settings => 'Հավելվածի կարգավորումներ';
-
-  @override
-  String get settings_darkMode => ' Մութ ռեժիմ';
-
-  @override
-  String get settings_localeName => 'Հայերեն';
 
   @override
   String get settings_localeArmenian => 'Հայերեն';
@@ -34,37 +57,19 @@ class AppLocalizationsAm extends AppLocalizations {
   String get settings_localeEnglish => 'English';
 
   @override
-  String get alias________________________________________________ =>
-      'alias----------------------------------------------------------------------';
+  String get settings_game_mode => 'Խաղի ռեժիմ';
 
   @override
-  String get rewards => 'Պարգևներ';
+  String get settings_round_time => 'Ռաունդի տևողություն';
 
   @override
-  String get rewardsSelectThree => 'Ընտրեք երեքը';
+  String get settings_points_to_win => 'Միավորներ հաղթանակի համար';
 
   @override
-  String rewards_success(int count) {
-    return 'Կեցցե՛ք!\nԴուք վաստակեցիք $count միավոր';
-  }
-
-  @override
-  String get classicMode => 'Դասական';
-
-  @override
-  String get oneWordMode => 'Մեկ բառ';
+  String get settings_allow_skipping => 'Բացթողում';
 
   @override
   String get themes => 'Թեմաներ';
-
-  @override
-  String get sounds => 'Ձայներ';
-
-  @override
-  String get appVersion => 'Հավելվածի տարբերակը';
-
-  @override
-  String get proceed => 'Շարունակել';
 
   @override
   String get theme_main => 'Հիմնական';
@@ -91,32 +96,21 @@ class AppLocalizationsAm extends AppLocalizations {
   String get theme_black => 'Սև';
 
   @override
-  String get settings_game_mode => 'Խաղի ռեժիմ';
+  String get sounds => 'Ձայներ';
 
   @override
-  String get settings_round_time => 'Ռաունդի տևողություն';
+  String get rewards => 'Պարգևներ';
 
   @override
-  String get settings_points_to_win => 'Միավորներ հաղթանակի համար';
+  String get rewardsSelectThree => 'Ընտրեք երեքը';
 
   @override
-  String get settings_allow_skipping => 'Բացթողում';
-
-  @override
-  String unit_sec(int count) {
-    return '$count վրկ';
-  }
-
-  @override
-  String unit_pts(int count) {
-    return '$count միավոր';
+  String rewards_success(int count) {
+    return 'Կեցցե՛ք!\nԴուք վաստակել եք $count միավոր';
   }
 
   @override
   String get teams => 'Թիմեր';
-
-  @override
-  String get add => 'Ավելացնել';
 
   @override
   String team_with_count(int number) {
@@ -124,53 +118,10 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get exit_game_title => 'Դուրս գա՞լ խաղից';
+  String get classicMode => 'Դասական';
 
   @override
-  String get exit_game_description =>
-      'Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը:';
-
-  @override
-  String get exit_game_confirm => 'Այո, դուրս գալ';
-
-  @override
-  String get cancel => 'Չեղարկել';
-
-  @override
-  String get next_team => 'Հաջորդ թիմը';
-
-  @override
-  String get check => 'Ստուգել';
-
-  @override
-  String get scoreboard => 'Հաշիվը';
-
-  @override
-  String get round_stop_title => 'Ավարտե՞լ ռաունդը';
-
-  @override
-  String get round_stop_description =>
-      'Դադարեցնե՞լ ժամանակը և տեսնել արդյունքները: Միավորները կպահպանվեն:';
-
-  @override
-  String get round_stop_confirm => 'Ավարտել';
-
-  @override
-  String get round_stop_resume => 'Շարունակել';
-
-  @override
-  String get skip => 'Բաց թողնել';
-
-  @override
-  String get correct => 'Ճիշտ է';
-
-  @override
-  String points_value(String value) {
-    return '$value միավոր';
-  }
-
-  @override
-  String get winner_reveal => 'Եվ հաղթողն է...';
+  String get oneWordMode => 'Մեկ բառ';
 
   @override
   String get game_rules => 'Խաղի կանոնները';
@@ -221,4 +172,36 @@ class AppLocalizationsAm extends AppLocalizations {
   @override
   String get cardModeRule6 =>
       'Միավորները հաշվարկվում են գուշակված բառերի քանակով';
+
+  @override
+  String get scoreboard => 'Հաշիվը';
+
+  @override
+  String get next_team => 'Հաջորդ թիմը';
+
+  @override
+  String get winner_reveal => 'Եվ հաղթողն է...';
+
+  @override
+  String get exit_game_title => 'Դուրս գա՞լ խաղից';
+
+  @override
+  String get exit_game_description =>
+      'Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը:';
+
+  @override
+  String get exit_game_confirm => 'Այո, դուրս գալ';
+
+  @override
+  String get round_stop_title => 'Ավարտե՞լ ռաունդը';
+
+  @override
+  String get round_stop_description =>
+      'Դադարեցնե՞լ ժամանակը և տեսնել արդյունքները: Միավորները կպահպանվեն:';
+
+  @override
+  String get round_stop_confirm => 'Ավարտել';
+
+  @override
+  String get round_stop_resume => 'Շարունակել';
 }
