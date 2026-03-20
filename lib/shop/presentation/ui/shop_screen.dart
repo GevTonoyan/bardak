@@ -2,7 +2,7 @@ import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_black_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_blue_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_green_colors.dart';
-import 'package:alias_pro/app_ui/theme/colors/app_light_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_main_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_purple_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_red_colors.dart';

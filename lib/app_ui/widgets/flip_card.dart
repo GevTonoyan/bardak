@@ -60,17 +60,29 @@ class _FlipCardState extends State<FlipCard>
           ..setEntry(3, 2, 0.0018) // perspective
           ..rotateY(angle);
 
+        // The front always lives in the tree so it dictates the intrinsic size.
+        // The back is stacked on top and constrained to match that exact size.
         return Transform(
           alignment: Alignment.center,
           transform: m,
-          child: isBack
-              // un-mirror the back side
-              ? Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.identity()..rotateY(math.pi),
-                  child: widget.back,
-                )
-              : widget.front,
+          child: Stack(
+            children: [
+              // Front — always sized naturally; hidden when showing back.
+              Opacity(
+                opacity: isBack ? 0 : 1,
+                child: widget.front,
+              ),
+              // Back — sized to match the front exactly via Positioned.fill.
+              if (isBack)
+                Positioned.fill(
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()..rotateY(math.pi),
+                    child: widget.back,
+                  ),
+                ),
+            ],
+          ),
         );
       },
     );

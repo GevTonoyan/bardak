@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 
 class AppYellowColors extends AppColors {
   @override
-  LinearGradient get main => const LinearGradient(
+  Color get firstGradient => const Color(0xFFB5B518);
+
+  @override
+  Color get secondGradient => const Color(0xFF706812);
+
+  @override
+  LinearGradient get main => LinearGradient(
     begin: .topCenter,
     end: .bottomCenter,
-    colors: [
-      Color(0xFFB5B518),
-      Color(0xFF706812),
-    ],
+    colors: [firstGradient, secondGradient],
   );
 
   @override
