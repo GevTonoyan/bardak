@@ -1,6 +1,7 @@
 import 'package:alias_pro/app_ui/widgets/app_button/app_switch_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
+import 'package:alias_pro/app_ui/widgets/smart_number_text.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_bloc.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_event.dart';
@@ -8,6 +9,7 @@ import 'package:alias_pro/settings/presentation/ui/app_languages_list.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsScreen extends Page<void> {
   const SettingsScreen({super.key});
@@ -30,9 +32,6 @@ class SettingsScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final typography = context.typography;
-
     final settingsBloc = context.watch<SettingsBloc>();
     final appSettings = settingsBloc.state.appSettings;
 
@@ -55,11 +54,35 @@ class SettingsScreenBody extends StatelessWidget {
           },
         ),
         height40,
-        Text(
-          '${context.l10n.appVersion} 1.3.0',
-          style: typography.regular18.copyWith(color: colors.white30),
-        ),
+        const _AppVersionText(),
       ],
+    );
+  }
+}
+
+class _AppVersionText extends StatelessWidget {
+  const _AppVersionText();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final typography = context.typography;
+    final colors = context.colors;
+
+    return FutureBuilder<PackageInfo>(
+      future: PackageInfo.fromPlatform(),
+      builder: (_, snapshot) {
+        final versionLabel = l10n.appVersion;
+        final version = snapshot.hasData
+            ? '${snapshot.data!.version} (${snapshot.data!.buildNumber})'
+            : '';
+
+        return SmartNumberText(
+          '$versionLabel $version',
+          style: typography.regular18.copyWith(color: colors.white30),
+          textAlign: .center,
+        );
+      },
     );
   }
 }
