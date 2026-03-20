@@ -1,100 +1,98 @@
 {
   "@@locale": "ru",
-  "settings______________________________________________": "settings----------------------------------------------------------------------",
+
+  "appVersion": "Версия приложения",
+  "proceed": "Продолжить",
+  "cancel": "Отмена",
+  "add": "Добавить",
+  "skip": "Пропустить",
+  "correct": "Правильно",
+  "check": "Проверить",
+
+  "unit_sec": "{count} сек",
+  "@unit_sec": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "unit_pts": "{count, plural, one{{count} очко} few{{count} очка} other{{count} очков}}",
+  "@unit_pts": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "points_value": "{value} очко",
+  "@points_value": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+
   "settings": "Настройки",
-  "settings_darkMode": "Тёмная тема",
-  "settings_localeName": "Русский",
   "settings_localeArmenian": "Հայերեն",
   "settings_localeRussian": "Русский",
   "settings_localeEnglish": "English",
-  "app_settings": "Настройки приложения",
-  "alias________________________________________________": "rewards----------------------------------------------------------------------",
+  "settings_game_mode": "Режим игры",
+  "settings_round_time": "Время раунда",
+  "settings_points_to_win": "Очки для победы",
+  "settings_allow_skipping": "Пропуск слов",
+
+  "themes": "Темы",
+  "theme_main": "Основная",
+  "theme_purple": "Фиолетовая",
+  "theme_yellow": "Желтая",
+  "theme_blue": "Синяя",
+  "theme_green": "Зеленая",
+  "theme_pink": "Розовая",
+  "theme_red": "Красная",
+  "theme_black": "Черная",
+
+  "sounds": "Звуки",
+
   "rewards": "Награды",
   "rewardsSelectThree": "Выберите три",
   "rewards_success": "Здорово!\nВы заработали {count} очков",
-    "@rewards_success": {
-      "placeholders": {
-        "count": { "type": "int" }
-      }
-    },
-  "alias________________________________________________": "alias----------------------------------------------------------------------",
+  "@rewards_success": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "teams": "Команды",
+  "team_with_count": "Команда {number}",
+  "@team_with_count": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+
   "classicMode": "Классический",
   "oneWordMode": "Одно слово",
-  "themes": "Темы",
-  "sounds": "Звуки",
-  "appVersion": "Версия приложения",
-  "proceed": "Продолжить",
-  "theme_main": "Основная",
-    "theme_purple": "Фиолетовая",
-    "theme_yellow": "Желтая",
-    "theme_blue": "Синяя",
-    "theme_green": "Зеленая",
-    "theme_pink": "Розовая",
-    "theme_red": "Красная",
-    "theme_black": "Черная",
 
-    "settings_game_mode": "Режим игры",
-      "settings_round_time": "Время раунда",
-      "settings_points_to_win": "Очки для победы",
-      "settings_allow_skipping": "Пропуск слов",
-      "unit_sec": "{count} сек",
-      "@unit_sec": {
-        "placeholders": {
-          "count": { "type": "int" }
-        }
-      },
-      "unit_pts": "{count, plural, one{{count} очко} few{{count} очка} other{{count} очков}}",
-      "@unit_pts": {
-        "placeholders": {
-          "count": { "type": "int" }
-        }
-      },
-
-      "teams": "Команды",
-        "add": "Добавить",
-        "team_with_count": "Команда {number}",
-        "@team_with_count": {
-          "placeholders": {
-            "number": { "type": "int" }
-          }
-        },
-
-
-          "exit_game_title": "Выйти из игры?",
-          "exit_game_description": "Вы уверены, что хотите завершить текущую игру?",
-          "exit_game_confirm": "Да, выйти",
-          "cancel": "Отмена",
-          "next_team": "Следующая команда",
-          "check": "Проверить",
-           "scoreboard": "Счёт",
-
-           "round_stop_title": "Завершить раунд?",
-             "round_stop_description": "Остановить таймер и увидеть результаты? Очки будут сохранены.",
-             "round_stop_confirm": "Завершить",
-             "round_stop_resume": "Продолжить",
-
-             "skip": "Пропустить",
-               "correct": "Правильно",
-              "points_value": "{value} очко",
-                "@points_value": {
-                  "placeholders": {
-                    "value": { "type": "String" }
-                  }
-                },
-
-                "winner_reveal": "И победителем становится...",
-
-"game_rules": "Правила игры",
+  "game_rules": "Правила игры",
   "singleModeRule1": "Один игрок объясняет одно слово за раз.",
   "singleModeRule2": "Команда пытается угадать как можно больше слов, пока не истечёт время.",
   "singleModeRule3": "Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.",
-  "singleModeRule4": "Товарищи по команде ",
-  "singleModeRule5": "Можете угадывать столько раз, сколько захотите",
-  "singleModeRule6": "Когда слово угадано правильно, появляется новое слово",
+  "singleModeRule4": "Товарищи по команде могут угадывать столько раз, сколько захотят.",
+  "singleModeRule5": "Когда слово угадано правильно, появляется новое слово.",
+  "singleModeRule6": "Если слово пропущено, вычитается 1 очко (можно изменить в настройках).",
   "cardModeRule1": "Объясняющий получает карточку с несколькими словами (обычно 5–7).",
-  "cardModeRule2": "Все слова на карточке должны быть угаданы до истечения времени",
+  "cardModeRule2": "Все слова на карточке должны быть угаданы до истечения времени.",
   "cardModeRule3": "Игроки могут угадывать слова в любом порядке.",
-  "cardModeRule4": "Пропускать нельзя — нужно угадать каждое слово на карточке",
+  "cardModeRule4": "Пропускать нельзя — нужно угадать каждое слово на карточке.",
   "cardModeRule5": "Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.",
-  "cardModeRule6": "Счёт основан на количестве угаданных слов"
+  "cardModeRule6": "Счёт основан на количестве угаданных слов.",
+
+  "scoreboard": "Счёт",
+  "next_team": "Следующая команда",
+  "winner_reveal": "И победителем становится...",
+
+  "exit_game_title": "Выйти из игры?",
+  "exit_game_description": "Вы уверены, что хотите завершить текущую игру?",
+  "exit_game_confirm": "Да, выйти",
+
+  "round_stop_title": "Завершить раунд?",
+  "round_stop_description": "Остановить таймер и увидеть результаты? Очки будут сохранены.",
+  "round_stop_confirm": "Завершить",
+  "round_stop_resume": "Продолжить"
 }

@@ -9,20 +9,43 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get settings______________________________________________ =>
-      'settings----------------------------------------------------------------------';
+  String get appVersion => 'App version';
+
+  @override
+  String get proceed => 'Continue';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get correct => 'Correct';
+
+  @override
+  String get check => 'Check';
+
+  @override
+  String unit_sec(int count) {
+    return '$count sec';
+  }
+
+  @override
+  String unit_pts(int count) {
+    return '$count pts';
+  }
+
+  @override
+  String points_value(String value) {
+    return '$value pts';
+  }
 
   @override
   String get settings => 'Settings';
-
-  @override
-  String get app_settings => 'App Settings';
-
-  @override
-  String get settings_darkMode => 'Dark Mode';
-
-  @override
-  String get settings_localeName => 'English';
 
   @override
   String get settings_localeArmenian => 'Հայերեն';
@@ -34,37 +57,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_localeEnglish => 'English';
 
   @override
-  String get alias________________________________________________ =>
-      'alias----------------------------------------------------------------------';
+  String get settings_game_mode => 'Game Mode';
 
   @override
-  String get rewards => 'Rewards';
+  String get settings_round_time => 'Round Time';
 
   @override
-  String get rewardsSelectThree => 'Select three';
+  String get settings_points_to_win => 'Points to Win';
 
   @override
-  String rewards_success(int count) {
-    return 'Awesome!\nYou got $count points';
-  }
-
-  @override
-  String get classicMode => 'Classic';
-
-  @override
-  String get oneWordMode => 'One Word';
+  String get settings_allow_skipping => 'Allow Skipping';
 
   @override
   String get themes => 'Themes';
-
-  @override
-  String get sounds => 'Sounds';
-
-  @override
-  String get appVersion => 'App version';
-
-  @override
-  String get proceed => 'Continue';
 
   @override
   String get theme_main => 'Main';
@@ -91,32 +96,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get theme_black => 'Black';
 
   @override
-  String get settings_game_mode => 'Game Mode';
+  String get sounds => 'Sounds';
 
   @override
-  String get settings_round_time => 'Round Time';
+  String get rewards => 'Rewards';
 
   @override
-  String get settings_points_to_win => 'Points to Win';
+  String get rewardsSelectThree => 'Select three';
 
   @override
-  String get settings_allow_skipping => 'Allow Skipping';
-
-  @override
-  String unit_sec(int count) {
-    return '$count sec';
-  }
-
-  @override
-  String unit_pts(int count) {
-    return '$count pts';
+  String rewards_success(int count) {
+    return 'Awesome!\nYou got $count points';
   }
 
   @override
   String get teams => 'Teams';
-
-  @override
-  String get add => 'Add';
 
   @override
   String team_with_count(int number) {
@@ -124,56 +118,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get exit_game_title => 'Leave the game?';
+  String get classicMode => 'Classic';
 
   @override
-  String get exit_game_description =>
-      'Are you sure you want to finish the current game?';
+  String get oneWordMode => 'One Word';
 
   @override
-  String get exit_game_confirm => 'Yes, leave';
-
-  @override
-  String get cancel => 'Cancel';
-
-  @override
-  String get next_team => 'Next team';
-
-  @override
-  String get check => 'Check';
-
-  @override
-  String get scoreboard => 'Scoreboard';
-
-  @override
-  String get round_stop_title => 'Finish Round?';
-
-  @override
-  String get round_stop_description =>
-      'Stop the timer and see results? Your points will be saved.';
-
-  @override
-  String get round_stop_confirm => 'Finish';
-
-  @override
-  String get round_stop_resume => 'Resume';
-
-  @override
-  String get skip => 'Skip';
-
-  @override
-  String get correct => 'Correct';
-
-  @override
-  String points_value(String value) {
-    return '$value pts';
-  }
-
-  @override
-  String get winner_reveal => 'And the winner is...';
-
-  @override
-  String get game_rules => 'Խաղի կանոնները';
+  String get game_rules => 'Game Rules';
 
   @override
   String get singleModeRule1 => 'One player explains a single word at a time.';
@@ -217,5 +168,37 @@ class AppLocalizationsEn extends AppLocalizations {
       'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.';
 
   @override
-  String get cardModeRule6 => 'Score is based on the number guessed words';
+  String get cardModeRule6 => 'Score is based on the number of guessed words.';
+
+  @override
+  String get scoreboard => 'Scoreboard';
+
+  @override
+  String get next_team => 'Next team';
+
+  @override
+  String get winner_reveal => 'And the winner is...';
+
+  @override
+  String get exit_game_title => 'Leave the game?';
+
+  @override
+  String get exit_game_description =>
+      'Are you sure you want to finish the current game?';
+
+  @override
+  String get exit_game_confirm => 'Yes, leave';
+
+  @override
+  String get round_stop_title => 'Finish Round?';
+
+  @override
+  String get round_stop_description =>
+      'Stop the timer and see results? Your points will be saved.';
+
+  @override
+  String get round_stop_confirm => 'Finish';
+
+  @override
+  String get round_stop_resume => 'Resume';
 }

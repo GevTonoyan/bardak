@@ -1,91 +1,75 @@
 {
   "@@locale": "am",
-  "settings______________________________________________": "settings----------------------------------------------------------------------",
+
+  "appVersion": "Հավելվածի տարբերակը",
+  "proceed": "Շարունակել",
+  "cancel": "Չեղարկել",
+  "add": "Ավելացնել",
+  "skip": "Բաց թողնել",
+  "correct": "Ճիշտ է",
+  "check": "Ստուգել",
+
+  "unit_sec": "{count} վրկ",
+  "@unit_sec": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "unit_pts": "{count} միավոր",
+  "@unit_pts": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "points_value": "{value} միավոր",
+  "@points_value": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+
   "settings": "Կարգավորումներ",
-  "settings_darkMode": " Մութ ռեժիմ",
-  "settings_localeName": "Հայերեն",
   "settings_localeArmenian": "Հայերեն",
   "settings_localeRussian": "Русский",
   "settings_localeEnglish": "English",
-  "app_settings": "Հավելվածի կարգավորումներ",
-  "alias________________________________________________": "rewards----------------------------------------------------------------------",
+  "settings_game_mode": "Խաղի ռեժիմ",
+  "settings_round_time": "Ռաունդի տևողություն",
+  "settings_points_to_win": "Միավորներ հաղթանակի համար",
+  "settings_allow_skipping": "Բացթողում",
+
+  "themes": "Թեմաներ",
+  "theme_main": "Հիմնական",
+  "theme_purple": "Մանուշակագույն",
+  "theme_yellow": "Դեղին",
+  "theme_blue": "Կապույտ",
+  "theme_green": "Կանաչ",
+  "theme_pink": "Վարդագույն",
+  "theme_red": "Կարմիր",
+  "theme_black": "Սև",
+
+  "sounds": "Ձայներ",
+
   "rewards": "Պարգևներ",
   "rewardsSelectThree": "Ընտրեք երեքը",
-  "rewards_success": "Կեցցե՛ք!\nԴուք վաստակեցիք {count} միավոր",
-    "@rewards_success": {
-      "placeholders": {
-        "count": { "type": "int" }
-      }
-    },
-  "alias________________________________________________": "alias----------------------------------------------------------------------",
+  "rewards_success": "Կեցցե՛ք!\nԴուք վաստակել եք {count} միավոր",
+  "@rewards_success": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "teams": "Թիմեր",
+  "team_with_count": "Թիմ {number}",
+  "@team_with_count": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+
   "classicMode": "Դասական",
   "oneWordMode": "Մեկ բառ",
-  "themes": "Թեմաներ",
-  "sounds": "Ձայներ",
-  "appVersion": "Հավելվածի տարբերակը",
-  "proceed": "Շարունակել",
-  "theme_main": "Հիմնական",
-    "theme_purple": "Մանուշակագույն",
-    "theme_yellow": "Դեղին",
-    "theme_blue": "Կապույտ",
-    "theme_green": "Կանաչ",
-    "theme_pink": "Վարդագույն",
-    "theme_red": "Կարմիր",
-    "theme_black": "Սև",
 
-    "settings_game_mode": "Խաղի ռեժիմ",
-      "settings_round_time": "Ռաունդի տևողություն",
-      "settings_points_to_win": "Միավորներ հաղթանակի համար",
-      "settings_allow_skipping": "Բացթողում",
-      "unit_sec": "{count} վրկ",
-      "@unit_sec": {
-        "placeholders": {
-          "count": { "type": "int" }
-        }
-      },
-      "unit_pts": "{count} միավոր",
-      "@unit_pts": {
-        "placeholders": {
-          "count": { "type": "int" }
-        }
-      },
-
-      "teams": "Թիմեր",
-        "add": "Ավելացնել",
-        "team_with_count": "Թիմ {number}",
-        "@team_with_count": {
-          "placeholders": {
-            "number": { "type": "int" }
-          }
-        },
-
-
-          "exit_game_title": "Դուրս գա՞լ խաղից",
-          "exit_game_description": "Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը:",
-          "exit_game_confirm": "Այո, դուրս գալ",
-          "cancel": "Չեղարկել",
-          "next_team": "Հաջորդ թիմը",
-         "check": "Ստուգել",
-          "scoreboard": "Հաշիվը",
-
-          "round_stop_title": "Ավարտե՞լ ռաունդը",
-            "round_stop_description": "Դադարեցնե՞լ ժամանակը և տեսնել արդյունքները: Միավորները կպահպանվեն:",
-            "round_stop_confirm": "Ավարտել",
-            "round_stop_resume": "Շարունակել",
-
-"skip": "Բաց թողնել",
-  "correct": "Ճիշտ է",
-  "points_value": "{value} միավոր",
-    "@points_value": {
-      "placeholders": {
-        "value": { "type": "String" }
-      }
-    },
-
-    "winner_reveal": "Եվ հաղթողն է...",
-
-
-"game_rules": "Խաղի կանոնները",
+  "game_rules": "Խաղի կանոնները",
   "singleModeRule1": "Մի խաղացող բացատրում է մեկ բառ",
   "singleModeRule2": "Թիմը փորձում է գուշակել հնարավորինս շատ բառեր, մինչ ժամանակը կավարտվի",
   "singleModeRule3": "Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ",
@@ -97,5 +81,18 @@
   "cardModeRule3": "Խաղացողները կարող են գուշակել բառերը ցանկացած հերթականությամբ",
   "cardModeRule4": "Բաց թողնելը թույլ չի տրվում՝ դուք պետք է գուշակեք քարտի բոլոր բառերը",
   "cardModeRule5": "Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ",
-  "cardModeRule6": "Միավորները հաշվարկվում են գուշակված բառերի քանակով"
+  "cardModeRule6": "Միավորները հաշվարկվում են գուշակված բառերի քանակով",
+
+  "scoreboard": "Հաշիվը",
+  "next_team": "Հաջորդ թիմը",
+  "winner_reveal": "Եվ հաղթողն է...",
+
+  "exit_game_title": "Դուրս գա՞լ խաղից",
+  "exit_game_description": "Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը:",
+  "exit_game_confirm": "Այո, դուրս գալ",
+
+  "round_stop_title": "Ավարտե՞լ ռաունդը",
+  "round_stop_description": "Դադարեցնե՞լ ժամանակը և տեսնել արդյունքները: Միավորները կպահպանվեն:",
+  "round_stop_confirm": "Ավարտել",
+  "round_stop_resume": "Շարունակել"
 }
