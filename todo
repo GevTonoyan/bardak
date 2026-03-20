@@ -6,6 +6,7 @@ BUGS
 5. Some texts contain numbers (we need rich texts with different font families for such cases).
 CRITICALS
 single card screen - swipe left hides pass text
+USE carousel view for card review screen
 
 
 FEATURES
