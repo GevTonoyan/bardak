@@ -1,3 +1,4 @@
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/cupertino.dart';
 
 enum AppColorScheme {
@@ -26,15 +27,17 @@ enum AppColorScheme {
   }
 
   String displayName(BuildContext context) {
+    final l10n = context.l10n;
+
     return switch (this) {
-      main => 'Հիմնական',
-      purple => 'Մանուշակագույն',
-      yellow => 'Դեղին',
-      blue => 'Կապույտ',
-      green => 'Կանաչ',
-      pink => 'Վարդագույն',
-      red => 'Կարմիր',
-      black => 'Սև',
+      main => l10n.theme_main,
+      purple => l10n.theme_purple,
+      yellow => l10n.theme_yellow,
+      blue => l10n.theme_blue,
+      green => l10n.theme_green,
+      pink => l10n.theme_pink,
+      red => l10n.theme_red,
+      black => l10n.theme_black,
     };
   }
 }

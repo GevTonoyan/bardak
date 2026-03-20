@@ -17,7 +17,7 @@ class RulesScreen extends Page<void> {
       context: context,
       settings: this,
       child: const _RulesScreenBody(),
-      title: 'Խաղի կանոնները՝',
+      title: context.l10n.game_rules,
     );
   }
 }
@@ -46,7 +46,7 @@ class _RulesScreenBodyState extends State<_RulesScreenBody> {
             children: [
               Expanded(
                 child: AppButton(
-                  label: 'Կլասիկ',
+                  label: context.l10n.classicMode,
                   color: colors.white20,
                   isPressed: gameMode == GameMode.card,
                   pressedColor: colors.white,
@@ -60,7 +60,7 @@ class _RulesScreenBodyState extends State<_RulesScreenBody> {
               ),
               Expanded(
                 child: AppButton(
-                  label: 'Մեկ բառ',
+                  label: context.l10n.oneWordMode,
                   color: colors.white20,
                   isPressed: gameMode == GameMode.singleWord,
                   pressedColor: colors.white,

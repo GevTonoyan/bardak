@@ -43,7 +43,7 @@ class SettingsScreenBody extends StatelessWidget {
         const AppLanguagesList(),
         const SizedBox(height: 40),
         AppSwitchButton(
-          label: 'Ձայներ',
+          label: context.l10n.sounds,
           value: appSettings.soundEnabled,
           icon: Assets.icons.volume.svg(width: 24, height: 24),
           onPressed: () {
@@ -56,7 +56,7 @@ class SettingsScreenBody extends StatelessWidget {
         ),
         height40,
         Text(
-          'Version 1.3.0',
+          '${context.l10n.appVersion} 1.3.0',
           style: typography.regular18.copyWith(color: colors.white30),
         ),
       ],

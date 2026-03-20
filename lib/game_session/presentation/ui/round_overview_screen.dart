@@ -21,6 +21,7 @@ class RoundOverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colors = context.colors;
     final typography = context.typography;
     final bloc = context.watch<GameSessionBloc>();
@@ -42,10 +43,10 @@ class RoundOverviewScreen extends StatelessWidget {
                       onTap: () async {
                         await showConfirmSheet(
                           context: context,
-                          title: 'Լքե՞լ խաղը',
-                          description: 'Վստա՞հ եք որ ցանկանում եք ավարտել խաղը',
-                          confirmText: 'Այո,լքել խաղը',
-                          cancelText: 'Չեղարկել',
+                          title: l10n.exit_game_title,
+                          description: l10n.exit_game_description,
+                          confirmText: l10n.exit_game_confirm,
+                          cancelText: l10n.cancel,
                           confirmColor: colors.red,
                           cancelColor: colors.green,
                           onConfirm: () => context.pop(),
@@ -61,7 +62,7 @@ class RoundOverviewScreen extends StatelessWidget {
                       spacing: 16,
                       children: [
                         Text(
-                          'Հաջորդ թիմը՝',
+                          l10n.next_team,
                           style: typography.regular24,
                         ),
                         HighlightedText(
@@ -86,14 +87,14 @@ class RoundOverviewScreen extends StatelessWidget {
                           if (state.gameState.pendingReviewWords?.isNotEmpty ??
                               false)
                             AppButton(
-                              label: 'Վերանայել',
+                              label: l10n.check,
                               color: colors.white20,
                               onPressed: () => context.pushReplacementNamed(
                                 RoundReviewScreen.routePath,
                               ),
                             ),
                           AppButton(
-                            label: 'Շարունակել',
+                            label: l10n.proceed,
                             color: colors.green,
                             onPressed: () => _navigateToRoundScreen(context),
                           ),
@@ -132,7 +133,7 @@ class _TeamScores extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 20, bottom: 20),
           child: Text(
-            'Ստատիստիկա՝',
+            context.l10n.scoreboard,
             style: typography.regular24,
           ),
         ),

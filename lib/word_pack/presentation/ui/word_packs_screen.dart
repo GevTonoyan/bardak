@@ -83,7 +83,7 @@ class _Error extends StatelessWidget {
           Icon(Icons.error_outline, color: colors.red, size: 48),
           const SizedBox(height: 16),
           Text(
-            context.l10n.word_packs_fail,
+            'Fail to load',
             style: typography.titleMedium.copyWith(color: colors.red),
             textAlign: TextAlign.center,
           ),
@@ -155,7 +155,7 @@ class _Success extends StatelessWidget {
           roundScores: [],
         );
       }).toList(),
-      roundDuration: 333,
+      roundDuration: gameSettings.roundDuration,
       pointsToWin: gameSettings.pointsToWin,
       // TODO
       soundEnabled: false,

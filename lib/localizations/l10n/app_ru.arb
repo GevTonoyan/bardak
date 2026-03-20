@@ -10,14 +10,81 @@
   "app_settings": "Настройки приложения",
   "alias________________________________________________": "rewards----------------------------------------------------------------------",
   "rewards": "Награды",
+  "rewardsSelectThree": "Выберите три",
+  "rewards_success": "Здорово!\nВы заработали {count} очков",
+    "@rewards_success": {
+      "placeholders": {
+        "count": { "type": "int" }
+      }
+    },
   "alias________________________________________________": "alias----------------------------------------------------------------------",
-  "mode1": "Одно слово",
-  "mode2": "Режим карты",
-  "singleWordMode": "Режим одного слова",
-  "selectMode": "Выберите режим игры",
-  "wordPack": "Пакет слов",
-  "round": "Раунд",
-  "rulesTitle": "Правила",
+  "classicMode": "Классический",
+  "oneWordMode": "Одно слово",
+  "themes": "Темы",
+  "sounds": "Звуки",
+  "appVersion": "Версия приложения",
+  "proceed": "Продолжить",
+  "theme_main": "Основная",
+    "theme_purple": "Фиолетовая",
+    "theme_yellow": "Желтая",
+    "theme_blue": "Синяя",
+    "theme_green": "Зеленая",
+    "theme_pink": "Розовая",
+    "theme_red": "Красная",
+    "theme_black": "Черная",
+
+    "settings_game_mode": "Режим игры",
+      "settings_round_time": "Время раунда",
+      "settings_points_to_win": "Очки для победы",
+      "settings_allow_skipping": "Пропуск слов",
+      "unit_sec": "{count} сек",
+      "@unit_sec": {
+        "placeholders": {
+          "count": { "type": "int" }
+        }
+      },
+      "unit_pts": "{count, plural, one{{count} очко} few{{count} очка} other{{count} очков}}",
+      "@unit_pts": {
+        "placeholders": {
+          "count": { "type": "int" }
+        }
+      },
+
+      "teams": "Команды",
+        "add": "Добавить",
+        "team_with_count": "Команда {number}",
+        "@team_with_count": {
+          "placeholders": {
+            "number": { "type": "int" }
+          }
+        },
+
+
+          "exit_game_title": "Выйти из игры?",
+          "exit_game_description": "Вы уверены, что хотите завершить текущую игру?",
+          "exit_game_confirm": "Да, выйти",
+          "cancel": "Отмена",
+          "next_team": "Следующая команда",
+          "check": "Проверить",
+           "scoreboard": "Счёт",
+
+           "round_stop_title": "Завершить раунд?",
+             "round_stop_description": "Остановить таймер и увидеть результаты? Очки будут сохранены.",
+             "round_stop_confirm": "Завершить",
+             "round_stop_resume": "Продолжить",
+
+             "skip": "Пропустить",
+               "correct": "Правильно",
+              "points_value": "{value} очко",
+                "@points_value": {
+                  "placeholders": {
+                    "value": { "type": "String" }
+                  }
+                },
+
+                "winner_reveal": "И победителем становится...",
+
+"game_rules": "Правила игры",
   "singleModeRule1": "Один игрок объясняет одно слово за раз.",
   "singleModeRule2": "Команда пытается угадать как можно больше слов, пока не истечёт время.",
   "singleModeRule3": "Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.",
@@ -29,35 +96,5 @@
   "cardModeRule3": "Игроки могут угадывать слова в любом порядке.",
   "cardModeRule4": "Пропускать нельзя — нужно угадать каждое слово на карточке",
   "cardModeRule5": "Объясняющий не может использовать само слово, его часть, перевод, рифму или подсказки по написанию.",
-  "cardModeRule6": "Счёт основан на количестве угаданных слов",
-  "settings_general": "Общие",
-  "settings_roundDuration": "Длительность раунда (сек)",
-  "settings_pointsToWin": "Очки для победы",
-  "settings_soundEffects": "Звуковые эффекты",
-  "settings_allowSkipping": "Разрешить пропуск",
-  "settings_penaltyForSkipping": "Штраф за пропуск",
-  "settings_wordsPerCard": "Количество слов на карточке",
-  "settings_reset": "Сбросить настройки",
-  "word_packs_fail": "Не удалось загрузить пакеты слов",
-  "failedLoadWords": "Не удалось загрузить слова",
-  "preGameTitle": "Подготовьтесь",
-  "preGameTeamSetup": "Настройка команд",
-  "preGameTeam": "Команда",
-  "preGameAddTeam": "Добавить команду",
-  "roundOverview_teamTurn": "Сейчас ход команды {teamName}.",
-  "roundOverview_point": "{points, plural, one {{points} очко} other {{points} очков}}",
-  "roundOverview_roundScores": "Очки по раундам:",
-  "roundOverview_confirmExit_title": "Выйти из игры?",
-  "roundOverview_confirmExit_message": "Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?",
-  "countdown_go": "Вперёд!",
-  "summary_gameOver": "Игра окончена",
-  "summary_winner": "Победитель",
-  "summary_playAgain": "Играть снова",
-  "summary_mainMenu": "Главное меню",
-  "general________________________________________________": "general----------------------------------------------------------------------",
-  "general_startGame": "Начать игру",
-  "general_checkInternet": "Проверьте ваше интернет-соединение",
-  "general_tryAgain": "Попробовать снова",
-  "general_yes": "Да",
-  "general_no": "Нет"
+  "cardModeRule6": "Счёт основан на количестве угаданных слов"
 }

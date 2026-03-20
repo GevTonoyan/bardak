@@ -6,6 +6,8 @@ import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/game_session/domain/entities/game_session_entity.dart';
+import 'package:alias_pro/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:alias_pro/pre_game/presentation/ui/game_settings_screen.dart';
 import 'package:alias_pro/rewards/presentation/ui/rewards_screen.dart';
@@ -24,6 +26,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
 
     return GradientBackground(
       child: Column(
@@ -71,13 +74,13 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     height40,
                     AppButton(
-                      label: 'Classic Alias',
+                      label: l10n.classicMode,
                       color: colors.green,
                       onPressed: () => _navigateToGameSettings(context, .card),
                     ),
                     height20,
                     AppButton(
-                      label: 'One Word Mode',
+                      label: l10n.oneWordMode,
                       color: colors.purple,
                       onPressed: () =>
                           _navigateToGameSettings(context, .singleWord),
@@ -96,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Expanded(
                           child: AppButton(
-                            label: 'Shop',
+                            label: l10n.themes,
                             color: colors.blue,
                             onPressed: () {
                               context.goNamed(ShopScreen.routePath);
