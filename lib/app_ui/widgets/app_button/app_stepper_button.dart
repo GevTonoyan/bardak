@@ -1,5 +1,6 @@
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon.dart';
+import 'package:alias_pro/app_ui/widgets/smart_number_text.dart';
 import 'package:alias_pro/app_ui/widgets/svg_icon.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
@@ -40,7 +41,7 @@ class AppStepperButton extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(
+            child: SmartNumberText(
               label,
               textAlign: .center,
               style: context.typography.regular24,
