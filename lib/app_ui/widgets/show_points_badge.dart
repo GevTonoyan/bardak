@@ -132,7 +132,7 @@ class _PointsBadge extends StatelessWidget {
             : null,
         padding: const .symmetric(horizontal: 14, vertical: 10),
         child: Text(
-          '$points միավոր',
+          context.l10n.points_value(points),
           style: typography.regular24,
         ),
       ),

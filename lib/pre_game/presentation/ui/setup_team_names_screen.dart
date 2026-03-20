@@ -28,7 +28,7 @@ class SetupTeamNamesScreen extends Page<void> {
       context: context,
       settings: this,
       child: const _SetupTeamNamesBody(),
-      title: 'Մասնակիցներ',
+      title: context.l10n.teams,
     );
   }
 }
@@ -55,8 +55,10 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
     final appLocale = AppLocales.fromString(context.locale.languageCode);
     final predefined =
         context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ?? {};
-    final firstName = _pickDefaultName({}, predefined: predefined);
-    final secondName = _pickDefaultName({firstName}, predefined: predefined);
+    final firstName = _pickDefaultName(context, {}, predefined: predefined);
+    final secondName = _pickDefaultName(context, {
+      firstName,
+    }, predefined: predefined);
     _teamControllers = [
       TextEditingController(text: firstName),
       TextEditingController(text: secondName),
@@ -78,6 +80,8 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     final bloc = context.read<PreGameBloc>();
 
     return SizedBox(
@@ -90,11 +94,6 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                 crossAxisAlignment: .start,
                 children: [
                   height30,
-                  Text(
-                    'Թիમեर՝',
-                    style: typography.regular24,
-                  ),
-                  height20,
                   Column(
                     children: [
                       for (int i = 0; i < _teamControllers.length; i++)
@@ -133,7 +132,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                   ),
                   if (_teamControllers.length < AppConstants.maxTeamCount)
                     AppButton(
-                      label: 'Ավելացնել',
+                      label: l10n.add,
                       color: colors.white20,
                       icon: Assets.icons.add.svg(),
                       onPressed: () {
@@ -154,7 +153,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
           ),
           height20,
           AppButton(
-            label: 'Շարունակել',
+            label: l10n.proceed,
             color: colors.green,
             onPressed: () {
               final teamNames = _teamControllers
@@ -175,12 +174,13 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
     final appLocale = AppLocales.fromString(context.locale.languageCode);
     final predefined =
         context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ?? {};
-    return _pickDefaultName(currentNames, predefined: predefined);
+    return _pickDefaultName(context, currentNames, predefined: predefined);
   }
 
   /// Picks a random unused name from [predefined] that is not in [taken].
   /// Falls back to "Team N" (where N = taken.length + 1) when exhausted.
   static String _pickDefaultName(
+    BuildContext context,
     Set<String> taken, {
     Set<String> predefined = const {},
   }) {
@@ -192,6 +192,6 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
       return available[Random().nextInt(available.length)];
     }
 
-    return 'Team ${taken.length + 1}';
+    return context.l10n.team_with_count(taken.length + 1);
   }
 }

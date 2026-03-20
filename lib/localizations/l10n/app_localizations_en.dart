@@ -41,25 +41,139 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rewards => 'Rewards';
 
   @override
-  String get mode1 => 'Single Word';
+  String get rewardsSelectThree => 'Select three';
 
   @override
-  String get mode2 => 'Card Mode';
+  String rewards_success(int count) {
+    return 'Awesome!\nYou got $count points';
+  }
 
   @override
-  String get singleWordMode => 'Single Word Mode';
+  String get classicMode => 'Classic';
 
   @override
-  String get selectMode => 'Select Game Mode';
+  String get oneWordMode => 'One Word';
 
   @override
-  String get wordPack => 'Word Pack';
+  String get themes => 'Themes';
 
   @override
-  String get round => 'Round';
+  String get sounds => 'Sounds';
 
   @override
-  String get rulesTitle => 'Rules';
+  String get appVersion => 'App version';
+
+  @override
+  String get proceed => 'Continue';
+
+  @override
+  String get theme_main => 'Main';
+
+  @override
+  String get theme_purple => 'Purple';
+
+  @override
+  String get theme_yellow => 'Yellow';
+
+  @override
+  String get theme_blue => 'Blue';
+
+  @override
+  String get theme_green => 'Green';
+
+  @override
+  String get theme_pink => 'Pink';
+
+  @override
+  String get theme_red => 'Red';
+
+  @override
+  String get theme_black => 'Black';
+
+  @override
+  String get settings_game_mode => 'Game Mode';
+
+  @override
+  String get settings_round_time => 'Round Time';
+
+  @override
+  String get settings_points_to_win => 'Points to Win';
+
+  @override
+  String get settings_allow_skipping => 'Allow Skipping';
+
+  @override
+  String unit_sec(int count) {
+    return '$count sec';
+  }
+
+  @override
+  String unit_pts(int count) {
+    return '$count pts';
+  }
+
+  @override
+  String get teams => 'Teams';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String team_with_count(int number) {
+    return 'Team $number';
+  }
+
+  @override
+  String get exit_game_title => 'Leave the game?';
+
+  @override
+  String get exit_game_description =>
+      'Are you sure you want to finish the current game?';
+
+  @override
+  String get exit_game_confirm => 'Yes, leave';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get next_team => 'Next team';
+
+  @override
+  String get check => 'Check';
+
+  @override
+  String get scoreboard => 'Scoreboard';
+
+  @override
+  String get round_stop_title => 'Finish Round?';
+
+  @override
+  String get round_stop_description =>
+      'Stop the timer and see results? Your points will be saved.';
+
+  @override
+  String get round_stop_confirm => 'Finish';
+
+  @override
+  String get round_stop_resume => 'Resume';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get correct => 'Correct';
+
+  @override
+  String points_value(String value) {
+    return '$value pts';
+  }
+
+  @override
+  String get winner_reveal => 'And the winner is...';
+
+  @override
+  String get game_rules => 'Խաղի կանոնները';
 
   @override
   String get singleModeRule1 => 'One player explains a single word at a time.';
@@ -104,106 +218,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cardModeRule6 => 'Score is based on the number guessed words';
-
-  @override
-  String get settings_general => 'General';
-
-  @override
-  String get settings_roundDuration => 'Round Duration (sec)';
-
-  @override
-  String get settings_pointsToWin => 'Points to Win';
-
-  @override
-  String get settings_soundEffects => 'Sound Effects';
-
-  @override
-  String get settings_allowSkipping => 'Allow Skipping';
-
-  @override
-  String get settings_penaltyForSkipping => 'Penalty for Skipping';
-
-  @override
-  String get settings_wordsPerCard => 'Words per Card';
-
-  @override
-  String get settings_reset => 'Reset Settings';
-
-  @override
-  String get word_packs_fail => 'Failed to load word packs';
-
-  @override
-  String get failedLoadWords => 'Couldn\'t load words';
-
-  @override
-  String get preGameTitle => 'Get Ready';
-
-  @override
-  String get preGameTeamSetup => 'Team Setup';
-
-  @override
-  String get preGameTeam => 'Team';
-
-  @override
-  String get preGameAddTeam => 'Add Team';
-
-  @override
-  String roundOverview_teamTurn(Object teamName) {
-    return 'It\'s $teamName\'s turn!';
-  }
-
-  @override
-  String roundOverview_point(num points) {
-    String _temp0 = intl.Intl.pluralLogic(
-      points,
-      locale: localeName,
-      other: '$points points',
-      one: '$points point',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get roundOverview_roundScores => 'Round Scores:';
-
-  @override
-  String get roundOverview_confirmExit_title => 'Exit Game?';
-
-  @override
-  String get roundOverview_confirmExit_message =>
-      'If you close this screen, all game progress will be lost. Are you sure you want to exit?';
-
-  @override
-  String get countdown_go => 'Go!';
-
-  @override
-  String get summary_gameOver => 'Game Over';
-
-  @override
-  String get summary_winner => 'Winner';
-
-  @override
-  String get summary_playAgain => 'Play Again';
-
-  @override
-  String get summary_mainMenu => 'Main Menu';
-
-  @override
-  String get general________________________________________________ =>
-      'general----------------------------------------------------------------------';
-
-  @override
-  String get general_startGame => 'Start Game';
-
-  @override
-  String get general_checkInternet => 'Check your internet connection';
-
-  @override
-  String get general_tryAgain => 'Try Again';
-
-  @override
-  String get general_yes => 'Yes';
-
-  @override
-  String get general_no => 'No';
 }

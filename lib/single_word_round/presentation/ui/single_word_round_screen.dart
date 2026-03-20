@@ -6,11 +6,11 @@ import 'package:alias_pro/app_ui/widgets/flip_card.dart';
 import 'package:alias_pro/app_ui/widgets/round_header.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/app_ui/widgets/show_points_badge.dart';
-import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:alias_pro/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:alias_pro/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:alias_pro/single_word_round/presentation/ui/single_word_card.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,6 +50,8 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     final bloc = context.watch<SingleWordRoundBloc>();
     final roundState = bloc.state;
 
@@ -108,7 +110,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                             style: typography.regular20.copyWith(
                               color: passColor,
                             ),
-                            child: const Text('Փաս'),
+                            child: Text(l10n.skip),
                           ),
                         ),
                       Expanded(
@@ -160,7 +162,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                           style: typography.regular20.copyWith(
                             color: correctColor,
                           ),
-                          child: const Text('️Ճիշտ է'),
+                          child: Text(l10n.correct),
                         ),
                       ),
                     ],
@@ -183,7 +185,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                                 if (roundState.allowSkipping)
                                   Expanded(
                                     child: AppButton(
-                                      label: 'Փաս',
+                                      label: l10n.skip,
                                       color: colors.white20,
                                       onPressed: () {
                                         bloc.add(
@@ -203,11 +205,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                                   ),
                                 Expanded(
                                   child: AppButton(
-                                    label: '️Ճիշտ է',
-                                    icon: Assets.icons.check.svg(
-                                      width: 22,
-                                      height: 22,
-                                    ),
+                                    label: l10n.correct,
                                     color: colors.green,
                                     onPressed: () {
                                       bloc.add(

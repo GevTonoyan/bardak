@@ -51,6 +51,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
+    final l10n = context.l10n;
 
     final settingsBloc = context.watch<SettingsBloc>();
     final gameSettings = settingsBloc.state.gameSettings;
@@ -76,7 +77,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                 children: [
                   height30,
                   Text(
-                    'Ռեժիމ',
+                    l10n.settings_game_mode,
                     style: typography.regular24,
                   ),
                   height20,
@@ -85,7 +86,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                     children: [
                       Expanded(
                         child: AppButton(
-                          label: 'Կլասիկ',
+                          label: l10n.classicMode,
                           color: colors.white20,
                           isPressed: gameMode == GameMode.card,
                           pressedColor: colors.white,
@@ -99,7 +100,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                       ),
                       Expanded(
                         child: AppButton(
-                          label: 'Մեկ բառ',
+                          label: l10n.oneWordMode,
                           color: colors.white20,
                           isPressed: gameMode == GameMode.singleWord,
                           pressedColor: colors.white,
@@ -115,12 +116,12 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                   ),
                   height40,
                   Text(
-                    'Փուլի տևողությունը՝',
+                    l10n.settings_round_time,
                     style: typography.regular24,
                   ),
                   height20,
                   AppStepperButton(
-                    label: '$roundDuration վրկ',
+                    label: l10n.unit_sec(roundDuration),
                     onDecrement: canDecreaseRoundDuration
                         ? () {
                             settingsBloc.add(
@@ -142,12 +143,12 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                   ),
                   height40,
                   Text(
-                    'Միավոր հաղթելու համար՝',
+                    l10n.settings_points_to_win,
                     style: typography.regular24,
                   ),
                   height20,
                   AppStepperButton(
-                    label: '$pointsToWin միավոր',
+                    label: l10n.unit_pts(pointsToWin),
                     onDecrement: canDecrementPointsToWin
                         ? () {
                             settingsBloc.add(
@@ -166,7 +167,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                   if (gameMode == .singleWord) ...[
                     height40,
                     AppSwitchButton(
-                      label: 'Կարելի է բաց թողել',
+                      label: l10n.settings_allow_skipping,
                       value: gameSettings.allowSkipping,
                       onPressed: () {
                         settingsBloc.add(
@@ -188,7 +189,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
           ),
           height20,
           AppButton(
-            label: 'Շարունակել',
+            label: l10n.proceed,
             color: colors.green,
             onPressed: () {
               context.read<PreGameBloc>().add(ChangeGameModeEvent(gameMode));

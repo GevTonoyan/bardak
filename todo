@@ -4,11 +4,17 @@ BUGS
  BlocBuilder enhancements
 4. SingleWordCard shadow effects transparent background change
 5. Some texts contain numbers (we need rich texts with different font families for such cases).
+CRITICALS
+single card screen - swipe left hides pass text
+
 
 FEATURES
-1. Make bloc names generic , also state and event names similar to each other
+1. Themes screen buying process with confirm bottom sheet
+2. Make app version dynamic (not hard coded)
+3. Pause the timer when we press on close button during round
 
 
 Improvements
 Update Settings enhancement, in data source when we update, the switch maybe redundant
 Make AppColors sealed class and get rid of the enum
+ Make bloc names generic , also state and event names similar to each other

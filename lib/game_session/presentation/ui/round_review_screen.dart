@@ -70,7 +70,7 @@ class RoundReviewScreen extends StatelessWidget {
                       child: Padding(
                         padding: const .all(20),
                         child: AppButton(
-                          label: 'Շարունակել',
+                          label: context.l10n.proceed,
                           color: colors.green,
                           onPressed: () {
                             context.read<GameSessionBloc>().add(

@@ -18,6 +18,8 @@ class RewardsLootLocked extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final l10n = context.l10n;
+
     final coinBalance = context.read<RewardsCubit>().state;
     final rewards = coinBalance.openedBoxes.values
         .take(maxOpensPerDay)
@@ -60,7 +62,7 @@ class RewardsLootLocked extends StatelessWidget {
                 }).toList(),
               ),
               SmartNumberText(
-                'Հիանալի է!  Դուք ստացաք $totalReward միավոր',
+                l10n.rewards_success(totalReward),
                 textAlign: .center,
                 style: context.typography.regular28,
               ),
@@ -74,12 +76,12 @@ class RewardsLootLocked extends StatelessWidget {
             spacing: 20,
             children: [
               AppButton(
-                label: 'Շարունակել',
+                label: l10n.proceed,
                 color: colors.green,
                 onPressed: () => context.pop(),
               ),
               AppButton(
-                label: 'Խանութ',
+                label: l10n.themes,
                 color: colors.blue,
                 onPressed: () => context.goNamed(ShopScreen.routePath),
               ),

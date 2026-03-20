@@ -18,13 +18,13 @@ class RewardsLootGrid extends StatelessWidget {
       children: [
         height40,
         Text(
-          'Ընտրեք երեքը՝',
+          context.l10n.rewardsSelectThree,
           style: context.typography.regular24,
         ),
         height20,
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 40),
-          padding: const EdgeInsets.all(12),
+          margin: const .symmetric(horizontal: 40),
+          padding: const .all(12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: colors.white,

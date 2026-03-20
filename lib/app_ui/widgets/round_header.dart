@@ -84,10 +84,10 @@ class _RoundHeaderState extends State<RoundHeader>
             onTap: () async {
               await showConfirmSheet(
                 context: context,
-                title: l10n.roundOverview_confirmExit_title,
-                description: l10n.roundOverview_confirmExit_message,
-                confirmText: l10n.general_yes,
-                cancelText: l10n.general_no,
+                title: l10n.round_stop_title,
+                description: l10n.round_stop_description,
+                confirmText: l10n.round_stop_confirm,
+                cancelText: l10n.round_stop_resume,
                 confirmColor: colors.red,
                 cancelColor: colors.green,
                 onConfirm: () {

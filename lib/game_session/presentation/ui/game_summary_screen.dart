@@ -5,6 +5,7 @@ import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
@@ -71,21 +72,25 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                   child: AppIconButton.close(onTap: () => context.pop()),
                 ),
               ),
-              Column(
-                children: [
-                  Center(
-                    child: Column(
-                      spacing: 16,
-                      children: [
-                        Text(
-                          'Հաղթեց՝',
-                          style: typography.regular24,
-                        ),
-                        HighlightedText(text: widget.winningTeamName),
-                      ],
+              Padding(
+                padding: const .symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Column(
+                        spacing: 16,
+                        children: [
+                          Text(
+                            context.l10n.winner_reveal,
+                            textAlign: .center,
+                            style: typography.regular24,
+                          ),
+                          HighlightedText(text: widget.winningTeamName),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(
                 height: 200,
@@ -93,7 +98,7 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
                   child: Padding(
                     padding: const .all(20),
                     child: AppButton(
-                      label: 'Շարունակել',
+                      label: context.l10n.proceed,
                       color: colors.green,
                       onPressed: () => context.pop(),
                     ),

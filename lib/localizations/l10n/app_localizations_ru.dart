@@ -41,25 +41,146 @@ class AppLocalizationsRu extends AppLocalizations {
   String get rewards => 'Награды';
 
   @override
-  String get mode1 => 'Одно слово';
+  String get rewardsSelectThree => 'Выберите три';
 
   @override
-  String get mode2 => 'Режим карты';
+  String rewards_success(int count) {
+    return 'Здорово!\nВы заработали $count очков';
+  }
 
   @override
-  String get singleWordMode => 'Режим одного слова';
+  String get classicMode => 'Классический';
 
   @override
-  String get selectMode => 'Выберите режим игры';
+  String get oneWordMode => 'Одно слово';
 
   @override
-  String get wordPack => 'Пакет слов';
+  String get themes => 'Темы';
 
   @override
-  String get round => 'Раунд';
+  String get sounds => 'Звуки';
 
   @override
-  String get rulesTitle => 'Правила';
+  String get appVersion => 'Версия приложения';
+
+  @override
+  String get proceed => 'Продолжить';
+
+  @override
+  String get theme_main => 'Основная';
+
+  @override
+  String get theme_purple => 'Фиолетовая';
+
+  @override
+  String get theme_yellow => 'Желтая';
+
+  @override
+  String get theme_blue => 'Синяя';
+
+  @override
+  String get theme_green => 'Зеленая';
+
+  @override
+  String get theme_pink => 'Розовая';
+
+  @override
+  String get theme_red => 'Красная';
+
+  @override
+  String get theme_black => 'Черная';
+
+  @override
+  String get settings_game_mode => 'Режим игры';
+
+  @override
+  String get settings_round_time => 'Время раунда';
+
+  @override
+  String get settings_points_to_win => 'Очки для победы';
+
+  @override
+  String get settings_allow_skipping => 'Пропуск слов';
+
+  @override
+  String unit_sec(int count) {
+    return '$count сек';
+  }
+
+  @override
+  String unit_pts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count очков',
+      few: '$count очка',
+      one: '$count очко',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get teams => 'Команды';
+
+  @override
+  String get add => 'Добавить';
+
+  @override
+  String team_with_count(int number) {
+    return 'Команда $number';
+  }
+
+  @override
+  String get exit_game_title => 'Выйти из игры?';
+
+  @override
+  String get exit_game_description =>
+      'Вы уверены, что хотите завершить текущую игру?';
+
+  @override
+  String get exit_game_confirm => 'Да, выйти';
+
+  @override
+  String get cancel => 'Отмена';
+
+  @override
+  String get next_team => 'Следующая команда';
+
+  @override
+  String get check => 'Проверить';
+
+  @override
+  String get scoreboard => 'Счёт';
+
+  @override
+  String get round_stop_title => 'Завершить раунд?';
+
+  @override
+  String get round_stop_description =>
+      'Остановить таймер и увидеть результаты? Очки будут сохранены.';
+
+  @override
+  String get round_stop_confirm => 'Завершить';
+
+  @override
+  String get round_stop_resume => 'Продолжить';
+
+  @override
+  String get skip => 'Пропустить';
+
+  @override
+  String get correct => 'Правильно';
+
+  @override
+  String points_value(String value) {
+    return '$value очко';
+  }
+
+  @override
+  String get winner_reveal => 'И победителем становится...';
+
+  @override
+  String get game_rules => 'Правила игры';
 
   @override
   String get singleModeRule1 => 'Один игрок объясняет одно слово за раз.';
@@ -104,106 +225,4 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cardModeRule6 => 'Счёт основан на количестве угаданных слов';
-
-  @override
-  String get settings_general => 'Общие';
-
-  @override
-  String get settings_roundDuration => 'Длительность раунда (сек)';
-
-  @override
-  String get settings_pointsToWin => 'Очки для победы';
-
-  @override
-  String get settings_soundEffects => 'Звуковые эффекты';
-
-  @override
-  String get settings_allowSkipping => 'Разрешить пропуск';
-
-  @override
-  String get settings_penaltyForSkipping => 'Штраф за пропуск';
-
-  @override
-  String get settings_wordsPerCard => 'Количество слов на карточке';
-
-  @override
-  String get settings_reset => 'Сбросить настройки';
-
-  @override
-  String get word_packs_fail => 'Не удалось загрузить пакеты слов';
-
-  @override
-  String get failedLoadWords => 'Не удалось загрузить слова';
-
-  @override
-  String get preGameTitle => 'Подготовьтесь';
-
-  @override
-  String get preGameTeamSetup => 'Настройка команд';
-
-  @override
-  String get preGameTeam => 'Команда';
-
-  @override
-  String get preGameAddTeam => 'Добавить команду';
-
-  @override
-  String roundOverview_teamTurn(Object teamName) {
-    return 'Сейчас ход команды $teamName.';
-  }
-
-  @override
-  String roundOverview_point(num points) {
-    String _temp0 = intl.Intl.pluralLogic(
-      points,
-      locale: localeName,
-      other: '$points очков',
-      one: '$points очко',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get roundOverview_roundScores => 'Очки по раундам:';
-
-  @override
-  String get roundOverview_confirmExit_title => 'Выйти из игры?';
-
-  @override
-  String get roundOverview_confirmExit_message =>
-      'Если вы закроете этот экран, весь прогресс игры будет потерян. Вы уверены, что хотите выйти?';
-
-  @override
-  String get countdown_go => 'Вперёд!';
-
-  @override
-  String get summary_gameOver => 'Игра окончена';
-
-  @override
-  String get summary_winner => 'Победитель';
-
-  @override
-  String get summary_playAgain => 'Играть снова';
-
-  @override
-  String get summary_mainMenu => 'Главное меню';
-
-  @override
-  String get general________________________________________________ =>
-      'general----------------------------------------------------------------------';
-
-  @override
-  String get general_startGame => 'Начать игру';
-
-  @override
-  String get general_checkInternet => 'Проверьте ваше интернет-соединение';
-
-  @override
-  String get general_tryAgain => 'Попробовать снова';
-
-  @override
-  String get general_yes => 'Да';
-
-  @override
-  String get general_no => 'Нет';
 }
