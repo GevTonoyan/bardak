@@ -60,8 +60,15 @@ class SingleWordCardShell extends StatelessWidget {
       width: 262,
       child: Container(
         decoration: BoxDecoration(
-          color: colors.white30,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: .circular(12),
+          gradient: LinearGradient(
+            begin: .topCenter,
+            end: .bottomCenter,
+            colors: [
+              Color.alphaBlend(colors.white20, colors.firstGradient),
+              Color.alphaBlend(colors.white20, colors.secondGradient),
+            ],
+          ),
           border: GradientBoxBorder(
             width: 3,
             gradient: LinearGradient(

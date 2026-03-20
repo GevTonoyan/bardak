@@ -61,27 +61,24 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
                   child: Center(
                     child: Padding(
                       padding: const .symmetric(horizontal: 40),
-                      child: AspectRatio(
-                        aspectRatio: 0.8,
-                        child: FlipCard(
-                          isFlipped: _isPaused,
-                          front: IgnorePointer(
-                            ignoring: _isPaused,
-                            child: MultipleWordsCard(
-                              words: bloc.state.visible,
-                              guessed: state.guessed,
-                              onTap: ({required selected, required word}) {
-                                bloc.add(
-                                  ToggleWord(
-                                    isSelected: selected,
-                                    word: word,
-                                  ),
-                                );
-                              },
-                            ),
+                      child: FlipCard(
+                        isFlipped: _isPaused,
+                        front: IgnorePointer(
+                          ignoring: _isPaused,
+                          child: MultipleWordsCard(
+                            words: bloc.state.visible,
+                            guessed: state.guessed,
+                            onTap: ({required selected, required word}) {
+                              bloc.add(
+                                ToggleWord(
+                                  isSelected: selected,
+                                  word: word,
+                                ),
+                              );
+                            },
                           ),
-                          back: const MultipleWordsCardBack(),
                         ),
+                        back: const MultipleWordsCardBack(),
                       ),
                     ),
                   ),

@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 abstract class AppColors {
   LinearGradient get main;
 
+  Color get firstGradient;
+
+  Color get secondGradient;
+
   Color get secondary;
 
   Color green = const Color(0xFF59CA42);

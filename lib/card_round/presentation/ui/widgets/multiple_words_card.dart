@@ -58,15 +58,9 @@ class MultipleWordsCard extends StatelessWidget {
                   behavior: .opaque,
                   onTap: () {
                     onTap(selected: !isSelected, word: currentWord);
-                    // context.read<CardRoundBloc>().add(
-                    //   ToggleWord(
-                    //     isSelected: !isSelected,
-                    //     word: currentWord,
-                    //   ),
-                    // );
                   },
                   child: Container(
-                    padding: const .all(16),
+                    padding: const .all(14),
                     decoration: BoxDecoration(
                       color: isSelected ? colors.green : Colors.transparent,
                       borderRadius: itemRadius,
@@ -126,7 +120,6 @@ class MultipleWordsCardShell extends StatelessWidget {
       angle: -1.28 * math.pi / 180,
       child: Container(
         decoration: BoxDecoration(
-          color: colors.white30,
           borderRadius: _radius,
           border: GradientBoxBorder(
             width: 3,
@@ -140,6 +133,14 @@ class MultipleWordsCardShell extends StatelessWidget {
                 colors.white.withValues(alpha: 0.3),
               ],
             ),
+          ),
+          gradient: LinearGradient(
+            begin: .topCenter,
+            end: .bottomCenter,
+            colors: [
+              Color.alphaBlend(colors.white20, colors.firstGradient),
+              Color.alphaBlend(colors.white20, colors.secondGradient),
+            ],
           ),
           boxShadow: [
             BoxShadow(

@@ -9,7 +9,7 @@ class RoundTimer extends StatelessWidget {
 
   final int seconds;
 
-  static const _timerWidth = 62.0;
+  static const _timerWidth = 65.0;
 
   @override
   Widget build(BuildContext context) {

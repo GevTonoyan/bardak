@@ -155,7 +155,7 @@ class _Success extends StatelessWidget {
           roundScores: [],
         );
       }).toList(),
-      roundDuration: gameSettings.roundDuration,
+      roundDuration: 333,
       pointsToWin: gameSettings.pointsToWin,
       // TODO
       soundEnabled: false,
