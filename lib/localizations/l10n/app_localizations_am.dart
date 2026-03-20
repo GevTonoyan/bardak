@@ -66,7 +66,7 @@ class AppLocalizationsAm extends AppLocalizations {
   String get settings_points_to_win => 'Միավորներ հաղթանակի համար';
 
   @override
-  String get settings_allow_skipping => 'Բացթողում';
+  String get settings_allow_skipping => 'Բաց թողում';
 
   @override
   String get themes => 'Թեմաներ';
