@@ -20,10 +20,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class ShopScreen extends StatelessWidget {
-  const ShopScreen({super.key});
+class ThemesScreen extends StatelessWidget {
+  const ThemesScreen({super.key});
 
-  static const routePath = 'shop';
+  static const routePath = 'themes';
 
   @override
   Widget build(BuildContext context) {
@@ -61,26 +61,29 @@ class ShopScreen extends StatelessWidget {
                         ChangeColorScheme(colorScheme: scheme),
                       );
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 12,
+                    child: Container(
+                      padding: const .symmetric(horizontal: 18, vertical: 12),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: Assets.images.themeBackground.provider(),
+                          opacity: 0.2,
+                        ),
                       ),
                       child: Column(
                         children: [
-                          Expanded(
-                            child: Row(
-                              crossAxisAlignment: .start,
-                              mainAxisAlignment: .end,
-                              spacing: 8,
-                              children: [
-                                Text(
-                                  '500',
-                                  style: typography.regular24.withNumericFont,
-                                ),
-                                Assets.icons.coin.svg(width: 18, height: 18),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: .end,
+                            spacing: 8,
+                            children: [
+                              Text(
+                                '500',
+                                style: typography.regular24.withNumericFont,
+                              ),
+                              Assets.icons.coin.svg(
+                                width: 18,
+                                height: 18,
+                              ),
+                            ],
                           ),
                           Expanded(
                             child: Row(

@@ -18,9 +18,9 @@ import 'package:alias_pro/pre_game/presentation/ui/setup_team_names_screen.dart'
 import 'package:alias_pro/rewards/presentation/ui/rewards_screen.dart';
 import 'package:alias_pro/rules/presentation/ui/rules_screen.dart';
 import 'package:alias_pro/settings/presentation/ui/settings_screen.dart';
-import 'package:alias_pro/shop/presentation/ui/shop_screen.dart';
 import 'package:alias_pro/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:alias_pro/single_word_round/presentation/ui/single_word_round_screen.dart';
+import 'package:alias_pro/themes/presentation/ui/themes_screen.dart';
 import 'package:alias_pro/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -118,10 +118,10 @@ final appRouter = GoRouter(
               _buildPlatformPage(child: const RewardsScreen()),
         ),
         GoRoute(
-          path: ShopScreen.routePath,
-          name: ShopScreen.routePath,
+          path: ThemesScreen.routePath,
+          name: ThemesScreen.routePath,
           pageBuilder: (context, state) =>
-              _buildPlatformPage(child: const ShopScreen()),
+              _buildPlatformPage(child: const ThemesScreen()),
         ),
         ShellRoute(
           navigatorKey: gameSessionNavigatorKey,
