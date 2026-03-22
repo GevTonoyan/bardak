@@ -82,6 +82,12 @@ class _RoundHeaderState extends State<RoundHeader>
         children: [
           AppIconButton.close(
             onTap: () async {
+              widget.onPauseChanged(true);
+              setState(() {
+                isTimerPaused = true;
+              });
+              _timer.cancel();
+
               await showConfirmSheet(
                 context: context,
                 title: l10n.round_stop_title,
