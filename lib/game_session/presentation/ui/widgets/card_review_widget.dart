@@ -1,6 +1,5 @@
 import 'package:alias_pro/card_round/presentation/ui/widgets/multiple_words_card.dart';
 import 'package:alias_pro/game_session/domain/entities/round_result.dart';
-import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class CardReviewWidget extends StatefulWidget {
@@ -21,42 +20,27 @@ class CardReviewWidget extends StatefulWidget {
 
 class _CardReviewWidgetState extends State<CardReviewWidget> {
   late final PageController _pageController;
-  int _currentPageIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
-    _pageController.addListener(_onPageChanged);
-  }
-
-  void _onPageChanged() {
-    if (!_pageController.hasClients) return;
-    final page = _pageController.page?.round() ?? 0;
-    if (page != _currentPageIndex && mounted) {
-      setState(() => _currentPageIndex = page);
-    }
+    _pageController = PageController(viewportFraction: 0.88);
   }
 
   @override
   void dispose() {
-    _pageController
-      ..removeListener(_onPageChanged)
-      ..dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final pageCount = widget.pagedReviewedWords.length;
     final pageKeys = widget.pagedReviewedWords.keys.toList()..sort();
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          height: 420,
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        return SizedBox(
+          height: constraints.maxHeight,
           child: PageView.builder(
             clipBehavior: Clip.none,
             controller: _pageController,
@@ -69,7 +53,7 @@ class _CardReviewWidgetState extends State<CardReviewWidget> {
 
               return Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: MultipleWordsCard(
                     words: words,
                     guessed: guessed,
@@ -87,35 +71,8 @@ class _CardReviewWidgetState extends State<CardReviewWidget> {
               );
             },
           ),
-        ),
-        if (pageCount > 1) ...[
-          const SizedBox(height: 44),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              pageCount,
-              (index) => AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                width: 18,
-                height: 18,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: index == _currentPageIndex
-                      ? colors.white
-                      : colors.white20,
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 10),
-                      color: colors.black.withValues(alpha: 0.2),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ],
+        );
+      },
     );
   }
 }
