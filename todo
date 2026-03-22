@@ -1,17 +1,8 @@
 BUGS
-1. Game doesn't end, when there are no more words.
-2. Numbers with different font.
  BlocBuilder enhancements
-4. SingleWordCard shadow effects transparent background change
-5. Some texts contain numbers (we need rich texts with different font families for such cases).
-CRITICALS
-single card screen - swipe left hides pass text
-USE carousel view for card review screen
-
 
 FEATURES
 1. Themes screen buying process with confirm bottom sheet
-2. Make app version dynamic (not hard coded)
 3. Pause the timer when we press on close button during round
 
 
