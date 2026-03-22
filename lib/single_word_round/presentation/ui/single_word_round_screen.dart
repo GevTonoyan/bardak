@@ -99,70 +99,74 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
+                  child: Stack(
                     children: [
+                      Center(
+                        child: _SwipeableSingleWordCard(
+                          key: ValueKey(roundState.index),
+                          word: roundState.words[roundState.index],
+                          allowSkipping: roundState.allowSkipping,
+                          onGuessed: () {
+                            setState(() {
+                              _signedSwipeProgress = 0.0;
+                            });
+                            bloc.add(
+                              const ResolveCurrentWord(
+                                WordResolution.guessed,
+                              ),
+                            );
+                            unawaited(
+                              showPointsBadge(context, points: '+1'),
+                            );
+                          },
+                          onSkipped: () {
+                            setState(() {
+                              _signedSwipeProgress = 0.0;
+                            });
+                            bloc.add(
+                              const ResolveCurrentWord(
+                                WordResolution.skipped,
+                              ),
+                            );
+                            unawaited(
+                              showPointsBadge(context, points: '-1'),
+                            );
+                          },
+                          onSwipeProgressChanged: (progress) {
+                            setState(
+                              () => _signedSwipeProgress = progress,
+                            );
+                          },
+                          isFlipped: _isPaused,
+                        ),
+                      ),
                       if (roundState.allowSkipping)
-                        RotatedBox(
+                        Align(
+                          alignment: .centerStart,
+                          child: RotatedBox(
+                            quarterTurns: 3,
+                            child: AnimatedDefaultTextStyle(
+                              duration: const Duration(milliseconds: 80),
+                              curve: Curves.easeOut,
+                              style: typography.regular20.copyWith(
+                                color: passColor,
+                              ),
+                              child: Text(l10n.skip),
+                            ),
+                          ),
+                        ),
+                      Align(
+                        alignment: .centerEnd,
+                        child: RotatedBox(
                           quarterTurns: 3,
                           child: AnimatedDefaultTextStyle(
                             duration: const Duration(milliseconds: 80),
                             curve: Curves.easeOut,
                             style: typography.regular20.copyWith(
-                              color: passColor,
+                              color: correctColor,
                             ),
-                            child: Text(l10n.skip),
+                            child: Text(l10n.correct),
                           ),
-                        ),
-                      Expanded(
-                        child: Center(
-                          child: _SwipeableSingleWordCard(
-                            key: ValueKey(roundState.index),
-                            word: roundState.words[roundState.index],
-                            allowSkipping: roundState.allowSkipping,
-                            onGuessed: () {
-                              setState(() {
-                                _signedSwipeProgress = 0.0;
-                              });
-                              bloc.add(
-                                const ResolveCurrentWord(
-                                  WordResolution.guessed,
-                                ),
-                              );
-                              unawaited(
-                                showPointsBadge(context, points: '+1'),
-                              );
-                            },
-                            onSkipped: () {
-                              setState(() {
-                                _signedSwipeProgress = 0.0;
-                              });
-                              bloc.add(
-                                const ResolveCurrentWord(
-                                  WordResolution.skipped,
-                                ),
-                              );
-                              unawaited(
-                                showPointsBadge(context, points: '-1'),
-                              );
-                            },
-                            onSwipeProgressChanged: (progress) {
-                              setState(
-                                () => _signedSwipeProgress = progress,
-                              );
-                            },
-                            isFlipped: _isPaused,
-                          ),
-                        ),
-                      ),
-                      RotatedBox(
-                        quarterTurns: 3,
-                        child: AnimatedDefaultTextStyle(
-                          duration: const Duration(milliseconds: 80),
-                          curve: Curves.easeOut,
-                          style: typography.regular20.copyWith(
-                            color: correctColor,
-                          ),
-                          child: Text(l10n.correct),
                         ),
                       ),
                     ],
