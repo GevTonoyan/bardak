@@ -6,7 +6,7 @@ import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/smart_number_text.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
-import 'package:alias_pro/shop/presentation/ui/shop_screen.dart';
+import 'package:alias_pro/themes/presentation/ui/themes_screen.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,7 +83,7 @@ class RewardsLootLocked extends StatelessWidget {
               AppButton(
                 label: l10n.themes,
                 color: colors.blue,
-                onPressed: () => context.goNamed(ShopScreen.routePath),
+                onPressed: () => context.goNamed(ThemesScreen.routePath),
               ),
             ],
           ),

@@ -95,6 +95,17 @@ class $AssetsIconsGen {
   ];
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/theme_background.png
+  AssetGenImage get themeBackground =>
+      const AssetGenImage('assets/images/theme_background.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [themeBackground];
+}
+
 class $AssetsLogoGen {
   const $AssetsLogoGen();
 
@@ -136,6 +147,7 @@ class Assets {
   const Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsPackImagesGen packImages = $AssetsPackImagesGen();
 }

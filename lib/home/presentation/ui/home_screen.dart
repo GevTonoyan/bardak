@@ -6,14 +6,12 @@ import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
-import 'package:alias_pro/game_session/domain/entities/game_session_entity.dart';
-import 'package:alias_pro/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:alias_pro/pre_game/presentation/ui/game_settings_screen.dart';
 import 'package:alias_pro/rewards/presentation/ui/rewards_screen.dart';
 import 'package:alias_pro/rules/presentation/ui/rules_screen.dart';
 import 'package:alias_pro/settings/presentation/ui/settings_screen.dart';
-import 'package:alias_pro/shop/presentation/ui/shop_screen.dart';
+import 'package:alias_pro/themes/presentation/ui/themes_screen.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -56,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                       const Spacer(),
                       CoinBalanceWidget(
                         onTap: () {
-                          context.goNamed(ShopScreen.routePath);
+                          context.goNamed(ThemesScreen.routePath);
                         },
                       ),
                     ],
@@ -102,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                             label: l10n.themes,
                             color: colors.blue,
                             onPressed: () {
-                              context.goNamed(ShopScreen.routePath);
+                              context.goNamed(ThemesScreen.routePath);
                             },
                           ),
                         ),
