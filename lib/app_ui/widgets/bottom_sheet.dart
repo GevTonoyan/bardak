@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 Route<T> buildAppBottomSheetRoute<T>({
   required BuildContext context,
   required Page<T> settings,
-  required String title,
+  required String Function(BuildContext) titleBuilder,
   required Widget child,
 }) {
   return ModalBottomSheetRoute<T>(
@@ -41,7 +41,10 @@ Route<T> buildAppBottomSheetRoute<T>({
                       child: Stack(
                         children: [
                           Center(
-                            child: Text(title, style: typography.regular24),
+                            child: Text(
+                              titleBuilder(context),
+                              style: typography.regular24,
+                            ),
                           ),
                           AppIconButton.back(onTap: () => context.pop()),
                         ],

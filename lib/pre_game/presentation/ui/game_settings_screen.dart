@@ -30,7 +30,7 @@ class GameSettingsScreen extends Page<void> {
       context: context,
       settings: this,
       child: _GameSettingsBody(selectedMode),
-      title: context.l10n.settings,
+      titleBuilder: (context) => context.l10n.settings,
     );
   }
 }

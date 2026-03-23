@@ -28,7 +28,7 @@ class SetupTeamNamesScreen extends Page<void> {
       context: context,
       settings: this,
       child: const _SetupTeamNamesBody(),
-      title: context.l10n.teams,
+      titleBuilder: (context) => context.l10n.teams,
     );
   }
 }
