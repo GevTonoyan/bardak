@@ -22,7 +22,7 @@ class SettingsScreen extends Page<void> {
       context: context,
       settings: this,
       child: const SettingsScreenBody(),
-      title: context.l10n.settings,
+      titleBuilder: (context) => context.l10n.settings,
     );
   }
 }

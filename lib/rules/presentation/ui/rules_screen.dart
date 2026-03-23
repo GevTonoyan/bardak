@@ -17,7 +17,7 @@ class RulesScreen extends Page<void> {
       context: context,
       settings: this,
       child: const _RulesScreenBody(),
-      title: context.l10n.game_rules,
+      titleBuilder: (context) => context.l10n.game_rules,
     );
   }
 }
