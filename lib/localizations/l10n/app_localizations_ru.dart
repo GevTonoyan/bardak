@@ -209,4 +209,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Продолжить';
+
+  @override
+  String get unlock_theme_title => 'Открыть тему';
+
+  @override
+  String get unlock_theme_description =>
+      'Вы уверены, что хотите разблокировать эту тему и изменить внешний вид игры?';
+
+  @override
+  String get unlock_theme_confirm => 'Открыть';
 }

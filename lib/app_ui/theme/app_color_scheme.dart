@@ -3,25 +3,25 @@ import 'package:flutter/cupertino.dart';
 
 enum AppColorScheme {
   main,
+  blue,
+  black,
   purple,
   yellow,
-  blue,
   green,
   pink,
-  red,
-  black
+  red
   ;
 
   static AppColorScheme fromString(String? scheme) {
     return switch (scheme) {
       'main' => main,
+      'blue' => blue,
+      'black' => black,
       'purple' => purple,
       'yellow' => yellow,
-      'blue' => blue,
       'green' => green,
       'pink' => pink,
       'red' => red,
-      'black' => black,
       _ => main,
     };
   }
@@ -31,13 +31,13 @@ enum AppColorScheme {
 
     return switch (this) {
       main => l10n.theme_main,
+      blue => l10n.theme_blue,
+      black => l10n.theme_black,
       purple => l10n.theme_purple,
       yellow => l10n.theme_yellow,
-      blue => l10n.theme_blue,
       green => l10n.theme_green,
       pink => l10n.theme_pink,
       red => l10n.theme_red,
-      black => l10n.theme_black,
     };
   }
 }

@@ -25,6 +25,7 @@ class AppConstants {
   static const penaltyForSkippingKey = 'penalty_for_skipping';
   static const wordsPerCardKey = 'words_per_card';
   static const wordsVersionKey = 'words_version';
+  static const purchasedThemesKey = 'purchased_themes';
 
   // Hive DB keys
   static const aliasWordPack = 'alias_word_packs';

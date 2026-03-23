@@ -94,5 +94,9 @@
   "round_stop_title": "Finish Round?",
   "round_stop_description": "Stop the timer and see results? Your points will be saved.",
   "round_stop_confirm": "Finish",
-  "round_stop_resume": "Resume"
+  "round_stop_resume": "Resume",
+
+  "unlock_theme_title": "Unlock Theme",
+  "unlock_theme_description": "Are you sure you want to unlock this theme and change the game's look?",
+  "unlock_theme_confirm": "Unlock"
 }

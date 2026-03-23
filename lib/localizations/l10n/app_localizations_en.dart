@@ -201,4 +201,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Resume';
+
+  @override
+  String get unlock_theme_title => 'Unlock Theme';
+
+  @override
+  String get unlock_theme_description =>
+      'Are you sure you want to unlock this theme and change the game\'s look?';
+
+  @override
+  String get unlock_theme_confirm => 'Unlock';
 }

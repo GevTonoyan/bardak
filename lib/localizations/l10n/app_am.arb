@@ -94,5 +94,9 @@
   "round_stop_title": "Ավարտե՞լ ռաունդը",
   "round_stop_description": "Դադարեցնե՞լ ժամանակը և տեսնել արդյունքները: Միավորները կպահպանվեն:",
   "round_stop_confirm": "Ավարտել",
-  "round_stop_resume": "Շարունակել"
+  "round_stop_resume": "Շարունակել",
+
+  "unlock_theme_title": "Բացել թեման",
+  "unlock_theme_description": "Համոզվա՞ծ եք, որ ցանկանում եք ակտիվացնել այս թեման և փոխել խաղի տեսքը:",
+  "unlock_theme_confirm": "Բացել"
 }

@@ -7,6 +7,7 @@ import 'package:alias_pro/settings/domain/usecases/get_app_settings_usecase.dart
 import 'package:alias_pro/settings/domain/usecases/get_game_settings_usecase.dart';
 import 'package:alias_pro/settings/domain/usecases/update_app_settings_usecase.dart';
 import 'package:alias_pro/settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:alias_pro/themes/inject_themes_scope.dart';
 import 'package:alias_pro/word_pack/word_packs_scope.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,4 +40,5 @@ Future<void> injectDependencies() async {
   await injectRewardsScope();
   await injectWordPacksScope();
   injectPreGameScope();
+  injectThemesScope();
 }
