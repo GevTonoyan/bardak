@@ -47,4 +47,19 @@ class RewardsCubit extends Cubit<CoinBalanceEntity> {
       // On error, keep current state (don't emit)
     }
   }
+
+  /// Deducts [amount] coins if the balance is sufficient.
+  /// Returns `true` when the spend succeeded, `false` otherwise.
+  Future<bool> spendCoins(int amount) async {
+    if (state.coins < amount) return false;
+
+    try {
+      final updatedBalance = state.copyWith(coins: state.coins - amount);
+      final persisted = await _updateCoinsUseCase(updatedBalance);
+      emit(persisted);
+      return true;
+    } on Exception catch (_) {
+      return false;
+    }
+  }
 }

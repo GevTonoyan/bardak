@@ -16,10 +16,13 @@ import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_bloc.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_event.dart';
 import 'package:alias_pro/themes/presentation/bloc/themes_bloc.dart';
+import 'package:alias_pro/themes/presentation/bloc/themes_event.dart';
 import 'package:alias_pro/themes/presentation/bloc/themes_state.dart';
+import 'package:alias_pro/utils/constants/constants.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,8 +83,20 @@ class ThemesScreen extends StatelessWidget {
                                 cancelText: l10n.cancel,
                                 confirmColor: colors.green,
                                 cancelColor: colors.white20,
-                                onConfirm: () {
+                                onConfirm: () async {
+                                  final rewardsCubit = context
+                                      .read<RewardsCubit>();
+                                  final themesBloc = context.read<ThemesBloc>();
 
+                                  final success = await rewardsCubit.spendCoins(
+                                    AppConstants.themeCost,
+                                  );
+
+                                  if (success) {
+                                    themesBloc.add(
+                                      PurchaseTheme(theme: scheme),
+                                    );
+                                  }
                                 },
                               ),
                             );
@@ -175,7 +190,7 @@ class _AppThemeOwnedInfo extends StatelessWidget {
         spacing: 8,
         children: [
           Text(
-            '500',
+            '${AppConstants.themeCost}',
             style: typography.regular24.withNumericFont,
           ),
           Assets.icons.coin.svg(

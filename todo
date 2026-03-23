@@ -6,3 +6,4 @@ Update Settings enhancement, in data source when we update, the switch maybe red
 Make AppColors sealed class and get rid of the enum
 Make bloc names generic , also state and event names similar to each other
 BlocBuilder enhancements
+CRITICAL: When buying theme we use rewards cubit to update the coins. Should have some general cubit for coins management
