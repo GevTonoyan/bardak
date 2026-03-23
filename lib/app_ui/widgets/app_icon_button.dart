@@ -1,4 +1,5 @@
 import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -61,6 +62,34 @@ class AppIconButton extends StatefulWidget {
     );
   }
 
+  factory AppIconButton.themeOwned({
+    required BuildContext context,
+    required bool isActive,
+    Key? key,
+  }) {
+    return AppIconButton(
+      key: key,
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.colors.black.withValues(alpha: 0.8),
+          shape: .circle,
+        ),
+        child: isActive
+            ? Center(
+                child: Container(
+                  height: 22,
+                  width: 22,
+                  decoration: BoxDecoration(
+                    color: context.colors.white,
+                    shape: .circle,
+                  ),
+                ),
+              )
+            : null,
+      ),
+    );
+  }
+
   final Widget child;
   final VoidCallback? onTap;
   final bool isPressed;
@@ -79,45 +108,48 @@ class _AppIconButtonState extends State<AppIconButton> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => _setPressed(true),
-      onTapCancel: () => _setPressed(false),
-      onTapUp: (_) => _setPressed(false),
-      onTap: widget.onTap,
-      child: Stack(
-        children: [
-          Container(
-            height: _containerSize,
-            width: _containerSize,
-            decoration: BoxDecoration(
-              color: colors.secondary,
-              border: Border.all(color: colors.white, width: 3),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 3),
-                  color: colors.shadow,
-                ),
-              ],
-            ),
-            child: IconTheme(
-              data: IconThemeData(
-                color: colors.white,
-                size: _iconSize,
+    return IgnorePointer(
+      ignoring: widget.onTap == null,
+      child: GestureDetector(
+        onTapDown: (_) => _setPressed(true),
+        onTapCancel: () => _setPressed(false),
+        onTapUp: (_) => _setPressed(false),
+        onTap: widget.onTap,
+        child: Stack(
+          children: [
+            Container(
+              height: _containerSize,
+              width: _containerSize,
+              decoration: BoxDecoration(
+                color: colors.secondary,
+                border: Border.all(color: colors.white, width: 3),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(0, 3),
+                    color: colors.shadow,
+                  ),
+                ],
               ),
-              child: Center(child: widget.child),
-            ),
-          ),
-          if (_pressed)
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: colors.black.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
+              child: IconTheme(
+                data: IconThemeData(
+                  color: colors.white,
+                  size: _iconSize,
                 ),
+                child: Center(child: widget.child),
               ),
             ),
-        ],
+            if (_pressed)
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colors.black.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

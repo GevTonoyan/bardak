@@ -204,4 +204,14 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Շարունակել';
+
+  @override
+  String get unlock_theme_title => 'Բացել թեման';
+
+  @override
+  String get unlock_theme_description =>
+      'Համոզվա՞ծ եք, որ ցանկանում եք ակտիվացնել այս թեման և փոխել խաղի տեսքը:';
+
+  @override
+  String get unlock_theme_confirm => 'Բացել';
 }

@@ -447,6 +447,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resume'**
   String get round_stop_resume;
+
+  /// No description provided for @unlock_theme_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Theme'**
+  String get unlock_theme_title;
+
+  /// No description provided for @unlock_theme_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to unlock this theme and change the game\'s look?'**
+  String get unlock_theme_description;
+
+  /// No description provided for @unlock_theme_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlock_theme_confirm;
 }
 
 class _AppLocalizationsDelegate

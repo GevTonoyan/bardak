@@ -21,6 +21,7 @@ import 'package:alias_pro/router/app_router.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_bloc.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_event.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_state.dart';
+import 'package:alias_pro/themes/presentation/bloc/themes_bloc.dart';
 import 'package:alias_pro/utils/dependency_injection/di.dart';
 import 'package:alias_pro/utils/remote_config/remote_config.dart';
 import 'package:alias_pro/word_pack/presentation/bloc/word_packs_bloc.dart';
@@ -73,6 +74,12 @@ void main() async {
         BlocProvider(
           create: (_) => PreGameBloc(
             getPredefinedTeamNamesUseCase: sl(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => ThemesBloc(
+            getPurchasedThemesUseCase: sl(),
+            updatePurchasedThemesUseCase: sl(),
           ),
         ),
       ],
