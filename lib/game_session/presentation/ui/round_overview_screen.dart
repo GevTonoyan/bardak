@@ -38,20 +38,35 @@ class RoundOverviewScreen extends StatelessWidget {
                 SafeArea(
                   bottom: false,
                   child: Padding(
-                    padding: const EdgeInsetsGeometry.only(left: 20, top: 20),
-                    child: AppIconButton.close(
-                      onTap: () async {
-                        await showConfirmSheet(
-                          context: context,
-                          title: l10n.exit_game_title,
-                          description: l10n.exit_game_description,
-                          confirmText: l10n.exit_game_confirm,
-                          cancelText: l10n.cancel,
-                          confirmColor: colors.red,
-                          cancelColor: colors.green,
-                          onConfirm: () => context.pop(),
-                        );
-                      },
+                    padding: const .only(left: 20, top: 20, right: 20),
+                    child: Row(
+                      mainAxisAlignment: .spaceBetween,
+                      children: [
+                        AppIconButton.close(
+                          onTap: () async {
+                            await showConfirmSheet(
+                              context: context,
+                              title: l10n.exit_game_title,
+                              description: l10n.exit_game_description,
+                              confirmText: l10n.exit_game_confirm,
+                              cancelText: l10n.cancel,
+                              confirmColor: colors.red,
+                              cancelColor: colors.green,
+                              onConfirm: () => context.pop(),
+                            );
+                          },
+                        ),
+
+                        if (state.gameState.pendingReviewWords?.isNotEmpty ??
+                            false)
+                          AppIconButton.edit(
+                            onTap: () async {
+                              context.pushReplacementNamed(
+                                RoundReviewScreen.routePath,
+                              );
+                            },
+                          ),
+                      ],
                     ),
                   ),
                 ),
@@ -76,7 +91,7 @@ class RoundOverviewScreen extends StatelessWidget {
                 ),
                 const Expanded(child: _TeamScores()),
                 SizedBox(
-                  height: 300,
+                  height: 200,
                   child: ShadowBackground(
                     child: Padding(
                       padding: const .all(20),
@@ -84,15 +99,15 @@ class RoundOverviewScreen extends StatelessWidget {
                         mainAxisAlignment: .end,
                         spacing: 20,
                         children: [
-                          if (state.gameState.pendingReviewWords?.isNotEmpty ??
-                              false)
-                            AppButton(
-                              label: l10n.check,
-                              color: colors.white20,
-                              onPressed: () => context.pushReplacementNamed(
-                                RoundReviewScreen.routePath,
-                              ),
-                            ),
+                          // if (state.gameState.pendingReviewWords?.isNotEmpty ??
+                          //     false)
+                          //   AppButton(
+                          //     label: l10n.check,
+                          //     color: colors.white20,
+                          //     onPressed: () => context.pushReplacementNamed(
+                          //       RoundReviewScreen.routePath,
+                          //     ),
+                          //   ),
                           AppButton(
                             label: l10n.proceed,
                             color: colors.green,
@@ -139,12 +154,14 @@ class _TeamScores extends StatelessWidget {
         ),
         ...List.generate(teams.length, (index) {
           final teamState = teams[index];
-          final bgColor = index.isEven ? colors.white20 : Colors.transparent;
+          final bgColor = index == gameState.currentTeamIndex
+              ? colors.white20
+              : Colors.transparent;
           return Container(
-            padding: const EdgeInsets.all(20),
+            padding: const .all(20),
             color: bgColor,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: .spaceBetween,
               children: [
                 Text(
                   teamState.name,
