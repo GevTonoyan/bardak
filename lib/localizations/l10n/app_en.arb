@@ -98,5 +98,7 @@
 
   "unlock_theme_title": "Unlock Theme",
   "unlock_theme_description": "Are you sure you want to unlock this theme and change the game's look?",
-  "unlock_theme_confirm": "Unlock"
+  "unlock_theme_confirm": "Unlock",
+
+  "not_enough_coins": "Not enough coins"
 }

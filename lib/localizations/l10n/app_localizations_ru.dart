@@ -219,4 +219,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get unlock_theme_confirm => 'Открыть';
+
+  @override
+  String get not_enough_coins => 'Недостаточно монет';
 }
