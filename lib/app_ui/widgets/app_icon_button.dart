@@ -30,6 +30,14 @@ class AppIconButton extends StatefulWidget {
     );
   }
 
+  factory AppIconButton.edit({required VoidCallback onTap, Key? key}) {
+    return AppIconButton(
+      key: key,
+      onTap: onTap,
+      child: const Icon(Icons.edit),
+    );
+  }
+
   factory AppIconButton.close({required VoidCallback onTap, Key? key}) {
     return AppIconButton(
       key: key,
