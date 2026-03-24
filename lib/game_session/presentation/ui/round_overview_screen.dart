@@ -6,6 +6,7 @@ import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
+import 'package:alias_pro/game_session/domain/entities/game_session_entity.dart';
 import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:alias_pro/game_session/presentation/ui/countdown_screen.dart';
 import 'package:alias_pro/game_session/presentation/ui/round_review_screen.dart';
@@ -38,35 +39,20 @@ class RoundOverviewScreen extends StatelessWidget {
                 SafeArea(
                   bottom: false,
                   child: Padding(
-                    padding: const .only(left: 20, top: 20, right: 20),
-                    child: Row(
-                      mainAxisAlignment: .spaceBetween,
-                      children: [
-                        AppIconButton.close(
-                          onTap: () async {
-                            await showConfirmSheet(
-                              context: context,
-                              title: l10n.exit_game_title,
-                              description: l10n.exit_game_description,
-                              confirmText: l10n.exit_game_confirm,
-                              cancelText: l10n.cancel,
-                              confirmColor: colors.red,
-                              cancelColor: colors.green,
-                              onConfirm: () => context.pop(),
-                            );
-                          },
-                        ),
-
-                        if (state.gameState.pendingReviewWords?.isNotEmpty ??
-                            false)
-                          AppIconButton.edit(
-                            onTap: () async {
-                              context.pushReplacementNamed(
-                                RoundReviewScreen.routePath,
-                              );
-                            },
-                          ),
-                      ],
+                    padding: const .only(left: 20, top: 20),
+                    child: AppIconButton.close(
+                      onTap: () async {
+                        await showConfirmSheet(
+                          context: context,
+                          title: l10n.exit_game_title,
+                          description: l10n.exit_game_description,
+                          confirmText: l10n.exit_game_confirm,
+                          cancelText: l10n.cancel,
+                          confirmColor: colors.red,
+                          cancelColor: colors.green,
+                          onConfirm: () => context.pop(),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -95,25 +81,10 @@ class RoundOverviewScreen extends StatelessWidget {
                   child: ShadowBackground(
                     child: Padding(
                       padding: const .all(20),
-                      child: Column(
-                        mainAxisAlignment: .end,
-                        spacing: 20,
-                        children: [
-                          // if (state.gameState.pendingReviewWords?.isNotEmpty ??
-                          //     false)
-                          //   AppButton(
-                          //     label: l10n.check,
-                          //     color: colors.white20,
-                          //     onPressed: () => context.pushReplacementNamed(
-                          //       RoundReviewScreen.routePath,
-                          //     ),
-                          //   ),
-                          AppButton(
-                            label: l10n.proceed,
-                            color: colors.green,
-                            onPressed: () => _navigateToRoundScreen(context),
-                          ),
-                        ],
+                      child: AppButton(
+                        label: l10n.proceed,
+                        color: colors.green,
+                        onPressed: () => _navigateToRoundScreen(context),
                       ),
                     ),
                   ),
@@ -157,8 +128,12 @@ class _TeamScores extends StatelessWidget {
           final bgColor = index == gameState.currentTeamIndex
               ? colors.white20
               : Colors.transparent;
+
+          final showEditIcon = _showEditIcon(gameState, index);
+
           return Container(
-            padding: const .all(20),
+            height: 65,
+            padding: const .symmetric(horizontal: 20),
             color: bgColor,
             child: Row(
               mainAxisAlignment: .spaceBetween,
@@ -167,9 +142,31 @@ class _TeamScores extends StatelessWidget {
                   teamState.name,
                   style: typography.regular24,
                 ),
-                Text(
-                  teamState.totalScore.toString(),
-                  style: typography.regular24.withNumericFont,
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: showEditIcon
+                        ? () {
+                            context.pushReplacementNamed(
+                              RoundReviewScreen.routePath,
+                            );
+                          }
+                        : null,
+                    child: SizedBox(
+                      height: 48,
+                      child: Row(
+                        spacing: 10,
+                        children: [
+                          Text(
+                            teamState.totalScore.toString(),
+                            style: typography.regular24.withNumericFont,
+                          ),
+                          if (_showEditIcon(gameState, index))
+                            Icon(Icons.edit, color: colors.white, size: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -177,5 +174,11 @@ class _TeamScores extends StatelessWidget {
         }),
       ],
     );
+  }
+
+  bool _showEditIcon(GameSessionEntity gameState, int index) {
+    final hasPendingWords = gameState.pendingReviewWords?.isNotEmpty ?? false;
+
+    return hasPendingWords && index == gameState.previousTeamIndex;
   }
 }
