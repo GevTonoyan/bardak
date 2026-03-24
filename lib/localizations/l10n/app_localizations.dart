@@ -465,6 +465,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unlock'**
   String get unlock_theme_confirm;
+
+  /// No description provided for @not_enough_coins.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough coins'**
+  String get not_enough_coins;
 }
 
 class _AppLocalizationsDelegate

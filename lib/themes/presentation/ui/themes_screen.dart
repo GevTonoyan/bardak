@@ -12,6 +12,7 @@ import 'package:alias_pro/app_ui/theme/colors/app_yellow_colors.dart';
 import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_notification.dart';
 import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
@@ -96,6 +97,19 @@ class ThemesScreen extends StatelessWidget {
                                     themesBloc.add(
                                       PurchaseTheme(theme: scheme),
                                     );
+                                  } else {
+                                    if (context.mounted) {
+                                      unawaited(
+                                        showAppNotification(
+                                          context,
+                                          message: l10n.not_enough_coins,
+                                          icon: Assets.icons.coin.svg(
+                                            width: 18,
+                                            height: 18,
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   }
                                 },
                               ),

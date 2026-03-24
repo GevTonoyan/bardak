@@ -98,5 +98,7 @@
 
   "unlock_theme_title": "Բացել թեման",
   "unlock_theme_description": "Համոզվա՞ծ եք, որ ցանկանում եք ակտիվացնել այս թեման և փոխել խաղի տեսքը:",
-  "unlock_theme_confirm": "Բացել"
+  "unlock_theme_confirm": "Բացել",
+
+  "not_enough_coins": "Մետաղադրամները բավարար չեն"
 }

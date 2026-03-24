@@ -214,4 +214,7 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get unlock_theme_confirm => 'Բացել';
+
+  @override
+  String get not_enough_coins => 'Մետաղադրամները բավարար չեն';
 }

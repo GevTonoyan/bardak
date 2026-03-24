@@ -211,4 +211,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unlock_theme_confirm => 'Unlock';
+
+  @override
+  String get not_enough_coins => 'Not enough coins';
 }
