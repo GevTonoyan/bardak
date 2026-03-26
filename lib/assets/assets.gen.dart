@@ -127,6 +127,22 @@ class $AssetsPackImagesGen {
   List<AssetGenImage> get values => [mainPack];
 }
 
+class $AssetsSoundsGen {
+  const $AssetsSoundsGen();
+
+  /// File path: assets/sounds/check.mp3
+  String get check => 'assets/sounds/check.mp3';
+
+  /// File path: assets/sounds/tick.mp3
+  String get tick => 'assets/sounds/tick.mp3';
+
+  /// File path: assets/sounds/uncheck.mp3
+  String get uncheck => 'assets/sounds/uncheck.mp3';
+
+  /// List of all assets
+  List<String> get values => [check, tick, uncheck];
+}
+
 class $AssetsIconsFlagsGen {
   const $AssetsIconsFlagsGen();
 
@@ -150,6 +166,7 @@ class Assets {
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsPackImagesGen packImages = $AssetsPackImagesGen();
+  static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
 }
 
 class AssetGenImage {

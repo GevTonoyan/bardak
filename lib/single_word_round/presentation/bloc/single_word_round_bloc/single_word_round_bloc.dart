@@ -14,12 +14,14 @@ class SingleWordRoundBloc
     required int roundDuration,
     required bool penaltyForSkipping,
     required bool allowSkipping,
+    required bool soundsEnabled,
   }) : super(
          SingleWordRoundState.initial(
            words: words,
            roundDuration: roundDuration,
            allowSkipping: allowSkipping,
            penaltyForSkipping: penaltyForSkipping,
+           soundsEnabled: soundsEnabled,
          ),
        ) {
     on<ResolveCurrentWord>(_onResolve);

@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
+          Flexible(
             child: ShadowBackground(
               child: Padding(
                 padding: const .symmetric(horizontal: 20),

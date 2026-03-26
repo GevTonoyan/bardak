@@ -141,7 +141,9 @@ class _Success extends StatelessWidget {
     BuildContext context,
     WordPackEntity pack,
   ) {
-    final gameSettings = context.read<SettingsBloc>().state.gameSettings;
+    final settings = context.read<SettingsBloc>().state;
+    final gameSettings = settings.gameSettings;
+    final appSettings = settings.appSettings;
 
     final preGame = context.read<PreGameBloc>().state;
 
@@ -157,8 +159,7 @@ class _Success extends StatelessWidget {
       }).toList(),
       roundDuration: gameSettings.roundDuration,
       pointsToWin: gameSettings.pointsToWin,
-      // TODO
-      soundEnabled: false,
+      soundEnabled: appSettings.soundEnabled,
       wordsPerCard: gameSettings.wordsPerCard,
       allowSkipping: gameSettings.allowSkipping,
       penaltyForSkipping: gameSettings.penaltyForSkipping,

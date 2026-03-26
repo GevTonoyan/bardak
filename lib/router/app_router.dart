@@ -159,6 +159,7 @@ final appRouter = GoRouter(
                     create: (_) => CardRoundBloc(
                       words: gameState.words,
                       wordsPerCard: gameState.wordsPerCard,
+                      soundsEnabled: gameState.soundEnabled,
                     ),
                     child: CardRoundScreen(
                       initialRoundDuration: gameState.roundDuration,
@@ -183,6 +184,7 @@ final appRouter = GoRouter(
                       roundDuration: gameState.roundDuration,
                       allowSkipping: gameState.allowSkipping,
                       penaltyForSkipping: gameState.penaltyForSkipping,
+                      soundsEnabled: gameState.soundEnabled,
                     ),
                     child: const SingleWordRoundScreen(),
                   ),
