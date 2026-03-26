@@ -10,6 +10,7 @@ class SingleWordRoundState {
     required this.completed,
     required this.allowSkipping,
     required this.penaltyForSkipping,
+    required this.soundsEnabled,
   });
 
   factory SingleWordRoundState.initial({
@@ -17,6 +18,7 @@ class SingleWordRoundState {
     required int roundDuration,
     required bool allowSkipping,
     required bool penaltyForSkipping,
+    required bool soundsEnabled,
   }) => SingleWordRoundState(
     words: words,
     guessedIndexes: {},
@@ -26,6 +28,7 @@ class SingleWordRoundState {
     completed: false,
     allowSkipping: allowSkipping,
     penaltyForSkipping: penaltyForSkipping,
+    soundsEnabled: soundsEnabled,
   );
 
   SingleWordRoundState copyWith({
@@ -47,6 +50,7 @@ class SingleWordRoundState {
       completed: completed ?? this.completed,
       allowSkipping: allowSkipping ?? this.allowSkipping,
       penaltyForSkipping: penaltyForSkipping ?? this.penaltyForSkipping,
+      soundsEnabled: soundsEnabled,
     );
   }
 
@@ -58,6 +62,7 @@ class SingleWordRoundState {
   final bool completed;
   final bool allowSkipping;
   final bool penaltyForSkipping;
+  final bool soundsEnabled;
 }
 
 extension SingleWordRoundStateX on SingleWordRoundState {

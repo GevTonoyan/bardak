@@ -6,12 +6,14 @@ import 'package:alias_pro/app_ui/widgets/flip_card.dart';
 import 'package:alias_pro/app_ui/widgets/round_header.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/app_ui/widgets/show_points_badge.dart';
+import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:alias_pro/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:alias_pro/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:alias_pro/single_word_round/presentation/ui/single_word_card.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:alias_pro/utils/extensions/state_extension.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,6 +35,8 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
 
   var _isPaused = false;
 
+  late final AudioPlayer _audioPlayer;
+
   @override
   void initState() {
     super.initState();
@@ -40,11 +44,15 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
+
+    _audioPlayer = AudioPlayer();
+    unawaited(_audioPlayer.setPlayerMode(PlayerMode.lowLatency));
   }
 
   @override
   void dispose() {
     _wordAnimationController.dispose();
+    unawaited(_audioPlayer.dispose());
     super.dispose();
   }
 
@@ -107,6 +115,12 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                           word: roundState.words[roundState.index],
                           allowSkipping: roundState.allowSkipping,
                           onGuessed: () {
+                            unawaited(
+                              _audioPlayer.play(
+                                AssetSource(Assets.sounds.check),
+                              ),
+                            );
+
                             setState(() {
                               _signedSwipeProgress = 0.0;
                             });
@@ -120,6 +134,12 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                             );
                           },
                           onSkipped: () {
+                            unawaited(
+                              _audioPlayer.play(
+                                AssetSource(Assets.sounds.uncheck),
+                              ),
+                            );
+
                             setState(() {
                               _signedSwipeProgress = 0.0;
                             });
@@ -192,6 +212,12 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                                       label: l10n.skip,
                                       color: colors.white20,
                                       onPressed: () {
+                                        unawaited(
+                                          _audioPlayer.play(
+                                            AssetSource(Assets.sounds.uncheck),
+                                          ),
+                                        );
+
                                         bloc.add(
                                           const ResolveCurrentWord(
                                             WordResolution.skipped,
@@ -212,6 +238,12 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                                     label: l10n.correct,
                                     color: colors.green,
                                     onPressed: () {
+                                      unawaited(
+                                        _audioPlayer.play(
+                                          AssetSource(Assets.sounds.check),
+                                        ),
+                                      );
+
                                       bloc.add(
                                         const ResolveCurrentWord(
                                           WordResolution.guessed,

@@ -162,7 +162,7 @@ class _TeamScores extends StatelessWidget {
                             style: typography.regular24.withNumericFont,
                           ),
                           if (_showEditIcon(gameState, index))
-                            Icon(Icons.edit, color: colors.white, size: 24),
+                            _TickingEditIcon(color: colors.white),
                         ],
                       ),
                     ),
@@ -180,5 +180,50 @@ class _TeamScores extends StatelessWidget {
     final hasPendingWords = gameState.pendingReviewWords?.isNotEmpty ?? false;
 
     return hasPendingWords && index == gameState.previousTeamIndex;
+  }
+}
+
+class _TickingEditIcon extends StatefulWidget {
+  const _TickingEditIcon({required this.color});
+
+  final Color color;
+
+  @override
+  State<_TickingEditIcon> createState() => _TickingEditIconState();
+}
+
+class _TickingEditIconState extends State<_TickingEditIcon>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    )..repeat(reverse: true); // Loops the animation back and forth
+
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.3).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: _scaleAnimation,
+      child: Icon(Icons.edit, color: widget.color, size: 24),
+    );
   }
 }

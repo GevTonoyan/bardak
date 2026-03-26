@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/round_timer.dart';
 import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
+import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:alias_pro/utils/extensions/state_extension.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class RoundHeader extends StatefulWidget {
@@ -25,6 +27,7 @@ class RoundHeader extends StatefulWidget {
 
 class _RoundHeaderState extends State<RoundHeader>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+  late final AudioPlayer _audioPlayer;
   late int remainingSeconds;
   late Timer _timer;
   bool isTimerPaused = false;
@@ -34,6 +37,8 @@ class _RoundHeaderState extends State<RoundHeader>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     remainingSeconds = widget.initialRoundDuration;
+    _audioPlayer = AudioPlayer();
+    unawaited(_audioPlayer.setPlayerMode(PlayerMode.lowLatency));
     _startTimer();
   }
 
@@ -41,6 +46,7 @@ class _RoundHeaderState extends State<RoundHeader>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _timer.cancel();
+    unawaited(_audioPlayer.dispose());
     super.dispose();
   }
 
@@ -53,6 +59,7 @@ class _RoundHeaderState extends State<RoundHeader>
         isTimerPaused = true;
       });
       _timer.cancel();
+      unawaited(_audioPlayer.stop());
     }
   }
 
@@ -67,6 +74,10 @@ class _RoundHeaderState extends State<RoundHeader>
             widget.onRoundComplete();
           }
         });
+
+        if (remainingSeconds == 5) {
+          unawaited(_audioPlayer.play(AssetSource(Assets.sounds.tick)));
+        }
       }
     });
   }
