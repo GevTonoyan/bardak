@@ -43,28 +43,30 @@ class _SetupTeamNamesBody extends StatefulWidget {
 class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
   late final List<TextEditingController> _teamControllers;
   late final List<FocusNode> _teamFocusNodes;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool _isInitialized = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final appLocale = AppLocales.fromString(context.locale.languageCode);
-    final predefined =
-        context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ?? {};
-    final firstName = _pickDefaultName(context, {}, predefined: predefined);
-    final secondName = _pickDefaultName(context, {
-      firstName,
-    }, predefined: predefined);
-    _teamControllers = [
-      TextEditingController(text: firstName),
-      TextEditingController(text: secondName),
-    ];
-    _teamFocusNodes = [FocusNode(), FocusNode()];
-    _teamFocusNodes[0].requestFocus();
+    if (!_isInitialized) {
+      _isInitialized = true;
+      final appLocale = AppLocales.fromString(context.locale.languageCode);
+      final predefined =
+          context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ??
+          {};
+      final firstName = _pickDefaultName(context, {}, predefined: predefined);
+      final secondName = _pickDefaultName(
+        context,
+        {firstName},
+        predefined: predefined,
+      );
+      _teamControllers = [
+        TextEditingController(text: firstName),
+        TextEditingController(text: secondName),
+      ];
+      _teamFocusNodes = [FocusNode(), FocusNode()];
+      _teamFocusNodes[0].requestFocus();
+    }
   }
 
   @override
