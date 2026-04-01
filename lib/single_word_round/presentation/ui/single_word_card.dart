@@ -22,7 +22,7 @@ class SingleWordCard extends StatelessWidget {
           child: Text(
             word,
             textAlign: .center,
-            style: context.typography.regular38,
+            style: context.typography.regular20.copyWith(fontWeight: .w400),
           ),
         ),
       ),
@@ -56,9 +56,10 @@ class SingleWordCardShell extends StatelessWidget {
     final colors = context.colors;
 
     return SizedBox(
-      height: 340,
-      width: 262,
+      height: 380,
+      width: 300,
       child: Container(
+        padding: const .symmetric(horizontal: 10),
         decoration: BoxDecoration(
           borderRadius: .circular(12),
           gradient: LinearGradient(

@@ -106,7 +106,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const .symmetric(horizontal: 4),
                   child: Stack(
                     children: [
                       Center(

@@ -1,4 +1,3 @@
-import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/game_session/domain/entities/round_result.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -28,21 +27,11 @@ class SingleWordReviewWidget extends StatelessWidget {
         return GestureDetector(
           onTap: () => onToggle(index),
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 16,
-            ),
+            padding: const .symmetric(horizontal: 20, vertical: 16),
             color: isGuessed ? colors.green : colors.red,
-            child: Row(
-              mainAxisAlignment: .spaceBetween,
-              spacing: 10,
-              children: [
-                Text(
-                  word,
-                  style: typography.regular24,
-                ),
-                if (isGuessed) Assets.icons.check.svg(width: 24, height: 24),
-              ],
+            child: Text(
+              word,
+              style: typography.regular20.copyWith(fontWeight: .w400),
             ),
           ),
         );
