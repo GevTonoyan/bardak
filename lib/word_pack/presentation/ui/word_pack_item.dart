@@ -1,5 +1,6 @@
 import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/network_pack_image.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class WordPackItem extends StatelessWidget {
     required this.shouldDownload,
     required this.onTap,
     this.onDownload,
+    this.imageUrl,
     super.key,
   });
 
@@ -19,6 +21,7 @@ class WordPackItem extends StatelessWidget {
   final bool shouldDownload;
   final VoidCallback onTap;
   final VoidCallback? onDownload;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +36,29 @@ class WordPackItem extends StatelessWidget {
       child: Stack(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Opacity(
-              opacity: 0.5,
-              child: Assets.packImages.mainPack.image(
-                fit: BoxFit.fill,
-                width: double.maxFinite,
+            borderRadius: .circular(12),
+            child: NetworkPackImage(imageUrl: imageUrl),
+          ),
+
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: .topCenter,
+                  end: .bottomCenter,
+                  stops: const [0.0, 0.3, 0.7, 1.0],
+                  colors: [
+                    colors.black.withValues(alpha: 0.4),
+                    Colors.transparent,
+                    Colors.transparent,
+                    colors.black.withValues(alpha: 0.8),
+                  ],
+                ),
               ),
             ),
           ),
+
           if (!shouldDownload)
             Positioned(
               top: 10,

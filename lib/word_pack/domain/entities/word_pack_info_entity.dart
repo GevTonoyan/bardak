@@ -26,6 +26,7 @@ class WordPackEntity extends Equatable {
     required this.id,
     required this.name,
     required this.words,
+    this.image,
   });
 
   factory WordPackEntity.fromDatabase(Map<String, dynamic> data) {
@@ -33,6 +34,7 @@ class WordPackEntity extends Equatable {
       id: data['id'] as String,
       name: data['name'] as String,
       words: data['words'] as List<String>,
+      image: data['image'] as String?,
     );
   }
 
@@ -42,13 +44,15 @@ class WordPackEntity extends Equatable {
       id: id,
       name: json['name'] as String,
       words: List<String>.from(json['words'] ?? const []),
+      image: json['image'] as String?,
     );
   }
 
   final String id;
   final String name;
   final List<String> words;
+  final String? image;
 
   @override
-  List<Object?> get props => [id, name, words];
+  List<Object?> get props => [id, name, words, image];
 }

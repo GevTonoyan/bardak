@@ -116,6 +116,7 @@ class _Success extends StatelessWidget {
                 name: pack.name,
                 packWordsCount: pack.words.length,
                 shouldDownload: shouldDownload,
+                imageUrl: pack.image,
                 onTap: () {
                   context.goNamed(
                     RoundOverviewScreen.routePath,
