@@ -32,5 +32,6 @@ class AppConstants {
   static const aliasWordPack = 'alias_word_packs';
   static const aliasWordPackName = 'alias_word_pack_name';
   static const aliasWordPackWords = 'alias_word_pack_words';
+  static const aliasWordPackImage = 'alias_word_pack_image';
   static const aliasSelectedWordPackKey = 'alias_selected_word_pack';
 }

@@ -51,9 +51,10 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
         final name = map[AppConstants.aliasWordPackName] as String? ?? key;
         final words =
             map[AppConstants.aliasWordPackWords] as List<String>? ?? [];
+        final image = map[AppConstants.aliasWordPackImage] as String?;
 
         packsList.add(
-          WordPackEntity(id: key, name: name, words: words),
+          WordPackEntity(id: key, name: name, words: words, image: image),
         );
       }
     }
@@ -111,6 +112,7 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
       await box.put(key, <String, dynamic>{
         AppConstants.aliasWordPackName: pack.name,
         AppConstants.aliasWordPackWords: pack.words,
+        AppConstants.aliasWordPackImage: pack.image,
       });
     }
   }
