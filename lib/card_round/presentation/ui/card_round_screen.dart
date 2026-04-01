@@ -78,7 +78,7 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
                 Expanded(
                   child: Center(
                     child: Padding(
-                      padding: const .symmetric(horizontal: 40),
+                      padding: const .symmetric(horizontal: 30),
                       child: FlipCard(
                         isFlipped: _isPaused,
                         front: IgnorePointer(

@@ -29,9 +29,6 @@ class MultipleWordsCard extends StatelessWidget {
         final colors = context.colors;
         final typography = context.typography;
 
-        // final words = state.visible;
-        // final guessed = state.guessed;
-
         return MultipleWordsCardShell(
           child: ListView.separated(
             shrinkWrap: true,
@@ -60,21 +57,14 @@ class MultipleWordsCard extends StatelessWidget {
                     onTap(selected: !isSelected, word: currentWord);
                   },
                   child: Container(
-                    padding: const .all(14),
+                    padding: const .symmetric(vertical: 14, horizontal: 10),
                     decoration: BoxDecoration(
                       color: isSelected ? colors.green : Colors.transparent,
                       borderRadius: itemRadius,
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            currentWord,
-                            style: typography.regular24,
-                          ),
-                        ),
-                        if (isSelected) Assets.icons.check.svg(),
-                      ],
+                    child: Text(
+                      currentWord,
+                      style: typography.regular20.copyWith(fontWeight: .w400),
                     ),
                   ),
                 ),

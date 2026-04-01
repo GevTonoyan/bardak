@@ -42,7 +42,7 @@ class RoundReviewScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  Expanded(
+                  Flexible(
                     child: switch (reviewState.gameMode) {
                       GameMode.card => CardReviewWidget(
                         pagedReviewedWords: reviewState.pagedReviewedWords,
