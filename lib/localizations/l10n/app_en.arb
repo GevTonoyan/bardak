@@ -86,6 +86,8 @@
   "scoreboard": "Scoreboard",
   "next_team": "Next team",
   "winner_reveal": "And the winner is...",
+  "no_words_left_error": "Sorry, words are finished. You can try with another topic.",
+
 
   "exit_game_title": "Leave the game?",
   "exit_game_description": "Are you sure you want to finish the current game?",

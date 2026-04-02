@@ -183,6 +183,10 @@ class AppLocalizationsAm extends AppLocalizations {
   String get winner_reveal => 'Եվ հաղթողն է...';
 
   @override
+  String get no_words_left_error =>
+      'Այս թեմայում բառեր չեն մնացել։ Խնդրում ենք ընտրել այլ փաթեթ՝ նորից խաղալու համար:';
+
+  @override
   String get exit_game_title => 'Դուրս գա՞լ խաղից';
 
   @override

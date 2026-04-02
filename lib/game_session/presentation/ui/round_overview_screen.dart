@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_notification.dart';
 import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
@@ -84,7 +85,21 @@ class RoundOverviewScreen extends StatelessWidget {
                       child: AppButton(
                         label: l10n.proceed,
                         color: colors.green,
-                        onPressed: () => _navigateToRoundScreen(context),
+                        onPressed: () {
+                          if (state.gameState.words.isEmpty) {
+                            unawaited(
+                              showAppNotification(
+                                context,
+                                message: l10n.no_words_left_error,
+                                icon: Icon(Icons.info, color: colors.white),
+                              ),
+                            );
+                          } else {
+                            context.pushReplacementNamed(
+                              CountdownScreen.routePath,
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -95,10 +110,6 @@ class RoundOverviewScreen extends StatelessWidget {
         );
       },
     );
-  }
-
-  Future<void> _navigateToRoundScreen(BuildContext context) async {
-    context.pushReplacementNamed(CountdownScreen.routePath);
   }
 }
 

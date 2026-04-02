@@ -188,6 +188,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get winner_reveal => 'И победителем становится...';
 
   @override
+  String get no_words_left_error =>
+      'Извините, слова закончились. Вы можете попробовать с другой тематикой.';
+
+  @override
   String get exit_game_title => 'Выйти из игры?';
 
   @override

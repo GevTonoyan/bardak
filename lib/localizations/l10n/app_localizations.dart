@@ -406,6 +406,12 @@ abstract class AppLocalizations {
   /// **'And the winner is...'**
   String get winner_reveal;
 
+  /// No description provided for @no_words_left_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry, words are finished. You can try with another topic.'**
+  String get no_words_left_error;
+
   /// No description provided for @exit_game_title.
   ///
   /// In en, this message translates to:
