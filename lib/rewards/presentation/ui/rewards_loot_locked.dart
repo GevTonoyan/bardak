@@ -4,6 +4,7 @@ import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/smart_number_text.dart';
+import 'package:alias_pro/app_ui/widgets/text_with_border.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:alias_pro/themes/presentation/ui/themes_screen.dart';
@@ -50,11 +51,14 @@ class RewardsLootLocked extends StatelessWidget {
                         ),
                         child: Assets.icons.rewardOpened.svg(),
                       ),
-                      Transform.rotate(
-                        angle: 9.25 * math.pi / 180 * 2,
-                        child: Text(
-                          reward.toString(),
-                          style: context.typography.regular28.withNumericFont,
+                      Positioned(
+                        bottom: 10,
+                        child: Transform.rotate(
+                          angle: 9.25 * math.pi / 180 * 2,
+                          child: TextWithBorder(
+                            reward.toString(),
+                            style: context.typography.regular28.withNumericFont,
+                          ),
                         ),
                       ),
                     ],
