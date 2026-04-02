@@ -1,13 +1,9 @@
-Bugs
-When there are no more words
-Rewards screen - new coins are without black border
-
-FEATURES
-1. Buying theme when we have 0 coin
-
 Improvements
 Update Settings enhancement, in data source when we update, the switch maybe redundant
 Make AppColors sealed class and get rid of the enum
 Make bloc names generic , also state and event names similar to each other
 BlocBuilder enhancements
-CRITICAL: When buying theme we use rewards cubit to update the coins. Should have some general cubit for coins management
+
+CRITICAL:
+When buying theme we use rewards cubit to update the coins. Should have some general cubit for coins management
+When clicking on reward item, there is a delay, while I see the coin number
