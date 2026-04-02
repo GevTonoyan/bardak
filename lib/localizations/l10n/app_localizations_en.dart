@@ -180,6 +180,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get winner_reveal => 'And the winner is...';
 
   @override
+  String get no_words_left_error =>
+      'Sorry, words are finished. You can try with another topic.';
+
+  @override
   String get exit_game_title => 'Leave the game?';
 
   @override

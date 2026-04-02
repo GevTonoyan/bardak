@@ -156,12 +156,7 @@ class _AppNotificationBanner extends StatelessWidget {
           children: [
             ?icon,
             Flexible(
-              child: Text(
-                message,
-                style: typography.regular18,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+              child: Text(message, style: typography.regular18),
             ),
           ],
         ),
