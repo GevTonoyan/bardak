@@ -184,6 +184,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Sorry, words are finished. You can try with another topic.';
 
   @override
+  String get downloadWordsNetworkError =>
+      'You need to download the words first. Please check your internet connection and try again.';
+
+  @override
   String get exit_game_title => 'Leave the game?';
 
   @override

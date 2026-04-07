@@ -412,6 +412,12 @@ abstract class AppLocalizations {
   /// **'Sorry, words are finished. You can try with another topic.'**
   String get no_words_left_error;
 
+  /// No description provided for @downloadWordsNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to download the words first. Please check your internet connection and try again.'**
+  String get downloadWordsNetworkError;
+
   /// No description provided for @exit_game_title.
   ///
   /// In en, this message translates to:

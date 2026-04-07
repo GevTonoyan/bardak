@@ -35,21 +35,11 @@ class WordPacksLoaded extends WordPacksState {
 }
 
 class WordPacksNotCached extends WordPacksState {
-  const WordPacksNotCached({required this.fallbackPacks, required this.locale});
+  const WordPacksNotCached({required this.fallbackPacks, this.error});
 
   final List<WordPackEntity> fallbackPacks;
-  final String locale;
+  final String? error;
 
   @override
-  List<Object?> get props => [fallbackPacks, locale];
-}
-
-/// Error state when loading word packs fails.
-class WordPacksError extends WordPacksState {
-  const WordPacksError(this.message);
-
-  final String message;
-
-  @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [fallbackPacks, error];
 }
