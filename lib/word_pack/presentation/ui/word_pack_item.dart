@@ -11,8 +11,8 @@ class WordPackItem extends StatelessWidget {
     required this.packWordsCount,
     required this.shouldDownload,
     required this.onTap,
-    this.onDownload,
-    this.imageUrl,
+    required this.imageUrl,
+    required this.imageBlurHash,
     super.key,
   });
 
@@ -20,8 +20,8 @@ class WordPackItem extends StatelessWidget {
   final int packWordsCount;
   final bool shouldDownload;
   final VoidCallback onTap;
-  final VoidCallback? onDownload;
-  final String? imageUrl;
+  final String imageUrl;
+  final String imageBlurHash;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,10 @@ class WordPackItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: .circular(12),
-            child: NetworkPackImage(imageUrl: imageUrl),
+            child: NetworkPackImage(
+              imageUrl: imageUrl,
+              imageBlurHash: imageBlurHash,
+            ),
           ),
 
           Positioned.fill(
@@ -75,10 +78,7 @@ class WordPackItem extends StatelessWidget {
               spacing: 8,
               children: [
                 if (shouldDownload)
-                  GestureDetector(
-                    onTap: () => onDownload?.call(),
-                    child: Assets.icons.download.svg(height: 32, width: 32),
-                  ),
+                  Assets.icons.download.svg(height: 24, width: 24),
                 Text(
                   name,
                   style: typography.regular24,

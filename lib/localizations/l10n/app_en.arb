@@ -87,6 +87,7 @@
   "next_team": "Next team",
   "winner_reveal": "And the winner is...",
   "no_words_left_error": "Sorry, words are finished. You can try with another topic.",
+  "downloadWordsNetworkError": "You need to download the words first. Please check your internet connection and try again.",
 
 
   "exit_game_title": "Leave the game?",

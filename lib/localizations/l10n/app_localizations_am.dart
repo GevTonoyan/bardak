@@ -187,6 +187,10 @@ class AppLocalizationsAm extends AppLocalizations {
       'Այս թեմայում բառեր չեն մնացել։ Խնդրում ենք ընտրել այլ փաթեթ՝ նորից խաղալու համար:';
 
   @override
+  String get downloadWordsNetworkError =>
+      'Նախ պետք է ներբեռնեք բառերը: Խնդրում ենք ստուգել ձեր ինտերնետ կապը և փորձել կրկին:';
+
+  @override
   String get exit_game_title => 'Դուրս գա՞լ խաղից';
 
   @override

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_notification.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/game_session/domain/entities/game_session_entity.dart';
@@ -47,11 +50,23 @@ class _WordPackScreenState extends State<WordPackScreen> {
                 ],
               ),
             ),
-            BlocBuilder<WordPacksBloc, WordPacksState>(
+            BlocConsumer<WordPacksBloc, WordPacksState>(
+              listenWhen: (_, current) => current is WordPacksNotCached,
+              listener: (BuildContext context, WordPacksState state) {
+                if (state is WordPacksNotCached) {
+                  unawaited(
+                    showAppNotification(
+                      context,
+                      message: context.l10n.downloadWordsNetworkError,
+                      icon: Icon(Icons.wifi_off, color: context.colors.white),
+                      duration: const Duration(seconds: 4),
+                    ),
+                  );
+                }
+              },
               builder: (context, state) {
                 return switch (state) {
                   WordPacksInitial() => const SizedBox.shrink(),
-                  WordPacksError() => const _Error(),
                   WordPacksLoaded(packs: final packs) => Expanded(
                     child: _Success(packs: packs),
                   ),
@@ -63,31 +78,6 @@ class _WordPackScreenState extends State<WordPackScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _Error extends StatelessWidget {
-  const _Error();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
-    final typography = context.appTheme.typography;
-
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.error_outline, color: colors.red, size: 48),
-          const SizedBox(height: 16),
-          Text(
-            'Fail to load',
-            style: typography.titleMedium.copyWith(color: colors.red),
-            textAlign: TextAlign.center,
-          ),
-        ],
       ),
     );
   }
@@ -117,16 +107,18 @@ class _Success extends StatelessWidget {
                 packWordsCount: pack.words.length,
                 shouldDownload: shouldDownload,
                 imageUrl: pack.image,
+                imageBlurHash: pack.imageBlurHash,
                 onTap: () {
-                  context.goNamed(
-                    RoundOverviewScreen.routePath,
-                    extra: _buildGameSessionEntity(context, pack),
-                  );
-                },
-                onDownload: () {
-                  context.read<WordPacksBloc>().add(
-                    FetchAndCachePacks(locale: context.locale.languageCode),
-                  );
+                  if (shouldDownload) {
+                    context.read<WordPacksBloc>().add(
+                      FetchAndCachePacks(locale: context.locale.languageCode),
+                    );
+                  } else {
+                    context.goNamed(
+                      RoundOverviewScreen.routePath,
+                      extra: _buildGameSessionEntity(context, pack),
+                    );
+                  }
                 },
               );
             },

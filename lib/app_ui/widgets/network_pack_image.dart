@@ -1,9 +1,11 @@
-import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 
 class NetworkPackImage extends StatelessWidget {
   const NetworkPackImage({
-    this.imageUrl,
+    required this.imageUrl,
+    required this.imageBlurHash,
     this.fit = .fill,
     this.width = double.maxFinite,
     this.height,
@@ -11,7 +13,8 @@ class NetworkPackImage extends StatelessWidget {
     super.key,
   });
 
-  final String? imageUrl;
+  final String imageUrl;
+  final String imageBlurHash;
   final BoxFit fit;
   final double? width;
   final double? height;
@@ -19,28 +22,25 @@ class NetworkPackImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return imageUrl != null
-        ? Image.network(
-            _convertToDirectLink(imageUrl!),
-            fit: fit,
-            width: width,
-            height: height,
-            errorBuilder: (_, __, ___) => _fallbackImage(),
-          )
-        : _fallbackImage();
+    return CachedNetworkImage(
+      imageUrl: _convertToDirectLink(imageUrl),
+      fit: .cover,
+      width: .maxFinite,
+      placeholder: (context, url) => BlurHash(
+        hash: imageBlurHash,
+        imageFit: .cover,
+      ),
+      errorWidget: (_, _, _) => _fallbackImage(),
+    );
   }
 
   Widget _fallbackImage() {
-    return Assets.packImages.mainPack.image(
-      fit: fit,
-      width: width,
-      height: height,
-    );
+    return BlurHash(hash: imageBlurHash, imageFit: .cover);
   }
 
   String _convertToDirectLink(String url) {
     if (url.contains('drive.google.com')) {
-      final regExp = RegExp(r'\/d\/(.+)\/view');
+      final regExp = RegExp('/d/(.+)/view');
       final match = regExp.firstMatch(url);
       if (match != null && match.groupCount >= 1) {
         final fileId = match.group(1);

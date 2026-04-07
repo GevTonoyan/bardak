@@ -48,13 +48,20 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
       if (data is Map) {
         final map = Map<String, dynamic>.from(data);
 
-        final name = map[AppConstants.aliasWordPackName] as String? ?? key;
-        final words =
-            map[AppConstants.aliasWordPackWords] as List<String>? ?? [];
-        final image = map[AppConstants.aliasWordPackImage] as String?;
+        final name = map[AppConstants.aliasWordPackName] as String;
+        final words = map[AppConstants.aliasWordPackWords] as List<String>;
+        final image = map[AppConstants.aliasWordPackImage] as String;
+        final imageBlurHash =
+            map[AppConstants.aliasWordPackImageBlurHash] as String;
 
         packsList.add(
-          WordPackEntity(id: key, name: name, words: words, image: image),
+          WordPackEntity(
+            id: key,
+            name: name,
+            words: words,
+            image: image,
+            imageBlurHash: imageBlurHash,
+          ),
         );
       }
     }
@@ -113,6 +120,7 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
         AppConstants.aliasWordPackName: pack.name,
         AppConstants.aliasWordPackWords: pack.words,
         AppConstants.aliasWordPackImage: pack.image,
+        AppConstants.aliasWordPackImageBlurHash: pack.imageBlurHash,
       });
     }
   }

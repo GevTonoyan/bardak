@@ -26,17 +26,9 @@ class WordPackEntity extends Equatable {
     required this.id,
     required this.name,
     required this.words,
-    this.image,
+    required this.image,
+    required this.imageBlurHash,
   });
-
-  factory WordPackEntity.fromDatabase(Map<String, dynamic> data) {
-    return WordPackEntity(
-      id: data['id'] as String,
-      name: data['name'] as String,
-      words: data['words'] as List<String>,
-      image: data['image'] as String?,
-    );
-  }
 
   /// Creates an AliasWordPackEntity from Firestore JSON-like map.
   factory WordPackEntity.fromFirestore(String id, Map<String, dynamic> json) {
@@ -44,15 +36,17 @@ class WordPackEntity extends Equatable {
       id: id,
       name: json['name'] as String,
       words: List<String>.from(json['words'] ?? const []),
-      image: json['image'] as String?,
+      image: json['image'] as String,
+      imageBlurHash: json['image_blur_hash'] as String,
     );
   }
 
   final String id;
   final String name;
   final List<String> words;
-  final String? image;
+  final String image;
+  final String imageBlurHash;
 
   @override
-  List<Object?> get props => [id, name, words, image];
+  List<Object> get props => [id, name, words, image, imageBlurHash];
 }

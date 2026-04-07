@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:alias_pro/localizations/common/supported_locales.dart';
-import 'package:alias_pro/utils/remote_config/remote_config.dart';
 import 'package:alias_pro/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:alias_pro/word_pack/domain/usecases/are_packs_cached_usecase.dart';
 import 'package:alias_pro/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
@@ -43,7 +42,6 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
         final areCached = await areWordPacksCached(
           AreWordPacksCachedParams(localeCode: locale),
         );
-        print('------------------ $locale cached = $areCached');
         if (!areCached) {
           await fetchAndCacheWordPacks(
             FetchAndCacheWordPacksParams(localeCode: locale),
@@ -77,34 +75,38 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
             fallbackPacks: WordPackInfoResultEntity.fallback(
               event.locale,
             ).packs,
-            locale: event.locale,
           ),
         );
       }
     } on Exception catch (e) {
-      emit(WordPacksError(e.toString()));
+      emit(
+        WordPacksNotCached(
+          fallbackPacks: WordPackInfoResultEntity.fallback(
+            event.locale,
+          ).packs,
+        ),
+      );
     }
-  }
-
-  Future<void> _checkForWordsUpdate(String locale) async {
-    final currentVersion = getWordsVersion(
-      params: GetWordsVersionParams(localeCode: locale),
-    );
-    final remoteVersion = AppRemoteConfig.instance!.getWordsVersion(locale);
-    if (currentVersion == remoteVersion) return;
-
-    await fetchAndCacheWordPacks(
-      FetchAndCacheWordPacksParams(localeCode: locale),
-    );
   }
 
   FutureOr<void> _fetchAndCachePacks(
     FetchAndCachePacks event,
     Emitter<WordPacksState> emit,
   ) async {
-    await fetchAndCacheWordPacks(
-      FetchAndCacheWordPacksParams(localeCode: event.locale),
-    );
-    add(LoadWordPacks(event.locale));
+    try {
+      await fetchAndCacheWordPacks(
+        FetchAndCacheWordPacksParams(localeCode: event.locale),
+      );
+      add(LoadWordPacks(event.locale));
+    } on Exception catch (e) {
+      emit(
+        WordPacksNotCached(
+          fallbackPacks: WordPackInfoResultEntity.fallback(
+            event.locale,
+          ).packs,
+          error: e.toString(),
+        ),
+      );
+    }
   }
 }

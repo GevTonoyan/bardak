@@ -192,6 +192,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Извините, слова закончились. Вы можете попробовать с другой тематикой.';
 
   @override
+  String get downloadWordsNetworkError =>
+      'Сначала необходимо скачать слова. Пожалуйста, проверьте подключение к интернету и попробуйте снова.';
+
+  @override
   String get exit_game_title => 'Выйти из игры?';
 
   @override
