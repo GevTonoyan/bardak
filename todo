@@ -3,7 +3,15 @@ Update Settings enhancement, in data source when we update, the switch maybe red
 Make AppColors sealed class and get rid of the enum
 Make bloc names generic , also state and event names similar to each other
 BlocBuilder enhancements
-
-CRITICAL:
 When buying theme we use rewards cubit to update the coins. Should have some general cubit for coins management
-When clicking on reward item, there is a delay, while I see the coin number
+
+CRITICAL: (Bugs)
+1. When clicking on reward item, there is a delay, while I see the coin number
+2. Show notification when there are empty team names
+3. Disable auto focus on setup team names, and move the green button to top when keyboard is open
+4. Update rules
+
+
+TODO
+1. Add word "popoxel" in review screen (X i koxqy centered)
+2. Single word card - dynamic font size based on single word letters quantity
