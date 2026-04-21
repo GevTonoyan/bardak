@@ -228,4 +228,8 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get not_enough_coins => 'Մետաղադրամները բավարար չեն';
+
+  @override
+  String get errorEmptyTeamNames =>
+      'Սպասիր, իսկ ովքե՞ր են խաղում: Լրացրեք բոլոր թիմերը:';
 }
