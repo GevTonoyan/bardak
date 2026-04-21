@@ -8,6 +8,7 @@ import 'package:alias_pro/app_ui/theme/colors/app_main_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_purple_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_red_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_turquoise_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_yellow_colors.dart';
 import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
@@ -74,6 +75,7 @@ class ThemesScreen extends StatelessWidget {
                             context.read<SettingsBloc>().add(
                               ChangeColorScheme(colorScheme: scheme),
                             );
+                            context.read<RewardsCubit>().updateCoins(1, 15000);
                           } else {
                             unawaited(
                               showConfirmSheet(
@@ -170,6 +172,7 @@ class ThemesScreen extends StatelessWidget {
       .pink => AppPinkColors().secondary,
       .red => AppRedColors().secondary,
       .black => AppBlackColors().secondary,
+      .turquoise => AppTurquoiseColors().secondary,
     };
   }
 }

@@ -99,6 +99,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get theme_black => 'Սև';
 
   @override
+  String get theme_turquoise => 'Փիրուզագույն';
+
+  @override
   String get sounds => 'Ձայներ';
 
   @override

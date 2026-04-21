@@ -106,6 +106,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get theme_black => 'Черная';
 
   @override
+  String get theme_turquoise => 'Бирюзовый';
+
+  @override
   String get sounds => 'Звуки';
 
   @override

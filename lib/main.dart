@@ -9,6 +9,7 @@ import 'package:alias_pro/app_ui/theme/colors/app_main_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_purple_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_red_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_turquoise_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_yellow_colors.dart';
 import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:alias_pro/firebase_options.dart';
@@ -134,6 +135,7 @@ class MyApp extends StatelessWidget {
       .pink => AppPinkColors(),
       .red => AppRedColors(),
       .black => AppBlackColors(),
+      .turquoise => AppTurquoiseColors(),
     };
   }
 }
