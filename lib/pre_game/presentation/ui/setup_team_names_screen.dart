@@ -66,7 +66,6 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
         TextEditingController(text: secondName),
       ];
       _teamFocusNodes = [FocusNode(), FocusNode()];
-      _teamFocusNodes[0].requestFocus();
     }
   }
 
@@ -89,97 +88,102 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
-      child: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: .start,
-                children: [
-                  height30,
-                  Column(
-                    children: [
-                      for (int i = 0; i < _teamControllers.length; i++)
-                        Padding(
-                          padding: const .only(bottom: 20),
-                          child: AppInputField(
-                            controller: _teamControllers[i],
-                            focusNode: _teamFocusNodes[i],
-                            suffix:
-                                _teamControllers.length >
-                                    AppConstants.minTeamCount
-                                ? AppIcon(
-                                    icon: Container(
-                                      height: 4,
-                                      width: 20,
-                                      color: colors.white,
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        _teamControllers[i].dispose();
-                                        _teamControllers.remove(
-                                          _teamControllers[i],
-                                        );
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: .start,
+                  children: [
+                    height30,
+                    Column(
+                      children: [
+                        for (int i = 0; i < _teamControllers.length; i++)
+                          Padding(
+                            padding: const .only(bottom: 20),
+                            child: AppInputField(
+                              controller: _teamControllers[i],
+                              focusNode: _teamFocusNodes[i],
+                              suffix:
+                                  _teamControllers.length >
+                                      AppConstants.minTeamCount
+                                  ? AppIcon(
+                                      icon: Container(
+                                        height: 4,
+                                        width: 20,
+                                        color: colors.white,
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          _teamControllers[i].dispose();
+                                          _teamControllers.remove(
+                                            _teamControllers[i],
+                                          );
 
-                                        _teamFocusNodes[i].dispose();
-                                        _teamFocusNodes.remove(
-                                          _teamFocusNodes[i],
-                                        );
-                                      });
-                                    },
-                                  )
-                                : null,
-                          ),
-                        ),
-                    ],
-                  ),
-                  if (_teamControllers.length < AppConstants.maxTeamCount)
-                    AppButton(
-                      label: l10n.add,
-                      color: colors.white20,
-                      icon: Assets.icons.add.svg(),
-                      onPressed: () {
-                        setState(() {
-                          _teamControllers.add(
-                            TextEditingController(
-                              text: _getNextDefaultName(),
+                                          _teamFocusNodes[i].dispose();
+                                          _teamFocusNodes.remove(
+                                            _teamFocusNodes[i],
+                                          );
+                                        });
+                                      },
+                                    )
+                                  : null,
                             ),
-                          );
-                          _teamFocusNodes.add(FocusNode());
-                          _teamFocusNodes.last.requestFocus();
-                        });
-                      },
+                          ),
+                      ],
                     ),
-                ],
+                    if (_teamControllers.length < AppConstants.maxTeamCount)
+                      AppButton(
+                        label: l10n.add,
+                        color: colors.white20,
+                        icon: Assets.icons.add.svg(),
+                        onPressed: () {
+                          setState(() {
+                            _teamControllers.add(
+                              TextEditingController(
+                                text: _getNextDefaultName(),
+                              ),
+                            );
+                            _teamFocusNodes.add(FocusNode());
+                            _teamFocusNodes.last.requestFocus();
+                          });
+                        },
+                      ),
+                  ],
+                ),
               ),
             ),
-          ),
-          height20,
-          AppButton(
-            label: l10n.proceed,
-            color: colors.green,
-            onPressed: () {
-              final teamNames = _teamControllers
-                  .map((controller) => controller.text)
-                  .toList();
-              bloc.add(AddTeamsEvent(teamNames));
+            height20,
+            AppButton(
+              label: l10n.proceed,
+              color: colors.green,
+              onPressed: () {
+                final teamNames = _teamControllers
+                    .map((controller) => controller.text)
+                    .toList();
+                bloc.add(AddTeamsEvent(teamNames));
 
-              if (teamNames.any((name) => name.isEmpty)) {
-                unawaited(
-                  showAppNotification(
-                    context,
-                    icon: Icon(Icons.group_off_outlined, color: colors.white),
-                    message: context.l10n.errorEmptyTeamNames,
-                    duration: const Duration(seconds: 3),
-                  ),
-                );
-                return;
-              } else {
-                unawaited(context.pushNamed(WordPackScreen.routePath));
-              }
-            },
-          ),
-        ],
+                if (teamNames.any((name) => name.isEmpty)) {
+                  unawaited(
+                    showAppNotification(
+                      context,
+                      icon: Icon(Icons.group_off_outlined, color: colors.white),
+                      message: context.l10n.errorEmptyTeamNames,
+                      duration: const Duration(seconds: 3),
+                    ),
+                  );
+                  return;
+                } else {
+                  unawaited(context.pushNamed(WordPackScreen.routePath));
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
