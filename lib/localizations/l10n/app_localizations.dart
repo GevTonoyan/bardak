@@ -268,6 +268,12 @@ abstract class AppLocalizations {
   /// **'Black'**
   String get theme_black;
 
+  /// No description provided for @theme_turquoise.
+  ///
+  /// In en, this message translates to:
+  /// **'Turquoise'**
+  String get theme_turquoise;
+
   /// No description provided for @sounds.
   ///
   /// In en, this message translates to:
