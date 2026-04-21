@@ -180,6 +180,10 @@ class AppLocalizationsAm extends AppLocalizations {
       'Միավորները հաշվարկվում են գուշակված բառերի քանակով';
 
   @override
+  String get generalRule1 =>
+      'Խաղն ավարտվում է, երբ թիմերից մեկը հասնում է պահանջվող միավորներին, սակայն ընթացիկ փուլը պետք է ավարտվի, որպեսզի բոլոր թիմերը հավասար քանակով խաղան';
+
+  @override
   String get scoreboard => 'Հաշիվը';
 
   @override

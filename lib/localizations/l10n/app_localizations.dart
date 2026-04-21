@@ -400,6 +400,12 @@ abstract class AppLocalizations {
   /// **'Score is based on the number of guessed words.'**
   String get cardModeRule6;
 
+  /// No description provided for @generalRule1.
+  ///
+  /// In en, this message translates to:
+  /// **'The game ends when a team reaches the required points, but the current round must be completed so all teams play an equal number of turns.'**
+  String get generalRule1;
+
   /// No description provided for @scoreboard.
   ///
   /// In en, this message translates to:

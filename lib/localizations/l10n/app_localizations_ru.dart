@@ -185,6 +185,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cardModeRule6 => 'Счёт основан на количестве угаданных слов.';
 
   @override
+  String get generalRule1 =>
+      'Игра заканчивается, когда одна из команд набирает необходимое количество очков, но текущий раунд должен завершиться, чтобы все команды сыграли равное количество раз.';
+
+  @override
   String get scoreboard => 'Счёт';
 
   @override

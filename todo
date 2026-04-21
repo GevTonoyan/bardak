@@ -7,9 +7,7 @@ When buying theme we use rewards cubit to update the coins. Should have some gen
 
 CRITICAL: (Bugs)
 1. When clicking on reward item, there is a delay, while I see the coin number
-3. Disable auto focus on setup team names, and move the green button to top when keyboard is open
-4. Update rules (include info about all teams should play their rounds and only after that game can be finished)
-
+2. Modify rule screen and rules 
 
 TODO
 2. Single word card - dynamic font size based on single word letters quantity

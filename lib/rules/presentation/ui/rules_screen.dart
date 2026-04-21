@@ -85,6 +85,7 @@ class _RulesScreenBodyState extends State<_RulesScreenBody> {
                   l10n.cardModeRule4,
                   l10n.cardModeRule5,
                   l10n.cardModeRule6,
+                  l10n.generalRule1,
                 ],
                 .singleWord => [
                   l10n.singleModeRule1,
@@ -93,6 +94,7 @@ class _RulesScreenBodyState extends State<_RulesScreenBody> {
                   l10n.singleModeRule4,
                   l10n.singleModeRule5,
                   l10n.singleModeRule6,
+                  l10n.generalRule1,
                 ],
               },
             ),
