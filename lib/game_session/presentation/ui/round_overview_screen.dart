@@ -58,7 +58,7 @@ class RoundOverviewScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsGeometry.all(30),
+                  padding: const .all(30),
                   child: Align(
                     child: Column(
                       spacing: 16,
@@ -116,6 +116,8 @@ class RoundOverviewScreen extends StatelessWidget {
 class _TeamScores extends StatelessWidget {
   const _TeamScores();
 
+  static const _scoreboardWidth = 83.0;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -128,12 +130,25 @@ class _TeamScores extends StatelessWidget {
       crossAxisAlignment: .start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 20, bottom: 20),
-          child: Text(
-            context.l10n.scoreboard,
-            style: typography.regular24,
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+          child: Row(
+            mainAxisAlignment: .spaceBetween,
+            children: [
+              Text(
+                context.l10n.teams,
+                style: typography.regular18.copyWith(color: colors.white50),
+              ),
+              SizedBox(
+                width: _scoreboardWidth,
+                child: Text(
+                  context.l10n.scoreboard,
+                  style: typography.regular18.copyWith(color: colors.white50),
+                ),
+              ),
+            ],
           ),
         ),
+        Divider(height: 1, color: colors.white50),
         ...List.generate(teams.length, (index) {
           final teamState = teams[index];
           final bgColor = index == gameState.currentTeamIndex
@@ -153,28 +168,31 @@ class _TeamScores extends StatelessWidget {
                   teamState.name,
                   style: typography.regular24,
                 ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: showEditIcon
-                        ? () {
-                            context.pushReplacementNamed(
-                              RoundReviewScreen.routePath,
-                            );
-                          }
-                        : null,
-                    child: SizedBox(
-                      height: 48,
-                      child: Row(
-                        spacing: 10,
-                        children: [
-                          Text(
-                            teamState.totalScore.toString(),
-                            style: typography.regular24.withNumericFont,
-                          ),
-                          if (_showEditIcon(gameState, index))
-                            _TickingEditIcon(color: colors.white),
-                        ],
+                SizedBox(
+                  width: _scoreboardWidth,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: showEditIcon
+                          ? () {
+                              context.pushReplacementNamed(
+                                RoundReviewScreen.routePath,
+                              );
+                            }
+                          : null,
+                      child: SizedBox(
+                        height: 48,
+                        child: Row(
+                          spacing: 10,
+                          children: [
+                            Text(
+                              teamState.totalScore.toString(),
+                              style: typography.regular24.withNumericFont,
+                            ),
+                            if (_showEditIcon(gameState, index))
+                              _TickingEditIcon(color: colors.white),
+                          ],
+                        ),
                       ),
                     ),
                   ),

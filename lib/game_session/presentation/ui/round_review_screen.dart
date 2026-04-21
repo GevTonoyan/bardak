@@ -33,13 +33,27 @@ class RoundReviewScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: AppIconButton.close(
-                      onTap: () {
-                        context.pushReplacementNamed(
-                          RoundOverviewScreen.routePath,
-                        );
-                      },
+                    padding: const .all(20),
+                    child: SizedBox(
+                      height: 40,
+                      child: Row(
+                        children: [
+                          AppIconButton.close(
+                            onTap: () {
+                              context.pushReplacementNamed(
+                                RoundOverviewScreen.routePath,
+                              );
+                            },
+                          ),
+                          Expanded(
+                            child: Text(
+                              context.l10n.review,
+                              textAlign: .center,
+                              style: context.typography.regular24,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Flexible(

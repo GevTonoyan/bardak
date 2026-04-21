@@ -142,6 +142,12 @@ abstract class AppLocalizations {
   /// **'Check'**
   String get check;
 
+  /// No description provided for @review.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get review;
+
   /// No description provided for @unit_sec.
   ///
   /// In en, this message translates to:

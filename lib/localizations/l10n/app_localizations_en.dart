@@ -30,6 +30,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get check => 'Check';
 
   @override
+  String get review => 'Review';
+
+  @override
   String unit_sec(int count) {
     return '$count sec';
   }
