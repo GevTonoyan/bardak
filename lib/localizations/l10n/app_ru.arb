@@ -8,6 +8,7 @@
   "skip": "Пропустить",
   "correct": "Правильно",
   "check": "Проверить",
+  "review": "Проверка",
 
   "unit_sec": "{count} сек",
   "@unit_sec": {

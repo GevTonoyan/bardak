@@ -1,8 +1,6 @@
-import 'dart:math' as math;
 import 'dart:math';
 
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
-import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
@@ -46,14 +44,12 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
     return Material(
       child: Stack(
         children: [
-          GradientBackground(
-            child: Container(),
-          ),
+          GradientBackground(child: Container()),
           Align(
             alignment: .topCenter,
             child: ConfettiWidget(
               confettiController: _controller,
-              blastDirection: math.pi / 2,
+              blastDirection: pi / 2,
               blastDirectionality: BlastDirectionality.explosive,
               maxBlastForce: 15,
               emissionFrequency: 0.05,
@@ -65,13 +61,7 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
             mainAxisAlignment: .spaceBetween,
             crossAxisAlignment: .start,
             children: [
-              SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const .only(left: 20, top: 20),
-                  child: AppIconButton.close(onTap: () => context.pop()),
-                ),
-              ),
+              const SafeArea(bottom: false, child: SizedBox.shrink()),
               Padding(
                 padding: const .symmetric(horizontal: 20),
                 child: Column(

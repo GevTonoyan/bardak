@@ -8,6 +8,7 @@
   "skip": "Բաց թողնել",
   "correct": "Ճիշտ է",
   "check": "Ստուգել",
+  "review": "Ստուգում",
 
   "unit_sec": "{count} վրկ",
   "@unit_sec": {
