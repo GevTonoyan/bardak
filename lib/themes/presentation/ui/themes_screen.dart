@@ -75,7 +75,6 @@ class ThemesScreen extends StatelessWidget {
                             context.read<SettingsBloc>().add(
                               ChangeColorScheme(colorScheme: scheme),
                             );
-                            context.read<RewardsCubit>().updateCoins(1, 15000);
                           } else {
                             unawaited(
                               showConfirmSheet(
