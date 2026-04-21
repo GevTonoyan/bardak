@@ -21,6 +21,7 @@ import 'package:alias_pro/settings/presentation/ui/settings_screen.dart';
 import 'package:alias_pro/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:alias_pro/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:alias_pro/themes/presentation/ui/themes_screen.dart';
+import 'package:alias_pro/word_pack/presentation/ui/language_select_screen.dart';
 import 'package:alias_pro/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,6 +104,14 @@ final appRouter = GoRouter(
                 GoRoute(
                   path: WordPackScreen.routePath,
                   name: WordPackScreen.routePath,
+                  routes: [
+                    GoRoute(
+                      path: LanguageSelectScreen.routePath,
+                      name: LanguageSelectScreen.routePath,
+                      pageBuilder: (context, state) =>
+                          const LanguageSelectScreen(),
+                    ),
+                  ],
                   pageBuilder: (context, state) =>
                       _buildPlatformPage(child: const WordPackScreen()),
                 ),

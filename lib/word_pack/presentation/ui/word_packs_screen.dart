@@ -3,14 +3,17 @@ import 'dart:async';
 import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_notification.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
+import 'package:alias_pro/app_ui/widgets/language_icon.dart';
 import 'package:alias_pro/app_ui/widgets/screen_background.dart';
 import 'package:alias_pro/game_session/domain/entities/game_session_entity.dart';
 import 'package:alias_pro/game_session/presentation/ui/round_overview_screen.dart';
+import 'package:alias_pro/localizations/common/supported_locales.dart';
 import 'package:alias_pro/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:alias_pro/settings/presentation/bloc/settings_bloc.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:alias_pro/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:alias_pro/word_pack/presentation/bloc/word_packs_bloc.dart';
+import 'package:alias_pro/word_pack/presentation/ui/language_select_screen.dart';
 import 'package:alias_pro/word_pack/presentation/ui/word_pack_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,17 +39,28 @@ class _WordPackScreenState extends State<WordPackScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocales.fromString(context.locale.languageCode);
+
     return GradientBackground(
       child: SafeArea(
         bottom: false,
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20, top: 20),
+              padding: const .only(left: 20, top: 20, right: 20),
               child: Row(
                 mainAxisAlignment: .spaceBetween,
                 children: [
                   AppIconButton.back(onTap: () => context.pop()),
+                  LanguageIcon(
+                    locale: appLocale,
+                    size: 40,
+                    onTap: () {
+                      unawaited(
+                        context.pushNamed(LanguageSelectScreen.routePath),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
