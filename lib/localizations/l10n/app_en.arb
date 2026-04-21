@@ -104,5 +104,6 @@
   "unlock_theme_description": "Are you sure you want to unlock this theme and change the game's look?",
   "unlock_theme_confirm": "Unlock",
 
-  "not_enough_coins": "Not enough coins"
+  "not_enough_coins": "Not enough coins",
+  "errorEmptyTeamNames": "Wait, who's playing? Enter all team names!"
 }

@@ -489,6 +489,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not enough coins'**
   String get not_enough_coins;
+
+  /// No description provided for @errorEmptyTeamNames.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait, who\'s playing? Enter all team names!'**
+  String get errorEmptyTeamNames;
 }
 
 class _AppLocalizationsDelegate

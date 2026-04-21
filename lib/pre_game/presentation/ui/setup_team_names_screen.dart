@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
 import 'package:alias_pro/app_ui/widgets/app_icon.dart';
 import 'package:alias_pro/app_ui/widgets/app_input_field.dart';
+import 'package:alias_pro/app_ui/widgets/app_notification.dart';
 import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
 import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
 import 'package:alias_pro/assets/assets.gen.dart';
@@ -163,7 +164,19 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                   .toList();
               bloc.add(AddTeamsEvent(teamNames));
 
-              unawaited(context.pushNamed(WordPackScreen.routePath));
+              if (teamNames.any((name) => name.isEmpty)) {
+                unawaited(
+                  showAppNotification(
+                    context,
+                    icon: Icon(Icons.group_off_outlined, color: colors.white),
+                    message: context.l10n.errorEmptyTeamNames,
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+                return;
+              } else {
+                unawaited(context.pushNamed(WordPackScreen.routePath));
+              }
             },
           ),
         ],

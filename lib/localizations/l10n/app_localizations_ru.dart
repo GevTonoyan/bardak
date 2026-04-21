@@ -233,4 +233,8 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get not_enough_coins => 'Недостаточно монет';
+
+  @override
+  String get errorEmptyTeamNames =>
+      'Подождите, а кто играет? Введите названия команд!';
 }

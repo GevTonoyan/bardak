@@ -225,4 +225,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get not_enough_coins => 'Not enough coins';
+
+  @override
+  String get errorEmptyTeamNames =>
+      'Wait, who\'s playing? Enter all team names!';
 }
