@@ -177,6 +177,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cardModeRule6 => 'Score is based on the number of guessed words.';
 
   @override
+  String get generalRule1 =>
+      'The game ends when a team reaches the required points, but the current round must be completed so all teams play an equal number of turns.';
+
+  @override
   String get scoreboard => 'Scoreboard';
 
   @override
