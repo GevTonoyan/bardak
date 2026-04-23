@@ -102,6 +102,21 @@ class AppLocalizationsAm extends AppLocalizations {
   String get theme_turquoise => 'Փիրուզագույն';
 
   @override
+  String get theme_orange => 'Նարնջագույն';
+
+  @override
+  String get theme_brown => 'Շագանակագույն';
+
+  @override
+  String get theme_navy => 'Մուգ կապույտ';
+
+  @override
+  String get theme_mint => 'Անանուխի';
+
+  @override
+  String get theme_plum => 'Սալորագույն';
+
+  @override
   String get sounds => 'Ձայներ';
 
   @override

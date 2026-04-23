@@ -3,9 +3,14 @@ import 'dart:async';
 import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_black_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_blue_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_brown_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_green_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_main_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_mint_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_navy_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_orange_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_plum_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_purple_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_red_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_turquoise_colors.dart';
@@ -172,6 +177,11 @@ class ThemesScreen extends StatelessWidget {
       .red => AppRedColors().secondary,
       .black => AppBlackColors().secondary,
       .turquoise => AppTurquoiseColors().secondary,
+      .orange => AppOrangeColors().secondary,
+      .brown => AppBrownColors().secondary,
+      .navy => AppNavyColors().secondary,
+      .mint => AppMintColors().secondary,
+      .plum => AppPlumColors().secondary,
     };
   }
 }

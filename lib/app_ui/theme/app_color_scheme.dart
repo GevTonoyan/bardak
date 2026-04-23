@@ -10,7 +10,12 @@ enum AppColorScheme {
   yellow,
   green,
   pink,
-  red
+  red,
+  orange,
+  brown,
+  navy,
+  mint,
+  plum
   ;
 
   static AppColorScheme fromString(String? scheme) {
@@ -24,6 +29,11 @@ enum AppColorScheme {
       'green' => green,
       'pink' => pink,
       'red' => red,
+      'orange' => orange,
+      'brown' => brown,
+      'navy' => navy,
+      'mint' => mint,
+      'plum' => plum,
       _ => main,
     };
   }
@@ -41,6 +51,11 @@ enum AppColorScheme {
       green => l10n.theme_green,
       pink => l10n.theme_pink,
       red => l10n.theme_red,
+      orange => l10n.theme_orange,
+      brown => l10n.theme_brown,
+      navy => l10n.theme_navy,
+      mint => l10n.theme_mint,
+      plum => l10n.theme_plum,
     };
   }
 }
