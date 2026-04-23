@@ -3,10 +3,15 @@ import 'package:alias_pro/app_ui/theme/app_theme/app_theme_data_builder.dart';
 import 'package:alias_pro/app_ui/theme/app_theme_provider.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_black_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_blue_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_brown_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_green_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_main_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_mint_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_navy_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_orange_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_plum_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_purple_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_red_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_turquoise_colors.dart';
@@ -136,6 +141,11 @@ class MyApp extends StatelessWidget {
       .red => AppRedColors(),
       .black => AppBlackColors(),
       .turquoise => AppTurquoiseColors(),
+      .orange => AppOrangeColors(),
+      .brown => AppBrownColors(),
+      .navy => AppNavyColors(),
+      .mint => AppMintColors(),
+      .plum => AppPlumColors(),
     };
   }
 }

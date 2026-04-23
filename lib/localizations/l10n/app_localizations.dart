@@ -274,6 +274,36 @@ abstract class AppLocalizations {
   /// **'Turquoise'**
   String get theme_turquoise;
 
+  /// No description provided for @theme_orange.
+  ///
+  /// In en, this message translates to:
+  /// **'Orange'**
+  String get theme_orange;
+
+  /// No description provided for @theme_brown.
+  ///
+  /// In en, this message translates to:
+  /// **'Brown'**
+  String get theme_brown;
+
+  /// No description provided for @theme_navy.
+  ///
+  /// In en, this message translates to:
+  /// **'Navy Blue'**
+  String get theme_navy;
+
+  /// No description provided for @theme_mint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mint Green'**
+  String get theme_mint;
+
+  /// No description provided for @theme_plum.
+  ///
+  /// In en, this message translates to:
+  /// **'Plum'**
+  String get theme_plum;
+
   /// No description provided for @sounds.
   ///
   /// In en, this message translates to:
