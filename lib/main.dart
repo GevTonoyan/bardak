@@ -119,7 +119,7 @@ class MyApp extends StatelessWidget {
           data: themeData,
           child: MaterialApp.router(
             routerConfig: appRouter,
-            title: 'Alias Pro',
+            title: 'Bardak',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocales.supportedLocales,
             locale: state.appSettings.locale.locale,
