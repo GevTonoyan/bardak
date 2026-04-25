@@ -196,7 +196,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'The game ends when a team reaches the required points, but the current round must be completed so all teams play an equal number of turns.';
 
   @override
-  String get scoreboard => 'Scoreboard';
+  String get scoreboard => 'Score';
 
   @override
   String get next_team => 'Next team';

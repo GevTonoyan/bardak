@@ -439,7 +439,7 @@ abstract class AppLocalizations {
   /// No description provided for @scoreboard.
   ///
   /// In en, this message translates to:
-  /// **'Scoreboard'**
+  /// **'Score'**
   String get scoreboard;
 
   /// No description provided for @next_team.

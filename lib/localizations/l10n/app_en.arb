@@ -91,7 +91,7 @@
   "cardModeRule6": "Score is based on the number of guessed words.",
   "generalRule1": "The game ends when a team reaches the required points, but the current round must be completed so all teams play an equal number of turns.",
 
-  "scoreboard": "Scoreboard",
+  "scoreboard": "Score",
   "next_team": "Next team",
   "winner_reveal": "And the winner is...",
   "no_words_left_error": "Sorry, words are finished. You can try with another topic.",
