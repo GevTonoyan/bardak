@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB8wL_IQXpdVPUZiXHh0MpxB2rVKboQwng',
-    appId: '1:764873979521:android:f0fee92a08ebf3c22ebf80',
+    appId: '1:764873979521:android:5737aaec19835ac12ebf80',
     messagingSenderId: '764873979521',
     projectId: 'boardify-74b99',
     storageBucket: 'boardify-74b99.firebasestorage.app',
@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCFa7LHRT3xVyvnqfHurhpu3dwiQvUbw_g',
-    appId: '1:764873979521:ios:ab69029dc79845122ebf80',
+    appId: '1:764873979521:ios:6685340c7b67dde62ebf80',
     messagingSenderId: '764873979521',
     projectId: 'boardify-74b99',
     storageBucket: 'boardify-74b99.firebasestorage.app',
-    iosBundleId: 'com.boardify.app.boardify',
+    iosBundleId: 'com.gevorgtonoyan.bardak',
   );
+
 }
