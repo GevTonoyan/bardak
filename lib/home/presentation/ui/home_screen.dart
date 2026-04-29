@@ -11,6 +11,7 @@ import 'package:alias_pro/pre_game/presentation/ui/game_settings_screen.dart';
 import 'package:alias_pro/rewards/presentation/ui/rewards_screen.dart';
 import 'package:alias_pro/rules/presentation/ui/rules_screen.dart';
 import 'package:alias_pro/settings/presentation/ui/settings_screen.dart';
+import 'package:alias_pro/splash/presentation/splash_screen.dart';
 import 'package:alias_pro/themes/presentation/ui/themes_screen.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,14 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Assets.logo.am.image(height: 165, width: 200, fit: .contain),
+                  Hero(
+                    tag: SplashScreen.heroTag,
+                    child: Assets.images.logo.image(
+                      height: 220,
+                      width: 220,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ],
               ),
             ),
