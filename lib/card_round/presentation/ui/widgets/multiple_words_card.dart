@@ -89,7 +89,7 @@ class MultipleWordsCardBack extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultipleWordsCardShell(
       child: Center(
-        child: Assets.logo.am.image(height: 165, width: 279, fit: .contain),
+        child: Assets.images.logo.image(height: 165, width: 279, fit: .contain),
       ),
     );
   }

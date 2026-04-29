@@ -109,16 +109,6 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [logo, themeBackground];
 }
 
-class $AssetsLogoGen {
-  const $AssetsLogoGen();
-
-  /// File path: assets/logo/am.png
-  AssetGenImage get am => const AssetGenImage('assets/logo/am.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [am];
-}
-
 class $AssetsSoundsGen {
   const $AssetsSoundsGen();
 
@@ -156,7 +146,6 @@ class Assets {
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
-  static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
 }
 
