@@ -17,10 +17,48 @@ import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   static const routePath = '/home';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<Offset> _slideAnimation;
+  late final Animation<Offset> _leftSlideAnimation;
+  late final Animation<Offset> _rightSlideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+    _leftSlideAnimation = Tween<Offset>(
+      begin: const Offset(-1, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+    _rightSlideAnimation = Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,22 +79,31 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      AppIconButton.settings(
-                        onTap: () => context.goNamed(
-                          SettingsScreen.routePath,
+                      SlideTransition(
+                        position: _leftSlideAnimation,
+                        child: AppIconButton.settings(
+                          onTap: () => context.goNamed(
+                            SettingsScreen.routePath,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),
-                      AppIconButton.info(
-                        onTap: () => context.goNamed(
-                          RulesScreen.routePath,
+                      SlideTransition(
+                        position: _leftSlideAnimation,
+                        child: AppIconButton.info(
+                          onTap: () => context.goNamed(
+                            RulesScreen.routePath,
+                          ),
                         ),
                       ),
                       const Spacer(),
-                      CoinBalanceWidget(
-                        onTap: () {
-                          context.goNamed(ThemesScreen.routePath);
-                        },
+                      SlideTransition(
+                        position: _rightSlideAnimation,
+                        child: CoinBalanceWidget(
+                          onTap: () {
+                            context.goNamed(ThemesScreen.routePath);
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -73,49 +120,53 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Flexible(
-            child: ShadowBackground(
-              child: Padding(
-                padding: const .symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    height40,
-                    AppButton(
-                      label: l10n.classicMode,
-                      color: colors.green,
-                      onPressed: () => _navigateToGameSettings(context, .card),
-                    ),
-                    height20,
-                    AppButton(
-                      label: l10n.oneWordMode,
-                      color: colors.purple,
-                      onPressed: () =>
-                          _navigateToGameSettings(context, .singleWord),
-                    ),
-                    const Spacer(),
-                    Row(
-                      spacing: 12,
-                      children: [
-                        Expanded(
-                          child: AppButton(
-                            label: context.l10n.rewards,
-                            color: colors.white20,
-                            onPressed: () =>
-                                context.goNamed(RewardsScreen.routePath),
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: ShadowBackground(
+                child: Padding(
+                  padding: const .symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      height40,
+                      AppButton(
+                        label: l10n.classicMode,
+                        color: colors.green,
+                        onPressed: () =>
+                            _navigateToGameSettings(context, .card),
+                      ),
+                      height20,
+                      AppButton(
+                        label: l10n.oneWordMode,
+                        color: colors.purple,
+                        onPressed: () =>
+                            _navigateToGameSettings(context, .singleWord),
+                      ),
+                      const Spacer(),
+                      Row(
+                        spacing: 12,
+                        children: [
+                          Expanded(
+                            child: AppButton(
+                              label: context.l10n.rewards,
+                              color: colors.white20,
+                              onPressed: () =>
+                                  context.goNamed(RewardsScreen.routePath),
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: AppButton(
-                            label: l10n.themes,
-                            color: colors.blue,
-                            onPressed: () {
-                              context.goNamed(ThemesScreen.routePath);
-                            },
+                          Expanded(
+                            child: AppButton(
+                              label: l10n.themes,
+                              color: colors.blue,
+                              onPressed: () {
+                                context.goNamed(ThemesScreen.routePath);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    height20,
-                  ],
+                        ],
+                      ),
+                      height20,
+                    ],
+                  ),
                 ),
               ),
             ),
