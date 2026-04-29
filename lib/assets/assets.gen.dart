@@ -98,12 +98,15 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+
   /// File path: assets/images/theme_background.png
   AssetGenImage get themeBackground =>
       const AssetGenImage('assets/images/theme_background.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [themeBackground];
+  List<AssetGenImage> get values => [logo, themeBackground];
 }
 
 class $AssetsLogoGen {
@@ -114,17 +117,6 @@ class $AssetsLogoGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [am];
-}
-
-class $AssetsPackImagesGen {
-  const $AssetsPackImagesGen();
-
-  /// File path: assets/pack_images/main_pack.png
-  AssetGenImage get mainPack =>
-      const AssetGenImage('assets/pack_images/main_pack.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [mainPack];
 }
 
 class $AssetsSoundsGen {
@@ -165,7 +157,6 @@ class Assets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLogoGen logo = $AssetsLogoGen();
-  static const $AssetsPackImagesGen packImages = $AssetsPackImagesGen();
   static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
 }
 
