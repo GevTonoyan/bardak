@@ -65,5 +65,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'boardify-74b99.firebasestorage.app',
     iosBundleId: 'com.gevorgtonoyan.bardak',
   );
-
 }

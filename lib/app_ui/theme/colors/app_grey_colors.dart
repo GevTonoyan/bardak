@@ -18,4 +18,3 @@ class AppGreyColors extends AppColors {
   @override
   Color get secondary => const Color(0xFF5A5A5A);
 }
-
