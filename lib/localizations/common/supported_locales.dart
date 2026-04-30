@@ -1,21 +1,18 @@
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 enum AppLocales {
   en,
   ru,
-  am;
+  am
+  ;
 
-  Locale get locale {
-    switch (this) {
-      case AppLocales.en:
-        return const Locale('en');
-      case AppLocales.ru:
-        return const Locale('ru');
-      case AppLocales.am:
-        return const Locale('am');
-    }
-  }
+  Locale get locale => switch (this) {
+    en => const Locale('en'),
+    ru => const Locale('ru'),
+    am => const Locale('am'),
+  };
 
   static AppLocales fromString(String? locale) {
     switch (locale) {
@@ -46,24 +43,17 @@ enum AppLocales {
   }
 
   String name(BuildContext context) {
-    switch (this) {
-      case AppLocales.en:
-        return context.l10n.settings_localeEnglish;
-      case AppLocales.ru:
-        return context.l10n.settings_localeRussian;
-      case AppLocales.am:
-        return context.l10n.settings_localeArmenian;
-    }
+    final l10n = context.l10n;
+    return switch (this) {
+      en => l10n.settings_localeEnglish,
+      ru => l10n.settings_localeRussian,
+      am => l10n.settings_localeArmenian,
+    };
   }
 
-  String get flagAssetPath {
-    switch (this) {
-      case AppLocales.en:
-        return 'assets/icons/flags/uk.svg';
-      case AppLocales.ru:
-        return 'assets/icons/flags/ru.svg';
-      case AppLocales.am:
-        return 'assets/icons/flags/am.svg';
-    }
-  }
+  String get flagAssetPath => switch (this) {
+    en => Assets.icons.flags.uk.path,
+    ru => Assets.icons.flags.ru.path,
+    am => Assets.icons.flags.am.path,
+  };
 }

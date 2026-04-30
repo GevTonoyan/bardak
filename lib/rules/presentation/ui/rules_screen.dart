@@ -1,54 +1,105 @@
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
+import 'package:alias_pro/app_ui/widgets/bottom_sheet.dart';
+import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 
-class RulesScreen extends StatelessWidget {
+class RulesScreen extends Page<void> {
   const RulesScreen({super.key});
+
+  static const routePath = 'rules';
+
+  @override
+  Route<void> createRoute(BuildContext context) {
+    return buildAppBottomSheetRoute<void>(
+      context: context,
+      settings: this,
+      child: const _RulesScreenBody(),
+      titleBuilder: (context) => context.l10n.game_rules,
+    );
+  }
+}
+
+class _RulesScreenBody extends StatefulWidget {
+  const _RulesScreenBody();
+
+  @override
+  State<_RulesScreenBody> createState() => _RulesScreenBodyState();
+}
+
+class _RulesScreenBodyState extends State<_RulesScreenBody> {
+  GameMode gameMode = .card;
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.appTheme;
-    final colors = theme.colors;
-    final typography = theme.typography;
+    final l10n = context.l10n;
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(context.l10n.rulesTitle, style: typography.titleLarge),
-          bottom: TabBar(
-            indicatorColor: colors.primary,
-            labelColor: colors.primary,
-            unselectedLabelColor: colors.onSurface.withValues(alpha: 0.6),
-            tabs: [
-              Tab(text: context.l10n.mode1),
-              Tab(text: context.l10n.mode2),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: Column(
+        children: [
+          height30,
+          Row(
+            spacing: 10,
+            children: [
+              Expanded(
+                child: AppButton(
+                  label: context.l10n.classicMode,
+                  color: colors.white20,
+                  isPressed: gameMode == GameMode.card,
+                  pressedColor: colors.white,
+                  pressedTextColor: colors.secondary,
+                  onPressed: () {
+                    setState(() {
+                      gameMode = GameMode.card;
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                child: AppButton(
+                  label: context.l10n.oneWordMode,
+                  color: colors.white20,
+                  isPressed: gameMode == GameMode.singleWord,
+                  pressedColor: colors.white,
+                  pressedTextColor: colors.secondary,
+                  onPressed: () {
+                    setState(() {
+                      gameMode = GameMode.singleWord;
+                    });
+                  },
+                ),
+              ),
             ],
           ),
-        ),
-        body: TabBarView(
-          children: [
-            _RuleList(
-              rules: [
-                context.l10n.singleModeRule1,
-                context.l10n.singleModeRule2,
-                context.l10n.singleModeRule3,
-                context.l10n.singleModeRule4,
-                context.l10n.singleModeRule5,
-                context.l10n.singleModeRule6,
-              ],
+          height20,
+          Expanded(
+            child: _RuleList(
+              rules: switch (gameMode) {
+                .card => [
+                  l10n.cardModeRule1,
+                  l10n.cardModeRule2,
+                  l10n.cardModeRule3,
+                  l10n.cardModeRule4,
+                  l10n.cardModeRule5,
+                  l10n.cardModeRule6,
+                  l10n.generalRule1,
+                ],
+                .singleWord => [
+                  l10n.singleModeRule1,
+                  l10n.singleModeRule2,
+                  l10n.singleModeRule3,
+                  l10n.singleModeRule4,
+                  l10n.singleModeRule5,
+                  l10n.singleModeRule6,
+                  l10n.generalRule1,
+                ],
+              },
             ),
-            _RuleList(
-              rules: [
-                context.l10n.cardModeRule1,
-                context.l10n.cardModeRule2,
-                context.l10n.cardModeRule3,
-                context.l10n.cardModeRule4,
-                context.l10n.cardModeRule5,
-                context.l10n.cardModeRule6,
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -61,47 +112,38 @@ class _RuleList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = context.appTheme.typography;
+    final typography = context.appTheme.typography;
     final colors = context.appTheme.colors;
 
-    return ListView.separated(
-      padding: const EdgeInsets.all(24),
-      itemCount: rules.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        return Container(
-          decoration: BoxDecoration(
-            color: colors.surface,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: colors.shadow.withValues(alpha: 0.08),
-                offset: const Offset(0, 2),
-                blurRadius: 6,
+    return ListView(
+      children: rules
+          .map((rule) {
+            return Padding(
+              padding: const .only(bottom: 10),
+              child: Row(
+                spacing: 8,
+                crossAxisAlignment: .start,
+                children: [
+                  Container(
+                    width: 6,
+                    height: 6,
+                    margin: const .only(top: 8),
+                    decoration: BoxDecoration(
+                      shape: .circle,
+                      color: colors.white,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      rule,
+                      style: typography.regular20,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(_emojiBullet(index), style: const TextStyle(fontSize: 20)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  rules[index],
-                  style: text.bodyMedium.copyWith(color: colors.onSurface),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+            );
+          })
+          .toList(growable: false),
     );
-  }
-
-  String _emojiBullet(int index) {
-    const bullets = ['🎯', '⏱', '🚫', '🎤', '✅', '⚠️'];
-    return index < bullets.length ? bullets[index] : '👉';
   }
 }

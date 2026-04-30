@@ -1,3 +1,5 @@
+import 'package:alias_pro/game_session/domain/entities/round_result.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'card_round_event.dart';
@@ -5,10 +7,17 @@ part 'card_round_event.dart';
 part 'card_round_state.dart';
 
 class CardRoundBloc extends Bloc<CardRoundEvent, CardRoundState> {
-  CardRoundBloc({required List<String> words, required int wordsPerCard})
-    : super(
-        CardRoundState.initial(words: words, wordsPerCard: wordsPerCard),
-      ) {
+  CardRoundBloc({
+    required List<String> words,
+    required int wordsPerCard,
+    required bool soundsEnabled,
+  }) : super(
+         CardRoundState.initial(
+           words: words,
+           wordsPerCard: wordsPerCard,
+           soundsEnabled: soundsEnabled,
+         ),
+       ) {
     on<ToggleWord>(_onToggleWord);
     on<CompleteRoundRequested>(_onCompleteRoundRequested);
   }

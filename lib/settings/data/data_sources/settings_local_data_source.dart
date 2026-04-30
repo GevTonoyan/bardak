@@ -1,8 +1,8 @@
-import 'package:boardify/settings/domain/entities/app_settings_entity.dart';
-import 'package:boardify/settings/domain/entities/game_settings_entity.dart';
-import 'package:boardify/settings/domain/usecases/update_app_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:boardify/utils/constants/constants.dart';
+import 'package:alias_pro/settings/domain/entities/app_settings_entity.dart';
+import 'package:alias_pro/settings/domain/entities/game_settings_entity.dart';
+import 'package:alias_pro/settings/domain/usecases/update_app_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:alias_pro/utils/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// This is the data source for the alias settings.
@@ -32,10 +32,14 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   AppSettingsEntity getAppSettings() {
     final darkMode = preferences.getBool(AppConstants.appThemeKey) ?? false;
     final locale = preferences.getString(AppConstants.appLocaleKey);
+    final colorScheme = preferences.getString(AppConstants.appColorSchemeKey);
+    final soundEnabled = preferences.getBool(AppConstants.soundEnabledKey);
 
     return AppSettingsEntity.fromPreferences(
       isDarkMode: darkMode,
       locale: locale,
+      colorScheme: colorScheme,
+      soundEnabled: soundEnabled,
     );
   }
 
@@ -51,6 +55,13 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
           params.key,
           params.value as String,
         );
+      case AppConstants.appColorSchemeKey:
+        success = await preferences.setString(
+          params.key,
+          params.value as String,
+        );
+      case AppConstants.soundEnabledKey:
+        success = await preferences.setBool(params.key, params.value as bool);
       default:
         success = false;
     }
@@ -64,8 +75,6 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
 
     final pointsToWin = preferences.getInt(AppConstants.pointsToWinKey);
 
-    final isSoundEnabled = preferences.getBool(AppConstants.soundEnabledKey);
-
     final allowSkipping = preferences.getBool(AppConstants.allowSkippingKey);
 
     final penaltyForSkipping = preferences.getBool(
@@ -77,7 +86,6 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
     return GameSettingsEntity.fromPreferences(
       roundDuration: gameDuration,
       pointsToWin: pointsToWin,
-      soundEnabled: isSoundEnabled,
       allowSkipping: allowSkipping,
       penaltyForSkipping: penaltyForSkipping,
       wordsPerCard: wordsPerCard,

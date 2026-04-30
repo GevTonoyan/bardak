@@ -1,34 +1,52 @@
-/// Contains the list of word packs and the currently selected pack ID.
-class AliasWordPackInfoResultEntity {
-  const AliasWordPackInfoResultEntity({
-    required this.packs,
-    required this.selectedPackId,
-  });
+import 'package:alias_pro/localizations/common/supported_locales.dart';
+import 'package:alias_pro/word_pack/domain/entities/word_packs_fallbacks.dart';
+import 'package:equatable/equatable.dart';
 
-  final List<AliasWordPackInfoEntity> packs;
-  final String? selectedPackId;
+/// Contains the list of word packs.
+class WordPackInfoResultEntity extends Equatable {
+  const WordPackInfoResultEntity({required this.packs});
+
+  factory WordPackInfoResultEntity.fallback(String locale) {
+    return switch (AppLocales.fromString(locale)) {
+      .en => const WordPackInfoResultEntity(packs: enPacks),
+      .ru => const WordPackInfoResultEntity(packs: ruPacks),
+      .am => const WordPackInfoResultEntity(packs: amPacks),
+    };
+  }
+
+  final List<WordPackEntity> packs;
+
+  @override
+  List<Object?> get props => [packs];
 }
 
 /// Describes a single word pack with its ID, name, emoji and list of words.
-class AliasWordPackInfoEntity {
-  const AliasWordPackInfoEntity({
+class WordPackEntity extends Equatable {
+  const WordPackEntity({
     required this.id,
     required this.name,
-    required this.emoji,
     required this.words,
+    required this.image,
+    required this.imageBlurHash,
   });
 
-  factory AliasWordPackInfoEntity.fromDatabase(Map<String, dynamic> data) {
-    return AliasWordPackInfoEntity(
-      id: data['id'] as String,
-      name: data['name'] as String,
-      emoji: data['emoji'] as String,
-      words: data['words'] as List<String>,
+  /// Creates an AliasWordPackEntity from Firestore JSON-like map.
+  factory WordPackEntity.fromFirestore(String id, Map<String, dynamic> json) {
+    return WordPackEntity(
+      id: id,
+      name: json['name'] as String,
+      words: List<String>.from(json['words'] ?? const []),
+      image: json['image'] as String,
+      imageBlurHash: json['image_blur_hash'] as String,
     );
   }
 
   final String id;
   final String name;
-  final String emoji;
   final List<String> words;
+  final String image;
+  final String imageBlurHash;
+
+  @override
+  List<Object> get props => [id, name, words, image, imageBlurHash];
 }

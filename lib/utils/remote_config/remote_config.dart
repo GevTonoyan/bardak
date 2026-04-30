@@ -13,20 +13,23 @@ class AppRemoteConfig {
 
   final FirebaseRemoteConfig _remoteConfig;
 
-  static Future<AppRemoteConfig> initialize() async {
-    final remoteConfig = FirebaseRemoteConfig.instance;
+  static Future<void> initialize() async {
+    try {
+      final remoteConfig = FirebaseRemoteConfig.instance;
 
-    await remoteConfig.setConfigSettings(
-      RemoteConfigSettings(
-        fetchTimeout: const Duration(seconds: 30),
-        minimumFetchInterval: const Duration(days: 1),
-      ),
-    );
+      await remoteConfig.setConfigSettings(
+        RemoteConfigSettings(
+          fetchTimeout: const Duration(seconds: 30),
+          minimumFetchInterval: const Duration(days: 1),
+        ),
+      );
 
-    await remoteConfig.fetchAndActivate();
+      await remoteConfig.fetchAndActivate();
 
-    instance = AppRemoteConfig._(remoteConfig);
-    return instance!;
+      instance = AppRemoteConfig._(remoteConfig);
+    } on Exception catch (e) {
+      print('Failed to init remote config');
+    }
   }
 
   int getWordsVersion(String locale) {

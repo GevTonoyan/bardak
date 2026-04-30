@@ -1,21 +1,84 @@
 {
   "@@locale": "en",
-  "settings______________________________________________": "settings----------------------------------------------------------------------",
+
+  "appVersion": "App version",
+  "proceed": "Continue",
+  "cancel": "Cancel",
+  "add": "Add",
+  "skip": "Skip",
+  "correct": "Correct",
+  "check": "Check",
+  "review": "Review",
+
+  "unit_sec": "{count} sec",
+  "@unit_sec": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "unit_pts": "{count} pts",
+  "@unit_pts": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "points_value": "{value} pts",
+  "@points_value": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+
   "settings": "Settings",
-  "app_settings": "App Settings",
-  "settings_darkMode": "Dark Mode",
-  "settings_localeName": "English",
   "settings_localeArmenian": "Հայերեն",
   "settings_localeRussian": "Русский",
   "settings_localeEnglish": "English",
-  "alias________________________________________________": "alias----------------------------------------------------------------------",
-  "mode1": "Single Word",
-  "mode2": "Card Mode",
-  "singleWordMode": "Single Word Mode",
-  "selectMode": "Select Game Mode",
-  "wordPack": "Word Pack",
-  "round": "Round",
-  "rulesTitle": "Rules",
+  "settings_game_mode": "Game Mode",
+  "settings_round_time": "Round Time",
+  "settings_points_to_win": "Points to Win",
+  "settings_allow_skipping": "Allow Skipping",
+
+  "themes": "Themes",
+  "theme_main": "Main",
+  "theme_purple": "Purple",
+  "theme_yellow": "Yellow",
+  "theme_blue": "Blue",
+  "theme_green": "Green",
+  "theme_pink": "Pink",
+  "theme_red": "Red",
+  "theme_black": "Black",
+  "theme_turquoise": "Turquoise",
+  "theme_orange": "Orange",
+  "theme_brown": "Brown",
+  "theme_navy": "Navy Blue",
+  "theme_mint": "Mint Green",
+  "theme_plum": "Plum",
+  "theme_dark": "Dark",
+  "theme_grey": "Grey",
+
+  "sounds": "Sounds",
+
+  "rewards": "Rewards",
+  "rewardsSelectThree": "Select three",
+  "rewards_success": "Awesome!\nYou got {count} points",
+  "@rewards_success": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "teams": "Teams",
+  "team_with_count": "Team {number}",
+  "@team_with_count": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+
+  "classicMode": "Classic",
+  "oneWordMode": "One Word",
+
+  "game_rules": "Game Rules",
   "singleModeRule1": "One player explains a single word at a time.",
   "singleModeRule2": "The team tries to guess as many words as possible before the timer runs out.",
   "singleModeRule3": "The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.",
@@ -27,35 +90,29 @@
   "cardModeRule3": "Players can guess the words in any order.",
   "cardModeRule4": "Skipping is not allowed — you must guess every word on the card.",
   "cardModeRule5": "The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.",
-  "cardModeRule6": "Score is based on the number guessed words",
-  "settings_general": "General",
-  "settings_roundDuration": "Round Duration (sec)",
-  "settings_pointsToWin": "Points to Win",
-  "settings_soundEffects": "Sound Effects",
-  "settings_allowSkipping": "Allow Skipping",
-  "settings_penaltyForSkipping": "Penalty for Skipping",
-  "settings_wordsPerCard": "Words per Card",
-  "settings_reset": "Reset Settings",
-  "word_packs_fail": "Failed to load word packs",
-  "failedLoadWords": "Couldn't load words",
-  "preGameTitle": "Get Ready",
-  "preGameTeamSetup": "Team Setup",
-  "preGameTeam": "Team",
-  "preGameAddTeam": "Add Team",
-  "roundOverview_teamTurn": "It's {teamName}'s turn!",
-  "roundOverview_point": "{points, plural, one {{points} point} other {{points} points}}",
-  "roundOverview_roundScores": "Round Scores:",
-  "roundOverview_confirmExit_title": "Exit Game?",
-  "roundOverview_confirmExit_message": "If you close this screen, all game progress will be lost. Are you sure you want to exit?",
-  "countdown_go": "Go!",
-  "summary_gameOver": "Game Over",
-  "summary_winner": "Winner",
-  "summary_playAgain": "Play Again",
-  "summary_mainMenu": "Main Menu",
-  "general________________________________________________": "general----------------------------------------------------------------------",
-  "general_startGame": "Start Game",
-  "general_checkInternet": "Check your internet connection",
-  "general_tryAgain": "Try Again",
-  "general_yes": "Yes",
-  "general_no": "No"
+  "cardModeRule6": "Score is based on the number of guessed words.",
+  "generalRule1": "The game ends when a team reaches the required points, but the current round must be completed so all teams play an equal number of turns.",
+
+  "scoreboard": "Score",
+  "next_team": "Next team",
+  "winner_reveal": "And the winner is...",
+  "no_words_left_error": "Sorry, words are finished. You can try with another topic.",
+  "downloadWordsNetworkError": "You need to download the words first. Please check your internet connection and try again.",
+
+
+  "exit_game_title": "Leave the game?",
+  "exit_game_description": "Are you sure you want to finish the current game?",
+  "exit_game_confirm": "Yes, leave",
+
+  "round_stop_title": "Finish Round?",
+  "round_stop_description": "Stop the timer and see results? Your points will be saved.",
+  "round_stop_confirm": "Finish",
+  "round_stop_resume": "Resume",
+
+  "unlock_theme_title": "Unlock Theme",
+  "unlock_theme_description": "Are you sure you want to unlock this theme and change the game's look?",
+  "unlock_theme_confirm": "Unlock",
+
+  "not_enough_coins": "Not enough coins",
+  "errorEmptyTeamNames": "Wait, who's playing? Enter all team names!"
 }

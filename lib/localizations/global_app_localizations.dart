@@ -1,11 +1,12 @@
-import 'package:boardify/localizations/l10n/app_localizations.dart';
-import 'package:boardify/localizations/l10n/app_localizations_en.dart';
+import 'package:alias_pro/localizations/l10n/app_localizations.dart';
+import 'package:alias_pro/localizations/l10n/app_localizations_en.dart';
 import 'package:flutter/widgets.dart';
 
 enum Locales {
   en(Locale('en')),
   ru(Locale('ru')),
-  am(Locale('am'));
+  am(Locale('am'))
+  ;
 
   const Locales(this.locale);
 
@@ -34,8 +35,8 @@ abstract class GlobalAppLocalizations {
   /// Set [locale] or [_defaultFallbackLocale] if locale is null.
   static Locale _setLocale(Locale? locale) =>
       locale != null && AppLocalizations.supportedLocales.contains(locale)
-          ? locale
-          : _defaultFallbackLocale;
+      ? locale
+      : _defaultFallbackLocale;
 
   static Locale localeResolutionCallback(
     Locale? locale,

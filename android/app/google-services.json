@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:764873979521:android:f0fee92a08ebf3c22ebf80",
+        "mobilesdk_app_id": "1:764873979521:android:5737aaec19835ac12ebf80",
         "android_client_info": {
-          "package_name": "com.boardify.app.boardify"
+          "package_name": "com.gevorgtonoyan.bardak"
         }
       },
       "oauth_client": [],

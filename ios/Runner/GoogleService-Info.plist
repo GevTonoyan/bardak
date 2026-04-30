@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.boardify.app.boardify</string>
+	<string>com.gevorgtonoyan.bardak</string>
 	<key>PROJECT_ID</key>
 	<string>boardify-74b99</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:764873979521:ios:ab69029dc79845122ebf80</string>
+	<string>1:764873979521:ios:6685340c7b67dde62ebf80</string>
 </dict>
 </plist>

@@ -100,35 +100,77 @@ abstract class AppLocalizations {
     Locale('ru'),
   ];
 
-  /// No description provided for @settings______________________________________________.
+  /// No description provided for @appVersion.
   ///
   /// In en, this message translates to:
-  /// **'settings----------------------------------------------------------------------'**
-  String get settings______________________________________________;
+  /// **'App version'**
+  String get appVersion;
+
+  /// No description provided for @proceed.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get proceed;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @correct.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get correct;
+
+  /// No description provided for @check.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get check;
+
+  /// No description provided for @review.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get review;
+
+  /// No description provided for @unit_sec.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} sec'**
+  String unit_sec(int count);
+
+  /// No description provided for @unit_pts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} pts'**
+  String unit_pts(int count);
+
+  /// No description provided for @points_value.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} pts'**
+  String points_value(String value);
 
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
-
-  /// No description provided for @app_settings.
-  ///
-  /// In en, this message translates to:
-  /// **'App Settings'**
-  String get app_settings;
-
-  /// No description provided for @settings_darkMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Dark Mode'**
-  String get settings_darkMode;
-
-  /// No description provided for @settings_localeName.
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get settings_localeName;
 
   /// No description provided for @settings_localeArmenian.
   ///
@@ -148,53 +190,185 @@ abstract class AppLocalizations {
   /// **'English'**
   String get settings_localeEnglish;
 
-  /// No description provided for @alias________________________________________________.
+  /// No description provided for @settings_game_mode.
   ///
   /// In en, this message translates to:
-  /// **'alias----------------------------------------------------------------------'**
-  String get alias________________________________________________;
+  /// **'Game Mode'**
+  String get settings_game_mode;
 
-  /// No description provided for @mode1.
+  /// No description provided for @settings_round_time.
   ///
   /// In en, this message translates to:
-  /// **'Single Word'**
-  String get mode1;
+  /// **'Round Time'**
+  String get settings_round_time;
 
-  /// No description provided for @mode2.
+  /// No description provided for @settings_points_to_win.
   ///
   /// In en, this message translates to:
-  /// **'Card Mode'**
-  String get mode2;
+  /// **'Points to Win'**
+  String get settings_points_to_win;
 
-  /// No description provided for @singleWordMode.
+  /// No description provided for @settings_allow_skipping.
   ///
   /// In en, this message translates to:
-  /// **'Single Word Mode'**
-  String get singleWordMode;
+  /// **'Allow Skipping'**
+  String get settings_allow_skipping;
 
-  /// No description provided for @selectMode.
+  /// No description provided for @themes.
   ///
   /// In en, this message translates to:
-  /// **'Select Game Mode'**
-  String get selectMode;
+  /// **'Themes'**
+  String get themes;
 
-  /// No description provided for @wordPack.
+  /// No description provided for @theme_main.
   ///
   /// In en, this message translates to:
-  /// **'Word Pack'**
-  String get wordPack;
+  /// **'Main'**
+  String get theme_main;
 
-  /// No description provided for @round.
+  /// No description provided for @theme_purple.
   ///
   /// In en, this message translates to:
-  /// **'Round'**
-  String get round;
+  /// **'Purple'**
+  String get theme_purple;
 
-  /// No description provided for @rulesTitle.
+  /// No description provided for @theme_yellow.
   ///
   /// In en, this message translates to:
-  /// **'Rules'**
-  String get rulesTitle;
+  /// **'Yellow'**
+  String get theme_yellow;
+
+  /// No description provided for @theme_blue.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue'**
+  String get theme_blue;
+
+  /// No description provided for @theme_green.
+  ///
+  /// In en, this message translates to:
+  /// **'Green'**
+  String get theme_green;
+
+  /// No description provided for @theme_pink.
+  ///
+  /// In en, this message translates to:
+  /// **'Pink'**
+  String get theme_pink;
+
+  /// No description provided for @theme_red.
+  ///
+  /// In en, this message translates to:
+  /// **'Red'**
+  String get theme_red;
+
+  /// No description provided for @theme_black.
+  ///
+  /// In en, this message translates to:
+  /// **'Black'**
+  String get theme_black;
+
+  /// No description provided for @theme_turquoise.
+  ///
+  /// In en, this message translates to:
+  /// **'Turquoise'**
+  String get theme_turquoise;
+
+  /// No description provided for @theme_orange.
+  ///
+  /// In en, this message translates to:
+  /// **'Orange'**
+  String get theme_orange;
+
+  /// No description provided for @theme_brown.
+  ///
+  /// In en, this message translates to:
+  /// **'Brown'**
+  String get theme_brown;
+
+  /// No description provided for @theme_navy.
+  ///
+  /// In en, this message translates to:
+  /// **'Navy Blue'**
+  String get theme_navy;
+
+  /// No description provided for @theme_mint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mint Green'**
+  String get theme_mint;
+
+  /// No description provided for @theme_plum.
+  ///
+  /// In en, this message translates to:
+  /// **'Plum'**
+  String get theme_plum;
+
+  /// No description provided for @theme_dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get theme_dark;
+
+  /// No description provided for @theme_grey.
+  ///
+  /// In en, this message translates to:
+  /// **'Grey'**
+  String get theme_grey;
+
+  /// No description provided for @sounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds'**
+  String get sounds;
+
+  /// No description provided for @rewards.
+  ///
+  /// In en, this message translates to:
+  /// **'Rewards'**
+  String get rewards;
+
+  /// No description provided for @rewardsSelectThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Select three'**
+  String get rewardsSelectThree;
+
+  /// No description provided for @rewards_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Awesome!\nYou got {count} points'**
+  String rewards_success(int count);
+
+  /// No description provided for @teams.
+  ///
+  /// In en, this message translates to:
+  /// **'Teams'**
+  String get teams;
+
+  /// No description provided for @team_with_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Team {number}'**
+  String team_with_count(int number);
+
+  /// No description provided for @classicMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic'**
+  String get classicMode;
+
+  /// No description provided for @oneWordMode.
+  ///
+  /// In en, this message translates to:
+  /// **'One Word'**
+  String get oneWordMode;
+
+  /// No description provided for @game_rules.
+  ///
+  /// In en, this message translates to:
+  /// **'Game Rules'**
+  String get game_rules;
 
   /// No description provided for @singleModeRule1.
   ///
@@ -265,188 +439,116 @@ abstract class AppLocalizations {
   /// No description provided for @cardModeRule6.
   ///
   /// In en, this message translates to:
-  /// **'Score is based on the number guessed words'**
+  /// **'Score is based on the number of guessed words.'**
   String get cardModeRule6;
 
-  /// No description provided for @settings_general.
+  /// No description provided for @generalRule1.
   ///
   /// In en, this message translates to:
-  /// **'General'**
-  String get settings_general;
+  /// **'The game ends when a team reaches the required points, but the current round must be completed so all teams play an equal number of turns.'**
+  String get generalRule1;
 
-  /// No description provided for @settings_roundDuration.
+  /// No description provided for @scoreboard.
   ///
   /// In en, this message translates to:
-  /// **'Round Duration (sec)'**
-  String get settings_roundDuration;
+  /// **'Score'**
+  String get scoreboard;
 
-  /// No description provided for @settings_pointsToWin.
+  /// No description provided for @next_team.
   ///
   /// In en, this message translates to:
-  /// **'Points to Win'**
-  String get settings_pointsToWin;
+  /// **'Next team'**
+  String get next_team;
 
-  /// No description provided for @settings_soundEffects.
+  /// No description provided for @winner_reveal.
   ///
   /// In en, this message translates to:
-  /// **'Sound Effects'**
-  String get settings_soundEffects;
+  /// **'And the winner is...'**
+  String get winner_reveal;
 
-  /// No description provided for @settings_allowSkipping.
+  /// No description provided for @no_words_left_error.
   ///
   /// In en, this message translates to:
-  /// **'Allow Skipping'**
-  String get settings_allowSkipping;
+  /// **'Sorry, words are finished. You can try with another topic.'**
+  String get no_words_left_error;
 
-  /// No description provided for @settings_penaltyForSkipping.
+  /// No description provided for @downloadWordsNetworkError.
   ///
   /// In en, this message translates to:
-  /// **'Penalty for Skipping'**
-  String get settings_penaltyForSkipping;
+  /// **'You need to download the words first. Please check your internet connection and try again.'**
+  String get downloadWordsNetworkError;
 
-  /// No description provided for @settings_wordsPerCard.
+  /// No description provided for @exit_game_title.
   ///
   /// In en, this message translates to:
-  /// **'Words per Card'**
-  String get settings_wordsPerCard;
+  /// **'Leave the game?'**
+  String get exit_game_title;
 
-  /// No description provided for @settings_reset.
+  /// No description provided for @exit_game_description.
   ///
   /// In en, this message translates to:
-  /// **'Reset Settings'**
-  String get settings_reset;
+  /// **'Are you sure you want to finish the current game?'**
+  String get exit_game_description;
 
-  /// No description provided for @word_packs_fail.
+  /// No description provided for @exit_game_confirm.
   ///
   /// In en, this message translates to:
-  /// **'Failed to load word packs'**
-  String get word_packs_fail;
+  /// **'Yes, leave'**
+  String get exit_game_confirm;
 
-  /// No description provided for @failedLoadWords.
+  /// No description provided for @round_stop_title.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load words'**
-  String get failedLoadWords;
+  /// **'Finish Round?'**
+  String get round_stop_title;
 
-  /// No description provided for @preGameTitle.
+  /// No description provided for @round_stop_description.
   ///
   /// In en, this message translates to:
-  /// **'Get Ready'**
-  String get preGameTitle;
+  /// **'Stop the timer and see results? Your points will be saved.'**
+  String get round_stop_description;
 
-  /// No description provided for @preGameTeamSetup.
+  /// No description provided for @round_stop_confirm.
   ///
   /// In en, this message translates to:
-  /// **'Team Setup'**
-  String get preGameTeamSetup;
+  /// **'Finish'**
+  String get round_stop_confirm;
 
-  /// No description provided for @preGameTeam.
+  /// No description provided for @round_stop_resume.
   ///
   /// In en, this message translates to:
-  /// **'Team'**
-  String get preGameTeam;
+  /// **'Resume'**
+  String get round_stop_resume;
 
-  /// No description provided for @preGameAddTeam.
+  /// No description provided for @unlock_theme_title.
   ///
   /// In en, this message translates to:
-  /// **'Add Team'**
-  String get preGameAddTeam;
+  /// **'Unlock Theme'**
+  String get unlock_theme_title;
 
-  /// No description provided for @roundOverview_teamTurn.
+  /// No description provided for @unlock_theme_description.
   ///
   /// In en, this message translates to:
-  /// **'It\'s {teamName}\'s turn!'**
-  String roundOverview_teamTurn(Object teamName);
+  /// **'Are you sure you want to unlock this theme and change the game\'s look?'**
+  String get unlock_theme_description;
 
-  /// No description provided for @roundOverview_point.
+  /// No description provided for @unlock_theme_confirm.
   ///
   /// In en, this message translates to:
-  /// **'{points, plural, one {{points} point} other {{points} points}}'**
-  String roundOverview_point(num points);
+  /// **'Unlock'**
+  String get unlock_theme_confirm;
 
-  /// No description provided for @roundOverview_roundScores.
+  /// No description provided for @not_enough_coins.
   ///
   /// In en, this message translates to:
-  /// **'Round Scores:'**
-  String get roundOverview_roundScores;
+  /// **'Not enough coins'**
+  String get not_enough_coins;
 
-  /// No description provided for @roundOverview_confirmExit_title.
+  /// No description provided for @errorEmptyTeamNames.
   ///
   /// In en, this message translates to:
-  /// **'Exit Game?'**
-  String get roundOverview_confirmExit_title;
-
-  /// No description provided for @roundOverview_confirmExit_message.
-  ///
-  /// In en, this message translates to:
-  /// **'If you close this screen, all game progress will be lost. Are you sure you want to exit?'**
-  String get roundOverview_confirmExit_message;
-
-  /// No description provided for @countdown_go.
-  ///
-  /// In en, this message translates to:
-  /// **'Go!'**
-  String get countdown_go;
-
-  /// No description provided for @summary_gameOver.
-  ///
-  /// In en, this message translates to:
-  /// **'Game Over'**
-  String get summary_gameOver;
-
-  /// No description provided for @summary_winner.
-  ///
-  /// In en, this message translates to:
-  /// **'Winner'**
-  String get summary_winner;
-
-  /// No description provided for @summary_playAgain.
-  ///
-  /// In en, this message translates to:
-  /// **'Play Again'**
-  String get summary_playAgain;
-
-  /// No description provided for @summary_mainMenu.
-  ///
-  /// In en, this message translates to:
-  /// **'Main Menu'**
-  String get summary_mainMenu;
-
-  /// No description provided for @general________________________________________________.
-  ///
-  /// In en, this message translates to:
-  /// **'general----------------------------------------------------------------------'**
-  String get general________________________________________________;
-
-  /// No description provided for @general_startGame.
-  ///
-  /// In en, this message translates to:
-  /// **'Start Game'**
-  String get general_startGame;
-
-  /// No description provided for @general_checkInternet.
-  ///
-  /// In en, this message translates to:
-  /// **'Check your internet connection'**
-  String get general_checkInternet;
-
-  /// No description provided for @general_tryAgain.
-  ///
-  /// In en, this message translates to:
-  /// **'Try Again'**
-  String get general_tryAgain;
-
-  /// No description provided for @general_yes.
-  ///
-  /// In en, this message translates to:
-  /// **'Yes'**
-  String get general_yes;
-
-  /// No description provided for @general_no.
-  ///
-  /// In en, this message translates to:
-  /// **'No'**
-  String get general_no;
+  /// **'Wait, who\'s playing? Enter all team names!'**
+  String get errorEmptyTeamNames;
 }
 
 class _AppLocalizationsDelegate

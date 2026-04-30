@@ -7,15 +7,18 @@ sealed class WordPacksEvent {
 
 /// Loads all available word packs from the local cache.
 class LoadWordPacks extends WordPacksEvent {
-  const LoadWordPacks(this.localeCode);
+  const LoadWordPacks(this.locale);
 
-  final String localeCode;
+  final String locale;
 }
 
-/// Sets the selected word pack ID in preferences.
-class SelectWordPack extends WordPacksEvent {
-  const SelectWordPack({required this.packId, required this.localeCode});
+/// Fetch all packs
+class CacheWordPacksIfNeeded extends WordPacksEvent {
+  const CacheWordPacksIfNeeded();
+}
 
-  final String packId;
-  final String localeCode;
+class FetchAndCachePacks extends WordPacksEvent {
+  FetchAndCachePacks({required this.locale});
+
+  final String locale;
 }

@@ -1,7 +1,7 @@
-import 'package:boardify/settings/domain/entities/app_settings_entity.dart';
-import 'package:boardify/settings/domain/entities/game_settings_entity.dart';
-import 'package:boardify/settings/domain/usecases/update_app_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/entities/app_settings_entity.dart';
+import 'package:alias_pro/settings/domain/entities/game_settings_entity.dart';
+import 'package:alias_pro/settings/domain/usecases/update_app_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/update_game_settings_usecase.dart';
 
 /// This is the interface for the [SettingsRepository].
 abstract interface class SettingsRepository {
