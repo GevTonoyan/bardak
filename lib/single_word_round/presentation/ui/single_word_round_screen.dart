@@ -36,6 +36,12 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
   var _isPaused = false;
 
   late final AudioPlayer _audioPlayer;
+  final _roundHeaderKey = GlobalKey<RoundHeaderState>();
+
+  void _resumeFromPause() {
+    setState(() => _isPaused = false);
+    _roundHeaderKey.currentState?.resume();
+  }
 
   @override
   void initState() {
@@ -93,6 +99,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
             children: [
               SafeArea(
                 child: RoundHeader(
+                  key: _roundHeaderKey,
                   initialRoundDuration: roundState.roundDuration,
                   onRoundComplete: () {
                     context.read<SingleWordRoundBloc>().add(
@@ -114,6 +121,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                           key: ValueKey(roundState.index),
                           word: roundState.words[roundState.index],
                           allowSkipping: roundState.allowSkipping,
+                          onResume: _resumeFromPause,
                           onGuessed: () {
                             unawaited(
                               _audioPlayer.play(
@@ -291,6 +299,7 @@ class _SwipeableSingleWordCard extends StatefulWidget {
     required this.onSkipped,
     required this.onSwipeProgressChanged,
     required this.isFlipped,
+    required this.onResume,
   });
 
   final String word;
@@ -299,6 +308,7 @@ class _SwipeableSingleWordCard extends StatefulWidget {
   final VoidCallback onSkipped;
   final ValueChanged<double> onSwipeProgressChanged;
   final bool isFlipped;
+  final VoidCallback onResume;
 
   @override
   State<_SwipeableSingleWordCard> createState() =>
@@ -365,7 +375,7 @@ class _SwipeableSingleWordCardState extends State<_SwipeableSingleWordCard> {
           word: widget.word,
           angle: _angle,
         ),
-        back: const SingleWordCardBack(),
+        back: SingleWordCardBack(onTap: widget.onResume),
       ),
     );
   }

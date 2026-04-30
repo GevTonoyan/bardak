@@ -82,13 +82,22 @@ class MultipleWordsCard extends StatelessWidget {
 }
 
 class MultipleWordsCardBack extends StatelessWidget {
-  const MultipleWordsCardBack({super.key});
+  const MultipleWordsCardBack({this.onTap, super.key});
+
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return MultipleWordsCardShell(
-      child: Center(
-        child: Assets.images.logo.image(height: 165, width: 279, fit: .contain),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Center(
+          child: Assets.images.logo.image(
+            height: 165,
+            width: 279,
+            fit: .contain,
+          ),
+        ),
       ),
     );
   }

@@ -27,6 +27,12 @@ class CardRoundScreen extends StatefulWidget {
 class _CardRoundScreenState extends State<CardRoundScreen> {
   bool _isPaused = false;
   late final AudioPlayer _audioPlayer;
+  final _roundHeaderKey = GlobalKey<RoundHeaderState>();
+
+  void _resumeFromPause() {
+    setState(() => _isPaused = false);
+    _roundHeaderKey.currentState?.resume();
+  }
 
   @override
   void initState() {
@@ -65,6 +71,7 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
               children: [
                 SafeArea(
                   child: RoundHeader(
+                    key: _roundHeaderKey,
                     initialRoundDuration: widget.initialRoundDuration,
                     onRoundComplete: () {
                       context.read<CardRoundBloc>().add(
@@ -106,7 +113,9 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
                             },
                           ),
                         ),
-                        back: const MultipleWordsCardBack(),
+                        back: MultipleWordsCardBack(
+                          onTap: () => _resumeFromPause(),
+                        ),
                       ),
                     ),
                   ),

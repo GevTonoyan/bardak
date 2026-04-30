@@ -22,15 +22,21 @@ class RoundHeader extends StatefulWidget {
   final ValueChanged<bool> onPauseChanged;
 
   @override
-  State<RoundHeader> createState() => _RoundHeaderState();
+  State<RoundHeader> createState() => RoundHeaderState();
 }
 
-class _RoundHeaderState extends State<RoundHeader>
+class RoundHeaderState extends State<RoundHeader>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late final AudioPlayer _audioPlayer;
   late int remainingSeconds;
   late Timer _timer;
   bool isTimerPaused = false;
+
+  void resume() {
+    if (isTimerPaused) {
+      _onPausePlayPressed();
+    }
+  }
 
   @override
   void initState() {
