@@ -117,6 +117,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get theme_plum => 'Plum';
 
   @override
+  String get theme_dark => 'Dark';
+
+  @override
+  String get theme_grey => 'Grey';
+
+  @override
   String get sounds => 'Sounds';
 
   @override
