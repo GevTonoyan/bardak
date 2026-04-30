@@ -5,7 +5,9 @@ import 'package:alias_pro/app_ui/theme/colors/app_black_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_blue_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_brown_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_dark_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_green_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_grey_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_main_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_mint_colors.dart';
 import 'package:alias_pro/app_ui/theme/colors/app_navy_colors.dart';
@@ -146,6 +148,8 @@ class MyApp extends StatelessWidget {
       .navy => AppNavyColors(),
       .mint => AppMintColors(),
       .plum => AppPlumColors(),
+      .dark => AppDarkColors(),
+      .grey => AppGreyColors(),
     };
   }
 }

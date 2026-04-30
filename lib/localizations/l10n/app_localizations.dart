@@ -304,6 +304,18 @@ abstract class AppLocalizations {
   /// **'Plum'**
   String get theme_plum;
 
+  /// No description provided for @theme_dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get theme_dark;
+
+  /// No description provided for @theme_grey.
+  ///
+  /// In en, this message translates to:
+  /// **'Grey'**
+  String get theme_grey;
+
   /// No description provided for @sounds.
   ///
   /// In en, this message translates to:

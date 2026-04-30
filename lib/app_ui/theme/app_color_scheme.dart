@@ -15,7 +15,9 @@ enum AppColorScheme {
   brown,
   navy,
   mint,
-  plum
+  plum,
+  dark,
+  grey
   ;
 
   static AppColorScheme fromString(String? scheme) {
@@ -56,6 +58,8 @@ enum AppColorScheme {
       navy => l10n.theme_navy,
       mint => l10n.theme_mint,
       plum => l10n.theme_plum,
+      dark => l10n.theme_dark,
+      grey => l10n.theme_grey,
     };
   }
 }
