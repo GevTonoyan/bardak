@@ -45,13 +45,18 @@ class SingleWordCard extends StatelessWidget {
 }
 
 class SingleWordCardBack extends StatelessWidget {
-  const SingleWordCardBack({super.key});
+  const SingleWordCardBack({this.onTap, super.key});
+
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return SingleWordCardShell(
-      child: Center(
-        child: Assets.images.logo.image(height: 130, fit: .contain),
+    return GestureDetector(
+      onTap: onTap,
+      child: SingleWordCardShell(
+        child: Center(
+          child: Assets.images.logo.image(height: 130, fit: .contain),
+        ),
       ),
     );
   }
