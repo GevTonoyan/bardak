@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:alias_pro/assets/assets.gen.dart';
 import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -106,42 +105,39 @@ class MultipleWordsCardShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    return Transform.rotate(
-      angle: -1.28 * math.pi / 180,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: _radius,
-          border: GradientBoxBorder(
-            width: 3,
-            gradient: LinearGradient(
-              begin: .topCenter,
-              end: .bottomCenter,
-              colors: [
-                colors.white.withValues(alpha: 0.3),
-                colors.white.withValues(alpha: 0.05),
-                colors.white.withValues(alpha: 0.05),
-                colors.white.withValues(alpha: 0.3),
-              ],
-            ),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: _radius,
+        border: GradientBoxBorder(
+          width: 3,
           gradient: LinearGradient(
             begin: .topCenter,
             end: .bottomCenter,
             colors: [
-              Color.alphaBlend(colors.white20, colors.firstGradient),
-              Color.alphaBlend(colors.white20, colors.secondGradient),
+              colors.white.withValues(alpha: 0.3),
+              colors.white.withValues(alpha: 0.05),
+              colors.white.withValues(alpha: 0.05),
+              colors.white.withValues(alpha: 0.3),
             ],
           ),
-          boxShadow: [
-            BoxShadow(
-              offset: const Offset(0, 10),
-              color: colors.black.withValues(alpha: 0.2),
-              blurStyle: BlurStyle.outer,
-            ),
+        ),
+        gradient: LinearGradient(
+          begin: .topCenter,
+          end: .bottomCenter,
+          colors: [
+            Color.alphaBlend(colors.white20, colors.firstGradient),
+            Color.alphaBlend(colors.white20, colors.secondGradient),
           ],
         ),
-        child: child,
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(0, 10),
+            color: colors.black.withValues(alpha: 0.2),
+            blurStyle: BlurStyle.outer,
+          ),
+        ],
       ),
+      child: child,
     );
   }
 }
