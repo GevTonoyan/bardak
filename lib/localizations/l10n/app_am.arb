@@ -1,21 +1,84 @@
 {
   "@@locale": "am",
-  "settings______________________________________________": "settings----------------------------------------------------------------------",
+
+  "appVersion": "Հավելվածի տարբերակը",
+  "proceed": "Շարունակել",
+  "cancel": "Չեղարկել",
+  "add": "Ավելացնել",
+  "skip": "Բաց թողնել",
+  "correct": "Ճիշտ է",
+  "check": "Ստուգել",
+  "review": "Ստուգում",
+
+  "unit_sec": "{count} վրկ",
+  "@unit_sec": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "unit_pts": "{count} միավոր",
+  "@unit_pts": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "points_value": "{value} միավոր",
+  "@points_value": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+
   "settings": "Կարգավորումներ",
-  "settings_darkMode": " Մութ ռեժիմ",
-  "settings_localeName": "Հայերեն",
   "settings_localeArmenian": "Հայերեն",
   "settings_localeRussian": "Русский",
   "settings_localeEnglish": "English",
-  "app_settings": "Հավելվածի կարգավորումներ",
-  "alias________________________________________________": "alias----------------------------------------------------------------------",
-  "mode1": "Մի բառ",
-  "mode2": "Քարտի ռեժիմ",
-  "singleWordMode": "Մի բառի ռեժիմ",
-  "selectMode": "Ընտրեք խաղի ռեժիմը",
-  "wordPack": "Բառերի փաթեթ",
-  "round": "Ռաունդ",
-  "rulesTitle": "Կանոնները",
+  "settings_game_mode": "Խաղի ռեժիմ",
+  "settings_round_time": "Ռաունդի տևողություն",
+  "settings_points_to_win": "Միավորներ հաղթանակի համար",
+  "settings_allow_skipping": "Բաց թողում",
+
+  "themes": "Թեմաներ",
+  "theme_main": "Հիմնական",
+  "theme_purple": "Մանուշակագույն",
+  "theme_yellow": "Դեղին",
+  "theme_blue": "Կապույտ",
+  "theme_green": "Կանաչ",
+  "theme_pink": "Վարդագույն",
+  "theme_red": "Կարմիր",
+  "theme_black": "Սև",
+  "theme_turquoise": "Փիրուզագույն",
+  "theme_orange": "Նարնջագույն",
+  "theme_brown": "Շագանակագույն",
+  "theme_navy": "Մուգ կապույտ",
+  "theme_mint": "Անանուխի",
+  "theme_plum": "Սալորագույն",
+  "theme_dark": "Մուգ",
+  "theme_grey": "Մոխրագույన",
+
+  "sounds": "Ձայներ",
+
+  "rewards": "Պարգևներ",
+  "rewardsSelectThree": "Ընտրեք երեքը",
+  "rewards_success": "Կեցցե՛ք!\nԴուք վաստակել եք {count} միավոր",
+  "@rewards_success": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "teams": "Թիմեր",
+  "team_with_count": "Թիմ {number}",
+  "@team_with_count": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+
+  "classicMode": "Դասական",
+  "oneWordMode": "Մեկ բառ",
+
+  "game_rules": "Խաղի կանոնները",
   "singleModeRule1": "Մի խաղացող բացատրում է մեկ բառ",
   "singleModeRule2": "Թիմը փորձում է գուշակել հնարավորինս շատ բառեր, մինչ ժամանակը կավարտվի",
   "singleModeRule3": "Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ",
@@ -28,34 +91,27 @@
   "cardModeRule4": "Բաց թողնելը թույլ չի տրվում՝ դուք պետք է գուշակեք քարտի բոլոր բառերը",
   "cardModeRule5": "Բացատրողը չի կարող օգտագործել բառը, դրա որևէ արմատ, թարգմանություն, հնչյունական կամ ուղղագրական հուշումներ",
   "cardModeRule6": "Միավորները հաշվարկվում են գուշակված բառերի քանակով",
-  "settings_general": "Ընդհանուր",
-  "settings_roundDuration": "Ռաունդի տևողությունը (վրկ)",
-  "settings_pointsToWin": "Միավորներ հաղթելու համար",
-  "settings_soundEffects": "Ձայնային էֆեկտներ",
-  "settings_allowSkipping": "Թույլ տալ բաց թողնել",
-  "settings_penaltyForSkipping": "Պատիժ բաց թողնելու համար",
-  "settings_wordsPerCard": "Քարտի բառերի քանակը",
-  "settings_reset": "Վերականգնել կարգավորումները",
-  "word_packs_fail": "Բառերի փաթեթները բեռնելը ձախողվեց",
-  "failedLoadWords": "Բառերը բեռնելը ձախողվեց",
-  "preGameTitle": "Պատրաստվեք",
-  "preGameTeamSetup": "Թիմերի կարգավորում",
-  "preGameTeam": "Թիմ",
-  "preGameAddTeam": "Ավելացնել թիմ",
-  "roundOverview_teamTurn": "Ընթացիկ հերթը՝ {teamName} թիմինն է։",
-  "roundOverview_point": "{points, plural, one {{points} միավոր} other {{points} միավոր}}",
-  "roundOverview_roundScores": "Փուլի միավորներ:",
-  "roundOverview_confirmExit_title": "Դուրս գալ խաղից՞",
-  "roundOverview_confirmExit_message": "Եթե փակեք այս էջը, խաղի ողջ ընթացքը կկորչի։ Վստա՞հ եք, որ ցանկանում եք դուրս գալ։",
-  "countdown_go": "Գնացինք!",
-  "summary_gameOver": "Խաղը ավարտված է",
-  "summary_winner": "Հաղթող",
-  "summary_playAgain": "Կրկին խաղալ",
-  "summary_mainMenu": "Գլխավոր մենյու",
-  "general________________________________________________": "general----------------------------------------------------------------------",
-  "general_startGame": "Սկսել խաղը",
-  "general_checkInternet": "Ստուգեք ձեր ինտերնետային կապը",
-  "general_tryAgain": "Կրկին փորձել",
-  "general_yes": "Այո",
-  "general_no": "Ոչ"
+  "generalRule1": "Խաղն ավարտվում է, երբ թիմերից մեկը հասնում է պահանջվող միավորներին, սակայն ընթացիկ փուլը պետք է ավարտվի, որպեսզի բոլոր թիմերը հավասար քանակով խաղան",
+
+  "scoreboard": "Հաշիվը",
+  "next_team": "Հաջորդ թիմը",
+  "winner_reveal": "Եվ հաղթողն է...",
+  "no_words_left_error": "Այս թեմայում բառեր չեն մնացել։ Խնդրում ենք ընտրել այլ փաթեթ՝ նորից խաղալու համար:",
+  "downloadWordsNetworkError": "Նախ պետք է ներբեռնեք բառերը: Խնդրում ենք ստուգել ձեր ինտերնետ կապը և փորձել կրկին:",
+
+  "exit_game_title": "Դուրս գա՞լ խաղից",
+  "exit_game_description": "Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը:",
+  "exit_game_confirm": "Այո, դուրս գալ",
+
+  "round_stop_title": "Ավարտե՞լ ռաունդը",
+  "round_stop_description": "Դադարեցնե՞լ ժամանակը և տեսնել արդյունքները: Միավորները կպահպանվեն:",
+  "round_stop_confirm": "Ավարտել",
+  "round_stop_resume": "Շարունակել",
+
+  "unlock_theme_title": "Բացել թեման",
+  "unlock_theme_description": "Համոզվա՞ծ եք, որ ցանկանում եք ակտիվացնել այս թեման և փոխել խաղի տեսքը:",
+  "unlock_theme_confirm": "Բացել",
+
+  "not_enough_coins": "Մետաղադրամները բավարար չեն",
+  "errorEmptyTeamNames": "Սպասիր, իսկ ովքե՞ր են խաղում: Լրացրեք բոլոր թիմերը:"
 }

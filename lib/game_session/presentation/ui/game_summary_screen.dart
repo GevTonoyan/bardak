@@ -1,9 +1,15 @@
-import 'package:boardify/pre_game/presentation/ui/pre_game_screen.dart';
-import 'package:boardify/utils/extensions/context_extension.dart';
+import 'dart:math';
+
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
+import 'package:alias_pro/app_ui/widgets/screen_background.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class GameSummaryScreen extends StatelessWidget {
+class GameSummaryScreen extends StatefulWidget {
   const GameSummaryScreen({required this.winningTeamName, super.key});
 
   static const routePath = 'game_summary';
@@ -11,105 +17,118 @@ class GameSummaryScreen extends StatelessWidget {
   final String winningTeamName;
 
   @override
+  State<GameSummaryScreen> createState() => _GameSummaryScreenState();
+}
+
+class _GameSummaryScreenState extends State<GameSummaryScreen> {
+  late final ConfettiController _controller = ConfettiController(
+    duration: const Duration(seconds: 6),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _controller.play();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
-    final typography = context.appTheme.typography;
-
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-          child: Column(
+    return Material(
+      child: Stack(
+        children: [
+          GradientBackground(child: Container()),
+          Align(
+            alignment: .topCenter,
+            child: ConfettiWidget(
+              confettiController: _controller,
+              blastDirection: pi / 2,
+              blastDirectionality: BlastDirectionality.explosive,
+              maxBlastForce: 15,
+              emissionFrequency: 0.05,
+              numberOfParticles: 75,
+              createParticlePath: _drawStar,
+            ),
+          ),
+          Column(
+            mainAxisAlignment: .spaceBetween,
+            crossAxisAlignment: .start,
             children: [
-              Expanded(
+              const SafeArea(bottom: false, child: SizedBox.shrink()),
+              Padding(
+                padding: const .symmetric(horizontal: 20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      context.l10n.summary_gameOver,
-                      style: typography.headlineLarge.copyWith(
-                        color: colors.onBackground,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              colors.primary,
-                              colors.primary.withValues(alpha: 0.8),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
+                    Center(
+                      child: Column(
+                        spacing: 16,
+                        children: [
+                          Text(
+                            context.l10n.winner_reveal,
+                            textAlign: .center,
+                            style: typography.regular24,
                           ),
-                        ),
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.emoji_events,
-                              size: 48,
-                              color: colors.onPrimary,
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              context.l10n.summary_winner,
-                              style: typography.titleMedium.copyWith(
-                                color: colors.onPrimary.withValues(alpha: 0.8),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              winningTeamName,
-                              textAlign: TextAlign.center,
-                              style: typography.headlineMedium.copyWith(
-                                color: colors.onPrimary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+                          HighlightedText(text: widget.winningTeamName),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-
-              // Action buttons
-              Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () => context.goNamed(PreGameScreen.routePath),
-                      icon: const Icon(Icons.refresh),
-                      label: Text(context.l10n.summary_playAgain),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
+              SizedBox(
+                height: 200,
+                child: ShadowBackground(
+                  child: Padding(
+                    padding: const .all(20),
+                    child: AppButton(
+                      label: context.l10n.proceed,
+                      color: colors.green,
                       onPressed: () => context.pop(),
-                      icon: const Icon(Icons.home),
-                      label: Text(context.l10n.summary_mainMenu),
                     ),
                   ),
-                ],
+                ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
+  }
+
+  /// This code was taken from confetti official documentation example
+  /// https://pub.dev/packages/confetti/example
+  Path _drawStar(Size size) {
+    double degToRad(double deg) => deg * (pi / 180.0);
+
+    const numberOfPoints = 5;
+    final halfWidth = size.width / 2;
+    final externalRadius = halfWidth;
+    final internalRadius = halfWidth / 2.5;
+    final degreesPerStep = degToRad(360 / numberOfPoints);
+    final halfDegreesPerStep = degreesPerStep / 2;
+    final path = Path();
+    final fullAngle = degToRad(360);
+    path.moveTo(size.width, halfWidth);
+
+    for (double step = 0; step < fullAngle; step += degreesPerStep) {
+      path
+        ..lineTo(
+          halfWidth + externalRadius * cos(step),
+          halfWidth + externalRadius * sin(step),
+        )
+        ..lineTo(
+          halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+          halfWidth + internalRadius * sin(step + halfDegreesPerStep),
+        );
+    }
+    path.close();
+    return path;
   }
 }

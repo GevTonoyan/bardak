@@ -1,15 +1,13 @@
 import 'dart:async';
-
-import 'package:boardify/utils/constants/constants.dart';
-import 'package:boardify/utils/constants/constants.dart';
-import 'package:boardify/settings/domain/entities/app_settings_entity.dart';
-import 'package:boardify/settings/domain/entities/game_settings_entity.dart';
-import 'package:boardify/settings/domain/usecases/get_app_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/get_game_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/update_app_settings_usecase.dart';
-import 'package:boardify/settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:boardify/settings/presentation/bloc/settings_event.dart';
-import 'package:boardify/settings/presentation/bloc/settings_state.dart';
+import 'package:alias_pro/settings/domain/entities/app_settings_entity.dart';
+import 'package:alias_pro/settings/domain/entities/game_settings_entity.dart';
+import 'package:alias_pro/settings/domain/usecases/get_app_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/get_game_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/update_app_settings_usecase.dart';
+import 'package:alias_pro/settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_event.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_state.dart';
+import 'package:alias_pro/utils/constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
@@ -34,6 +32,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<ChangeWordsPerCard>(_changeWordsPerCard);
     on<GetAppSettings>(_getAppSettings);
     on<ChangeTheme>(_changeTheme);
+    on<ChangeColorScheme>(_changeColorScheme);
     on<ChangeLocale>(_changeLocale);
   }
 
@@ -71,14 +70,39 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
+  FutureOr<void> _changeColorScheme(
+    ChangeColorScheme event,
+    Emitter<SettingsState> emit,
+  ) async {
+    final appSettings = state.appSettings;
+    if (appSettings.colorScheme == event.colorScheme) {
+      return;
+    }
+
+    final newSettings = appSettings.copyWith(
+      colorScheme: event.colorScheme,
+    );
+
+    await updateAppSettingsUseCase(
+      UpdateAppSettingsParams(
+        key: AppConstants.appColorSchemeKey,
+        value: event.colorScheme.name,
+      ),
+    );
+
+    emit(state.copyWith(appSettings: newSettings));
+  }
+
   void _changeLocale(ChangeLocale event, Emitter<SettingsState> emit) {
     final newSettings = state.appSettings.copyWith(locale: event.locale);
     emit(state.copyWith(appSettings: newSettings));
 
-    updateAppSettingsUseCase(
-      UpdateAppSettingsParams(
-        key: AppConstants.appLocaleKey,
-        value: event.locale.jsonValue(),
+    unawaited(
+      updateAppSettingsUseCase(
+        UpdateAppSettingsParams(
+          key: AppConstants.appLocaleKey,
+          value: event.locale.jsonValue(),
+        ),
       ),
     );
   }
@@ -95,17 +119,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void _onChangeGameDuration(
+  Future<void> _onChangeGameDuration(
     ChangeGameDuration event,
     Emitter<SettingsState> emit,
-  ) {
+  ) async {
     final updatedSettings = state.gameSettings.copyWith(
       roundDuration: event.gameDuration,
     );
     emit(state.copyWith(gameSettings: updatedSettings));
 
     if (event.persist) {
-      updateAliasSettingUseCase(
+      await updateAliasSettingUseCase(
         UpdateGameSettingsParams(
           key: AppConstants.roundDurationKey,
           value: event.gameDuration,
@@ -133,21 +157,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void _changeSoundEffects(
+  Future<void> _changeSoundEffects(
     ChangeSoundEffects event,
     Emitter<SettingsState> emit,
-  ) {
-    final updatedSettings = state.gameSettings.copyWith(
+  ) async {
+    final updatedSettings = state.appSettings.copyWith(
       soundEnabled: event.soundEffects,
     );
-    emit(state.copyWith(gameSettings: updatedSettings));
 
-    updateAliasSettingUseCase(
-      UpdateGameSettingsParams(
+    await updateAppSettingsUseCase(
+      UpdateAppSettingsParams(
         key: AppConstants.soundEnabledKey,
         value: event.soundEffects,
       ),
     );
+
+    emit(state.copyWith(appSettings: updatedSettings));
   }
 
   void _changeAllowSkipping(

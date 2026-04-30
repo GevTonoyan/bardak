@@ -9,20 +9,46 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get settings______________________________________________ =>
-      'settings----------------------------------------------------------------------';
+  String get appVersion => 'App version';
+
+  @override
+  String get proceed => 'Continue';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get correct => 'Correct';
+
+  @override
+  String get check => 'Check';
+
+  @override
+  String get review => 'Review';
+
+  @override
+  String unit_sec(int count) {
+    return '$count sec';
+  }
+
+  @override
+  String unit_pts(int count) {
+    return '$count pts';
+  }
+
+  @override
+  String points_value(String value) {
+    return '$value pts';
+  }
 
   @override
   String get settings => 'Settings';
-
-  @override
-  String get app_settings => 'App Settings';
-
-  @override
-  String get settings_darkMode => 'Dark Mode';
-
-  @override
-  String get settings_localeName => 'English';
 
   @override
   String get settings_localeArmenian => 'Հայերեն';
@@ -34,29 +60,98 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_localeEnglish => 'English';
 
   @override
-  String get alias________________________________________________ =>
-      'alias----------------------------------------------------------------------';
+  String get settings_game_mode => 'Game Mode';
 
   @override
-  String get mode1 => 'Single Word';
+  String get settings_round_time => 'Round Time';
 
   @override
-  String get mode2 => 'Card Mode';
+  String get settings_points_to_win => 'Points to Win';
 
   @override
-  String get singleWordMode => 'Single Word Mode';
+  String get settings_allow_skipping => 'Allow Skipping';
 
   @override
-  String get selectMode => 'Select Game Mode';
+  String get themes => 'Themes';
 
   @override
-  String get wordPack => 'Word Pack';
+  String get theme_main => 'Main';
 
   @override
-  String get round => 'Round';
+  String get theme_purple => 'Purple';
 
   @override
-  String get rulesTitle => 'Rules';
+  String get theme_yellow => 'Yellow';
+
+  @override
+  String get theme_blue => 'Blue';
+
+  @override
+  String get theme_green => 'Green';
+
+  @override
+  String get theme_pink => 'Pink';
+
+  @override
+  String get theme_red => 'Red';
+
+  @override
+  String get theme_black => 'Black';
+
+  @override
+  String get theme_turquoise => 'Turquoise';
+
+  @override
+  String get theme_orange => 'Orange';
+
+  @override
+  String get theme_brown => 'Brown';
+
+  @override
+  String get theme_navy => 'Navy Blue';
+
+  @override
+  String get theme_mint => 'Mint Green';
+
+  @override
+  String get theme_plum => 'Plum';
+
+  @override
+  String get theme_dark => 'Dark';
+
+  @override
+  String get theme_grey => 'Grey';
+
+  @override
+  String get sounds => 'Sounds';
+
+  @override
+  String get rewards => 'Rewards';
+
+  @override
+  String get rewardsSelectThree => 'Select three';
+
+  @override
+  String rewards_success(int count) {
+    return 'Awesome!\nYou got $count points';
+  }
+
+  @override
+  String get teams => 'Teams';
+
+  @override
+  String team_with_count(int number) {
+    return 'Team $number';
+  }
+
+  @override
+  String get classicMode => 'Classic';
+
+  @override
+  String get oneWordMode => 'One Word';
+
+  @override
+  String get game_rules => 'Game Rules';
 
   @override
   String get singleModeRule1 => 'One player explains a single word at a time.';
@@ -100,107 +195,66 @@ class AppLocalizationsEn extends AppLocalizations {
       'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.';
 
   @override
-  String get cardModeRule6 => 'Score is based on the number guessed words';
+  String get cardModeRule6 => 'Score is based on the number of guessed words.';
 
   @override
-  String get settings_general => 'General';
+  String get generalRule1 =>
+      'The game ends when a team reaches the required points, but the current round must be completed so all teams play an equal number of turns.';
 
   @override
-  String get settings_roundDuration => 'Round Duration (sec)';
+  String get scoreboard => 'Score';
 
   @override
-  String get settings_pointsToWin => 'Points to Win';
+  String get next_team => 'Next team';
 
   @override
-  String get settings_soundEffects => 'Sound Effects';
+  String get winner_reveal => 'And the winner is...';
 
   @override
-  String get settings_allowSkipping => 'Allow Skipping';
+  String get no_words_left_error =>
+      'Sorry, words are finished. You can try with another topic.';
 
   @override
-  String get settings_penaltyForSkipping => 'Penalty for Skipping';
+  String get downloadWordsNetworkError =>
+      'You need to download the words first. Please check your internet connection and try again.';
 
   @override
-  String get settings_wordsPerCard => 'Words per Card';
+  String get exit_game_title => 'Leave the game?';
 
   @override
-  String get settings_reset => 'Reset Settings';
+  String get exit_game_description =>
+      'Are you sure you want to finish the current game?';
 
   @override
-  String get word_packs_fail => 'Failed to load word packs';
+  String get exit_game_confirm => 'Yes, leave';
 
   @override
-  String get failedLoadWords => 'Couldn\'t load words';
+  String get round_stop_title => 'Finish Round?';
 
   @override
-  String get preGameTitle => 'Get Ready';
+  String get round_stop_description =>
+      'Stop the timer and see results? Your points will be saved.';
 
   @override
-  String get preGameTeamSetup => 'Team Setup';
+  String get round_stop_confirm => 'Finish';
 
   @override
-  String get preGameTeam => 'Team';
+  String get round_stop_resume => 'Resume';
 
   @override
-  String get preGameAddTeam => 'Add Team';
+  String get unlock_theme_title => 'Unlock Theme';
 
   @override
-  String roundOverview_teamTurn(Object teamName) {
-    return 'It\'s $teamName\'s turn!';
-  }
+  String get unlock_theme_description =>
+      'Are you sure you want to unlock this theme and change the game\'s look?';
 
   @override
-  String roundOverview_point(num points) {
-    String _temp0 = intl.Intl.pluralLogic(
-      points,
-      locale: localeName,
-      other: '$points points',
-      one: '$points point',
-    );
-    return '$_temp0';
-  }
+  String get unlock_theme_confirm => 'Unlock';
 
   @override
-  String get roundOverview_roundScores => 'Round Scores:';
+  String get not_enough_coins => 'Not enough coins';
 
   @override
-  String get roundOverview_confirmExit_title => 'Exit Game?';
-
-  @override
-  String get roundOverview_confirmExit_message =>
-      'If you close this screen, all game progress will be lost. Are you sure you want to exit?';
-
-  @override
-  String get countdown_go => 'Go!';
-
-  @override
-  String get summary_gameOver => 'Game Over';
-
-  @override
-  String get summary_winner => 'Winner';
-
-  @override
-  String get summary_playAgain => 'Play Again';
-
-  @override
-  String get summary_mainMenu => 'Main Menu';
-
-  @override
-  String get general________________________________________________ =>
-      'general----------------------------------------------------------------------';
-
-  @override
-  String get general_startGame => 'Start Game';
-
-  @override
-  String get general_checkInternet => 'Check your internet connection';
-
-  @override
-  String get general_tryAgain => 'Try Again';
-
-  @override
-  String get general_yes => 'Yes';
-
-  @override
-  String get general_no => 'No';
+  String get errorEmptyTeamNames =>
+      'Wait, who\'s playing? Enter all team names!';
 }

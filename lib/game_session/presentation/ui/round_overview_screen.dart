@@ -1,15 +1,17 @@
-import 'package:boardify/utils/extensions/context_extension.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
-import 'package:boardify/app_ui/widgets/game_popup_dialog.dart';
-import 'package:boardify/card_round/domain/card_round_entity.dart';
-import 'package:boardify/card_round/presentation/ui/card_round_screen.dart';
-import 'package:boardify/game_session/domain/entities/card_round_result.dart';
-import 'package:boardify/game_session/domain/entities/game_session_entity.dart';
-import 'package:boardify/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:boardify/game_session/presentation/ui/game_summary_screen.dart';
-import 'package:boardify/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:boardify/single_word_round/domain/single_word_round_entity.dart';
-import 'package:boardify/single_word_round/presentation/ui/single_word_round_screen.dart';
+import 'dart:async';
+
+import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
+import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/app_notification.dart';
+import 'package:alias_pro/app_ui/widgets/highlighted_text.dart';
+import 'package:alias_pro/app_ui/widgets/screen_background.dart';
+import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
+import 'package:alias_pro/game_session/domain/entities/game_session_entity.dart';
+import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:alias_pro/game_session/presentation/ui/countdown_screen.dart';
+import 'package:alias_pro/game_session/presentation/ui/round_review_screen.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -17,289 +19,240 @@ import 'package:go_router/go_router.dart';
 class RoundOverviewScreen extends StatelessWidget {
   const RoundOverviewScreen({super.key});
 
+  static const routePath = 'roundOverview';
+
   @override
   Widget build(BuildContext context) {
-    final colors = context.appTheme.colors;
-    final text = context.appTheme.typography;
+    final l10n = context.l10n;
+    final colors = context.colors;
+    final typography = context.typography;
+    final bloc = context.watch<GameSessionBloc>();
+    final gameState = bloc.state.gameState;
 
-    final gameState = context.watch<GameSessionBloc>().state.gameState;
-
-    return BlocListener<GameSessionBloc, GameSessionState>(
-      listener: (BuildContext context, GameSessionState state) {
-        if (state.gameState.isGameFinished) {
-          context.goNamed(
-            GameSummaryScreen.routePath,
-            extra: state.gameState.teamStates,
-          );
-        }
-      },
-      child: PopScope(
-        canPop: false,
-        child: Scaffold(
-          backgroundColor: colors.background,
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          context.l10n.roundOverview_teamTurn(
-                            gameState
-                                .teamStates[gameState.currentTeamIndex]
-                                .name,
-                          ),
-                          style: text.titleLarge.copyWith(
-                            color: colors.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        color: colors.onBackground,
-                        onPressed: () {
-                          showGamePopupDialog(
-                            context: context,
-                            title: context.l10n.roundOverview_confirmExit_title,
-                            message:
-                                context.l10n.roundOverview_confirmExit_message,
-                            confirmText: context.l10n.general_yes,
-                            cancelText: context.l10n.general_no,
-                            onConfirm: () => context.pop(),
-                          );
-                        },
-                      ),
-                    ],
+    return BlocBuilder<GameSessionBloc, GameSessionState>(
+      builder: (context, state) {
+        return PopScope(
+          canPop: false,
+          child: GradientBackground(
+            child: Column(
+              crossAxisAlignment: .start,
+              children: [
+                SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const .only(left: 20, top: 20),
+                    child: AppIconButton.close(
+                      onTap: () async {
+                        await showConfirmSheet(
+                          context: context,
+                          title: l10n.exit_game_title,
+                          description: l10n.exit_game_description,
+                          confirmText: l10n.exit_game_confirm,
+                          cancelText: l10n.cancel,
+                          confirmColor: colors.red,
+                          cancelColor: colors.green,
+                          onConfirm: () => context.pop(),
+                        );
+                      },
+                    ),
                   ),
-
-                  const SizedBox(height: 24),
-
-                  // Team Score Cards
-                  Expanded(
+                ),
+                Padding(
+                  padding: const .all(30),
+                  child: Align(
                     child: Column(
+                      spacing: 16,
                       children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: _TeamScoreCard(
-                                  team: gameState.teamStates[0],
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _TeamScoreCard(
-                                  team: gameState.teamStates[1],
-                                ),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          l10n.next_team,
+                          style: typography.regular24,
                         ),
-                        if (gameState.teamStates.length > 2) ...[
-                          const SizedBox(height: 12),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: _TeamScoreCard(
-                                    team: gameState.teamStates[2],
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                if (gameState.teamStates.length == 4) ...[
-                                  Expanded(
-                                    child: _TeamScoreCard(
-                                      team: gameState.teamStates[3],
-                                    ),
-                                  ),
-                                ] else ...[
-                                  Expanded(child: Container()),
-                                ],
-                              ],
-                            ),
-                          ),
-                        ],
+                        HighlightedText(
+                          text: gameState
+                              .teamStates[gameState.currentTeamIndex]
+                              .name,
+                        ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () => _navigateToRoundScreen(context),
-                      icon: const Icon(Icons.play_arrow),
-                      label: Text(context.l10n.general_startGame),
+                ),
+                const Expanded(child: _TeamScores()),
+                SizedBox(
+                  height: 200,
+                  child: ShadowBackground(
+                    child: Padding(
+                      padding: const .all(20),
+                      child: AppButton(
+                        label: l10n.proceed,
+                        color: colors.green,
+                        onPressed: () {
+                          if (state.gameState.words.isEmpty) {
+                            unawaited(
+                              showAppNotification(
+                                context,
+                                message: l10n.no_words_left_error,
+                                icon: Icon(Icons.info, color: colors.white),
+                              ),
+                            );
+                          } else {
+                            context.pushReplacementNamed(
+                              CountdownScreen.routePath,
+                            );
+                          }
+                        },
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
-  }
-
-  Future<void> _navigateToRoundScreen(BuildContext context) async {
-    final gameSessionBloc = context.read<GameSessionBloc>();
-    final gameState = gameSessionBloc.state.gameState;
-
-    switch (gameState.gameMode) {
-      case GameMode.card:
-        await _navigateToCardRound(context, gameState);
-      case GameMode.singleWord:
-        await _navigateToSingleWordRound(context, gameState);
-    }
-  }
-
-  Future<void> _navigateToCardRound(
-    BuildContext context,
-    GameSessionEntity gameState,
-  ) async {
-    final cardRoundEntity = CardRoundEntity(
-      roundDuration: gameState.roundDuration,
-      wordsPerCard: gameState.wordsPerCard,
-      words: gameState.words,
-    );
-
-    final roundResult =
-        await context.pushNamed(
-              CardRoundScreen.routePath,
-              extra: cardRoundEntity,
-            )
-            as RoundResult?;
-
-    if (roundResult != null && context.mounted) {
-      context.read<GameSessionBloc>().add(
-        RoundEnded(
-          guessedCount: roundResult.guessedCount,
-          wordsShown: roundResult.seenWordsCount,
-        ),
-      );
-    }
-  }
-
-  Future<void> _navigateToSingleWordRound(
-    BuildContext context,
-    GameSessionEntity gameState,
-  ) async {
-    final singleWordRoundEntity = SingleWordRoundEntity(
-      words: gameState.words,
-      roundDuration: gameState.roundDuration,
-      penaltyForSkipping: gameState.penaltyForSkipping,
-      allowSkipping: gameState.allowSkipping,
-    );
-
-    final roundResult =
-        await context.pushNamed(
-              SingleWordRoundScreen.routePath,
-              extra: singleWordRoundEntity,
-            )
-            as RoundResult?;
-
-    if (roundResult != null && context.mounted) {
-      context.read<GameSessionBloc>().add(
-        RoundEnded(
-          guessedCount: roundResult.guessedCount,
-          wordsShown: roundResult.seenWordsCount,
-        ),
-      );
-    }
   }
 }
 
-class _TeamScoreCard extends StatefulWidget {
-  const _TeamScoreCard({required this.team});
+class _TeamScores extends StatelessWidget {
+  const _TeamScores();
 
-  final AliasTeamStateEntity team;
+  static const _scoreboardWidth = 83.0;
 
   @override
-  State<_TeamScoreCard> createState() => _TeamScoreCardState();
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+
+    final gameState = context.watch<GameSessionBloc>().state.gameState;
+    final teams = gameState.teamStates;
+
+    return Column(
+      crossAxisAlignment: .start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+          child: Row(
+            mainAxisAlignment: .spaceBetween,
+            children: [
+              Text(
+                context.l10n.teams,
+                style: typography.regular18.copyWith(color: colors.white50),
+              ),
+              SizedBox(
+                width: _scoreboardWidth,
+                child: Text(
+                  context.l10n.scoreboard,
+                  style: typography.regular18.copyWith(color: colors.white50),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Divider(height: 1, color: colors.white50),
+        ...List.generate(teams.length, (index) {
+          final teamState = teams[index];
+          final bgColor = index == gameState.currentTeamIndex
+              ? colors.white20
+              : Colors.transparent;
+
+          final showEditIcon = _showEditIcon(gameState, index);
+
+          return Container(
+            height: 65,
+            padding: const .symmetric(horizontal: 20),
+            color: bgColor,
+            child: Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                Text(
+                  teamState.name,
+                  style: typography.regular24,
+                ),
+                SizedBox(
+                  width: _scoreboardWidth,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: showEditIcon
+                          ? () {
+                              context.pushReplacementNamed(
+                                RoundReviewScreen.routePath,
+                              );
+                            }
+                          : null,
+                      child: SizedBox(
+                        height: 48,
+                        child: Row(
+                          spacing: 10,
+                          children: [
+                            Text(
+                              teamState.totalScore.toString(),
+                              style: typography.regular24.withNumericFont,
+                            ),
+                            if (_showEditIcon(gameState, index))
+                              _TickingEditIcon(color: colors.white),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  bool _showEditIcon(GameSessionEntity gameState, int index) {
+    final hasPendingWords = gameState.pendingReviewWords?.isNotEmpty ?? false;
+
+    return hasPendingWords && index == gameState.previousTeamIndex;
+  }
 }
 
-class _TeamScoreCardState extends State<_TeamScoreCard> {
-  final scrollController = ScrollController();
+class _TickingEditIcon extends StatefulWidget {
+  const _TickingEditIcon({required this.color});
+
+  final Color color;
+
+  @override
+  State<_TickingEditIcon> createState() => _TickingEditIconState();
+}
+
+class _TickingEditIconState extends State<_TickingEditIcon>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
-    });
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    )..repeat(reverse: true); // Loops the animation back and forth
+
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.3).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final team = widget.team;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colors.surface,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: colors.shadow,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            team.name,
-            style: typography.titleMedium.copyWith(
-              fontWeight: FontWeight.w600,
-              color: colors.primary,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            context.l10n.roundOverview_point(team.totalScore),
-            style: typography.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.roundOverview_roundScores,
-            style: typography.labelMedium,
-          ),
-          const SizedBox(height: 4),
-          Expanded(
-            child: ListView.builder(
-              controller: scrollController,
-              itemCount: team.roundScores.length,
-              itemBuilder: (_, roundIndex) {
-                final roundScore = team.roundScores[roundIndex];
-                final isLast = roundIndex == team.roundScores.length - 1;
-
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    '• ${context.l10n.round} ${roundIndex + 1}: '
-                    '${context.l10n.roundOverview_point(roundScore)}',
-                    style: isLast
-                        ? typography.bodySmall.copyWith(
-                            color: colors.primary,
-                            fontWeight: FontWeight.w600,
-                          )
-                        : typography.bodySmall.copyWith(
-                            color: colors.onSurface.withValues(alpha: 0.7),
-                          ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+    return ScaleTransition(
+      scale: _scaleAnimation,
+      child: Icon(Icons.edit, color: widget.color, size: 24),
     );
   }
 }

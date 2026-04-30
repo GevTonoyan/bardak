@@ -1,5 +1,10 @@
-BUGS
-1. Game doesn't end, when there are no more words.
+Improvements
+Update Settings enhancement, in data source when we update, the switch maybe redundant
+Make AppColors sealed class and get rid of the enum
+Make bloc names generic , also state and event names similar to each other
+BlocBuilder enhancements
+When buying theme we use rewards cubit to update the coins. Should have some general cubit for coins management
 
-FEATURES
-1. Make bloc names generic , also state and event names similar to each other
+CRITICAL: (Bugs)
+1. When clicking on reward item, there is a delay, while I see the coin number
+2. Modify rule screen and rules

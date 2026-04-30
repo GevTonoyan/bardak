@@ -1,13 +1,13 @@
-import 'package:boardify/settings/domain/repositories/settings_repository.dart';
+import 'package:alias_pro/settings/domain/repositories/settings_repository.dart';
 
 /// Use case for updating alias setting
 class UpdateGameSettingSUseCase {
-  const UpdateGameSettingSUseCase(this._aliasSettingsRepository);
+  const UpdateGameSettingSUseCase(this._settingsRepository);
 
-  final SettingsRepository _aliasSettingsRepository;
+  final SettingsRepository _settingsRepository;
 
   Future<bool> call(UpdateGameSettingsParams params) async {
-    return _aliasSettingsRepository.updateGameSettings(params);
+    return _settingsRepository.updateGameSettings(params);
   }
 }
 

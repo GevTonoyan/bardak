@@ -1,34 +1,50 @@
 import 'dart:async';
-import 'package:boardify/utils/extensions/context_extension.dart';
-import 'package:boardify/utils/extensions/state_extension.dart';
-import 'package:boardify/app_ui/widgets/game_popup_dialog.dart';
+
+import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
+import 'package:alias_pro/app_ui/widgets/round_timer.dart';
+import 'package:alias_pro/app_ui/widgets/show_confirm_sheet.dart';
+import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:alias_pro/utils/extensions/state_extension.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class RoundHeader extends StatefulWidget {
   const RoundHeader({
     required this.initialRoundDuration,
     required this.onRoundComplete,
+    required this.onPauseChanged,
     super.key,
   });
 
   final int initialRoundDuration;
   final VoidCallback onRoundComplete;
+  final ValueChanged<bool> onPauseChanged;
 
   @override
-  State<RoundHeader> createState() => _RoundHeaderState();
+  State<RoundHeader> createState() => RoundHeaderState();
 }
 
-class _RoundHeaderState extends State<RoundHeader>
+class RoundHeaderState extends State<RoundHeader>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+  late final AudioPlayer _audioPlayer;
   late int remainingSeconds;
   late Timer _timer;
   bool isTimerPaused = false;
+
+  void resume() {
+    if (isTimerPaused) {
+      _onPausePlayPressed();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     remainingSeconds = widget.initialRoundDuration;
+    _audioPlayer = AudioPlayer();
+    unawaited(_audioPlayer.setPlayerMode(PlayerMode.lowLatency));
     _startTimer();
   }
 
@@ -36,6 +52,7 @@ class _RoundHeaderState extends State<RoundHeader>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _timer.cancel();
+    unawaited(_audioPlayer.dispose());
     super.dispose();
   }
 
@@ -43,10 +60,12 @@ class _RoundHeaderState extends State<RoundHeader>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
+      widget.onPauseChanged(true);
       setState(() {
         isTimerPaused = true;
       });
       _timer.cancel();
+      unawaited(_audioPlayer.stop());
     }
   }
 
@@ -61,62 +80,69 @@ class _RoundHeaderState extends State<RoundHeader>
             widget.onRoundComplete();
           }
         });
+
+        if (remainingSeconds == 5) {
+          unawaited(_audioPlayer.play(AssetSource(Assets.sounds.tick)));
+        }
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Color timeColor() {
-      if (remainingSeconds <= 5) return colors.error;
-      if (remainingSeconds <= 10) return colors.warning;
-      return colors.success;
-    }
+    final l10n = context.l10n;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
       child: Row(
+        mainAxisAlignment: .spaceBetween,
         children: [
-          Text(
-            '$remainingSeconds',
-            style: typography.displayLarge.copyWith(
-              color: timeColor(),
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Spacer(),
-          IconButton(
-            icon: Icon(
-              isTimerPaused ? Icons.play_arrow : Icons.pause,
-              color: colors.primary,
-            ),
-            onPressed: () {
+          AppIconButton.close(
+            onTap: () async {
+              widget.onPauseChanged(true);
               setState(() {
-                if (_timer.isActive) {
-                  _timer.cancel();
-                } else {
-                  remainingSeconds--;
-                  _startTimer();
-                }
-                isTimerPaused = !isTimerPaused;
+                isTimerPaused = true;
               });
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.close, color: colors.error),
-            onPressed: () {
-              showGamePopupDialog(
+              _timer.cancel();
+
+              await showConfirmSheet(
                 context: context,
-                title: context.l10n.roundOverview_confirmExit_title,
-                message: context.l10n.roundOverview_confirmExit_message,
-                confirmText: context.l10n.general_yes,
-                cancelText: context.l10n.general_no,
-                onConfirm: widget.onRoundComplete,
+                title: l10n.round_stop_title,
+                description: l10n.round_stop_description,
+                confirmText: l10n.round_stop_confirm,
+                cancelText: l10n.round_stop_resume,
+                confirmColor: colors.red,
+                cancelColor: colors.green,
+                onConfirm: () {
+                  widget.onRoundComplete();
+                },
               );
             },
           ),
+          RoundTimer(seconds: remainingSeconds),
+          if (isTimerPaused)
+            AppIconButton.play(
+              onTap: _onPausePlayPressed,
+            )
+          else
+            AppIconButton.pause(
+              onTap: _onPausePlayPressed,
+            ),
         ],
       ),
     );
+  }
+
+  void _onPausePlayPressed() {
+    widget.onPauseChanged(!isTimerPaused);
+    setState(() {
+      if (_timer.isActive) {
+        _timer.cancel();
+      } else {
+        remainingSeconds--;
+        _startTimer();
+      }
+      isTimerPaused = !isTimerPaused;
+    });
   }
 }

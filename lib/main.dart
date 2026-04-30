@@ -1,25 +1,50 @@
-import 'package:boardify/app_ui/theme/app_theme/app_theme_data_builder.dart';
-import 'package:boardify/app_ui/theme/app_theme_provider.dart';
-import 'package:boardify/app_ui/theme/colors/app_dark_colors.dart';
-import 'package:boardify/app_ui/theme/colors/app_light_colors.dart';
-import 'package:boardify/app_ui/theme/text_styles/app_text_styles.dart';
-import 'package:boardify/firebase_options.dart';
-import 'package:boardify/localizations/common/supported_locales.dart';
-import 'package:boardify/localizations/l10n/app_localizations.dart';
-import 'package:boardify/logging/app_bloc_observer.dart';
-import 'package:boardify/router/app_router.dart';
-import 'package:boardify/settings/presentation/bloc/settings_bloc.dart';
-import 'package:boardify/settings/presentation/bloc/settings_event.dart';
-import 'package:boardify/settings/presentation/bloc/settings_state.dart';
-import 'package:boardify/utils/dependency_injection/di.dart';
-import 'package:boardify/utils/remote_config/remote_config.dart';
+import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
+import 'package:alias_pro/app_ui/theme/app_theme/app_theme_data_builder.dart';
+import 'package:alias_pro/app_ui/theme/app_theme_provider.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_black_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_blue_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_brown_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_dark_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_green_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_grey_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_main_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_mint_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_navy_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_orange_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_pink_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_plum_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_purple_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_red_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_turquoise_colors.dart';
+import 'package:alias_pro/app_ui/theme/colors/app_yellow_colors.dart';
+import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
+import 'package:alias_pro/firebase_options.dart';
+import 'package:alias_pro/localizations/common/supported_locales.dart';
+import 'package:alias_pro/localizations/l10n/app_localizations.dart';
+import 'package:alias_pro/logging/app_bloc_observer.dart';
+import 'package:alias_pro/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
+import 'package:alias_pro/router/app_router.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_bloc.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_event.dart';
+import 'package:alias_pro/settings/presentation/bloc/settings_state.dart';
+import 'package:alias_pro/themes/presentation/bloc/themes_bloc.dart';
+import 'package:alias_pro/utils/dependency_injection/di.dart';
+import 'package:alias_pro/utils/remote_config/remote_config.dart';
+import 'package:alias_pro/word_pack/presentation/bloc/word_packs_bloc.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 
 void main() async {
+  // By default it is assets/, but our Assets lib already adds assets/
+  AudioCache.instance = AudioCache(prefix: '');
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([.portraitUp, .portraitDown]);
   // TODO(Gevorg): come up with nicer way to handle this
   // (add splash screen while loading dependencies)
   await injectDependencies();
@@ -35,12 +60,40 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
+          lazy: false,
+          create: (_) => WordPacksBloc(
+            getWordPacks: sl(),
+            areWordPacksCached: sl(),
+            fetchAndCacheWordPacks: sl(),
+            getWordsVersion: sl(),
+          )..add(const CacheWordPacksIfNeeded()),
+        ),
+        BlocProvider(
           create: (_) => SettingsBloc(
             getGameSettingsUseCase: sl(),
             updateAliasSettingUseCase: sl(),
             getAppSettingsUseCase: sl(),
             updateAppSettingsUseCase: sl(),
-          )..add(const GetAppSettings()),
+          )..add(const GetSettings()),
+        ),
+        BlocProvider(
+          create: (_) => RewardsCubit(
+            getCoinsStateUseCase: sl(),
+            updateCoinsUseCase: sl(),
+          )..getCoinsState(),
+        ),
+        // TODO(GEVORG): make PreGameBloc available only where needed,
+        //  not for the whole tree
+        BlocProvider(
+          create: (_) => PreGameBloc(
+            getPredefinedTeamNamesUseCase: sl(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => ThemesBloc(
+            getPurchasedThemesUseCase: sl(),
+            updatePurchasedThemesUseCase: sl(),
+          ),
         ),
       ],
       child: const MyApp(),
@@ -55,9 +108,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        final appColor = state.appSettings.isDarkMode
-            ? AppDarkColors()
-            : AppLightColors();
+        final appColor = getColors(state.appSettings.colorScheme);
 
         final themeData = AppThemeData(
           colors: appColor,
@@ -72,7 +123,7 @@ class MyApp extends StatelessWidget {
           data: themeData,
           child: MaterialApp.router(
             routerConfig: appRouter,
-            title: 'Boardify',
+            title: 'Bardak',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocales.supportedLocales,
             locale: state.appSettings.locale.locale,
@@ -81,5 +132,26 @@ class MyApp extends StatelessWidget {
         );
       },
     );
+  }
+
+  AppColors getColors(AppColorScheme scheme) {
+    return switch (scheme) {
+      .main => AppMainColors(),
+      .purple => AppPurpleColors(),
+      .yellow => AppYellowColors(),
+      .blue => AppBlueColors(),
+      .green => AppGreenColors(),
+      .pink => AppPinkColors(),
+      .red => AppRedColors(),
+      .black => AppBlackColors(),
+      .turquoise => AppTurquoiseColors(),
+      .orange => AppOrangeColors(),
+      .brown => AppBrownColors(),
+      .navy => AppNavyColors(),
+      .mint => AppMintColors(),
+      .plum => AppPlumColors(),
+      .dark => AppDarkColors(),
+      .grey => AppGreyColors(),
+    };
   }
 }

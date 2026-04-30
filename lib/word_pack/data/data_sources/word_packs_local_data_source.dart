@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:boardify/utils/constants/constants.dart';
-import 'package:boardify/word_pack/domain/entities/word_pack_info_entity.dart';
-import 'package:boardify/word_pack/domain/usecases/get_word_packs_usecase.dart';
-import 'package:boardify/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
-import 'package:boardify/word_pack/domain/usecases/set_selected_word_pack_usecase.dart';
+import 'package:alias_pro/utils/constants/constants.dart';
+import 'package:alias_pro/word_pack/domain/entities/word_pack_info_entity.dart';
+import 'package:alias_pro/word_pack/domain/usecases/are_packs_cached_usecase.dart';
+import 'package:alias_pro/word_pack/domain/usecases/get_word_packs_usecase.dart';
+import 'package:alias_pro/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
+import 'package:alias_pro/word_pack/domain/usecases/get_words_version_usecase.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,13 +13,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Local data source for accessing and storing word pack information.
 abstract interface class WordPacksLocalDataSource {
   /// Returns cached word packs for the given locale.
-  Future<AliasWordPackInfoResultEntity> getWordPacks(GetWordPacksParams params);
+  Future<WordPackInfoResultEntity> getWordPacks(GetWordPacksParams params);
 
   /// Returns list of words for the given pack ID and locale.
   Future<List<String>> getWordsByPack(GetWordsByPackParams params);
 
-  /// Saves the selected word pack for the given locale.
-  Future<void> setSelectedWordPack(SetSelectedWordPackParams params);
+  /// Saves all word packs for a given locale to Hive.
+  Future<void> cacheWordPacks(String localeCode, List<WordPackEntity> packs);
+
+  /// Checks if word packs are already cached in Hive for a given locale.
+  Future<bool> arePacksPresentInHive(AreWordPacksCachedParams params);
+
+  /// Returns the version of the words for a specific locale
+  int getWordsVersion(GetWordsVersionParams params);
 }
 
 /// Implementation of the [WordPacksLocalDataSource] using Hive and SharedPreferences for local storage.
@@ -28,45 +35,38 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
   final SharedPreferences preferences;
 
   @override
-  Future<AliasWordPackInfoResultEntity> getWordPacks(
+  Future<WordPackInfoResultEntity> getWordPacks(
     GetWordPacksParams params,
   ) async {
     final box = await Hive.openBox(
       '${AppConstants.aliasWordPack}_${params.localeCode}',
     );
-    final packsList = <AliasWordPackInfoEntity>[];
+    final packsList = <WordPackEntity>[];
 
     for (final key in box.keys) {
       final data = box.get(key);
       if (data is Map) {
         final map = Map<String, dynamic>.from(data);
 
-        final name = map[AppConstants.aliasWordPackName] as String? ?? key;
-        final emoji = map[AppConstants.aliasWordPackEmoji] as String? ?? '';
-        final words =
-            map[AppConstants.aliasWordPackWords] as List<String>? ?? [];
+        final name = map[AppConstants.aliasWordPackName] as String;
+        final words = map[AppConstants.aliasWordPackWords] as List<String>;
+        final image = map[AppConstants.aliasWordPackImage] as String;
+        final imageBlurHash =
+            map[AppConstants.aliasWordPackImageBlurHash] as String;
 
         packsList.add(
-          AliasWordPackInfoEntity(
+          WordPackEntity(
             id: key,
             name: name,
-            emoji: emoji,
             words: words,
+            image: image,
+            imageBlurHash: imageBlurHash,
           ),
         );
       }
     }
 
-    var selectedPackId = preferences.getString(
-      '${AppConstants.aliasSelectedWordPackKey}_${params.localeCode}',
-    );
-
-    selectedPackId ??= packsList.isNotEmpty ? packsList.first.id : 'all';
-
-    return AliasWordPackInfoResultEntity(
-      packs: packsList,
-      selectedPackId: selectedPackId,
-    );
+    return WordPackInfoResultEntity(packs: packsList);
   }
 
   @override
@@ -88,10 +88,47 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
   }
 
   @override
-  Future<void> setSelectedWordPack(SetSelectedWordPackParams params) async {
-    await preferences.setString(
-      '${AppConstants.aliasSelectedWordPackKey}_${params.localeCode}',
-      params.packId,
-    );
+  Future<bool> arePacksPresentInHive(AreWordPacksCachedParams params) async {
+    final boxName = '${AppConstants.aliasWordPack}_${params.localeCode}';
+
+    if (!Hive.isBoxOpen(boxName)) {
+      final exists = await Hive.boxExists(boxName);
+      if (!exists) return false;
+
+      await Hive.openBox(boxName);
+    }
+
+    final box = Hive.box(boxName);
+    return box.isNotEmpty;
   }
+
+  @override
+  Future<void> cacheWordPacks(
+    String localeCode,
+    List<WordPackEntity> packs,
+  ) async {
+    final box = await Hive.openBox(
+      '${AppConstants.aliasWordPack}_$localeCode',
+    );
+
+    // We are keeping the locale code as the key for the box
+    // and the word packs as the value.
+    // e.g. en_movies: {name:Movies, words: [word1, word2]}
+    for (final pack in packs) {
+      final key = pack.id;
+      await box.put(key, <String, dynamic>{
+        AppConstants.aliasWordPackName: pack.name,
+        AppConstants.aliasWordPackWords: pack.words,
+        AppConstants.aliasWordPackImage: pack.image,
+        AppConstants.aliasWordPackImageBlurHash: pack.imageBlurHash,
+      });
+    }
+  }
+
+  @override
+  int getWordsVersion(GetWordsVersionParams params) =>
+      preferences.getInt(
+        '${AppConstants.wordsVersionKey}_${params.localeCode}',
+      ) ??
+      1;
 }
