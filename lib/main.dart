@@ -36,6 +36,7 @@ import 'package:alias_pro/word_pack/presentation/bloc/word_packs_bloc.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -43,6 +44,7 @@ void main() async {
   // By default it is assets/, but our Assets lib already adds assets/
   AudioCache.instance = AudioCache(prefix: '');
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([.portraitUp, .portraitDown]);
   // TODO(Gevorg): come up with nicer way to handle this
   // (add splash screen while loading dependencies)
   await injectDependencies();
