@@ -27,9 +27,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get correct => 'Правильно';
 
   @override
-  String get check => 'Проверить';
-
-  @override
   String get review => 'Проверка';
 
   @override

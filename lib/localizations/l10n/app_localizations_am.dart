@@ -27,9 +27,6 @@ class AppLocalizationsAm extends AppLocalizations {
   String get correct => 'Ճիշտ է';
 
   @override
-  String get check => 'Ստուգել';
-
-  @override
   String get review => 'Ստուգում';
 
   @override

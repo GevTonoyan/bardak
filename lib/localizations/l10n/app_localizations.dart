@@ -136,12 +136,6 @@ abstract class AppLocalizations {
   /// **'Correct'**
   String get correct;
 
-  /// No description provided for @check.
-  ///
-  /// In en, this message translates to:
-  /// **'Check'**
-  String get check;
-
   /// No description provided for @review.
   ///
   /// In en, this message translates to:

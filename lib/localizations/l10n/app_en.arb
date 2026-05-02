@@ -7,7 +7,6 @@
   "add": "Add",
   "skip": "Skip",
   "correct": "Correct",
-  "check": "Check",
   "review": "Review",
 
   "unit_sec": "{count} sec",

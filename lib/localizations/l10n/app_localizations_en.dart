@@ -27,9 +27,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get correct => 'Correct';
 
   @override
-  String get check => 'Check';
-
-  @override
   String get review => 'Review';
 
   @override
