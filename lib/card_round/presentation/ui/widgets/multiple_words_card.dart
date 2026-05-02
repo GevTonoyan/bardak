@@ -123,7 +123,7 @@ class MultipleWordsCardShell extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: _radius,
         border: GradientBoxBorder(
-          width: 3,
+          width: _cardBorderWidth,
           gradient: LinearGradient(
             begin: .topCenter,
             end: .bottomCenter,
