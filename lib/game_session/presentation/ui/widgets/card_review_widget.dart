@@ -1,5 +1,5 @@
-import 'package:alias_pro/card_round/presentation/ui/widgets/multiple_words_card.dart';
-import 'package:alias_pro/game_session/domain/entities/round_result.dart';
+import 'package:bardak/card_round/presentation/ui/widgets/multiple_words_card.dart';
+import 'package:bardak/game_session/domain/entities/round_result.dart';
 import 'package:flutter/material.dart';
 
 class CardReviewWidget extends StatefulWidget {

@@ -1,5 +1,5 @@
-import 'package:alias_pro/game_session/domain/entities/round_result.dart';
-import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:bardak/game_session/domain/entities/round_result.dart';
+import 'package:bardak/pre_game/domain/entities/pre_game_entity.dart';
 
 class GameSessionEntity {
   GameSessionEntity({

@@ -1,6 +1,6 @@
-import 'package:alias_pro/rewards/data/data_sources/rewards_local_data_source.dart';
-import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
-import 'package:alias_pro/rewards/domain/repositories/rewards_repository.dart';
+import 'package:bardak/rewards/data/data_sources/rewards_local_data_source.dart';
+import 'package:bardak/rewards/domain/entities/coin_balance_entity.dart';
+import 'package:bardak/rewards/domain/repositories/rewards_repository.dart';
 
 /// Implementation of [RewardsRepository].
 class RewardsRepositoryImpl implements RewardsRepository {

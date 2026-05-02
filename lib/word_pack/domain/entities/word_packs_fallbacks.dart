@@ -1,4 +1,4 @@
-import 'package:alias_pro/word_pack/domain/entities/word_pack_info_entity.dart';
+import 'package:bardak/word_pack/domain/entities/word_pack_info_entity.dart';
 
 const enPacks = [
   WordPackEntity(

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 /// Shows a top notification overlay with the given [message].

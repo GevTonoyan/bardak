@@ -1,8 +1,8 @@
-import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
-import 'package:alias_pro/themes/domain/usecases/get_purchased_themes_usecase.dart';
-import 'package:alias_pro/themes/domain/usecases/update_purchased_themes_usecase.dart';
-import 'package:alias_pro/themes/presentation/bloc/themes_event.dart';
-import 'package:alias_pro/themes/presentation/bloc/themes_state.dart';
+import 'package:bardak/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/themes/domain/usecases/get_purchased_themes_usecase.dart';
+import 'package:bardak/themes/domain/usecases/update_purchased_themes_usecase.dart';
+import 'package:bardak/themes/presentation/bloc/themes_event.dart';
+import 'package:bardak/themes/presentation/bloc/themes_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemesBloc extends Bloc<ThemesEvent, ThemesState> {

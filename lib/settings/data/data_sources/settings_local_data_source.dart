@@ -1,8 +1,8 @@
-import 'package:alias_pro/settings/domain/entities/app_settings_entity.dart';
-import 'package:alias_pro/settings/domain/entities/game_settings_entity.dart';
-import 'package:alias_pro/settings/domain/usecases/update_app_settings_usecase.dart';
-import 'package:alias_pro/settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:alias_pro/utils/constants/constants.dart';
+import 'package:bardak/settings/domain/entities/app_settings_entity.dart';
+import 'package:bardak/settings/domain/entities/game_settings_entity.dart';
+import 'package:bardak/settings/domain/usecases/update_app_settings_usecase.dart';
+import 'package:bardak/settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:bardak/utils/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// This is the data source for the alias settings.

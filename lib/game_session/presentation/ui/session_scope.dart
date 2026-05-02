@@ -1,4 +1,4 @@
-import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:bardak/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:flutter/material.dart';
 
 class SessionScope extends InheritedWidget {

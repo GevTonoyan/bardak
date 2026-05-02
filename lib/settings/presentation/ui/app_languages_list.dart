@@ -1,10 +1,10 @@
-import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
-import 'package:alias_pro/app_ui/widgets/language_icon.dart';
-import 'package:alias_pro/localizations/common/supported_locales.dart';
-import 'package:alias_pro/localizations/l10n/app_localizations.dart';
-import 'package:alias_pro/settings/presentation/bloc/settings_bloc.dart';
-import 'package:alias_pro/settings/presentation/bloc/settings_event.dart';
-import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:bardak/app_ui/widgets/app_button/app_button.dart';
+import 'package:bardak/app_ui/widgets/language_icon.dart';
+import 'package:bardak/localizations/common/supported_locales.dart';
+import 'package:bardak/localizations/l10n/app_localizations.dart';
+import 'package:bardak/settings/presentation/bloc/settings_bloc.dart';
+import 'package:bardak/settings/presentation/bloc/settings_event.dart';
+import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

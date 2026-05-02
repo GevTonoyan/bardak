@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
-import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
-import 'package:alias_pro/rewards/presentation/ui/reward_item.dart';
-import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:bardak/app_ui/widgets/app_spacings.dart';
+import 'package:bardak/rewards/presentation/bloc/rewards_cubit.dart';
+import 'package:bardak/rewards/presentation/ui/reward_item.dart';
+import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

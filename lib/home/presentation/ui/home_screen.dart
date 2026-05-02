@@ -1,19 +1,19 @@
 import 'dart:async';
 
-import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
-import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
-import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
-import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
-import 'package:alias_pro/app_ui/widgets/screen_background.dart';
-import 'package:alias_pro/assets/assets.gen.dart';
-import 'package:alias_pro/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:alias_pro/pre_game/presentation/ui/game_settings_screen.dart';
-import 'package:alias_pro/rewards/presentation/ui/rewards_screen.dart';
-import 'package:alias_pro/rules/presentation/ui/rules_screen.dart';
-import 'package:alias_pro/settings/presentation/ui/settings_screen.dart';
-import 'package:alias_pro/splash/presentation/splash_screen.dart';
-import 'package:alias_pro/themes/presentation/ui/themes_screen.dart';
-import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:bardak/app_ui/widgets/app_button/app_button.dart';
+import 'package:bardak/app_ui/widgets/app_icon_button.dart';
+import 'package:bardak/app_ui/widgets/app_spacings.dart';
+import 'package:bardak/app_ui/widgets/coin_balance_widget.dart';
+import 'package:bardak/app_ui/widgets/screen_background.dart';
+import 'package:bardak/assets/assets.gen.dart';
+import 'package:bardak/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:bardak/pre_game/presentation/ui/game_settings_screen.dart';
+import 'package:bardak/rewards/presentation/ui/rewards_screen.dart';
+import 'package:bardak/rules/presentation/ui/rules_screen.dart';
+import 'package:bardak/settings/presentation/ui/settings_screen.dart';
+import 'package:bardak/splash/presentation/splash_screen.dart';
+import 'package:bardak/themes/presentation/ui/themes_screen.dart';
+import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

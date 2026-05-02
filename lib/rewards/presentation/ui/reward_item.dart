@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
-import 'package:alias_pro/app_ui/widgets/text_with_border.dart';
-import 'package:alias_pro/assets/assets.gen.dart';
-import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:bardak/app_ui/theme/text_styles/app_text_styles.dart';
+import 'package:bardak/app_ui/widgets/text_with_border.dart';
+import 'package:bardak/assets/assets.gen.dart';
+import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class RewardItem extends StatefulWidget {

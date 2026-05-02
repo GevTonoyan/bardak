@@ -1,4 +1,4 @@
-import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
+import 'package:bardak/rewards/domain/entities/coin_balance_entity.dart';
 import 'package:equatable/equatable.dart';
 
 /// State for the rewards bloc.

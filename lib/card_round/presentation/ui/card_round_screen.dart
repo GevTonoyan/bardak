@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:alias_pro/app_ui/widgets/flip_card.dart';
-import 'package:alias_pro/app_ui/widgets/round_header.dart';
-import 'package:alias_pro/app_ui/widgets/screen_background.dart';
-import 'package:alias_pro/assets/assets.gen.dart';
-import 'package:alias_pro/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
-import 'package:alias_pro/card_round/presentation/ui/widgets/multiple_words_card.dart';
-import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:alias_pro/game_session/presentation/ui/round_overview_screen.dart';
+import 'package:bardak/app_ui/widgets/flip_card.dart';
+import 'package:bardak/app_ui/widgets/round_header.dart';
+import 'package:bardak/app_ui/widgets/screen_background.dart';
+import 'package:bardak/assets/assets.gen.dart';
+import 'package:bardak/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
+import 'package:bardak/card_round/presentation/ui/widgets/multiple_words_card.dart';
+import 'package:bardak/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:bardak/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

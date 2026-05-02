@@ -1,4 +1,4 @@
-import 'package:alias_pro/localizations/common/supported_locales.dart';
+import 'package:bardak/localizations/common/supported_locales.dart';
 
 /// Abstract local data source for predefined team names.
 abstract interface class TeamNamesLocalDataSource {

@@ -1,4 +1,4 @@
-import 'package:alias_pro/game_session/domain/entities/round_result.dart';
+import 'package:bardak/game_session/domain/entities/round_result.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,6 +1,6 @@
-import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
-import 'package:alias_pro/themes/data/data_sources/purchased_themes_local_data_source.dart';
-import 'package:alias_pro/themes/domain/repositories/purchased_themes_repository.dart';
+import 'package:bardak/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/themes/data/data_sources/purchased_themes_local_data_source.dart';
+import 'package:bardak/themes/domain/repositories/purchased_themes_repository.dart';
 
 /// Implementation of [PurchasedThemesRepository] that delegates
 /// to the local data source.

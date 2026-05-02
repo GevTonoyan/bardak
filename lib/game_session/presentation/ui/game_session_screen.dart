@@ -1,6 +1,6 @@
-import 'package:alias_pro/game_session/domain/entities/game_session_entity.dart';
-import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:alias_pro/game_session/presentation/ui/game_summary_screen.dart';
+import 'package:bardak/game_session/domain/entities/game_session_entity.dart';
+import 'package:bardak/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:bardak/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

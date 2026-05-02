@@ -1,7 +1,7 @@
-import 'package:alias_pro/app_ui/widgets/app_button/app_button.dart';
-import 'package:alias_pro/app_ui/widgets/app_spacings.dart';
-import 'package:alias_pro/app_ui/widgets/app_switch.dart';
-import 'package:alias_pro/utils/extensions/context_extension.dart';
+import 'package:bardak/app_ui/widgets/app_button/app_button.dart';
+import 'package:bardak/app_ui/widgets/app_spacings.dart';
+import 'package:bardak/app_ui/widgets/app_switch.dart';
+import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class AppSwitchButton extends StatelessWidget {

@@ -1,5 +1,5 @@
-import 'package:alias_pro/localizations/common/supported_locales.dart';
-import 'package:alias_pro/word_pack/domain/entities/word_packs_fallbacks.dart';
+import 'package:bardak/localizations/common/supported_locales.dart';
+import 'package:bardak/word_pack/domain/entities/word_packs_fallbacks.dart';
 import 'package:equatable/equatable.dart';
 
 /// Contains the list of word packs.

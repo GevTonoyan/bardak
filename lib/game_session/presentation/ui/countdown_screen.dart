@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
-import 'package:alias_pro/app_ui/widgets/screen_background.dart';
-import 'package:alias_pro/card_round/presentation/ui/card_round_screen.dart';
-import 'package:alias_pro/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
-import 'package:alias_pro/single_word_round/presentation/ui/single_word_round_screen.dart';
-import 'package:alias_pro/utils/extensions/state_extension.dart';
+import 'package:bardak/app_ui/theme/text_styles/app_text_styles.dart';
+import 'package:bardak/app_ui/widgets/screen_background.dart';
+import 'package:bardak/card_round/presentation/ui/card_round_screen.dart';
+import 'package:bardak/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:bardak/single_word_round/presentation/ui/single_word_round_screen.dart';
+import 'package:bardak/utils/extensions/state_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

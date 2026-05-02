@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
-import 'package:alias_pro/rewards/domain/usecases/get_coins_state_usecase.dart';
-import 'package:alias_pro/rewards/domain/usecases/update_coins_usecase.dart';
+import 'package:bardak/rewards/domain/entities/coin_balance_entity.dart';
+import 'package:bardak/rewards/domain/usecases/get_coins_state_usecase.dart';
+import 'package:bardak/rewards/domain/usecases/update_coins_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 const int maxOpensPerDay = 3;

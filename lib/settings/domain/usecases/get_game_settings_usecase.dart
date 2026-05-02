@@ -1,5 +1,5 @@
-import 'package:alias_pro/settings/domain/entities/game_settings_entity.dart';
-import 'package:alias_pro/settings/domain/repositories/settings_repository.dart';
+import 'package:bardak/settings/domain/entities/game_settings_entity.dart';
+import 'package:bardak/settings/domain/repositories/settings_repository.dart';
 
 class GetGameSettingsUseCase {
   const GetGameSettingsUseCase(this.aliasSettingsRepository);

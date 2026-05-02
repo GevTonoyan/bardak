@@ -1,4 +1,4 @@
-import 'package:alias_pro/utils/constants/constants.dart';
+import 'package:bardak/utils/constants/constants.dart';
 import 'package:equatable/equatable.dart';
 
 /// This class represents the settings for the Alias game.

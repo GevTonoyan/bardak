@@ -1,5 +1,5 @@
-import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
-import 'package:alias_pro/localizations/common/supported_locales.dart';
+import 'package:bardak/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/localizations/common/supported_locales.dart';
 
 /// Base class for all events related to settings.
 sealed class SettingsEvent {

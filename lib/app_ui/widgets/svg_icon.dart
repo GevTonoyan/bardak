@@ -1,4 +1,4 @@
-import 'package:alias_pro/assets/assets.gen.dart';
+import 'package:bardak/assets/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class SvgIcon extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:alias_pro/utils/constants/constants.dart';
+import 'package:bardak/utils/constants/constants.dart';
 
 /// AliasPreGameConfig is a data class that holds the configuration
 /// settings for the Alias game session.

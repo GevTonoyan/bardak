@@ -1,4 +1,4 @@
-import 'package:alias_pro/word_pack/domain/repositories/word_packs_repository.dart';
+import 'package:bardak/word_pack/domain/repositories/word_packs_repository.dart';
 
 /// Fetches all word packs from Firestore for a given locale
 /// and stores them in Hive.

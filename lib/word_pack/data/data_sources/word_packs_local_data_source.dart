@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:alias_pro/utils/constants/constants.dart';
-import 'package:alias_pro/word_pack/domain/entities/word_pack_info_entity.dart';
-import 'package:alias_pro/word_pack/domain/usecases/are_packs_cached_usecase.dart';
-import 'package:alias_pro/word_pack/domain/usecases/get_word_packs_usecase.dart';
-import 'package:alias_pro/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
-import 'package:alias_pro/word_pack/domain/usecases/get_words_version_usecase.dart';
+import 'package:bardak/utils/constants/constants.dart';
+import 'package:bardak/word_pack/domain/entities/word_pack_info_entity.dart';
+import 'package:bardak/word_pack/domain/usecases/are_packs_cached_usecase.dart';
+import 'package:bardak/word_pack/domain/usecases/get_word_packs_usecase.dart';
+import 'package:bardak/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
+import 'package:bardak/word_pack/domain/usecases/get_words_version_usecase.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:shared_preferences/shared_preferences.dart';

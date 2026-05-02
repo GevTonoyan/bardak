@@ -1,4 +1,4 @@
-import 'package:alias_pro/localizations/common/supported_locales.dart';
+import 'package:bardak/localizations/common/supported_locales.dart';
 
 /// Abstract repository for team-name related operations.
 abstract interface class TeamNamesRepository {

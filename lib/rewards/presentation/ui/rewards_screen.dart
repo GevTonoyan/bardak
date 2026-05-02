@@ -1,10 +1,10 @@
-import 'package:alias_pro/app_ui/widgets/app_icon_button.dart';
-import 'package:alias_pro/app_ui/widgets/coin_balance_widget.dart';
-import 'package:alias_pro/app_ui/widgets/screen_background.dart';
-import 'package:alias_pro/rewards/domain/entities/coin_balance_entity.dart';
-import 'package:alias_pro/rewards/presentation/bloc/rewards_cubit.dart';
-import 'package:alias_pro/rewards/presentation/ui/rewards_loot_grid.dart';
-import 'package:alias_pro/rewards/presentation/ui/rewards_loot_locked.dart';
+import 'package:bardak/app_ui/widgets/app_icon_button.dart';
+import 'package:bardak/app_ui/widgets/coin_balance_widget.dart';
+import 'package:bardak/app_ui/widgets/screen_background.dart';
+import 'package:bardak/rewards/domain/entities/coin_balance_entity.dart';
+import 'package:bardak/rewards/presentation/bloc/rewards_cubit.dart';
+import 'package:bardak/rewards/presentation/ui/rewards_loot_grid.dart';
+import 'package:bardak/rewards/presentation/ui/rewards_loot_locked.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

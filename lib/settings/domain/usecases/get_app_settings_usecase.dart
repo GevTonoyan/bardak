@@ -1,5 +1,5 @@
-import 'package:alias_pro/settings/domain/entities/app_settings_entity.dart';
-import 'package:alias_pro/settings/domain/repositories/settings_repository.dart';
+import 'package:bardak/settings/domain/entities/app_settings_entity.dart';
+import 'package:bardak/settings/domain/repositories/settings_repository.dart';
 
 /// Use case to get the app settings from the repository
 class GetAppSettingsUseCase {

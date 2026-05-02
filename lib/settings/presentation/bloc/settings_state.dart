@@ -1,5 +1,5 @@
-import 'package:alias_pro/settings/domain/entities/app_settings_entity.dart';
-import 'package:alias_pro/settings/domain/entities/game_settings_entity.dart';
+import 'package:bardak/settings/domain/entities/app_settings_entity.dart';
+import 'package:bardak/settings/domain/entities/game_settings_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class SettingsState extends Equatable {

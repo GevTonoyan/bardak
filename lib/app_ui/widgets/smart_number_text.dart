@@ -1,4 +1,4 @@
-import 'package:alias_pro/app_ui/theme/text_styles/app_text_styles.dart';
+import 'package:bardak/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 /// Text widget that splits numbers into separate spans.

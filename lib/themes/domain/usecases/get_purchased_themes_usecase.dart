@@ -1,5 +1,5 @@
-import 'package:alias_pro/app_ui/theme/app_color_scheme.dart';
-import 'package:alias_pro/themes/domain/repositories/purchased_themes_repository.dart';
+import 'package:bardak/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/themes/domain/repositories/purchased_themes_repository.dart';
 
 /// Use case to retrieve the list of themes the user owns.
 class GetPurchasedThemesUseCase {

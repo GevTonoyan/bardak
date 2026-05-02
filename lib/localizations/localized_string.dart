@@ -1,5 +1,5 @@
-import 'package:alias_pro/localizations/global_app_localizations.dart';
-import 'package:alias_pro/localizations/l10n/app_localizations.dart';
+import 'package:bardak/localizations/global_app_localizations.dart';
+import 'package:bardak/localizations/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 typedef LocalizedString = String Function(AppLocalizations localizations);

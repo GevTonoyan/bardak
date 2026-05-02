@@ -1,7 +1,7 @@
-import 'package:alias_pro/pre_game/data/data_sources/team_names_local_data_source.dart';
-import 'package:alias_pro/pre_game/data/repositories/team_names_repository_impl.dart';
-import 'package:alias_pro/pre_game/domain/repositories/team_names_repository.dart';
-import 'package:alias_pro/pre_game/domain/usecases/get_predefined_team_names_usecase.dart';
+import 'package:bardak/pre_game/data/data_sources/team_names_local_data_source.dart';
+import 'package:bardak/pre_game/data/repositories/team_names_repository_impl.dart';
+import 'package:bardak/pre_game/domain/repositories/team_names_repository.dart';
+import 'package:bardak/pre_game/domain/usecases/get_predefined_team_names_usecase.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt sl = GetIt.instance;
