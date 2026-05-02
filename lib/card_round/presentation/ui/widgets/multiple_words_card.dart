@@ -3,6 +3,9 @@ import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
+const _cardBorderRadius = 12.0;
+const _cardBorderWidth = 3.0;
+
 typedef WordTapCallback =
     void Function({
       required bool selected,
@@ -41,11 +44,13 @@ class MultipleWordsCard extends StatelessWidget {
               final isFirst = index == 0;
               final isLast = index == words.length - 1;
 
+              const radius = _cardBorderRadius - _cardBorderWidth;
+
               final itemRadius = BorderRadius.only(
-                topLeft: isFirst ? const Radius.circular(12) : Radius.zero,
-                topRight: isFirst ? const Radius.circular(12) : Radius.zero,
-                bottomLeft: isLast ? const Radius.circular(12) : Radius.zero,
-                bottomRight: isLast ? const Radius.circular(12) : Radius.zero,
+                topLeft: isFirst ? const .circular(radius) : .zero,
+                topRight: isFirst ? const .circular(radius) : .zero,
+                bottomLeft: isLast ? const .circular(radius) : .zero,
+                bottomRight: isLast ? const .circular(radius) : .zero,
               );
 
               return Material(
@@ -108,7 +113,7 @@ class MultipleWordsCardShell extends StatelessWidget {
 
   final Widget child;
 
-  static final _radius = BorderRadius.circular(12);
+  static final _radius = BorderRadius.circular(_cardBorderRadius);
 
   @override
   Widget build(BuildContext context) {
