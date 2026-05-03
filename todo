@@ -6,5 +6,9 @@ BlocBuilder enhancements
 When buying theme we use rewards cubit to update the coins. Should have some general cubit for coins management
 
 CRITICAL: (Bugs)
-1. When clicking on reward item, there is a delay, while I see the coin number
-2. Modify rule screen and rules
+1. Modify rule screen and rules
+2. Moxraguyn typo in theme screen (Armenian)
+3. Scroll to selected theme in theme screen
+4. Bug, when clicking on purchased theme, we get extra coins
+5. Navigation issue (can swipe to home screen from round screen)
+6. Splash screen no animation (hero)
