@@ -122,6 +122,7 @@ class MyApp extends StatelessWidget {
         return AppThemeProvider(
           data: themeData,
           child: MaterialApp.router(
+            debugShowCheckedModeBanner: false,
             routerConfig: appRouter,
             title: 'Bardak',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
