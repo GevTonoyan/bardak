@@ -43,7 +43,6 @@ class _SetupTeamNamesBody extends StatefulWidget {
 
 class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
   late final List<TextEditingController> _teamControllers;
-  late final List<FocusNode> _teamFocusNodes;
   bool _isInitialized = false;
 
   @override
@@ -65,7 +64,6 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
         TextEditingController(text: firstName),
         TextEditingController(text: secondName),
       ];
-      _teamFocusNodes = [FocusNode(), FocusNode()];
     }
   }
 
@@ -73,9 +71,6 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
   void dispose() {
     for (final controller in _teamControllers) {
       controller.dispose();
-    }
-    for (final focusNode in _teamFocusNodes) {
-      focusNode.dispose();
     }
     super.dispose();
   }
@@ -107,7 +102,6 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                             padding: const .only(bottom: 20),
                             child: AppInputField(
                               controller: _teamControllers[i],
-                              focusNode: _teamFocusNodes[i],
                               suffix:
                                   _teamControllers.length >
                                       AppConstants.minTeamCount
@@ -122,11 +116,6 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                                           _teamControllers[i].dispose();
                                           _teamControllers.remove(
                                             _teamControllers[i],
-                                          );
-
-                                          _teamFocusNodes[i].dispose();
-                                          _teamFocusNodes.remove(
-                                            _teamFocusNodes[i],
                                           );
                                         });
                                       },
@@ -148,8 +137,6 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                                 text: _getNextDefaultName(),
                               ),
                             );
-                            _teamFocusNodes.add(FocusNode());
-                            _teamFocusNodes.last.requestFocus();
                           });
                         },
                       ),
