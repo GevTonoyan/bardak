@@ -45,7 +45,6 @@
   "theme_green": "Կանաչ",
   "theme_pink": "Վարդագույն",
   "theme_red": "Կարմիր",
-  "theme_black": "Սև",
   "theme_turquoise": "Փիրուզագույն",
   "theme_orange": "Նարնջագույն",
   "theme_brown": "Շագանակագույն",
@@ -53,7 +52,7 @@
   "theme_mint": "Անանուխի",
   "theme_plum": "Սալորագույն",
   "theme_dark": "Մուգ",
-  "theme_grey": "Մոխրագույన",
+  "theme_grey": "Մոխրագույն",
 
   "sounds": "Ձայներ",
 

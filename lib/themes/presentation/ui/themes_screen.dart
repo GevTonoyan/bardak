@@ -4,7 +4,6 @@ import 'package:bardak/app_ui/theme/app_color_scheme.dart';
 import 'package:bardak/app_ui/theme/colors/app_black_colors.dart';
 import 'package:bardak/app_ui/theme/colors/app_blue_colors.dart';
 import 'package:bardak/app_ui/theme/colors/app_brown_colors.dart';
-import 'package:bardak/app_ui/theme/colors/app_dark_colors.dart';
 import 'package:bardak/app_ui/theme/colors/app_green_colors.dart';
 import 'package:bardak/app_ui/theme/colors/app_grey_colors.dart';
 import 'package:bardak/app_ui/theme/colors/app_main_colors.dart';
@@ -178,14 +177,13 @@ class ThemesScreen extends StatelessWidget {
       .green => AppGreenColors().secondary,
       .pink => AppPinkColors().secondary,
       .red => AppRedColors().secondary,
-      .black => AppBlackColors().secondary,
+      .dark => AppBlackColors().secondary,
       .turquoise => AppTurquoiseColors().secondary,
       .orange => AppOrangeColors().secondary,
       .brown => AppBrownColors().secondary,
       .navy => AppNavyColors().secondary,
       .mint => AppMintColors().secondary,
       .plum => AppPlumColors().secondary,
-      .dark => AppDarkColors().secondary,
       .grey => AppGreyColors().secondary,
     };
   }

@@ -93,9 +93,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get theme_red => 'Red';
 
   @override
-  String get theme_black => 'Black';
-
-  @override
   String get theme_turquoise => 'Turquoise';
 
   @override

@@ -11,7 +11,7 @@ abstract interface class PurchasedThemesLocalDataSource {
   Future<bool> updatePurchasedThemes(List<AppColorScheme> themes);
 }
 
-const _defaultThemes = <AppColorScheme>[.main, .blue, .black];
+const _defaultThemes = <AppColorScheme>[.main, .blue, .dark];
 
 /// Implementation that reads/writes purchased themes from [SharedPreferences].
 class PurchasedThemesLocalDataSourceImpl

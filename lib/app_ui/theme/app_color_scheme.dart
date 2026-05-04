@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 enum AppColorScheme {
   main,
   blue,
-  black,
+  dark,
   purple,
   turquoise,
   yellow,
@@ -16,7 +16,6 @@ enum AppColorScheme {
   navy,
   mint,
   plum,
-  dark,
   grey
   ;
 
@@ -24,7 +23,7 @@ enum AppColorScheme {
     return switch (scheme) {
       'main' => main,
       'blue' => blue,
-      'black' => black,
+      'black' => dark,
       'purple' => purple,
       'turquoise' => turquoise,
       'yellow' => yellow,
@@ -36,6 +35,7 @@ enum AppColorScheme {
       'navy' => navy,
       'mint' => mint,
       'plum' => plum,
+      'grey' => grey,
       _ => main,
     };
   }
@@ -46,7 +46,7 @@ enum AppColorScheme {
     return switch (this) {
       main => l10n.theme_main,
       blue => l10n.theme_blue,
-      black => l10n.theme_black,
+      dark => l10n.theme_dark,
       purple => l10n.theme_purple,
       turquoise => l10n.theme_turquoise,
       yellow => l10n.theme_yellow,
@@ -58,7 +58,6 @@ enum AppColorScheme {
       navy => l10n.theme_navy,
       mint => l10n.theme_mint,
       plum => l10n.theme_plum,
-      dark => l10n.theme_dark,
       grey => l10n.theme_grey,
     };
   }
