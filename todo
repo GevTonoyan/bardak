@@ -7,8 +7,8 @@ When buying theme we use rewards cubit to update the coins. Should have some gen
 
 CRITICAL: (Bugs)
 1. Modify rule screen and rules
-2. Moxraguyn typo in theme screen (Armenian)
-3. Scroll to selected theme in theme screen
-4. Bug, when clicking on purchased theme, we get extra coins
 5. Navigation issue (can swipe to home screen from round screen)
 6. Splash screen no animation (hero)
+7. After buying a theme, we should immediately change the theme to it.
+8. Word packs screen caching issue ()
+9. Last two themes are not being saved

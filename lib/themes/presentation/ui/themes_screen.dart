@@ -36,10 +36,72 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class ThemesScreen extends StatelessWidget {
+class ThemesScreen extends StatefulWidget {
   const ThemesScreen({super.key});
 
   static const routePath = 'themes';
+
+  @override
+  State<ThemesScreen> createState() => _ThemesScreenState();
+}
+
+class _ThemesScreenState extends State<ThemesScreen> {
+  static const _itemHeight = 157.0;
+  static const _separatorHeight = 12.0;
+
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedTheme();
+    });
+  }
+
+  void _scrollToSelectedTheme() {
+    final selectedScheme = context
+        .read<SettingsBloc>()
+        .state
+        .appSettings
+        .colorScheme;
+    final index = AppColorScheme.values.indexOf(selectedScheme);
+    if (index <= 0 || !_scrollController.hasClients) return;
+
+    final position = _scrollController.position;
+    final itemTop = index * (_itemHeight + _separatorHeight);
+    final itemBottom = itemTop + _itemHeight;
+
+    final viewportTop = position.pixels;
+    final viewportBottom = position.pixels + position.viewportDimension;
+
+    // Already fully visible — do nothing.
+    if (itemTop >= viewportTop && itemBottom <= viewportBottom) return;
+
+    // Last item — scroll to the very bottom.
+    if (index == AppColorScheme.values.length - 1) {
+      _scrollController.animateTo(
+        position.maxScrollExtent + 100,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeOut,
+      );
+      return;
+    }
+
+    // Otherwise scroll so the item is near the top with some padding.
+    final target = (itemTop - 20).clamp(0.0, position.maxScrollExtent);
+    _scrollController.animateTo(
+      target,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +131,7 @@ class ThemesScreen extends StatelessWidget {
               builder: (context, state) {
                 return Expanded(
                   child: ListView.separated(
+                    controller: _scrollController,
                     padding: .fromLTRB(20, 0, 20, 20 + bottomInset),
                     itemBuilder: (context, index) {
                       final scheme = AppColorScheme.values[index];
@@ -77,7 +140,6 @@ class ThemesScreen extends StatelessWidget {
                         color: _buttonBackgroundColor(scheme),
                         size: .extraLarge,
                         onPressed: () {
-                          context.read<RewardsCubit>().updateCoins(0, 5000);
                           if (state.isOwned(scheme)) {
                             context.read<SettingsBloc>().add(
                               ChangeColorScheme(colorScheme: scheme),
@@ -104,6 +166,9 @@ class ThemesScreen extends StatelessWidget {
                                   if (success) {
                                     themesBloc.add(
                                       PurchaseTheme(theme: scheme),
+                                    );
+                                    context.read<SettingsBloc>().add(
+                                      ChangeColorScheme(colorScheme: scheme),
                                     );
                                   } else {
                                     if (context.mounted) {
@@ -156,7 +221,8 @@ class ThemesScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: _separatorHeight),
                     itemCount: AppColorScheme.values.length,
                   ),
                 );
