@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:bardak/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/app_ui/widgets/round_timer.dart';
 import 'package:bardak/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:bardak/assets/assets.gen.dart';
 import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:bardak/utils/extensions/state_extension.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class RoundHeader extends StatefulWidget {
@@ -59,7 +59,7 @@ class RoundHeaderState extends State<RoundHeader>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
+    if (state == .inactive) {
       widget.onPauseChanged(true);
       setState(() {
         isTimerPaused = true;
