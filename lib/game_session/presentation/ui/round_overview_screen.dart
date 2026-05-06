@@ -27,88 +27,80 @@ class RoundOverviewScreen extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
     final bloc = context.watch<GameSessionBloc>();
-    final gameState = bloc.state.gameState;
+    final state = bloc.state;
+    final gameState = state.gameState;
 
-    return BlocBuilder<GameSessionBloc, GameSessionState>(
-      builder: (context, state) {
-        return PopScope(
-          canPop: false,
-          child: GradientBackground(
-            child: Column(
-              crossAxisAlignment: .start,
-              children: [
-                SafeArea(
-                  bottom: false,
-                  child: Padding(
-                    padding: const .only(left: 20, top: 20),
-                    child: AppIconButton.close(
-                      onTap: () async {
-                        await showConfirmSheet(
-                          context: context,
-                          title: l10n.exit_game_title,
-                          description: l10n.exit_game_description,
-                          confirmText: l10n.exit_game_confirm,
-                          cancelText: l10n.cancel,
-                          confirmColor: colors.red,
-                          cancelColor: colors.green,
-                          onConfirm: () => context.pop(),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const .all(30),
-                  child: Align(
-                    child: Column(
-                      spacing: 16,
-                      children: [
-                        Text(
-                          l10n.next_team,
-                          style: typography.regular24,
-                        ),
-                        HighlightedText(
-                          text: gameState
-                              .teamStates[gameState.currentTeamIndex]
-                              .name,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const Expanded(child: _TeamScores()),
-                SizedBox(
-                  height: 200,
-                  child: ShadowBackground(
-                    child: Padding(
-                      padding: const .all(20),
-                      child: AppButton(
-                        label: l10n.proceed,
-                        color: colors.green,
-                        onPressed: () {
-                          if (state.gameState.words.isEmpty) {
-                            unawaited(
-                              showAppNotification(
-                                context,
-                                message: l10n.no_words_left_error,
-                                icon: Icon(Icons.info, color: colors.white),
-                              ),
-                            );
-                          } else {
-                            context.pushReplacementNamed(
-                              CountdownScreen.routePath,
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+    return GradientBackground(
+      child: Column(
+        crossAxisAlignment: .start,
+        children: [
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const .only(left: 20, top: 20),
+              child: AppIconButton.close(
+                onTap: () async {
+                  await showConfirmSheet(
+                    context: context,
+                    title: l10n.exit_game_title,
+                    description: l10n.exit_game_description,
+                    confirmText: l10n.exit_game_confirm,
+                    cancelText: l10n.cancel,
+                    confirmColor: colors.red,
+                    cancelColor: colors.green,
+                    onConfirm: () => context.pop(),
+                  );
+                },
+              ),
             ),
           ),
-        );
-      },
+          Padding(
+            padding: const .all(30),
+            child: Align(
+              child: Column(
+                spacing: 16,
+                children: [
+                  Text(
+                    l10n.next_team,
+                    style: typography.regular24,
+                  ),
+                  HighlightedText(
+                    text: gameState.teamStates[gameState.currentTeamIndex].name,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Expanded(child: _TeamScores()),
+          SizedBox(
+            height: 200,
+            child: ShadowBackground(
+              child: Padding(
+                padding: const .all(20),
+                child: AppButton(
+                  label: l10n.proceed,
+                  color: colors.green,
+                  onPressed: () {
+                    if (state.gameState.words.isEmpty) {
+                      unawaited(
+                        showAppNotification(
+                          context,
+                          message: l10n.no_words_left_error,
+                          icon: Icon(Icons.info, color: colors.white),
+                        ),
+                      );
+                    } else {
+                      context.pushReplacementNamed(
+                        CountdownScreen.routePath,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -45,18 +45,21 @@ class _GameSessionScreenState extends State<GameSessionScreen> {
       );
     }
 
-    return BlocProvider(
-      create: (_) => GameSessionBloc(initialGameState: session),
-      child: BlocListener<GameSessionBloc, GameSessionState>(
-        listener: (context, state) {
-          if (state.gameState.isGameFinished) {
-            context.goNamed(
-              GameSummaryScreen.routePath,
-              extra: state.gameState.teamStates,
-            );
-          }
-        },
-        child: widget.child,
+    return PopScope(
+      canPop: false,
+      child: BlocProvider(
+        create: (_) => GameSessionBloc(initialGameState: session),
+        child: BlocListener<GameSessionBloc, GameSessionState>(
+          listener: (context, state) {
+            if (state.gameState.isGameFinished) {
+              context.goNamed(
+                GameSummaryScreen.routePath,
+                extra: state.gameState.teamStates,
+              );
+            }
+          },
+          child: widget.child,
+        ),
       ),
     );
   }
