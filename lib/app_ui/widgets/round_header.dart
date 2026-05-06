@@ -12,12 +12,14 @@ import 'package:flutter/material.dart';
 class RoundHeader extends StatefulWidget {
   const RoundHeader({
     required this.initialRoundDuration,
+    required this.isSoundEnabled,
     required this.onRoundComplete,
     required this.onPauseChanged,
     super.key,
   });
 
   final int initialRoundDuration;
+  final bool isSoundEnabled;
   final VoidCallback onRoundComplete;
   final ValueChanged<bool> onPauseChanged;
 
@@ -81,7 +83,7 @@ class RoundHeaderState extends State<RoundHeader>
           }
         });
 
-        if (remainingSeconds == 5) {
+        if (remainingSeconds == 5 && widget.isSoundEnabled) {
           unawaited(_audioPlayer.play(AssetSource(Assets.sounds.tick)));
         }
       }
@@ -93,7 +95,7 @@ class RoundHeaderState extends State<RoundHeader>
     final l10n = context.l10n;
 
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      padding: const .only(left: 20, right: 20, top: 20),
       child: Row(
         mainAxisAlignment: .spaceBetween,
         children: [

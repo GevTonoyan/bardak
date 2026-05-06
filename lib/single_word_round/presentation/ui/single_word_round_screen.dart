@@ -101,6 +101,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                 child: RoundHeader(
                   key: _roundHeaderKey,
                   initialRoundDuration: roundState.roundDuration,
+                  isSoundEnabled: roundState.soundsEnabled,
                   onRoundComplete: () {
                     context.read<SingleWordRoundBloc>().add(
                       const CompleteRoundRequested(),

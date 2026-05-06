@@ -73,6 +73,7 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
                   child: RoundHeader(
                     key: _roundHeaderKey,
                     initialRoundDuration: widget.initialRoundDuration,
+                    isSoundEnabled: state.soundsEnabled,
                     onRoundComplete: () {
                       context.read<CardRoundBloc>().add(
                         const CompleteRoundRequested(),
