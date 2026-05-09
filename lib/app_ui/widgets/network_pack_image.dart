@@ -22,20 +22,23 @@ class NetworkPackImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: _convertToDirectLink(imageUrl),
-      fit: .cover,
-      width: .maxFinite,
-      placeholder: (context, url) => BlurHash(
-        hash: imageBlurHash,
-        imageFit: .cover,
-      ),
-      errorWidget: (_, _, _) => _fallbackImage(),
+    return Stack(
+      fit: StackFit.passthrough,
+      children: [
+        BlurHash(
+          hash: imageBlurHash,
+          imageFit: BoxFit.cover,
+        ),
+        CachedNetworkImage(
+          imageUrl: _convertToDirectLink(imageUrl),
+          fit: BoxFit.cover,
+          width: double.maxFinite,
+          placeholder: (_, _) => const SizedBox.shrink(),
+          errorWidget: (_, _, _) => const SizedBox.shrink(),
+          fadeInDuration: const Duration(milliseconds: 300),
+        ),
+      ],
     );
-  }
-
-  Widget _fallbackImage() {
-    return BlurHash(hash: imageBlurHash, imageFit: .cover);
   }
 
   String _convertToDirectLink(String url) {
