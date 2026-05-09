@@ -14,6 +14,7 @@ ModalBottomSheetRoute<T> buildAppBottomSheet<T>({
     settings: settings,
     isScrollControlled: true,
     useSafeArea: true,
+    constraints: const BoxConstraints(maxWidth: double.maxFinite),
     transitionAnimationController: context.bottomSheetAnimationController(),
     backgroundColor: Colors.transparent,
     modalBarrierColor: context.colors.secondary.withValues(alpha: 0.5),

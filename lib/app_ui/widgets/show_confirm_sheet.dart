@@ -21,7 +21,9 @@ Future<void> showConfirmSheet({
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
+    useRootNavigator: true,
     backgroundColor: context.colors.secondary,
+    constraints: const BoxConstraints(maxWidth: double.maxFinite),
     builder: (context) {
       return PartialBottomSheet(
         titleBuilder: (context) => title,
