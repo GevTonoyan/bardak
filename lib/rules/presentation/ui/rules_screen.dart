@@ -13,11 +13,13 @@ class RulesScreen extends Page<void> {
 
   @override
   Route<void> createRoute(BuildContext context) {
-    return buildAppBottomSheetRoute<void>(
+    return buildAppBottomSheet<void>(
       context: context,
       settings: this,
-      child: const _RulesScreenBody(),
-      titleBuilder: (context) => context.l10n.game_rules,
+      child: FullBottomSheet(
+        titleBuilder: (context) => context.l10n.game_rules,
+        child: const _RulesScreenBody(),
+      ),
     );
   }
 }

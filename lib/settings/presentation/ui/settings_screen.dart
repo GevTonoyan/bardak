@@ -1,6 +1,7 @@
 import 'package:bardak/app_ui/widgets/app_button/app_switch_button.dart';
 import 'package:bardak/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/app_ui/widgets/bottom_sheet.dart';
+import 'package:bardak/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/app_ui/widgets/smart_number_text.dart';
 import 'package:bardak/assets/assets.gen.dart';
 import 'package:bardak/settings/presentation/bloc/settings_bloc.dart';
@@ -18,11 +19,13 @@ class SettingsScreen extends Page<void> {
 
   @override
   Route<void> createRoute(BuildContext context) {
-    return buildAppBottomSheetRoute<void>(
+    return buildAppBottomSheet<void>(
       context: context,
       settings: this,
-      child: const SettingsScreenBody(),
-      titleBuilder: (context) => context.l10n.settings,
+      child: PartialBottomSheet(
+        titleBuilder: (context) => context.l10n.settings,
+        child: const SettingsScreenBody(),
+      ),
     );
   }
 }

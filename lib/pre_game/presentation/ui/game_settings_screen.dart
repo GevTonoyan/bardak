@@ -26,11 +26,13 @@ class GameSettingsScreen extends Page<void> {
 
   @override
   Route<void> createRoute(BuildContext context) {
-    return buildAppBottomSheetRoute<void>(
+    return buildAppBottomSheet<void>(
       context: context,
       settings: this,
-      child: _GameSettingsBody(selectedMode),
-      titleBuilder: (context) => context.l10n.settings,
+      child: FullBottomSheet(
+        titleBuilder: (context) => context.l10n.settings,
+        child: _GameSettingsBody(selectedMode),
+      ),
     );
   }
 }

@@ -25,11 +25,13 @@ class SetupTeamNamesScreen extends Page<void> {
 
   @override
   Route<void> createRoute(BuildContext context) {
-    return buildAppBottomSheetRoute<void>(
+    return buildAppBottomSheet<void>(
       context: context,
       settings: this,
-      child: const _SetupTeamNamesBody(),
-      titleBuilder: (context) => context.l10n.teams,
+      child: FullBottomSheet(
+        titleBuilder: (context) => context.l10n.teams,
+        child: const _SetupTeamNamesBody(),
+      ),
     );
   }
 }

@@ -12,11 +12,13 @@ class LanguageSelectScreen extends Page<void> {
 
   @override
   Route<void> createRoute(BuildContext context) {
-    return buildAppBottomSheetRoute<void>(
+    return buildAppBottomSheet<void>(
       context: context,
       settings: this,
-      child: const _LanguageSelectBody(),
-      titleBuilder: (context) => context.l10n.settings,
+      child: PartialBottomSheet(
+        titleBuilder: (context) => context.l10n.languages,
+        child: const _LanguageSelectBody(),
+      ),
     );
   }
 }

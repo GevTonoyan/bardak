@@ -117,6 +117,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get theme_grey => 'Grey';
 
   @override
+  String get languages => 'Languages';
+
+  @override
   String get sounds => 'Sounds';
 
   @override

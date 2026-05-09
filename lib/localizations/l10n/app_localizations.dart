@@ -304,6 +304,12 @@ abstract class AppLocalizations {
   /// **'Grey'**
   String get theme_grey;
 
+  /// No description provided for @languages.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages'**
+  String get languages;
+
   /// No description provided for @sounds.
   ///
   /// In en, this message translates to:

@@ -124,6 +124,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get theme_grey => 'Серая';
 
   @override
+  String get languages => 'Языки';
+
+  @override
   String get sounds => 'Звуки';
 
   @override

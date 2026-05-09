@@ -117,6 +117,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get theme_grey => 'Մոխրագույն';
 
   @override
+  String get languages => 'Լեզուներ';
+
+  @override
   String get sounds => 'Ձայներ';
 
   @override
