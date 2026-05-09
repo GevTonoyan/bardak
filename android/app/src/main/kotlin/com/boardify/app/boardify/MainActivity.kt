@@ -1,4 +1,4 @@
-package com.boardify.app.boardify
+package com.gevorgtonoyan.bardak
 
 import io.flutter.embedding.android.FlutterActivity
 

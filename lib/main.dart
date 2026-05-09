@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:bardak/app_ui/theme/app_color_scheme.dart';
 import 'package:bardak/app_ui/theme/app_theme/app_theme_data_builder.dart';
 import 'package:bardak/app_ui/theme/app_theme_provider.dart';
@@ -30,9 +31,7 @@ import 'package:bardak/settings/presentation/bloc/settings_event.dart';
 import 'package:bardak/settings/presentation/bloc/settings_state.dart';
 import 'package:bardak/themes/presentation/bloc/themes_bloc.dart';
 import 'package:bardak/utils/dependency_injection/di.dart';
-import 'package:bardak/utils/remote_config/remote_config.dart';
 import 'package:bardak/word_pack/presentation/bloc/word_packs_bloc.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +47,6 @@ void main() async {
   // (add splash screen while loading dependencies)
   await injectDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await AppRemoteConfig.initialize();
 
   // TODO(Gevorg): check path_provider, if not used - remove
   await Hive.initFlutter();

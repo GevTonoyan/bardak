@@ -18,7 +18,7 @@ val keystoreProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.boardify.app.boardify"
+    namespace = "com.gevorgtonoyan.bardak"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 

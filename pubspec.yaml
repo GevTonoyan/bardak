@@ -14,7 +14,6 @@ dependencies:
   confetti: 0.8.0
   equatable: 2.0.8
   firebase_core: 4.7.0
-  firebase_remote_config: 6.4.0
   flutter:
     sdk: flutter
   flutter_bloc: 9.1.1
