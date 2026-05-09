@@ -367,80 +367,56 @@ abstract class AppLocalizations {
   /// No description provided for @singleModeRule1.
   ///
   /// In en, this message translates to:
-  /// **'One player explains a single word at a time.'**
+  /// **'Players explain words one after another in sequence'**
   String get singleModeRule1;
 
   /// No description provided for @singleModeRule2.
   ///
   /// In en, this message translates to:
-  /// **'The team tries to guess as many words as possible before the timer runs out.'**
+  /// **'When a word is guessed correctly, the next word appears'**
   String get singleModeRule2;
 
   /// No description provided for @singleModeRule3.
   ///
   /// In en, this message translates to:
-  /// **'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.'**
+  /// **'Skipping a word results in a one point penalty'**
   String get singleModeRule3;
-
-  /// No description provided for @singleModeRule4.
-  ///
-  /// In en, this message translates to:
-  /// **'Teammates can guess as many times as they want.'**
-  String get singleModeRule4;
-
-  /// No description provided for @singleModeRule5.
-  ///
-  /// In en, this message translates to:
-  /// **'When guessed correctly, a new word appears.'**
-  String get singleModeRule5;
-
-  /// No description provided for @singleModeRule6.
-  ///
-  /// In en, this message translates to:
-  /// **'If the word is skipped, 1 point is deducted (can be changed in settings).'**
-  String get singleModeRule6;
 
   /// No description provided for @cardModeRule1.
   ///
   /// In en, this message translates to:
-  /// **'The explainer receives a card with multiple words (usually 5–7).'**
+  /// **'The explainer receives a card containing 6 words'**
   String get cardModeRule1;
 
   /// No description provided for @cardModeRule2.
   ///
   /// In en, this message translates to:
-  /// **'All words on the card must be guessed before the timer runs out.'**
+  /// **'All words on the current card must be guessed before moving to the next one'**
   String get cardModeRule2;
 
   /// No description provided for @cardModeRule3.
   ///
   /// In en, this message translates to:
-  /// **'Players can guess the words in any order.'**
+  /// **'Players can explain words on the card in any order'**
   String get cardModeRule3;
-
-  /// No description provided for @cardModeRule4.
-  ///
-  /// In en, this message translates to:
-  /// **'Skipping is not allowed — you must guess every word on the card.'**
-  String get cardModeRule4;
-
-  /// No description provided for @cardModeRule5.
-  ///
-  /// In en, this message translates to:
-  /// **'The explainer cannot use the word itself, any part of it, a translation, a rhyme, or spelling hints.'**
-  String get cardModeRule5;
-
-  /// No description provided for @cardModeRule6.
-  ///
-  /// In en, this message translates to:
-  /// **'Score is based on the number of guessed words.'**
-  String get cardModeRule6;
 
   /// No description provided for @generalRule1.
   ///
   /// In en, this message translates to:
-  /// **'The game ends when a team reaches the required points, but the current round must be completed so all teams play an equal number of turns.'**
+  /// **'Using word roots, translations, or phonetic hints is prohibited'**
   String get generalRule1;
+
+  /// No description provided for @generalRule2.
+  ///
+  /// In en, this message translates to:
+  /// **'After each round, players can review and edit the list of guessed words'**
+  String get generalRule2;
+
+  /// No description provided for @generalRule3.
+  ///
+  /// In en, this message translates to:
+  /// **'The game ends when the target score is reached, but all teams must complete the current round'**
+  String get generalRule3;
 
   /// No description provided for @scoreboard.
   ///
