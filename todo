@@ -8,3 +8,4 @@ When buying theme we use rewards cubit to update the coins. Should have some gen
 CRITICAL: (Bugs)
 1. Word packs screen caching issue ()
 2. Add functionality for round review for one word mode
+3. Add FetchAndCache usecase for every 3 days
