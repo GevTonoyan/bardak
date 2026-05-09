@@ -59,7 +59,7 @@
 
   "rewards": "Պարգևներ",
   "rewardsSelectThree": "Ընտրեք երեքը",
-  "rewards_success": "Կեցցե՛ք!\nԴուք վաստակել եք {count} միավոր",
+  "rewards_success": "+{count} միավոր: Կհանդիպենք վաղը:",
   "@rewards_success": {
     "placeholders": {
       "count": { "type": "int" }

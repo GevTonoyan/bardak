@@ -130,7 +130,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rewards_success(int count) {
-    return 'Awesome!\nYou got $count points';
+    return '+$count points! See you tomorrow.';
   }
 
   @override

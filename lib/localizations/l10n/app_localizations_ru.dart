@@ -137,7 +137,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String rewards_success(int count) {
-    return 'Здорово!\nВы заработали $count очков';
+    return '+$count очков! Ждем тебя завтра.';
   }
 
   @override

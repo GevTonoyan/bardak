@@ -59,7 +59,7 @@
 
   "rewards": "Rewards",
   "rewardsSelectThree": "Select three",
-  "rewards_success": "Awesome!\nYou got {count} points",
+  "rewards_success": "+{count} points! See you tomorrow.",
   "@rewards_success": {
     "placeholders": {
       "count": { "type": "int" }

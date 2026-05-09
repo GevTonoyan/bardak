@@ -331,7 +331,7 @@ abstract class AppLocalizations {
   /// No description provided for @rewards_success.
   ///
   /// In en, this message translates to:
-  /// **'Awesome!\nYou got {count} points'**
+  /// **'+{count} points! See you tomorrow.'**
   String rewards_success(int count);
 
   /// No description provided for @teams.

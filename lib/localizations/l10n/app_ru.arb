@@ -59,7 +59,7 @@
 
   "rewards": "Награды",
   "rewardsSelectThree": "Выберите три",
-  "rewards_success": "Здорово!\nВы заработали {count} очков",
+  "rewards_success": "+{count} очков! Ждем тебя завтра.",
   "@rewards_success": {
     "placeholders": {
       "count": { "type": "int" }
