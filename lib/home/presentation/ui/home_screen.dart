@@ -71,13 +71,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: [
           SafeArea(
             bottom: false,
-            child: Padding(
-              padding: const .all(20),
-              child: Column(
-                spacing: 30,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const .all(20),
+                  child: Row(
                     children: [
                       SlideTransition(
                         position: _leftSlideAnimation,
@@ -107,16 +105,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  Hero(
-                    tag: SplashScreen.heroTag,
-                    child: Assets.images.logo.image(
-                      height: 220,
-                      width: 220,
-                      fit: BoxFit.contain,
-                    ),
+                ),
+                Hero(
+                  tag: SplashScreen.heroTag,
+                  child: Assets.images.logo.image(
+                    height: 220,
+                    width: 220,
+                    fit: .contain,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Flexible(
