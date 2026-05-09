@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:bardak/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:bardak/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/game_session/presentation/ui/game_summary_screen.dart';
+import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -47,6 +51,23 @@ class _GameSessionScreenState extends State<GameSessionScreen> {
 
     return PopScope(
       canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        final l10n = context.l10n;
+        final colors = context.colors;
+        unawaited(
+          showConfirmSheet(
+            context: context,
+            title: l10n.exit_game_title,
+            description: l10n.exit_game_description,
+            confirmText: l10n.exit_game_confirm,
+            cancelText: l10n.cancel,
+            confirmColor: colors.red,
+            cancelColor: colors.green,
+            onConfirm: () => context.pop(),
+          ),
+        );
+      },
       child: BlocProvider(
         create: (_) => GameSessionBloc(initialGameState: session),
         child: BlocListener<GameSessionBloc, GameSessionState>(
