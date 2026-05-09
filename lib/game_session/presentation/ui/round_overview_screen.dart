@@ -11,6 +11,7 @@ import 'package:bardak/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/game_session/presentation/ui/countdown_screen.dart';
 import 'package:bardak/game_session/presentation/ui/round_review_screen.dart';
+import 'package:bardak/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -198,6 +199,11 @@ class _TeamScores extends StatelessWidget {
   }
 
   bool _showEditIcon(GameSessionEntity gameState, int index) {
+    // TODO(Gevorg): Come up with correct review logic for one word mode
+    if (gameState.gameMode == GameMode.singleWord) {
+      return false;
+    }
+
     final hasPendingWords = gameState.pendingReviewWords?.isNotEmpty ?? false;
 
     return hasPendingWords && index == gameState.previousTeamIndex;

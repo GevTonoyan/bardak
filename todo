@@ -6,6 +6,5 @@ BlocBuilder enhancements
 When buying theme we use rewards cubit to update the coins. Should have some general cubit for coins management
 
 CRITICAL: (Bugs)
-1. Modify rule screen and rules
-8. Word packs screen caching issue ()
-9. Change to full screen bottom sheets (flutter default)
+1. Word packs screen caching issue ()
+2. Add functionality for round review for one word mode
