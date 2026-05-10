@@ -51,7 +51,7 @@ class RewardsLootGrid extends StatelessWidget {
                 isFront: !isOpened,
                 coins: coins,
                 onTap: () async {
-                  final coins = (math.Random().nextInt(10) + 1) * 10;
+                  final coins = (math.Random().nextInt(10) + 1) * 20;
                   await cubit.updateCoins(index, coins);
                 },
               );
