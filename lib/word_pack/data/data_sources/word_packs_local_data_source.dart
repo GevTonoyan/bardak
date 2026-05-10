@@ -4,8 +4,6 @@ import 'package:bardak/utils/constants/constants.dart';
 import 'package:bardak/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:bardak/word_pack/domain/usecases/are_packs_cached_usecase.dart';
 import 'package:bardak/word_pack/domain/usecases/get_word_packs_usecase.dart';
-import 'package:bardak/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
-import 'package:bardak/word_pack/domain/usecases/get_words_version_usecase.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,24 +13,24 @@ abstract interface class WordPacksLocalDataSource {
   /// Returns cached word packs for the given locale.
   Future<WordPackInfoResultEntity> getWordPacks(GetWordPacksParams params);
 
-  /// Returns list of words for the given pack ID and locale.
-  Future<List<String>> getWordsByPack(GetWordsByPackParams params);
-
   /// Saves all word packs for a given locale to Hive.
   Future<void> cacheWordPacks(String localeCode, List<WordPackEntity> packs);
 
   /// Checks if word packs are already cached in Hive for a given locale.
   Future<bool> arePacksPresentInHive(AreWordPacksCachedParams params);
 
-  /// Returns the version of the words for a specific locale
-  int getWordsVersion(GetWordsVersionParams params);
+  /// Returns true if the sync interval has elapsed since the last sync.
+  bool isSyncNeeded();
+
+  /// Persists the current timestamp as the last sync time.
+  Future<void> updateLastSyncTimestamp();
 }
 
 /// Implementation of the [WordPacksLocalDataSource] using Hive and SharedPreferences for local storage.
 class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
-  const WordPacksLocalDataSourceImpl(this.preferences);
+  const WordPacksLocalDataSourceImpl(this._preferences);
 
-  final SharedPreferences preferences;
+  final SharedPreferences _preferences;
 
   @override
   Future<WordPackInfoResultEntity> getWordPacks(
@@ -67,24 +65,6 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
     }
 
     return WordPackInfoResultEntity(packs: packsList);
-  }
-
-  @override
-  Future<List<String>> getWordsByPack(GetWordsByPackParams params) async {
-    final box = await Hive.openBox(
-      '${AppConstants.aliasWordPack}_${params.localeCode}',
-    );
-
-    final selectedPackId = preferences.getString(
-      '${AppConstants.aliasSelectedWordPackKey}_${params.localeCode}',
-    );
-
-    final pack = box.get(selectedPackId ?? 'all');
-    if (pack is! Map) return [];
-
-    final words = pack[AppConstants.aliasWordPackWords] as List<String>? ?? [];
-
-    return words;
   }
 
   @override
@@ -126,9 +106,18 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
   }
 
   @override
-  int getWordsVersion(GetWordsVersionParams params) =>
-      preferences.getInt(
-        '${AppConstants.wordsVersionKey}_${params.localeCode}',
-      ) ??
-      1;
+  bool isSyncNeeded() {
+    final lastSyncMs = _preferences.getInt(AppConstants.lastWordsSyncKey) ?? 0;
+    final lastSync = DateTime.fromMillisecondsSinceEpoch(lastSyncMs);
+    return DateTime.now().difference(lastSync).inDays >=
+        AppConstants.wordsSyncIntervalDays;
+  }
+
+  @override
+  Future<void> updateLastSyncTimestamp() {
+    return _preferences.setInt(
+      AppConstants.lastWordsSyncKey,
+      DateTime.now().millisecondsSinceEpoch,
+    );
+  }
 }

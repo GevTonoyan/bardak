@@ -38,7 +38,7 @@ Future<void> injectDependencies() async {
     );
 
   await injectRewardsScope();
-  await injectWordPacksScope();
+  injectWordPacksScope();
   injectPreGameScope();
   injectThemesScope();
 }

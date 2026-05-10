@@ -35,4 +35,8 @@ class AppConstants {
   static const aliasWordPackImage = 'alias_word_pack_image';
   static const aliasWordPackImageBlurHash = 'alias_word_pack_image_blur_hash';
   static const aliasSelectedWordPackKey = 'alias_selected_word_pack';
+
+  // Sync
+  static const lastWordsSyncKey = 'last_words_sync';
+  static const wordsSyncIntervalDays = 3;
 }

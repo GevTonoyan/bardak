@@ -62,7 +62,6 @@ void main() async {
             getWordPacks: sl(),
             areWordPacksCached: sl(),
             fetchAndCacheWordPacks: sl(),
-            getWordsVersion: sl(),
           )..add(const CacheWordPacksIfNeeded()),
         ),
         BlocProvider(

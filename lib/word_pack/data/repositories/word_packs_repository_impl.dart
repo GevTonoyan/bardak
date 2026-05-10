@@ -7,8 +7,6 @@ import 'package:bardak/word_pack/domain/repositories/word_packs_repository.dart'
 import 'package:bardak/word_pack/domain/usecases/are_packs_cached_usecase.dart';
 import 'package:bardak/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
 import 'package:bardak/word_pack/domain/usecases/get_word_packs_usecase.dart';
-import 'package:bardak/word_pack/domain/usecases/get_words_by_pack_usecase.dart';
-import 'package:bardak/word_pack/domain/usecases/get_words_version_usecase.dart';
 
 /// Implementation of the [WordPacksRepository] interface.
 class WordPacksRepositoryImpl implements WordPacksRepository {
@@ -28,13 +26,10 @@ class WordPacksRepositoryImpl implements WordPacksRepository {
   }
 
   @override
-  Future<List<String>> getWordsByPack(GetWordsByPackParams params) {
-    return localDataSource.getWordsByPack(params);
-  }
-
-  @override
-  Future<bool> areWordPacksCached(AreWordPacksCachedParams params) {
-    return localDataSource.arePacksPresentInHive(params);
+  Future<bool> areWordPacksCached(AreWordPacksCachedParams params) async {
+    final isCached = await localDataSource.arePacksPresentInHive(params);
+    final isSyncNeeded = localDataSource.isSyncNeeded();
+    return isCached && !isSyncNeeded;
   }
 
   @override
@@ -43,9 +38,6 @@ class WordPacksRepositoryImpl implements WordPacksRepository {
   ) async {
     final packs = await remoteDataSource.getWordPacks(params);
     await localDataSource.cacheWordPacks(params.localeCode, packs);
+    await localDataSource.updateLastSyncTimestamp();
   }
-
-  @override
-  int getWordsVersion(GetWordsVersionParams params) =>
-      localDataSource.getWordsVersion(params);
 }

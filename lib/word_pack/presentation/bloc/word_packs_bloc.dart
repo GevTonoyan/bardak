@@ -5,7 +5,6 @@ import 'package:bardak/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:bardak/word_pack/domain/usecases/are_packs_cached_usecase.dart';
 import 'package:bardak/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
 import 'package:bardak/word_pack/domain/usecases/get_word_packs_usecase.dart';
-import 'package:bardak/word_pack/domain/usecases/get_words_version_usecase.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +17,6 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
   WordPacksBloc({
     required this.areWordPacksCached,
     required this.fetchAndCacheWordPacks,
-    required this.getWordsVersion,
     required this.getWordPacks,
   }) : super(const WordPacksInitial()) {
     on<CacheWordPacksIfNeeded>(_cacheWordPacksIfNeeded);
@@ -29,7 +27,6 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
   final GetWordPacksUseCase getWordPacks;
   final ArePacksCachedUseCase areWordPacksCached;
   final FetchAndCacheWordPacksUseCase fetchAndCacheWordPacks;
-  final GetWordsVersionUseCase getWordsVersion;
 
   Future<void> _cacheWordPacksIfNeeded(
     CacheWordPacksIfNeeded event,
@@ -48,9 +45,7 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
           );
         }
       }
-
-      //unawaited(_checkForWordsUpdate(locale));
-    } on Exception catch (error) {}
+    } on Exception catch (_) {}
   }
 
   Future<void> _onLoadWordPacks(
