@@ -248,4 +248,11 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get errorEmptyTeamNames =>
       'Подождите, а кто играет? Введите названия команд!';
+
+  @override
+  String get feedback => 'Обратная связь';
+
+  @override
+  String get feedback_email_error =>
+      'Почтовое приложение не найдено. Напишите нам на bardak.support@gmail.com';
 }

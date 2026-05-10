@@ -242,4 +242,11 @@ class AppLocalizationsAm extends AppLocalizations {
   @override
   String get errorEmptyTeamNames =>
       'Սպասիր, իսկ ովքե՞ր են խաղում: Լրացրեք բոլոր թիմերը:';
+
+  @override
+  String get feedback => 'Հետադարձ կապ';
+
+  @override
+  String get feedback_email_error =>
+      'No email app found. Please send feedback to bardak.support@gmail.com';
 }

@@ -1,6 +1,9 @@
+import 'dart:async';
+
+import 'package:bardak/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/app_ui/widgets/app_button/app_switch_button.dart';
+import 'package:bardak/app_ui/widgets/app_notification.dart';
 import 'package:bardak/app_ui/widgets/app_spacings.dart';
-import 'package:bardak/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/app_ui/widgets/smart_number_text.dart';
 import 'package:bardak/assets/assets.gen.dart';
@@ -11,6 +14,7 @@ import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends Page<void> {
   const SettingsScreen({super.key});
@@ -37,6 +41,7 @@ class SettingsScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsBloc = context.watch<SettingsBloc>();
     final appSettings = settingsBloc.state.appSettings;
+    final colors = context.colors;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -57,8 +62,58 @@ class SettingsScreenBody extends StatelessWidget {
           },
         ),
         height40,
+        AppButton(
+          label: context.l10n.feedback,
+          color: colors.white20,
+          onPressed: () async {
+            final uri = Uri(
+              scheme: 'mailto',
+              path: 'bardak.feedback@gmail.com',
+              queryParameters: {
+                'subject': 'Bardak Feedback',
+              },
+            );
+
+            try {
+              final launched = await launchUrl(
+                uri,
+                mode: LaunchMode.externalApplication,
+              );
+
+              if (!launched && context.mounted) {
+                _showError(context);
+              }
+            } on Exception catch (_) {
+              if (context.mounted) {
+                _showError(context);
+              }
+            }
+          },
+          child: Row(
+            spacing: 14,
+            children: [
+              width20,
+              Icon(Icons.mail_outline, color: colors.white, size: 24),
+              Text(
+                context.l10n.feedback,
+                style: context.typography.regular24,
+              ),
+            ],
+          ),
+        ),
+        height40,
         const _AppVersionText(),
       ],
+    );
+  }
+
+  void _showError(BuildContext context) {
+    unawaited(
+      showAppNotification(
+        context,
+        message: context.l10n.feedback_email_error,
+        duration: const Duration(seconds: 5),
+      ),
     );
   }
 }

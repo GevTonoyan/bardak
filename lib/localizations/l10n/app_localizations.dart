@@ -519,6 +519,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Wait, who\'s playing? Enter all team names!'**
   String get errorEmptyTeamNames;
+
+  /// No description provided for @feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get feedback;
+
+  /// No description provided for @feedback_email_error.
+  ///
+  /// In en, this message translates to:
+  /// **'No email app found. Please send feedback to bardak.support@gmail.com'**
+  String get feedback_email_error;
 }
 
 class _AppLocalizationsDelegate

@@ -109,5 +109,7 @@
   "unlock_theme_confirm": "Unlock",
 
   "not_enough_coins": "Not enough coins",
-  "errorEmptyTeamNames": "Wait, who's playing? Enter all team names!"
+  "errorEmptyTeamNames": "Wait, who's playing? Enter all team names!",
+  "feedback": "Feedback",
+  "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com"
 }
