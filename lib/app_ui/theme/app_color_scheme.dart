@@ -19,26 +19,11 @@ enum AppColorScheme {
   grey
   ;
 
-  static AppColorScheme fromString(String? scheme) {
-    return switch (scheme) {
-      'main' => main,
-      'blue' => blue,
-      'black' => dark,
-      'purple' => purple,
-      'turquoise' => turquoise,
-      'yellow' => yellow,
-      'green' => green,
-      'pink' => pink,
-      'red' => red,
-      'orange' => orange,
-      'brown' => brown,
-      'navy' => navy,
-      'mint' => mint,
-      'plum' => plum,
-      'grey' => grey,
-      _ => main,
-    };
-  }
+  static AppColorScheme fromString(String? scheme) =>
+      AppColorScheme.values.firstWhere(
+        (element) => element.name == scheme,
+        orElse: () => main,
+      );
 
   String displayName(BuildContext context) {
     final l10n = context.l10n;
