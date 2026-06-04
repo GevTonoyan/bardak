@@ -54,3 +54,12 @@ android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 lib/firebase_options.dart
 firebase.json
+
+# Flutter iOS Build Outputs
+ios/build/
+
+# Swift Package Manager (SPM) internal caches and user-specific files
+**/xcshareddata/swiftpm/
+**/project.xcworkspace/xcshareddata/swiftpm/
+!**/xcshareddata/swiftpm/Package.resolved
+!**/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
