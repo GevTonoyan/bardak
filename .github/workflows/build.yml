@@ -1,11 +1,6 @@
 name: Build Flutter App
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-    types: [closed]
   workflow_dispatch:
 
 jobs:
