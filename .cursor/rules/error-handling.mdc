@@ -1,0 +1,107 @@
+---
+description: Error handling — Result<T>/Failure hierarchy, typed errors in state, no raw exceptions in BLoCs
+globs: lib/**/domain/**/*.dart,lib/**/data/**/*.dart,lib/**/bloc/**/*.dart,lib/**/cubit/**/*.dart
+alwaysApply: false
+---
+
+# Error Handling — Bardak
+
+## Target Pattern (implement when touching a feature)
+
+### Failure Hierarchy (domain layer)
+
+```dart
+// lib/utils/failures/failure.dart
+sealed class Failure {
+  const Failure(this.message);
+  final String message;
+}
+
+class NetworkFailure extends Failure {
+  const NetworkFailure([super.message = 'Network error']);
+}
+
+class CacheFailure extends Failure {
+  const CacheFailure([super.message = 'Cache read/write failed']);
+}
+
+class NotFoundFailure extends Failure {
+  const NotFoundFailure([super.message = 'Resource not found']);
+}
+```
+
+### Result Type (domain layer)
+
+```dart
+// lib/utils/result/result.dart
+sealed class Result<T> {
+  const Result();
+}
+
+class Success<T> extends Result<T> {
+  const Success(this.value);
+  final T value;
+}
+
+class Failure<T> extends Result<T> {
+  const Failure(this.failure);
+  final Failure failure;
+}
+```
+
+### UseCase returns Result
+
+```dart
+class GetWordPacksUseCase {
+  Future<Result<WordPackInfoResultEntity>> call(GetWordPacksParams p) async {
+    try {
+      return Success(await repository.getWordPacks(p));
+    } on CacheException {
+      return Failure(const CacheFailure());
+    }
+  }
+}
+```
+
+### BLoC handles Result
+
+```dart
+Future<void> _onLoad(LoadWordPacks event, Emitter<WordPacksState> emit) async {
+  final result = await getWordPacks(GetWordPacksParams(localeCode: event.locale));
+  switch (result) {
+    case Success(:final value):
+      emit(WordPacksLoaded(packs: value.packs, locale: event.locale));
+    case Failure(:final failure):
+      emit(WordPacksError(failure: failure)); // typed, not raw string
+  }
+}
+```
+
+### UI maps Failure → localized message
+
+```dart
+// In widget, never in BLoC/state
+String _failureMessage(BuildContext context, Failure failure) =>
+    switch (failure) {
+      NetworkFailure() => context.l10n.networkError,
+      CacheFailure() => context.l10n.cacheError,
+      _ => context.l10n.unknownError,
+    };
+```
+
+## Current Gaps (fix incrementally)
+
+| Issue | Location | Fix |
+|-------|----------|-----|
+| Raw `e.toString()` in state | `WordPacksNotCached.error` | Replace with `Failure` type |
+| `try/catch Exception` swallowed | multiple BLoCs | Map to `Failure`, emit error state |
+| `Future<bool>` from repo | `SettingsRepository` | Return `Result<void>` |
+| `print()` in `AppBlocObserver` | `logging/` | Replace with `log()` from `dart:developer` |
+
+## Rules
+
+- Presentation MUST NOT catch raw exceptions from repositories.
+- Error state fields MUST be typed `Failure`, not `String`.
+- Data sources catch low-level exceptions and rethrow as domain exceptions
+  (`CacheException`, `NetworkException`) which repositories map to `Failure`.
+- Never use `dynamic` or `Object` as an error type in state.

@@ -1,0 +1,94 @@
+---
+description: BLoC/Cubit conventions — sealed events & states, Equatable, concurrency transformers, constructor injection
+globs: lib/**/bloc/**/*.dart,lib/**/cubit/**/*.dart
+alwaysApply: false
+---
+
+# BLoC Patterns — Bardak
+
+## Events & States
+
+Events and states MUST be `sealed` classes extending `Equatable`:
+
+```dart
+// ✅ events
+sealed class WordPacksEvent extends Equatable {
+  const WordPacksEvent();
+}
+class LoadWordPacks extends WordPacksEvent {
+  const LoadWordPacks({required this.locale});
+  final String locale;
+  @override
+  List<Object?> get props => [locale];
+}
+
+// ✅ states
+sealed class WordPacksState extends Equatable {
+  const WordPacksState();
+}
+class WordPacksLoaded extends WordPacksState {
+  const WordPacksLoaded({required this.packs, required this.locale});
+  final List<WordPackEntity> packs;
+  final String locale;
+  @override
+  List<Object?> get props => [packs, locale];
+}
+```
+
+## Concurrency Transformers
+
+Every async `on<Event>` handler MUST declare an explicit transformer.
+No silent default (concurrent) processing for user-triggered actions.
+
+```dart
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+
+on<RefreshPacks>(_onRefresh, transformer: restartable());   // search / refresh
+on<SubmitTap>(_onSubmit, transformer: droppable());         // one-shot tap
+on<SaveSettings>(_onSave, transformer: sequential());       // order matters
+```
+
+Omit only for initialization events where concurrent is intentional — add a comment.
+
+## Bloc vs Cubit
+
+- Use **Bloc** when events are discrete user actions or external triggers.
+- Use **Cubit** only for simple state machines driven by method calls
+  (e.g., `RewardsCubit` exposing `addCoins()`, `openBox()`).
+
+## Constructor Injection
+
+BLoCs receive UseCases via constructor parameters. Never call `getIt()` inside a BLoC.
+
+```dart
+// ✅
+class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
+  SettingsBloc({
+    required this.getGameSettingsUseCase,
+    required this.updateAppSettingsUseCase,
+  }) : super(...) { ... }
+
+  final GetGameSettingsUseCase getGameSettingsUseCase;
+  final UpdateAppSettingsUseCase updateAppSettingsUseCase;
+}
+
+// ❌ Never
+class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
+  SettingsBloc() : _uc = getIt<GetGameSettingsUseCase>(), super(...);
+}
+```
+
+## File Layout
+
+Co-locate event, state, and bloc in `presentation/bloc/`:
+```
+feature/presentation/bloc/
+  feature_event.dart
+  feature_state.dart
+  feature_bloc.dart
+```
+
+## Logging
+
+Use `AppBlocObserver` (already wired in `main.dart`). Log via `log()` from `dart:developer`.
+Never use `print()` or `debugPrint()` in BLoC or observer code.

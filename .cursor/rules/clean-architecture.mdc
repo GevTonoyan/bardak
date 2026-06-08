@@ -1,0 +1,62 @@
+---
+description: Clean Architecture layer rules, feature folder structure, and dependency direction for Bardak
+alwaysApply: true
+---
+
+# Clean Architecture — Bardak
+
+## Layer Responsibilities
+
+| Layer | Contains | MUST NOT import |
+|-------|----------|-----------------|
+| `domain/` | Entities, abstract repositories, use cases | Flutter, `dart:ui`, data layer |
+| `data/` | Models, data sources (Hive/Firestore/SharedPrefs), repository impls | presentation layer |
+| `presentation/` | BLoCs/Cubits, pages, widgets | repositories, data sources directly |
+
+Presentation depends on **UseCases only**. Never inject a repository into a BLoC.
+
+## Feature Folder Structure
+
+Every full-stack feature MUST follow:
+
+```
+feature_x/
+  domain/
+    entities/
+    repositories/      # abstract interface class
+    usecases/
+  data/
+    data_sources/
+      local/
+      remote/
+    repositories/      # impl
+  presentation/
+    bloc/
+    pages/
+    widgets/
+  feature_x_scope.dart # GetIt registration for this feature
+```
+
+Presentation-only features (home, splash, rules) may omit domain/data layers.
+Game-loop features (game_session, card_round, single_word_round) may use domain entities
+directly in BLoCs when there is no persistence layer.
+
+## Canonical Example
+
+```
+word_pack/
+  domain/repositories/word_packs_repository.dart     # abstract interface class
+  domain/usecases/get_word_packs_usecase.dart
+  data/data_sources/word_packs_local_data_source.dart
+  data/repositories/word_packs_repository_impl.dart
+  presentation/bloc/word_packs_bloc.dart
+  word_packs_scope.dart
+```
+
+## Naming Conventions
+
+- Repository interfaces: `*Repository` (abstract interface class)
+- Repository impls: `*RepositoryImpl`
+- Data sources: `*LocalDataSource` / `*RemoteDataSource`
+- Use cases: `*UseCase` with a `Params` class in the same file
+- Entities: `*Entity`

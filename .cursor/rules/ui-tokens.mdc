@@ -1,0 +1,70 @@
+---
+description: UI token rules — AppColors, AppTextStyles, flutter_gen assets, const widgets
+globs: lib/**/presentation/**/*.dart,lib/**/pages/**/*.dart,lib/**/widgets/**/*.dart,lib/app_ui/**/*.dart
+alwaysApply: false
+---
+
+# UI Tokens — Bardak
+
+## Colors & Text Styles
+
+Access ONLY through context extensions. Never use raw values in UI code.
+
+```dart
+// ✅
+Container(color: context.colors.secondary)
+Text('Hello', style: context.typography.regular38)
+
+// ❌
+Container(color: const Color(0xFF7E2210))
+Text('Hello', style: const TextStyle(fontSize: 38))
+```
+
+Context extensions are defined in `lib/utils/extensions/context_extension.dart`:
+
+```dart
+context.colors      // → AppColors (scheme-aware)
+context.typography  // → AppTextStyles (singleton)
+context.appTheme    // → AppThemeData
+```
+
+## Theme Selection
+
+The active color scheme is driven by `ThemesBloc`. `AppThemeProvider` (an `InheritedWidget`)
+wraps the app in `main.dart` and re-builds when the scheme changes.
+Do NOT read scheme state directly in widgets — use `context.colors`.
+
+## Assets
+
+Use `flutter_gen` generated accessors only. Run code gen after adding assets to `pubspec.yaml`.
+
+```dart
+// ✅
+Assets.images.logo.image()
+Assets.images.icon.svg()
+
+// ❌
+Image.asset('assets/images/logo.png')
+SvgPicture.asset('assets/icons/icon.svg')
+```
+
+## Widget Rules
+
+- Use `const` constructors for all stateless/immutable widgets.
+- Prefer private widget classes (`_ScoreCard`) over `_buildScoreCard()` methods.
+- Use `BlocSelector` for partial rebuilds — avoid rebuilding on unrelated state changes.
+- Remote images MUST use `CachedNetworkImage` with an `errorBuilder`.
+
+```dart
+// ✅ partial rebuild
+BlocSelector<SettingsBloc, SettingsState, bool>(
+  selector: (state) => state.gameSettings.soundEnabled,
+  builder: (context, soundEnabled) => SoundToggle(enabled: soundEnabled),
+)
+```
+
+## Game UI Specifics
+
+- Win animations: use `confetti` package.
+- Active/selected item highlight: use `gradient_borders` package.
+- Dynamic board layouts: use `LayoutBuilder`.

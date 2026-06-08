@@ -1,0 +1,105 @@
+---
+description: GoRouter navigation conventions — route constants, nested navigators, BlocProvider in pageBuilder
+globs: lib/router/**/*.dart,lib/**/pages/**/*.dart
+alwaysApply: false
+---
+
+# Navigation — Bardak
+
+## Route Constants
+
+Route paths and names MUST be static constants on the screen class, not inline strings.
+
+```dart
+class HomeScreen extends StatelessWidget {
+  static const routePath = '/home';
+  static const routeName = 'home';
+  // ...
+}
+```
+
+Reference them from `app_router.dart`:
+
+```dart
+GoRoute(
+  path: HomeScreen.routePath,
+  name: HomeScreen.routeName,
+  pageBuilder: (context, state) =>
+      _buildPlatformPage(child: const HomeScreen()),
+),
+```
+
+## Route Hierarchy
+
+All routes are defined in `lib/router/app_router.dart` — the single source of truth.
+Never define GoRoutes scattered across feature files.
+
+Current hierarchy:
+```
+/splash → /home → /settings, /rules, /rewards, /themes
+                → /gameSettings → /setupTeamNames → /wordPacks → /languageSelect
+                → /gameSession (ShellRoute) → /countdown, /cardRound, /singleWordRound
+                                            → /roundOverview → /roundReview
+                → /gameSummary
+```
+
+## Navigator Keys
+
+Use named `GlobalKey<NavigatorState>` for nested shells:
+
+```dart
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+final gameSessionNavigatorKey = GlobalKey<NavigatorState>();
+```
+
+Assign `parentNavigatorKey` on routes that must push above a shell.
+
+## Passing Data Between Routes
+
+Use `state.extra` for complex objects. Define typed arg classes when multiple
+params are needed:
+
+```dart
+// push
+context.go(CardRoundScreen.routePath, extra: CardRoundArgs(words: ..., ...));
+
+// receive
+final args = state.extra as CardRoundArgs;
+```
+
+Never encode domain entities as query params.
+
+## BlocProvider in pageBuilder (Composition Root)
+
+Route-scoped BLoCs are created inside `pageBuilder` — this is the composition root
+for that screen. Inject via `sl<UseCase>()` here only.
+
+```dart
+pageBuilder: (context, state) {
+  final args = state.extra as CardRoundArgs;
+  return _buildPlatformPage(
+    child: BlocProvider(
+      create: (_) => CardRoundBloc(
+        words: args.words,
+        wordsPerCard: args.wordsPerCard,
+        soundsEnabled: args.soundsEnabled,
+      ),
+      child: const CardRoundScreen(),
+    ),
+  );
+},
+```
+
+## ShellRoute for Persistent State
+
+Wrap game session routes in a `ShellRoute` to keep `GameSessionBloc` alive
+while navigating between round screens:
+
+```dart
+ShellRoute(
+  navigatorKey: gameSessionNavigatorKey,
+  builder: (context, state, child) =>
+      GameSessionScreen(gameSessionEntity: state.extra as GameSessionEntity?, child: child),
+  routes: [ /* round routes */ ],
+),
+```
