@@ -48,8 +48,7 @@ class PreGameEntity {
 
 enum GameMode {
   card,
-  singleWord
-  ;
+  singleWord;
 
   @override
   String toString() {

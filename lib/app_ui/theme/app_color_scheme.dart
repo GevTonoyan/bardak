@@ -16,8 +16,7 @@ enum AppColorScheme {
   navy,
   mint,
   plum,
-  grey
-  ;
+  grey;
 
   static AppColorScheme fromString(String? scheme) =>
       AppColorScheme.values.firstWhere(
