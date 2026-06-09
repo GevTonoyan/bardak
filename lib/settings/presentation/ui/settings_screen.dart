@@ -81,11 +81,11 @@ class SettingsScreenBody extends StatelessWidget {
               );
 
               if (!launched && context.mounted) {
-                _showError(context);
+                _showFeedbackError(context);
               }
             } on Exception catch (_) {
               if (context.mounted) {
-                _showError(context);
+                _showFeedbackError(context);
               }
             }
           },
@@ -102,12 +102,31 @@ class SettingsScreenBody extends StatelessWidget {
           ),
         ),
         height40,
+        AppButton(
+          label: context.l10n.rateApp,
+          color: colors.white20,
+          onPressed: () {
+            settingsBloc.add(const OpenStoreListingRequested());
+          },
+          child: Row(
+            spacing: 14,
+            children: [
+              width20,
+              Icon(Icons.star_outline, color: colors.white, size: 24),
+              Text(
+                context.l10n.rateApp,
+                style: context.typography.regular24,
+              ),
+            ],
+          ),
+        ),
+        height40,
         const _AppVersionText(),
       ],
     );
   }
 
-  void _showError(BuildContext context) {
+  void _showFeedbackError(BuildContext context) {
     unawaited(
       showAppNotification(
         context,

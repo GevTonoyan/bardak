@@ -1,3 +1,4 @@
+import 'package:bardak/app_review/app_review_scope.dart';
 import 'package:bardak/pre_game/pre_game_scope.dart';
 import 'package:bardak/rewards/inject_rewards_scope.dart';
 import 'package:bardak/settings/data/data_sources/settings_local_data_source.dart';
@@ -37,6 +38,7 @@ Future<void> injectDependencies() async {
       () => SettingsLocalDataSourceImpl(preferences: sl()),
     );
 
+  injectAppReviewScope();
   await injectRewardsScope();
   injectWordPacksScope();
   injectPreGameScope();

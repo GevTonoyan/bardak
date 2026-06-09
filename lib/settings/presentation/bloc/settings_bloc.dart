@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bardak/app_review/domain/usecases/open_store_listing_usecase.dart';
 import 'package:bardak/settings/domain/entities/app_settings_entity.dart';
 import 'package:bardak/settings/domain/entities/game_settings_entity.dart';
 import 'package:bardak/settings/domain/usecases/get_app_settings_usecase.dart';
@@ -16,6 +17,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     required this.updateAliasSettingUseCase,
     required this.getAppSettingsUseCase,
     required this.updateAppSettingsUseCase,
+    required this.openStoreListingUseCase,
   }) : super(
          SettingsState(
            gameSettings: GameSettingsEntity.initial(),
@@ -34,12 +36,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<ChangeTheme>(_changeTheme);
     on<ChangeColorScheme>(_changeColorScheme);
     on<ChangeLocale>(_changeLocale);
+    on<OpenStoreListingRequested>(_onOpenStoreListingRequested);
   }
 
   final GetGameSettingsUseCase getGameSettingsUseCase;
   final UpdateGameSettingSUseCase updateAliasSettingUseCase;
   final GetAppSettingsUseCase getAppSettingsUseCase;
   final UpdateAppSettingsUseCase updateAppSettingsUseCase;
+  final OpenStoreListingUseCase openStoreListingUseCase;
 
   FutureOr<void> _onGetSettings(
     GetSettings event,
@@ -227,4 +231,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       );
     }
   }
+
+  Future<void> _onOpenStoreListingRequested(
+    OpenStoreListingRequested event,
+    Emitter<SettingsState> emit,
+  ) => openStoreListingUseCase();
 }

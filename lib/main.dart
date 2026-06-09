@@ -70,6 +70,7 @@ void main() async {
             updateAliasSettingUseCase: sl(),
             getAppSettingsUseCase: sl(),
             updateAppSettingsUseCase: sl(),
+            openStoreListingUseCase: sl(),
           )..add(const GetSettings()),
         ),
         BlocProvider(

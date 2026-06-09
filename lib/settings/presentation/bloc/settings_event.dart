@@ -83,3 +83,7 @@ class ChangeWordsPerCard extends SettingsEvent {
   /// Determines if the new value should be saved in the Shared Preferences.
   final bool persist;
 }
+
+class OpenStoreListingRequested extends SettingsEvent {
+  const OpenStoreListingRequested();
+}
