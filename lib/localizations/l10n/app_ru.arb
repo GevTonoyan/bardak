@@ -110,5 +110,7 @@
   "not_enough_coins": "Недостаточно монет",
   "errorEmptyTeamNames": "Подождите, а кто играет? Введите названия команд!",
   "feedback": "Обратная связь",
-  "feedback_email_error": "Почтовое приложение не найдено. Напишите нам на bardak.support@gmail.com"
+  "feedback_email_error": "Почтовое приложение не найдено. Напишите нам на bardak.support@gmail.com",
+  "rateApp": "Оцените нас",
+  "rateApp_error": "Ой! Не удалось открыть магазин приложений."
 }

@@ -255,4 +255,10 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get feedback_email_error =>
       'Почтовое приложение не найдено. Напишите нам на bardak.support@gmail.com';
+
+  @override
+  String get rateApp => 'Оцените нас';
+
+  @override
+  String get rateApp_error => 'Ой! Не удалось открыть магазин приложений.';
 }

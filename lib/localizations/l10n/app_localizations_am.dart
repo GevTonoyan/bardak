@@ -249,4 +249,10 @@ class AppLocalizationsAm extends AppLocalizations {
   @override
   String get feedback_email_error =>
       'No email app found. Please send feedback to bardak.support@gmail.com';
+
+  @override
+  String get rateApp => 'Գնահատե՛ք մեզ';
+
+  @override
+  String get rateApp_error => 'Չհաջողվեց բացել հավելվածների խանութը:';
 }

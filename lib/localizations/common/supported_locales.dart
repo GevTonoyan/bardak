@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 enum AppLocales {
   en,
   ru,
-  am
-  ;
+  am;
 
   Locale get locale => switch (this) {
     en => const Locale('en'),

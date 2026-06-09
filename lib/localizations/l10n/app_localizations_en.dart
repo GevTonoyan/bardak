@@ -249,4 +249,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get feedback_email_error =>
       'No email app found. Please send feedback to bardak.support@gmail.com';
+
+  @override
+  String get rateApp => 'Rate Us';
+
+  @override
+  String get rateApp_error =>
+      'Oops! We couldn\'t open the App Store right now.';
 }

@@ -110,5 +110,7 @@
   "not_enough_coins": "Մետաղադրամները բավարար չեն",
   "errorEmptyTeamNames": "Սպասիր, իսկ ովքե՞ր են խաղում: Լրացրեք բոլոր թիմերը:",
   "feedback": "Հետադարձ կապ",
-  "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com"
+  "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com",
+  "rateApp": "Գնահատե՛ք մեզ",
+  "rateApp_error": "Չհաջողվեց բացել հավելվածների խանութը:"
 }

@@ -531,6 +531,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No email app found. Please send feedback to bardak.support@gmail.com'**
   String get feedback_email_error;
+
+  /// No description provided for @rateApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Us'**
+  String get rateApp;
+
+  /// No description provided for @rateApp_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops! We couldn\'t open the App Store right now.'**
+  String get rateApp_error;
 }
 
 class _AppLocalizationsDelegate

@@ -111,5 +111,7 @@
   "not_enough_coins": "Not enough coins",
   "errorEmptyTeamNames": "Wait, who's playing? Enter all team names!",
   "feedback": "Feedback",
-  "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com"
+  "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com",
+  "rateApp": "Rate Us",
+  "rateApp_error": "Oops! We couldn't open the App Store right now."
 }
