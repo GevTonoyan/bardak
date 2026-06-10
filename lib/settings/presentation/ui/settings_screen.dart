@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:bardak/app_ui/widgets/app_button/app_button.dart';
-import 'package:bardak/app_ui/widgets/app_button/app_switch_button.dart';
 import 'package:bardak/app_ui/widgets/app_notification.dart';
 import 'package:bardak/app_ui/widgets/app_spacings.dart';
+import 'package:bardak/app_ui/widgets/app_switch.dart';
 import 'package:bardak/app_ui/widgets/bottom_sheet.dart';
+import 'package:bardak/app_ui/widgets/language_icon.dart';
 import 'package:bardak/app_ui/widgets/smart_number_text.dart';
-import 'package:bardak/assets/assets.gen.dart';
+import 'package:bardak/localizations/common/supported_locales.dart';
 import 'package:bardak/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/settings/presentation/bloc/settings_event.dart';
-import 'package:bardak/settings/presentation/ui/app_languages_list.dart';
 import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,88 +41,95 @@ class SettingsScreenBody extends StatelessWidget {
     final settingsBloc = context.watch<SettingsBloc>();
     final appSettings = settingsBloc.state.appSettings;
     final colors = context.colors;
+    final l10n = context.l10n;
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: .min,
+      crossAxisAlignment: .stretch,
       children: [
         height30,
-        const AppLanguagesList(),
-        const SizedBox(height: 40),
-        AppSwitchButton(
-          label: context.l10n.sounds,
-          value: appSettings.soundEnabled,
-          icon: Assets.icons.volume.svg(width: 24, height: 24),
-          onPressed: () {
-            final enabled = appSettings.soundEnabled;
-            settingsBloc.add(ChangeSoundEffects(soundEffects: !enabled));
-          },
-          onChanged: (value) {
-            settingsBloc.add(ChangeSoundEffects(soundEffects: value));
-          },
+        _SettingsCard(
+          children: [
+            for (final locale in AppLocales.values)
+              _LanguageOptionRow(
+                locale: locale,
+                name: _localeName(context, locale),
+                isSelected: locale == appSettings.locale,
+                onTap: () => settingsBloc.add(ChangeLocale(locale)),
+              ),
+          ],
         ),
-        height40,
-        AppButton(
-          label: context.l10n.feedback,
-          color: colors.white20,
-          onPressed: () async {
-            final uri = Uri(
-              scheme: 'mailto',
-              path: 'bardak.feedback@gmail.com',
-              queryParameters: {
-                'subject': 'Bardak Feedback',
+        height20,
+        _SettingsCard(
+          children: [
+            _SettingsTile(
+              icon: Icons.volume_up_rounded,
+              iconColor: colors.green,
+              label: l10n.sounds,
+              trailing: AppSwitch(
+                value: appSettings.soundEnabled,
+                onChanged: (value) {
+                  settingsBloc.add(ChangeSoundEffects(soundEffects: value));
+                },
+              ),
+            ),
+          ],
+        ),
+        height20,
+        _SettingsCard(
+          children: [
+            _SettingsTile(
+              icon: Icons.mail_outline_rounded,
+              iconColor: colors.orange,
+              label: l10n.feedback,
+              trailing: const _Chevron(),
+              onTap: () => _sendFeedback(context),
+            ),
+            _SettingsTile(
+              icon: Icons.star_outline_rounded,
+              iconColor: colors.purple,
+              label: l10n.rateApp,
+              trailing: const _Chevron(),
+              onTap: () {
+                settingsBloc.add(const OpenStoreListingRequested());
               },
-            );
-
-            try {
-              final launched = await launchUrl(
-                uri,
-                mode: LaunchMode.externalApplication,
-              );
-
-              if (!launched && context.mounted) {
-                _showFeedbackError(context);
-              }
-            } on Exception catch (_) {
-              if (context.mounted) {
-                _showFeedbackError(context);
-              }
-            }
-          },
-          child: Row(
-            spacing: 14,
-            children: [
-              width20,
-              Icon(Icons.mail_outline, color: colors.white, size: 24),
-              Text(
-                context.l10n.feedback,
-                style: context.typography.regular24,
-              ),
-            ],
-          ),
-        ),
-        height40,
-        AppButton(
-          label: context.l10n.rateApp,
-          color: colors.white20,
-          onPressed: () {
-            settingsBloc.add(const OpenStoreListingRequested());
-          },
-          child: Row(
-            spacing: 14,
-            children: [
-              width20,
-              Icon(Icons.star_outline, color: colors.white, size: 24),
-              Text(
-                context.l10n.rateApp,
-                style: context.typography.regular24,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
         height40,
         const _AppVersionText(),
       ],
     );
+  }
+
+  String _localeName(BuildContext context, AppLocales locale) {
+    final l10n = context.l10n;
+    return switch (locale) {
+      AppLocales.en => l10n.settings_localeEnglish,
+      AppLocales.ru => l10n.settings_localeRussian,
+      AppLocales.am => l10n.settings_localeArmenian,
+    };
+  }
+
+  Future<void> _sendFeedback(BuildContext context) async {
+    final uri = Uri(
+      scheme: 'mailto',
+      path: 'bardak.feedback@gmail.com',
+      queryParameters: {'subject': 'Bardak Feedback'},
+    );
+    try {
+      final launched = await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+      if (!launched && context.mounted) {
+        _showFeedbackError(context);
+      }
+    } on Exception catch (_) {
+      if (context.mounted) {
+        _showFeedbackError(context);
+      }
+    }
   }
 
   void _showFeedbackError(BuildContext context) {
@@ -133,6 +139,174 @@ class SettingsScreenBody extends StatelessWidget {
         message: context.l10n.feedback_email_error,
         duration: const Duration(seconds: 5),
       ),
+    );
+  }
+}
+
+class _SettingsCard extends StatelessWidget {
+  const _SettingsCard({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final rows = <Widget>[];
+    for (var i = 0; i < children.length; i++) {
+      rows.add(children[i]);
+      if (i != children.length - 1) rows.add(const _TileDivider());
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colors.black.withValues(alpha: 0.18),
+        borderRadius: .circular(16),
+      ),
+      clipBehavior: .antiAlias,
+      child: Column(mainAxisSize: .min, children: rows),
+    );
+  }
+}
+
+class _SettingsTile extends StatelessWidget {
+  const _SettingsTile({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    this.trailing,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final String label;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const .symmetric(horizontal: 14, vertical: 14),
+          child: Row(
+            children: [
+              _IconTile(icon: icon, color: iconColor),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  label,
+                  style: context.typography.regular20,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (trailing != null) ...[
+                const SizedBox(width: 8),
+                trailing!,
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageOptionRow extends StatelessWidget {
+  const _LanguageOptionRow({
+    required this.locale,
+    required this.name,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final AppLocales locale;
+  final String name;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 32,
+                child: Center(child: LanguageIcon(locale: locale, size: 30)),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  name,
+                  style: context.typography.regular20.copyWith(
+                    color: isSelected ? colors.white : colors.white50,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (isSelected)
+                Icon(Icons.check_rounded, color: colors.white, size: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _IconTile extends StatelessWidget {
+  const _IconTile({required this.icon, required this.color});
+
+  final IconData icon;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 32,
+      height: 32,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(9),
+      ),
+      child: Icon(icon, color: context.colors.white, size: 19),
+    );
+  }
+}
+
+class _TileDivider extends StatelessWidget {
+  const _TileDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 58),
+      child: Container(
+        height: 1,
+        color: context.colors.white.withValues(alpha: 0.12),
+      ),
+    );
+  }
+}
+
+class _Chevron extends StatelessWidget {
+  const _Chevron();
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.chevron_right_rounded,
+      color: context.colors.white50,
+      size: 24,
     );
   }
 }
