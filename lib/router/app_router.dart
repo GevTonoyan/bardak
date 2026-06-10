@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bardak/app_review/presentation/bloc/in_app_review_bloc.dart';
 import 'package:bardak/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:bardak/card_round/presentation/ui/card_round_screen.dart';
 import 'package:bardak/game_session/domain/entities/game_session_entity.dart';
@@ -22,6 +23,7 @@ import 'package:bardak/single_word_round/presentation/bloc/single_word_round_blo
 import 'package:bardak/single_word_round/presentation/ui/single_word_round_screen.dart';
 import 'package:bardak/splash/presentation/splash_screen.dart';
 import 'package:bardak/themes/presentation/ui/themes_screen.dart';
+import 'package:bardak/utils/dependency_injection/di.dart';
 import 'package:bardak/word_pack/presentation/ui/language_select_screen.dart';
 import 'package:bardak/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -251,7 +253,10 @@ final appRouter = GoRouter(
             final winner = teamStates.winner;
 
             return _buildPlatformPage(
-              child: GameSummaryScreen(winningTeamName: winner.name),
+              child: BlocProvider(
+                create: (_) => sl<InAppReviewBloc>(),
+                child: GameSummaryScreen(winningTeamName: winner.name),
+              ),
             );
           },
         ),

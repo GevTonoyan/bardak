@@ -41,4 +41,12 @@ class AppConstants {
   // Sync
   static const lastWordsSyncKey = 'last_words_sync';
   static const wordsSyncIntervalDays = 3;
+
+  // App review
+  static const gamesCompletedKey = 'games_completed';
+  static const appOpenedCountKey = 'app_opened_count';
+  static const lastReviewPromptKey = 'last_review_prompt_ms';
+  static const minGamesCompletedForReview = 3;
+  static const minAppOpenedCountForReview = 3;
+  static const reviewPromptCooldownDays = 60;
 }

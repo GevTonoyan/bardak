@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:bardak/app_review/presentation/bloc/in_app_review_bloc.dart';
+import 'package:bardak/app_review/presentation/bloc/in_app_review_event.dart';
 import 'package:bardak/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/app_ui/widgets/highlighted_text.dart';
 import 'package:bardak/app_ui/widgets/screen_background.dart';
@@ -7,6 +9,7 @@ import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:bardak/utils/extensions/state_extension.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class GameSummaryScreen extends StatefulWidget {
@@ -30,6 +33,7 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _controller.play();
+      context.read<InAppReviewBloc>().add(const InAppReviewRequested());
     });
   }
 

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
+import 'package:bardak/app_review/domain/usecases/record_app_opened_usecase.dart';
 import 'package:bardak/app_ui/theme/app_color_scheme.dart';
 import 'package:bardak/app_ui/theme/app_theme/app_theme_data_builder.dart';
 import 'package:bardak/app_ui/theme/app_theme_provider.dart';
@@ -46,6 +49,7 @@ void main() async {
   // TODO(Gevorg): come up with nicer way to handle this
   // (add splash screen while loading dependencies)
   await injectDependencies();
+  unawaited(sl<RecordAppOpenedUseCase>()());
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // TODO(Gevorg): check path_provider, if not used - remove
