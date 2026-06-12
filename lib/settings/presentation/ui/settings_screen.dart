@@ -327,9 +327,7 @@ class _AppVersionText extends StatelessWidget {
       future: PackageInfo.fromPlatform(),
       builder: (_, snapshot) {
         final versionLabel = l10n.appVersion;
-        final version = snapshot.hasData
-            ? '${snapshot.data!.version} (${snapshot.data!.buildNumber})'
-            : '';
+        final version = snapshot.hasData ? snapshot.data!.version : '';
 
         return SmartNumberText(
           '$versionLabel $version',
