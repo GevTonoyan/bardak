@@ -358,6 +358,18 @@ abstract class AppLocalizations {
   /// **'One word'**
   String get oneWordMode;
 
+  /// No description provided for @classicModeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic'**
+  String get classicModeShort;
+
+  /// No description provided for @oneWordModeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'One Word'**
+  String get oneWordModeShort;
+
   /// No description provided for @game_rules.
   ///
   /// In en, this message translates to:

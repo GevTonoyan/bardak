@@ -155,6 +155,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get oneWordMode => 'Одним словом';
 
   @override
+  String get classicModeShort => 'Классический';
+
+  @override
+  String get oneWordModeShort => 'Одно слово';
+
+  @override
   String get game_rules => 'Правила игры';
 
   @override

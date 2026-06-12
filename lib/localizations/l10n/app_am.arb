@@ -76,6 +76,8 @@
 
   "classicMode": "Դասական Ալիաս",
   "oneWordMode": "Մեկ բառով",
+  "classicModeShort": "Դասական",
+  "oneWordModeShort": "Մեկ բառ",
 
   "game_rules": "Խաղի կանոնները",
   "singleModeRule1": "Խաղացողը բացատրում է բառերը հաջորդաբար՝ մեկը մյուսի հետևից",

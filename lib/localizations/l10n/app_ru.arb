@@ -76,6 +76,8 @@
 
   "classicMode": "Классический Алиас",
   "oneWordMode": "Одним словом",
+  "classicModeShort": "Классический",
+  "oneWordModeShort": "Одно слово",
 
   "game_rules": "Правила игры",
   "singleModeRule1": "Игрок объясняет слова последовательно, одно за другим",

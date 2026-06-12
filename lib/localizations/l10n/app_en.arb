@@ -76,6 +76,8 @@
 
   "classicMode": "Classic Alias",
   "oneWordMode": "One word",
+  "classicModeShort": "Classic",
+  "oneWordModeShort": "One Word",
 
   "game_rules": "Game Rules",
   "singleModeRule1": "Players explain words one after another in sequence",

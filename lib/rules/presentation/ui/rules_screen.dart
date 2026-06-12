@@ -48,7 +48,7 @@ class _RulesScreenBodyState extends State<_RulesScreenBody> {
             children: [
               Expanded(
                 child: AppButton(
-                  label: context.l10n.classicMode,
+                  label: context.l10n.classicModeShort,
                   color: colors.white20,
                   isPressed: gameMode == GameMode.card,
                   pressedColor: colors.white,
@@ -62,7 +62,7 @@ class _RulesScreenBodyState extends State<_RulesScreenBody> {
               ),
               Expanded(
                 child: AppButton(
-                  label: context.l10n.oneWordMode,
+                  label: context.l10n.oneWordModeShort,
                   color: colors.white20,
                   isPressed: gameMode == GameMode.singleWord,
                   pressedColor: colors.white,

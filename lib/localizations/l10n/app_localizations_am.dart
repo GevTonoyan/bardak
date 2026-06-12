@@ -148,6 +148,12 @@ class AppLocalizationsAm extends AppLocalizations {
   String get oneWordMode => 'Մեկ բառով';
 
   @override
+  String get classicModeShort => 'Դասական';
+
+  @override
+  String get oneWordModeShort => 'Մեկ բառ';
+
+  @override
   String get game_rules => 'Խաղի կանոնները';
 
   @override

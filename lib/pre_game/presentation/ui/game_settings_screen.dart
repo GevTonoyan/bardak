@@ -88,7 +88,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                     children: [
                       Expanded(
                         child: AppButton(
-                          label: l10n.classicMode,
+                          label: l10n.classicModeShort,
                           color: colors.white20,
                           isPressed: gameMode == GameMode.card,
                           pressedColor: colors.white,
@@ -102,7 +102,7 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                       ),
                       Expanded(
                         child: AppButton(
-                          label: l10n.oneWordMode,
+                          label: l10n.oneWordModeShort,
                           color: colors.white20,
                           isPressed: gameMode == GameMode.singleWord,
                           pressedColor: colors.white,

@@ -148,6 +148,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get oneWordMode => 'One word';
 
   @override
+  String get classicModeShort => 'Classic';
+
+  @override
+  String get oneWordModeShort => 'One Word';
+
+  @override
   String get game_rules => 'Game Rules';
 
   @override
