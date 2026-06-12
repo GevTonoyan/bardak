@@ -66,6 +66,9 @@ class SettingsScreenBody extends StatelessWidget {
               icon: Icons.volume_up_rounded,
               iconColor: colors.green,
               label: l10n.sounds,
+              onTap: () => settingsBloc.add(
+                ChangeSoundEffects(soundEffects: !appSettings.soundEnabled),
+              ),
               trailing: AppSwitch(
                 value: appSettings.soundEnabled,
                 onChanged: (value) {

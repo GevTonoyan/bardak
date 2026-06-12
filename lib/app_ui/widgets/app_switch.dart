@@ -20,6 +20,7 @@ class AppSwitch extends StatelessWidget {
         (_) => colors.white20,
       ),
       padding: EdgeInsets.zero,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       value: value,
       onChanged: onChanged,
     );
