@@ -149,10 +149,10 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get classicMode => 'Классический';
+  String get classicMode => 'Классический Алиас';
 
   @override
-  String get oneWordMode => 'Одно слово';
+  String get oneWordMode => 'Одним словом';
 
   @override
   String get game_rules => 'Правила игры';

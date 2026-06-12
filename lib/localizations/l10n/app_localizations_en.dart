@@ -142,10 +142,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get classicMode => 'Classic';
+  String get classicMode => 'Classic Alias';
 
   @override
-  String get oneWordMode => 'One Word';
+  String get oneWordMode => 'One word';
 
   @override
   String get game_rules => 'Game Rules';

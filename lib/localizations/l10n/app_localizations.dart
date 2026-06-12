@@ -349,13 +349,13 @@ abstract class AppLocalizations {
   /// No description provided for @classicMode.
   ///
   /// In en, this message translates to:
-  /// **'Classic'**
+  /// **'Classic Alias'**
   String get classicMode;
 
   /// No description provided for @oneWordMode.
   ///
   /// In en, this message translates to:
-  /// **'One Word'**
+  /// **'One word'**
   String get oneWordMode;
 
   /// No description provided for @game_rules.
