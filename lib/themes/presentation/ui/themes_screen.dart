@@ -208,7 +208,8 @@ class _ThemesScreenState extends State<ThemesScreen> {
                                   crossAxisAlignment: .end,
                                   spacing: 8,
                                   children: [
-                                    Assets.icons.lock.svg(),
+                                    if (!state.isOwned(scheme))
+                                      Assets.icons.lock.svg(),
                                     Text(
                                       scheme.displayName(context),
                                       style: typography.regular24,
