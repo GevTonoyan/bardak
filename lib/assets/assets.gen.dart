@@ -47,9 +47,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/lock.svg
   SvgGenImage get lock => const SvgGenImage('assets/icons/lock.svg');
 
-  /// File path: assets/icons/minus.svg
-  SvgGenImage get minus => const SvgGenImage('assets/icons/minus.svg');
-
   /// File path: assets/icons/pause.svg
   SvgGenImage get pause => const SvgGenImage('assets/icons/pause.svg');
 
@@ -59,19 +56,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/question.svg
   SvgGenImage get question => const SvgGenImage('assets/icons/question.svg');
 
-  /// File path: assets/icons/reward_closed.svg
-  SvgGenImage get rewardClosed =>
-      const SvgGenImage('assets/icons/reward_closed.svg');
-
   /// File path: assets/icons/reward_opened.svg
   SvgGenImage get rewardOpened =>
       const SvgGenImage('assets/icons/reward_opened.svg');
 
   /// File path: assets/icons/shiner.svg
   SvgGenImage get shiner => const SvgGenImage('assets/icons/shiner.svg');
-
-  /// File path: assets/icons/volume.svg
-  SvgGenImage get volume => const SvgGenImage('assets/icons/volume.svg');
 
   /// List of all assets
   List<SvgGenImage> get values => [
@@ -84,14 +74,11 @@ class $AssetsIconsGen {
     download,
     info,
     lock,
-    minus,
     pause,
     play,
     question,
-    rewardClosed,
     rewardOpened,
     shiner,
-    volume,
   ];
 }
 
