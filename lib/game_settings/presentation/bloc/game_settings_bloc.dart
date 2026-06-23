@@ -16,9 +16,7 @@ class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
     on<LoadGameSettings>(_onLoadGameSettings);
     on<ChangeRoundDuration>(_onChangeRoundDuration);
     on<ChangePointsToWin>(_onChangePointsToWin);
-    on<ChangeWordsPerCard>(_onChangeWordsPerCard);
     on<ChangeAllowSkipping>(_onChangeAllowSkipping);
-    on<ChangePenaltyForSkipping>(_onChangePenaltyForSkipping);
   }
 
   final GetGameSettingsUseCase getGameSettingsUseCase;
@@ -70,23 +68,6 @@ class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
     );
   }
 
-  Future<void> _onChangeWordsPerCard(
-    ChangeWordsPerCard event,
-    Emitter<GameSettingsState> emit,
-  ) async {
-    final updated = state.gameSettings.copyWith(
-      wordsPerCard: event.wordsPerCard,
-    );
-    emit(GameSettingsState(gameSettings: updated));
-
-    await updateGameSettingsUseCase(
-      UpdateGameSettingsParams(
-        key: AppConstants.wordsPerCardKey,
-        value: event.wordsPerCard,
-      ),
-    );
-  }
-
   Future<void> _onChangeAllowSkipping(
     ChangeAllowSkipping event,
     Emitter<GameSettingsState> emit,
@@ -100,23 +81,6 @@ class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
       UpdateGameSettingsParams(
         key: AppConstants.allowSkippingKey,
         value: event.allowSkipping,
-      ),
-    );
-  }
-
-  Future<void> _onChangePenaltyForSkipping(
-    ChangePenaltyForSkipping event,
-    Emitter<GameSettingsState> emit,
-  ) async {
-    final updated = state.gameSettings.copyWith(
-      penaltyForSkipping: event.penaltyForSkipping,
-    );
-    emit(GameSettingsState(gameSettings: updated));
-
-    await updateGameSettingsUseCase(
-      UpdateGameSettingsParams(
-        key: AppConstants.penaltyForSkippingKey,
-        value: event.penaltyForSkipping,
       ),
     );
   }
