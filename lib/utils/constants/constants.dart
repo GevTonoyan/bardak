@@ -2,7 +2,6 @@ class AppConstants {
   static const appStoreId = '6766040587';
 
   //settings preferences keys
-  static const appThemeKey = 'app_theme_key';
   static const appLocaleKey = 'app_locale_key';
   static const appColorSchemeKey = 'app_color_scheme_key';
   static const soundEnabledKey = 'is_sound_enabled';

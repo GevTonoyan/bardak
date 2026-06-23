@@ -23,6 +23,8 @@ import 'package:bardak/app_ui/theme/colors/app_turquoise_colors.dart';
 import 'package:bardak/app_ui/theme/colors/app_yellow_colors.dart';
 import 'package:bardak/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/firebase_options.dart';
+import 'package:bardak/game_settings/presentation/bloc/game_settings_bloc.dart';
+import 'package:bardak/game_settings/presentation/bloc/game_settings_event.dart';
 import 'package:bardak/localizations/common/supported_locales.dart';
 import 'package:bardak/localizations/l10n/app_localizations.dart';
 import 'package:bardak/logging/app_bloc_observer.dart';
@@ -42,9 +44,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   // By default it is assets/, but our Assets lib already adds assets/
   AudioCache.instance = AudioCache(prefix: '');
-  WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([.portraitUp, .portraitDown]);
   // TODO(Gevorg): come up with nicer way to handle this
   // (add splash screen while loading dependencies)
@@ -52,7 +54,6 @@ void main() async {
   unawaited(sl<RecordAppOpenedUseCase>()());
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // TODO(Gevorg): check path_provider, if not used - remove
   await Hive.initFlutter();
 
   Bloc.observer = const AppBlocObserver();
@@ -70,12 +71,10 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => SettingsBloc(
-            getGameSettingsUseCase: sl(),
-            updateAliasSettingUseCase: sl(),
             getAppSettingsUseCase: sl(),
             updateAppSettingsUseCase: sl(),
             openStoreListingUseCase: sl(),
-          )..add(const GetSettings()),
+          )..add(const GetAppSettings()),
         ),
         BlocProvider(
           create: (_) => RewardsCubit(
@@ -95,6 +94,12 @@ void main() async {
             getPurchasedThemesUseCase: sl(),
             updatePurchasedThemesUseCase: sl(),
           ),
+        ),
+        BlocProvider(
+          create: (_) => GameSettingsBloc(
+            getGameSettingsUseCase: sl(),
+            updateGameSettingsUseCase: sl(),
+          )..add(const LoadGameSettings()),
         ),
       ],
       child: const MyApp(),

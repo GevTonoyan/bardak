@@ -7,6 +7,7 @@ import 'package:bardak/app_ui/widgets/language_icon.dart';
 import 'package:bardak/app_ui/widgets/screen_background.dart';
 import 'package:bardak/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/game_session/presentation/ui/round_overview_screen.dart';
+import 'package:bardak/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/localizations/common/supported_locales.dart';
 import 'package:bardak/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:bardak/settings/presentation/bloc/settings_bloc.dart';
@@ -148,9 +149,8 @@ class _Success extends StatelessWidget {
     BuildContext context,
     WordPackEntity pack,
   ) {
-    final settings = context.read<SettingsBloc>().state;
-    final gameSettings = settings.gameSettings;
-    final appSettings = settings.appSettings;
+    final appSettings = context.read<SettingsBloc>().state.appSettings;
+    final gameSettings = context.read<GameSettingsBloc>().state.gameSettings;
 
     final preGame = context.read<PreGameBloc>().state;
 

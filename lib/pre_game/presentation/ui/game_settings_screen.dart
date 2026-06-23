@@ -5,11 +5,11 @@ import 'package:bardak/app_ui/widgets/app_button/app_stepper_button.dart';
 import 'package:bardak/app_ui/widgets/app_button/app_switch_button.dart';
 import 'package:bardak/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/app_ui/widgets/bottom_sheet.dart';
+import 'package:bardak/game_settings/presentation/bloc/game_settings_bloc.dart';
+import 'package:bardak/game_settings/presentation/bloc/game_settings_event.dart';
 import 'package:bardak/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:bardak/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:bardak/pre_game/presentation/ui/setup_team_names_screen.dart';
-import 'package:bardak/settings/presentation/bloc/settings_bloc.dart';
-import 'package:bardak/settings/presentation/bloc/settings_event.dart';
 import 'package:bardak/utils/constants/constants.dart';
 import 'package:bardak/utils/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -55,8 +55,8 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
     final typography = context.typography;
     final l10n = context.l10n;
 
-    final settingsBloc = context.watch<SettingsBloc>();
-    final gameSettings = settingsBloc.state.gameSettings;
+    final gameSettingsBloc = context.watch<GameSettingsBloc>();
+    final gameSettings = gameSettingsBloc.state.gameSettings;
 
     final roundDuration = gameSettings.roundDuration;
     final pointsToWin = gameSettings.pointsToWin;
@@ -126,19 +126,15 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                     label: l10n.unit_sec(roundDuration),
                     onDecrement: canDecreaseRoundDuration
                         ? () {
-                            settingsBloc.add(
-                              ChangeGameDuration(
-                                gameDuration: roundDuration - 5,
-                              ),
+                            gameSettingsBloc.add(
+                              ChangeRoundDuration(roundDuration - 5),
                             );
                           }
                         : null,
                     onIncrement: canIncreaseRoundDuration
                         ? () {
-                            settingsBloc.add(
-                              ChangeGameDuration(
-                                gameDuration: roundDuration + 5,
-                              ),
+                            gameSettingsBloc.add(
+                              ChangeRoundDuration(roundDuration + 5),
                             );
                           }
                         : null,
@@ -153,15 +149,15 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                     label: l10n.unit_pts(pointsToWin),
                     onDecrement: canDecrementPointsToWin
                         ? () {
-                            settingsBloc.add(
-                              ChangePointsToWin(pointsToWin: pointsToWin - 5),
+                            gameSettingsBloc.add(
+                              ChangePointsToWin(pointsToWin - 5),
                             );
                           }
                         : null,
                     onIncrement: canIncrementPointsToWin
                         ? () {
-                            settingsBloc.add(
-                              ChangePointsToWin(pointsToWin: pointsToWin + 5),
+                            gameSettingsBloc.add(
+                              ChangePointsToWin(pointsToWin + 5),
                             );
                           }
                         : null,
@@ -172,14 +168,14 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                       label: l10n.settings_allow_skipping,
                       value: gameSettings.allowSkipping,
                       onPressed: () {
-                        settingsBloc.add(
+                        gameSettingsBloc.add(
                           ChangeAllowSkipping(
                             allowSkipping: !gameSettings.allowSkipping,
                           ),
                         );
                       },
                       onChanged: (value) {
-                        settingsBloc.add(
+                        gameSettingsBloc.add(
                           ChangeAllowSkipping(allowSkipping: value),
                         );
                       },

@@ -1,8 +1,10 @@
 import 'package:bardak/utils/constants/constants.dart';
 import 'package:equatable/equatable.dart';
 
-/// This class represents the settings for the Alias game.
-/// It contains various properties that define the game settings.
+/// Settings for the Alias game (round duration, scoring, skipping rules).
+///
+/// Lives in its own feature so each game can own its settings independently
+/// as more games are added.
 class GameSettingsEntity extends Equatable {
   const GameSettingsEntity({
     this.roundDuration = AppConstants.defaultRoundDuration,
