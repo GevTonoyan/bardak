@@ -53,13 +53,56 @@ Game-loop features (game_session, card_round, single_word_round) use domain enti
 
 ## State management — BLoC rules
 
-- Events and states MUST be `sealed` classes extending `Equatable`.
+- Events MUST be `sealed` classes; events and states both extend `Equatable`. State shape (single class vs `sealed` base) follows the Naming conventions below.
 - Every async `on<Event>` MUST declare an explicit concurrency transformer:
   - `restartable()` — search/refresh
   - `droppable()` — single tap actions
   - `sequential()` — order-sensitive saves
 - BLoCs receive use cases via constructor. **Never** call `sl()` inside a BLoC.
 - Use `Bloc` for discrete event-driven logic; `Cubit` only for simple method-call state machines.
+
+## Naming conventions
+
+Consistency across features outweighs any individual preference. New code MUST follow these; existing violations are fixed incrementally.
+
+### Use cases
+- One use case = one class with a single `call()` method (callable class).
+- Class `<Verb><Noun>UseCase`; file `<verb>_<noun>_usecase.dart` (`usecase`, one word).
+- Dependency field is **private**: `final <Type>Repository _repository;`. Not public, not feature-prefixed (`_settingsRepository` ✗).
+- Verb vocabulary — pick by intent, never mix synonyms:
+  - `Get<Noun>` — read already-available data (local store / cache / memory); sync return when the repo is sync.
+  - `Fetch<Noun>` — retrieve from a **remote** source (Firestore/network); returns `Future`.
+  - `Update<Noun>` — persist a change.
+  - Boolean query — `Is…` / `Are…` / `Has…` (e.g. `AreWordPacksCachedUseCase`).
+  - Other commands — imperative verb for the effect (`RecordAppOpenedUseCase`, `OpenStoreListingUseCase`). Avoid `On…` (event-handler phrasing, not a command).
+- Params: a use case with arguments declares `<UseCaseName without "UseCase">Params` in the **same file**. Noun must match the use case (`AreWordPacksCachedUseCase` → `AreWordPacksCachedParams`).
+- The same domain noun is spelled identically across use case, params, repository method, and entity (`WordPacks`, never `Packs` in some places).
+
+### BLoC / Cubit
+- Default to `Bloc`. Use `Cubit` only for a trivial method-call state machine — and it still has a dedicated `<Feature>State` class (never a raw entity as the state type).
+- Triad per feature in `presentation/bloc/`: `<Feature>Bloc` / `<Feature>Event` / `<Feature>State`, files `<feature>_bloc.dart` / `_event.dart` / `_state.dart`.
+
+### Events
+- Base: `sealed class <Feature>Event extends Equatable`.
+- Subclasses: **imperative, verb-first, no `Event` suffix** — `LoadGameSettings`, `ChangeLocale`, `ToggleWord`, `PurchaseTheme` (not `AddTeamsEvent`, not past-tense `WordToggled`).
+- The "load this feature's data" trigger is always `Load<Thing>` — `Get`/`Fetch`/`Cache` belong to use cases, not events.
+
+### States
+- All states extend `Equatable`.
+- **≤ 2 states** (data that mutates in place): a single immutable `<Feature>State` class.
+- **> 2 distinct states**: a `sealed class <Feature>State` base with one subclass per state, named `<Feature><Variant>` (`<Feature>Initial`, `<Feature>Loading`, `<Feature>Loaded`, `<Feature>Failure`).
+- A single-field state has no `copyWith` — construct it directly.
+
+### Repositories & data sources
+- `<Feature>Repository` (`abstract interface class`) in `domain/repositories/`; impl in `data/repositories/`.
+- `<Feature>LocalDataSource` / `<Feature>RemoteDataSource` (+ `…Impl`) in `data/data_sources/`.
+- Methods verb-first camelCase mirroring use-case intent (`getX`, `fetchX`, `updateX`, `areXCached`).
+
+### Entities
+- `<Noun>Entity`, `Equatable`; `copyWith` when it has more than one field; factories `.initial()`, `.fromPreferences()` / `.fromJson()`.
+
+### DI scope files
+- File `<feature>_scope.dart`, function `inject<Feature>Scope()` (not `inject_<feature>_scope.dart`).
 
 ## Dependency injection — GetIt
 
