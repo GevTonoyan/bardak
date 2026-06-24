@@ -213,7 +213,6 @@ final appRouter = GoRouter(
                       words: gameState.words,
                       roundDuration: gameState.roundDuration,
                       allowSkipping: gameState.allowSkipping,
-                      penaltyForSkipping: gameState.penaltyForSkipping,
                       soundsEnabled: gameState.soundEnabled,
                     ),
                     child: const SingleWordRoundScreen(),

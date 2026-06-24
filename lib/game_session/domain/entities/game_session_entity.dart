@@ -10,7 +10,6 @@ class GameSessionEntity {
     required this.soundEnabled,
     required this.wordsPerCard,
     required this.allowSkipping,
-    required this.penaltyForSkipping,
     required this.currentTeamIndex,
     required this.previousTeamIndex,
     required this.currentRoundIndex,
@@ -32,7 +31,6 @@ class GameSessionEntity {
 
   /// Rules
   final bool allowSkipping;
-  final bool penaltyForSkipping;
 
   final bool soundEnabled;
 
@@ -69,7 +67,6 @@ class GameSessionEntity {
       soundEnabled: soundEnabled,
       wordsPerCard: wordsPerCard,
       allowSkipping: allowSkipping,
-      penaltyForSkipping: penaltyForSkipping,
       currentTeamIndex: currentTeamIndex ?? this.currentTeamIndex,
       previousTeamIndex: previousTeamIndex ?? this.previousTeamIndex,
       currentRoundIndex: currentRoundIndex ?? this.currentRoundIndex,

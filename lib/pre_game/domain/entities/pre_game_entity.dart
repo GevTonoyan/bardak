@@ -27,7 +27,6 @@ class PreGameEntity {
     int? pointsToWin,
     int? wordsPerCard,
     bool? allowSkipping,
-    bool? penaltyForSkipping,
     List<String>? teamNames,
     List<String>? words,
   }) {

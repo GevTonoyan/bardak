@@ -9,7 +9,6 @@ class SingleWordRoundState {
     required this.roundDuration,
     required this.completed,
     required this.allowSkipping,
-    required this.penaltyForSkipping,
     required this.soundsEnabled,
   });
 
@@ -17,7 +16,6 @@ class SingleWordRoundState {
     required List<String> words,
     required int roundDuration,
     required bool allowSkipping,
-    required bool penaltyForSkipping,
     required bool soundsEnabled,
   }) => SingleWordRoundState(
     words: words,
@@ -27,7 +25,6 @@ class SingleWordRoundState {
     roundDuration: roundDuration,
     completed: false,
     allowSkipping: allowSkipping,
-    penaltyForSkipping: penaltyForSkipping,
     soundsEnabled: soundsEnabled,
   );
 
@@ -39,7 +36,6 @@ class SingleWordRoundState {
     int? roundDuration,
     bool? completed,
     bool? allowSkipping,
-    bool? penaltyForSkipping,
   }) {
     return SingleWordRoundState(
       words: words ?? this.words,
@@ -49,7 +45,6 @@ class SingleWordRoundState {
       roundDuration: roundDuration ?? this.roundDuration,
       completed: completed ?? this.completed,
       allowSkipping: allowSkipping ?? this.allowSkipping,
-      penaltyForSkipping: penaltyForSkipping ?? this.penaltyForSkipping,
       soundsEnabled: soundsEnabled,
     );
   }
@@ -61,7 +56,6 @@ class SingleWordRoundState {
   final int roundDuration;
   final bool completed;
   final bool allowSkipping;
-  final bool penaltyForSkipping;
   final bool soundsEnabled;
 }
 

@@ -169,7 +169,6 @@ class _Success extends StatelessWidget {
       soundEnabled: appSettings.soundEnabled,
       wordsPerCard: gameSettings.wordsPerCard,
       allowSkipping: gameSettings.allowSkipping,
-      penaltyForSkipping: gameSettings.penaltyForSkipping,
       currentTeamIndex: 0,
       previousTeamIndex: 0,
       currentRoundIndex: 0,

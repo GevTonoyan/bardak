@@ -10,7 +10,6 @@ class GameSettingsEntity extends Equatable {
     this.roundDuration = AppConstants.defaultRoundDuration,
     this.pointsToWin = AppConstants.defaultPointsToWin,
     this.allowSkipping = true,
-    this.penaltyForSkipping = true,
     this.wordsPerCard = AppConstants.defaultWordsPerCard,
   });
 
@@ -22,14 +21,12 @@ class GameSettingsEntity extends Equatable {
     int? roundDuration,
     int? pointsToWin,
     bool? allowSkipping,
-    bool? penaltyForSkipping,
     int? wordsPerCard,
   }) {
     return GameSettingsEntity(
       roundDuration: roundDuration ?? AppConstants.defaultRoundDuration,
       pointsToWin: pointsToWin ?? AppConstants.defaultPointsToWin,
       allowSkipping: allowSkipping ?? true,
-      penaltyForSkipping: penaltyForSkipping ?? true,
       wordsPerCard: wordsPerCard ?? AppConstants.defaultWordsPerCard,
     );
   }
@@ -37,21 +34,18 @@ class GameSettingsEntity extends Equatable {
   final int roundDuration;
   final int pointsToWin;
   final bool allowSkipping;
-  final bool penaltyForSkipping;
   final int wordsPerCard;
 
   GameSettingsEntity copyWith({
     int? roundDuration,
     int? pointsToWin,
     bool? allowSkipping,
-    bool? penaltyForSkipping,
     int? wordsPerCard,
   }) {
     return GameSettingsEntity(
       roundDuration: roundDuration ?? this.roundDuration,
       pointsToWin: pointsToWin ?? this.pointsToWin,
       allowSkipping: allowSkipping ?? this.allowSkipping,
-      penaltyForSkipping: penaltyForSkipping ?? this.penaltyForSkipping,
       wordsPerCard: wordsPerCard ?? this.wordsPerCard,
     );
   }
@@ -61,7 +55,6 @@ class GameSettingsEntity extends Equatable {
     return 'GameSettingsEntity(roundDuration: $roundDuration, '
         'pointsToWin: $pointsToWin, '
         'allowSkipping: $allowSkipping, '
-        'penaltyForSkipping: $penaltyForSkipping, '
         'wordsPerCard: $wordsPerCard)';
   }
 
@@ -70,7 +63,6 @@ class GameSettingsEntity extends Equatable {
     roundDuration,
     pointsToWin,
     allowSkipping,
-    penaltyForSkipping,
     wordsPerCard,
   ];
 }

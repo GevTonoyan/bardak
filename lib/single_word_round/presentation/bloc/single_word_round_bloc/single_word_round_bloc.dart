@@ -12,7 +12,6 @@ class SingleWordRoundBloc
   SingleWordRoundBloc({
     required List<String> words,
     required int roundDuration,
-    required bool penaltyForSkipping,
     required bool allowSkipping,
     required bool soundsEnabled,
   }) : super(
@@ -20,7 +19,6 @@ class SingleWordRoundBloc
            words: words,
            roundDuration: roundDuration,
            allowSkipping: allowSkipping,
-           penaltyForSkipping: penaltyForSkipping,
            soundsEnabled: soundsEnabled,
          ),
        ) {
@@ -31,8 +29,7 @@ class SingleWordRoundBloc
   void _onResolve(ResolveCurrentWord e, Emitter<SingleWordRoundState> emit) {
     final newScore = switch (e.resolution) {
       WordResolution.guessed => state.score + 1,
-      WordResolution.skipped =>
-        state.penaltyForSkipping ? max(0, state.score - 1) : state.score,
+      WordResolution.skipped => max(0, state.score - 1),
     };
 
     if (e.resolution == WordResolution.guessed) {

@@ -25,16 +25,12 @@ class GameSettingsLocalDataSourceImpl implements GameSettingsLocalDataSource {
     final roundDuration = preferences.getInt(AppConstants.roundDurationKey);
     final pointsToWin = preferences.getInt(AppConstants.pointsToWinKey);
     final allowSkipping = preferences.getBool(AppConstants.allowSkippingKey);
-    final penaltyForSkipping = preferences.getBool(
-      AppConstants.penaltyForSkippingKey,
-    );
     final wordsPerCard = preferences.getInt(AppConstants.wordsPerCardKey);
 
     return GameSettingsEntity.fromPreferences(
       roundDuration: roundDuration,
       pointsToWin: pointsToWin,
       allowSkipping: allowSkipping,
-      penaltyForSkipping: penaltyForSkipping,
       wordsPerCard: wordsPerCard,
     );
   }
