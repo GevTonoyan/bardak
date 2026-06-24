@@ -16,23 +16,23 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }) : super(
          SettingsState(appSettings: AppSettingsEntity.defaultSettings()),
        ) {
-    on<GetAppSettings>(_getAppSettings);
-    on<ChangeColorScheme>(_changeColorScheme);
-    on<ChangeLocale>(_changeLocale);
-    on<ChangeSoundEffects>(_changeSoundEffects);
-    on<OpenStoreListingRequested>(_onOpenStoreListingRequested);
+    on<LoadAppSettings>(_onLoadAppSettings);
+    on<ChangeColorScheme>(_onChangeColorScheme);
+    on<ChangeLocale>(_onChangeLocale);
+    on<ChangeSoundEffects>(_onChangeSoundEffects);
+    on<OpenStoreListing>(_onOpenStoreListing);
   }
 
   final GetAppSettingsUseCase getAppSettingsUseCase;
   final UpdateAppSettingsUseCase updateAppSettingsUseCase;
   final OpenStoreListingUseCase openStoreListingUseCase;
 
-  void _getAppSettings(GetAppSettings event, Emitter<SettingsState> emit) {
+  void _onLoadAppSettings(LoadAppSettings event, Emitter<SettingsState> emit) {
     final settings = getAppSettingsUseCase();
     emit(SettingsState(appSettings: settings));
   }
 
-  FutureOr<void> _changeColorScheme(
+  Future<void> _onChangeColorScheme(
     ChangeColorScheme event,
     Emitter<SettingsState> emit,
   ) async {
@@ -55,7 +55,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(SettingsState(appSettings: newSettings));
   }
 
-  void _changeLocale(ChangeLocale event, Emitter<SettingsState> emit) {
+  void _onChangeLocale(ChangeLocale event, Emitter<SettingsState> emit) {
     final newSettings = state.appSettings.copyWith(locale: event.locale);
     emit(SettingsState(appSettings: newSettings));
 
@@ -69,7 +69,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
   }
 
-  Future<void> _changeSoundEffects(
+  Future<void> _onChangeSoundEffects(
     ChangeSoundEffects event,
     Emitter<SettingsState> emit,
   ) async {
@@ -87,8 +87,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(SettingsState(appSettings: updatedSettings));
   }
 
-  Future<void> _onOpenStoreListingRequested(
-    OpenStoreListingRequested event,
+  Future<void> _onOpenStoreListing(
+    OpenStoreListing event,
     Emitter<SettingsState> emit,
   ) => openStoreListingUseCase();
 }

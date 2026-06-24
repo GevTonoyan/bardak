@@ -53,10 +53,6 @@ class GameSettingsLocalDataSourceImpl implements GameSettingsLocalDataSource {
         success = await preferences.setInt(key, value as int);
       case AppConstants.allowSkippingKey:
         success = await preferences.setBool(key, value as bool);
-      case AppConstants.penaltyForSkippingKey:
-        success = await preferences.setBool(key, value as bool);
-      case AppConstants.wordsPerCardKey:
-        success = await preferences.setInt(key, value as int);
       default:
         success = false;
     }

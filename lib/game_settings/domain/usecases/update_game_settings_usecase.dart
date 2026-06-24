@@ -2,12 +2,12 @@ import 'package:bardak/game_settings/domain/repositories/game_settings_repositor
 
 /// Updates a single game setting identified by its preference key.
 class UpdateGameSettingsUseCase {
-  const UpdateGameSettingsUseCase(this._repository);
+  const UpdateGameSettingsUseCase(this._gameSettingsRepository);
 
-  final GameSettingsRepository _repository;
+  final GameSettingsRepository _gameSettingsRepository;
 
   Future<bool> call(UpdateGameSettingsParams params) =>
-      _repository.updateGameSettings(params);
+      _gameSettingsRepository.updateGameSettings(params);
 }
 
 class UpdateGameSettingsParams {

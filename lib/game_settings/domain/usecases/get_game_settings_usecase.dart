@@ -3,9 +3,9 @@ import 'package:bardak/game_settings/domain/repositories/game_settings_repositor
 
 /// Reads the stored game settings.
 class GetGameSettingsUseCase {
-  const GetGameSettingsUseCase(this._repository);
+  const GetGameSettingsUseCase(this._gameSettingsRepository);
 
-  final GameSettingsRepository _repository;
+  final GameSettingsRepository _gameSettingsRepository;
 
-  GameSettingsEntity call() => _repository.getGameSettings();
+  GameSettingsEntity call() => _gameSettingsRepository.getGameSettings();
 }

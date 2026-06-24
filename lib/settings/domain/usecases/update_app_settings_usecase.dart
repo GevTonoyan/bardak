@@ -1,14 +1,12 @@
 import 'package:bardak/settings/domain/repositories/settings_repository.dart';
 
 class UpdateAppSettingsUseCase {
-  const UpdateAppSettingsUseCase(this.settingsRepository);
+  const UpdateAppSettingsUseCase(this._settingsRepository);
 
-  final SettingsRepository settingsRepository;
+  final SettingsRepository _settingsRepository;
 
-  Future<bool> call(UpdateAppSettingsParams params) async {
-    final result = await settingsRepository.updateAppSettings(params);
-    return result;
-  }
+  Future<bool> call(UpdateAppSettingsParams params) =>
+      _settingsRepository.updateAppSettings(params);
 }
 
 class UpdateAppSettingsParams {

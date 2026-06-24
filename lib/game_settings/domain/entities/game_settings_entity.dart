@@ -61,7 +61,7 @@ class GameSettingsEntity extends Equatable {
     return 'GameSettingsEntity(roundDuration: $roundDuration, '
         'pointsToWin: $pointsToWin, '
         'allowSkipping: $allowSkipping, '
-        'skipPenalty: $penaltyForSkipping, '
+        'penaltyForSkipping: $penaltyForSkipping, '
         'wordsPerCard: $wordsPerCard)';
   }
 

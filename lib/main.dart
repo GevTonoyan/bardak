@@ -74,7 +74,7 @@ void main() async {
             getAppSettingsUseCase: sl(),
             updateAppSettingsUseCase: sl(),
             openStoreListingUseCase: sl(),
-          )..add(const GetAppSettings()),
+          )..add(const LoadAppSettings()),
         ),
         BlocProvider(
           create: (_) => RewardsCubit(

@@ -94,7 +94,7 @@ class SettingsScreenBody extends StatelessWidget {
               label: l10n.rateApp,
               trailing: const _Chevron(),
               onTap: () {
-                settingsBloc.add(const OpenStoreListingRequested());
+                settingsBloc.add(const OpenStoreListing());
               },
             ),
           ],
