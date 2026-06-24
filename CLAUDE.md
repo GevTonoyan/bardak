@@ -68,11 +68,10 @@ Consistency across features outweighs any individual preference. New code MUST f
 ### Use cases
 - One use case = one class with a single `call()` method (callable class).
 - Class `<Verb><Noun>UseCase`; file `<verb>_<noun>_usecase.dart` (`usecase`, one word).
-- Dependency field is **private**: `final <Type>Repository _repository;`. Not public, not feature-prefixed (`_settingsRepository` ✗).
-- Verb vocabulary — pick by intent, never mix synonyms:
-  - `Get<Noun>` — read already-available data (local store / cache / memory); sync return when the repo is sync.
-  - `Fetch<Noun>` — retrieve from a **remote** source (Firestore/network); returns `Future`.
-  - `Update<Noun>` — persist a change.
+- Dependency field is **private and named for the repository**: `final SettingsRepository _settingsRepository;` — not a generic `_repository`. A use case with **more than two repositories** takes **named constructor parameters**.
+- Verb vocabulary — one canonical verb per intent, **regardless of data source** (local DB, cache, memory, and remote/network all use the same verb); never mix synonyms:
+  - `Get<Noun>` — read data. Always `Get`, never `Fetch`/`Load`, whether the source is local or remote. Sync return when the repo is sync; `Future` when async.
+  - `Update<Noun>` — persist a change. Always `Update`, never `Save`/`Change`.
   - Boolean query — `Is…` / `Are…` / `Has…` (e.g. `AreWordPacksCachedUseCase`).
   - Other commands — imperative verb for the effect (`RecordAppOpenedUseCase`, `OpenStoreListingUseCase`). Avoid `On…` (event-handler phrasing, not a command).
 - Params: a use case with arguments declares `<UseCaseName without "UseCase">Params` in the **same file**. Noun must match the use case (`AreWordPacksCachedUseCase` → `AreWordPacksCachedParams`).
@@ -85,7 +84,7 @@ Consistency across features outweighs any individual preference. New code MUST f
 ### Events
 - Base: `sealed class <Feature>Event extends Equatable`.
 - Subclasses: **imperative, verb-first, no `Event` suffix** — `LoadGameSettings`, `ChangeLocale`, `ToggleWord`, `PurchaseTheme` (not `AddTeamsEvent`, not past-tense `WordToggled`).
-- The "load this feature's data" trigger is always `Load<Thing>` — `Get`/`Fetch`/`Cache` belong to use cases, not events.
+- The "load this feature's data" trigger is always `Load<Thing>` — the use-case verb `Get` (and `Cache`) belong to use cases, not events.
 
 ### States
 - All states extend `Equatable`.
@@ -96,7 +95,7 @@ Consistency across features outweighs any individual preference. New code MUST f
 ### Repositories & data sources
 - `<Feature>Repository` (`abstract interface class`) in `domain/repositories/`; impl in `data/repositories/`.
 - `<Feature>LocalDataSource` / `<Feature>RemoteDataSource` (+ `…Impl`) in `data/data_sources/`.
-- Methods verb-first camelCase mirroring use-case intent (`getX`, `fetchX`, `updateX`, `areXCached`).
+- Methods verb-first camelCase mirroring use-case intent (`getX`, `updateX`, `areXCached`) — same canonical verbs as use cases, source-agnostic (no `fetchX`).
 
 ### Entities
 - `<Noun>Entity`, `Equatable`; `copyWith` when it has more than one field; factories `.initial()`, `.fromPreferences()` / `.fromJson()`.
