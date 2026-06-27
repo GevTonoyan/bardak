@@ -1,9 +1,9 @@
 import 'package:bardak/app_review/domain/repositories/app_review_repository.dart';
 
 class RecordAppOpenedUseCase {
-  const RecordAppOpenedUseCase(this.repository);
+  const RecordAppOpenedUseCase(this._appReviewRepository);
 
-  final AppReviewRepository repository;
+  final AppReviewRepository _appReviewRepository;
 
-  Future<void> call() => repository.incrementAppOpenedCount();
+  Future<void> call() => _appReviewRepository.incrementAppOpenedCount();
 }

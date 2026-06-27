@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'dart:math';
 
-import 'package:bardak/app_review/presentation/bloc/in_app_review_bloc.dart';
-import 'package:bardak/app_review/presentation/bloc/in_app_review_event.dart';
+import 'package:bardak/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/app_ui/widgets/highlighted_text.dart';
 import 'package:bardak/app_ui/widgets/screen_background.dart';
@@ -33,7 +33,7 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _controller.play();
-      context.read<InAppReviewBloc>().add(const InAppReviewRequested());
+      unawaited(context.read<InAppReviewCubit>().requestReviewAfterGame());
     });
   }
 

@@ -1,19 +1,19 @@
-import 'package:bardak/app_review/data/data_sources/app_review_data_source.dart';
 import 'package:bardak/app_review/data/data_sources/app_review_local_data_source.dart';
+import 'package:bardak/app_review/data/data_sources/app_review_platform_data_source.dart';
 import 'package:bardak/app_review/domain/entities/app_review_metrics_entity.dart';
 import 'package:bardak/app_review/domain/repositories/app_review_repository.dart';
 
 class AppReviewRepositoryImpl implements AppReviewRepository {
   const AppReviewRepositoryImpl({
-    required this.dataSource,
+    required this.platformDataSource,
     required this.localDataSource,
   });
 
-  final AppReviewDataSource dataSource;
+  final AppReviewPlatformDataSource platformDataSource;
   final AppReviewLocalDataSource localDataSource;
 
   @override
-  Future<void> openStoreListing() => dataSource.openStoreListing();
+  Future<void> openStoreListing() => platformDataSource.openStoreListing();
 
   @override
   AppReviewMetricsEntity getMetrics() => localDataSource.getMetrics();
@@ -31,5 +31,5 @@ class AppReviewRepositoryImpl implements AppReviewRepository {
       localDataSource.setLastReviewPromptAt(dateTime);
 
   @override
-  Future<bool> requestInAppReview() => dataSource.requestInAppReview();
+  Future<bool> requestInAppReview() => platformDataSource.requestInAppReview();
 }

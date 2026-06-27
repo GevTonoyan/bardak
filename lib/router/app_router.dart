@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bardak/app_review/presentation/bloc/in_app_review_bloc.dart';
+import 'package:bardak/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:bardak/card_round/presentation/ui/card_round_screen.dart';
 import 'package:bardak/game_session/domain/entities/game_session_entity.dart';
@@ -253,7 +253,7 @@ final appRouter = GoRouter(
 
             return _buildPlatformPage(
               child: BlocProvider(
-                create: (_) => sl<InAppReviewBloc>(),
+                create: (_) => sl<InAppReviewCubit>(),
                 child: GameSummaryScreen(winningTeamName: winner.name),
               ),
             );

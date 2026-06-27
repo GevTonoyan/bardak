@@ -1,21 +1,22 @@
-import 'package:bardak/utils/constants/constants.dart';
 import 'package:in_app_review/in_app_review.dart';
 
-abstract interface class AppReviewDataSource {
+abstract interface class AppReviewPlatformDataSource {
   Future<void> openStoreListing();
 
   Future<bool> requestInAppReview();
 }
 
-class AppReviewDataSourceImpl implements AppReviewDataSource {
-  AppReviewDataSourceImpl({InAppReview? inAppReview})
+class AppReviewPlatformDataSourceImpl implements AppReviewPlatformDataSource {
+  AppReviewPlatformDataSourceImpl({InAppReview? inAppReview})
     : _inAppReview = inAppReview ?? InAppReview.instance;
+
+  static const _appStoreId = '6766040587';
 
   final InAppReview _inAppReview;
 
   @override
   Future<void> openStoreListing() =>
-      _inAppReview.openStoreListing(appStoreId: AppConstants.appStoreId);
+      _inAppReview.openStoreListing(appStoreId: _appStoreId);
 
   @override
   Future<bool> requestInAppReview() async {
