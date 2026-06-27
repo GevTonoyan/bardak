@@ -64,4 +64,4 @@ flutter:
 flutter_gen:
   integrations:
     flutter_svg: true
-  output: lib/assets/
+  output: lib/core/generated/assets/
