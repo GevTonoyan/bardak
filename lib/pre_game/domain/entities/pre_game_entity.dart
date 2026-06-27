@@ -1,5 +1,3 @@
-import 'package:bardak/utils/constants/constants.dart';
-
 /// AliasPreGameConfig is a data class that holds the configuration
 /// settings for the Alias game session.
 class PreGameEntity {
