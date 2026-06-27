@@ -10,7 +10,7 @@ import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game
 import 'package:bardak/features/games/alias/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:bardak/features/games/alias/pre_game/presentation/ui/setup_team_names_screen.dart';
-import 'package:bardak/core/constants/constants.dart';
+import 'package:bardak/core/constants/app_constants.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

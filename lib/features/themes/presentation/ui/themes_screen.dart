@@ -8,7 +8,7 @@ import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/coin_balance_widget.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
-import 'package:bardak/core/constants/constants.dart';
+import 'package:bardak/core/constants/app_constants.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';

@@ -10,7 +10,7 @@ import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/core/localizations/common/supported_locales.dart';
 import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
-import 'package:bardak/core/constants/constants.dart';
+import 'package:bardak/core/constants/app_constants.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/extensions/state_extension.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/word_packs_screen.dart';

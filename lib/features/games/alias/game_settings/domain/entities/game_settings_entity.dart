@@ -1,4 +1,4 @@
-import 'package:bardak/core/constants/constants.dart';
+import 'package:bardak/core/constants/app_constants.dart';
 import 'package:equatable/equatable.dart';
 
 /// Settings for the Alias game (round duration, scoring, skipping rules).
