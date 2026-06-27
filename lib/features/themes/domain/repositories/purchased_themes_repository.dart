@@ -1,4 +1,4 @@
-import 'package:bardak/core/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 
 /// Abstract repository for purchased themes operations.
 abstract interface class PurchasedThemesRepository {

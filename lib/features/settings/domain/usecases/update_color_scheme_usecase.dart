@@ -1,4 +1,4 @@
-import 'package:bardak/core/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 import 'package:bardak/features/settings/domain/repositories/settings_repository.dart';
 
 /// Persists the selected color scheme.

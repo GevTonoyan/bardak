@@ -1,42 +1,25 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:bardak/features/app_review/domain/usecases/record_app_opened_usecase.dart';
-import 'package:bardak/core/app_ui/theme/app_color_scheme.dart';
 import 'package:bardak/core/app_ui/theme/app_theme/app_theme_data_builder.dart';
 import 'package:bardak/core/app_ui/theme/app_theme_provider.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_black_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_blue_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_brown_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_green_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_grey_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_main_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_mint_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_navy_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_orange_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_pink_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_plum_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_purple_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_red_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_turquoise_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_yellow_colors.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
-import 'package:bardak/firebase_options.dart';
-import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
-import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
+import 'package:bardak/core/di/di.dart';
 import 'package:bardak/core/localizations/common/supported_locales.dart';
 import 'package:bardak/core/localizations/l10n/app_localizations.dart';
 import 'package:bardak/core/logging/app_bloc_observer.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
-import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/core/router/app_router.dart';
+import 'package:bardak/features/app_review/domain/usecases/record_app_opened_usecase.dart';
+import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
+import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
+import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:bardak/features/games/alias/word_pack/presentation/bloc/word_packs_bloc.dart';
+import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_state.dart';
 import 'package:bardak/features/themes/presentation/bloc/themes_bloc.dart';
-import 'package:bardak/core/di/di.dart';
-import 'package:bardak/features/games/alias/word_pack/presentation/bloc/word_packs_bloc.dart';
+import 'package:bardak/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -118,7 +101,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
-        final appColor = getColors(state.appSettings.colorScheme);
+        final appColor = state.appSettings.colorScheme.colors;
 
         final themeData = AppThemeData(
           colors: appColor,
@@ -143,25 +126,5 @@ class MyApp extends StatelessWidget {
         );
       },
     );
-  }
-
-  AppColors getColors(AppColorScheme scheme) {
-    return switch (scheme) {
-      .main => AppMainColors(),
-      .purple => AppPurpleColors(),
-      .yellow => AppYellowColors(),
-      .blue => AppBlueColors(),
-      .green => AppGreenColors(),
-      .pink => AppPinkColors(),
-      .red => AppRedColors(),
-      .dark => AppBlackColors(),
-      .turquoise => AppTurquoiseColors(),
-      .orange => AppOrangeColors(),
-      .brown => AppBrownColors(),
-      .navy => AppNavyColors(),
-      .mint => AppMintColors(),
-      .plum => AppPlumColors(),
-      .grey => AppGreyColors(),
-    };
   }
 }

@@ -1,4 +1,4 @@
-import 'package:bardak/core/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 import 'package:bardak/core/localizations/common/supported_locales.dart';
 import 'package:bardak/features/settings/domain/entities/app_settings_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';

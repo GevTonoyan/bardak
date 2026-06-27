@@ -1,4 +1,4 @@
-import 'package:bardak/core/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 import 'package:equatable/equatable.dart';
 
 /// Default themes every user owns before preferences are loaded.

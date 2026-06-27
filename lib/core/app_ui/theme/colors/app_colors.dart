@@ -1,35 +1,45 @@
 import 'package:flutter/material.dart';
 
-abstract class AppColors {
-  LinearGradient get main;
+class AppColors {
+  const AppColors({
+    required this.firstGradient,
+    required this.secondGradient,
+    required this.secondary,
+  });
 
-  Color get firstGradient;
+  final Color firstGradient;
 
-  Color get secondGradient;
+  final Color secondGradient;
 
-  Color get secondary;
+  final Color secondary;
 
-  Color green = const Color(0xFF59CA42);
+  LinearGradient get main => LinearGradient(
+    begin: .topCenter,
+    end: .bottomCenter,
+    colors: [firstGradient, secondGradient],
+  );
 
-  Color red = const Color(0xFFD42B2B);
+  Color get green => const Color(0xFF59CA42);
 
-  Color orange = const Color(0xFFE38417);
+  Color get red => const Color(0xFFD42B2B);
 
-  Color blue = const Color(0xFF4068F5);
+  Color get orange => const Color(0xFFE38417);
 
-  Color purple = const Color(0xFFA473E9);
+  Color get blue => const Color(0xFF4068F5);
 
-  Color shadow = const Color(0xFFB9B9B9);
+  Color get purple => const Color(0xFFA473E9);
 
-  Color black = const Color(0xFF000000);
+  Color get shadow => const Color(0xFFB9B9B9);
 
-  Color white = const Color(0xFFFFFFFF);
+  Color get black => const Color(0xFF000000);
 
-  Color white10 = const Color(0xFFFFFFFF).withValues(alpha: 0.1);
+  Color get white => const Color(0xFFFFFFFF);
 
-  Color white20 = const Color(0xFFFFFFFF).withValues(alpha: 0.2);
+  Color get white10 => const Color(0xFFFFFFFF).withValues(alpha: 0.1);
 
-  Color white30 = const Color(0xFFFFFFFF).withValues(alpha: 0.3);
+  Color get white20 => const Color(0xFFFFFFFF).withValues(alpha: 0.2);
 
-  Color white50 = const Color(0xFFFFFFFF).withValues(alpha: 0.5);
+  Color get white30 => const Color(0xFFFFFFFF).withValues(alpha: 0.3);
+
+  Color get white50 => const Color(0xFFFFFFFF).withValues(alpha: 0.5);
 }

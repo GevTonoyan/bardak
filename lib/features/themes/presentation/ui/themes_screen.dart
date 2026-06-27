@@ -1,21 +1,6 @@
 import 'dart:async';
 
-import 'package:bardak/core/app_ui/theme/app_color_scheme.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_black_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_blue_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_brown_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_green_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_grey_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_main_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_mint_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_navy_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_orange_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_pink_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_plum_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_purple_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_red_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_turquoise_colors.dart';
-import 'package:bardak/core/app_ui/theme/colors/app_yellow_colors.dart';
+import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
@@ -23,6 +8,8 @@ import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/coin_balance_widget.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
+import 'package:bardak/core/constants/constants.dart';
+import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
@@ -30,8 +17,6 @@ import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
 import 'package:bardak/features/themes/presentation/bloc/themes_bloc.dart';
 import 'package:bardak/features/themes/presentation/bloc/themes_event.dart';
 import 'package:bardak/features/themes/presentation/bloc/themes_state.dart';
-import 'package:bardak/core/constants/constants.dart';
-import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -137,7 +122,7 @@ class _ThemesScreenState extends State<ThemesScreen> {
                       final scheme = AppColorScheme.values[index];
                       return AppButton(
                         label: scheme.displayName(context),
-                        color: _buttonBackgroundColor(scheme),
+                        color: scheme.colors.secondary,
                         size: .extraLarge,
                         onPressed: () {
                           if (state.isOwned(scheme)) {
@@ -233,26 +218,6 @@ class _ThemesScreenState extends State<ThemesScreen> {
         ),
       ),
     );
-  }
-
-  Color _buttonBackgroundColor(AppColorScheme colorScheme) {
-    return switch (colorScheme) {
-      .main => AppMainColors().secondary,
-      .purple => AppPurpleColors().secondary,
-      .yellow => AppYellowColors().secondary,
-      .blue => AppBlueColors().secondary,
-      .green => AppGreenColors().secondary,
-      .pink => AppPinkColors().secondary,
-      .red => AppRedColors().secondary,
-      .dark => AppBlackColors().secondary,
-      .turquoise => AppTurquoiseColors().secondary,
-      .orange => AppOrangeColors().secondary,
-      .brown => AppBrownColors().secondary,
-      .navy => AppNavyColors().secondary,
-      .mint => AppMintColors().secondary,
-      .plum => AppPlumColors().secondary,
-      .grey => AppGreyColors().secondary,
-    };
   }
 }
 

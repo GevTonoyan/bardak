@@ -1,4 +1,4 @@
-import 'package:bardak/core/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 import 'package:bardak/features/themes/domain/usecases/get_purchased_themes_usecase.dart';
 import 'package:bardak/features/themes/domain/usecases/update_purchased_themes_usecase.dart';
 import 'package:bardak/features/themes/presentation/bloc/themes_event.dart';
