@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:bardak/core/app_ui/theme/app_theme/app_theme_data_builder.dart';
+import 'package:bardak/core/app_ui/theme/app_theme_builder.dart';
 import 'package:bardak/core/app_ui/theme/app_theme_provider.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/di/di.dart';
@@ -106,10 +106,7 @@ class MyApp extends StatelessWidget {
         final themeData = AppThemeData(
           colors: appColor,
           typography: AppTextStyles(),
-          themeData: AppThemeDataBuilder(
-            colors: appColor,
-            textStyles: AppTextStyles(),
-          ).build(),
+          themeData: buildAppTheme(AppTextStyles()),
         );
 
         return AppThemeProvider(

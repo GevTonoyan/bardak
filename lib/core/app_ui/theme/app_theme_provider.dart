@@ -1,8 +1,9 @@
 import 'package:bardak/core/app_ui/theme/colors/app_colors.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class AppThemeData {
+class AppThemeData extends Equatable {
   const AppThemeData({
     required this.colors,
     required this.typography,
@@ -12,6 +13,9 @@ class AppThemeData {
   final AppColors colors;
   final AppTextStyles typography;
   final ThemeData themeData;
+
+  @override
+  List<Object?> get props => [colors, typography, themeData];
 }
 
 class AppThemeProvider extends InheritedWidget {
