@@ -72,7 +72,9 @@ void main() async {
         BlocProvider(
           create: (_) => SettingsBloc(
             getAppSettingsUseCase: sl(),
-            updateAppSettingsUseCase: sl(),
+            updateLocaleUseCase: sl(),
+            updateColorSchemeUseCase: sl(),
+            updateSoundEnabledUseCase: sl(),
             openStoreListingUseCase: sl(),
           )..add(const LoadAppSettings()),
         ),

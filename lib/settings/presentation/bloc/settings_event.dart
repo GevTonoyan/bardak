@@ -33,13 +33,13 @@ class ChangeLocale extends SettingsEvent {
   List<Object?> get props => [locale];
 }
 
-class ChangeSoundEffects extends SettingsEvent {
-  const ChangeSoundEffects({required this.soundEffects});
+class ChangeSoundEnabled extends SettingsEvent {
+  const ChangeSoundEnabled({required this.enabled});
 
-  final bool soundEffects;
+  final bool enabled;
 
   @override
-  List<Object?> get props => [soundEffects];
+  List<Object?> get props => [enabled];
 }
 
 class OpenStoreListing extends SettingsEvent {

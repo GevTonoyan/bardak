@@ -1,11 +1,18 @@
+import 'package:bardak/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/localizations/common/supported_locales.dart';
 import 'package:bardak/settings/domain/entities/app_settings_entity.dart';
-import 'package:bardak/settings/domain/usecases/update_app_settings_usecase.dart';
 
 /// This is the interface for the [SettingsRepository].
 abstract interface class SettingsRepository {
   /// Gets the app settings.
   AppSettingsEntity getAppSettings();
 
-  /// Updates a setting with the given key and value.
-  Future<bool> updateAppSettings(UpdateAppSettingsParams params);
+  /// Persists the selected app locale.
+  Future<bool> updateLocale(AppLocales locale);
+
+  /// Persists the selected color scheme.
+  Future<bool> updateColorScheme(AppColorScheme colorScheme);
+
+  /// Persists whether sound effects are enabled.
+  Future<bool> updateSoundEnabled({required bool soundEnabled});
 }

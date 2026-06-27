@@ -67,12 +67,12 @@ class SettingsScreenBody extends StatelessWidget {
               iconColor: colors.green,
               label: l10n.sounds,
               onTap: () => settingsBloc.add(
-                ChangeSoundEffects(soundEffects: !appSettings.soundEnabled),
+                ChangeSoundEnabled(enabled: !appSettings.soundEnabled),
               ),
               trailing: AppSwitch(
                 value: appSettings.soundEnabled,
                 onChanged: (value) {
-                  settingsBloc.add(ChangeSoundEffects(soundEffects: value));
+                  settingsBloc.add(ChangeSoundEnabled(enabled: value));
                 },
               ),
             ),

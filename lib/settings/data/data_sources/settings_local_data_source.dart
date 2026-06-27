@@ -1,6 +1,6 @@
+import 'package:bardak/app_ui/theme/app_color_scheme.dart';
+import 'package:bardak/localizations/common/supported_locales.dart';
 import 'package:bardak/settings/domain/entities/app_settings_entity.dart';
-import 'package:bardak/settings/domain/usecases/update_app_settings_usecase.dart';
-import 'package:bardak/utils/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// This is the data source for the app settings.
@@ -8,21 +8,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract interface class SettingsLocalDataSource {
   AppSettingsEntity getAppSettings();
 
-  /// Updates a single app setting identified by its preference key.
-  Future<bool> updateAppSettings(UpdateAppSettingsParams params);
+  Future<bool> updateLocale(AppLocales locale);
+
+  Future<bool> updateColorScheme(AppColorScheme colorScheme);
+
+  Future<bool> updateSoundEnabled({required bool soundEnabled});
 }
 
 /// Implementation of the [SettingsLocalDataSource] interface.
 class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   const SettingsLocalDataSourceImpl({required this.preferences});
 
+  static const _localeKey = 'app_locale_key';
+  static const _colorSchemeKey = 'app_color_scheme_key';
+  static const _soundEnabledKey = 'is_sound_enabled';
+
   final SharedPreferences preferences;
 
   @override
   AppSettingsEntity getAppSettings() {
-    final locale = preferences.getString(AppConstants.appLocaleKey);
-    final colorScheme = preferences.getString(AppConstants.appColorSchemeKey);
-    final soundEnabled = preferences.getBool(AppConstants.soundEnabledKey);
+    final locale = preferences.getString(_localeKey);
+    final colorScheme = preferences.getString(_colorSchemeKey);
+    final soundEnabled = preferences.getBool(_soundEnabledKey);
 
     return AppSettingsEntity.fromPreferences(
       locale: locale,
@@ -32,26 +39,17 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   }
 
   @override
-  Future<bool> updateAppSettings(UpdateAppSettingsParams params) async {
-    late final bool success;
+  Future<bool> updateLocale(AppLocales locale) {
+    return preferences.setString(_localeKey, locale.jsonValue());
+  }
 
-    switch (params.key) {
-      case AppConstants.appLocaleKey:
-        success = await preferences.setString(
-          params.key,
-          params.value as String,
-        );
-      case AppConstants.appColorSchemeKey:
-        success = await preferences.setString(
-          params.key,
-          params.value as String,
-        );
-      case AppConstants.soundEnabledKey:
-        success = await preferences.setBool(params.key, params.value as bool);
-      default:
-        success = false;
-    }
+  @override
+  Future<bool> updateColorScheme(AppColorScheme colorScheme) {
+    return preferences.setString(_colorSchemeKey, colorScheme.name);
+  }
 
-    return success;
+  @override
+  Future<bool> updateSoundEnabled({required bool soundEnabled}) {
+    return preferences.setBool(_soundEnabledKey, soundEnabled);
   }
 }
