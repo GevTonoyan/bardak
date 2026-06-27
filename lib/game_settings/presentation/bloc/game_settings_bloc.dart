@@ -2,16 +2,19 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bardak/game_settings/domain/usecases/get_game_settings_usecase.dart';
-import 'package:bardak/game_settings/domain/usecases/update_game_settings_usecase.dart';
+import 'package:bardak/game_settings/domain/usecases/update_allow_skipping_usecase.dart';
+import 'package:bardak/game_settings/domain/usecases/update_points_to_win_usecase.dart';
+import 'package:bardak/game_settings/domain/usecases/update_round_duration_usecase.dart';
 import 'package:bardak/game_settings/presentation/bloc/game_settings_event.dart';
 import 'package:bardak/game_settings/presentation/bloc/game_settings_state.dart';
-import 'package:bardak/utils/constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
   GameSettingsBloc({
     required this.getGameSettingsUseCase,
-    required this.updateGameSettingsUseCase,
+    required this.updateRoundDurationUseCase,
+    required this.updatePointsToWinUseCase,
+    required this.updateAllowSkippingUseCase,
   }) : super(GameSettingsState.initial()) {
     on<LoadGameSettings>(_onLoadGameSettings);
     on<ChangeRoundDuration>(_onChangeRoundDuration);
@@ -20,7 +23,9 @@ class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
   }
 
   final GetGameSettingsUseCase getGameSettingsUseCase;
-  final UpdateGameSettingsUseCase updateGameSettingsUseCase;
+  final UpdateRoundDurationUseCase updateRoundDurationUseCase;
+  final UpdatePointsToWinUseCase updatePointsToWinUseCase;
+  final UpdateAllowSkippingUseCase updateAllowSkippingUseCase;
 
   void _onLoadGameSettings(
     LoadGameSettings event,
@@ -43,12 +48,7 @@ class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
     );
     emit(GameSettingsState(gameSettings: updated));
 
-    await updateGameSettingsUseCase(
-      UpdateGameSettingsParams(
-        key: AppConstants.roundDurationKey,
-        value: event.roundDuration,
-      ),
-    );
+    await updateRoundDurationUseCase(event.roundDuration);
   }
 
   Future<void> _onChangePointsToWin(
@@ -60,12 +60,7 @@ class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
     );
     emit(GameSettingsState(gameSettings: updated));
 
-    await updateGameSettingsUseCase(
-      UpdateGameSettingsParams(
-        key: AppConstants.pointsToWinKey,
-        value: event.pointsToWin,
-      ),
-    );
+    await updatePointsToWinUseCase(event.pointsToWin);
   }
 
   Future<void> _onChangeAllowSkipping(
@@ -77,11 +72,6 @@ class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
     );
     emit(GameSettingsState(gameSettings: updated));
 
-    await updateGameSettingsUseCase(
-      UpdateGameSettingsParams(
-        key: AppConstants.allowSkippingKey,
-        value: event.allowSkipping,
-      ),
-    );
+    await updateAllowSkippingUseCase(allowSkipping: event.allowSkipping);
   }
 }

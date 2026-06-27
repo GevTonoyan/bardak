@@ -1,31 +1,34 @@
 import 'package:bardak/game_settings/domain/entities/game_settings_entity.dart';
-import 'package:bardak/game_settings/domain/usecases/update_game_settings_usecase.dart';
-import 'package:bardak/utils/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Persists the Alias game settings in [SharedPreferences].
-///
-/// Uses the same preference keys as the legacy settings feature so existing
-/// user data carries over without migration.
 abstract interface class GameSettingsLocalDataSource {
   /// Retrieves the game settings from shared preferences.
   GameSettingsEntity getGameSettings();
 
-  /// Updates a single game setting. Returns true if the write succeeded.
-  Future<bool> updateGameSettings(UpdateGameSettingsParams params);
+  Future<bool> updateRoundDuration(int roundDuration);
+
+  Future<bool> updatePointsToWin(int pointsToWin);
+
+  Future<bool> updateAllowSkipping({required bool allowSkipping});
 }
 
 class GameSettingsLocalDataSourceImpl implements GameSettingsLocalDataSource {
   const GameSettingsLocalDataSourceImpl({required this.preferences});
 
+  static const _roundDurationKey = 'round_duration';
+  static const _pointsToWinKey = 'points_to_win';
+  static const _allowSkippingKey = 'allow_skipping';
+  static const _wordsPerCardKey = 'words_per_card';
+
   final SharedPreferences preferences;
 
   @override
   GameSettingsEntity getGameSettings() {
-    final roundDuration = preferences.getInt(AppConstants.roundDurationKey);
-    final pointsToWin = preferences.getInt(AppConstants.pointsToWinKey);
-    final allowSkipping = preferences.getBool(AppConstants.allowSkippingKey);
-    final wordsPerCard = preferences.getInt(AppConstants.wordsPerCardKey);
+    final roundDuration = preferences.getInt(_roundDurationKey);
+    final pointsToWin = preferences.getInt(_pointsToWinKey);
+    final allowSkipping = preferences.getBool(_allowSkippingKey);
+    final wordsPerCard = preferences.getInt(_wordsPerCardKey);
 
     return GameSettingsEntity.fromPreferences(
       roundDuration: roundDuration,
@@ -36,23 +39,17 @@ class GameSettingsLocalDataSourceImpl implements GameSettingsLocalDataSource {
   }
 
   @override
-  Future<bool> updateGameSettings(UpdateGameSettingsParams params) async {
-    final key = params.key;
-    final value = params.value;
+  Future<bool> updateRoundDuration(int roundDuration) {
+    return preferences.setInt(_roundDurationKey, roundDuration);
+  }
 
-    late final bool success;
+  @override
+  Future<bool> updatePointsToWin(int pointsToWin) {
+    return preferences.setInt(_pointsToWinKey, pointsToWin);
+  }
 
-    switch (key) {
-      case AppConstants.roundDurationKey:
-        success = await preferences.setInt(key, value as int);
-      case AppConstants.pointsToWinKey:
-        success = await preferences.setInt(key, value as int);
-      case AppConstants.allowSkippingKey:
-        success = await preferences.setBool(key, value as bool);
-      default:
-        success = false;
-    }
-
-    return success;
+  @override
+  Future<bool> updateAllowSkipping({required bool allowSkipping}) {
+    return preferences.setBool(_allowSkippingKey, allowSkipping);
   }
 }

@@ -1,7 +1,6 @@
 import 'package:bardak/game_settings/data/data_sources/game_settings_local_data_source.dart';
 import 'package:bardak/game_settings/domain/entities/game_settings_entity.dart';
 import 'package:bardak/game_settings/domain/repositories/game_settings_repository.dart';
-import 'package:bardak/game_settings/domain/usecases/update_game_settings_usecase.dart';
 
 class GameSettingsRepositoryImpl implements GameSettingsRepository {
   const GameSettingsRepositoryImpl({required this.dataSource});
@@ -12,7 +11,14 @@ class GameSettingsRepositoryImpl implements GameSettingsRepository {
   GameSettingsEntity getGameSettings() => dataSource.getGameSettings();
 
   @override
-  Future<bool> updateGameSettings(UpdateGameSettingsParams params) {
-    return dataSource.updateGameSettings(params);
-  }
+  Future<bool> updateRoundDuration(int roundDuration) =>
+      dataSource.updateRoundDuration(roundDuration);
+
+  @override
+  Future<bool> updatePointsToWin(int pointsToWin) =>
+      dataSource.updatePointsToWin(pointsToWin);
+
+  @override
+  Future<bool> updateAllowSkipping({required bool allowSkipping}) =>
+      dataSource.updateAllowSkipping(allowSkipping: allowSkipping);
 }

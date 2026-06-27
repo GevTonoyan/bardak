@@ -15,10 +15,6 @@ class AppConstants {
   static const maxTeamCount = 4;
 
   // Shared preferences keys
-  static const roundDurationKey = 'round_duration';
-  static const pointsToWinKey = 'points_to_win';
-  static const allowSkippingKey = 'allow_skipping';
-  static const wordsPerCardKey = 'words_per_card';
   static const wordsVersionKey = 'words_version';
   static const purchasedThemesKey = 'purchased_themes';
   static const themeCost = 500;

@@ -100,7 +100,9 @@ void main() async {
         BlocProvider(
           create: (_) => GameSettingsBloc(
             getGameSettingsUseCase: sl(),
-            updateGameSettingsUseCase: sl(),
+            updateRoundDurationUseCase: sl(),
+            updatePointsToWinUseCase: sl(),
+            updateAllowSkippingUseCase: sl(),
           )..add(const LoadGameSettings()),
         ),
       ],
