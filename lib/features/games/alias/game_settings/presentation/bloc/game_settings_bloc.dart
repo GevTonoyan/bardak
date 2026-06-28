@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:bardak/core/di/di.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/usecases/get_game_settings_usecase.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/usecases/update_allow_skipping_usecase.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/usecases/update_points_to_win_usecase.dart';
@@ -35,7 +35,11 @@ class GameSettingsBloc extends Bloc<GameSettingsEvent, GameSettingsState> {
       final settings = getGameSettingsUseCase();
       emit(GameSettingsState(gameSettings: settings));
     } on Exception catch (error, stackTrace) {
-      log('Failed to load game settings', error: error, stackTrace: stackTrace);
+      logger.error(
+        'Failed to load game settings',
+        error: error,
+        stackTrace: stackTrace,
+      );
     }
   }
 

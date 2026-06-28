@@ -1,37 +1,46 @@
+import 'package:bardak/core/di/di.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
 
   @override
-  void onCreate(BlocBase bloc) {
+  void onCreate(BlocBase<dynamic> bloc) {
     super.onCreate(bloc);
-    print('[Bloc Created] ${bloc.runtimeType}');
+    logger.debug('Bloc created: ${bloc.runtimeType}');
   }
 
   @override
-  void onEvent(Bloc bloc, Object? event) {
+  void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     super.onEvent(bloc, event);
-    print('[Bloc Event] ${bloc.runtimeType} → ${event.runtimeType}');
+    logger.debug('Bloc event: ${bloc.runtimeType} -> ${event.runtimeType}');
   }
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
+  void onTransition(
+    Bloc<dynamic, dynamic> bloc,
+    Transition<dynamic, dynamic> transition,
+  ) {
     super.onTransition(bloc, transition);
-    print(
-      '[Bloc Transition] ${bloc.runtimeType} → ${transition.event.runtimeType} → ${transition.nextState.runtimeType}',
+    logger.debug(
+      'Bloc transition: ${bloc.runtimeType} -> '
+      '${transition.nextState.runtimeType}',
     );
   }
 
   @override
-  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    print('[Bloc Error] ${bloc.runtimeType} → $error');
+  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
+    logger.error(
+      'Bloc error in ${bloc.runtimeType}',
+      error: error,
+      stackTrace: stackTrace,
+    );
     super.onError(bloc, error, stackTrace);
   }
 
   @override
-  void onClose(BlocBase bloc) {
-    print('[Bloc Closed] ${bloc.runtimeType}');
+  void onClose(BlocBase<dynamic> bloc) {
+    logger.debug('Bloc closed: ${bloc.runtimeType}');
     super.onClose(bloc);
   }
 }
