@@ -1,6 +1,5 @@
-import 'package:bardak/core/generated/assets/assets.gen.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:flutter/material.dart';
 
 class LanguageIcon extends StatelessWidget {
@@ -11,7 +10,7 @@ class LanguageIcon extends StatelessWidget {
     super.key,
   });
 
-  final AppLocales locale;
+  final AppLocale locale;
   final double size;
   final VoidCallback? onTap;
 
@@ -36,15 +35,9 @@ class LanguageIcon extends StatelessWidget {
           ],
         ),
         child: ClipOval(
-          child: _assetPath.svg(),
+          child: locale.flag.svg(),
         ),
       ),
     );
   }
-
-  SvgGenImage get _assetPath => switch (locale) {
-    .en => Assets.icons.flags.uk,
-    .ru => Assets.icons.flags.ru,
-    .am => Assets.icons.flags.am,
-  };
 }

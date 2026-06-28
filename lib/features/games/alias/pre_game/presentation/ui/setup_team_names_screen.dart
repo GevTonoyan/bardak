@@ -8,7 +8,7 @@ import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:bardak/core/constants/app_constants.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
@@ -52,7 +52,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
     super.didChangeDependencies();
     if (!_isInitialized) {
       _isInitialized = true;
-      final appLocale = AppLocales.fromString(context.locale.languageCode);
+      final appLocale = AppLocale.fromString(context.locale.languageCode);
       final predefined =
           context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ??
           {};
@@ -179,7 +179,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
 
   String _getNextDefaultName() {
     final currentNames = _teamControllers.map((e) => e.text.trim()).toSet();
-    final appLocale = AppLocales.fromString(context.locale.languageCode);
+    final appLocale = AppLocale.fromString(context.locale.languageCode);
     final predefined =
         context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ?? {};
     return _pickDefaultName(context, currentNames, predefined: predefined);

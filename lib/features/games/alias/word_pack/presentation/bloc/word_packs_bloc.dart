@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:bardak/features/games/alias/word_pack/domain/usecases/are_packs_cached_usecase.dart';
 import 'package:bardak/features/games/alias/word_pack/domain/usecases/fetch_and_cache_word_packs_usecase.dart';
@@ -33,7 +33,7 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
     Emitter<WordPacksState> emit,
   ) async {
     try {
-      for (final appLocale in AppLocales.values) {
+      for (final appLocale in AppLocale.values) {
         final locale = appLocale.locale.languageCode;
 
         final areCached = await areWordPacksCached(

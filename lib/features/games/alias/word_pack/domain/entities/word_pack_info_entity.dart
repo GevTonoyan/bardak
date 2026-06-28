@@ -1,4 +1,4 @@
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/word_pack/domain/entities/word_packs_fallbacks.dart';
 import 'package:equatable/equatable.dart';
 
@@ -7,7 +7,7 @@ class WordPackInfoResultEntity extends Equatable {
   const WordPackInfoResultEntity({required this.packs});
 
   factory WordPackInfoResultEntity.fallback(String locale) {
-    return switch (AppLocales.fromString(locale)) {
+    return switch (AppLocale.fromString(locale)) {
       .en => const WordPackInfoResultEntity(packs: enPacks),
       .ru => const WordPackInfoResultEntity(packs: ruPacks),
       .am => const WordPackInfoResultEntity(packs: amPacks),

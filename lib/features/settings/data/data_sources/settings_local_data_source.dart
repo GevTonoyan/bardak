@@ -1,5 +1,5 @@
 import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/settings/domain/entities/app_settings_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract interface class SettingsLocalDataSource {
   AppSettingsEntity getAppSettings();
 
-  Future<bool> updateLocale(AppLocales locale);
+  Future<bool> updateLocale(AppLocale locale);
 
   Future<bool> updateColorScheme(AppColorScheme colorScheme);
 
@@ -39,8 +39,8 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
   }
 
   @override
-  Future<bool> updateLocale(AppLocales locale) {
-    return preferences.setString(_localeKey, locale.jsonValue());
+  Future<bool> updateLocale(AppLocale locale) {
+    return preferences.setString(_localeKey, locale.name);
   }
 
   @override

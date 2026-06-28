@@ -8,7 +8,7 @@ import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
@@ -40,7 +40,7 @@ class _WordPackScreenState extends State<WordPackScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appLocale = AppLocales.fromString(context.locale.languageCode);
+    final appLocale = AppLocale.fromString(context.locale.languageCode);
 
     return GradientBackground(
       child: SafeArea(

@@ -5,7 +5,7 @@ import 'package:bardak/core/app_ui/theme/app_theme_builder.dart';
 import 'package:bardak/core/app_ui/theme/app_theme_provider.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/di/di.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/core/localizations/l10n/app_localizations.dart';
 import 'package:bardak/core/logging/app_bloc_observer.dart';
 import 'package:bardak/core/router/app_router.dart';
@@ -116,7 +116,7 @@ class MyApp extends StatelessWidget {
             routerConfig: appRouter,
             title: 'Bardak',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocales.supportedLocales,
+            supportedLocales: AppLocale.supportedLocales,
             locale: state.appSettings.locale.locale,
             theme: themeData.themeData,
           ),

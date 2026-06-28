@@ -1,5 +1,5 @@
 import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:equatable/equatable.dart';
 
 class AppSettingsEntity extends Equatable {
@@ -15,7 +15,7 @@ class AppSettingsEntity extends Equatable {
     bool? soundEnabled,
   }) {
     return AppSettingsEntity(
-      locale: AppLocales.fromString(locale),
+      locale: AppLocale.fromString(locale),
       colorScheme: AppColorScheme.fromString(colorScheme),
       soundEnabled: soundEnabled ?? true,
     );
@@ -23,18 +23,18 @@ class AppSettingsEntity extends Equatable {
 
   factory AppSettingsEntity.defaultSettings() {
     return const AppSettingsEntity(
-      locale: AppLocales.en,
+      locale: AppLocale.en,
       colorScheme: AppColorScheme.main,
       soundEnabled: true,
     );
   }
 
-  final AppLocales locale;
+  final AppLocale locale;
   final AppColorScheme colorScheme;
   final bool soundEnabled;
 
   AppSettingsEntity copyWith({
-    AppLocales? locale,
+    AppLocale? locale,
     AppColorScheme? colorScheme,
     bool? soundEnabled,
   }) {

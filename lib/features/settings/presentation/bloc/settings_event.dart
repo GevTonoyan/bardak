@@ -1,5 +1,5 @@
 import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:equatable/equatable.dart';
 
 /// Base class for all events related to settings.
@@ -27,7 +27,7 @@ class ChangeColorScheme extends SettingsEvent {
 class ChangeLocale extends SettingsEvent {
   const ChangeLocale(this.locale);
 
-  final AppLocales locale;
+  final AppLocale locale;
 
   @override
   List<Object?> get props => [locale];

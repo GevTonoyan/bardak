@@ -1,4 +1,4 @@
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:bardak/features/games/alias/pre_game/domain/usecases/get_predefined_team_names_usecase.dart';
 import 'package:equatable/equatable.dart';

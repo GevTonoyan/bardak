@@ -9,7 +9,7 @@ class PreGameState extends Equatable {
   });
 
   factory PreGameState.initial({
-    required Map<AppLocales, Set<String>> predefinedTeamNames,
+    required Map<AppLocale, Set<String>> predefinedTeamNames,
   }) {
     return PreGameState(
       gameMode: GameMode.card,
@@ -22,13 +22,13 @@ class PreGameState extends Equatable {
   final GameMode gameMode;
   final List<String> teamNames;
   final List<String> words;
-  final Map<AppLocales, Set<String>> predefinedTeamNames;
+  final Map<AppLocale, Set<String>> predefinedTeamNames;
 
   PreGameState copyWith({
     GameMode? gameMode,
     List<String>? teamNames,
     List<String>? words,
-    Map<AppLocales, Set<String>>? predefinedTeamNames,
+    Map<AppLocale, Set<String>>? predefinedTeamNames,
   }) {
     return PreGameState(
       gameMode: gameMode ?? this.gameMode,

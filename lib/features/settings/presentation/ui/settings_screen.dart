@@ -6,10 +6,10 @@ import 'package:bardak/core/app_ui/widgets/app_switch.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/app_ui/widgets/language_icon.dart';
 import 'package:bardak/core/app_ui/widgets/smart_number_text.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
-import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -50,10 +50,10 @@ class SettingsScreenBody extends StatelessWidget {
         height30,
         _SettingsCard(
           children: [
-            for (final locale in AppLocales.values)
+            for (final locale in AppLocale.values)
               _LanguageOptionRow(
                 locale: locale,
-                name: _localeName(context, locale),
+                name: locale.displayName(context),
                 isSelected: locale == appSettings.locale,
                 onTap: () => settingsBloc.add(ChangeLocale(locale)),
               ),
@@ -103,15 +103,6 @@ class SettingsScreenBody extends StatelessWidget {
         const _AppVersionText(),
       ],
     );
-  }
-
-  String _localeName(BuildContext context, AppLocales locale) {
-    final l10n = context.l10n;
-    return switch (locale) {
-      AppLocales.en => l10n.settings_localeEnglish,
-      AppLocales.ru => l10n.settings_localeRussian,
-      AppLocales.am => l10n.settings_localeArmenian,
-    };
   }
 
   Future<void> _sendFeedback(BuildContext context) async {
@@ -224,7 +215,7 @@ class _LanguageOptionRow extends StatelessWidget {
     required this.onTap,
   });
 
-  final AppLocales locale;
+  final AppLocale locale;
   final String name;
   final bool isSelected;
   final VoidCallback onTap;

@@ -1,5 +1,5 @@
 import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
-import 'package:bardak/core/localizations/common/supported_locales.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/settings/data/data_sources/settings_local_data_source.dart';
 import 'package:bardak/features/settings/domain/entities/app_settings_entity.dart';
 import 'package:bardak/features/settings/domain/repositories/settings_repository.dart';
@@ -14,7 +14,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   AppSettingsEntity getAppSettings() => dataSource.getAppSettings();
 
   @override
-  Future<bool> updateLocale(AppLocales locale) =>
+  Future<bool> updateLocale(AppLocale locale) =>
       dataSource.updateLocale(locale);
 
   @override
