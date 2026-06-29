@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:bardak/core/di/di.dart';
 import 'package:bardak/features/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/ui/card_round_screen.dart';
@@ -12,50 +11,25 @@ import 'package:bardak/features/games/alias/game_session/presentation/ui/game_se
 import 'package:bardak/features/games/alias/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_review_screen.dart';
-import 'package:bardak/features/home/presentation/ui/home_screen.dart';
 import 'package:bardak/features/games/alias/pre_game/domain/entities/pre_game_entity.dart';
 import 'package:bardak/features/games/alias/pre_game/presentation/ui/game_settings_screen.dart';
 import 'package:bardak/features/games/alias/pre_game/presentation/ui/setup_team_names_screen.dart';
-import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
 import 'package:bardak/features/games/alias/rules/presentation/ui/rules_screen.dart';
-import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/ui/single_word_round_screen.dart';
-import 'package:bardak/features/splash/presentation/splash_screen.dart';
-import 'package:bardak/features/themes/presentation/ui/themes_screen.dart';
-import 'package:bardak/core/di/di.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/word_packs_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bardak/features/home/presentation/ui/home_screen.dart';
+import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
+import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
+import 'package:bardak/features/splash/presentation/splash_screen.dart';
+import 'package:bardak/features/themes/presentation/ui/themes_screen.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-Page<T> _buildPlatformPage<T>({
-  required Widget child,
-  LocalKey? key,
-}) {
-  if (Platform.isAndroid) {
-    CustomTransitionPage<void>(
-      key: key,
-      child: child,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return SlideTransition(
-          position: animation.drive(
-            Tween<Offset>(
-              begin: const Offset(1, 0),
-              end: Offset.zero,
-            ).chain(CurveTween(curve: Curves.fastOutSlowIn)),
-          ),
-          child: child,
-        );
-      },
-    );
-  }
-  return CupertinoPage<T>(key: key, child: child);
-}
-
 final rootNavigatorKey = GlobalKey<NavigatorState>();
-final preGameNavigatorKey = GlobalKey<NavigatorState>();
 final gameSessionNavigatorKey = GlobalKey<NavigatorState>();
 
 const _gameSessionPath = 'gameSession';
@@ -63,14 +37,14 @@ const _gameSessionPath = 'gameSession';
 final appRouter = GoRouter(
   initialLocation: SplashScreen.routePath,
   navigatorKey: rootNavigatorKey,
-  debugLogDiagnostics: true,
+  debugLogDiagnostics: kDebugMode,
   routes: [
     GoRoute(
       parentNavigatorKey: rootNavigatorKey,
       path: SplashScreen.routePath,
       name: SplashScreen.routePath,
       pageBuilder: (context, state) =>
-          _buildPlatformPage(child: const SplashScreen()),
+          const MaterialPage(child: SplashScreen()),
     ),
     GoRoute(
       parentNavigatorKey: rootNavigatorKey,
@@ -134,7 +108,7 @@ final appRouter = GoRouter(
                     ),
                   ],
                   pageBuilder: (context, state) =>
-                      _buildPlatformPage(child: const WordPackScreen()),
+                      const MaterialPage(child: WordPackScreen()),
                 ),
               ],
             ),
@@ -145,13 +119,13 @@ final appRouter = GoRouter(
           path: RewardsScreen.routePath,
           name: RewardsScreen.routePath,
           pageBuilder: (context, state) =>
-              _buildPlatformPage(child: const RewardsScreen()),
+              const MaterialPage(child: RewardsScreen()),
         ),
         GoRoute(
           path: ThemesScreen.routePath,
           name: ThemesScreen.routePath,
           pageBuilder: (context, state) =>
-              _buildPlatformPage(child: const ThemesScreen()),
+              const MaterialPage(child: ThemesScreen()),
         ),
         ShellRoute(
           navigatorKey: gameSessionNavigatorKey,
@@ -167,13 +141,13 @@ final appRouter = GoRouter(
               path: '$_gameSessionPath/${RoundOverviewScreen.routePath}',
               name: RoundOverviewScreen.routePath,
               pageBuilder: (context, state) =>
-                  _buildPlatformPage(child: const RoundOverviewScreen()),
+                  const MaterialPage(child: RoundOverviewScreen()),
             ),
             GoRoute(
               path: '$_gameSessionPath/${CountdownScreen.routePath}',
               name: CountdownScreen.routePath,
               pageBuilder: (context, state) =>
-                  _buildPlatformPage(child: const CountdownScreen()),
+                  const MaterialPage(child: CountdownScreen()),
             ),
             GoRoute(
               path: '$_gameSessionPath/${CardRoundScreen.routePath}',
@@ -251,7 +225,7 @@ final appRouter = GoRouter(
             final teamStates = state.extra! as List<AliasTeamStateEntity>;
             final winner = teamStates.winner;
 
-            return _buildPlatformPage(
+            return MaterialPage(
               child: BlocProvider(
                 create: (_) => sl<InAppReviewCubit>(),
                 child: GameSummaryScreen(winningTeamName: winner.name),
