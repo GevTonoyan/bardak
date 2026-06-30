@@ -5,11 +5,6 @@ sealed class ThemesEvent {
   const ThemesEvent();
 }
 
-/// Loads the purchased themes from local storage.
-class LoadPurchasedThemes extends ThemesEvent {
-  const LoadPurchasedThemes();
-}
-
 /// Purchases a new theme and persists the updated list.
 class PurchaseTheme extends ThemesEvent {
   const PurchaseTheme({required this.theme});

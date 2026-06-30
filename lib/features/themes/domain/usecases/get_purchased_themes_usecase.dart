@@ -3,11 +3,11 @@ import 'package:bardak/features/themes/domain/repositories/purchased_themes_repo
 
 /// Use case to retrieve the list of themes the user owns.
 class GetPurchasedThemesUseCase {
-  const GetPurchasedThemesUseCase(this._repository);
+  const GetPurchasedThemesUseCase(this._purchasedThemesRepository);
 
-  final PurchasedThemesRepository _repository;
+  final PurchasedThemesRepository _purchasedThemesRepository;
 
   List<AppColorScheme> call() {
-    return _repository.getPurchasedThemes();
+    return _purchasedThemesRepository.getPurchasedThemes();
   }
 }

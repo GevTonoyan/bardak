@@ -14,8 +14,6 @@ class AppConstants {
 
   // Shared preferences keys
   static const wordsVersionKey = 'words_version';
-  static const purchasedThemesKey = 'purchased_themes';
-  static const themeCost = 500;
 
   // Hive DB keys
   static const aliasWordPack = 'alias_word_packs';

@@ -8,12 +8,12 @@ import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/coin_balance_widget.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
-import 'package:bardak/core/constants/app_constants.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
-import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
+import 'package:bardak/features/settings/presentation/bloc/settings_state.dart';
+import 'package:bardak/features/themes/domain/theme_cost.dart';
 import 'package:bardak/features/themes/presentation/bloc/themes_bloc.dart';
 import 'package:bardak/features/themes/presentation/bloc/themes_event.dart';
 import 'package:bardak/features/themes/presentation/bloc/themes_state.dart';
@@ -65,20 +65,24 @@ class _ThemesScreenState extends State<ThemesScreen> {
 
     // Last item — scroll to the very bottom.
     if (index == AppColorScheme.values.length - 1) {
-      _scrollController.animateTo(
-        position.maxScrollExtent + 100,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeOut,
+      unawaited(
+        _scrollController.animateTo(
+          position.maxScrollExtent + 100,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeOut,
+        ),
       );
       return;
     }
 
     // Otherwise scroll so the item is near the top with some padding.
     final target = (itemTop - 20).clamp(0.0, position.maxScrollExtent);
-    _scrollController.animateTo(
-      target,
-      duration: const Duration(milliseconds: 600),
-      curve: Curves.easeOut,
+    unawaited(
+      _scrollController.animateTo(
+        target,
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeOut,
+      ),
     );
   }
 
@@ -90,134 +94,131 @@ class _ThemesScreenState extends State<ThemesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final typography = context.typography;
-    final colors = context.colors;
-
     final bottomInset = MediaQuery.of(context).padding.bottom;
 
-    return GradientBackground(
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          spacing: 30,
-          children: [
-            Padding(
-              padding: const .only(left: 20, top: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: .spaceBetween,
-                children: [
-                  AppIconButton.back(onTap: () => context.pop()),
-                  const CoinBalanceWidget(),
-                ],
+    return BlocListener<ThemesBloc, ThemesState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: _onPurchaseStatusChanged,
+      child: GradientBackground(
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            spacing: 30,
+            children: [
+              Padding(
+                padding: const .only(left: 20, top: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: .spaceBetween,
+                  children: [
+                    AppIconButton.back(onTap: () => context.pop()),
+                    const CoinBalanceWidget(),
+                  ],
+                ),
               ),
-            ),
-            BlocBuilder<ThemesBloc, ThemesState>(
-              builder: (context, state) {
-                return Expanded(
-                  child: ListView.separated(
-                    controller: _scrollController,
-                    padding: .fromLTRB(20, 0, 20, 20 + bottomInset),
-                    itemBuilder: (context, index) {
-                      final scheme = AppColorScheme.values[index];
-                      return AppButton(
-                        label: scheme.displayName(context),
-                        color: scheme.colors.secondary,
-                        size: .extraLarge,
-                        onPressed: () {
-                          if (state.isOwned(scheme)) {
-                            context.read<SettingsBloc>().add(
-                              ChangeColorScheme(colorScheme: scheme),
-                            );
-                          } else {
-                            unawaited(
-                              showConfirmSheet(
-                                context: context,
-                                title: l10n.unlock_theme_title,
-                                description: l10n.unlock_theme_description,
-                                confirmText: l10n.unlock_theme_confirm,
-                                cancelText: l10n.cancel,
-                                confirmColor: colors.green,
-                                cancelColor: colors.white20,
-                                onConfirm: () async {
-                                  final rewardsCubit = context
-                                      .read<RewardsCubit>();
-                                  final themesBloc = context.read<ThemesBloc>();
-
-                                  final success = await rewardsCubit.spendCoins(
-                                    AppConstants.themeCost,
-                                  );
-
-                                  if (success) {
-                                    themesBloc.add(
-                                      PurchaseTheme(theme: scheme),
-                                    );
-                                    context.read<SettingsBloc>().add(
-                                      ChangeColorScheme(colorScheme: scheme),
-                                    );
-                                  } else {
-                                    if (context.mounted) {
-                                      unawaited(
-                                        showAppNotification(
-                                          context,
-                                          message: l10n.not_enough_coins,
-                                          icon: Assets.icons.coin.svg(
-                                            width: 18,
-                                            height: 18,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                },
+              BlocBuilder<ThemesBloc, ThemesState>(
+                builder: (context, state) {
+                  return Expanded(
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      padding: .fromLTRB(20, 0, 20, 20 + bottomInset),
+                      itemBuilder: (context, index) {
+                        final scheme = AppColorScheme.values[index];
+                        return AppButton(
+                          label: scheme.displayName(context),
+                          color: scheme.colors.secondary,
+                          size: .extraLarge,
+                          onPressed: () => _onThemeTapped(scheme, state),
+                          child: Container(
+                            padding: const .symmetric(
+                              horizontal: 18,
+                              vertical: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: Assets.images.themeBackground.provider(),
+                                opacity: 0.2,
                               ),
-                            );
-                          }
-                        },
-                        child: Container(
-                          padding: const .symmetric(
-                            horizontal: 18,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: Assets.images.themeBackground.provider(),
-                              opacity: 0.2,
+                            ),
+                            child: Column(
+                              children: [
+                                _AppThemeOwnedInfo(scheme),
+                                Expanded(
+                                  child: Row(
+                                    crossAxisAlignment: .end,
+                                    spacing: 8,
+                                    children: [
+                                      if (!state.isOwned(scheme))
+                                        Assets.icons.lock.svg(),
+                                      Text(
+                                        scheme.displayName(context),
+                                        style: typography.regular24,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          child: Column(
-                            children: [
-                              _AppThemeOwnedInfo(scheme),
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: .end,
-                                  spacing: 8,
-                                  children: [
-                                    if (!state.isOwned(scheme))
-                                      Assets.icons.lock.svg(),
-                                    Text(
-                                      scheme.displayName(context),
-                                      style: typography.regular24,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (_, _) =>
-                        const SizedBox(height: _separatorHeight),
-                    itemCount: AppColorScheme.values.length,
-                  ),
-                );
-              },
-            ),
-          ],
+                        );
+                      },
+                      separatorBuilder: (_, _) =>
+                          const SizedBox(height: _separatorHeight),
+                      itemCount: AppColorScheme.values.length,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void _onThemeTapped(AppColorScheme scheme, ThemesState state) {
+    state.isOwned(scheme)
+        ? _selectTheme(scheme)
+        : unawaited(_confirmPurchase(scheme));
+  }
+
+  void _selectTheme(AppColorScheme scheme) {
+    context.read<SettingsBloc>().add(ChangeColorScheme(colorScheme: scheme));
+  }
+
+  Future<void> _confirmPurchase(AppColorScheme scheme) {
+    final l10n = context.l10n;
+    final colors = context.colors;
+    return showConfirmSheet(
+      context: context,
+      title: l10n.unlock_theme_title,
+      description: l10n.unlock_theme_description,
+      confirmText: l10n.unlock_theme_confirm,
+      cancelText: l10n.cancel,
+      confirmColor: colors.green,
+      cancelColor: colors.white20,
+      onConfirm: () =>
+          context.read<ThemesBloc>().add(PurchaseTheme(theme: scheme)),
+    );
+  }
+
+  void _onPurchaseStatusChanged(BuildContext context, ThemesState state) {
+    switch (state.status) {
+      case .purchaseSuccess:
+        final theme = state.lastPurchased;
+        if (theme != null) _selectTheme(theme);
+      case .insufficientFunds:
+        unawaited(
+          showAppNotification(
+            context,
+            message: context.l10n.not_enough_coins,
+            icon: Assets.icons.coin.svg(width: 18, height: 18),
+          ),
+        );
+      case .idle:
+      case .purchasing:
+        break;
+    }
   }
 }
 
@@ -228,38 +229,36 @@ class _AppThemeOwnedInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeState = context.watch<ThemesBloc>().state;
-    final settingsState = context.watch<SettingsBloc>();
+    return BlocSelector<ThemesBloc, ThemesState, bool>(
+      selector: (state) => state.isOwned(scheme),
+      builder: (context, isThemeOwned) {
+        if (!isThemeOwned) {
+          return Row(
+            mainAxisAlignment: .end,
+            spacing: 8,
+            children: [
+              Text(
+                '$themeCost',
+                style: context.typography.regular24.withNumericFont,
+              ),
+              Assets.icons.coin.svg(width: 18, height: 18),
+            ],
+          );
+        }
 
-    final isThemeOwned = themeState.isOwned(scheme);
-    final isThemeSelected =
-        settingsState.state.appSettings.colorScheme == scheme;
-
-    final typography = context.typography;
-
-    if (isThemeOwned) {
-      return Align(
-        alignment: .topRight,
-        child: AppIconButton.themeOwned(
-          context: context,
-          isActive: isThemeSelected,
-        ),
-      );
-    } else {
-      return Row(
-        mainAxisAlignment: .end,
-        spacing: 8,
-        children: [
-          Text(
-            '${AppConstants.themeCost}',
-            style: typography.regular24.withNumericFont,
-          ),
-          Assets.icons.coin.svg(
-            width: 18,
-            height: 18,
-          ),
-        ],
-      );
-    }
+        return BlocSelector<SettingsBloc, SettingsState, bool>(
+          selector: (state) => state.appSettings.colorScheme == scheme,
+          builder: (context, isThemeSelected) {
+            return Align(
+              alignment: .topRight,
+              child: AppIconButton.themeOwned(
+                context: context,
+                isActive: isThemeSelected,
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

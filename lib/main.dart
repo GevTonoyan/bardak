@@ -77,7 +77,7 @@ void main() async {
         BlocProvider(
           create: (_) => ThemesBloc(
             getPurchasedThemesUseCase: sl(),
-            updatePurchasedThemesUseCase: sl(),
+            purchaseThemeUseCase: sl(),
           ),
         ),
         BlocProvider(

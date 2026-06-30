@@ -12,7 +12,7 @@ import 'package:bardak/features/settings/domain/usecases/get_app_settings_usecas
 import 'package:bardak/features/settings/domain/usecases/update_color_scheme_usecase.dart';
 import 'package:bardak/features/settings/domain/usecases/update_locale_usecase.dart';
 import 'package:bardak/features/settings/domain/usecases/update_sound_enabled_usecase.dart';
-import 'package:bardak/features/themes/inject_themes_scope.dart';
+import 'package:bardak/features/themes/themes_scope.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
