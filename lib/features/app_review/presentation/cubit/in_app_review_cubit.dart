@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// finishes. Holds no state — it just delegates to
 /// [RequestReviewIfEligibleUseCase].
 class InAppReviewCubit extends Cubit<void> {
-  InAppReviewCubit({required this.requestReviewIfEligibleUseCase})
+  InAppReviewCubit({required this._requestReviewIfEligibleUseCase})
     : super(null);
 
-  final RequestReviewIfEligibleUseCase requestReviewIfEligibleUseCase;
+  final RequestReviewIfEligibleUseCase _requestReviewIfEligibleUseCase;
 
-  Future<void> requestReviewAfterGame() => requestReviewIfEligibleUseCase();
+  Future<void> requestReviewAfterGame() => _requestReviewIfEligibleUseCase();
 }

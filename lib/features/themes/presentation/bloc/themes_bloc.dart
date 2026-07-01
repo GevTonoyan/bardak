@@ -7,14 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemesBloc extends Bloc<ThemesEvent, ThemesState> {
   ThemesBloc({
-    required this.getPurchasedThemesUseCase,
-    required this.purchaseThemeUseCase,
+    required GetPurchasedThemesUseCase getPurchasedThemesUseCase,
+    required this._purchaseThemeUseCase,
   }) : super(ThemesState(purchasedThemes: getPurchasedThemesUseCase())) {
     on<PurchaseTheme>(_onPurchaseTheme);
   }
 
-  final GetPurchasedThemesUseCase getPurchasedThemesUseCase;
-  final PurchaseThemeUseCase purchaseThemeUseCase;
+  final PurchaseThemeUseCase _purchaseThemeUseCase;
 
   Future<void> _onPurchaseTheme(
     PurchaseTheme event,
@@ -25,7 +24,7 @@ class ThemesBloc extends Bloc<ThemesEvent, ThemesState> {
     emit(state.copyWith(status: ThemesStatus.purchasing));
 
     try {
-      final result = await purchaseThemeUseCase(event.theme);
+      final result = await _purchaseThemeUseCase(event.theme);
       switch (result) {
         case .success:
           emit(

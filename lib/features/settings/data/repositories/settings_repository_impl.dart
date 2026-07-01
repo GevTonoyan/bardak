@@ -6,22 +6,22 @@ import 'package:bardak/features/settings/domain/repositories/settings_repository
 
 /// This is the implementation of the [SettingsRepository] interface.
 class SettingsRepositoryImpl implements SettingsRepository {
-  const SettingsRepositoryImpl({required this.dataSource});
+  const SettingsRepositoryImpl({required this._dataSource});
 
-  final SettingsLocalDataSource dataSource;
+  final SettingsLocalDataSource _dataSource;
 
   @override
-  AppSettingsEntity getAppSettings() => dataSource.getAppSettings();
+  AppSettingsEntity getAppSettings() => _dataSource.getAppSettings();
 
   @override
   Future<bool> updateLocale(AppLocale locale) =>
-      dataSource.updateLocale(locale);
+      _dataSource.updateLocale(locale);
 
   @override
   Future<bool> updateColorScheme(AppColorScheme colorScheme) =>
-      dataSource.updateColorScheme(colorScheme);
+      _dataSource.updateColorScheme(colorScheme);
 
   @override
   Future<bool> updateSoundEnabled({required bool soundEnabled}) =>
-      dataSource.updateSoundEnabled(soundEnabled: soundEnabled);
+      _dataSource.updateSoundEnabled(soundEnabled: soundEnabled);
 }

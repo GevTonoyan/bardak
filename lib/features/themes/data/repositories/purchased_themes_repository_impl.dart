@@ -5,14 +5,14 @@ import 'package:bardak/features/themes/domain/repositories/purchased_themes_repo
 /// Implementation of [PurchasedThemesRepository] that delegates
 /// to the local data source.
 class PurchasedThemesRepositoryImpl implements PurchasedThemesRepository {
-  const PurchasedThemesRepositoryImpl({required this.dataSource});
+  const PurchasedThemesRepositoryImpl({required this._dataSource});
 
-  final PurchasedThemesLocalDataSource dataSource;
+  final PurchasedThemesLocalDataSource _dataSource;
 
   @override
-  List<AppColorScheme> getPurchasedThemes() => dataSource.getPurchasedThemes();
+  List<AppColorScheme> getPurchasedThemes() => _dataSource.getPurchasedThemes();
 
   @override
   Future<bool> updatePurchasedThemes(List<AppColorScheme> themes) =>
-      dataSource.updatePurchasedThemes(themes);
+      _dataSource.updatePurchasedThemes(themes);
 }

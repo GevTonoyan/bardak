@@ -17,19 +17,19 @@ abstract interface class SettingsLocalDataSource {
 
 /// Implementation of the [SettingsLocalDataSource] interface.
 class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
-  const SettingsLocalDataSourceImpl({required this.preferences});
+  const SettingsLocalDataSourceImpl({required this._preferences});
 
   static const _localeKey = 'app_locale_key';
   static const _colorSchemeKey = 'app_color_scheme_key';
   static const _soundEnabledKey = 'is_sound_enabled';
 
-  final SharedPreferences preferences;
+  final SharedPreferences _preferences;
 
   @override
   AppSettingsEntity getAppSettings() {
-    final locale = preferences.getString(_localeKey);
-    final colorScheme = preferences.getString(_colorSchemeKey);
-    final soundEnabled = preferences.getBool(_soundEnabledKey);
+    final locale = _preferences.getString(_localeKey);
+    final colorScheme = _preferences.getString(_colorSchemeKey);
+    final soundEnabled = _preferences.getBool(_soundEnabledKey);
 
     return AppSettingsEntity.fromPreferences(
       locale: locale,
@@ -40,16 +40,16 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
 
   @override
   Future<bool> updateLocale(AppLocale locale) {
-    return preferences.setString(_localeKey, locale.name);
+    return _preferences.setString(_localeKey, locale.name);
   }
 
   @override
   Future<bool> updateColorScheme(AppColorScheme colorScheme) {
-    return preferences.setString(_colorSchemeKey, colorScheme.name);
+    return _preferences.setString(_colorSchemeKey, colorScheme.name);
   }
 
   @override
   Future<bool> updateSoundEnabled({required bool soundEnabled}) {
-    return preferences.setBool(_soundEnabledKey, soundEnabled);
+    return _preferences.setBool(_soundEnabledKey, soundEnabled);
   }
 }

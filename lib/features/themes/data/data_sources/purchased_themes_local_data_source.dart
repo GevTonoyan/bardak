@@ -16,15 +16,15 @@ const _defaultThemes = <AppColorScheme>[.main, .blue, .dark];
 /// Implementation that reads/writes purchased themes from [SharedPreferences].
 class PurchasedThemesLocalDataSourceImpl
     implements PurchasedThemesLocalDataSource {
-  const PurchasedThemesLocalDataSourceImpl({required this.preferences});
+  const PurchasedThemesLocalDataSourceImpl({required this._preferences});
 
   static const _purchasedThemesKey = 'purchased_themes';
 
-  final SharedPreferences preferences;
+  final SharedPreferences _preferences;
 
   @override
   List<AppColorScheme> getPurchasedThemes() {
-    final stored = preferences.getStringList(_purchasedThemesKey);
+    final stored = _preferences.getStringList(_purchasedThemesKey);
 
     if (stored == null) return List.of(_defaultThemes);
 
@@ -34,7 +34,7 @@ class PurchasedThemesLocalDataSourceImpl
   @override
   Future<bool> updatePurchasedThemes(List<AppColorScheme> themes) {
     final encoded = themes.map((e) => e.name).toList();
-    return preferences.setStringList(
+    return _preferences.setStringList(
       _purchasedThemesKey,
       encoded,
     );

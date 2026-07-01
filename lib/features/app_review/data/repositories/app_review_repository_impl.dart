@@ -5,31 +5,31 @@ import 'package:bardak/features/app_review/domain/repositories/app_review_reposi
 
 class AppReviewRepositoryImpl implements AppReviewRepository {
   const AppReviewRepositoryImpl({
-    required this.platformDataSource,
-    required this.localDataSource,
+    required this._platformDataSource,
+    required this._localDataSource,
   });
 
-  final AppReviewPlatformDataSource platformDataSource;
-  final AppReviewLocalDataSource localDataSource;
+  final AppReviewPlatformDataSource _platformDataSource;
+  final AppReviewLocalDataSource _localDataSource;
 
   @override
-  Future<void> openStoreListing() => platformDataSource.openStoreListing();
+  Future<void> openStoreListing() => _platformDataSource.openStoreListing();
 
   @override
-  AppReviewMetricsEntity getMetrics() => localDataSource.getMetrics();
+  AppReviewMetricsEntity getMetrics() => _localDataSource.getMetrics();
 
   @override
   Future<void> incrementGamesCompleted() =>
-      localDataSource.incrementGamesCompleted();
+      _localDataSource.incrementGamesCompleted();
 
   @override
   Future<void> incrementAppOpenedCount() =>
-      localDataSource.incrementAppOpenedCount();
+      _localDataSource.incrementAppOpenedCount();
 
   @override
   Future<void> setLastReviewPromptAt(DateTime dateTime) =>
-      localDataSource.setLastReviewPromptAt(dateTime);
+      _localDataSource.setLastReviewPromptAt(dateTime);
 
   @override
-  Future<bool> requestInAppReview() => platformDataSource.requestInAppReview();
+  Future<bool> requestInAppReview() => _platformDataSource.requestInAppReview();
 }

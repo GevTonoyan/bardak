@@ -12,19 +12,19 @@ abstract interface class AppReviewLocalDataSource {
 }
 
 class AppReviewLocalDataSourceImpl implements AppReviewLocalDataSource {
-  const AppReviewLocalDataSourceImpl({required this.preferences});
+  const AppReviewLocalDataSourceImpl({required this._preferences});
 
   static const _gamesCompletedKey = 'games_completed';
   static const _appOpenedCountKey = 'app_opened_count';
   static const _lastReviewPromptKey = 'last_review_prompt_ms';
 
-  final SharedPreferences preferences;
+  final SharedPreferences _preferences;
 
   @override
   AppReviewMetricsEntity getMetrics() {
-    final gamesCompleted = preferences.getInt(_gamesCompletedKey) ?? 0;
-    final appOpenedCount = preferences.getInt(_appOpenedCountKey) ?? 0;
-    final lastPromptMs = preferences.getInt(_lastReviewPromptKey);
+    final gamesCompleted = _preferences.getInt(_gamesCompletedKey) ?? 0;
+    final appOpenedCount = _preferences.getInt(_appOpenedCountKey) ?? 0;
+    final lastPromptMs = _preferences.getInt(_lastReviewPromptKey);
 
     return AppReviewMetricsEntity(
       gamesCompleted: gamesCompleted,
@@ -37,19 +37,19 @@ class AppReviewLocalDataSourceImpl implements AppReviewLocalDataSource {
 
   @override
   Future<void> incrementGamesCompleted() async {
-    final current = preferences.getInt(_gamesCompletedKey) ?? 0;
-    await preferences.setInt(_gamesCompletedKey, current + 1);
+    final current = _preferences.getInt(_gamesCompletedKey) ?? 0;
+    await _preferences.setInt(_gamesCompletedKey, current + 1);
   }
 
   @override
   Future<void> incrementAppOpenedCount() async {
-    final current = preferences.getInt(_appOpenedCountKey) ?? 0;
-    await preferences.setInt(_appOpenedCountKey, current + 1);
+    final current = _preferences.getInt(_appOpenedCountKey) ?? 0;
+    await _preferences.setInt(_appOpenedCountKey, current + 1);
   }
 
   @override
   Future<void> setLastReviewPromptAt(DateTime dateTime) async {
-    await preferences.setInt(
+    await _preferences.setInt(
       _lastReviewPromptKey,
       dateTime.millisecondsSinceEpoch,
     );

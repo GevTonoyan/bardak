@@ -11,11 +11,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc({
-    required this.getAppSettingsUseCase,
-    required this.updateLocaleUseCase,
-    required this.updateColorSchemeUseCase,
-    required this.updateSoundEnabledUseCase,
-    required this.openStoreListingUseCase,
+    required this._getAppSettingsUseCase,
+    required this._updateLocaleUseCase,
+    required this._updateColorSchemeUseCase,
+    required this._updateSoundEnabledUseCase,
+    required this._openStoreListingUseCase,
   }) : super(
          SettingsState(appSettings: AppSettingsEntity.defaultSettings()),
        ) {
@@ -26,14 +26,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<OpenStoreListing>(_onOpenStoreListing);
   }
 
-  final GetAppSettingsUseCase getAppSettingsUseCase;
-  final UpdateLocaleUseCase updateLocaleUseCase;
-  final UpdateColorSchemeUseCase updateColorSchemeUseCase;
-  final UpdateSoundEnabledUseCase updateSoundEnabledUseCase;
-  final OpenStoreListingUseCase openStoreListingUseCase;
+  final GetAppSettingsUseCase _getAppSettingsUseCase;
+  final UpdateLocaleUseCase _updateLocaleUseCase;
+  final UpdateColorSchemeUseCase _updateColorSchemeUseCase;
+  final UpdateSoundEnabledUseCase _updateSoundEnabledUseCase;
+  final OpenStoreListingUseCase _openStoreListingUseCase;
 
   void _onLoadAppSettings(LoadAppSettings event, Emitter<SettingsState> emit) {
-    final settings = getAppSettingsUseCase();
+    final settings = _getAppSettingsUseCase();
     emit(SettingsState(appSettings: settings));
   }
 
@@ -46,7 +46,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       return;
     }
 
-    await updateColorSchemeUseCase(event.colorScheme);
+    await _updateColorSchemeUseCase(event.colorScheme);
 
     emit(
       SettingsState(
@@ -60,7 +60,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) async {
     final newSettings = state.appSettings.copyWith(locale: event.locale);
-    await updateLocaleUseCase(event.locale);
+    await _updateLocaleUseCase(event.locale);
     emit(SettingsState(appSettings: newSettings));
   }
 
@@ -68,7 +68,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     ChangeSoundEnabled event,
     Emitter<SettingsState> emit,
   ) async {
-    await updateSoundEnabledUseCase(soundEnabled: event.enabled);
+    await _updateSoundEnabledUseCase(soundEnabled: event.enabled);
     emit(
       SettingsState(
         appSettings: state.appSettings.copyWith(
@@ -81,5 +81,5 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   Future<void> _onOpenStoreListing(
     OpenStoreListing event,
     Emitter<SettingsState> emit,
-  ) => openStoreListingUseCase();
+  ) => _openStoreListingUseCase();
 }
