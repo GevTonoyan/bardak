@@ -1,12 +1,12 @@
 import 'package:bardak/features/rewards/domain/entities/coin_balance_entity.dart';
 import 'package:bardak/features/rewards/domain/repositories/rewards_repository.dart';
 
-/// Use case for persisting an updated coin balance entity.
-class UpdateCoinsUseCase {
-  const UpdateCoinsUseCase(this.repository);
+/// Persists an updated coin balance.
+class UpdateCoinBalanceUseCase {
+  const UpdateCoinBalanceUseCase(this._rewardsRepository);
 
-  final RewardsRepository repository;
+  final RewardsRepository _rewardsRepository;
 
   Future<CoinBalanceEntity> call(CoinBalanceEntity coinBalance) =>
-      repository.updateCoins(coinBalance);
+      _rewardsRepository.updateCoinBalance(coinBalance);
 }

@@ -4,18 +4,22 @@ import 'package:bardak/features/rewards/domain/repositories/rewards_repository.d
 
 /// Implementation of [RewardsRepository].
 class RewardsRepositoryImpl implements RewardsRepository {
-  const RewardsRepositoryImpl({required this.dataSource});
+  const RewardsRepositoryImpl({required this._dataSource});
 
-  final RewardsLocalDataSource dataSource;
-
-  @override
-  CoinBalanceEntity getCoinsState() {
-    return dataSource.getCoinBalance();
-  }
+  final RewardsLocalDataSource _dataSource;
 
   @override
-  Future<CoinBalanceEntity> updateCoins(CoinBalanceEntity coinBalance) async {
-    await dataSource.saveCoinBalance(coinBalance);
+  CoinBalanceEntity getCoinBalance() => _dataSource.getCoinBalance();
+
+  @override
+  Future<CoinBalanceEntity> updateCoinBalance(
+    CoinBalanceEntity coinBalance,
+  ) async {
+    await _dataSource.updateCoinBalance(coinBalance);
     return coinBalance;
   }
+
+  @override
+  Stream<CoinBalanceEntity> watchCoinBalance() =>
+      _dataSource.watchCoinBalance();
 }

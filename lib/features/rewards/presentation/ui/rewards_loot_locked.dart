@@ -5,10 +5,11 @@ import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/smart_number_text.dart';
 import 'package:bardak/core/app_ui/widgets/text_with_border.dart';
+import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
+import 'package:bardak/features/rewards/domain/entities/coin_balance_entity.dart';
 import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/themes/presentation/ui/themes_screen.dart';
-import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -21,9 +22,9 @@ class RewardsLootLocked extends StatelessWidget {
     final colors = context.colors;
     final l10n = context.l10n;
 
-    final coinBalance = context.read<RewardsCubit>().state;
+    final coinBalance = context.read<RewardsCubit>().state.coinBalance;
     final rewards = coinBalance.openedBoxes.values
-        .take(maxOpensPerDay)
+        .take(maxBoxesPerDay)
         .toList(growable: false);
 
     final totalReward = rewards.fold<int>(0, (acc, x) => acc + x);

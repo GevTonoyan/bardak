@@ -1,10 +1,10 @@
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_text_button.dart';
-import 'package:bardak/core/generated/assets/assets.gen.dart';
-import 'package:bardak/features/rewards/domain/entities/coin_balance_entity.dart';
-import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/extensions/int_extension.dart';
+import 'package:bardak/core/generated/assets/assets.gen.dart';
+import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
+import 'package:bardak/features/rewards/presentation/bloc/rewards_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,9 +17,9 @@ class CoinBalanceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final typography = context.typography;
 
-    return BlocBuilder<RewardsCubit, CoinBalanceEntity>(
+    return BlocBuilder<RewardsCubit, RewardsState>(
       builder: (context, state) {
-        final coins = state.coins;
+        final coins = state.coinBalance.coins;
 
         return AppIconTextButton(
           onTap: onTap,

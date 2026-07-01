@@ -63,9 +63,10 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => RewardsCubit(
-            getCoinsStateUseCase: sl(),
-            updateCoinsUseCase: sl(),
-          )..getCoinsState(),
+            getCoinBalanceUseCase: sl(),
+            updateCoinBalanceUseCase: sl(),
+            watchCoinBalanceUseCase: sl(),
+          ),
         ),
         // TODO(GEVORG): make PreGameBloc available only where needed,
         //  not for the whole tree

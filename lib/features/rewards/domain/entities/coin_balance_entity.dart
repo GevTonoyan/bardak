@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 
+/// Maximum number of reward boxes a user can open per day.
+const maxBoxesPerDay = 3;
+
 class CoinBalanceEntity extends Equatable {
   const CoinBalanceEntity({
     required this.coins,
@@ -16,12 +19,12 @@ class CoinBalanceEntity extends Equatable {
   }
 
   factory CoinBalanceEntity.fromJson(Map<String, dynamic> json) {
-    final boxesDayRaw = json['boxesDay'] as String?;
+    final boxesDayRaw = json[_boxesDayKey] as String?;
     final boxesDay = boxesDayRaw != null
         ? (_parseYyyyMmDd(boxesDayRaw) ?? _todayDate())
         : _todayDate();
 
-    final openedBoxesRaw = json['openedBoxes'];
+    final openedBoxesRaw = json[_openedBoxesKey];
     final openedBoxes = <int, int>{};
 
     if (openedBoxesRaw is Map) {
@@ -36,11 +39,15 @@ class CoinBalanceEntity extends Equatable {
     }
 
     return CoinBalanceEntity(
-      coins: json['coins'] as int? ?? 0,
+      coins: json[_coinsKey] as int? ?? 0,
       boxesDay: boxesDay,
       openedBoxes: openedBoxes,
     ).normalizeForToday();
   }
+
+  static const _coinsKey = 'coins';
+  static const _boxesDayKey = 'boxesDay';
+  static const _openedBoxesKey = 'openedBoxes';
 
   final int coins;
   final DateTime boxesDay;
@@ -57,6 +64,9 @@ class CoinBalanceEntity extends Equatable {
   Map<int, int> get openedBoxesToday => _isForToday ? openedBoxes : const {};
 
   int get openedCountToday => openedBoxesToday.length;
+
+  /// Whether the user has opened the maximum number of boxes for today.
+  bool get hasReachedDailyLimit => openedCountToday >= maxBoxesPerDay;
 
   bool isBoxOpened(int index) => openedBoxesToday.containsKey(index);
 
@@ -82,9 +92,9 @@ class CoinBalanceEntity extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'coins': coins,
-      'boxesDay': _formatYyyyMmDd(boxesDay),
-      'openedBoxes': openedBoxes.map((k, v) => MapEntry(k.toString(), v)),
+      _coinsKey: coins,
+      _boxesDayKey: _formatYyyyMmDd(boxesDay),
+      _openedBoxesKey: openedBoxes.map((k, v) => MapEntry(k.toString(), v)),
     };
   }
 

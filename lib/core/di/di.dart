@@ -4,7 +4,7 @@ import 'package:bardak/features/app_review/app_review_scope.dart';
 import 'package:bardak/features/games/alias/game_settings/game_settings_scope.dart';
 import 'package:bardak/features/games/alias/pre_game/pre_game_scope.dart';
 import 'package:bardak/features/games/alias/word_pack/word_packs_scope.dart';
-import 'package:bardak/features/rewards/inject_rewards_scope.dart';
+import 'package:bardak/features/rewards/rewards_scope.dart';
 import 'package:bardak/features/settings/data/data_sources/settings_local_data_source.dart';
 import 'package:bardak/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:bardak/features/settings/domain/repositories/settings_repository.dart';
@@ -47,7 +47,7 @@ Future<void> injectDependencies() async {
     );
 
   injectAppReviewScope();
-  await injectRewardsScope();
+  injectRewardsScope();
   injectWordPacksScope();
   injectPreGameScope();
   injectThemesScope();

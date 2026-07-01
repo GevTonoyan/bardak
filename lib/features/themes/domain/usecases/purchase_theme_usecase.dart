@@ -19,12 +19,12 @@ class PurchaseThemeUseCase {
   final RewardsRepository _rewardsRepository;
 
   Future<PurchaseThemeResult> call(AppColorScheme theme) async {
-    final balance = _rewardsRepository.getCoinsState();
+    final balance = _rewardsRepository.getCoinBalance();
     if (balance.coins < themeCost) {
       return .insufficientFunds;
     }
 
-    await _rewardsRepository.updateCoins(
+    await _rewardsRepository.updateCoinBalance(
       balance.copyWith(coins: balance.coins - themeCost),
     );
 

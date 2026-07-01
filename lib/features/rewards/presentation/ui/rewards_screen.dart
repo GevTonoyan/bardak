@@ -1,8 +1,8 @@
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/coin_balance_widget.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
-import 'package:bardak/features/rewards/domain/entities/coin_balance_entity.dart';
 import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
+import 'package:bardak/features/rewards/presentation/bloc/rewards_state.dart';
 import 'package:bardak/features/rewards/presentation/ui/rewards_loot_grid.dart';
 import 'package:bardak/features/rewards/presentation/ui/rewards_loot_locked.dart';
 import 'package:flutter/material.dart';
@@ -39,9 +39,9 @@ class RewardsScreen extends StatelessWidget {
           ),
           Expanded(
             child: ShadowBackground(
-              child: BlocBuilder<RewardsCubit, CoinBalanceEntity>(
-                builder: (context, coinsBalance) {
-                  return coinsBalance.openedCountToday >= maxOpensPerDay
+              child: BlocBuilder<RewardsCubit, RewardsState>(
+                builder: (context, state) {
+                  return state.coinBalance.hasReachedDailyLimit
                       ? const RewardsLootLocked()
                       : const RewardsLootGrid();
                 },

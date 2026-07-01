@@ -1,9 +1,7 @@
-import 'dart:math' as math;
-
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
+import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/rewards/presentation/ui/reward_item.dart';
-import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,7 +40,7 @@ class RewardsLootGrid extends StatelessWidget {
             children: List.generate(9, (index) {
               final cubit = context.watch<RewardsCubit>();
 
-              final boxInfo = cubit.state.openedBoxes[index];
+              final boxInfo = cubit.state.coinBalance.openedBoxes[index];
 
               final isOpened = boxInfo != null;
               final coins = boxInfo;
@@ -50,10 +48,7 @@ class RewardsLootGrid extends StatelessWidget {
               return RewardItem(
                 isFront: !isOpened,
                 coins: coins,
-                onTap: () async {
-                  final coins = (math.Random().nextInt(10) + 1) * 20;
-                  await cubit.updateCoins(index, coins);
-                },
+                onTap: () => cubit.openBox(index),
               );
             }),
           ),
