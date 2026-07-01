@@ -1,5 +1,5 @@
-import 'package:bardak/features/games/alias/game_session/domain/entities/round_result.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/round_result.dart';
 import 'package:flutter/material.dart';
 
 class SingleWordReviewWidget extends StatelessWidget {

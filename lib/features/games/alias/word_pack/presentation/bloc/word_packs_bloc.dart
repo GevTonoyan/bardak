@@ -73,7 +73,7 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
           ),
         );
       }
-    } on Exception catch (e) {
+    } on Exception {
       emit(
         WordPacksNotCached(
           fallbackPacks: WordPackInfoResultEntity.fallback(

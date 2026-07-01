@@ -1,6 +1,6 @@
-import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/extensions/state_extension.dart';
+import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 const _containerSize = 40.0;

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:bardak/core/app_ui/widgets/flip_card.dart';
 import 'package:bardak/core/app_ui/widgets/round_header.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
@@ -8,7 +9,6 @@ import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_ro
 import 'package:bardak/features/games/alias/card_round/presentation/ui/widgets/multiple_words_card.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -115,7 +115,7 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
                           ),
                         ),
                         back: MultipleWordsCardBack(
-                          onTap: () => _resumeFromPause(),
+                          onTap: _resumeFromPause,
                         ),
                       ),
                     ),

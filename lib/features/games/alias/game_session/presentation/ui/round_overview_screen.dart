@@ -7,12 +7,12 @@ import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/highlighted_text.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
+import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/countdown_screen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_review_screen.dart';
 import 'package:bardak/features/games/alias/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -232,7 +232,7 @@ class _TickingEditIconState extends State<_TickingEditIcon>
       duration: const Duration(milliseconds: 600),
     )..repeat(reverse: true); // Loops the animation back and forth
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.3).animate(
+    _scaleAnimation = Tween<double>(begin: 1, end: 1.3).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,

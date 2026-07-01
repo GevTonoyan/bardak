@@ -5,17 +5,17 @@ import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/language_icon.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
+import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
-import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
-import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/alias/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/bloc/word_packs_bloc.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/word_pack_item.dart';
+import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -67,7 +67,7 @@ class _WordPackScreenState extends State<WordPackScreen> {
             ),
             BlocConsumer<WordPacksBloc, WordPacksState>(
               listenWhen: (_, current) => current is WordPacksNotCached,
-              listener: (BuildContext context, WordPacksState state) {
+              listener: (context, state) {
                 if (state is WordPacksNotCached) {
                   unawaited(
                     showAppNotification(
@@ -82,7 +82,7 @@ class _WordPackScreenState extends State<WordPackScreen> {
               builder: (context, state) {
                 return switch (state) {
                   WordPacksInitial() => const SizedBox.shrink(),
-                  WordPacksLoaded(packs: final packs) => Expanded(
+                  WordPacksLoaded(: final packs) => Expanded(
                     child: _Success(packs: packs),
                   ),
                   WordPacksNotCached(fallbackPacks: final packs) => Expanded(
@@ -114,7 +114,7 @@ class _Success extends StatelessWidget {
         Expanded(
           child: ListView.separated(
             padding: .fromLTRB(20, 0, 20, 20 + bottomInset),
-            itemBuilder: (BuildContext context, int index) {
+            itemBuilder: (context, index) {
               final pack = packs[index];
 
               return WordPackItem(

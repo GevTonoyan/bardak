@@ -2,8 +2,8 @@ import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon.dart';
 import 'package:bardak/core/app_ui/widgets/smart_number_text.dart';
 import 'package:bardak/core/app_ui/widgets/svg_icon.dart';
-import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class AppStepperButton extends StatelessWidget {

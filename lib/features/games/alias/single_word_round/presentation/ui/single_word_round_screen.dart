@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/flip_card.dart';
 import 'package:bardak/core/app_ui/widgets/round_header.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_points_badge.dart';
+import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/core/extensions/state_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/ui/single_word_card.dart';
-import 'package:bardak/core/extensions/context_extension.dart';
-import 'package:bardak/core/extensions/state_extension.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -269,7 +269,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                             ),
                           );
                         }
-                        // TODO (Gevorg): handle height adjustment when buttons shouldn't be shown
+                        // TODO(Gevorg): handle height adjustment when buttons shouldn't be shown
                         else {
                           return const Padding(
                             padding: .all(20),
