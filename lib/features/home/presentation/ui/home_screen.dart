@@ -7,14 +7,17 @@ import 'package:bardak/core/app_ui/widgets/coin_balance_widget.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
-import 'package:bardak/features/games/alias/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/ui/game_settings_screen.dart';
+import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
+import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
+import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
+import 'package:bardak/features/games/alias/game_settings/presentation/ui/game_settings_screen.dart';
 import 'package:bardak/features/games/alias/rules/presentation/ui/rules_screen.dart';
 import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
 import 'package:bardak/features/splash/presentation/splash_screen.dart';
 import 'package:bardak/features/themes/presentation/ui/themes_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -175,11 +178,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _navigateToGameSettings(BuildContext context, GameMode gameMode) {
-    unawaited(
-      context.pushNamed(
-        GameSettingsScreen.routePath,
-        queryParameters: {GameSettingsScreen.gameModeKey: gameMode.name},
-      ),
-    );
+    context.read<GameSettingsBloc>().add(ChangeGameMode(gameMode));
+    unawaited(context.pushNamed(GameSettingsScreen.routePath));
   }
 }

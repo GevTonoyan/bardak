@@ -30,7 +30,7 @@ class WordPacksRemoteDataSourceImpl implements WordPacksRemoteDataSource {
     if (data == null) return [];
 
     final packs = data.entries.map((entry) {
-      return WordPackEntity.fromFirestore(
+      return WordPackEntity.fromJson(
         entry.key,
         Map<String, dynamic>.from(entry.value),
       );

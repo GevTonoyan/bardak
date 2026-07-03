@@ -31,9 +31,9 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
     final colorScheme = _preferences.getString(_colorSchemeKey);
     final soundEnabled = _preferences.getBool(_soundEnabledKey);
 
-    return AppSettingsEntity.fromPreferences(
-      locale: locale,
-      colorScheme: colorScheme,
+    return AppSettingsEntity.defaultSettings().copyWith(
+      locale: AppLocale.fromString(locale),
+      colorScheme: AppColorScheme.fromString(colorScheme),
       soundEnabled: soundEnabled,
     );
   }

@@ -1,9 +1,13 @@
+import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/entities/game_settings_entity.dart';
 
 /// Contract for reading and persisting the Alias game settings.
 abstract interface class GameSettingsRepository {
   /// Retrieves the currently stored game settings.
   GameSettingsEntity getGameSettings();
+
+  /// Persists the selected game mode.
+  Future<bool> updateGameMode(GameMode gameMode);
 
   /// Persists the round duration in seconds.
   Future<bool> updateRoundDuration(int roundDuration);

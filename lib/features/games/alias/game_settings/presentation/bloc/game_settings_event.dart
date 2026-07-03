@@ -1,3 +1,4 @@
+import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class GameSettingsEvent extends Equatable {
@@ -7,9 +8,13 @@ sealed class GameSettingsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Loads the persisted game settings into state.
-class LoadGameSettings extends GameSettingsEvent {
-  const LoadGameSettings();
+class ChangeGameMode extends GameSettingsEvent {
+  const ChangeGameMode(this.gameMode);
+
+  final GameMode gameMode;
+
+  @override
+  List<Object?> get props => [gameMode];
 }
 
 class ChangeRoundDuration extends GameSettingsEvent {

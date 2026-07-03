@@ -4,10 +4,6 @@ import 'package:equatable/equatable.dart';
 class GameSettingsState extends Equatable {
   const GameSettingsState({required this.gameSettings});
 
-  factory GameSettingsState.initial() {
-    return GameSettingsState(gameSettings: GameSettingsEntity.initial());
-  }
-
   final GameSettingsEntity gameSettings;
 
   @override

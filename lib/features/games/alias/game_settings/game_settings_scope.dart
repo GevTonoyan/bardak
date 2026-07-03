@@ -4,6 +4,7 @@ import 'package:bardak/features/games/alias/game_settings/data/repositories/game
 import 'package:bardak/features/games/alias/game_settings/domain/repositories/game_settings_repository.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/usecases/get_game_settings_usecase.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/usecases/update_allow_skipping_usecase.dart';
+import 'package:bardak/features/games/alias/game_settings/domain/usecases/update_game_mode_usecase.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/usecases/update_points_to_win_usecase.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/usecases/update_round_duration_usecase.dart';
 
@@ -13,6 +14,9 @@ void injectGameSettingsScope() {
   sl
     ..registerLazySingleton<GetGameSettingsUseCase>(
       () => GetGameSettingsUseCase(sl()),
+    )
+    ..registerLazySingleton<UpdateGameModeUseCase>(
+      () => UpdateGameModeUseCase(sl()),
     )
     ..registerLazySingleton<UpdateRoundDurationUseCase>(
       () => UpdateRoundDurationUseCase(sl()),

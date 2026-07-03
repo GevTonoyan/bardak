@@ -7,21 +7,23 @@ import 'package:bardak/core/app_ui/widgets/app_input_field.dart';
 import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
-import 'package:bardak/core/constants/app_constants.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/extensions/state_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/core/localizations/app_locale.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
+import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_event.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class SetupTeamNamesScreen extends Page<void> {
-  const SetupTeamNamesScreen({super.key});
+class TeamSetupScreen extends Page<void> {
+  const TeamSetupScreen({super.key});
 
-  static const routePath = 'setupTeamNames';
+  static const routePath = 'teamSetup';
+  static const _minTeamCount = 2;
+  static const _maxTeamCount = 4;
 
   @override
   Route<void> createRoute(BuildContext context) {
@@ -30,20 +32,20 @@ class SetupTeamNamesScreen extends Page<void> {
       settings: this,
       child: FullBottomSheet(
         titleBuilder: (context) => context.l10n.teams,
-        child: const _SetupTeamNamesBody(),
+        child: const _TeamSetupBody(),
       ),
     );
   }
 }
 
-class _SetupTeamNamesBody extends StatefulWidget {
-  const _SetupTeamNamesBody();
+class _TeamSetupBody extends StatefulWidget {
+  const _TeamSetupBody();
 
   @override
-  State<_SetupTeamNamesBody> createState() => _SetupTeamNamesBodyState();
+  State<_TeamSetupBody> createState() => _TeamSetupBodyState();
 }
 
-class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
+class _TeamSetupBodyState extends State<_TeamSetupBody> {
   late final List<TextEditingController> _teamControllers;
   bool _isInitialized = false;
 
@@ -54,7 +56,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
       _isInitialized = true;
       final appLocale = AppLocale.fromString(context.locale.languageCode);
       final predefined =
-          context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ??
+          context.read<TeamSetupBloc>().state.predefinedTeamNames[appLocale] ??
           {};
       final firstName = _pickDefaultName(context, {}, predefined: predefined);
       final secondName = _pickDefaultName(
@@ -81,7 +83,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    final bloc = context.read<PreGameBloc>();
+    final bloc = context.read<TeamSetupBloc>();
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
@@ -106,7 +108,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                               controller: _teamControllers[i],
                               suffix:
                                   _teamControllers.length >
-                                      AppConstants.minTeamCount
+                                      TeamSetupScreen._minTeamCount
                                   ? AppIcon(
                                       icon: Container(
                                         height: 4,
@@ -127,7 +129,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                           ),
                       ],
                     ),
-                    if (_teamControllers.length < AppConstants.maxTeamCount)
+                    if (_teamControllers.length < TeamSetupScreen._maxTeamCount)
                       AppButton(
                         label: l10n.add,
                         color: colors.white20,
@@ -154,7 +156,7 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
                 final teamNames = _teamControllers
                     .map((controller) => controller.text)
                     .toList();
-                bloc.add(AddTeamsEvent(teamNames));
+                bloc.add(SetTeamNames(teamNames));
 
                 if (teamNames.any((name) => name.isEmpty)) {
                   unawaited(
@@ -181,7 +183,8 @@ class _SetupTeamNamesBodyState extends State<_SetupTeamNamesBody> {
     final currentNames = _teamControllers.map((e) => e.text.trim()).toSet();
     final appLocale = AppLocale.fromString(context.locale.languageCode);
     final predefined =
-        context.read<PreGameBloc>().state.predefinedTeamNames[appLocale] ?? {};
+        context.read<TeamSetupBloc>().state.predefinedTeamNames[appLocale] ??
+        {};
     return _pickDefaultName(context, currentNames, predefined: predefined);
   }
 

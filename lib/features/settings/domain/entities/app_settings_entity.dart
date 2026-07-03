@@ -9,18 +9,6 @@ class AppSettingsEntity extends Equatable {
     required this.soundEnabled,
   });
 
-  factory AppSettingsEntity.fromPreferences({
-    String? locale,
-    String? colorScheme,
-    bool? soundEnabled,
-  }) {
-    return AppSettingsEntity(
-      locale: AppLocale.fromString(locale),
-      colorScheme: AppColorScheme.fromString(colorScheme),
-      soundEnabled: soundEnabled ?? true,
-    );
-  }
-
   factory AppSettingsEntity.defaultSettings() {
     return const AppSettingsEntity(
       locale: AppLocale.en,

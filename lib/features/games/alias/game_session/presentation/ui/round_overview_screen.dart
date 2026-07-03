@@ -12,7 +12,7 @@ import 'package:bardak/features/games/alias/game_session/domain/entities/game_se
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/countdown_screen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_review_screen.dart';
-import 'package:bardak/features/games/alias/pre_game/domain/entities/pre_game_entity.dart';
+import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

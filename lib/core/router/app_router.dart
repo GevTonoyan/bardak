@@ -11,12 +11,11 @@ import 'package:bardak/features/games/alias/game_session/presentation/ui/game_se
 import 'package:bardak/features/games/alias/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_review_screen.dart';
-import 'package:bardak/features/games/alias/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/ui/game_settings_screen.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/ui/setup_team_names_screen.dart';
+import 'package:bardak/features/games/alias/game_settings/presentation/ui/game_settings_screen.dart';
 import 'package:bardak/features/games/alias/rules/presentation/ui/rules_screen.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/ui/single_word_round_screen.dart';
+import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/word_packs_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
@@ -80,21 +79,12 @@ final appRouter = GoRouter(
         GoRoute(
           path: GameSettingsScreen.routePath,
           name: GameSettingsScreen.routePath,
-          pageBuilder: (context, state) {
-            final params = state.uri.queryParameters;
-            final gameModeString = params[GameSettingsScreen.gameModeKey]!;
-            final gameMode = GameMode.values.firstWhere(
-              (mode) => mode.name == gameModeString,
-            );
-            return GameSettingsScreen(selectedMode: gameMode);
-          },
+          pageBuilder: (context, state) => const GameSettingsScreen(),
           routes: [
             GoRoute(
-              path: SetupTeamNamesScreen.routePath,
-              name: SetupTeamNamesScreen.routePath,
-              pageBuilder: (context, state) {
-                return const SetupTeamNamesScreen();
-              },
+              path: TeamSetupScreen.routePath,
+              name: TeamSetupScreen.routePath,
+              pageBuilder: (context, state) => const TeamSetupScreen(),
               routes: [
                 GoRoute(
                   path: WordPackScreen.routePath,

@@ -30,8 +30,8 @@ class WordPackEntity extends Equatable {
     required this.imageBlurHash,
   });
 
-  /// Creates an AliasWordPackEntity from Firestore JSON-like map.
-  factory WordPackEntity.fromFirestore(String id, Map<String, dynamic> json) {
+  /// Creates a [WordPackEntity] from a JSON map (e.g. a Firestore doc).
+  factory WordPackEntity.fromJson(String id, Map<String, dynamic> json) {
     return WordPackEntity(
       id: id,
       name: json['name'] as String,

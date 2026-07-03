@@ -1,48 +1,48 @@
-import 'package:bardak/core/constants/app_constants.dart';
+import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
 import 'package:equatable/equatable.dart';
 
-/// Settings for the Alias game (round duration, scoring, skipping rules).
+/// Settings for the Alias game (game mode, round duration, scoring, skipping).
 ///
 /// Lives in its own feature so each game can own its settings independently
-/// as more games are added.
+/// as more games are added. Persisted, so choices are remembered across
+/// sessions.
 class GameSettingsEntity extends Equatable {
   const GameSettingsEntity({
-    this.roundDuration = AppConstants.defaultRoundDuration,
-    this.pointsToWin = AppConstants.defaultPointsToWin,
+    this.gameMode = .card,
+    this.roundDuration = _defaultRoundDuration,
+    this.pointsToWin = _defaultPointsToWin,
     this.allowSkipping = true,
-    this.wordsPerCard = AppConstants.defaultWordsPerCard,
+    this.wordsPerCard = _defaultWordsPerCard,
   });
 
-  factory GameSettingsEntity.initial() {
-    return const GameSettingsEntity();
-  }
+  static const _defaultRoundDuration = 60;
+  static const _minRoundDuration = 30;
+  static const _maxRoundDuration = 120;
+  static const _defaultPointsToWin = 60;
+  static const _minPointsToWin = 30;
+  static const _maxPointsToWin = 120;
+  static const _defaultWordsPerCard = 6;
 
-  factory GameSettingsEntity.fromPreferences({
-    int? roundDuration,
-    int? pointsToWin,
-    bool? allowSkipping,
-    int? wordsPerCard,
-  }) {
-    return GameSettingsEntity(
-      roundDuration: roundDuration ?? AppConstants.defaultRoundDuration,
-      pointsToWin: pointsToWin ?? AppConstants.defaultPointsToWin,
-      allowSkipping: allowSkipping ?? true,
-      wordsPerCard: wordsPerCard ?? AppConstants.defaultWordsPerCard,
-    );
-  }
-
+  final GameMode gameMode;
   final int roundDuration;
   final int pointsToWin;
   final bool allowSkipping;
   final int wordsPerCard;
 
+  bool get canDecreaseRoundDuration => roundDuration > _minRoundDuration;
+  bool get canIncreaseRoundDuration => roundDuration < _maxRoundDuration;
+  bool get canDecreasePointsToWin => pointsToWin > _minPointsToWin;
+  bool get canIncreasePointsToWin => pointsToWin < _maxPointsToWin;
+
   GameSettingsEntity copyWith({
+    GameMode? gameMode,
     int? roundDuration,
     int? pointsToWin,
     bool? allowSkipping,
     int? wordsPerCard,
   }) {
     return GameSettingsEntity(
+      gameMode: gameMode ?? this.gameMode,
       roundDuration: roundDuration ?? this.roundDuration,
       pointsToWin: pointsToWin ?? this.pointsToWin,
       allowSkipping: allowSkipping ?? this.allowSkipping,
@@ -52,7 +52,8 @@ class GameSettingsEntity extends Equatable {
 
   @override
   String toString() {
-    return 'GameSettingsEntity(roundDuration: $roundDuration, '
+    return 'GameSettingsEntity(gameMode: $gameMode, '
+        'roundDuration: $roundDuration, '
         'pointsToWin: $pointsToWin, '
         'allowSkipping: $allowSkipping, '
         'wordsPerCard: $wordsPerCard)';
@@ -60,6 +61,7 @@ class GameSettingsEntity extends Equatable {
 
   @override
   List<Object?> get props => [
+    gameMode,
     roundDuration,
     pointsToWin,
     allowSkipping,

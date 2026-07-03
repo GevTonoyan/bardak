@@ -1,15 +1,15 @@
 import 'package:bardak/core/localizations/app_locale.dart';
 
 /// Abstract local data source for predefined team names.
-abstract interface class TeamNamesLocalDataSource {
+abstract interface class TeamSetupLocalDataSource {
   /// Returns all predefined team names grouped by [AppLocale].
   Map<AppLocale, Set<String>> getPredefinedTeamNames();
 }
 
-/// Implementation of [TeamNamesLocalDataSource] that returns
+/// Implementation of [TeamSetupLocalDataSource] that returns
 /// compile-time constant team name sets keyed by [AppLocale].
-class TeamNamesLocalDataSourceImpl implements TeamNamesLocalDataSource {
-  const TeamNamesLocalDataSourceImpl();
+class TeamSetupLocalDataSourceImpl implements TeamSetupLocalDataSource {
+  const TeamSetupLocalDataSourceImpl();
 
   @override
   Map<AppLocale, Set<String>> getPredefinedTeamNames() => _predefinedTeamNames;
@@ -17,7 +17,7 @@ class TeamNamesLocalDataSourceImpl implements TeamNamesLocalDataSource {
 
 /// Predefined team names keyed by [AppLocale].
 const Map<AppLocale, Set<String>> _predefinedTeamNames = {
-  AppLocale.am: {
+  .am: {
     'Արծիվներ',
     'Վագրեր',
     'Առյուծներ',
@@ -44,7 +44,7 @@ const Map<AppLocale, Set<String>> _predefinedTeamNames = {
     'Անձրև',
     'Բռունցք',
   },
-  AppLocale.ru: {
+  .ru: {
     'Орлы',
     'Тигры',
     'Волки',
@@ -74,7 +74,7 @@ const Map<AppLocale, Set<String>> _predefinedTeamNames = {
     'Северный Флот',
     'Гром',
   },
-  AppLocale.en: {
+  .en: {
     'Eagles',
     'Tigers',
     'Wolves',

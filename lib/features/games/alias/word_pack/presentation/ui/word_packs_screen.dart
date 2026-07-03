@@ -10,7 +10,7 @@ import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
 import 'package:bardak/features/games/alias/word_pack/domain/entities/word_pack_info_entity.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/bloc/word_packs_bloc.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/ui/language_select_screen.dart';
@@ -82,7 +82,7 @@ class _WordPackScreenState extends State<WordPackScreen> {
               builder: (context, state) {
                 return switch (state) {
                   WordPacksInitial() => const SizedBox.shrink(),
-                  WordPacksLoaded(: final packs) => Expanded(
+                  WordPacksLoaded(:final packs) => Expanded(
                     child: _Success(packs: packs),
                   ),
                   WordPacksNotCached(fallbackPacks: final packs) => Expanded(
@@ -151,14 +151,13 @@ class _Success extends StatelessWidget {
   ) {
     final appSettings = context.read<SettingsBloc>().state.appSettings;
     final gameSettings = context.read<GameSettingsBloc>().state.gameSettings;
-
-    final preGame = context.read<PreGameBloc>().state;
+    final teamSetup = context.read<TeamSetupBloc>().state;
 
     final words = pack.words..shuffle();
 
     return GameSessionEntity(
-      gameMode: preGame.gameMode,
-      teamStates: preGame.teamNames.map((teamName) {
+      gameMode: gameSettings.gameMode,
+      teamStates: teamSetup.teamNames.map((teamName) {
         return AliasTeamStateEntity(
           name: teamName,
           roundScores: [],

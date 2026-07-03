@@ -5,24 +5,19 @@ import 'package:bardak/core/app_ui/widgets/app_button/app_stepper_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_switch_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
-import 'package:bardak/core/constants/app_constants.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
-import 'package:bardak/features/games/alias/pre_game/domain/entities/pre_game_entity.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/ui/setup_team_names_screen.dart';
+import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class GameSettingsScreen extends Page<void> {
-  const GameSettingsScreen({required this.selectedMode, super.key});
+  const GameSettingsScreen({super.key});
 
   static const routePath = 'gameSettings';
-  static const gameModeKey = 'gameMode';
-
-  final GameMode selectedMode;
 
   @override
   Route<void> createRoute(BuildContext context) {
@@ -31,23 +26,14 @@ class GameSettingsScreen extends Page<void> {
       settings: this,
       child: FullBottomSheet(
         titleBuilder: (context) => context.l10n.settings,
-        child: _GameSettingsBody(selectedMode),
+        child: const _GameSettingsBody(),
       ),
     );
   }
 }
 
-class _GameSettingsBody extends StatefulWidget {
-  const _GameSettingsBody(this.selectedMode);
-
-  final GameMode selectedMode;
-
-  @override
-  State<_GameSettingsBody> createState() => _GameSettingsBodyState();
-}
-
-class _GameSettingsBodyState extends State<_GameSettingsBody> {
-  late GameMode gameMode = widget.selectedMode;
+class _GameSettingsBody extends StatelessWidget {
+  const _GameSettingsBody();
 
   @override
   Widget build(BuildContext context) {
@@ -58,15 +44,14 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
     final gameSettingsBloc = context.watch<GameSettingsBloc>();
     final gameSettings = gameSettingsBloc.state.gameSettings;
 
+    final gameMode = gameSettings.gameMode;
     final roundDuration = gameSettings.roundDuration;
     final pointsToWin = gameSettings.pointsToWin;
 
-    final canDecreaseRoundDuration =
-        roundDuration > AppConstants.minRoundDuration;
-    final canIncreaseRoundDuration =
-        roundDuration < AppConstants.maxRoundDuration;
-    final canDecrementPointsToWin = pointsToWin > AppConstants.minPointsToWin;
-    final canIncrementPointsToWin = pointsToWin < AppConstants.maxPointsToWin;
+    final canDecreaseRoundDuration = gameSettings.canDecreaseRoundDuration;
+    final canIncreaseRoundDuration = gameSettings.canIncreaseRoundDuration;
+    final canDecrementPointsToWin = gameSettings.canDecreasePointsToWin;
+    final canIncrementPointsToWin = gameSettings.canIncreasePointsToWin;
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.8,
@@ -93,25 +78,21 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                           isPressed: gameMode == GameMode.card,
                           pressedColor: colors.white,
                           pressedTextColor: colors.secondary,
-                          onPressed: () {
-                            setState(() {
-                              gameMode = GameMode.card;
-                            });
-                          },
+                          onPressed: () => gameSettingsBloc.add(
+                            const ChangeGameMode(GameMode.card),
+                          ),
                         ),
                       ),
                       Expanded(
                         child: AppButton(
                           label: l10n.oneWordModeShort,
                           color: colors.white20,
-                          isPressed: gameMode == GameMode.singleWord,
+                          isPressed: gameMode == .singleWord,
                           pressedColor: colors.white,
                           pressedTextColor: colors.secondary,
-                          onPressed: () {
-                            setState(() {
-                              gameMode = GameMode.singleWord;
-                            });
-                          },
+                          onPressed: () => gameSettingsBloc.add(
+                            const ChangeGameMode(.singleWord),
+                          ),
                         ),
                       ),
                     ],
@@ -125,18 +106,14 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                   AppStepperButton(
                     label: l10n.unit_sec(roundDuration),
                     onDecrement: canDecreaseRoundDuration
-                        ? () {
-                            gameSettingsBloc.add(
-                              ChangeRoundDuration(roundDuration - 5),
-                            );
-                          }
+                        ? () => gameSettingsBloc.add(
+                            ChangeRoundDuration(roundDuration - 5),
+                          )
                         : null,
                     onIncrement: canIncreaseRoundDuration
-                        ? () {
-                            gameSettingsBloc.add(
-                              ChangeRoundDuration(roundDuration + 5),
-                            );
-                          }
+                        ? () => gameSettingsBloc.add(
+                            ChangeRoundDuration(roundDuration + 5),
+                          )
                         : null,
                   ),
                   height40,
@@ -148,37 +125,29 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
                   AppStepperButton(
                     label: l10n.unit_pts(pointsToWin),
                     onDecrement: canDecrementPointsToWin
-                        ? () {
-                            gameSettingsBloc.add(
-                              ChangePointsToWin(pointsToWin - 5),
-                            );
-                          }
+                        ? () => gameSettingsBloc.add(
+                            ChangePointsToWin(pointsToWin - 5),
+                          )
                         : null,
                     onIncrement: canIncrementPointsToWin
-                        ? () {
-                            gameSettingsBloc.add(
-                              ChangePointsToWin(pointsToWin + 5),
-                            );
-                          }
+                        ? () => gameSettingsBloc.add(
+                            ChangePointsToWin(pointsToWin + 5),
+                          )
                         : null,
                   ),
-                  if (gameMode == .singleWord) ...[
+                  if (gameMode == GameMode.singleWord) ...[
                     height40,
                     AppSwitchButton(
                       label: l10n.settings_allow_skipping,
                       value: gameSettings.allowSkipping,
-                      onPressed: () {
-                        gameSettingsBloc.add(
-                          ChangeAllowSkipping(
-                            allowSkipping: !gameSettings.allowSkipping,
-                          ),
-                        );
-                      },
-                      onChanged: (value) {
-                        gameSettingsBloc.add(
-                          ChangeAllowSkipping(allowSkipping: value),
-                        );
-                      },
+                      onPressed: () => gameSettingsBloc.add(
+                        ChangeAllowSkipping(
+                          allowSkipping: !gameSettings.allowSkipping,
+                        ),
+                      ),
+                      onChanged: (value) => gameSettingsBloc.add(
+                        ChangeAllowSkipping(allowSkipping: value),
+                      ),
                     ),
                   ],
                 ],
@@ -189,10 +158,8 @@ class _GameSettingsBodyState extends State<_GameSettingsBody> {
           AppButton(
             label: l10n.proceed,
             color: colors.green,
-            onPressed: () {
-              context.read<PreGameBloc>().add(ChangeGameModeEvent(gameMode));
-              unawaited(context.pushNamed(SetupTeamNamesScreen.routePath));
-            },
+            onPressed: () =>
+                unawaited(context.pushNamed(TeamSetupScreen.routePath)),
           ),
         ],
       ),

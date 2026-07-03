@@ -11,8 +11,7 @@ import 'package:bardak/core/logging/app_bloc_observer.dart';
 import 'package:bardak/core/router/app_router.dart';
 import 'package:bardak/features/app_review/domain/usecases/record_app_opened_usecase.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
-import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
-import 'package:bardak/features/games/alias/pre_game/presentation/bloc/pre_game_bloc.dart';
+import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
 import 'package:bardak/features/games/alias/word_pack/presentation/bloc/word_packs_bloc.dart';
 import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
@@ -68,12 +67,10 @@ void main() async {
             watchCoinBalanceUseCase: sl(),
           ),
         ),
-        // TODO(GEVORG): make PreGameBloc available only where needed,
+        // TODO(GEVORG): make TeamSetupBloc available only where needed,
         //  not for the whole tree
         BlocProvider(
-          create: (_) => PreGameBloc(
-            getPredefinedTeamNamesUseCase: sl(),
-          ),
+          create: (_) => TeamSetupBloc(getPredefinedTeamNamesUseCase: sl()),
         ),
         BlocProvider(
           create: (_) => ThemesBloc(
@@ -84,10 +81,11 @@ void main() async {
         BlocProvider(
           create: (_) => GameSettingsBloc(
             getGameSettingsUseCase: sl(),
+            updateGameModeUseCase: sl(),
             updateRoundDurationUseCase: sl(),
             updatePointsToWinUseCase: sl(),
             updateAllowSkippingUseCase: sl(),
-          )..add(const LoadGameSettings()),
+          ),
         ),
       ],
       child: const MyApp(),
