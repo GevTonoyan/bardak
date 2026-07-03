@@ -12,7 +12,8 @@ import 'package:bardak/core/router/app_router.dart';
 import 'package:bardak/features/app_review/domain/usecases/record_app_opened_usecase.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
-import 'package:bardak/features/games/alias/word_pack/presentation/bloc/word_packs_bloc.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_bloc.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_event.dart';
 import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
@@ -46,10 +47,11 @@ void main() async {
         BlocProvider(
           lazy: false,
           create: (_) => WordPacksBloc(
-            getWordPacks: sl(),
-            areWordPacksCached: sl(),
-            fetchAndCacheWordPacks: sl(),
-          )..add(const CacheWordPacksIfNeeded()),
+            getWordPacksUseCase: sl(),
+            getFallbackWordPacksUseCase: sl(),
+            areWordPacksCachedUseCase: sl(),
+            downloadWordPacksUseCase: sl(),
+          )..add(const SyncWordPacks()),
         ),
         BlocProvider(
           create: (_) => SettingsBloc(

@@ -13,7 +13,7 @@ import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_event.dart';
-import 'package:bardak/features/games/alias/word_pack/presentation/ui/word_packs_screen.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

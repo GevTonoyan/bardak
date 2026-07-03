@@ -1,6 +1,17 @@
-import 'package:bardak/features/games/alias/word_pack/domain/entities/word_pack_info_entity.dart';
+import 'package:bardak/core/localizations/app_locale.dart';
+import 'package:bardak/features/games/alias/word_packs/domain/entities/word_pack_entity.dart';
 
-const enPacks = [
+/// Bundled fallback packs (names only, no words) shown when nothing is
+/// cached yet.
+List<WordPackEntity> fallbackWordPacksFor(AppLocale locale) {
+  return switch (locale) {
+    .en => _enPacks,
+    .ru => _ruPacks,
+    .am => _amPacks,
+  };
+}
+
+const _enPacks = [
   WordPackEntity(
     id: 'all',
     name: 'All words',
@@ -52,7 +63,7 @@ const enPacks = [
   ),
 ];
 
-const ruPacks = [
+const _ruPacks = [
   WordPackEntity(
     id: 'all',
     name: 'Все слова',
@@ -104,7 +115,7 @@ const ruPacks = [
   ),
 ];
 
-const amPacks = [
+const _amPacks = [
   WordPackEntity(
     id: 'all',
     name: 'Հիմնական',

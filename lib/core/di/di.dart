@@ -3,7 +3,7 @@ import 'package:bardak/core/logging/console_logger.dart';
 import 'package:bardak/features/app_review/app_review_scope.dart';
 import 'package:bardak/features/games/alias/game_settings/game_settings_scope.dart';
 import 'package:bardak/features/games/alias/team_setup/team_setup_scope.dart';
-import 'package:bardak/features/games/alias/word_pack/word_packs_scope.dart';
+import 'package:bardak/features/games/alias/word_packs/word_packs_scope.dart';
 import 'package:bardak/features/rewards/rewards_scope.dart';
 import 'package:bardak/features/settings/data/data_sources/settings_local_data_source.dart';
 import 'package:bardak/features/settings/data/repositories/settings_repository_impl.dart';

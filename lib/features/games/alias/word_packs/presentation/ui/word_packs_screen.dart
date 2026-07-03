@@ -11,10 +11,12 @@ import 'package:bardak/features/games/alias/game_session/domain/entities/game_se
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
-import 'package:bardak/features/games/alias/word_pack/domain/entities/word_pack_info_entity.dart';
-import 'package:bardak/features/games/alias/word_pack/presentation/bloc/word_packs_bloc.dart';
-import 'package:bardak/features/games/alias/word_pack/presentation/ui/language_select_screen.dart';
-import 'package:bardak/features/games/alias/word_pack/presentation/ui/word_pack_item.dart';
+import 'package:bardak/features/games/alias/word_packs/domain/entities/word_pack_entity.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_bloc.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_event.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_state.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_select_screen.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_pack_item.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,7 +128,7 @@ class _Success extends StatelessWidget {
                 onTap: () {
                   if (shouldDownload) {
                     context.read<WordPacksBloc>().add(
-                      FetchAndCachePacks(locale: context.locale.languageCode),
+                      DownloadWordPacks(context.locale.languageCode),
                     );
                   } else {
                     context.goNamed(
