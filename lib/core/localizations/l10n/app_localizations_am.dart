@@ -63,6 +63,17 @@ class AppLocalizationsAm extends AppLocalizations {
   String get settings_round_time => 'Ռաունդի տևողություն';
 
   @override
+  String get settings_players => 'Խաղացողներ';
+
+  @override
+  String get settings_spies => 'Լրտեսներ';
+
+  @override
+  String unit_min(int count) {
+    return '$count րոպե';
+  }
+
+  @override
   String get settings_points_to_win => 'Միավորներ հաղթանակի համար';
 
   @override
@@ -152,6 +163,9 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get oneWordModeShort => 'Մեկ բառ';
+
+  @override
+  String get spyMode => 'Լրտես';
 
   @override
   String get game_rules => 'Խաղի կանոնները';

@@ -18,6 +18,7 @@ import 'package:bardak/features/games/alias/single_word_round/presentation/ui/si
 import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
+import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
 import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
@@ -103,6 +104,11 @@ final appRouter = GoRouter(
           ],
         ),
 
+        GoRoute(
+          path: SpySettingsScreen.routePath,
+          name: SpySettingsScreen.routePath,
+          pageBuilder: (context, state) => const SpySettingsScreen(),
+        ),
         GoRoute(
           path: RewardsScreen.routePath,
           name: RewardsScreen.routePath,

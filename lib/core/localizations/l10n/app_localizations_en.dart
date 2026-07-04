@@ -63,6 +63,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_round_time => 'Round Time';
 
   @override
+  String get settings_players => 'Players';
+
+  @override
+  String get settings_spies => 'Spies';
+
+  @override
+  String unit_min(int count) {
+    return '$count min';
+  }
+
+  @override
   String get settings_points_to_win => 'Points to Win';
 
   @override
@@ -152,6 +163,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get oneWordModeShort => 'One Word';
+
+  @override
+  String get spyMode => 'Spy';
 
   @override
   String get game_rules => 'Game Rules';

@@ -34,6 +34,14 @@
   "settings_localeEnglish": "English",
   "settings_game_mode": "Խաղի ռեժիմ",
   "settings_round_time": "Ռաունդի տևողություն",
+  "settings_players": "Խաղացողներ",
+  "settings_spies": "Լրտեսներ",
+  "unit_min": "{count} րոպե",
+  "@unit_min": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "settings_points_to_win": "Միավորներ հաղթանակի համար",
   "settings_allow_skipping": "Բաց թողում",
 
@@ -78,6 +86,7 @@
   "oneWordMode": "Մեկ բառով",
   "classicModeShort": "Դասական",
   "oneWordModeShort": "Մեկ բառ",
+  "spyMode": "Լրտես",
 
   "game_rules": "Խաղի կանոնները",
   "singleModeRule1": "Խաղացողը բացատրում է բառերը հաջորդաբար՝ մեկը մյուսի հետևից",

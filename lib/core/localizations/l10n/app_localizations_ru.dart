@@ -70,6 +70,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings_round_time => 'Время раунда';
 
   @override
+  String get settings_players => 'Игроки';
+
+  @override
+  String get settings_spies => 'Шпионы';
+
+  @override
+  String unit_min(int count) {
+    return '$count мин';
+  }
+
+  @override
   String get settings_points_to_win => 'Очки для победы';
 
   @override
@@ -159,6 +170,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get oneWordModeShort => 'Одно слово';
+
+  @override
+  String get spyMode => 'Шпион';
 
   @override
   String get game_rules => 'Правила игры';

@@ -34,6 +34,14 @@
   "settings_localeEnglish": "English",
   "settings_game_mode": "Game Mode",
   "settings_round_time": "Round Time",
+  "settings_players": "Players",
+  "settings_spies": "Spies",
+  "unit_min": "{count} min",
+  "@unit_min": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "settings_points_to_win": "Points to Win",
   "settings_allow_skipping": "Allow Skipping",
 
@@ -78,6 +86,7 @@
   "oneWordMode": "One word",
   "classicModeShort": "Classic",
   "oneWordModeShort": "One Word",
+  "spyMode": "Spy",
 
   "game_rules": "Game Rules",
   "singleModeRule1": "Players explain words one after another in sequence",

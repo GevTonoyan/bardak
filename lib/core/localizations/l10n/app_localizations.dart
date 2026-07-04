@@ -196,6 +196,24 @@ abstract class AppLocalizations {
   /// **'Round Time'**
   String get settings_round_time;
 
+  /// No description provided for @settings_players.
+  ///
+  /// In en, this message translates to:
+  /// **'Players'**
+  String get settings_players;
+
+  /// No description provided for @settings_spies.
+  ///
+  /// In en, this message translates to:
+  /// **'Spies'**
+  String get settings_spies;
+
+  /// No description provided for @unit_min.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String unit_min(int count);
+
   /// No description provided for @settings_points_to_win.
   ///
   /// In en, this message translates to:
@@ -369,6 +387,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'One Word'**
   String get oneWordModeShort;
+
+  /// No description provided for @spyMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Spy'**
+  String get spyMode;
 
   /// No description provided for @game_rules.
   ///

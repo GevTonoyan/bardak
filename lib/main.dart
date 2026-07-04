@@ -14,6 +14,7 @@ import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_bloc.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_event.dart';
+import 'package:bardak/features/games/spy/spy_settings/presentation/bloc/spy_settings_bloc.dart';
 import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
@@ -87,6 +88,14 @@ void main() async {
             updateRoundDurationUseCase: sl(),
             updatePointsToWinUseCase: sl(),
             updateAllowSkippingUseCase: sl(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => SpySettingsBloc(
+            getSpySettingsUseCase: sl(),
+            updatePlayerCountUseCase: sl(),
+            updateSpyCountUseCase: sl(),
+            updateSpyRoundDurationUseCase: sl(),
           ),
         ),
       ],

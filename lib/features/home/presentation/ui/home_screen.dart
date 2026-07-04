@@ -12,6 +12,7 @@ import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/ui/game_settings_screen.dart';
 import 'package:bardak/features/games/alias/rules/presentation/ui/rules_screen.dart';
+import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
 import 'package:bardak/features/splash/presentation/splash_screen.dart';
@@ -141,6 +142,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         color: colors.purple,
                         onPressed: () =>
                             _navigateToGameSettings(context, .singleWord),
+                      ),
+                      height20,
+                      AppButton(
+                        label: l10n.spyMode,
+                        color: colors.orange,
+                        onPressed: () => unawaited(
+                          context.pushNamed(SpySettingsScreen.routePath),
+                        ),
                       ),
                       const Spacer(),
                       Row(
