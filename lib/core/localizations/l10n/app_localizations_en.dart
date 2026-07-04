@@ -168,6 +168,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spyMode => 'Spy';
 
   @override
+  String get retry => 'Retry';
+
+  @override
   String get game_rules => 'Game Rules';
 
   @override

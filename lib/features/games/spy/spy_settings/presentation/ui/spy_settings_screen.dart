@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_stepper_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_packs_screen.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/bloc/spy_settings_bloc.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/bloc/spy_settings_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SpySettingsScreen extends Page<void> {
   const SpySettingsScreen({super.key});
@@ -113,11 +117,11 @@ class _SpySettingsBody extends StatelessWidget {
             ),
           ),
           height20,
-          // TODO(Gevorg): navigate to the spy packs screen once it exists;
-          //  disabled until then.
           AppButton(
             label: l10n.proceed,
             color: colors.green,
+            onPressed: () =>
+                unawaited(context.pushNamed(SpyPacksScreen.routePath)),
           ),
         ],
       ),

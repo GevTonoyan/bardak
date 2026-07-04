@@ -175,6 +175,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get spyMode => 'Шпион';
 
   @override
+  String get retry => 'Повторить';
+
+  @override
   String get game_rules => 'Правила игры';
 
   @override

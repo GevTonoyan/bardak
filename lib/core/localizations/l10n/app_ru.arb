@@ -87,6 +87,7 @@
   "classicModeShort": "Классический",
   "oneWordModeShort": "Одно слово",
   "spyMode": "Шпион",
+  "retry": "Повторить",
 
   "game_rules": "Правила игры",
   "singleModeRule1": "Игрок объясняет слова последовательно, одно за другим",

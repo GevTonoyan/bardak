@@ -168,6 +168,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get spyMode => 'Լրտես';
 
   @override
+  String get retry => 'Կրկնել';
+
+  @override
   String get game_rules => 'Խաղի կանոնները';
 
   @override

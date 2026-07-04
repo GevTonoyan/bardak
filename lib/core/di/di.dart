@@ -4,6 +4,7 @@ import 'package:bardak/features/app_review/app_review_scope.dart';
 import 'package:bardak/features/games/alias/game_settings/game_settings_scope.dart';
 import 'package:bardak/features/games/alias/team_setup/team_setup_scope.dart';
 import 'package:bardak/features/games/alias/word_packs/word_packs_scope.dart';
+import 'package:bardak/features/games/spy/spy_packs/spy_packs_scope.dart';
 import 'package:bardak/features/games/spy/spy_settings/spy_settings_scope.dart';
 import 'package:bardak/features/rewards/rewards_scope.dart';
 import 'package:bardak/features/settings/data/data_sources/settings_local_data_source.dart';
@@ -54,4 +55,5 @@ Future<void> injectDependencies() async {
   injectThemesScope();
   injectGameSettingsScope();
   injectSpySettingsScope();
+  injectSpyPacksScope();
 }

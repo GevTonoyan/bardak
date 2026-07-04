@@ -394,6 +394,12 @@ abstract class AppLocalizations {
   /// **'Spy'**
   String get spyMode;
 
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
   /// No description provided for @game_rules.
   ///
   /// In en, this message translates to:
