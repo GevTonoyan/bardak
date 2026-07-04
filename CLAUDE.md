@@ -40,7 +40,7 @@ Game-loop features (game_session, card_round, single_word_round) use domain enti
 
 | Feature | Type | Storage |
 |---------|------|---------|
-| `word_pack` | Full | Firestore (remote) + Hive (cache) |
+| `word_packs` | Full | Firestore (remote) + Hive (cache) |
 | `settings` | Full | SharedPreferences |
 | `themes` | Full | SharedPreferences |
 | `rewards` | Full | SharedPreferences |

@@ -16,6 +16,7 @@ dependencies:
   firebase_core: 4.10.0
   flutter:
     sdk: flutter
+  bloc_concurrency: ^0.3.0
   flutter_bloc: 9.1.1
   flutter_blurhash: 0.9.1
   flutter_localizations:
@@ -64,4 +65,4 @@ flutter:
 flutter_gen:
   integrations:
     flutter_svg: true
-  output: lib/assets/
+  output: lib/core/generated/assets/
