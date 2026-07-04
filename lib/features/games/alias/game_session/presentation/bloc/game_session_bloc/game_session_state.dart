@@ -1,11 +1,11 @@
-part of 'game_session_bloc.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class GameSessionState {
-  const GameSessionState({required this.gameState});
+class GameSessionState extends Equatable {
+  const GameSessionState({required this.session});
 
-  final GameSessionEntity gameState;
+  final GameSessionEntity session;
 
-  GameSessionState copyWith({GameSessionEntity? gameState}) {
-    return GameSessionState(gameState: gameState ?? this.gameState);
-  }
+  @override
+  List<Object?> get props => [session];
 }

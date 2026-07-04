@@ -1,19 +1,22 @@
-import 'package:bardak/features/games/alias/game_session/domain/entities/round_result.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/reviewed_word.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/team_entity.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
+import 'package:equatable/equatable.dart';
 
-class GameSessionEntity {
-  GameSessionEntity({
+/// Full in-memory state of one Alias match.
+class GameSessionEntity extends Equatable {
+  const GameSessionEntity({
     required this.gameMode,
-    required this.teamStates,
+    required this.teams,
     required this.roundDuration,
     required this.pointsToWin,
     required this.soundEnabled,
     required this.wordsPerCard,
     required this.allowSkipping,
-    required this.currentTeamIndex,
-    required this.previousTeamIndex,
-    required this.currentRoundIndex,
-    required this.words,
+    required this.remainingWords,
+    this.currentTeamIndex = 0,
+    this.previousTeamIndex = 0,
+    this.currentRoundIndex = 0,
     this.isGameFinished = false,
     this.winningTeamIndex,
     this.pendingReviewWords,
@@ -21,8 +24,8 @@ class GameSessionEntity {
 
   final GameMode gameMode;
 
-  /// Ordered list of team states including score history
-  final List<AliasTeamStateEntity> teamStates;
+  /// Ordered list of teams including score history.
+  final List<TeamEntity> teams;
 
   /// Round settings
   final int roundDuration;
@@ -43,25 +46,25 @@ class GameSessionEntity {
   final bool isGameFinished;
   final int? winningTeamIndex;
 
-  /// List of all words
-  final List<String> words;
+  /// Words not yet played in any round.
+  final List<String> remainingWords;
 
-  /// List of words to review
-  List<ReviewedWord>? pendingReviewWords;
+  /// Words from the last finished round, available for review corrections.
+  final List<ReviewedWord>? pendingReviewWords;
 
   GameSessionEntity copyWith({
-    List<AliasTeamStateEntity>? teamStates,
+    List<TeamEntity>? teams,
     int? currentTeamIndex,
     int? previousTeamIndex,
     int? currentRoundIndex,
-    List<String>? words,
+    List<String>? remainingWords,
     bool? isGameFinished,
     int? winningTeamIndex,
     List<ReviewedWord>? pendingReviewWords,
   }) {
     return GameSessionEntity(
       gameMode: gameMode,
-      teamStates: teamStates ?? this.teamStates,
+      teams: teams ?? this.teams,
       roundDuration: roundDuration,
       pointsToWin: pointsToWin,
       soundEnabled: soundEnabled,
@@ -70,51 +73,29 @@ class GameSessionEntity {
       currentTeamIndex: currentTeamIndex ?? this.currentTeamIndex,
       previousTeamIndex: previousTeamIndex ?? this.previousTeamIndex,
       currentRoundIndex: currentRoundIndex ?? this.currentRoundIndex,
-      words: words ?? this.words,
+      remainingWords: remainingWords ?? this.remainingWords,
       isGameFinished: isGameFinished ?? this.isGameFinished,
       winningTeamIndex: winningTeamIndex ?? this.winningTeamIndex,
       pendingReviewWords: pendingReviewWords ?? this.pendingReviewWords,
     );
   }
 
-  Map<int, List<ReviewedWord>> pagedReviewedWords() {
-    final items = pendingReviewWords ?? const <ReviewedWord>[];
-    if (items.isEmpty) return const <int, List<ReviewedWord>>{};
-
-    final pages = <int, List<ReviewedWord>>{};
-    for (
-      var start = 0, page = 0;
-      start < items.length;
-      start += wordsPerCard, page++
-    ) {
-      final end = (start + wordsPerCard) > items.length
-          ? items.length
-          : (start + wordsPerCard);
-      pages[page] = items.sublist(start, end);
-    }
-    return pages;
-  }
-}
-
-extension GameSessionEntityX on GameSessionEntity {
-  /// Returns the index of the winning team, or `null` if the game must continue
-  int? getWinningTeamIndex() {
-    // 1️⃣ Teams that reached or exceeded pointsToWin
-    final qualifiedTeams = teamStates
+  /// Index of the winning team, or `null` while the game must continue.
+  int? findWinningTeamIndex() {
+    // Teams that reached or exceeded pointsToWin.
+    final qualifiedTeams = teams
         .asMap()
         .entries
         .where((e) => e.value.totalScore >= pointsToWin)
         .toList();
 
-    // If no one qualified yet → no winner
     if (qualifiedTeams.isEmpty) return null;
 
-    // 2️⃣ If exactly one team qualified → winner
     if (qualifiedTeams.length == 1) {
       return qualifiedTeams.first.key;
     }
 
-    // 3️⃣ If multiple teams qualified → check if one leads
+    // Multiple teams qualified: only a single leader wins.
     final maxScore = qualifiedTeams
         .map((e) => e.value.totalScore)
         .reduce((a, b) => a > b ? a : b);
@@ -123,44 +104,27 @@ extension GameSessionEntityX on GameSessionEntity {
         .where((e) => e.value.totalScore == maxScore)
         .toList();
 
-    // If tie at top, continue playing
+    // Tie at the top: keep playing.
     if (topTeams.length > 1) return null;
 
-    // Otherwise, single leader among qualified → winner
     return topTeams.first.key;
   }
-}
 
-class AliasTeamStateEntity {
-  AliasTeamStateEntity({required this.name, required this.roundScores});
-
-  final String name;
-
-  /// Score for each card_round (index matches card_round number)
-  final List<int> roundScores;
-
-  AliasTeamStateEntity copyWith({String? name, List<int>? roundScores}) {
-    return AliasTeamStateEntity(
-      name: name ?? this.name,
-      roundScores: roundScores ?? this.roundScores,
-    );
-  }
-
-  void addRoundScore(int score) {
-    roundScores.add(score);
-  }
-
-  void changeLastScore(int newScore) {
-    roundScores.last = newScore;
-  }
-
-  int get totalScore => roundScores.fold(0, (sum, score) => sum + score);
-}
-
-extension TeamStatesX on List<AliasTeamStateEntity> {
-  AliasTeamStateEntity get winner {
-    return reduce(
-      (current, next) => next.totalScore > current.totalScore ? next : current,
-    );
-  }
+  @override
+  List<Object?> get props => [
+    gameMode,
+    teams,
+    roundDuration,
+    pointsToWin,
+    wordsPerCard,
+    allowSkipping,
+    soundEnabled,
+    currentTeamIndex,
+    previousTeamIndex,
+    currentRoundIndex,
+    isGameFinished,
+    winningTeamIndex,
+    remainingWords,
+    pendingReviewWords,
+  ];
 }

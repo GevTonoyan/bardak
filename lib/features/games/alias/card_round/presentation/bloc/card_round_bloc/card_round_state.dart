@@ -1,60 +1,25 @@
-part of 'card_round_bloc.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/reviewed_word.dart';
+import 'package:equatable/equatable.dart';
 
 class CardRoundState extends Equatable {
   const CardRoundState({
     required this.words,
     required this.wordsPerCard,
-    required this.page,
-    required this.guessed,
-    required this.completed,
-    required this.soundsEnabled,
+    required this.soundEnabled,
+    this.page = 0,
+    this.guessed = const <String>{},
+    this.completed = false,
   });
-
-  factory CardRoundState.initial({
-    required List<String> words,
-    required int wordsPerCard,
-    required bool soundsEnabled,
-  }) => CardRoundState(
-    words: words,
-    wordsPerCard: wordsPerCard,
-    page: 0,
-    guessed: const <String>{},
-    completed: false,
-    soundsEnabled: soundsEnabled,
-  );
 
   final List<String> words;
   final int wordsPerCard;
   final int page;
-  final bool soundsEnabled;
+  final bool soundEnabled;
 
   // TODO(Gevorg): words can be repeated, so we need another way to store them
   final Set<String> guessed;
   final bool completed;
 
-  CardRoundState copyWith({int? page, Set<String>? guessed, bool? completed}) {
-    return CardRoundState(
-      words: words,
-      wordsPerCard: wordsPerCard,
-      page: page ?? this.page,
-      guessed: guessed ?? this.guessed,
-      completed: completed ?? this.completed,
-      soundsEnabled: soundsEnabled,
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-    words,
-    wordsPerCard,
-    page,
-    guessed,
-    completed,
-    soundsEnabled,
-  ];
-}
-
-extension CardRoundStateX on CardRoundState {
   List<String> get visible {
     final start = page * wordsPerCard;
     if (start >= totalWords) return const [];
@@ -65,17 +30,17 @@ extension CardRoundStateX on CardRoundState {
   bool get visibleAllGuessed =>
       visible.isNotEmpty && visible.every(guessed.contains);
 
-  /// Number of words that have been shown so far
+  /// Number of words that have been shown so far.
   int get seenWordsCount {
     final end = (page * wordsPerCard) + visible.length;
     return end.clamp(0, totalWords);
   }
 
-  bool get allGuessed => guessed.length == words.length;
-
   int get totalWords => words.length;
 
   int get maxPage => (totalWords / wordsPerCard).ceil() - 1;
+
+  bool get isLastPage => page >= maxPage;
 
   List<ReviewedWord> wordsToReview() {
     final reviewedWords = <ReviewedWord>[];
@@ -90,4 +55,25 @@ extension CardRoundStateX on CardRoundState {
 
     return reviewedWords;
   }
+
+  CardRoundState copyWith({int? page, Set<String>? guessed, bool? completed}) {
+    return CardRoundState(
+      words: words,
+      wordsPerCard: wordsPerCard,
+      page: page ?? this.page,
+      guessed: guessed ?? this.guessed,
+      completed: completed ?? this.completed,
+      soundEnabled: soundEnabled,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    words,
+    wordsPerCard,
+    page,
+    guessed,
+    completed,
+    soundEnabled,
+  ];
 }

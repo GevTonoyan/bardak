@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 class LanguageSelectScreen extends Page<void> {
   const LanguageSelectScreen({super.key});
 
-  static const routePath = 'language_select';
+  static const routePath = 'languageSelect';
 
   @override
   Route<void> createRoute(BuildContext context) {

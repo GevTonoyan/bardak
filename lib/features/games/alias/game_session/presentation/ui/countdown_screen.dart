@@ -64,7 +64,7 @@ class _CountdownScreenState extends State<CountdownScreen>
 
   void _handleCountdownFinished() {
     final gameSessionBloc = context.read<GameSessionBloc>();
-    final gameMode = gameSessionBloc.state.gameState.gameMode;
+    final gameMode = gameSessionBloc.state.session.gameMode;
 
     final path = switch (gameMode) {
       .card => CardRoundScreen.routePath,

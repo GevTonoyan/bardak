@@ -3,7 +3,7 @@ import 'package:bardak/features/app_review/presentation/cubit/in_app_review_cubi
 import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/ui/card_round_screen.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
-import 'package:bardak/features/games/alias/game_session/domain/entities/round_result.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/reviewed_word.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/round_review_bloc/round_review_bloc.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/countdown_screen.dart';
@@ -30,8 +30,6 @@ import 'package:go_router/go_router.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final gameSessionNavigatorKey = GlobalKey<NavigatorState>();
-
-const _gameSessionPath = 'gameSession';
 
 final appRouter = GoRouter(
   initialLocation: SplashScreen.routePath,
@@ -128,56 +126,54 @@ final appRouter = GoRouter(
           },
           routes: [
             GoRoute(
-              path: '$_gameSessionPath/${RoundOverviewScreen.routePath}',
+              path:
+                  '${GameSessionScreen.routePath}/${RoundOverviewScreen.routePath}',
               name: RoundOverviewScreen.routePath,
               pageBuilder: (context, state) =>
                   const MaterialPage(child: RoundOverviewScreen()),
             ),
             GoRoute(
-              path: '$_gameSessionPath/${CountdownScreen.routePath}',
+              path:
+                  '${GameSessionScreen.routePath}/${CountdownScreen.routePath}',
               name: CountdownScreen.routePath,
               pageBuilder: (context, state) =>
                   const MaterialPage(child: CountdownScreen()),
             ),
             GoRoute(
-              path: '$_gameSessionPath/${CardRoundScreen.routePath}',
+              path:
+                  '${GameSessionScreen.routePath}/${CardRoundScreen.routePath}',
               name: CardRoundScreen.routePath,
               pageBuilder: (context, state) {
-                final gameState = context
-                    .read<GameSessionBloc>()
-                    .state
-                    .gameState;
+                final session = context.read<GameSessionBloc>().state.session;
 
                 return NoTransitionPage(
                   child: BlocProvider(
                     create: (_) => CardRoundBloc(
-                      words: gameState.words,
-                      wordsPerCard: gameState.wordsPerCard,
-                      soundsEnabled: gameState.soundEnabled,
+                      words: session.remainingWords,
+                      wordsPerCard: session.wordsPerCard,
+                      soundEnabled: session.soundEnabled,
                     ),
                     child: CardRoundScreen(
-                      initialRoundDuration: gameState.roundDuration,
+                      initialRoundDuration: session.roundDuration,
                     ),
                   ),
                 );
               },
             ),
             GoRoute(
-              path: '$_gameSessionPath/${SingleWordRoundScreen.routePath}',
+              path:
+                  '${GameSessionScreen.routePath}/${SingleWordRoundScreen.routePath}',
               name: SingleWordRoundScreen.routePath,
               pageBuilder: (context, state) {
-                final gameState = context
-                    .read<GameSessionBloc>()
-                    .state
-                    .gameState;
+                final session = context.read<GameSessionBloc>().state.session;
 
                 return NoTransitionPage(
                   child: BlocProvider(
                     create: (_) => SingleWordRoundBloc(
-                      words: gameState.words,
-                      roundDuration: gameState.roundDuration,
-                      allowSkipping: gameState.allowSkipping,
-                      soundsEnabled: gameState.soundEnabled,
+                      words: session.remainingWords,
+                      roundDuration: session.roundDuration,
+                      allowSkipping: session.allowSkipping,
+                      soundEnabled: session.soundEnabled,
                     ),
                     child: const SingleWordRoundScreen(),
                   ),
@@ -185,21 +181,19 @@ final appRouter = GoRouter(
               },
             ),
             GoRoute(
-              path: '$_gameSessionPath/${RoundReviewScreen.routePath}',
+              path:
+                  '${GameSessionScreen.routePath}/${RoundReviewScreen.routePath}',
               name: RoundReviewScreen.routePath,
               pageBuilder: (context, state) {
-                final gameState = context
-                    .read<GameSessionBloc>()
-                    .state
-                    .gameState;
+                final session = context.read<GameSessionBloc>().state.session;
                 final pending =
-                    gameState.pendingReviewWords ?? const <ReviewedWord>[];
+                    session.pendingReviewWords ?? const <ReviewedWord>[];
                 return NoTransitionPage(
                   child: BlocProvider(
                     create: (_) => RoundReviewBloc(
                       words: List<ReviewedWord>.from(pending),
-                      gameMode: gameState.gameMode,
-                      wordsPerCard: gameState.wordsPerCard,
+                      gameMode: session.gameMode,
+                      wordsPerCard: session.wordsPerCard,
                     ),
                     child: const RoundReviewScreen(),
                   ),
@@ -212,13 +206,12 @@ final appRouter = GoRouter(
           path: GameSummaryScreen.routePath,
           name: GameSummaryScreen.routePath,
           pageBuilder: (context, state) {
-            final teamStates = state.extra! as List<AliasTeamStateEntity>;
-            final winner = teamStates.winner;
+            final winningTeamName = state.extra! as String;
 
             return MaterialPage(
               child: BlocProvider(
                 create: (_) => sl<InAppReviewCubit>(),
-                child: GameSummaryScreen(winningTeamName: winner.name),
+                child: GameSummaryScreen(winningTeamName: winningTeamName),
               ),
             );
           },

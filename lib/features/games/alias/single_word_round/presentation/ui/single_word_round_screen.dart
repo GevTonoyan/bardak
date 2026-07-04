@@ -11,8 +11,11 @@ import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/extensions/state_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_event.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_bloc.dart';
+import 'package:bardak/features/games/alias/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_event.dart';
+import 'package:bardak/features/games/alias/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_state.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/ui/single_word_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +24,7 @@ import 'package:go_router/go_router.dart';
 class SingleWordRoundScreen extends StatefulWidget {
   const SingleWordRoundScreen({super.key});
 
-  static const routePath = 'single_word_round';
+  static const routePath = 'singleWordRound';
 
   @override
   State<SingleWordRoundScreen> createState() => _SingleWordRoundScreenState();
@@ -73,7 +76,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
     final t = (_signedSwipeProgress.abs() / fullAt).clamp(0.0, 1.0);
 
     final passColor = (_signedSwipeProgress < 0 && roundState.allowSkipping)
-        ? Color.lerp(colors.white30, colors.red, t)! // <-- use your "red" color
+        ? Color.lerp(colors.white30, colors.red, t)!
         : colors.white30;
 
     final correctColor = (_signedSwipeProgress > 0)
@@ -86,7 +89,7 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
           final reviewedWords = state.wordsToReview();
 
           context.read<GameSessionBloc>().add(
-            RoundFinished(reviewedWords: reviewedWords),
+            FinishRound(reviewedWords: reviewedWords),
           );
 
           context.pushReplacementNamed(RoundOverviewScreen.routePath);
@@ -101,10 +104,10 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                 child: RoundHeader(
                   key: _roundHeaderKey,
                   initialRoundDuration: roundState.roundDuration,
-                  isSoundEnabled: roundState.soundsEnabled,
+                  isSoundEnabled: roundState.soundEnabled,
                   onRoundComplete: () {
-                    context.read<SingleWordRoundBloc>().add(
-                      const CompleteRoundRequested(),
+                    bloc.add(
+                      const CompleteRound(),
                     );
                   },
                   onPauseChanged: (isPaused) => setState(() {
@@ -223,11 +226,13 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                                       onPressed: () {
                                         unawaited(
                                           _audioPlayer.play(
-                                            AssetSource(Assets.sounds.uncheck),
+                                            AssetSource(
+                                              Assets.sounds.uncheck,
+                                            ),
                                           ),
                                         );
 
-                                        bloc.add(
+                                        context.read<SingleWordRoundBloc>().add(
                                           const ResolveCurrentWord(
                                             WordResolution.skipped,
                                           ),
@@ -260,7 +265,10 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                                       );
 
                                       unawaited(
-                                        showPointsBadge(context, points: '+1'),
+                                        showPointsBadge(
+                                          context,
+                                          points: '+1',
+                                        ),
                                       );
                                     },
                                   ),

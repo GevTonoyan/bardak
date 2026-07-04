@@ -1,11 +1,8 @@
 import 'dart:math';
 
-import 'package:bardak/features/games/alias/game_session/domain/entities/round_result.dart';
+import 'package:bardak/features/games/alias/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_event.dart';
+import 'package:bardak/features/games/alias/single_word_round/presentation/bloc/single_word_round_bloc/single_word_round_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-part 'single_word_round_event.dart';
-
-part 'single_word_round_state.dart';
 
 class SingleWordRoundBloc
     extends Bloc<SingleWordRoundEvent, SingleWordRoundState> {
@@ -13,33 +10,40 @@ class SingleWordRoundBloc
     required List<String> words,
     required int roundDuration,
     required bool allowSkipping,
-    required bool soundsEnabled,
+    required bool soundEnabled,
   }) : super(
-         SingleWordRoundState.initial(
+         SingleWordRoundState(
            words: words,
            roundDuration: roundDuration,
            allowSkipping: allowSkipping,
-           soundsEnabled: soundsEnabled,
+           soundEnabled: soundEnabled,
          ),
        ) {
-    on<ResolveCurrentWord>(_onResolve);
-    on<CompleteRoundRequested>(_onCompleteRequested);
+    on<ResolveCurrentWord>(_onResolveCurrentWord);
+    on<CompleteRound>(_onCompleteRound);
   }
 
-  void _onResolve(ResolveCurrentWord e, Emitter<SingleWordRoundState> emit) {
-    final newScore = switch (e.resolution) {
-      WordResolution.guessed => state.score + 1,
-      WordResolution.skipped => max(0, state.score - 1),
+  void _onResolveCurrentWord(
+    ResolveCurrentWord event,
+    Emitter<SingleWordRoundState> emit,
+  ) {
+    final newScore = switch (event.resolution) {
+      .guessed => state.score + 1,
+      .skipped => max(0, state.score - 1),
     };
 
-    if (e.resolution == WordResolution.guessed) {
-      state.guessedIndexes.add(state.index);
-    }
+    final isGuessed = event.resolution == .guessed;
 
     final completed = state.index >= state.words.length - 1;
 
     emit(
       state.copyWith(
+        guessedIndexes: isGuessed
+            ? {...state.guessedIndexes, state.index}
+            : state.guessedIndexes,
+        skippedIndexes: isGuessed
+            ? state.skippedIndexes
+            : {...state.skippedIndexes, state.index},
         score: newScore,
         index: completed ? state.index : state.index + 1,
         completed: completed,
@@ -47,8 +51,8 @@ class SingleWordRoundBloc
     );
   }
 
-  void _onCompleteRequested(
-    CompleteRoundRequested e,
+  void _onCompleteRound(
+    CompleteRound event,
     Emitter<SingleWordRoundState> emit,
   ) {
     if (state.completed) return;

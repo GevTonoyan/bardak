@@ -1,11 +1,8 @@
-import 'package:bardak/features/games/alias/game_session/domain/entities/round_result.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/reviewed_word.dart';
+import 'package:bardak/features/games/alias/game_session/presentation/bloc/round_review_bloc/round_review_event.dart';
+import 'package:bardak/features/games/alias/game_session/presentation/bloc/round_review_bloc/round_review_state.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-part 'round_review_event.dart';
-
-part 'round_review_state.dart';
 
 class RoundReviewBloc extends Bloc<RoundReviewEvent, RoundReviewState> {
   RoundReviewBloc({
@@ -19,14 +16,11 @@ class RoundReviewBloc extends Bloc<RoundReviewEvent, RoundReviewState> {
            wordsPerCard: wordsPerCard,
          ),
        ) {
-    on<WordToggled>(_onWordToggled);
-    on<GuessedWordsUpdated>(_onGuessedWordsUpdated);
+    on<ToggleWord>(_onToggleWord);
+    on<UpdateGuessedWords>(_onUpdateGuessedWords);
   }
 
-  void _onWordToggled(
-    WordToggled event,
-    Emitter<RoundReviewState> emit,
-  ) {
+  void _onToggleWord(ToggleWord event, Emitter<RoundReviewState> emit) {
     final index = event.index;
     final words = state.reviewedWords;
     if (index < 0 || index >= words.length) return;
@@ -56,8 +50,8 @@ class RoundReviewBloc extends Bloc<RoundReviewEvent, RoundReviewState> {
     };
   }
 
-  void _onGuessedWordsUpdated(
-    GuessedWordsUpdated event,
+  void _onUpdateGuessedWords(
+    UpdateGuessedWords event,
     Emitter<RoundReviewState> emit,
   ) {
     final guessedSet = event.guessedWords;

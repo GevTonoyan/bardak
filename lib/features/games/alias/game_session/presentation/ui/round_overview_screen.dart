@@ -29,7 +29,7 @@ class RoundOverviewScreen extends StatelessWidget {
     final typography = context.typography;
     final bloc = context.watch<GameSessionBloc>();
     final state = bloc.state;
-    final gameState = state.gameState;
+    final session = state.session;
 
     return GradientBackground(
       child: Column(
@@ -66,7 +66,7 @@ class RoundOverviewScreen extends StatelessWidget {
                     style: typography.regular24,
                   ),
                   HighlightedText(
-                    text: gameState.teamStates[gameState.currentTeamIndex].name,
+                    text: session.teams[session.currentTeamIndex].name,
                   ),
                 ],
               ),
@@ -82,7 +82,7 @@ class RoundOverviewScreen extends StatelessWidget {
                   label: l10n.proceed,
                   color: colors.green,
                   onPressed: () {
-                    if (state.gameState.words.isEmpty) {
+                    if (session.remainingWords.isEmpty) {
                       unawaited(
                         showAppNotification(
                           context,
@@ -116,8 +116,8 @@ class _TeamScores extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
 
-    final gameState = context.watch<GameSessionBloc>().state.gameState;
-    final teams = gameState.teamStates;
+    final session = context.watch<GameSessionBloc>().state.session;
+    final teams = session.teams;
 
     return Column(
       crossAxisAlignment: .start,
@@ -143,12 +143,12 @@ class _TeamScores extends StatelessWidget {
         ),
         Divider(height: 1, color: colors.white50),
         ...List.generate(teams.length, (index) {
-          final teamState = teams[index];
-          final bgColor = index == gameState.currentTeamIndex
+          final team = teams[index];
+          final bgColor = index == session.currentTeamIndex
               ? colors.white20
               : Colors.transparent;
 
-          final showEditIcon = _showEditIcon(gameState, index);
+          final showEditIcon = _showEditIcon(session, index);
 
           return Container(
             height: 65,
@@ -158,7 +158,7 @@ class _TeamScores extends StatelessWidget {
               mainAxisAlignment: .spaceBetween,
               children: [
                 Text(
-                  teamState.name,
+                  team.name,
                   style: typography.regular24,
                 ),
                 SizedBox(
@@ -179,10 +179,10 @@ class _TeamScores extends StatelessWidget {
                           spacing: 10,
                           children: [
                             Text(
-                              teamState.totalScore.toString(),
+                              team.totalScore.toString(),
                               style: typography.regular24.withNumericFont,
                             ),
-                            if (_showEditIcon(gameState, index))
+                            if (showEditIcon)
                               _TickingEditIcon(color: colors.white),
                           ],
                         ),
@@ -198,15 +198,15 @@ class _TeamScores extends StatelessWidget {
     );
   }
 
-  bool _showEditIcon(GameSessionEntity gameState, int index) {
+  bool _showEditIcon(GameSessionEntity session, int index) {
     // TODO(Gevorg): Come up with correct review logic for one word mode
-    if (gameState.gameMode == GameMode.singleWord) {
+    if (session.gameMode == GameMode.singleWord) {
       return false;
     }
 
-    final hasPendingWords = gameState.pendingReviewWords?.isNotEmpty ?? false;
+    final hasPendingWords = session.pendingReviewWords?.isNotEmpty ?? false;
 
-    return hasPendingWords && index == gameState.previousTeamIndex;
+    return hasPendingWords && index == session.previousTeamIndex;
   }
 }
 

@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 class GameSummaryScreen extends StatefulWidget {
   const GameSummaryScreen({required this.winningTeamName, super.key});
 
-  static const routePath = 'game_summary';
+  static const routePath = 'gameSummary';
 
   final String winningTeamName;
 

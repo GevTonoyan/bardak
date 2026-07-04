@@ -1,11 +1,16 @@
-part of 'game_session_bloc.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/reviewed_word.dart';
+import 'package:equatable/equatable.dart';
 
 sealed class GameSessionEvent extends Equatable {
   const GameSessionEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
-class RoundFinished extends GameSessionEvent {
-  const RoundFinished({required this.reviewedWords});
+/// Records the finished round: scores it and advances to the next team.
+class FinishRound extends GameSessionEvent {
+  const FinishRound({required this.reviewedWords});
 
   final List<ReviewedWord> reviewedWords;
 
@@ -13,8 +18,9 @@ class RoundFinished extends GameSessionEvent {
   List<Object?> get props => [reviewedWords];
 }
 
-class RoundReviewFinished extends GameSessionEvent {
-  const RoundReviewFinished({required this.reviewedWords});
+/// Applies review corrections to the last played round's score.
+class FinishRoundReview extends GameSessionEvent {
+  const FinishRoundReview({required this.reviewedWords});
 
   final List<ReviewedWord> reviewedWords;
 

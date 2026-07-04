@@ -1,4 +1,6 @@
-part of 'round_review_bloc.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/reviewed_word.dart';
+import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
+import 'package:equatable/equatable.dart';
 
 class RoundReviewState extends Equatable {
   const RoundReviewState({
@@ -41,15 +43,11 @@ class RoundReviewState extends Equatable {
     };
   }
 
-  RoundReviewState copyWith({
-    List<ReviewedWord>? reviewedWords,
-    GameMode? gameMode,
-    int? wordsPerCard,
-  }) {
+  RoundReviewState copyWith({List<ReviewedWord>? reviewedWords}) {
     return RoundReviewState(
       reviewedWords: reviewedWords ?? this.reviewedWords,
-      gameMode: gameMode ?? this.gameMode,
-      wordsPerCard: wordsPerCard ?? this.wordsPerCard,
+      gameMode: gameMode,
+      wordsPerCard: wordsPerCard,
     );
   }
 

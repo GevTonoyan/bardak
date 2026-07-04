@@ -1,62 +1,46 @@
-import 'package:bardak/features/games/alias/game_session/domain/entities/round_result.dart';
-import 'package:equatable/equatable.dart';
+import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_event.dart';
+import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-part 'card_round_event.dart';
-
-part 'card_round_state.dart';
 
 class CardRoundBloc extends Bloc<CardRoundEvent, CardRoundState> {
   CardRoundBloc({
     required List<String> words,
     required int wordsPerCard,
-    required bool soundsEnabled,
+    required bool soundEnabled,
   }) : super(
-         CardRoundState.initial(
+         CardRoundState(
            words: words,
            wordsPerCard: wordsPerCard,
-           soundsEnabled: soundsEnabled,
+           soundEnabled: soundEnabled,
          ),
        ) {
     on<ToggleWord>(_onToggleWord);
-    on<CompleteRoundRequested>(_onCompleteRoundRequested);
+    on<CompleteRound>(_onCompleteRound);
   }
 
   void _onToggleWord(ToggleWord event, Emitter<CardRoundState> emit) {
-    final guessed = {...state.guessed};
+    final guessed = event.isSelected
+        ? {...state.guessed, event.word}
+        : state.guessed.difference({event.word});
 
-    // UNSELECT → we already know the card isn't "all guessed" anymore
-    if (!event.isSelected) {
-      guessed.remove(event.word);
-      emit(state.copyWith(guessed: guessed));
+    final next = state.copyWith(guessed: guessed);
+
+    // Deselecting a word can never complete the visible card.
+    if (!event.isSelected || !next.visibleAllGuessed) {
+      emit(next);
       return;
     }
 
-    guessed.add(event.word);
-    final nextState = state.copyWith(guessed: guessed);
-
-    // Is the current visible card fully guessed now?
-    final cardComplete = nextState.visibleAllGuessed;
-
-    if (!cardComplete) {
-      // Not complete → no page change
-      emit(nextState);
-      return;
-    }
-
-    if (nextState.page < nextState.maxPage) {
-      emit(nextState.copyWith(page: state.page + 1));
-      return;
-    }
-
-    // Last page complete → mark completed; UI listener will pop with result
-    emit(nextState.copyWith(completed: true));
+    // Visible card fully guessed: show the next card, or finish the round
+    // (the UI listener pops with the result).
+    emit(
+      next.isLastPage
+          ? next.copyWith(completed: true)
+          : next.copyWith(page: next.page + 1),
+    );
   }
 
-  void _onCompleteRoundRequested(
-    CompleteRoundRequested e,
-    Emitter<CardRoundState> emit,
-  ) {
+  void _onCompleteRound(CompleteRound event, Emitter<CardRoundState> emit) {
     if (state.completed) return;
 
     emit(state.copyWith(completed: true));

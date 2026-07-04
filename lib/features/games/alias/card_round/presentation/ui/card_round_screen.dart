@@ -6,8 +6,11 @@ import 'package:bardak/core/app_ui/widgets/round_header.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
+import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_event.dart';
+import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_state.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/ui/widgets/multiple_words_card.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_event.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +19,7 @@ import 'package:go_router/go_router.dart';
 class CardRoundScreen extends StatefulWidget {
   const CardRoundScreen({required this.initialRoundDuration, super.key});
 
-  static const routePath = 'card_round';
+  static const routePath = 'cardRound';
 
   final int initialRoundDuration;
 
@@ -54,7 +57,7 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
         if (state.completed) {
           final reviewedWords = state.wordsToReview();
           context.read<GameSessionBloc>().add(
-            RoundFinished(reviewedWords: reviewedWords),
+            FinishRound(reviewedWords: reviewedWords),
           );
 
           context.pushReplacementNamed(RoundOverviewScreen.routePath);
@@ -73,10 +76,10 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
                   child: RoundHeader(
                     key: _roundHeaderKey,
                     initialRoundDuration: widget.initialRoundDuration,
-                    isSoundEnabled: state.soundsEnabled,
+                    isSoundEnabled: state.soundEnabled,
                     onRoundComplete: () {
                       context.read<CardRoundBloc>().add(
-                        const CompleteRoundRequested(),
+                        const CompleteRound(),
                       );
                     },
                     onPauseChanged: (paused) =>
@@ -101,7 +104,7 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
                                   word: word,
                                 ),
                               );
-                              if (state.soundsEnabled) {
+                              if (state.soundEnabled) {
                                 final soundPath = selected
                                     ? Assets.sounds.check
                                     : Assets.sounds.uncheck;

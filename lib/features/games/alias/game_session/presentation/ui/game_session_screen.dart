@@ -4,6 +4,7 @@ import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
+import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_state.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/game_summary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,13 +20,16 @@ class GameSessionScreen extends StatefulWidget {
   final GameSessionEntity? gameSessionEntity;
   final Widget child;
 
-  static const routePath = 'game_session';
+  static const routePath = 'gameSession';
 
   @override
   State<GameSessionScreen> createState() => _GameSessionScreenState();
 }
 
 class _GameSessionScreenState extends State<GameSessionScreen> {
+  // GoRouter rebuilds the shell with a null `extra` when navigating between
+  // round screens, so the first non-null session is cached for the shell's
+  // lifetime.
   GameSessionEntity? _cached;
 
   @override
@@ -69,15 +73,19 @@ class _GameSessionScreenState extends State<GameSessionScreen> {
         );
       },
       child: BlocProvider(
-        create: (_) => GameSessionBloc(initialGameState: session),
+        create: (_) => GameSessionBloc(initialSession: session),
         child: BlocListener<GameSessionBloc, GameSessionState>(
+          listenWhen: (previous, current) =>
+              !previous.session.isGameFinished &&
+              current.session.isGameFinished,
           listener: (context, state) {
-            if (state.gameState.isGameFinished) {
-              context.goNamed(
-                GameSummaryScreen.routePath,
-                extra: state.gameState.teamStates,
-              );
-            }
+            final winningTeamIndex = state.session.winningTeamIndex;
+            if (winningTeamIndex == null) return;
+
+            context.goNamed(
+              GameSummaryScreen.routePath,
+              extra: state.session.teams[winningTeamIndex].name,
+            );
           },
           child: widget.child,
         ),

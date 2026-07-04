@@ -1,93 +1,76 @@
-import 'dart:async';
-
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
-import 'package:bardak/features/games/alias/game_session/domain/entities/round_result.dart';
-import 'package:equatable/equatable.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/reviewed_word.dart';
+import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_event.dart';
+import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'game_session_event.dart';
-
-part 'game_session_state.dart';
-
 class GameSessionBloc extends Bloc<GameSessionEvent, GameSessionState> {
-  GameSessionBloc({required GameSessionEntity initialGameState})
-    : super(GameSessionState(gameState: initialGameState)) {
-    on<RoundFinished>(_onRoundEnded);
-    on<RoundReviewFinished>(_onRoundReviewFinished);
+  GameSessionBloc({required GameSessionEntity initialSession})
+    : super(GameSessionState(session: initialSession)) {
+    on<FinishRound>(_onFinishRound);
+    on<FinishRoundReview>(_onFinishRoundReview);
   }
 
-  FutureOr<void> _onRoundEnded(
-    RoundFinished event,
-    Emitter<GameSessionState> emit,
-  ) {
-    final gameState = state.gameState;
+  void _onFinishRound(FinishRound event, Emitter<GameSessionState> emit) {
+    final session = state.session;
+    final currentTeamIndex = session.currentTeamIndex;
 
-    final wordsShown = event.reviewedWords.length;
-    final score = _calculateScore(event.reviewedWords);
+    final teams = [...session.teams];
+    teams[currentTeamIndex] = teams[currentTeamIndex].withRoundScore(
+      event.reviewedWords.totalScore,
+    );
 
-    final newRemainingWords = state.gameState.words.skip(wordsShown).toList();
-
-    final currentTeamIndex = gameState.currentTeamIndex;
-    gameState.teamStates[currentTeamIndex].addRoundScore(score);
-
-    final allTeamsPlayedRound =
-        currentTeamIndex + 1 >= gameState.teamStates.length;
+    final allTeamsPlayedRound = currentTeamIndex + 1 >= teams.length;
 
     final (nextTeamIndex, nextRoundIndex) = switch (allTeamsPlayedRound) {
-      true => (0, gameState.currentRoundIndex + 1),
-      false => (currentTeamIndex + 1, gameState.currentRoundIndex),
+      true => (0, session.currentRoundIndex + 1),
+      false => (currentTeamIndex + 1, session.currentRoundIndex),
     };
 
-    final winnerTeamIndex = allTeamsPlayedRound
-        ? gameState.getWinningTeamIndex()
+    final updated = session.copyWith(
+      teams: teams,
+      remainingWords: session.remainingWords
+          .skip(event.reviewedWords.length)
+          .toList(),
+      currentRoundIndex: nextRoundIndex,
+      currentTeamIndex: nextTeamIndex,
+      previousTeamIndex: currentTeamIndex,
+      pendingReviewWords: event.reviewedWords,
+    );
+
+    final winningTeamIndex = allTeamsPlayedRound
+        ? updated.findWinningTeamIndex()
         : null;
 
     emit(
-      state.copyWith(
-        gameState: state.gameState.copyWith(
-          words: newRemainingWords,
-          currentRoundIndex: nextRoundIndex,
-          currentTeamIndex: nextTeamIndex,
-          previousTeamIndex: currentTeamIndex,
-          isGameFinished: winnerTeamIndex != null,
-          winningTeamIndex: winnerTeamIndex,
-          pendingReviewWords: event.reviewedWords,
+      GameSessionState(
+        session: updated.copyWith(
+          isGameFinished: winningTeamIndex != null,
+          winningTeamIndex: winningTeamIndex,
         ),
       ),
     );
   }
 
-  FutureOr<void> _onRoundReviewFinished(
-    RoundReviewFinished event,
+  void _onFinishRoundReview(
+    FinishRoundReview event,
     Emitter<GameSessionState> emit,
   ) {
-    final gameState = state.gameState;
-    final lastPlayedTeamIndex = gameState.previousTeamIndex;
+    final session = state.session;
+    final lastPlayedTeamIndex = session.previousTeamIndex;
 
-    gameState.teamStates[lastPlayedTeamIndex].changeLastScore(
-      _calculateScore(event.reviewedWords),
+    final teams = [...session.teams];
+    teams[lastPlayedTeamIndex] = teams[lastPlayedTeamIndex].withLastRoundScore(
+      event.reviewedWords.totalScore,
     );
 
     emit(
-      state.copyWith(
-        gameState: state.gameState.copyWith(
+      GameSessionState(
+        session: session.copyWith(
+          teams: teams,
           pendingReviewWords: event.reviewedWords,
         ),
       ),
     );
-  }
-
-  int _calculateScore(List<ReviewedWord> reviewedWords) {
-    var score = 0;
-
-    for (final word in reviewedWords) {
-      if (word.status.isGuessed) {
-        ++score;
-      } else if (word.status == WordReviewStatus.skipped) {
-        --score;
-      }
-    }
-
-    return score;
   }
 }

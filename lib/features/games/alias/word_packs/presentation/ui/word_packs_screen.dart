@@ -8,6 +8,7 @@ import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/team_entity.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/ui/round_overview_screen.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
@@ -25,7 +26,7 @@ import 'package:go_router/go_router.dart';
 class WordPackScreen extends StatefulWidget {
   const WordPackScreen({super.key});
 
-  static const routePath = 'word_packs';
+  static const routePath = 'wordPacks';
 
   @override
   State<WordPackScreen> createState() => _WordPackScreenState();
@@ -159,21 +160,15 @@ class _Success extends StatelessWidget {
 
     return GameSessionEntity(
       gameMode: gameSettings.gameMode,
-      teamStates: teamSetup.teamNames.map((teamName) {
-        return AliasTeamStateEntity(
-          name: teamName,
-          roundScores: [],
-        );
-      }).toList(),
+      teams: teamSetup.teamNames
+          .map((teamName) => TeamEntity(name: teamName))
+          .toList(),
       roundDuration: gameSettings.roundDuration,
       pointsToWin: gameSettings.pointsToWin,
       soundEnabled: appSettings.soundEnabled,
       wordsPerCard: gameSettings.wordsPerCard,
       allowSkipping: gameSettings.allowSkipping,
-      currentTeamIndex: 0,
-      previousTeamIndex: 0,
-      currentRoundIndex: 0,
-      words: words,
+      remainingWords: words,
     );
   }
 }

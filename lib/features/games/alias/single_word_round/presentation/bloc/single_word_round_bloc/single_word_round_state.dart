@@ -1,65 +1,29 @@
-part of 'single_word_round_bloc.dart';
+import 'package:bardak/features/games/alias/game_session/domain/entities/reviewed_word.dart';
+import 'package:equatable/equatable.dart';
 
-class SingleWordRoundState {
+class SingleWordRoundState extends Equatable {
   const SingleWordRoundState({
     required this.words,
-    required this.guessedIndexes,
-    required this.score,
-    required this.index,
     required this.roundDuration,
-    required this.completed,
     required this.allowSkipping,
-    required this.soundsEnabled,
+    required this.soundEnabled,
+    this.guessedIndexes = const <int>{},
+    this.skippedIndexes = const <int>{},
+    this.score = 0,
+    this.index = 0,
+    this.completed = false,
   });
-
-  factory SingleWordRoundState.initial({
-    required List<String> words,
-    required int roundDuration,
-    required bool allowSkipping,
-    required bool soundsEnabled,
-  }) => SingleWordRoundState(
-    words: words,
-    guessedIndexes: {},
-    score: 0,
-    index: 0,
-    roundDuration: roundDuration,
-    completed: false,
-    allowSkipping: allowSkipping,
-    soundsEnabled: soundsEnabled,
-  );
-
-  SingleWordRoundState copyWith({
-    List<String>? words,
-    Set<int>? guessedIndexes,
-    int? score,
-    int? index,
-    int? roundDuration,
-    bool? completed,
-    bool? allowSkipping,
-  }) {
-    return SingleWordRoundState(
-      words: words ?? this.words,
-      guessedIndexes: guessedIndexes ?? this.guessedIndexes,
-      score: score ?? this.score,
-      index: index ?? this.index,
-      roundDuration: roundDuration ?? this.roundDuration,
-      completed: completed ?? this.completed,
-      allowSkipping: allowSkipping ?? this.allowSkipping,
-      soundsEnabled: soundsEnabled,
-    );
-  }
 
   final List<String> words;
   final Set<int> guessedIndexes;
+  final Set<int> skippedIndexes;
   final int score;
   final int index;
   final int roundDuration;
   final bool completed;
   final bool allowSkipping;
-  final bool soundsEnabled;
-}
+  final bool soundEnabled;
 
-extension SingleWordRoundStateX on SingleWordRoundState {
   List<ReviewedWord> wordsToReview() {
     final reviewedWords = <ReviewedWord>[];
 
@@ -67,12 +31,45 @@ extension SingleWordRoundStateX on SingleWordRoundState {
       final word = words[i];
       final status = guessedIndexes.contains(i)
           ? WordReviewStatus.guessed
-          : (i < index
-                ? WordReviewStatus.skipped
-                : WordReviewStatus.notGuessed);
+          : skippedIndexes.contains(i)
+          ? WordReviewStatus.skipped
+          : WordReviewStatus.notGuessed;
       reviewedWords.add((word: word, status: status));
     }
 
     return reviewedWords;
   }
+
+  SingleWordRoundState copyWith({
+    Set<int>? guessedIndexes,
+    Set<int>? skippedIndexes,
+    int? score,
+    int? index,
+    bool? completed,
+  }) {
+    return SingleWordRoundState(
+      words: words,
+      guessedIndexes: guessedIndexes ?? this.guessedIndexes,
+      skippedIndexes: skippedIndexes ?? this.skippedIndexes,
+      score: score ?? this.score,
+      index: index ?? this.index,
+      roundDuration: roundDuration,
+      completed: completed ?? this.completed,
+      allowSkipping: allowSkipping,
+      soundEnabled: soundEnabled,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    words,
+    guessedIndexes,
+    skippedIndexes,
+    score,
+    index,
+    roundDuration,
+    completed,
+    allowSkipping,
+    soundEnabled,
+  ];
 }

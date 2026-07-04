@@ -1,4 +1,4 @@
-part of 'round_review_bloc.dart';
+import 'package:equatable/equatable.dart';
 
 sealed class RoundReviewEvent extends Equatable {
   const RoundReviewEvent();
@@ -7,8 +7,9 @@ sealed class RoundReviewEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class WordToggled extends RoundReviewEvent {
-  const WordToggled({required this.index});
+/// Cycles the review status of the word at [index].
+class ToggleWord extends RoundReviewEvent {
+  const ToggleWord({required this.index});
 
   final int index;
 
@@ -16,8 +17,9 @@ class WordToggled extends RoundReviewEvent {
   List<Object?> get props => [index];
 }
 
-class GuessedWordsUpdated extends RoundReviewEvent {
-  const GuessedWordsUpdated({required this.guessedWords});
+/// Marks exactly the given words as guessed, all others as not guessed.
+class UpdateGuessedWords extends RoundReviewEvent {
+  const UpdateGuessedWords({required this.guessedWords});
 
   final Set<String> guessedWords;
 
