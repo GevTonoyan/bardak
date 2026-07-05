@@ -178,6 +178,51 @@ class AppLocalizationsRu extends AppLocalizations {
   String get retry => 'Повторить';
 
   @override
+  String player_with_number(int number) {
+    return 'Игрок $number';
+  }
+
+  @override
+  String get spy_tap_to_reveal => 'Нажми на карту, чтобы увидеть свою роль';
+
+  @override
+  String get spy_you_are_spy => 'Ты ШПИОН!';
+
+  @override
+  String get spy_dont_reveal =>
+      'Не выдай себя! Попробуй угадать секретное слово';
+
+  @override
+  String get spy_secret_word => 'Секретное слово';
+
+  @override
+  String get spy_pass_phone => 'Передай телефон';
+
+  @override
+  String get spy_find_the_spy =>
+      'Задавайте вопросы по очереди и найдите шпиона';
+
+  @override
+  String get spy_finish_game => 'Завершить игру';
+
+  @override
+  String spy_reveal_spies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Шпионами были',
+      one: 'Шпионом был',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get play_again => 'Играть снова';
+
+  @override
+  String get change_pack => 'Сменить набор';
+
+  @override
   String get game_rules => 'Правила игры';
 
   @override

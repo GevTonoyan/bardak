@@ -171,6 +171,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retry => 'Retry';
 
   @override
+  String player_with_number(int number) {
+    return 'Player $number';
+  }
+
+  @override
+  String get spy_tap_to_reveal => 'Tap the card to see your role';
+
+  @override
+  String get spy_you_are_spy => 'You are the SPY!';
+
+  @override
+  String get spy_dont_reveal => 'Blend in and try to guess the secret word';
+
+  @override
+  String get spy_secret_word => 'The secret word';
+
+  @override
+  String get spy_pass_phone => 'Pass the phone';
+
+  @override
+  String get spy_find_the_spy => 'Ask questions in turns and find the spy';
+
+  @override
+  String get spy_finish_game => 'Finish game';
+
+  @override
+  String spy_reveal_spies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'The spies were',
+      one: 'The spy was',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get play_again => 'Play again';
+
+  @override
+  String get change_pack => 'Change pack';
+
+  @override
   String get game_rules => 'Game Rules';
 
   @override

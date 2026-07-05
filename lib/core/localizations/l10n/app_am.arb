@@ -88,6 +88,27 @@
   "oneWordModeShort": "Մեկ բառ",
   "spyMode": "Լրտես",
   "retry": "Կրկնել",
+  "player_with_number": "Խաղացող {number}",
+  "@player_with_number": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "spy_tap_to_reveal": "Սեղմիր քարտին՝ դերդ տեսնելու համար",
+  "spy_you_are_spy": "Դու ԼՐՏԵՍ ես",
+  "spy_dont_reveal": "Մի բացահայտվիր․ փորձիր գուշակել գաղտնի բառը",
+  "spy_secret_word": "Գաղտնի բառը",
+  "spy_pass_phone": "Փոխանցիր հեռախոսը",
+  "spy_find_the_spy": "Հերթով հարցեր տվեք և գտեք լրտեսին",
+  "spy_finish_game": "Ավարտել խաղը",
+  "spy_reveal_spies": "{count, plural, one{Լրտեսն էր} other{Լրտեսներն էին}}",
+  "@spy_reveal_spies": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "play_again": "Խաղալ նորից",
+  "change_pack": "Փոխել հավաքածուն",
 
   "game_rules": "Խաղի կանոնները",
   "singleModeRule1": "Խաղացողը բացատրում է բառերը հաջորդաբար՝ մեկը մյուսի հետևից",

@@ -400,6 +400,72 @@ abstract class AppLocalizations {
   /// **'Retry'**
   String get retry;
 
+  /// No description provided for @player_with_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Player {number}'**
+  String player_with_number(int number);
+
+  /// No description provided for @spy_tap_to_reveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the card to see your role'**
+  String get spy_tap_to_reveal;
+
+  /// No description provided for @spy_you_are_spy.
+  ///
+  /// In en, this message translates to:
+  /// **'You are the SPY!'**
+  String get spy_you_are_spy;
+
+  /// No description provided for @spy_dont_reveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Blend in and try to guess the secret word'**
+  String get spy_dont_reveal;
+
+  /// No description provided for @spy_secret_word.
+  ///
+  /// In en, this message translates to:
+  /// **'The secret word'**
+  String get spy_secret_word;
+
+  /// No description provided for @spy_pass_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass the phone'**
+  String get spy_pass_phone;
+
+  /// No description provided for @spy_find_the_spy.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask questions in turns and find the spy'**
+  String get spy_find_the_spy;
+
+  /// No description provided for @spy_finish_game.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish game'**
+  String get spy_finish_game;
+
+  /// No description provided for @spy_reveal_spies.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{The spy was} other{The spies were}}'**
+  String spy_reveal_spies(int count);
+
+  /// No description provided for @play_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Play again'**
+  String get play_again;
+
+  /// No description provided for @change_pack.
+  ///
+  /// In en, this message translates to:
+  /// **'Change pack'**
+  String get change_pack;
+
   /// No description provided for @game_rules.
   ///
   /// In en, this message translates to:

@@ -98,6 +98,8 @@ void main() async {
             getSpyPacksUseCase: sl(),
             areSpyPacksCachedUseCase: sl(),
             downloadSpyPacksUseCase: sl(),
+            drawSpySecretUseCase: sl(),
+            getSpySettingsUseCase: sl(),
           )..add(const SyncSpyPacks()),
         ),
         BlocProvider(

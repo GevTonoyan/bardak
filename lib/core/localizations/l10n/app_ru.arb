@@ -88,6 +88,27 @@
   "oneWordModeShort": "Одно слово",
   "spyMode": "Шпион",
   "retry": "Повторить",
+  "player_with_number": "Игрок {number}",
+  "@player_with_number": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "spy_tap_to_reveal": "Нажми на карту, чтобы увидеть свою роль",
+  "spy_you_are_spy": "Ты ШПИОН!",
+  "spy_dont_reveal": "Не выдай себя! Попробуй угадать секретное слово",
+  "spy_secret_word": "Секретное слово",
+  "spy_pass_phone": "Передай телефон",
+  "spy_find_the_spy": "Задавайте вопросы по очереди и найдите шпиона",
+  "spy_finish_game": "Завершить игру",
+  "spy_reveal_spies": "{count, plural, one{Шпионом был} other{Шпионами были}}",
+  "@spy_reveal_spies": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "play_again": "Играть снова",
+  "change_pack": "Сменить набор",
 
   "game_rules": "Правила игры",
   "singleModeRule1": "Игрок объясняет слова последовательно, одно за другим",

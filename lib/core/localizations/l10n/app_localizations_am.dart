@@ -171,6 +171,49 @@ class AppLocalizationsAm extends AppLocalizations {
   String get retry => 'Կրկնել';
 
   @override
+  String player_with_number(int number) {
+    return 'Խաղացող $number';
+  }
+
+  @override
+  String get spy_tap_to_reveal => 'Սեղմիր քարտին՝ դերդ տեսնելու համար';
+
+  @override
+  String get spy_you_are_spy => 'Դու ԼՐՏԵՍ ես';
+
+  @override
+  String get spy_dont_reveal => 'Մի բացահայտվիր․ փորձիր գուշակել գաղտնի բառը';
+
+  @override
+  String get spy_secret_word => 'Գաղտնի բառը';
+
+  @override
+  String get spy_pass_phone => 'Փոխանցիր հեռախոսը';
+
+  @override
+  String get spy_find_the_spy => 'Հերթով հարցեր տվեք և գտեք լրտեսին';
+
+  @override
+  String get spy_finish_game => 'Ավարտել խաղը';
+
+  @override
+  String spy_reveal_spies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Լրտեսներն էին',
+      one: 'Լրտեսն էր',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get play_again => 'Խաղալ նորից';
+
+  @override
+  String get change_pack => 'Փոխել հավաքածուն';
+
+  @override
   String get game_rules => 'Խաղի կանոնները';
 
   @override

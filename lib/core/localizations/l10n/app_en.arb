@@ -88,6 +88,27 @@
   "oneWordModeShort": "One Word",
   "spyMode": "Spy",
   "retry": "Retry",
+  "player_with_number": "Player {number}",
+  "@player_with_number": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "spy_tap_to_reveal": "Tap the card to see your role",
+  "spy_you_are_spy": "You are the SPY!",
+  "spy_dont_reveal": "Blend in and try to guess the secret word",
+  "spy_secret_word": "The secret word",
+  "spy_pass_phone": "Pass the phone",
+  "spy_find_the_spy": "Ask questions in turns and find the spy",
+  "spy_finish_game": "Finish game",
+  "spy_reveal_spies": "{count, plural, one{The spy was} other{The spies were}}",
+  "@spy_reveal_spies": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "play_again": "Play again",
+  "change_pack": "Change pack",
 
   "game_rules": "Game Rules",
   "singleModeRule1": "Players explain words one after another in sequence",

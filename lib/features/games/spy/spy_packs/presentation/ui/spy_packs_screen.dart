@@ -8,6 +8,7 @@ import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_event.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_state.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_pack_item.dart';
+import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_role_reveal_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -32,31 +33,41 @@ class _SpyPacksScreenState extends State<SpyPacksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GradientBackground(
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            Padding(
-              padding: const .only(left: 20, top: 20, right: 20),
-              child: Row(
-                children: [
-                  AppIconButton.back(onTap: () => context.pop()),
-                ],
+    return BlocListener<SpyPacksBloc, SpyPacksState>(
+      listenWhen: (previous, current) => current is SpyGameReady,
+      listener: (context, state) {
+        if (state is! SpyGameReady) return;
+        context.goNamed(SpyRoleRevealScreen.routePath, extra: state.session);
+      },
+      child: GradientBackground(
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              Padding(
+                padding: const .only(left: 20, top: 20, right: 20),
+                child: Row(
+                  children: [
+                    AppIconButton.back(onTap: () => context.pop()),
+                  ],
+                ),
               ),
-            ),
-            BlocBuilder<SpyPacksBloc, SpyPacksState>(
-              builder: (context, state) {
-                return switch (state) {
-                  SpyPacksInitial() => const SizedBox.shrink(),
-                  SpyPacksLoaded(:final packs) => Expanded(
-                    child: _Packs(packs: packs),
-                  ),
-                  SpyPacksFailure() => const Expanded(child: _Failure()),
-                };
-              },
-            ),
-          ],
+              BlocBuilder<SpyPacksBloc, SpyPacksState>(
+                builder: (context, state) {
+                  return switch (state) {
+                    SpyPacksInitial() => const SizedBox.shrink(),
+                    SpyPacksLoaded(:final packs) => Expanded(
+                      child: _Packs(packs: packs),
+                    ),
+                    SpyGameReady(:final packs) => Expanded(
+                      child: _Packs(packs: packs),
+                    ),
+                    SpyPacksFailure() => const Expanded(child: _Failure()),
+                  };
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -86,9 +97,12 @@ class _Packs extends StatelessWidget {
                 wordsCount: pack.words.length,
                 imageUrl: pack.image,
                 imageBlurHash: pack.imageBlurHash,
-                onTap: () {
-                  // TODO(Gevorg): draw a secret and start the spy session.
-                },
+                onTap: () => context.read<SpyPacksBloc>().add(
+                  StartSpyGame(
+                    pack: pack,
+                    locale: context.locale.languageCode,
+                  ),
+                ),
               );
             },
             separatorBuilder: (_, _) => const SizedBox(height: 14),
