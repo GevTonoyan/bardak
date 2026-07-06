@@ -82,7 +82,7 @@
     }
   },
 
-  "classicMode": "Классический Алиас",
+  "classic": "Алиас",
   "oneWordMode": "Одним словом",
   "classicModeShort": "Классический",
   "oneWordModeShort": "Одно слово",

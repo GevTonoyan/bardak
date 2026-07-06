@@ -82,7 +82,7 @@
     }
   },
 
-  "classicMode": "Classic Alias",
+  "alias": "Alias",
   "oneWordMode": "One word",
   "classicModeShort": "Classic",
   "oneWordModeShort": "One Word",

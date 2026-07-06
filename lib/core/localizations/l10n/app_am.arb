@@ -82,7 +82,7 @@
     }
   },
 
-  "classicMode": "Դասական Ալիաս",
+  "alias": "Ալիաս",
   "oneWordMode": "Մեկ բառով",
   "classicModeShort": "Դասական",
   "oneWordModeShort": "Մեկ բառ",

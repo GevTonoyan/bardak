@@ -160,7 +160,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get classicMode => 'Классический Алиас';
+  String get alias => 'Alias';
 
   @override
   String get oneWordMode => 'Одним словом';

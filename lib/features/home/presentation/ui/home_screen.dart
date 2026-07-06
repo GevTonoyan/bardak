@@ -131,22 +131,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     children: [
                       height40,
                       AppButton(
-                        label: l10n.classicMode,
+                        label: l10n.alias,
                         color: colors.green,
                         onPressed: () =>
                             _navigateToGameSettings(context, .card),
                       ),
                       height20,
                       AppButton(
-                        label: l10n.oneWordMode,
-                        color: colors.purple,
-                        onPressed: () =>
-                            _navigateToGameSettings(context, .singleWord),
-                      ),
-                      height20,
-                      AppButton(
                         label: l10n.spyMode,
-                        color: colors.orange,
+                        color: colors.purple,
                         onPressed: () => unawaited(
                           context.pushNamed(SpySettingsScreen.routePath),
                         ),

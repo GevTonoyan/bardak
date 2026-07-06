@@ -364,11 +364,11 @@ abstract class AppLocalizations {
   /// **'Team {number}'**
   String team_with_count(int number);
 
-  /// No description provided for @classicMode.
+  /// No description provided for @alias.
   ///
   /// In en, this message translates to:
-  /// **'Classic Alias'**
-  String get classicMode;
+  /// **'Alias'**
+  String get alias;
 
   /// No description provided for @oneWordMode.
   ///

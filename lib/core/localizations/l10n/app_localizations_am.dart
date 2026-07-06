@@ -153,7 +153,7 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get classicMode => 'Դասական Ալիաս';
+  String get alias => 'Ալիաս';
 
   @override
   String get oneWordMode => 'Մեկ բառով';

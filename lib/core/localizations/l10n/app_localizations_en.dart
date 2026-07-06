@@ -153,7 +153,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get classicMode => 'Classic Alias';
+  String get alias => 'Alias';
 
   @override
   String get oneWordMode => 'One word';
