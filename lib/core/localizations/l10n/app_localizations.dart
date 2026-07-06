@@ -430,11 +430,23 @@ abstract class AppLocalizations {
   /// **'The secret word'**
   String get spy_secret_word;
 
-  /// No description provided for @spy_pass_phone.
+  /// No description provided for @spy_tap_to_hide.
   ///
   /// In en, this message translates to:
-  /// **'Pass the phone'**
-  String get spy_pass_phone;
+  /// **'Tap again to hide and pass'**
+  String get spy_tap_to_hide;
+
+  /// No description provided for @spy_start_game.
+  ///
+  /// In en, this message translates to:
+  /// **'Start game'**
+  String get spy_start_game;
+
+  /// No description provided for @spy_all_ready.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone is ready'**
+  String get spy_all_ready;
 
   /// No description provided for @spy_find_the_spy.
   ///
@@ -447,12 +459,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish game'**
   String get spy_finish_game;
-
-  /// No description provided for @spy_reveal_spies.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, one{The spy was} other{The spies were}}'**
-  String spy_reveal_spies(int count);
 
   /// No description provided for @play_again.
   ///

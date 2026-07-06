@@ -98,15 +98,11 @@
   "spy_you_are_spy": "You are the SPY!",
   "spy_dont_reveal": "Blend in and try to guess the secret word",
   "spy_secret_word": "The secret word",
-  "spy_pass_phone": "Pass the phone",
+  "spy_tap_to_hide": "Tap again to hide and pass",
+  "spy_start_game": "Start game",
+  "spy_all_ready": "Everyone is ready",
   "spy_find_the_spy": "Ask questions in turns and find the spy",
   "spy_finish_game": "Finish game",
-  "spy_reveal_spies": "{count, plural, one{The spy was} other{The spies were}}",
-  "@spy_reveal_spies": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
   "play_again": "Play again",
   "change_pack": "Change pack",
 

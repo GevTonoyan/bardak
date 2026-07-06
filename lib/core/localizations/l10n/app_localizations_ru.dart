@@ -196,7 +196,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get spy_secret_word => 'Секретное слово';
 
   @override
-  String get spy_pass_phone => 'Передай телефон';
+  String get spy_tap_to_hide => 'Нажми ещё раз, чтобы скрыть';
+
+  @override
+  String get spy_start_game => 'Начать игру';
+
+  @override
+  String get spy_all_ready => 'Все готовы';
 
   @override
   String get spy_find_the_spy =>
@@ -204,17 +210,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get spy_finish_game => 'Завершить игру';
-
-  @override
-  String spy_reveal_spies(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Шпионами были',
-      one: 'Шпионом был',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get play_again => 'Играть снова';

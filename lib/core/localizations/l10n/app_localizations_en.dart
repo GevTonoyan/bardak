@@ -188,24 +188,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spy_secret_word => 'The secret word';
 
   @override
-  String get spy_pass_phone => 'Pass the phone';
+  String get spy_tap_to_hide => 'Tap again to hide and pass';
+
+  @override
+  String get spy_start_game => 'Start game';
+
+  @override
+  String get spy_all_ready => 'Everyone is ready';
 
   @override
   String get spy_find_the_spy => 'Ask questions in turns and find the spy';
 
   @override
   String get spy_finish_game => 'Finish game';
-
-  @override
-  String spy_reveal_spies(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'The spies were',
-      one: 'The spy was',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get play_again => 'Play again';

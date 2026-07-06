@@ -98,15 +98,11 @@
   "spy_you_are_spy": "Ты ШПИОН!",
   "spy_dont_reveal": "Не выдай себя! Попробуй угадать секретное слово",
   "spy_secret_word": "Секретное слово",
-  "spy_pass_phone": "Передай телефон",
+  "spy_tap_to_hide": "Нажми ещё раз, чтобы скрыть",
+  "spy_start_game": "Начать игру",
+  "spy_all_ready": "Все готовы",
   "spy_find_the_spy": "Задавайте вопросы по очереди и найдите шпиона",
   "spy_finish_game": "Завершить игру",
-  "spy_reveal_spies": "{count, plural, one{Шпионом был} other{Шпионами были}}",
-  "@spy_reveal_spies": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
   "play_again": "Играть снова",
   "change_pack": "Сменить набор",
 

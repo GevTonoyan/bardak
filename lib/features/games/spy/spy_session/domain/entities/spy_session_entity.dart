@@ -59,10 +59,6 @@ class SpySessionEntity extends Equatable {
   /// Whether every player has seen their role.
   bool get isRevealCompleted => currentRevealIndex >= players.length;
 
-  /// The spies of this match, revealed on the result screen.
-  List<SpyPlayerEntity> get spies =>
-      players.where((player) => player.isSpy).toList();
-
   SpySessionEntity copyWith({int? currentRevealIndex}) {
     return SpySessionEntity(
       pack: pack,

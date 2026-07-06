@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
-import 'package:bardak/core/app_ui/widgets/round_timer.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/spy/spy_session/presentation/bloc/spy_session_bloc.dart';
@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// The questioning phase: countdown timer plus all candidate words,
-/// so the spy can blend in while trying to guess the secret.
+/// The questioning phase: a big countdown the whole table can watch while
+/// players take turns asking questions to find the spy.
 class SpyInterrogationScreen extends StatefulWidget {
   const SpyInterrogationScreen({super.key});
 
@@ -56,11 +56,23 @@ class _SpyInterrogationScreenState extends State<SpyInterrogationScreen> {
     context.goNamed(SpyResultScreen.routePath, extra: session);
   }
 
+  String _formatTime(int totalSeconds) {
+    final minutes = totalSeconds ~/ 60;
+    final seconds = totalSeconds % 60;
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final colors = context.colors;
     final typography = context.typography;
+
+    final timerColor = switch (_remainingSeconds) {
+      <= 15 => colors.red,
+      <= 60 => colors.orange,
+      _ => colors.green,
+    };
 
     return GradientBackground(
       child: SafeArea(
@@ -72,7 +84,12 @@ class _SpyInterrogationScreenState extends State<SpyInterrogationScreen> {
                 child: Column(
                   mainAxisSize: .min,
                   children: [
-                    RoundTimer(seconds: _remainingSeconds),
+                    Text(
+                      _formatTime(_remainingSeconds),
+                      style: typography.displayLarge.withNumericFont.copyWith(
+                        color: timerColor,
+                      ),
+                    ),
                     height30,
                     Padding(
                       padding: const .symmetric(horizontal: 40),

@@ -188,24 +188,19 @@ class AppLocalizationsAm extends AppLocalizations {
   String get spy_secret_word => 'Գաղտնի բառը';
 
   @override
-  String get spy_pass_phone => 'Փոխանցիր հեռախոսը';
+  String get spy_tap_to_hide => 'Կրկին սեղմիր՝ թաքցնելու համար';
+
+  @override
+  String get spy_start_game => 'Սկսել խաղը';
+
+  @override
+  String get spy_all_ready => 'Բոլորը պատրաստ են';
 
   @override
   String get spy_find_the_spy => 'Հերթով հարցեր տվեք և գտեք լրտեսին';
 
   @override
   String get spy_finish_game => 'Ավարտել խաղը';
-
-  @override
-  String spy_reveal_spies(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Լրտեսներն էին',
-      one: 'Լրտեսն էր',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get play_again => 'Խաղալ նորից';

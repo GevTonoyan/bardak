@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   audioplayers: 6.7.0
+  bloc_concurrency: ^0.3.0
   cached_network_image: 3.4.1
   cloud_firestore: 6.5.0
   confetti: 0.8.0
@@ -16,7 +17,6 @@ dependencies:
   firebase_core: 4.10.0
   flutter:
     sdk: flutter
-  bloc_concurrency: ^0.3.0
   flutter_bloc: 9.1.1
   flutter_blurhash: 0.9.1
   flutter_localizations:

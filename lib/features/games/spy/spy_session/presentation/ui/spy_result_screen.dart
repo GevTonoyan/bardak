@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// End-of-round screen revealing the spies and the secret word.
+/// End-of-round screen revealing the secret word.
 class SpyResultScreen extends StatelessWidget {
   const SpyResultScreen({required this.session, super.key});
 
@@ -29,11 +29,6 @@ class SpyResultScreen extends StatelessWidget {
     final l10n = context.l10n;
     final colors = context.colors;
     final typography = context.typography;
-
-    final spies = session.spies;
-    final spyNames = spies
-        .map((spy) => l10n.player_with_number(spy.number))
-        .join(', ');
 
     return BlocListener<SpyPacksBloc, SpyPacksState>(
       listenWhen: (previous, current) => current is SpyGameReady,
@@ -61,14 +56,6 @@ class SpyResultScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: .center,
                     children: [
-                      Text(
-                        l10n.spy_reveal_spies(spies.length),
-                        textAlign: .center,
-                        style: typography.regular24,
-                      ),
-                      height20,
-                      HighlightedText(text: spyNames),
-                      height40,
                       Text(
                         l10n.spy_secret_word,
                         textAlign: .center,
