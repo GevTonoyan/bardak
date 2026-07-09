@@ -5,6 +5,9 @@ abstract interface class SpyPacksRepository {
   /// Returns cached spy packs for the given locale.
   Future<List<SpyPackEntity>> getSpyPacks(String localeCode);
 
+  /// Returns bundled placeholder packs shown when nothing is cached yet.
+  List<SpyPackEntity> getFallbackSpyPacks(String localeCode);
+
   /// Whether spy packs for the locale are cached and not stale.
   Future<bool> areSpyPacksCached(String localeCode);
 

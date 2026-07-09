@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:bardak/core/localizations/app_locale.dart';
-import 'package:bardak/features/games/spy/spy_packs/data/data_sources/spy_packs_fallbacks.dart';
 import 'package:bardak/features/games/spy/spy_packs/data/data_sources/spy_packs_local_data_source.dart';
 import 'package:bardak/features/games/spy/spy_packs/data/data_sources/spy_packs_remote_data_source.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/entities/spy_pack_entity.dart';
@@ -18,13 +16,13 @@ class SpyPacksRepositoryImpl implements SpyPacksRepository {
   final SpyPacksRemoteDataSource _remoteDataSource;
 
   @override
-  Future<List<SpyPackEntity>> getSpyPacks(String localeCode) async {
-    final packs = await _localDataSource.getSpyPacks(localeCode);
-    if (packs.isNotEmpty) return packs;
+  Future<List<SpyPackEntity>> getSpyPacks(String localeCode) {
+    return _localDataSource.getSpyPacks(localeCode);
+  }
 
-    // Nothing cached yet (e.g. remote collection still empty or offline):
-    // serve the bundled packs so the game is always playable.
-    return fallbackSpyPacksFor(AppLocale.fromString(localeCode));
+  @override
+  List<SpyPackEntity> getFallbackSpyPacks(String localeCode) {
+    return _localDataSource.getFallbackSpyPacks(localeCode);
   }
 
   @override

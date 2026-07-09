@@ -1,3 +1,5 @@
+import 'package:bardak/core/localizations/app_locale.dart';
+import 'package:bardak/features/games/spy/spy_packs/data/data_sources/spy_packs_fallbacks.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/entities/spy_pack_entity.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,6 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract interface class SpyPacksLocalDataSource {
   /// Returns cached spy packs for the given locale.
   Future<List<SpyPackEntity>> getSpyPacks(String localeCode);
+
+  /// Returns bundled placeholder packs shown when nothing is cached yet.
+  List<SpyPackEntity> getFallbackSpyPacks(String localeCode);
 
   /// Replaces the cached spy packs for the given locale.
   Future<void> cacheSpyPacks(String localeCode, List<SpyPackEntity> packs);
@@ -68,6 +73,11 @@ class SpyPacksLocalDataSourceImpl implements SpyPacksLocalDataSource {
         imageBlurHash: data[_imageBlurHashKey] as String,
       );
     }).toList();
+  }
+
+  @override
+  List<SpyPackEntity> getFallbackSpyPacks(String localeCode) {
+    return fallbackSpyPacksFor(AppLocale.fromString(localeCode));
   }
 
   @override

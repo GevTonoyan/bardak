@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/language_icon.dart';
@@ -81,7 +80,9 @@ class _SpyPacksScreenState extends State<SpyPacksScreen> {
                     SpyGameReady(:final packs) => Expanded(
                       child: _Packs(packs: packs),
                     ),
-                    SpyPacksFailure() => const Expanded(child: _Failure()),
+                    SpyPacksNotCached(:final fallbackPacks) => Expanded(
+                      child: _Packs(packs: fallbackPacks, shouldDownload: true),
+                    ),
                   };
                 },
               ),
@@ -94,9 +95,10 @@ class _SpyPacksScreenState extends State<SpyPacksScreen> {
 }
 
 class _Packs extends StatelessWidget {
-  const _Packs({required this.packs});
+  const _Packs({required this.packs, this.shouldDownload = false});
 
   final List<SpyPackEntity> packs;
+  final bool shouldDownload;
 
   @override
   Widget build(BuildContext context) {
@@ -124,50 +126,21 @@ class _Packs extends StatelessWidget {
                 name: pack.name,
                 imageUrl: pack.image,
                 imageBlurHash: pack.imageBlurHash,
-                onTap: () => context.read<SpyPacksBloc>().add(
-                  StartSpyGame(
-                    pack: pack,
-                    locale: context.locale.languageCode,
-                  ),
-                ),
+                shouldDownload: shouldDownload,
+                onTap: () {
+                  final locale = context.locale.languageCode;
+                  final bloc = context.read<SpyPacksBloc>();
+                  if (shouldDownload) {
+                    bloc.add(DownloadSpyPacks(locale));
+                  } else {
+                    bloc.add(StartSpyGame(pack: pack, locale: locale));
+                  }
+                },
               );
             },
           ),
         ),
       ],
-    );
-  }
-}
-
-class _Failure extends StatelessWidget {
-  const _Failure();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    return Center(
-      child: Padding(
-        padding: const .symmetric(horizontal: 40),
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            Text(
-              l10n.downloadWordsNetworkError,
-              textAlign: .center,
-              style: context.typography.regular20,
-            ),
-            height30,
-            AppButton(
-              label: l10n.retry,
-              color: context.colors.green,
-              onPressed: () => context.read<SpyPacksBloc>().add(
-                LoadSpyPacks(context.locale.languageCode),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

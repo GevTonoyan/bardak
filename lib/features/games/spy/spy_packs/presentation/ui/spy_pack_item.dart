@@ -1,6 +1,7 @@
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/network_pack_image.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 /// A half-width grid tile for a spy pack.
@@ -10,6 +11,7 @@ class SpyPackItem extends StatelessWidget {
     required this.imageUrl,
     required this.imageBlurHash,
     required this.onTap,
+    this.shouldDownload = false,
     super.key,
   });
 
@@ -17,6 +19,10 @@ class SpyPackItem extends StatelessWidget {
   final String imageUrl;
   final String imageBlurHash;
   final VoidCallback onTap;
+
+  /// When true the pack is a not-yet-cached placeholder; a download hint is
+  /// shown and tapping triggers the download instead of starting a game.
+  final bool shouldDownload;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +63,12 @@ class SpyPackItem extends StatelessWidget {
               ),
             ),
           ),
+          if (shouldDownload)
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Assets.icons.download.svg(height: 22, width: 22),
+            ),
           Positioned(
             bottom: 10,
             left: 10,

@@ -24,6 +24,16 @@ class SyncSpyPacks extends SpyPacksEvent {
   const SyncSpyPacks();
 }
 
+/// Downloads the spy packs for the given locale, then reloads them.
+class DownloadSpyPacks extends SpyPacksEvent {
+  const DownloadSpyPacks(this.locale);
+
+  final String locale;
+
+  @override
+  List<Object?> get props => [locale];
+}
+
 /// Draws a secret from [pack] and builds a session with current settings.
 class StartSpyGame extends SpyPacksEvent {
   const StartSpyGame({required this.pack, required this.locale});

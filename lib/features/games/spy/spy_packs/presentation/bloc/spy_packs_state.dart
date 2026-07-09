@@ -24,9 +24,14 @@ class SpyPacksLoaded extends SpyPacksState {
   List<Object?> get props => [packs];
 }
 
-/// State when packs could not be loaded (no cache and download failed).
-class SpyPacksFailure extends SpyPacksState {
-  const SpyPacksFailure();
+/// State when nothing is cached; shows placeholder packs that need a download.
+class SpyPacksNotCached extends SpyPacksState {
+  const SpyPacksNotCached({required this.fallbackPacks});
+
+  final List<SpyPackEntity> fallbackPacks;
+
+  @override
+  List<Object?> get props => [fallbackPacks];
 }
 
 /// State when a session is built and the game is ready to start.

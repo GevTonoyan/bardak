@@ -96,6 +96,7 @@ void main() async {
           lazy: false,
           create: (_) => SpyPacksBloc(
             getSpyPacksUseCase: sl(),
+            getFallbackSpyPacksUseCase: sl(),
             areSpyPacksCachedUseCase: sl(),
             downloadSpyPacksUseCase: sl(),
             drawSpySecretUseCase: sl(),
