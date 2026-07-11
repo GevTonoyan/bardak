@@ -248,6 +248,29 @@ class AppLocalizationsEn extends AppLocalizations {
       'The game ends when the target score is reached, but all teams must complete the current round';
 
   @override
+  String get spyRule1 => 'One or more players are secretly chosen as the spy';
+
+  @override
+  String get spyRule2 =>
+      'Everyone else sees the same secret word, while the spy sees nothing';
+
+  @override
+  String get spyRule3 =>
+      'Players take turns asking each other questions about the secret word';
+
+  @override
+  String get spyRule4 =>
+      'Answer so you sound like you know the word, but don\'t say it outright';
+
+  @override
+  String get spyRule5 =>
+      'The spy tries to blend in and figure out the secret word';
+
+  @override
+  String get spyRule6 =>
+      'When the time runs out, everyone votes on who the spy is';
+
+  @override
   String get scoreboard => 'Score';
 
   @override

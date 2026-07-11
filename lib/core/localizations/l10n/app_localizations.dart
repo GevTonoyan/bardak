@@ -532,6 +532,42 @@ abstract class AppLocalizations {
   /// **'The game ends when the target score is reached, but all teams must complete the current round'**
   String get generalRule3;
 
+  /// No description provided for @spyRule1.
+  ///
+  /// In en, this message translates to:
+  /// **'One or more players are secretly chosen as the spy'**
+  String get spyRule1;
+
+  /// No description provided for @spyRule2.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone else sees the same secret word, while the spy sees nothing'**
+  String get spyRule2;
+
+  /// No description provided for @spyRule3.
+  ///
+  /// In en, this message translates to:
+  /// **'Players take turns asking each other questions about the secret word'**
+  String get spyRule3;
+
+  /// No description provided for @spyRule4.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer so you sound like you know the word, but don\'t say it outright'**
+  String get spyRule4;
+
+  /// No description provided for @spyRule5.
+  ///
+  /// In en, this message translates to:
+  /// **'The spy tries to blend in and figure out the secret word'**
+  String get spyRule5;
+
+  /// No description provided for @spyRule6.
+  ///
+  /// In en, this message translates to:
+  /// **'When the time runs out, everyone votes on who the spy is'**
+  String get spyRule6;
+
   /// No description provided for @scoreboard.
   ///
   /// In en, this message translates to:

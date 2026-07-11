@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_stepper_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_switch_button.dart';
+import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/alias/game_settings/domain/entities/game_mode.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
+import 'package:bardak/features/games/alias/rules/presentation/ui/rules_screen.dart';
 import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +28,9 @@ class GameSettingsScreen extends Page<void> {
       settings: this,
       child: FullBottomSheet(
         titleBuilder: (context) => context.l10n.settings,
+        trailing: AppIconButton.info(
+          onTap: () => unawaited(context.pushNamed(RulesScreen.routePath)),
+        ),
         child: const _GameSettingsBody(),
       ),
     );

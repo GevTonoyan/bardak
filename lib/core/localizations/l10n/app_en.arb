@@ -117,6 +117,13 @@
   "generalRule2": "After each round, players can review and edit the list of guessed words",
   "generalRule3": "The game ends when the target score is reached, but all teams must complete the current round",
 
+  "spyRule1": "One or more players are secretly chosen as the spy",
+  "spyRule2": "Everyone else sees the same secret word, while the spy sees nothing",
+  "spyRule3": "Players take turns asking each other questions about the secret word",
+  "spyRule4": "Answer so you sound like you know the word, but don't say it outright",
+  "spyRule5": "The spy tries to blend in and figure out the secret word",
+  "spyRule6": "When the time runs out, everyone votes on who the spy is",
+
   "scoreboard": "Score",
   "next_team": "Next team",
   "winner_reveal": "And the winner is...",

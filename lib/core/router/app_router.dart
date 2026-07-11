@@ -20,6 +20,7 @@ import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_language_select_screen.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_packs_screen.dart';
+import 'package:bardak/features/games/spy/spy_rules/presentation/ui/spy_rules_screen.dart';
 import 'package:bardak/features/games/spy/spy_session/domain/entities/spy_session_entity.dart';
 import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_interrogation_screen.dart';
 import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_result_screen.dart';
@@ -82,7 +83,11 @@ final appRouter = GoRouter(
           name: RulesScreen.routePath,
           pageBuilder: (context, state) => const RulesScreen(),
         ),
-
+        GoRoute(
+          path: SpyRulesScreen.routePath,
+          name: SpyRulesScreen.routePath,
+          pageBuilder: (context, state) => const SpyRulesScreen(),
+        ),
         GoRoute(
           path: GameSettingsScreen.routePath,
           name: GameSettingsScreen.routePath,

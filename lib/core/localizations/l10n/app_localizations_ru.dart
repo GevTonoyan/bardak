@@ -256,6 +256,29 @@ class AppLocalizationsRu extends AppLocalizations {
       'Игра завершается при достижении лимита очков, но текущий раунд должен быть доигран всеми командами';
 
   @override
+  String get spyRule1 => 'Один или несколько игроков тайно становятся шпионами';
+
+  @override
+  String get spyRule2 =>
+      'Все остальные видят одно и то же секретное слово, а шпион — нет';
+
+  @override
+  String get spyRule3 =>
+      'Игроки по очереди задают друг другу вопросы о секретном слове';
+
+  @override
+  String get spyRule4 =>
+      'Отвечайте так, будто знаете слово, но не называйте его напрямую';
+
+  @override
+  String get spyRule5 =>
+      'Шпион старается не выдать себя и угадать секретное слово';
+
+  @override
+  String get spyRule6 =>
+      'Когда время истекает, все голосуют, кто из игроков шпион';
+
+  @override
   String get scoreboard => 'Счёт';
 
   @override

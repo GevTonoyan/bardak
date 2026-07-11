@@ -248,6 +248,29 @@ class AppLocalizationsAm extends AppLocalizations {
       'Խաղն ավարտվում է սահմանված միավորներին հասնելիս, սակայն փուլը պետք է խաղան բոլոր թիմերը';
 
   @override
+  String get spyRule1 =>
+      'Մեկ կամ մի քանի խաղացող գաղտնի ընտրվում են որպես լրտես';
+
+  @override
+  String get spyRule2 =>
+      'Մյուս բոլորը տեսնում են նույն գաղտնի բառը, իսկ լրտեսը՝ ոչ';
+
+  @override
+  String get spyRule3 =>
+      'Խաղացողները հերթով միմյանց հարցեր են տալիս գաղտնի բառի մասին';
+
+  @override
+  String get spyRule4 =>
+      'Պատասխանեք այնպես, կարծես գիտեք բառը, բայց ուղղակիորեն մի ասեք այն';
+
+  @override
+  String get spyRule5 => 'Լրտեսը փորձում է աննկատ մնալ և գուշակել գաղտնի բառը';
+
+  @override
+  String get spyRule6 =>
+      'Երբ ժամանակը լրանում է, բոլորը քվեարկում են, թե ով է լրտեսը';
+
+  @override
   String get scoreboard => 'Հաշիվը';
 
   @override

@@ -11,7 +11,6 @@ import 'package:bardak/features/games/alias/game_settings/domain/entities/game_m
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/ui/game_settings_screen.dart';
-import 'package:bardak/features/games/alias/rules/presentation/ui/rules_screen.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
@@ -86,15 +85,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: AppIconButton.settings(
                           onTap: () => context.goNamed(
                             SettingsScreen.routePath,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      SlideTransition(
-                        position: _leftSlideAnimation,
-                        child: AppIconButton.info(
-                          onTap: () => context.goNamed(
-                            RulesScreen.routePath,
                           ),
                         ),
                       ),
