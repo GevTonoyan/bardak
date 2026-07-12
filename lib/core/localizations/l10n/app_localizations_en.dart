@@ -200,9 +200,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spy_find_the_spy => 'Ask questions in turns and find the spy';
 
   @override
-  String get spy_finish_game => 'Finish game';
-
-  @override
   String get play_again => 'Play again';
 
   @override
@@ -269,10 +266,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get spyRule6 =>
       'When the time runs out, everyone votes on who the spy is';
-
-  @override
-  String get spy_round_stop_description =>
-      'Stop the timer and reveal the secret word?';
 
   @override
   String get scoreboard => 'Score';

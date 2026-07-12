@@ -200,9 +200,6 @@ class AppLocalizationsAm extends AppLocalizations {
   String get spy_find_the_spy => 'Հերթով հարցեր տվեք և գտեք լրտեսին';
 
   @override
-  String get spy_finish_game => 'Ավարտել խաղը';
-
-  @override
   String get play_again => 'Խաղալ նորից';
 
   @override
@@ -269,10 +266,6 @@ class AppLocalizationsAm extends AppLocalizations {
   @override
   String get spyRule6 =>
       'Երբ ժամանակը լրանում է, բոլորը քվեարկում են, թե ով է լրտեսը';
-
-  @override
-  String get spy_round_stop_description =>
-      'Կանգնեցնե՞լ ժամանակաչափը և բացահայտել գաղտնի բառը';
 
   @override
   String get scoreboard => 'Հաշիվը';

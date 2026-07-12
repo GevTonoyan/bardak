@@ -454,12 +454,6 @@ abstract class AppLocalizations {
   /// **'Ask questions in turns and find the spy'**
   String get spy_find_the_spy;
 
-  /// No description provided for @spy_finish_game.
-  ///
-  /// In en, this message translates to:
-  /// **'Finish game'**
-  String get spy_finish_game;
-
   /// No description provided for @play_again.
   ///
   /// In en, this message translates to:
@@ -567,12 +561,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When the time runs out, everyone votes on who the spy is'**
   String get spyRule6;
-
-  /// No description provided for @spy_round_stop_description.
-  ///
-  /// In en, this message translates to:
-  /// **'Stop the timer and reveal the secret word?'**
-  String get spy_round_stop_description;
 
   /// No description provided for @scoreboard.
   ///

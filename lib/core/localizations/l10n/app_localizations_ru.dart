@@ -160,7 +160,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get alias => 'Alias';
+  String get alias => 'Алиас';
 
   @override
   String get oneWordMode => 'Одним словом';
@@ -207,9 +207,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get spy_find_the_spy =>
       'Задавайте вопросы по очереди и найдите шпиона';
-
-  @override
-  String get spy_finish_game => 'Завершить игру';
 
   @override
   String get play_again => 'Играть снова';
@@ -277,10 +274,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get spyRule6 =>
       'Когда время истекает, все голосуют, кто из игроков шпион';
-
-  @override
-  String get spy_round_stop_description =>
-      'Остановить таймер и раскрыть секретное слово?';
 
   @override
   String get scoreboard => 'Счёт';
