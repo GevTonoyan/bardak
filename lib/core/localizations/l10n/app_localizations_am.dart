@@ -179,16 +179,16 @@ class AppLocalizationsAm extends AppLocalizations {
   String get spy_tap_to_reveal => 'Սեղմիր քարտին՝ դերդ տեսնելու համար';
 
   @override
-  String get spy_you_are_spy => 'Դու ԼՐՏԵՍ ես';
+  String get spy_you_are_spy => 'Դու ԼՐՏԵՍՆ ես!';
 
   @override
-  String get spy_dont_reveal => 'Մի բացահայտվիր․ փորձիր գուշակել գաղտնի բառը';
+  String get spy_dont_reveal => 'Աննկատ մնա և գուշակիր բառը։';
 
   @override
   String get spy_secret_word => 'Գաղտնի բառը';
 
   @override
-  String get spy_tap_to_hide => 'Կրկին սեղմիր՝ թաքցնելու համար';
+  String get spy_tap_to_hide => 'Սեղմիր՝ թաքցնելու և փոխանցելու համար';
 
   @override
   String get spy_start_game => 'Սկսել խաղը';
@@ -289,7 +289,7 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get exit_game_description =>
-      'Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը:';
+      'Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը։';
 
   @override
   String get exit_game_confirm => 'Այո, դուրս գալ';

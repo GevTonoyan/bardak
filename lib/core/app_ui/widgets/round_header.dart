@@ -18,7 +18,7 @@ class RoundHeader extends StatefulWidget {
     this.formatTimerAsMinutes = false,
     this.timerOrangeBelow = 10,
     this.timerRedBelow = 5,
-    this.stopDescription,
+    this.onClosePressed,
     super.key,
   });
 
@@ -32,9 +32,10 @@ class RoundHeader extends StatefulWidget {
   final int timerOrangeBelow;
   final int timerRedBelow;
 
-  /// Overrides the stop-confirmation sheet description; defaults to the
-  /// alias wording, which mentions points.
-  final String? stopDescription;
+  /// Replaces the default close behavior (confirm sheet → [onRoundComplete]).
+  /// The timer pauses while the callback runs and resumes afterwards unless
+  /// the screen navigated away or was already paused.
+  final Future<void> Function()? onClosePressed;
 
   @override
   State<RoundHeader> createState() => RoundHeaderState();
@@ -114,17 +115,23 @@ class RoundHeaderState extends State<RoundHeader>
         children: [
           AppIconButton.close(
             onTap: () async {
+              final wasPaused = isTimerPaused;
               widget.onPauseChanged(true);
               setState(() {
                 isTimerPaused = true;
               });
               _timer.cancel();
 
+              if (widget.onClosePressed case final onClosePressed?) {
+                await onClosePressed();
+                if (mounted && !wasPaused) resume();
+                return;
+              }
+
               await showConfirmSheet(
                 context: context,
                 title: l10n.round_stop_title,
-                description:
-                    widget.stopDescription ?? l10n.round_stop_description,
+                description: l10n.round_stop_description,
                 confirmText: l10n.round_stop_confirm,
                 cancelText: l10n.round_stop_resume,
                 confirmColor: colors.red,

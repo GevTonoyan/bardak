@@ -197,7 +197,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spy_all_ready => 'Everyone is ready';
 
   @override
-  String get spy_find_the_spy => 'Ask questions in turns and find the spy';
+  String get spy_find_the_spy => 'Take turns asking questions to find the spy.';
 
   @override
   String get play_again => 'Play again';

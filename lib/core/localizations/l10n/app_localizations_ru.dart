@@ -189,14 +189,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get spy_you_are_spy => 'Ты ШПИОН!';
 
   @override
-  String get spy_dont_reveal =>
-      'Не выдай себя! Попробуй угадать секретное слово';
+  String get spy_dont_reveal => 'Не выдай себя! Угадай слово.';
 
   @override
   String get spy_secret_word => 'Секретное слово';
 
   @override
-  String get spy_tap_to_hide => 'Нажми ещё раз, чтобы скрыть';
+  String get spy_tap_to_hide => 'Нажми, чтобы скрыть и передать';
 
   @override
   String get spy_start_game => 'Начать игру';

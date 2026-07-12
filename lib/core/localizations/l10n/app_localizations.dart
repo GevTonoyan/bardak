@@ -451,7 +451,7 @@ abstract class AppLocalizations {
   /// No description provided for @spy_find_the_spy.
   ///
   /// In en, this message translates to:
-  /// **'Ask questions in turns and find the spy'**
+  /// **'Take turns asking questions to find the spy.'**
   String get spy_find_the_spy;
 
   /// No description provided for @play_again.

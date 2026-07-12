@@ -21,6 +21,11 @@ import 'package:go_router/go_router.dart';
 /// flip duration so the card finishes flipping face-down first.
 const _flipDuration = Duration(milliseconds: 450);
 
+/// How long hide taps are ignored after a reveal. An accidental double tap
+/// would otherwise hide the role for good — hand-off can't be undone — before
+/// the player ever saw it.
+const _hideLockout = Duration(milliseconds: 600);
+
 /// Pass-the-phone screen where every player peeks at their role card.
 ///
 /// The card is the only control: tap to reveal, tap again to hide and hand
@@ -38,12 +43,19 @@ class SpyRoleRevealScreen extends StatefulWidget {
 class _SpyRoleRevealScreenState extends State<SpyRoleRevealScreen> {
   var _isRevealed = false;
   var _isFlippingBack = false;
+  DateTime? _revealedAt;
 
   void _onCardTap() {
     // Ignore taps while the card is flipping back to the next player.
     if (_isFlippingBack) return;
 
     if (_isRevealed) {
+      final revealedAt = _revealedAt;
+      final sinceReveal = revealedAt == null
+          ? _hideLockout
+          : DateTime.now().difference(revealedAt);
+      if (sinceReveal < _hideLockout) return;
+
       // Flip the card face-down first, then advance once the flip finishes so
       // the hand-off shows the same flip animation as the reveal.
       setState(() {
@@ -56,6 +68,7 @@ class _SpyRoleRevealScreenState extends State<SpyRoleRevealScreen> {
         setState(() => _isFlippingBack = false);
       });
     } else {
+      _revealedAt = DateTime.now();
       setState(() => _isRevealed = true);
     }
   }
