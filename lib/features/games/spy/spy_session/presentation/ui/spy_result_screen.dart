@@ -7,7 +7,6 @@ import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_event.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_state.dart';
-import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_packs_screen.dart';
 import 'package:bardak/features/games/spy/spy_session/domain/entities/spy_session_entity.dart';
 import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_role_reveal_screen.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
@@ -70,9 +69,9 @@ class SpyResultScreen extends StatelessWidget {
                 ),
               ),
               // ShadowBackground consumes 60px for its jagged edge plus the
-              // bottom safe-area inset, on top of the 260px of buttons.
+              // bottom safe-area inset, on top of the 180px of buttons.
               SizedBox(
-                height: 360,
+                height: 280,
                 child: ShadowBackground(
                   child: Padding(
                     padding: const .all(20),
@@ -89,14 +88,8 @@ class SpyResultScreen extends StatelessWidget {
                           ),
                         ),
                         height20,
-                        AppButton(
-                          label: l10n.change_pack,
-                          color: colors.white20,
-                          onPressed: () => context.pushReplacementNamed(
-                            SpyPacksScreen.routePath,
-                          ),
-                        ),
-                        height20,
+                        // Settings flows back into pack selection via its
+                        // Proceed button, so one entry covers both.
                         AppButton(
                           label: l10n.settings,
                           color: colors.white20,

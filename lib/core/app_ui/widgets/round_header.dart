@@ -15,6 +15,10 @@ class RoundHeader extends StatefulWidget {
     required this.isSoundEnabled,
     required this.onRoundComplete,
     required this.onPauseChanged,
+    this.formatTimerAsMinutes = false,
+    this.timerOrangeBelow = 10,
+    this.timerRedBelow = 5,
+    this.stopDescription,
     super.key,
   });
 
@@ -22,6 +26,15 @@ class RoundHeader extends StatefulWidget {
   final bool isSoundEnabled;
   final VoidCallback onRoundComplete;
   final ValueChanged<bool> onPauseChanged;
+
+  /// Forwarded to [RoundTimer]; see its fields for details.
+  final bool formatTimerAsMinutes;
+  final int timerOrangeBelow;
+  final int timerRedBelow;
+
+  /// Overrides the stop-confirmation sheet description; defaults to the
+  /// alias wording, which mentions points.
+  final String? stopDescription;
 
   @override
   State<RoundHeader> createState() => RoundHeaderState();
@@ -110,7 +123,8 @@ class RoundHeaderState extends State<RoundHeader>
               await showConfirmSheet(
                 context: context,
                 title: l10n.round_stop_title,
-                description: l10n.round_stop_description,
+                description:
+                    widget.stopDescription ?? l10n.round_stop_description,
                 confirmText: l10n.round_stop_confirm,
                 cancelText: l10n.round_stop_resume,
                 confirmColor: colors.red,
@@ -121,7 +135,12 @@ class RoundHeaderState extends State<RoundHeader>
               );
             },
           ),
-          RoundTimer(seconds: remainingSeconds),
+          RoundTimer(
+            seconds: remainingSeconds,
+            formatAsMinutes: widget.formatTimerAsMinutes,
+            orangeBelow: widget.timerOrangeBelow,
+            redBelow: widget.timerRedBelow,
+          ),
           if (isTimerPaused)
             AppIconButton.play(
               onTap: _onPausePlayPressed,

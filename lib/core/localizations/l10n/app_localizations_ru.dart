@@ -279,6 +279,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Когда время истекает, все голосуют, кто из игроков шпион';
 
   @override
+  String get spy_round_stop_description =>
+      'Остановить таймер и раскрыть секретное слово?';
+
+  @override
   String get scoreboard => 'Счёт';
 
   @override

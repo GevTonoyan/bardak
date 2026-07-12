@@ -123,6 +123,7 @@
   "spyRule4": "Answer so you sound like you know the word, but don't say it outright",
   "spyRule5": "The spy tries to blend in and figure out the secret word",
   "spyRule6": "When the time runs out, everyone votes on who the spy is",
+  "spy_round_stop_description": "Stop the timer and reveal the secret word?",
 
   "scoreboard": "Score",
   "next_team": "Next team",

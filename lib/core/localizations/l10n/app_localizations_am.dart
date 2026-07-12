@@ -271,6 +271,10 @@ class AppLocalizationsAm extends AppLocalizations {
       'Երբ ժամանակը լրանում է, բոլորը քվեարկում են, թե ով է լրտեսը';
 
   @override
+  String get spy_round_stop_description =>
+      'Կանգնեցնե՞լ ժամանակաչափը և բացահայտել գաղտնի բառը';
+
+  @override
   String get scoreboard => 'Հաշիվը';
 
   @override

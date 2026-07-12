@@ -568,6 +568,12 @@ abstract class AppLocalizations {
   /// **'When the time runs out, everyone votes on who the spy is'**
   String get spyRule6;
 
+  /// No description provided for @spy_round_stop_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop the timer and reveal the secret word?'**
+  String get spy_round_stop_description;
+
   /// No description provided for @scoreboard.
   ///
   /// In en, this message translates to:

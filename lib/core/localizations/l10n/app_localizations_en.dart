@@ -271,6 +271,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'When the time runs out, everyone votes on who the spy is';
 
   @override
+  String get spy_round_stop_description =>
+      'Stop the timer and reveal the secret word?';
+
+  @override
   String get scoreboard => 'Score';
 
   @override

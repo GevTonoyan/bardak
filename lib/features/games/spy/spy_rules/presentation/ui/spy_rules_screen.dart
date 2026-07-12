@@ -28,25 +28,22 @@ class _SpyRulesScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.8,
-      child: Column(
-        children: [
-          height30,
-          Expanded(
-            child: _RuleList(
-              rules: [
-                l10n.spyRule1,
-                l10n.spyRule2,
-                l10n.spyRule3,
-                l10n.spyRule4,
-                l10n.spyRule5,
-                l10n.spyRule6,
-              ],
-            ),
+    return Column(
+      children: [
+        height30,
+        Expanded(
+          child: _RuleList(
+            rules: [
+              l10n.spyRule1,
+              l10n.spyRule2,
+              l10n.spyRule3,
+              l10n.spyRule4,
+              l10n.spyRule5,
+              l10n.spyRule6,
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

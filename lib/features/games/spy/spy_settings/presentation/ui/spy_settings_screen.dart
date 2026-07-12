@@ -51,85 +51,82 @@ class _SpySettingsBody extends StatelessWidget {
     final spyCount = spySettings.spyCount;
     final roundDuration = spySettings.roundDuration;
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.8,
-      child: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  height30,
-                  Text(
-                    l10n.settings_players,
-                    style: typography.regular24,
-                  ),
-                  height20,
-                  AppStepperButton(
-                    label: '$playerCount',
-                    onDecrement: spySettings.canDecreasePlayerCount
-                        ? () => spySettingsBloc.add(
-                            ChangePlayerCount(playerCount - 1),
-                          )
-                        : null,
-                    onIncrement: spySettings.canIncreasePlayerCount
-                        ? () => spySettingsBloc.add(
-                            ChangePlayerCount(playerCount + 1),
-                          )
-                        : null,
-                  ),
-                  height40,
-                  Text(
-                    l10n.settings_spies,
-                    style: typography.regular24,
-                  ),
-                  height20,
-                  AppStepperButton(
-                    label: '$spyCount',
-                    onDecrement: spySettings.canDecreaseSpyCount
-                        ? () => spySettingsBloc.add(
-                            ChangeSpyCount(spyCount - 1),
-                          )
-                        : null,
-                    onIncrement: spySettings.canIncreaseSpyCount
-                        ? () => spySettingsBloc.add(
-                            ChangeSpyCount(spyCount + 1),
-                          )
-                        : null,
-                  ),
-                  height40,
-                  Text(
-                    l10n.settings_round_time,
-                    style: typography.regular24,
-                  ),
-                  height20,
-                  AppStepperButton(
-                    label: l10n.unit_min(spySettings.roundDurationInMinutes),
-                    onDecrement: spySettings.canDecreaseRoundDuration
-                        ? () => spySettingsBloc.add(
-                            ChangeRoundDuration(roundDuration - 60),
-                          )
-                        : null,
-                    onIncrement: spySettings.canIncreaseRoundDuration
-                        ? () => spySettingsBloc.add(
-                            ChangeRoundDuration(roundDuration + 60),
-                          )
-                        : null,
-                  ),
-                ],
-              ),
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: .start,
+              children: [
+                height30,
+                Text(
+                  l10n.settings_players,
+                  style: typography.regular24,
+                ),
+                height20,
+                AppStepperButton(
+                  label: '$playerCount',
+                  onDecrement: spySettings.canDecreasePlayerCount
+                      ? () => spySettingsBloc.add(
+                          ChangePlayerCount(playerCount - 1),
+                        )
+                      : null,
+                  onIncrement: spySettings.canIncreasePlayerCount
+                      ? () => spySettingsBloc.add(
+                          ChangePlayerCount(playerCount + 1),
+                        )
+                      : null,
+                ),
+                height40,
+                Text(
+                  l10n.settings_spies,
+                  style: typography.regular24,
+                ),
+                height20,
+                AppStepperButton(
+                  label: '$spyCount',
+                  onDecrement: spySettings.canDecreaseSpyCount
+                      ? () => spySettingsBloc.add(
+                          ChangeSpyCount(spyCount - 1),
+                        )
+                      : null,
+                  onIncrement: spySettings.canIncreaseSpyCount
+                      ? () => spySettingsBloc.add(
+                          ChangeSpyCount(spyCount + 1),
+                        )
+                      : null,
+                ),
+                height40,
+                Text(
+                  l10n.settings_round_time,
+                  style: typography.regular24,
+                ),
+                height20,
+                AppStepperButton(
+                  label: l10n.unit_min(spySettings.roundDurationInMinutes),
+                  onDecrement: spySettings.canDecreaseRoundDuration
+                      ? () => spySettingsBloc.add(
+                          ChangeRoundDuration(roundDuration - 60),
+                        )
+                      : null,
+                  onIncrement: spySettings.canIncreaseRoundDuration
+                      ? () => spySettingsBloc.add(
+                          ChangeRoundDuration(roundDuration + 60),
+                        )
+                      : null,
+                ),
+              ],
             ),
           ),
-          height20,
-          AppButton(
-            label: l10n.proceed,
-            color: colors.green,
-            onPressed: () =>
-                unawaited(context.pushNamed(SpyPacksScreen.routePath)),
-          ),
-        ],
-      ),
+        ),
+        height20,
+        AppButton(
+          label: l10n.proceed,
+          color: colors.green,
+          onPressed: () =>
+              unawaited(context.pushNamed(SpyPacksScreen.routePath)),
+        ),
+      ],
     );
   }
 }
