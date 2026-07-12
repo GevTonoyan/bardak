@@ -15,7 +15,7 @@ class SpySettingsEntity extends Equatable {
   static const _maxPlayerCount = 30;
   static const _defaultSpyCount = 1;
   static const _minSpyCount = 1;
-  static const int _defaultRoundDuration = 7 * 60;
+  static const int _defaultRoundDuration = 5 * 60;
   static const int _minRoundDuration = 60;
   static const int _maxRoundDuration = 20 * 60;
 

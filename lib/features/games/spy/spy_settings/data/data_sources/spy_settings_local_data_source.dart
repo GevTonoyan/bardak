@@ -24,10 +24,14 @@ class SpySettingsLocalDataSourceImpl implements SpySettingsLocalDataSource {
 
   @override
   SpySettingsEntity getSpySettings() {
-    return const SpySettingsEntity().copyWith(
-      playerCount: _preferences.getInt(_playerCountKey),
-      spyCount: _preferences.getInt(_spyCountKey),
-      roundDuration: _preferences.getInt(_roundDurationKey),
+    // Missing keys fall back to the entity's constructor defaults.
+    const defaults = SpySettingsEntity();
+
+    return SpySettingsEntity(
+      playerCount: _preferences.getInt(_playerCountKey) ?? defaults.playerCount,
+      spyCount: _preferences.getInt(_spyCountKey) ?? defaults.spyCount,
+      roundDuration:
+          _preferences.getInt(_roundDurationKey) ?? defaults.roundDuration,
     );
   }
 

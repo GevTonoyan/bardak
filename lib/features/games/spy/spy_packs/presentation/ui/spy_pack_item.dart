@@ -38,7 +38,10 @@ class SpyPackItem extends StatelessWidget {
           Positioned.fill(
             child: ClipRRect(
               borderRadius: .circular(12),
-              child: imageUrl.isEmpty
+              // No image URL still renders the blur hash (mirrors alias
+              // packs); the plain box only guards against a missing hash,
+              // which BlurHash can't decode.
+              child: imageBlurHash.isEmpty
                   ? ColoredBox(color: colors.secondary)
                   : NetworkPackImage(
                       imageUrl: imageUrl,
@@ -49,7 +52,7 @@ class SpyPackItem extends StatelessWidget {
           Positioned.fill(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: .circular(12),
                 gradient: LinearGradient(
                   begin: .topCenter,
                   end: .bottomCenter,

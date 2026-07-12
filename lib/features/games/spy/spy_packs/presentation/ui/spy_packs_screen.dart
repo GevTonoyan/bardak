@@ -38,10 +38,11 @@ class _SpyPacksScreenState extends State<SpyPacksScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SpyPacksBloc, SpyPacksState>(
-      listenWhen: (previous, current) => current is SpyGameReady,
+      listenWhen: (_, current) => current is SpyGameReady,
       listener: (context, state) {
-        if (state is! SpyGameReady) return;
-        context.goNamed(SpyRoleRevealScreen.routePath, extra: state.session);
+        if (state is SpyGameReady) {
+          context.goNamed(SpyRoleRevealScreen.routePath, extra: state.session);
+        }
       },
       child: GradientBackground(
         child: SafeArea(
