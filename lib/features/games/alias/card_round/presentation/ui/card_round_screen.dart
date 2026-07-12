@@ -53,6 +53,10 @@ class _CardRoundScreenState extends State<CardRoundScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CardRoundBloc, CardRoundState>(
+      // Only the transition into completed counts: FinishRound advances the
+      // team rotation, so firing it twice would skip a team.
+      listenWhen: (previous, current) =>
+          !previous.completed && current.completed,
       listener: (context, state) {
         if (state.completed) {
           final reviewedWords = state.wordsToReview();
