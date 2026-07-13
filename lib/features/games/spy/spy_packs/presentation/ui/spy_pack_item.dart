@@ -76,11 +76,16 @@ class SpyPackItem extends StatelessWidget {
             bottom: 10,
             left: 10,
             right: 10,
-            child: Text(
-              name,
-              maxLines: 2,
-              overflow: .ellipsis,
-              style: context.typography.regular20,
+            // Long pack names shrink to stay on one line, so tiles keep a
+            // uniform look instead of wrapping to two lines.
+            child: FittedBox(
+              fit: .scaleDown,
+              alignment: .centerLeft,
+              child: Text(
+                name,
+                maxLines: 1,
+                style: context.typography.regular20,
+              ),
             ),
           ),
         ],
