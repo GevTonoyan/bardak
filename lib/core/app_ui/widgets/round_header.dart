@@ -8,6 +8,7 @@ import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/extensions/state_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class RoundHeader extends StatefulWidget {
   const RoundHeader({
@@ -61,6 +62,9 @@ class RoundHeaderState extends State<RoundHeader>
     remainingSeconds = widget.initialRoundDuration;
     _audioPlayer = AudioPlayer();
     unawaited(_audioPlayer.setPlayerMode(PlayerMode.lowLatency));
+    // Keep the screen awake for the round — players may not touch the phone
+    // for minutes (spy), so the idle timer must not dim or lock it.
+    unawaited(WakelockPlus.enable());
     _startTimer();
   }
 
@@ -69,6 +73,7 @@ class RoundHeaderState extends State<RoundHeader>
     WidgetsBinding.instance.removeObserver(this);
     _timer.cancel();
     unawaited(_audioPlayer.dispose());
+    unawaited(WakelockPlus.disable());
     super.dispose();
   }
 
