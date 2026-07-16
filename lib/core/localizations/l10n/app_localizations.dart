@@ -334,24 +334,6 @@ abstract class AppLocalizations {
   /// **'Sounds'**
   String get sounds;
 
-  /// No description provided for @rewards.
-  ///
-  /// In en, this message translates to:
-  /// **'Rewards'**
-  String get rewards;
-
-  /// No description provided for @rewardsSelectThree.
-  ///
-  /// In en, this message translates to:
-  /// **'Select three'**
-  String get rewardsSelectThree;
-
-  /// No description provided for @rewards_success.
-  ///
-  /// In en, this message translates to:
-  /// **'+{count} points! See you tomorrow.'**
-  String rewards_success(int count);
-
   /// No description provided for @teams.
   ///
   /// In en, this message translates to:
@@ -633,30 +615,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resume'**
   String get round_stop_resume;
-
-  /// No description provided for @unlock_theme_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlock Theme'**
-  String get unlock_theme_title;
-
-  /// No description provided for @unlock_theme_description.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to unlock this theme and change the game\'s look?'**
-  String get unlock_theme_description;
-
-  /// No description provided for @unlock_theme_confirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlock'**
-  String get unlock_theme_confirm;
-
-  /// No description provided for @not_enough_coins.
-  ///
-  /// In en, this message translates to:
-  /// **'Not enough coins'**
-  String get not_enough_coins;
 
   /// No description provided for @errorEmptyTeamNames.
   ///

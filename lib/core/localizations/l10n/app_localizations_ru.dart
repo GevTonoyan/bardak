@@ -141,17 +141,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sounds => 'Звуки';
 
   @override
-  String get rewards => 'Награды';
-
-  @override
-  String get rewardsSelectThree => 'Выберите три';
-
-  @override
-  String rewards_success(int count) {
-    return '+$count очков! Ждем тебя завтра.';
-  }
-
-  @override
   String get teams => 'Команды';
 
   @override
@@ -313,19 +302,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Продолжить';
-
-  @override
-  String get unlock_theme_title => 'Открыть тему';
-
-  @override
-  String get unlock_theme_description =>
-      'Вы уверены, что хотите разблокировать эту тему и изменить внешний вид игры?';
-
-  @override
-  String get unlock_theme_confirm => 'Открыть';
-
-  @override
-  String get not_enough_coins => 'Недостаточно монет';
 
   @override
   String get errorEmptyTeamNames =>

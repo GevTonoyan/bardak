@@ -65,15 +65,6 @@
   "languages": "Языки",
   "sounds": "Звуки",
 
-  "rewards": "Награды",
-  "rewardsSelectThree": "Выберите три",
-  "rewards_success": "+{count} очков! Ждем тебя завтра.",
-  "@rewards_success": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-
   "teams": "Команды",
   "team_with_count": "Команда {number}",
   "@team_with_count": {
@@ -137,11 +128,6 @@
   "round_stop_confirm": "Завершить",
   "round_stop_resume": "Продолжить",
 
-  "unlock_theme_title": "Открыть тему",
-  "unlock_theme_description": "Вы уверены, что хотите разблокировать эту тему и изменить внешний вид игры?",
-  "unlock_theme_confirm": "Открыть",
-
-  "not_enough_coins": "Недостаточно монет",
   "errorEmptyTeamNames": "Подождите, а кто играет? Введите названия команд!",
   "feedback": "Обратная связь",
   "feedback_email_error": "Почтовое приложение не найдено. Напишите нам на bardak.support@gmail.com",

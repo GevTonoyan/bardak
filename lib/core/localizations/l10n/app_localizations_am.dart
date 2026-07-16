@@ -134,17 +134,6 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sounds => 'Ձայներ';
 
   @override
-  String get rewards => 'Պարգևներ';
-
-  @override
-  String get rewardsSelectThree => 'Ընտրեք երեքը';
-
-  @override
-  String rewards_success(int count) {
-    return '+$count միավոր: Կհանդիպենք վաղը:';
-  }
-
-  @override
   String get teams => 'Թիմեր';
 
   @override
@@ -306,19 +295,6 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Շարունակել';
-
-  @override
-  String get unlock_theme_title => 'Բացել թեման';
-
-  @override
-  String get unlock_theme_description =>
-      'Համոզվա՞ծ եք, որ ցանկանում եք ակտիվացնել այս թեման և փոխել խաղի տեսքը:';
-
-  @override
-  String get unlock_theme_confirm => 'Բացել';
-
-  @override
-  String get not_enough_coins => 'Մետաղադրամները բավարար չեն';
 
   @override
   String get errorEmptyTeamNames =>

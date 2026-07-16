@@ -32,9 +32,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/close.svg
   SvgGenImage get close => const SvgGenImage('assets/icons/close.svg');
 
-  /// File path: assets/icons/coin.svg
-  SvgGenImage get coin => const SvgGenImage('assets/icons/coin.svg');
-
   /// File path: assets/icons/download.svg
   SvgGenImage get download => const SvgGenImage('assets/icons/download.svg');
 
@@ -44,9 +41,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/info.svg
   SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
 
-  /// File path: assets/icons/lock.svg
-  SvgGenImage get lock => const SvgGenImage('assets/icons/lock.svg');
-
   /// File path: assets/icons/pause.svg
   SvgGenImage get pause => const SvgGenImage('assets/icons/pause.svg');
 
@@ -55,10 +49,6 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/question.svg
   SvgGenImage get question => const SvgGenImage('assets/icons/question.svg');
-
-  /// File path: assets/icons/reward_opened.svg
-  SvgGenImage get rewardOpened =>
-      const SvgGenImage('assets/icons/reward_opened.svg');
 
   /// File path: assets/icons/shiner.svg
   SvgGenImage get shiner => const SvgGenImage('assets/icons/shiner.svg');
@@ -70,14 +60,11 @@ class $AssetsIconsGen {
     check,
     clock,
     close,
-    coin,
     download,
     info,
-    lock,
     pause,
     play,
     question,
-    rewardOpened,
     shiner,
   ];
 }

@@ -28,7 +28,6 @@ import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_role_r
 import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_session_screen.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
-import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
 import 'package:bardak/features/splash/presentation/splash_screen.dart';
 import 'package:bardak/features/themes/presentation/ui/themes_screen.dart';
@@ -137,12 +136,6 @@ final appRouter = GoRouter(
               ],
             ),
           ],
-        ),
-        GoRoute(
-          path: RewardsScreen.routePath,
-          name: RewardsScreen.routePath,
-          pageBuilder: (context, state) =>
-              const MaterialPage(child: RewardsScreen()),
         ),
         GoRoute(
           path: ThemesScreen.routePath,

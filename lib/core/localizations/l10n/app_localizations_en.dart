@@ -134,17 +134,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sounds => 'Sounds';
 
   @override
-  String get rewards => 'Rewards';
-
-  @override
-  String get rewardsSelectThree => 'Select three';
-
-  @override
-  String rewards_success(int count) {
-    return '+$count points! See you tomorrow.';
-  }
-
-  @override
   String get teams => 'Teams';
 
   @override
@@ -306,19 +295,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Resume';
-
-  @override
-  String get unlock_theme_title => 'Unlock Theme';
-
-  @override
-  String get unlock_theme_description =>
-      'Are you sure you want to unlock this theme and change the game\'s look?';
-
-  @override
-  String get unlock_theme_confirm => 'Unlock';
-
-  @override
-  String get not_enough_coins => 'Not enough coins';
 
   @override
   String get errorEmptyTeamNames =>

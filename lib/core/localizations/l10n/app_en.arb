@@ -65,15 +65,6 @@
   "languages": "Languages",
   "sounds": "Sounds",
 
-  "rewards": "Rewards",
-  "rewardsSelectThree": "Select three",
-  "rewards_success": "+{count} points! See you tomorrow.",
-  "@rewards_success": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-
   "teams": "Teams",
   "team_with_count": "Team {number}",
   "@team_with_count": {
@@ -128,7 +119,6 @@
   "no_words_left_error": "Sorry, words are finished. You can try with another topic.",
   "downloadWordsNetworkError": "You need to download the words first. Please check your internet connection and try again.",
 
-
   "exit_game_title": "Leave the game?",
   "exit_game_description": "Are you sure you want to finish the current game?",
   "exit_game_confirm": "Yes, leave",
@@ -138,11 +128,6 @@
   "round_stop_confirm": "Finish",
   "round_stop_resume": "Resume",
 
-  "unlock_theme_title": "Unlock Theme",
-  "unlock_theme_description": "Are you sure you want to unlock this theme and change the game's look?",
-  "unlock_theme_confirm": "Unlock",
-
-  "not_enough_coins": "Not enough coins",
   "errorEmptyTeamNames": "Wait, who's playing? Enter all team names!",
   "feedback": "Feedback",
   "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com",

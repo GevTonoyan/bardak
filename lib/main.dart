@@ -17,11 +17,9 @@ import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_pa
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_event.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/bloc/spy_settings_bloc.dart';
-import 'package:bardak/features/rewards/presentation/bloc/rewards_cubit.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_state.dart';
-import 'package:bardak/features/themes/presentation/bloc/themes_bloc.dart';
 import 'package:bardak/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -65,23 +63,10 @@ void main() async {
             openStoreListingUseCase: sl(),
           )..add(const LoadAppSettings()),
         ),
-        BlocProvider(
-          create: (_) => RewardsCubit(
-            getCoinBalanceUseCase: sl(),
-            updateCoinBalanceUseCase: sl(),
-            watchCoinBalanceUseCase: sl(),
-          ),
-        ),
         // TODO(GEVORG): make TeamSetupBloc available only where needed,
         //  not for the whole tree
         BlocProvider(
           create: (_) => TeamSetupBloc(getPredefinedTeamNamesUseCase: sl()),
-        ),
-        BlocProvider(
-          create: (_) => ThemesBloc(
-            getPurchasedThemesUseCase: sl(),
-            purchaseThemeUseCase: sl(),
-          ),
         ),
         BlocProvider(
           create: (_) => GameSettingsBloc(
