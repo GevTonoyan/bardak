@@ -63,3 +63,6 @@ ios/build/
 **/project.xcworkspace/xcshareddata/swiftpm/
 !**/xcshareddata/swiftpm/Package.resolved
 !**/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
+# Test coverage
+coverage/

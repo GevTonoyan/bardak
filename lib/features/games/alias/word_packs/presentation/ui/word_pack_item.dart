@@ -74,14 +74,24 @@ class WordPackItem extends StatelessWidget {
           Positioned(
             bottom: 10,
             left: 10,
+            right: 10,
             child: Row(
               spacing: 8,
               children: [
                 if (shouldDownload)
                   Assets.icons.download.svg(height: 24, width: 24),
-                Text(
-                  name,
-                  style: typography.regular24,
+                // Long pack names shrink to stay on one line, so tiles keep a
+                // uniform look instead of clipping off the tile edge.
+                Flexible(
+                  child: FittedBox(
+                    fit: .scaleDown,
+                    alignment: .centerLeft,
+                    child: Text(
+                      name,
+                      maxLines: 1,
+                      style: typography.regular24,
+                    ),
+                  ),
                 ),
               ],
             ),

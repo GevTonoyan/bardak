@@ -196,6 +196,24 @@ abstract class AppLocalizations {
   /// **'Round Time'**
   String get settings_round_time;
 
+  /// No description provided for @settings_players.
+  ///
+  /// In en, this message translates to:
+  /// **'Players'**
+  String get settings_players;
+
+  /// No description provided for @settings_spies.
+  ///
+  /// In en, this message translates to:
+  /// **'Spies'**
+  String get settings_spies;
+
+  /// No description provided for @unit_min.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String unit_min(int count);
+
   /// No description provided for @settings_points_to_win.
   ///
   /// In en, this message translates to:
@@ -316,24 +334,6 @@ abstract class AppLocalizations {
   /// **'Sounds'**
   String get sounds;
 
-  /// No description provided for @rewards.
-  ///
-  /// In en, this message translates to:
-  /// **'Rewards'**
-  String get rewards;
-
-  /// No description provided for @rewardsSelectThree.
-  ///
-  /// In en, this message translates to:
-  /// **'Select three'**
-  String get rewardsSelectThree;
-
-  /// No description provided for @rewards_success.
-  ///
-  /// In en, this message translates to:
-  /// **'+{count} points! See you tomorrow.'**
-  String rewards_success(int count);
-
   /// No description provided for @teams.
   ///
   /// In en, this message translates to:
@@ -346,11 +346,11 @@ abstract class AppLocalizations {
   /// **'Team {number}'**
   String team_with_count(int number);
 
-  /// No description provided for @classicMode.
+  /// No description provided for @alias.
   ///
   /// In en, this message translates to:
-  /// **'Classic Alias'**
-  String get classicMode;
+  /// **'Alias'**
+  String get alias;
 
   /// No description provided for @oneWordMode.
   ///
@@ -369,6 +369,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'One Word'**
   String get oneWordModeShort;
+
+  /// No description provided for @spyMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Spy'**
+  String get spyMode;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @player_with_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Player {number}'**
+  String player_with_number(int number);
+
+  /// No description provided for @spy_tap_to_reveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the card to see your role'**
+  String get spy_tap_to_reveal;
+
+  /// No description provided for @spy_you_are_spy.
+  ///
+  /// In en, this message translates to:
+  /// **'You are the SPY!'**
+  String get spy_you_are_spy;
+
+  /// No description provided for @spy_dont_reveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Blend in and try to guess the secret word'**
+  String get spy_dont_reveal;
+
+  /// No description provided for @spy_secret_word.
+  ///
+  /// In en, this message translates to:
+  /// **'The secret word'**
+  String get spy_secret_word;
+
+  /// No description provided for @spy_tap_to_hide.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap again to hide and pass'**
+  String get spy_tap_to_hide;
+
+  /// No description provided for @spy_start_game.
+  ///
+  /// In en, this message translates to:
+  /// **'Start game'**
+  String get spy_start_game;
+
+  /// No description provided for @spy_all_ready.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone is ready'**
+  String get spy_all_ready;
+
+  /// No description provided for @spy_find_the_spy.
+  ///
+  /// In en, this message translates to:
+  /// **'Take turns asking questions to find the spy.'**
+  String get spy_find_the_spy;
+
+  /// No description provided for @play_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Play again'**
+  String get play_again;
+
+  /// No description provided for @change_pack.
+  ///
+  /// In en, this message translates to:
+  /// **'Change pack'**
+  String get change_pack;
 
   /// No description provided for @game_rules.
   ///
@@ -429,6 +507,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The game ends when the target score is reached, but all teams must complete the current round'**
   String get generalRule3;
+
+  /// No description provided for @spyRule1.
+  ///
+  /// In en, this message translates to:
+  /// **'One or more players are secretly chosen as the spy'**
+  String get spyRule1;
+
+  /// No description provided for @spyRule2.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone else sees the same secret word, while the spy sees nothing'**
+  String get spyRule2;
+
+  /// No description provided for @spyRule3.
+  ///
+  /// In en, this message translates to:
+  /// **'Players take turns asking each other questions about the secret word'**
+  String get spyRule3;
+
+  /// No description provided for @spyRule4.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer so you sound like you know the word, but don\'t say it outright'**
+  String get spyRule4;
+
+  /// No description provided for @spyRule5.
+  ///
+  /// In en, this message translates to:
+  /// **'The spy tries to blend in and figure out the secret word'**
+  String get spyRule5;
+
+  /// No description provided for @spyRule6.
+  ///
+  /// In en, this message translates to:
+  /// **'When the time runs out, everyone votes on who the spy is'**
+  String get spyRule6;
 
   /// No description provided for @scoreboard.
   ///
@@ -501,30 +615,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resume'**
   String get round_stop_resume;
-
-  /// No description provided for @unlock_theme_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlock Theme'**
-  String get unlock_theme_title;
-
-  /// No description provided for @unlock_theme_description.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to unlock this theme and change the game\'s look?'**
-  String get unlock_theme_description;
-
-  /// No description provided for @unlock_theme_confirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlock'**
-  String get unlock_theme_confirm;
-
-  /// No description provided for @not_enough_coins.
-  ///
-  /// In en, this message translates to:
-  /// **'Not enough coins'**
-  String get not_enough_coins;
 
   /// No description provided for @errorEmptyTeamNames.
   ///

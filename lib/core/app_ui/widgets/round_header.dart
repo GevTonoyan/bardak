@@ -8,6 +8,7 @@ import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/extensions/state_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class RoundHeader extends StatefulWidget {
   const RoundHeader({
@@ -15,6 +16,10 @@ class RoundHeader extends StatefulWidget {
     required this.isSoundEnabled,
     required this.onRoundComplete,
     required this.onPauseChanged,
+    this.formatTimerAsMinutes = false,
+    this.timerOrangeBelow = 10,
+    this.timerRedBelow = 5,
+    this.onClosePressed,
     super.key,
   });
 
@@ -22,6 +27,16 @@ class RoundHeader extends StatefulWidget {
   final bool isSoundEnabled;
   final VoidCallback onRoundComplete;
   final ValueChanged<bool> onPauseChanged;
+
+  /// Forwarded to [RoundTimer]; see its fields for details.
+  final bool formatTimerAsMinutes;
+  final int timerOrangeBelow;
+  final int timerRedBelow;
+
+  /// Replaces the default close behavior (confirm sheet → [onRoundComplete]).
+  /// The timer pauses while the callback runs and resumes afterwards unless
+  /// the screen navigated away or was already paused.
+  final Future<void> Function()? onClosePressed;
 
   @override
   State<RoundHeader> createState() => RoundHeaderState();
@@ -47,6 +62,9 @@ class RoundHeaderState extends State<RoundHeader>
     remainingSeconds = widget.initialRoundDuration;
     _audioPlayer = AudioPlayer();
     unawaited(_audioPlayer.setPlayerMode(PlayerMode.lowLatency));
+    // Keep the screen awake for the round — players may not touch the phone
+    // for minutes (spy), so the idle timer must not dim or lock it.
+    unawaited(WakelockPlus.enable());
     _startTimer();
   }
 
@@ -55,6 +73,7 @@ class RoundHeaderState extends State<RoundHeader>
     WidgetsBinding.instance.removeObserver(this);
     _timer.cancel();
     unawaited(_audioPlayer.dispose());
+    unawaited(WakelockPlus.disable());
     super.dispose();
   }
 
@@ -101,11 +120,18 @@ class RoundHeaderState extends State<RoundHeader>
         children: [
           AppIconButton.close(
             onTap: () async {
+              final wasPaused = isTimerPaused;
               widget.onPauseChanged(true);
               setState(() {
                 isTimerPaused = true;
               });
               _timer.cancel();
+
+              if (widget.onClosePressed case final onClosePressed?) {
+                await onClosePressed();
+                if (mounted && !wasPaused) resume();
+                return;
+              }
 
               await showConfirmSheet(
                 context: context,
@@ -121,7 +147,12 @@ class RoundHeaderState extends State<RoundHeader>
               );
             },
           ),
-          RoundTimer(seconds: remainingSeconds),
+          RoundTimer(
+            seconds: remainingSeconds,
+            formatAsMinutes: widget.formatTimerAsMinutes,
+            orangeBelow: widget.timerOrangeBelow,
+            redBelow: widget.timerRedBelow,
+          ),
           if (isTimerPaused)
             AppIconButton.play(
               onTap: _onPausePlayPressed,

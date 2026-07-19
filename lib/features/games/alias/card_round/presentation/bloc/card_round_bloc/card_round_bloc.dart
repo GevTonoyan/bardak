@@ -19,6 +19,11 @@ class CardRoundBloc extends Bloc<CardRoundEvent, CardRoundState> {
   }
 
   void _onToggleWord(ToggleWord event, Emitter<CardRoundState> emit) {
+    // A tap racing the end of the round must not emit another completed
+    // state: the UI dispatches FinishRound per completed emission, and a
+    // duplicate would skip the next team.
+    if (state.completed) return;
+
     final guessed = event.isSelected
         ? {...state.guessed, event.word}
         : state.guessed.difference({event.word});

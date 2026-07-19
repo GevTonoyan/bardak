@@ -68,11 +68,13 @@ class FullBottomSheet extends StatelessWidget {
   const FullBottomSheet({
     required this.titleBuilder,
     required this.child,
+    this.trailing,
     super.key,
   });
 
   final String Function(BuildContext) titleBuilder;
   final Widget child;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +98,11 @@ class FullBottomSheet extends StatelessWidget {
                       ),
                     ),
                     AppIconButton.back(onTap: () => context.pop()),
+                    if (trailing != null)
+                      Align(
+                        alignment: .centerRight,
+                        child: trailing,
+                      ),
                   ],
                 ),
               ),

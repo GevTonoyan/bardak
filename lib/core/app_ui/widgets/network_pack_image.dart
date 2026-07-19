@@ -31,7 +31,7 @@ class NetworkPackImage extends StatelessWidget {
         ),
         CachedNetworkImage(
           imageUrl: _convertToDirectLink(imageUrl),
-          fit: BoxFit.cover,
+          fit: .cover,
           width: double.maxFinite,
           placeholder: (_, _) => const SizedBox.shrink(),
           errorWidget: (_, _, _) => const SizedBox.shrink(),

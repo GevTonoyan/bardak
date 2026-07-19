@@ -34,6 +34,14 @@
   "settings_localeEnglish": "English",
   "settings_game_mode": "Խաղի ռեժիմ",
   "settings_round_time": "Ռաունդի տևողություն",
+  "settings_players": "Խաղացողներ",
+  "settings_spies": "Լրտեսներ",
+  "unit_min": "{count} րոպե",
+  "@unit_min": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "settings_points_to_win": "Միավորներ հաղթանակի համար",
   "settings_allow_skipping": "Բաց թողում",
 
@@ -57,15 +65,6 @@
   "languages": "Լեզուներ",
   "sounds": "Ձայներ",
 
-  "rewards": "Պարգևներ",
-  "rewardsSelectThree": "Ընտրեք երեքը",
-  "rewards_success": "+{count} միավոր: Կհանդիպենք վաղը:",
-  "@rewards_success": {
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-
   "teams": "Թիմեր",
   "team_with_count": "Թիմ {number}",
   "@team_with_count": {
@@ -74,10 +73,28 @@
     }
   },
 
-  "classicMode": "Դասական Ալիաս",
+  "alias": "Ալիաս",
   "oneWordMode": "Մեկ բառով",
   "classicModeShort": "Դասական",
   "oneWordModeShort": "Մեկ բառ",
+  "spyMode": "Լրտես",
+  "retry": "Կրկնել",
+  "player_with_number": "Խաղացող {number}",
+  "@player_with_number": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "spy_tap_to_reveal": "Սեղմիր քարտին՝ դերդ տեսնելու համար",
+  "spy_you_are_spy": "Դու ԼՐՏԵՍՆ ես!",
+  "spy_dont_reveal": "Աննկատ մնա և գուշակիր բառը։",
+  "spy_secret_word": "Գաղտնի բառը",
+  "spy_tap_to_hide": "Սեղմիր՝ թաքցնելու և փոխանցելու համար",
+  "spy_start_game": "Սկսել խաղը",
+  "spy_all_ready": "Բոլորը պատրաստ են",
+  "spy_find_the_spy": "Հերթով հարցեր տվեք և գտեք լրտեսին",
+  "play_again": "Խաղալ նորից",
+  "change_pack": "Փոխել հավաքածուն",
 
   "game_rules": "Խաղի կանոնները",
   "singleModeRule1": "Խաղացողը բացատրում է բառերը հաջորդաբար՝ մեկը մյուսի հետևից",
@@ -90,6 +107,12 @@
   "generalRule2": "Յուրաքանչյուր փուլից հետո խաղացողները կարող են վերանայել և խմբագրել գուշակված բառերի ցանկը",
   "generalRule3": "Խաղն ավարտվում է սահմանված միավորներին հասնելիս, սակայն փուլը պետք է խաղան բոլոր թիմերը",
 
+  "spyRule1": "Մեկ կամ մի քանի խաղացող գաղտնի ընտրվում են որպես լրտես",
+  "spyRule2": "Մյուս բոլորը տեսնում են նույն գաղտնի բառը, իսկ լրտեսը՝ ոչ",
+  "spyRule3": "Խաղացողները հերթով միմյանց հարցեր են տալիս գաղտնի բառի մասին",
+  "spyRule4": "Պատասխանեք այնպես, կարծես գիտեք բառը, բայց ուղղակիորեն մի ասեք այն",
+  "spyRule5": "Լրտեսը փորձում է աննկատ մնալ և գուշակել գաղտնի բառը",
+  "spyRule6": "Երբ ժամանակը լրանում է, բոլորը քվեարկում են, թե ով է լրտեսը",
   "scoreboard": "Հաշիվը",
   "next_team": "Հաջորդ թիմը",
   "winner_reveal": "Եվ հաղթողն է...",
@@ -97,7 +120,7 @@
   "downloadWordsNetworkError": "Նախ պետք է ներբեռնեք բառերը: Խնդրում ենք ստուգել ձեր ինտերնետ կապը և փորձել կրկին:",
 
   "exit_game_title": "Դուրս գա՞լ խաղից",
-  "exit_game_description": "Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը:",
+  "exit_game_description": "Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը։",
   "exit_game_confirm": "Այո, դուրս գալ",
 
   "round_stop_title": "Ավարտե՞լ ռաունդը",
@@ -105,11 +128,6 @@
   "round_stop_confirm": "Ավարտել",
   "round_stop_resume": "Շարունակել",
 
-  "unlock_theme_title": "Բացել թեման",
-  "unlock_theme_description": "Համոզվա՞ծ եք, որ ցանկանում եք ակտիվացնել այս թեման և փոխել խաղի տեսքը:",
-  "unlock_theme_confirm": "Բացել",
-
-  "not_enough_coins": "Մետաղադրամները բավարար չեն",
   "errorEmptyTeamNames": "Սպասիր, իսկ ովքե՞ր են խաղում: Լրացրեք բոլոր թիմերը:",
   "feedback": "Հետադարձ կապ",
   "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com",

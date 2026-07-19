@@ -4,7 +4,8 @@ import 'package:bardak/features/app_review/app_review_scope.dart';
 import 'package:bardak/features/games/alias/game_settings/game_settings_scope.dart';
 import 'package:bardak/features/games/alias/team_setup/team_setup_scope.dart';
 import 'package:bardak/features/games/alias/word_packs/word_packs_scope.dart';
-import 'package:bardak/features/rewards/rewards_scope.dart';
+import 'package:bardak/features/games/spy/spy_packs/spy_packs_scope.dart';
+import 'package:bardak/features/games/spy/spy_settings/spy_settings_scope.dart';
 import 'package:bardak/features/settings/data/data_sources/settings_local_data_source.dart';
 import 'package:bardak/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:bardak/features/settings/domain/repositories/settings_repository.dart';
@@ -12,7 +13,6 @@ import 'package:bardak/features/settings/domain/usecases/get_app_settings_usecas
 import 'package:bardak/features/settings/domain/usecases/update_color_scheme_usecase.dart';
 import 'package:bardak/features/settings/domain/usecases/update_locale_usecase.dart';
 import 'package:bardak/features/settings/domain/usecases/update_sound_enabled_usecase.dart';
-import 'package:bardak/features/themes/themes_scope.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,9 +47,9 @@ Future<void> injectDependencies() async {
     );
 
   injectAppReviewScope();
-  injectRewardsScope();
   injectWordPacksScope();
   injectTeamSetupScope();
-  injectThemesScope();
   injectGameSettingsScope();
+  injectSpySettingsScope();
+  injectSpyPacksScope();
 }

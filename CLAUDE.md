@@ -42,14 +42,12 @@ Game-loop features (game_session, card_round, single_word_round) use domain enti
 |---------|------|---------|
 | `word_packs` | Full | Firestore (remote) + Hive (cache) |
 | `settings` | Full | SharedPreferences |
-| `themes` | Full | SharedPreferences |
-| `rewards` | Full | SharedPreferences |
 | `app_review` | Full | SharedPreferences |
 | `pre_game` | Full | SharedPreferences |
 | `game_session` | Game-loop | In-memory |
 | `card_round` | Game-loop | In-memory |
 | `single_word_round` | Game-loop | In-memory |
-| `home` / `rules` / `splash` | Presentation-only | — |
+| `home` / `rules` / `splash` / `themes` | Presentation-only | — |
 
 ## State management — BLoC rules
 
@@ -122,7 +120,7 @@ All routes in `lib/router/app_router.dart`. Route path and name are `static cons
 
 Current route tree:
 ```
-/splash → /home → /settings, /rules, /rewards, /themes
+/splash → /home → /settings, /rules, /themes
                 → /gameSettings → /setupTeamNames → /wordPacks → /languageSelect
                 → /gameSession (ShellRoute) → /countdown, /cardRound, /singleWordRound
                                             → /roundOverview → /roundReview
@@ -151,7 +149,7 @@ All colors via `context.colors`. Never use raw `Color(...)` or `Colors.*` in UI.
 |-------|-------|---------|
 | `context.colors.green` | `#59CA42` | Correct / confirm / active switch thumb |
 | `context.colors.red` | `#D42B2B` | Wrong / destructive actions |
-| `context.colors.orange` | `#E38417` | Warnings / coins / highlights |
+| `context.colors.orange` | `#E38417` | Warnings / highlights |
 | `context.colors.blue` | `#4068F5` | Info / links |
 | `context.colors.purple` | `#A473E9` | Decorative / special |
 | `context.colors.white` | `#FFFFFF` | Primary text, icons |
@@ -376,11 +374,6 @@ LanguageIcon(locale: AppLocales.en, size: 32, onTap: () {})
 NetworkPackImage(imageUrl: url, imageBlurHash: hash, opacity: 0.5)
 ```
 
-**`CoinBalanceWidget`** — reads `RewardsCubit`, shows coin count + icon:
-```dart
-CoinBalanceWidget(onTap: () {})
-```
-
 **Spacing constants** (`app_spacings.dart`):
 ```dart
 height20  // SizedBox(height: 20)
@@ -394,9 +387,7 @@ width20   // SizedBox(width: 20)
 ```dart
 Assets.images.logo.image()
 Assets.images.themeBackground.image()
-Assets.icons.coin.svg()
 Assets.icons.clock.svg()
-Assets.icons.lock.svg()
 Assets.icons.add.svg()
 Assets.icons.back.svg()
 Assets.icons.close.svg()
@@ -405,8 +396,6 @@ Assets.icons.pause.svg()
 Assets.icons.volume.svg()
 Assets.icons.check.svg()
 Assets.icons.info.svg()
-Assets.icons.rewardClosed.svg()
-Assets.icons.rewardOpened.svg()
 Assets.sounds.tick    // used as AssetSource(Assets.sounds.tick)
 Assets.sounds.check
 Assets.sounds.uncheck

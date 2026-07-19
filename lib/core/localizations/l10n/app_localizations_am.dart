@@ -63,6 +63,17 @@ class AppLocalizationsAm extends AppLocalizations {
   String get settings_round_time => 'Ռաունդի տևողություն';
 
   @override
+  String get settings_players => 'Խաղացողներ';
+
+  @override
+  String get settings_spies => 'Լրտեսներ';
+
+  @override
+  String unit_min(int count) {
+    return '$count րոպե';
+  }
+
+  @override
   String get settings_points_to_win => 'Միավորներ հաղթանակի համար';
 
   @override
@@ -123,17 +134,6 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sounds => 'Ձայներ';
 
   @override
-  String get rewards => 'Պարգևներ';
-
-  @override
-  String get rewardsSelectThree => 'Ընտրեք երեքը';
-
-  @override
-  String rewards_success(int count) {
-    return '+$count միավոր: Կհանդիպենք վաղը:';
-  }
-
-  @override
   String get teams => 'Թիմեր';
 
   @override
@@ -142,7 +142,7 @@ class AppLocalizationsAm extends AppLocalizations {
   }
 
   @override
-  String get classicMode => 'Դասական Ալիաս';
+  String get alias => 'Ալիաս';
 
   @override
   String get oneWordMode => 'Մեկ բառով';
@@ -152,6 +152,47 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get oneWordModeShort => 'Մեկ բառ';
+
+  @override
+  String get spyMode => 'Լրտես';
+
+  @override
+  String get retry => 'Կրկնել';
+
+  @override
+  String player_with_number(int number) {
+    return 'Խաղացող $number';
+  }
+
+  @override
+  String get spy_tap_to_reveal => 'Սեղմիր քարտին՝ դերդ տեսնելու համար';
+
+  @override
+  String get spy_you_are_spy => 'Դու ԼՐՏԵՍՆ ես!';
+
+  @override
+  String get spy_dont_reveal => 'Աննկատ մնա և գուշակիր բառը։';
+
+  @override
+  String get spy_secret_word => 'Գաղտնի բառը';
+
+  @override
+  String get spy_tap_to_hide => 'Սեղմիր՝ թաքցնելու և փոխանցելու համար';
+
+  @override
+  String get spy_start_game => 'Սկսել խաղը';
+
+  @override
+  String get spy_all_ready => 'Բոլորը պատրաստ են';
+
+  @override
+  String get spy_find_the_spy => 'Հերթով հարցեր տվեք և գտեք լրտեսին';
+
+  @override
+  String get play_again => 'Խաղալ նորից';
+
+  @override
+  String get change_pack => 'Փոխել հավաքածուն';
 
   @override
   String get game_rules => 'Խաղի կանոնները';
@@ -193,6 +234,29 @@ class AppLocalizationsAm extends AppLocalizations {
       'Խաղն ավարտվում է սահմանված միավորներին հասնելիս, սակայն փուլը պետք է խաղան բոլոր թիմերը';
 
   @override
+  String get spyRule1 =>
+      'Մեկ կամ մի քանի խաղացող գաղտնի ընտրվում են որպես լրտես';
+
+  @override
+  String get spyRule2 =>
+      'Մյուս բոլորը տեսնում են նույն գաղտնի բառը, իսկ լրտեսը՝ ոչ';
+
+  @override
+  String get spyRule3 =>
+      'Խաղացողները հերթով միմյանց հարցեր են տալիս գաղտնի բառի մասին';
+
+  @override
+  String get spyRule4 =>
+      'Պատասխանեք այնպես, կարծես գիտեք բառը, բայց ուղղակիորեն մի ասեք այն';
+
+  @override
+  String get spyRule5 => 'Լրտեսը փորձում է աննկատ մնալ և գուշակել գաղտնի բառը';
+
+  @override
+  String get spyRule6 =>
+      'Երբ ժամանակը լրանում է, բոլորը քվեարկում են, թե ով է լրտեսը';
+
+  @override
   String get scoreboard => 'Հաշիվը';
 
   @override
@@ -214,7 +278,7 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get exit_game_description =>
-      'Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը:';
+      'Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը։';
 
   @override
   String get exit_game_confirm => 'Այո, դուրս գալ';
@@ -231,19 +295,6 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Շարունակել';
-
-  @override
-  String get unlock_theme_title => 'Բացել թեման';
-
-  @override
-  String get unlock_theme_description =>
-      'Համոզվա՞ծ եք, որ ցանկանում եք ակտիվացնել այս թեման և փոխել խաղի տեսքը:';
-
-  @override
-  String get unlock_theme_confirm => 'Բացել';
-
-  @override
-  String get not_enough_coins => 'Մետաղադրամները բավարար չեն';
 
   @override
   String get errorEmptyTeamNames =>

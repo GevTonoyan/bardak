@@ -63,6 +63,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_round_time => 'Round Time';
 
   @override
+  String get settings_players => 'Players';
+
+  @override
+  String get settings_spies => 'Spies';
+
+  @override
+  String unit_min(int count) {
+    return '$count min';
+  }
+
+  @override
   String get settings_points_to_win => 'Points to Win';
 
   @override
@@ -123,17 +134,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sounds => 'Sounds';
 
   @override
-  String get rewards => 'Rewards';
-
-  @override
-  String get rewardsSelectThree => 'Select three';
-
-  @override
-  String rewards_success(int count) {
-    return '+$count points! See you tomorrow.';
-  }
-
-  @override
   String get teams => 'Teams';
 
   @override
@@ -142,7 +142,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get classicMode => 'Classic Alias';
+  String get alias => 'Alias';
 
   @override
   String get oneWordMode => 'One word';
@@ -152,6 +152,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get oneWordModeShort => 'One Word';
+
+  @override
+  String get spyMode => 'Spy';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String player_with_number(int number) {
+    return 'Player $number';
+  }
+
+  @override
+  String get spy_tap_to_reveal => 'Tap the card to see your role';
+
+  @override
+  String get spy_you_are_spy => 'You are the SPY!';
+
+  @override
+  String get spy_dont_reveal => 'Blend in and try to guess the secret word';
+
+  @override
+  String get spy_secret_word => 'The secret word';
+
+  @override
+  String get spy_tap_to_hide => 'Tap again to hide and pass';
+
+  @override
+  String get spy_start_game => 'Start game';
+
+  @override
+  String get spy_all_ready => 'Everyone is ready';
+
+  @override
+  String get spy_find_the_spy => 'Take turns asking questions to find the spy.';
+
+  @override
+  String get play_again => 'Play again';
+
+  @override
+  String get change_pack => 'Change pack';
 
   @override
   String get game_rules => 'Game Rules';
@@ -193,6 +234,29 @@ class AppLocalizationsEn extends AppLocalizations {
       'The game ends when the target score is reached, but all teams must complete the current round';
 
   @override
+  String get spyRule1 => 'One or more players are secretly chosen as the spy';
+
+  @override
+  String get spyRule2 =>
+      'Everyone else sees the same secret word, while the spy sees nothing';
+
+  @override
+  String get spyRule3 =>
+      'Players take turns asking each other questions about the secret word';
+
+  @override
+  String get spyRule4 =>
+      'Answer so you sound like you know the word, but don\'t say it outright';
+
+  @override
+  String get spyRule5 =>
+      'The spy tries to blend in and figure out the secret word';
+
+  @override
+  String get spyRule6 =>
+      'When the time runs out, everyone votes on who the spy is';
+
+  @override
   String get scoreboard => 'Score';
 
   @override
@@ -231,19 +295,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Resume';
-
-  @override
-  String get unlock_theme_title => 'Unlock Theme';
-
-  @override
-  String get unlock_theme_description =>
-      'Are you sure you want to unlock this theme and change the game\'s look?';
-
-  @override
-  String get unlock_theme_confirm => 'Unlock';
-
-  @override
-  String get not_enough_coins => 'Not enough coins';
 
   @override
   String get errorEmptyTeamNames =>

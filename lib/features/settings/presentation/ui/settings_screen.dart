@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/app_switch.dart';
@@ -10,8 +11,10 @@ import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
+import 'package:bardak/features/themes/presentation/ui/themes_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -75,6 +78,20 @@ class SettingsScreenBody extends StatelessWidget {
                   settingsBloc.add(ChangeSoundEnabled(enabled: value));
                 },
               ),
+            ),
+          ],
+        ),
+        height20,
+        _SettingsCard(
+          children: [
+            _SettingsTile(
+              icon: Icons.palette_outlined,
+              iconColor: colors.blue,
+              label: l10n.themes,
+              trailing: _ThemePreview(scheme: appSettings.colorScheme),
+              // Pushed on top of the sheet, so picking a theme pops back
+              // into settings already rendered in the new colors.
+              onTap: () => unawaited(context.pushNamed(ThemesScreen.routePath)),
             ),
           ],
         ),
@@ -288,6 +305,42 @@ class _TileDivider extends StatelessWidget {
         height: 1,
         color: context.colors.white.withValues(alpha: 0.12),
       ),
+    );
+  }
+}
+
+/// Trailing preview for the theme tile: a swatch of the active scheme's
+/// gradient, its name, and a chevron into the themes screen.
+class _ThemePreview extends StatelessWidget {
+  const _ThemePreview({required this.scheme});
+
+  final AppColorScheme scheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: .min,
+      children: [
+        Container(
+          width: 20,
+          height: 20,
+          decoration: BoxDecoration(
+            shape: .circle,
+            gradient: scheme.colors.main,
+            border: Border.all(
+              color: context.colors.white.withValues(alpha: 0.4),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          scheme.displayName(context),
+          style: context.typography.regular18.copyWith(
+            color: context.colors.white50,
+          ),
+        ),
+        const _Chevron(),
+      ],
     );
   }
 }

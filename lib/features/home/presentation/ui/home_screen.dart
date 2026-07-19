@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
-import 'package:bardak/core/app_ui/widgets/coin_balance_widget.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
@@ -11,11 +10,9 @@ import 'package:bardak/features/games/alias/game_settings/domain/entities/game_m
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/ui/game_settings_screen.dart';
-import 'package:bardak/features/games/alias/rules/presentation/ui/rules_screen.dart';
-import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
+import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
 import 'package:bardak/features/splash/presentation/splash_screen.dart';
-import 'package:bardak/features/themes/presentation/ui/themes_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<Offset> _slideAnimation;
   late final Animation<Offset> _leftSlideAnimation;
-  late final Animation<Offset> _rightSlideAnimation;
 
   @override
   void initState() {
@@ -48,10 +44,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
     _leftSlideAnimation = Tween<Offset>(
       begin: const Offset(-1, 0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
-    _rightSlideAnimation = Tween<Offset>(
-      begin: const Offset(1, 0),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
     _controller.forward();
@@ -88,24 +80,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      SlideTransition(
-                        position: _leftSlideAnimation,
-                        child: AppIconButton.info(
-                          onTap: () => context.goNamed(
-                            RulesScreen.routePath,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      SlideTransition(
-                        position: _rightSlideAnimation,
-                        child: CoinBalanceWidget(
-                          onTap: () {
-                            context.goNamed(ThemesScreen.routePath);
-                          },
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -130,42 +104,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     children: [
                       height40,
                       AppButton(
-                        label: l10n.classicMode,
+                        label: l10n.alias,
                         color: colors.green,
                         onPressed: () =>
                             _navigateToGameSettings(context, .card),
                       ),
                       height20,
                       AppButton(
-                        label: l10n.oneWordMode,
+                        label: l10n.spyMode,
                         color: colors.purple,
-                        onPressed: () =>
-                            _navigateToGameSettings(context, .singleWord),
+                        onPressed: () => unawaited(
+                          context.pushNamed(SpySettingsScreen.routePath),
+                        ),
                       ),
                       const Spacer(),
-                      Row(
-                        spacing: 12,
-                        children: [
-                          Expanded(
-                            child: AppButton(
-                              label: context.l10n.rewards,
-                              color: colors.white20,
-                              onPressed: () =>
-                                  context.goNamed(RewardsScreen.routePath),
-                            ),
-                          ),
-                          Expanded(
-                            child: AppButton(
-                              label: l10n.themes,
-                              color: colors.blue,
-                              onPressed: () {
-                                context.goNamed(ThemesScreen.routePath);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      height20,
                     ],
                   ),
                 ),

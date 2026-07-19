@@ -18,8 +18,16 @@ import 'package:bardak/features/games/alias/single_word_round/presentation/ui/si
 import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
+import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_language_select_screen.dart';
+import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_packs_screen.dart';
+import 'package:bardak/features/games/spy/spy_rules/presentation/ui/spy_rules_screen.dart';
+import 'package:bardak/features/games/spy/spy_session/domain/entities/spy_session_entity.dart';
+import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_interrogation_screen.dart';
+import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_result_screen.dart';
+import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_role_reveal_screen.dart';
+import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_session_screen.dart';
+import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
-import 'package:bardak/features/rewards/presentation/ui/rewards_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
 import 'package:bardak/features/splash/presentation/splash_screen.dart';
 import 'package:bardak/features/themes/presentation/ui/themes_screen.dart';
@@ -30,6 +38,7 @@ import 'package:go_router/go_router.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final gameSessionNavigatorKey = GlobalKey<NavigatorState>();
+final spySessionNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
   initialLocation: SplashScreen.routePath,
@@ -73,7 +82,11 @@ final appRouter = GoRouter(
           name: RulesScreen.routePath,
           pageBuilder: (context, state) => const RulesScreen(),
         ),
-
+        GoRoute(
+          path: SpyRulesScreen.routePath,
+          name: SpyRulesScreen.routePath,
+          pageBuilder: (context, state) => const SpyRulesScreen(),
+        ),
         GoRoute(
           path: GameSettingsScreen.routePath,
           name: GameSettingsScreen.routePath,
@@ -104,10 +117,25 @@ final appRouter = GoRouter(
         ),
 
         GoRoute(
-          path: RewardsScreen.routePath,
-          name: RewardsScreen.routePath,
-          pageBuilder: (context, state) =>
-              const MaterialPage(child: RewardsScreen()),
+          path: SpySettingsScreen.routePath,
+          name: SpySettingsScreen.routePath,
+          pageBuilder: (context, state) => const SpySettingsScreen(),
+          routes: [
+            GoRoute(
+              path: SpyPacksScreen.routePath,
+              name: SpyPacksScreen.routePath,
+              pageBuilder: (context, state) =>
+                  const MaterialPage(child: SpyPacksScreen()),
+              routes: [
+                GoRoute(
+                  path: SpyLanguageSelectScreen.routePath,
+                  name: SpyLanguageSelectScreen.routePath,
+                  pageBuilder: (context, state) =>
+                      const SpyLanguageSelectScreen(),
+                ),
+              ],
+            ),
+          ],
         ),
         GoRoute(
           path: ThemesScreen.routePath,
@@ -201,6 +229,39 @@ final appRouter = GoRouter(
               },
             ),
           ],
+        ),
+        ShellRoute(
+          navigatorKey: spySessionNavigatorKey,
+          builder: (context, state, child) {
+            final spySession = state.extra as SpySessionEntity?;
+            return SpySessionScreen(session: spySession, child: child);
+          },
+          routes: [
+            GoRoute(
+              path:
+                  '${SpySessionScreen.routePath}/'
+                  '${SpyRoleRevealScreen.routePath}',
+              name: SpyRoleRevealScreen.routePath,
+              pageBuilder: (context, state) =>
+                  const MaterialPage(child: SpyRoleRevealScreen()),
+            ),
+            GoRoute(
+              path:
+                  '${SpySessionScreen.routePath}/'
+                  '${SpyInterrogationScreen.routePath}',
+              name: SpyInterrogationScreen.routePath,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: SpyInterrogationScreen()),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: SpyResultScreen.routePath,
+          name: SpyResultScreen.routePath,
+          pageBuilder: (context, state) {
+            final spySession = state.extra! as SpySessionEntity;
+            return MaterialPage(child: SpyResultScreen(session: spySession));
+          },
         ),
         GoRoute(
           path: GameSummaryScreen.routePath,

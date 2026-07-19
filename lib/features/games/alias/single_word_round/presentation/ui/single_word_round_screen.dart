@@ -84,6 +84,10 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
         : colors.white30;
 
     return BlocListener<SingleWordRoundBloc, SingleWordRoundState>(
+      // Only the transition into completed counts: FinishRound advances the
+      // team rotation, so firing it twice would skip a team.
+      listenWhen: (previous, current) =>
+          !previous.completed && current.completed,
       listener: (context, state) {
         if (state.completed) {
           final reviewedWords = state.wordsToReview();

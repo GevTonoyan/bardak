@@ -70,6 +70,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings_round_time => 'Время раунда';
 
   @override
+  String get settings_players => 'Игроки';
+
+  @override
+  String get settings_spies => 'Шпионы';
+
+  @override
+  String unit_min(int count) {
+    return '$count мин';
+  }
+
+  @override
   String get settings_points_to_win => 'Очки для победы';
 
   @override
@@ -130,17 +141,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sounds => 'Звуки';
 
   @override
-  String get rewards => 'Награды';
-
-  @override
-  String get rewardsSelectThree => 'Выберите три';
-
-  @override
-  String rewards_success(int count) {
-    return '+$count очков! Ждем тебя завтра.';
-  }
-
-  @override
   String get teams => 'Команды';
 
   @override
@@ -149,7 +149,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get classicMode => 'Классический Алиас';
+  String get alias => 'Алиас';
 
   @override
   String get oneWordMode => 'Одним словом';
@@ -159,6 +159,48 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get oneWordModeShort => 'Одно слово';
+
+  @override
+  String get spyMode => 'Шпион';
+
+  @override
+  String get retry => 'Повторить';
+
+  @override
+  String player_with_number(int number) {
+    return 'Игрок $number';
+  }
+
+  @override
+  String get spy_tap_to_reveal => 'Нажми на карту, чтобы увидеть свою роль';
+
+  @override
+  String get spy_you_are_spy => 'Ты ШПИОН!';
+
+  @override
+  String get spy_dont_reveal => 'Не выдай себя! Угадай слово.';
+
+  @override
+  String get spy_secret_word => 'Секретное слово';
+
+  @override
+  String get spy_tap_to_hide => 'Нажми, чтобы скрыть и передать';
+
+  @override
+  String get spy_start_game => 'Начать игру';
+
+  @override
+  String get spy_all_ready => 'Все готовы';
+
+  @override
+  String get spy_find_the_spy =>
+      'Задавайте вопросы по очереди и найдите шпиона';
+
+  @override
+  String get play_again => 'Играть снова';
+
+  @override
+  String get change_pack => 'Сменить набор';
 
   @override
   String get game_rules => 'Правила игры';
@@ -199,6 +241,29 @@ class AppLocalizationsRu extends AppLocalizations {
       'Игра завершается при достижении лимита очков, но текущий раунд должен быть доигран всеми командами';
 
   @override
+  String get spyRule1 => 'Один или несколько игроков тайно становятся шпионами';
+
+  @override
+  String get spyRule2 =>
+      'Все остальные видят одно и то же секретное слово, а шпион — нет';
+
+  @override
+  String get spyRule3 =>
+      'Игроки по очереди задают друг другу вопросы о секретном слове';
+
+  @override
+  String get spyRule4 =>
+      'Отвечайте так, будто знаете слово, но не называйте его напрямую';
+
+  @override
+  String get spyRule5 =>
+      'Шпион старается не выдать себя и угадать секретное слово';
+
+  @override
+  String get spyRule6 =>
+      'Когда время истекает, все голосуют, кто из игроков шпион';
+
+  @override
   String get scoreboard => 'Счёт';
 
   @override
@@ -237,19 +302,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get round_stop_resume => 'Продолжить';
-
-  @override
-  String get unlock_theme_title => 'Открыть тему';
-
-  @override
-  String get unlock_theme_description =>
-      'Вы уверены, что хотите разблокировать эту тему и изменить внешний вид игры?';
-
-  @override
-  String get unlock_theme_confirm => 'Открыть';
-
-  @override
-  String get not_enough_coins => 'Недостаточно монет';
 
   @override
   String get errorEmptyTeamNames =>

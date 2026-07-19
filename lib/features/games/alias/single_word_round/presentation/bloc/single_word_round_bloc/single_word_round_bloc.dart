@@ -27,6 +27,11 @@ class SingleWordRoundBloc
     ResolveCurrentWord event,
     Emitter<SingleWordRoundState> emit,
   ) {
+    // A swipe racing the end of the round must not emit another completed
+    // state: the UI dispatches FinishRound per completed emission, and a
+    // duplicate would skip the next team.
+    if (state.completed) return;
+
     final newScore = switch (event.resolution) {
       .guessed => state.score + 1,
       .skipped => max(0, state.score - 1),
