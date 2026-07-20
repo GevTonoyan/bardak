@@ -376,6 +376,84 @@ abstract class AppLocalizations {
   /// **'Spy'**
   String get spyMode;
 
+  /// No description provided for @sudoku.
+  ///
+  /// In en, this message translates to:
+  /// **'Sudoku'**
+  String get sudoku;
+
+  /// No description provided for @sudoku_solved.
+  ///
+  /// In en, this message translates to:
+  /// **'Puzzle solved. Well done!'**
+  String get sudoku_solved;
+
+  /// No description provided for @sudoku_difficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get sudoku_difficulty;
+
+  /// No description provided for @sudoku_difficulty_easy.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get sudoku_difficulty_easy;
+
+  /// No description provided for @sudoku_difficulty_medium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get sudoku_difficulty_medium;
+
+  /// No description provided for @sudoku_difficulty_hard.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get sudoku_difficulty_hard;
+
+  /// No description provided for @sudoku_show_mistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'Show mistakes'**
+  String get sudoku_show_mistakes;
+
+  /// No description provided for @sudoku_mistakes_off.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t show'**
+  String get sudoku_mistakes_off;
+
+  /// No description provided for @sudoku_mistakes_conflicts.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeated digits'**
+  String get sudoku_mistakes_conflicts;
+
+  /// No description provided for @sudoku_mistakes_errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong digits'**
+  String get sudoku_mistakes_errors;
+
+  /// No description provided for @sudoku_show_timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer'**
+  String get sudoku_show_timer;
+
+  /// No description provided for @sudoku_your_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Your time:'**
+  String get sudoku_your_time;
+
+  /// No description provided for @sudoku_board_has_mistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'The board is full, but something is not right'**
+  String get sudoku_board_has_mistakes;
+
   /// No description provided for @retry.
   ///
   /// In en, this message translates to:

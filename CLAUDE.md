@@ -44,6 +44,8 @@ Game-loop features (game_session, card_round, single_word_round) use domain enti
 | `settings` | Full | SharedPreferences |
 | `app_review` | Full | SharedPreferences |
 | `pre_game` | Full | SharedPreferences |
+| `sudoku_settings` | Full | SharedPreferences |
+| `sudoku_game` | Game-loop | In-memory |
 | `game_session` | Game-loop | In-memory |
 | `card_round` | Game-loop | In-memory |
 | `single_word_round` | Game-loop | In-memory |
@@ -121,6 +123,7 @@ All routes in `lib/router/app_router.dart`. Route path and name are `static cons
 Current route tree:
 ```
 /splash → /home → /settings, /rules, /themes
+                → /sudokuSettings → /sudoku → /sudokuWin
                 → /gameSettings → /setupTeamNames → /wordPacks → /languageSelect
                 → /gameSession (ShellRoute) → /countdown, /cardRound, /singleWordRound
                                             → /roundOverview → /roundReview

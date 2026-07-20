@@ -157,6 +157,46 @@ class AppLocalizationsAm extends AppLocalizations {
   String get spyMode => 'Լրտես';
 
   @override
+  String get sudoku => 'Սուդոկու';
+
+  @override
+  String get sudoku_solved => 'Սուդոկուն լուծված է։ Կեցցե՛ս';
+
+  @override
+  String get sudoku_difficulty => 'Բարդություն';
+
+  @override
+  String get sudoku_difficulty_easy => 'Հեշտ';
+
+  @override
+  String get sudoku_difficulty_medium => 'Միջին';
+
+  @override
+  String get sudoku_difficulty_hard => 'Բարդ';
+
+  @override
+  String get sudoku_show_mistakes => 'Ցույց տալ սխալները';
+
+  @override
+  String get sudoku_mistakes_off => 'Չցուցադրել';
+
+  @override
+  String get sudoku_mistakes_conflicts => 'Կրկնվող թվեր';
+
+  @override
+  String get sudoku_mistakes_errors => 'Սխալ թվեր';
+
+  @override
+  String get sudoku_show_timer => 'Ժամանակաչափ';
+
+  @override
+  String get sudoku_your_time => 'Քո ժամանակը՝';
+
+  @override
+  String get sudoku_board_has_mistakes =>
+      'Դաշտը լրացված է, բայց ինչ-որ տեղ սխալ կա';
+
+  @override
   String get retry => 'Կրկնել';
 
   @override

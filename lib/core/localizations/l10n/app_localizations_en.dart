@@ -157,6 +157,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spyMode => 'Spy';
 
   @override
+  String get sudoku => 'Sudoku';
+
+  @override
+  String get sudoku_solved => 'Puzzle solved. Well done!';
+
+  @override
+  String get sudoku_difficulty => 'Difficulty';
+
+  @override
+  String get sudoku_difficulty_easy => 'Easy';
+
+  @override
+  String get sudoku_difficulty_medium => 'Medium';
+
+  @override
+  String get sudoku_difficulty_hard => 'Hard';
+
+  @override
+  String get sudoku_show_mistakes => 'Show mistakes';
+
+  @override
+  String get sudoku_mistakes_off => 'Don\'t show';
+
+  @override
+  String get sudoku_mistakes_conflicts => 'Repeated digits';
+
+  @override
+  String get sudoku_mistakes_errors => 'Wrong digits';
+
+  @override
+  String get sudoku_show_timer => 'Timer';
+
+  @override
+  String get sudoku_your_time => 'Your time:';
+
+  @override
+  String get sudoku_board_has_mistakes =>
+      'The board is full, but something is not right';
+
+  @override
   String get retry => 'Retry';
 
   @override

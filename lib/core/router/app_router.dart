@@ -27,6 +27,12 @@ import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_result
 import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_role_reveal_screen.dart';
 import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_session_screen.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_win_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get_sudoku_settings_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/ui/sudoku_settings_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
 import 'package:bardak/features/splash/presentation/splash_screen.dart';
@@ -142,6 +148,44 @@ final appRouter = GoRouter(
           name: ThemesScreen.routePath,
           pageBuilder: (context, state) =>
               const MaterialPage(child: ThemesScreen()),
+        ),
+        GoRoute(
+          path: SudokuSettingsScreen.routePath,
+          name: SudokuSettingsScreen.routePath,
+          pageBuilder: (context, state) => const SudokuSettingsScreen(),
+          routes: [
+            GoRoute(
+              path: SudokuScreen.routePath,
+              name: SudokuScreen.routePath,
+              pageBuilder: (context, state) {
+                final settings = sl<GetSudokuSettingsUseCase>()();
+
+                return MaterialPage(
+                  child: BlocProvider(
+                    create: (_) => SudokuBloc(
+                      board: SudokuBoardEntity.generate(
+                        givensCount: settings.difficulty.givensCount,
+                      ),
+                      mistakesMode: settings.mistakesMode,
+                      showTimer: settings.showTimer,
+                    ),
+                    child: const SudokuScreen(),
+                  ),
+                );
+              },
+              routes: [
+                GoRoute(
+                  path: SudokuWinScreen.routePath,
+                  name: SudokuWinScreen.routePath,
+                  pageBuilder: (context, state) => MaterialPage(
+                    child: SudokuWinScreen(
+                      solveSeconds: state.extra as int?,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         ShellRoute(
           navigatorKey: gameSessionNavigatorKey,

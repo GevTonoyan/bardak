@@ -164,6 +164,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String get spyMode => 'Шпион';
 
   @override
+  String get sudoku => 'Судоку';
+
+  @override
+  String get sudoku_solved => 'Судоку решено. Отличная работа!';
+
+  @override
+  String get sudoku_difficulty => 'Сложность';
+
+  @override
+  String get sudoku_difficulty_easy => 'Легко';
+
+  @override
+  String get sudoku_difficulty_medium => 'Средне';
+
+  @override
+  String get sudoku_difficulty_hard => 'Сложно';
+
+  @override
+  String get sudoku_show_mistakes => 'Показывать ошибки';
+
+  @override
+  String get sudoku_mistakes_off => 'Не показывать';
+
+  @override
+  String get sudoku_mistakes_conflicts => 'Повторы цифр';
+
+  @override
+  String get sudoku_mistakes_errors => 'Неверные цифры';
+
+  @override
+  String get sudoku_show_timer => 'Таймер';
+
+  @override
+  String get sudoku_your_time => 'Ваше время:';
+
+  @override
+  String get sudoku_board_has_mistakes =>
+      'Поле заполнено, но где-то есть ошибка';
+
+  @override
   String get retry => 'Повторить';
 
   @override
