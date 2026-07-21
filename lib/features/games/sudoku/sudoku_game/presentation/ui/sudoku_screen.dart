@@ -155,6 +155,7 @@ class _SudokuGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final dpr = MediaQuery.devicePixelRatioOf(context);
 
     return AspectRatio(
       aspectRatio: 1,
@@ -164,28 +165,59 @@ class _SudokuGrid extends StatelessWidget {
           borderRadius: .circular(12),
           border: Border.all(color: colors.white, width: 2),
         ),
-        // Cell borders and highlight fills are straight rectangles; without
-        // clipping they paint over the rounded corners.
+        // Highlight fills are straight rectangles; without clipping they
+        // paint over the rounded corners.
         child: ClipRRect(
           borderRadius: .circular(10),
           child: BlocBuilder<SudokuBloc, SudokuState>(
             builder: (context, state) {
-              return Column(
+              // Cells paint only their fills; the grid lines are drawn once
+              // on top by a single pixel-snapped painter so every divider is
+              // crisp and uniform regardless of the board's fractional size.
+              return Stack(
                 children: [
-                  for (var row = 0; row < SudokuBoardEntity.size; row++)
-                    Expanded(
-                      child: Row(
-                        children: [
-                          for (var col = 0; col < SudokuBoardEntity.size; col++)
-                            Expanded(
-                              child: _SudokuCell(
-                                index: row * SudokuBoardEntity.size + col,
-                                state: state,
-                              ),
+                  Positioned.fill(
+                    child: Column(
+                      children: [
+                        for (var row = 0; row < SudokuBoardEntity.size; row++)
+                          Expanded(
+                            child: Row(
+                              // Stretch cells to the full row height so empty
+                              // cells (whose child is zero-sized) still fill
+                              // the square and remain tappable.
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                for (
+                                  var col = 0;
+                                  col < SudokuBoardEntity.size;
+                                  col++
+                                )
+                                  Expanded(
+                                    child: _SudokuCell(
+                                      key: ValueKey(
+                                        row * SudokuBoardEntity.size + col,
+                                      ),
+                                      index: row * SudokuBoardEntity.size + col,
+                                      state: state,
+                                    ),
+                                  ),
+                              ],
                             ),
-                        ],
+                          ),
+                      ],
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: CustomPaint(
+                        painter: _GridLinesPainter(
+                          thin: colors.white30,
+                          thick: colors.white,
+                          devicePixelRatio: dpr,
+                        ),
                       ),
                     ),
+                  ),
                 ],
               );
             },
@@ -196,8 +228,68 @@ class _SudokuGrid extends StatelessWidget {
   }
 }
 
+/// Paints the 8 internal vertical and horizontal dividers of the 9x9 grid.
+/// Line centres are snapped to whole device pixels so hairlines never drop
+/// out or blur — the failure mode of per-cell fractional borders.
+class _GridLinesPainter extends CustomPainter {
+  const _GridLinesPainter({
+    required this.thin,
+    required this.thick,
+    required this.devicePixelRatio,
+  });
+
+  final Color thin;
+  final Color thick;
+  final double devicePixelRatio;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Work in whole device pixels so every line lands on the physical grid;
+    // drawn as filled rects (not strokes) which stay crisp under Impeller.
+    final dpr = devicePixelRatio;
+    final thinPx = dpr.roundToDouble(); // ~1 logical px, whole physical px
+    final thickPx = thinPx * 2;
+
+    for (var i = 1; i < SudokuBoardEntity.size; i++) {
+      final isBoxEdge = i % SudokuBoardEntity.boxSize == 0;
+      final paint = Paint()..color = isBoxEdge ? thick : thin;
+      final widthPx = isBoxEdge ? thickPx : thinPx;
+
+      final cx = (size.width * i / SudokuBoardEntity.size * dpr)
+          .roundToDouble();
+      canvas.drawRect(
+        Rect.fromLTRB(
+          (cx - widthPx / 2) / dpr,
+          0,
+          (cx + widthPx / 2) / dpr,
+          size.height,
+        ),
+        paint,
+      );
+
+      final cy = (size.height * i / SudokuBoardEntity.size * dpr)
+          .roundToDouble();
+      canvas.drawRect(
+        Rect.fromLTRB(
+          0,
+          (cy - widthPx / 2) / dpr,
+          size.width,
+          (cy + widthPx / 2) / dpr,
+        ),
+        paint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_GridLinesPainter oldDelegate) =>
+      oldDelegate.thin != thin ||
+      oldDelegate.thick != thick ||
+      oldDelegate.devicePixelRatio != devicePixelRatio;
+}
+
 class _SudokuCell extends StatelessWidget {
-  const _SudokuCell({required this.index, required this.state});
+  const _SudokuCell({required this.index, required this.state, super.key});
 
   final int index;
   final SudokuState state;
@@ -235,12 +327,6 @@ class _SudokuCell extends StatelessWidget {
           value == selectedValue;
     }
 
-    // Thick edges close each 3x3 box, thin edges separate cells.
-    BorderSide side({required bool boxEdge}) => BorderSide(
-      color: boxEdge ? colors.white : colors.white30,
-      width: boxEdge ? 1.5 : 0.5,
-    );
-
     return GestureDetector(
       behavior: .opaque,
       onTap: () => context.read<SudokuBloc>().add(SelectCell(index)),
@@ -253,21 +339,11 @@ class _SudokuCell extends StatelessWidget {
               : sharesRegion
               ? colors.white10
               : Colors.transparent,
-          // The outermost edges are drawn by the grid's own rounded
-          // border, so the last row/column skip theirs.
-          border: Border(
-            right: col == SudokuBoardEntity.size - 1
-                ? BorderSide.none
-                : side(boxEdge: col % SudokuBoardEntity.boxSize == 2),
-            bottom: row == SudokuBoardEntity.size - 1
-                ? BorderSide.none
-                : side(boxEdge: row % SudokuBoardEntity.boxSize == 2),
-          ),
         ),
-        child: Center(
-          child: value == SudokuBoardEntity.empty
-              ? const SizedBox.shrink()
-              : Text(
+        child: value == SudokuBoardEntity.empty
+            ? _CellNotes(notes: board.notes[index])
+            : Center(
+                child: Text(
                   '$value',
                   style: context.typography.regular24.withNumericFont.copyWith(
                     color: state.isMistake(index)
@@ -277,7 +353,56 @@ class _SudokuCell extends StatelessWidget {
                         : colors.orange,
                   ),
                 ),
-        ),
+              ),
+      ),
+    );
+  }
+}
+
+/// The nine candidate slots of an empty cell: each digit 1..9 sits in its
+/// own fixed mini-cell, shown only when pencilled in.
+class _CellNotes extends StatelessWidget {
+  const _CellNotes({required this.notes});
+
+  final Set<int> notes;
+
+  @override
+  Widget build(BuildContext context) {
+    if (notes.isEmpty) return const SizedBox.shrink();
+
+    final style = context.typography.labelSmall.withNumericFont.copyWith(
+      color: context.colors.white50,
+      fontSize: 10,
+      height: 1,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.all(1),
+      child: Column(
+        children: [
+          for (var noteRow = 0; noteRow < SudokuBoardEntity.boxSize; noteRow++)
+            Expanded(
+              child: Row(
+                children: [
+                  for (
+                    var noteCol = 0;
+                    noteCol < SudokuBoardEntity.boxSize;
+                    noteCol++
+                  )
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          notes.contains(noteRow * 3 + noteCol + 1)
+                              ? '${noteRow * 3 + noteCol + 1}'
+                              : '',
+                          style: style,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -298,6 +423,7 @@ class _DigitPad extends StatelessWidget {
             for (var digit = 1; digit <= SudokuBoardEntity.size; digit++)
               Expanded(
                 child: _PadButton(
+                  key: ValueKey('sudoku_digit_$digit'),
                   onTap: () => bloc.add(EnterDigit(digit)),
                   child: Text(
                     '$digit',
@@ -308,13 +434,28 @@ class _DigitPad extends StatelessWidget {
           ],
         ),
         height20,
-        _PadButton(
-          onTap: () => bloc.add(const EraseCell()),
-          child: Icon(
-            Icons.backspace_outlined,
-            color: context.colors.white,
-            size: 22,
-          ),
+        Row(
+          spacing: 10,
+          children: [
+            Expanded(
+              child: _PadButton(
+                onTap: () => bloc.add(const EraseCell()),
+                child: const Icon(Icons.backspace_outlined, size: 22),
+              ),
+            ),
+            Expanded(
+              child: BlocSelector<SudokuBloc, SudokuState, bool>(
+                selector: (state) => state.notesMode,
+                builder: (context, notesMode) {
+                  return _PadButton(
+                    isActive: notesMode,
+                    onTap: () => bloc.add(const ToggleNotesMode()),
+                    child: const Icon(Icons.edit_outlined, size: 22),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -322,24 +463,32 @@ class _DigitPad extends StatelessWidget {
 }
 
 class _PadButton extends StatelessWidget {
-  const _PadButton({required this.onTap, required this.child});
+  const _PadButton({
+    required this.onTap,
+    required this.child,
+    this.isActive = false,
+    super.key,
+  });
 
   final VoidCallback onTap;
   final Widget child;
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
 
     return Material(
-      color: colors.white20,
+      color: isActive ? colors.white : colors.white20,
       borderRadius: .circular(10),
       child: InkWell(
         onTap: onTap,
         borderRadius: .circular(10),
-        child: SizedBox(
-          height: 48,
-          child: Center(child: child),
+        child: IconTheme.merge(
+          data: IconThemeData(
+            color: isActive ? colors.secondary : colors.white,
+          ),
+          child: SizedBox(height: 48, child: Center(child: child)),
         ),
       ),
     );

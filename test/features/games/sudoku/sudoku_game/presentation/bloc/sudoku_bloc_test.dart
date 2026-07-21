@@ -86,6 +86,49 @@ void main() {
     expect(bloc.state.board.values[editable], SudokuBoardEntity.empty);
   });
 
+  test('notes mode toggles a candidate in an empty cell', () async {
+    final bloc = buildBloc()
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(editable))
+      ..add(const EnterDigit(4));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.notesMode, isTrue);
+    expect(bloc.state.board.notes[editable], {4});
+    expect(bloc.state.board.values[editable], SudokuBoardEntity.empty);
+
+    bloc.add(const EnterDigit(4));
+    await pumpEventQueue();
+    expect(bloc.state.board.notes[editable], isEmpty);
+  });
+
+  test('entering a value clears the cell notes', () async {
+    final bloc = buildBloc()
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(editable))
+      ..add(const EnterDigit(3))
+      ..add(const EnterDigit(7))
+      ..add(const ToggleNotesMode())
+      ..add(const EnterDigit(5));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.board.values[editable], 5);
+    expect(bloc.state.board.notes[editable], isEmpty);
+  });
+
+  test('notes cannot be added to a given cell', () async {
+    final bloc = buildBloc()
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(locked))
+      ..add(const EnterDigit(4));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.board.notes[locked], isEmpty);
+  });
+
   test(
     'completing the board emits solved exactly once and locks input',
     () async {

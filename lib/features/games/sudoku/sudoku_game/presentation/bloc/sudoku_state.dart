@@ -8,6 +8,7 @@ class SudokuState extends Equatable {
     required this.mistakesMode,
     required this.showTimer,
     this.selectedIndex,
+    this.notesMode = false,
   });
 
   final SudokuBoardEntity board;
@@ -20,6 +21,9 @@ class SudokuState extends Equatable {
 
   /// Cell currently targeted by the digit pad; null before the first tap.
   final int? selectedIndex;
+
+  /// When true, tapping a digit toggles a pencil-mark instead of placing it.
+  final bool notesMode;
 
   bool get isSolved => board.isSolved;
 
@@ -36,15 +40,26 @@ class SudokuState extends Equatable {
     SudokuMistakesMode.errors => board.isWrong(index),
   };
 
-  SudokuState copyWith({SudokuBoardEntity? board, int? selectedIndex}) {
+  SudokuState copyWith({
+    SudokuBoardEntity? board,
+    int? selectedIndex,
+    bool? notesMode,
+  }) {
     return SudokuState(
       board: board ?? this.board,
       mistakesMode: mistakesMode,
       showTimer: showTimer,
       selectedIndex: selectedIndex ?? this.selectedIndex,
+      notesMode: notesMode ?? this.notesMode,
     );
   }
 
   @override
-  List<Object?> get props => [board, mistakesMode, showTimer, selectedIndex];
+  List<Object?> get props => [
+    board,
+    mistakesMode,
+    showTimer,
+    selectedIndex,
+    notesMode,
+  ];
 }

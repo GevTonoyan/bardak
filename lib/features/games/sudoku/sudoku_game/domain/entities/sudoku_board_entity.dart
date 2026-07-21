@@ -11,6 +11,7 @@ class SudokuBoardEntity extends Equatable {
     required this.solution,
     required this.values,
     required this.given,
+    required this.notes,
   });
 
   /// Generates a fresh puzzle with a unique solution and roughly
@@ -49,6 +50,7 @@ class SudokuBoardEntity extends Equatable {
       given: [
         for (var i = 0; i < cellCount; i++) values[i] != empty,
       ],
+      notes: [for (var i = 0; i < cellCount; i++) const <int>{}],
     );
   }
 
@@ -66,6 +68,9 @@ class SudokuBoardEntity extends Equatable {
 
   /// Whether each cell was pre-filled and is locked.
   final List<bool> given;
+
+  /// Pencil-marked candidates per cell (1..9); empty when none.
+  final List<Set<int>> notes;
 
   /// Whether the board is completely and correctly filled in.
   bool get isSolved {
@@ -106,6 +111,7 @@ class SudokuBoardEntity extends Equatable {
   }
 
   /// Returns a copy with [value] placed at [index]; given cells are locked.
+  /// Placing (or erasing) a value clears that cell's pencil marks.
   SudokuBoardEntity withValue(int index, int value) {
     if (given[index]) return this;
 
@@ -113,6 +119,28 @@ class SudokuBoardEntity extends Equatable {
       solution: solution,
       values: [...values]..[index] = value,
       given: given,
+      notes: [
+        for (final cellNotes in notes) {...cellNotes},
+      ]..[index] = <int>{},
+    );
+  }
+
+  /// Returns a copy toggling candidate [digit] in the empty cell at [index].
+  /// Given or already-filled cells are left unchanged.
+  SudokuBoardEntity withNote(int index, int digit) {
+    if (given[index] || values[index] != empty) return this;
+
+    final newNotes = [
+      for (final cellNotes in notes) {...cellNotes},
+    ];
+    final cell = newNotes[index];
+    cell.contains(digit) ? cell.remove(digit) : cell.add(digit);
+
+    return SudokuBoardEntity(
+      solution: solution,
+      values: values,
+      given: given,
+      notes: newNotes,
     );
   }
 
@@ -176,5 +204,5 @@ class SudokuBoardEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [solution, values, given];
+  List<Object?> get props => [solution, values, given, notes];
 }

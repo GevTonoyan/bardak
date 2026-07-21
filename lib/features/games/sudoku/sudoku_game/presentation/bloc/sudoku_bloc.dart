@@ -19,6 +19,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     on<SelectCell>(_onSelectCell);
     on<EnterDigit>(_onEnterDigit);
     on<EraseCell>(_onEraseCell);
+    on<ToggleNotesMode>(_onToggleNotesMode);
   }
 
   void _onSelectCell(SelectCell event, Emitter<SudokuState> emit) {
@@ -35,9 +36,21 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     if (event.digit < 1 || event.digit > SudokuBoardEntity.size) return;
 
     final index = state.selectedIndex;
-    if (index == null || state.board.given[index]) return;
+    final board = state.board;
+    if (index == null || board.given[index]) return;
 
-    emit(state.copyWith(board: state.board.withValue(index, event.digit)));
+    // In notes mode a digit is a pencil-mark; otherwise it is the answer,
+    // which clears any notes already in the cell.
+    final next = state.notesMode
+        ? board.withNote(index, event.digit)
+        : board.withValue(index, event.digit);
+
+    emit(state.copyWith(board: next));
+  }
+
+  void _onToggleNotesMode(ToggleNotesMode event, Emitter<SudokuState> emit) {
+    if (state.isSolved) return;
+    emit(state.copyWith(notesMode: !state.notesMode));
   }
 
   void _onEraseCell(EraseCell event, Emitter<SudokuState> emit) {

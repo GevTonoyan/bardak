@@ -31,3 +31,8 @@ class EnterDigit extends SudokuEvent {
 class EraseCell extends SudokuEvent {
   const EraseCell();
 }
+
+/// Switches between placing digits and pencilling candidates.
+class ToggleNotesMode extends SudokuEvent {
+  const ToggleNotesMode();
+}
