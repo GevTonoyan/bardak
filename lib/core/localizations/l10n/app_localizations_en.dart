@@ -175,6 +175,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sudoku_difficulty_hard => 'Hard';
 
   @override
+  String get sudoku_difficulty_expert => 'Expert';
+
+  @override
+  String get sudoku_difficulty_extreme => 'Extreme';
+
+  @override
+  String get sudoku_score => 'Score';
+
+  @override
+  String get sudoku_best_score => 'Best score';
+
+  @override
+  String get sudoku_best_time => 'Best time';
+
+  @override
+  String get sudoku_new_record => 'New record!';
+
+  @override
+  String get sudoku_new_game => 'New game';
+
+  @override
   String get sudoku_show_timer => 'Timer';
 
   @override

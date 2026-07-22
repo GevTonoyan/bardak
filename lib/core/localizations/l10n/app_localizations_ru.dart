@@ -182,6 +182,27 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sudoku_difficulty_hard => 'Сложно';
 
   @override
+  String get sudoku_difficulty_expert => 'Эксперт';
+
+  @override
+  String get sudoku_difficulty_extreme => 'Экстрим';
+
+  @override
+  String get sudoku_score => 'Счёт';
+
+  @override
+  String get sudoku_best_score => 'Лучший счёт';
+
+  @override
+  String get sudoku_best_time => 'Лучшее время';
+
+  @override
+  String get sudoku_new_record => 'Новый рекорд!';
+
+  @override
+  String get sudoku_new_game => 'Новая игра';
+
+  @override
   String get sudoku_show_timer => 'Таймер';
 
   @override

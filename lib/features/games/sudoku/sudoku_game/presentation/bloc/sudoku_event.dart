@@ -42,3 +42,20 @@ class ToggleNotesMode extends SudokuEvent {
 class Undo extends SudokuEvent {
   const Undo();
 }
+
+/// Generates the puzzle in the background; dispatched once on start when
+/// no board was supplied or restored.
+class GeneratePuzzle extends SudokuEvent {
+  const GeneratePuzzle();
+}
+
+/// Advances the elapsed time by one second.
+class TimerTicked extends SudokuEvent {
+  const TimerTicked();
+}
+
+/// Records the solved game in the lifetime statistics; dispatched
+/// internally right after the winning placement.
+class RecordWin extends SudokuEvent {
+  const RecordWin();
+}

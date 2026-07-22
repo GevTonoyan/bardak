@@ -7,15 +7,74 @@ import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/core/localizations/l10n/app_localizations.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_saved_game_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_stats_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/clear_saved_sudoku_game_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/generate_sudoku_board_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/has_saved_sudoku_game_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/record_sudoku_win_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/update_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_settings_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get_sudoku_settings_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_show_timer_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_sudoku_difficulty_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+
+class _MockGenerateSudokuBoardUseCase extends Mock
+    implements GenerateSudokuBoardUseCase {}
+
+class _MockUpdateSavedSudokuGameUseCase extends Mock
+    implements UpdateSavedSudokuGameUseCase {}
+
+class _MockClearSavedSudokuGameUseCase extends Mock
+    implements ClearSavedSudokuGameUseCase {}
+
+class _MockRecordSudokuWinUseCase extends Mock
+    implements RecordSudokuWinUseCase {}
+
+class _MockGetSudokuSettingsUseCase extends Mock
+    implements GetSudokuSettingsUseCase {}
+
+class _MockUpdateSudokuDifficultyUseCase extends Mock
+    implements UpdateSudokuDifficultyUseCase {}
+
+class _MockUpdateShowTimerUseCase extends Mock
+    implements UpdateShowTimerUseCase {}
+
+class _MockHasSavedSudokuGameUseCase extends Mock
+    implements HasSavedSudokuGameUseCase {}
 
 void main() {
   late SudokuBoardEntity board;
   late int emptyIndex;
+
+  setUpAll(() {
+    registerFallbackValue(
+      SudokuSavedGameEntity(
+        board: SudokuBoardEntity.generate(random: Random(0)),
+        difficulty: SudokuDifficulty.medium,
+        mistakes: 0,
+        score: 0,
+        scoredCells: const {},
+        elapsedSeconds: 0,
+      ),
+    );
+    registerFallbackValue(
+      const RecordSudokuWinParams(
+        difficulty: SudokuDifficulty.medium,
+        score: 0,
+        timeSeconds: 0,
+      ),
+    );
+  });
 
   setUp(() {
     board = SudokuBoardEntity.generate(random: Random(1));
@@ -26,8 +85,41 @@ void main() {
     await tester.binding.setSurfaceSize(const Size(390, 844));
     addTearDown(() => tester.binding.setSurfaceSize(null));
 
-    final bloc = SudokuBloc(board: board, showTimer: true);
+    final updateSavedUseCase = _MockUpdateSavedSudokuGameUseCase();
+    final clearSavedUseCase = _MockClearSavedSudokuGameUseCase();
+    final recordWinUseCase = _MockRecordSudokuWinUseCase();
+    when(() => updateSavedUseCase(any())).thenAnswer((_) async => true);
+    when(() => clearSavedUseCase()).thenAnswer((_) async => true);
+    when(() => recordWinUseCase(any())).thenAnswer(
+      (_) async => const SudokuWinRecordEntity(
+        stats: SudokuDifficultyStats(gamesWon: 1, bestScore: 1),
+        isNewBestScore: true,
+        isNewBestTime: true,
+      ),
+    );
+
+    final bloc = SudokuBloc(
+      difficulty: SudokuDifficulty.medium,
+      showTimer: true,
+      generateSudokuBoardUseCase: _MockGenerateSudokuBoardUseCase(),
+      updateSavedSudokuGameUseCase: updateSavedUseCase,
+      clearSavedSudokuGameUseCase: clearSavedUseCase,
+      recordSudokuWinUseCase: recordWinUseCase,
+      board: board,
+    );
     addTearDown(bloc.close);
+
+    final getSettingsUseCase = _MockGetSudokuSettingsUseCase();
+    final hasSavedUseCase = _MockHasSavedSudokuGameUseCase();
+    when(() => getSettingsUseCase()).thenReturn(const SudokuSettingsEntity());
+    when(() => hasSavedUseCase()).thenReturn(false);
+    final settingsBloc = SudokuSettingsBloc(
+      getSudokuSettingsUseCase: getSettingsUseCase,
+      updateSudokuDifficultyUseCase: _MockUpdateSudokuDifficultyUseCase(),
+      updateShowTimerUseCase: _MockUpdateShowTimerUseCase(),
+      hasSavedSudokuGameUseCase: hasSavedUseCase,
+    );
+    addTearDown(settingsBloc.close);
 
     final themeData = AppThemeData(
       colors: AppColorScheme.turquoise.colors,
@@ -43,7 +135,13 @@ void main() {
           supportedLocales: AppLocale.supportedLocales,
           locale: const Locale('en'),
           theme: themeData.themeData,
-          home: BlocProvider.value(value: bloc, child: const SudokuScreen()),
+          home: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: bloc),
+              BlocProvider.value(value: settingsBloc),
+            ],
+            child: const SudokuScreen(),
+          ),
         ),
       ),
     );
@@ -95,6 +193,26 @@ void main() {
 
     expect(find.byIcon(Icons.favorite_rounded), findsNWidgets(2));
     expect(find.byIcon(Icons.heart_broken_rounded), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('digit keys show how many are left to place', (tester) async {
+    final bloc = await pumpScreen(tester);
+
+    final digit = board.solution[emptyIndex];
+    final before = bloc.state.remainingOf(digit);
+
+    await tester.tap(find.byKey(ValueKey(emptyIndex)));
+    await tester.pump();
+    await tester.tap(find.byKey(ValueKey('sudoku_digit_$digit')));
+    await tester.pump();
+
+    final counter = find.descendant(
+      of: find.byKey(ValueKey('sudoku_digit_$digit')),
+      matching: find.text('${before - 1}'),
+    );
+    expect(counter, findsOneWidget);
 
     await tester.pumpWidget(const SizedBox());
   });

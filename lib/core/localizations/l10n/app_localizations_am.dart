@@ -175,6 +175,27 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sudoku_difficulty_hard => 'Բարդ';
 
   @override
+  String get sudoku_difficulty_expert => 'Փորձագետ';
+
+  @override
+  String get sudoku_difficulty_extreme => 'Էքստրիմ';
+
+  @override
+  String get sudoku_score => 'Հաշիվ';
+
+  @override
+  String get sudoku_best_score => 'Լավագույն հաշիվ';
+
+  @override
+  String get sudoku_best_time => 'Լավագույն ժամանակ';
+
+  @override
+  String get sudoku_new_record => 'Նոր ռեկորդ';
+
+  @override
+  String get sudoku_new_game => 'Նոր խաղ';
+
+  @override
   String get sudoku_show_timer => 'Ժամանակաչափ';
 
   @override

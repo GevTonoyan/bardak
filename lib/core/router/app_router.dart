@@ -27,7 +27,7 @@ import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_result
 import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_role_reveal_screen.dart';
 import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_session_screen.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
-import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/get_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_game_over_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
@@ -160,14 +160,23 @@ final appRouter = GoRouter(
               name: SudokuScreen.routePath,
               pageBuilder: (context, state) {
                 final settings = sl<GetSudokuSettingsUseCase>()();
+                // Resuming restores the saved snapshot; otherwise a fresh
+                // puzzle is generated in the background by the bloc.
+                final resume = state.extra == true;
+                final savedGame = resume
+                    ? sl<GetSavedSudokuGameUseCase>()()
+                    : null;
 
                 return MaterialPage(
                   child: BlocProvider(
                     create: (_) => SudokuBloc(
-                      board: SudokuBoardEntity.generate(
-                        givensCount: settings.difficulty.givensCount,
-                      ),
+                      difficulty: settings.difficulty,
                       showTimer: settings.showTimer,
+                      generateSudokuBoardUseCase: sl(),
+                      updateSavedSudokuGameUseCase: sl(),
+                      clearSavedSudokuGameUseCase: sl(),
+                      recordSudokuWinUseCase: sl(),
+                      savedGame: savedGame,
                     ),
                     child: const SudokuScreen(),
                   ),
@@ -179,15 +188,18 @@ final appRouter = GoRouter(
                   name: SudokuWinScreen.routePath,
                   pageBuilder: (context, state) => MaterialPage(
                     child: SudokuWinScreen(
-                      solveSeconds: state.extra as int?,
+                      args: state.extra! as SudokuWinArgs,
                     ),
                   ),
                 ),
                 GoRoute(
                   path: SudokuGameOverScreen.routePath,
                   name: SudokuGameOverScreen.routePath,
-                  pageBuilder: (context, state) =>
-                      const MaterialPage(child: SudokuGameOverScreen()),
+                  pageBuilder: (context, state) => MaterialPage(
+                    child: SudokuGameOverScreen(
+                      score: state.extra as int? ?? 0,
+                    ),
+                  ),
                 ),
               ],
             ),

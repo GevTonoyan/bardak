@@ -31,16 +31,38 @@ class SudokuSettingsScreen extends Page<void> {
   }
 }
 
-class _SudokuSettingsBody extends StatelessWidget {
+class _SudokuSettingsBody extends StatefulWidget {
   const _SudokuSettingsBody();
 
-  String _difficultyLabel(BuildContext context, SudokuDifficulty difficulty) {
-    final l10n = context.l10n;
-    return switch (difficulty) {
-      SudokuDifficulty.easy => l10n.sudoku_difficulty_easy,
-      SudokuDifficulty.medium => l10n.sudoku_difficulty_medium,
-      SudokuDifficulty.hard => l10n.sudoku_difficulty_hard,
-    };
+  @override
+  State<_SudokuSettingsBody> createState() => _SudokuSettingsBodyState();
+}
+
+class _SudokuSettingsBodyState extends State<_SudokuSettingsBody> {
+  @override
+  void initState() {
+    super.initState();
+    // A game may have ended or been abandoned since the last visit.
+    context.read<SudokuSettingsBloc>().add(const RefreshSavedGame());
+  }
+
+  Widget _difficultyButton(
+    BuildContext context,
+    SudokuDifficulty difficulty,
+  ) {
+    final colors = context.colors;
+    final settingsBloc = context.read<SudokuSettingsBloc>();
+    final selected = settingsBloc.state.sudokuSettings.difficulty;
+
+    return AppButton(
+      label: sudokuDifficultyLabel(context, difficulty),
+      color: colors.white20,
+      size: .medium,
+      isPressed: selected == difficulty,
+      pressedColor: colors.white,
+      pressedTextColor: colors.secondary,
+      onPressed: () => settingsBloc.add(ChangeDifficulty(difficulty)),
+    );
   }
 
   @override
@@ -51,6 +73,9 @@ class _SudokuSettingsBody extends StatelessWidget {
 
     final settingsBloc = context.watch<SudokuSettingsBloc>();
     final settings = settingsBloc.state.sudokuSettings;
+    final hasSavedGame = settingsBloc.state.hasSavedGame;
+
+    const difficulties = SudokuDifficulty.values;
 
     return Column(
       children: [
@@ -68,20 +93,16 @@ class _SudokuSettingsBody extends StatelessWidget {
                 Row(
                   spacing: 10,
                   children: [
-                    for (final difficulty in SudokuDifficulty.values)
-                      Expanded(
-                        child: AppButton(
-                          label: _difficultyLabel(context, difficulty),
-                          color: colors.white20,
-                          size: .medium,
-                          isPressed: settings.difficulty == difficulty,
-                          pressedColor: colors.white,
-                          pressedTextColor: colors.secondary,
-                          onPressed: () => settingsBloc.add(
-                            ChangeDifficulty(difficulty),
-                          ),
-                        ),
-                      ),
+                    for (final difficulty in difficulties.take(3))
+                      Expanded(child: _difficultyButton(context, difficulty)),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  spacing: 10,
+                  children: [
+                    for (final difficulty in difficulties.skip(3))
+                      Expanded(child: _difficultyButton(context, difficulty)),
                   ],
                 ),
                 height40,
@@ -100,11 +121,30 @@ class _SudokuSettingsBody extends StatelessWidget {
           ),
         ),
         height20,
-        AppButton(
-          label: l10n.proceed,
-          color: colors.green,
-          onPressed: () => unawaited(context.pushNamed(SudokuScreen.routePath)),
-        ),
+        if (hasSavedGame) ...[
+          AppButton(
+            label: l10n.proceed,
+            color: colors.green,
+            onPressed: () => unawaited(
+              context.pushNamed(SudokuScreen.routePath, extra: true),
+            ),
+          ),
+          const SizedBox(height: 10),
+          AppButton(
+            label: l10n.sudoku_new_game,
+            color: colors.white20,
+            onPressed: () => unawaited(
+              context.pushNamed(SudokuScreen.routePath),
+            ),
+          ),
+        ] else
+          AppButton(
+            label: l10n.proceed,
+            color: colors.green,
+            onPressed: () => unawaited(
+              context.pushNamed(SudokuScreen.routePath),
+            ),
+          ),
       ],
     );
   }

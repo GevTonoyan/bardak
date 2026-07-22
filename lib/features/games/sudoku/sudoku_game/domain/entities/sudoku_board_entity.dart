@@ -54,6 +54,30 @@ class SudokuBoardEntity extends Equatable {
     );
   }
 
+  /// Restores a board previously serialized with [toJson].
+  factory SudokuBoardEntity.fromJson(Map<String, dynamic> json) {
+    return SudokuBoardEntity(
+      solution: [...(json['solution'] as List).cast<int>()],
+      values: [...(json['values'] as List).cast<int>()],
+      given: [...(json['given'] as List).cast<bool>()],
+      notes: [
+        for (final cellNotes in json['notes'] as List)
+          {...(cellNotes as List).cast<int>()},
+      ],
+    );
+  }
+
+  /// An unplayable stand-in shown while the real puzzle is generated in
+  /// the background: every cell is locked and nothing can be solved.
+  factory SudokuBoardEntity.placeholder() {
+    return SudokuBoardEntity(
+      solution: [for (var i = 0; i < cellCount; i++) -1],
+      values: [for (var i = 0; i < cellCount; i++) empty],
+      given: [for (var i = 0; i < cellCount; i++) true],
+      notes: [for (var i = 0; i < cellCount; i++) const <int>{}],
+    );
+  }
+
   static const size = 9;
   static const boxSize = 3;
   static const int cellCount = size * size;
@@ -132,19 +156,34 @@ class SudokuBoardEntity extends Equatable {
       unit.every((i) => values[i] == solution[i]);
 
   /// Returns a copy with [value] placed at [index]; given cells are locked.
-  /// Placing (or erasing) a value clears that cell's pencil marks.
+  /// Placing (or erasing) a value clears that cell's pencil marks, and a
+  /// placed digit is also erased from the notes of every peer cell in the
+  /// same row, column and box — those candidates are no longer possible.
   SudokuBoardEntity withValue(int index, int value) {
     if (given[index]) return this;
+
+    final newNotes = [
+      for (final cellNotes in notes) {...cellNotes},
+    ];
+    newNotes[index] = <int>{};
+    if (value != empty) {
+      for (final unit in unitsOf(index)) {
+        for (final peer in unit) {
+          newNotes[peer].remove(value);
+        }
+      }
+    }
 
     return SudokuBoardEntity(
       solution: solution,
       values: [...values]..[index] = value,
       given: given,
-      notes: [
-        for (final cellNotes in notes) {...cellNotes},
-      ]..[index] = <int>{},
+      notes: newNotes,
     );
   }
+
+  /// How many cells currently hold [digit].
+  int countOf(int digit) => values.where((v) => v == digit).length;
 
   /// Returns a copy toggling candidate [digit] in the empty cell at [index].
   /// Given or already-filled cells are left unchanged.
@@ -223,6 +262,16 @@ class SudokuBoardEntity extends Equatable {
     }
     return true;
   }
+
+  /// Serializes the board for persistence; see [SudokuBoardEntity.fromJson].
+  Map<String, dynamic> toJson() => {
+    'solution': solution,
+    'values': values,
+    'given': given,
+    'notes': [
+      for (final cellNotes in notes) [...cellNotes],
+    ],
+  };
 
   @override
   List<Object?> get props => [solution, values, given, notes];

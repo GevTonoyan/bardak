@@ -15,6 +15,9 @@ import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudok
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_game_over_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_win_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_event.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,20 +34,28 @@ class SudokuScreen extends StatefulWidget {
 }
 
 class _SudokuScreenState extends State<SudokuScreen> {
-  var _elapsedSeconds = 0;
   Timer? _timer;
+  SudokuBloc? _sudokuBloc;
+  SudokuSettingsBloc? _settingsBloc;
 
   @override
   void initState() {
     super.initState();
+    _sudokuBloc = context.read<SudokuBloc>();
+    _settingsBloc = context.read<SudokuSettingsBloc>();
+    // The bloc owns the elapsed time (so it survives a resume); the
+    // screen only supplies the heartbeat.
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() => _elapsedSeconds++);
+      _sudokuBloc?.add(const TimerTicked());
     });
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    // The settings sheet below shows a Continue button when a game can
+    // be resumed; leaving this screen is when that answer changes.
+    _settingsBloc?.add(const RefreshSavedGame());
     super.dispose();
   }
 
@@ -73,14 +84,19 @@ class _SudokuScreenState extends State<SudokuScreen> {
     return MultiBlocListener(
       listeners: [
         BlocListener<SudokuBloc, SudokuState>(
-          // Only the transition into solved counts, so navigation fires once.
+          // The win record lands right after the solved emission and only
+          // once, so it is the navigation trigger.
           listenWhen: (previous, current) =>
-              !previous.isSolved && current.isSolved,
+              previous.winRecord == null && current.winRecord != null,
           listener: (context, state) {
             _timer?.cancel();
             context.pushReplacementNamed(
               SudokuWinScreen.routePath,
-              extra: state.showTimer ? _elapsedSeconds : null,
+              extra: SudokuWinArgs(
+                solveSeconds: state.showTimer ? state.elapsedSeconds : null,
+                score: state.score,
+                record: state.winRecord,
+              ),
             );
           },
         ),
@@ -90,7 +106,10 @@ class _SudokuScreenState extends State<SudokuScreen> {
               !previous.isGameOver && current.isGameOver,
           listener: (context, state) {
             _timer?.cancel();
-            context.pushReplacementNamed(SudokuGameOverScreen.routePath);
+            context.pushReplacementNamed(
+              SudokuGameOverScreen.routePath,
+              extra: state.score,
+            );
           },
         ),
         BlocListener<SudokuBloc, SudokuState>(
@@ -124,13 +143,18 @@ class _SudokuScreenState extends State<SudokuScreen> {
                       ),
                     ),
                     if (showTimer)
-                      // Counting up, so the countdown warning colors are
-                      // pushed below zero and the pill stays green.
-                      RoundTimer(
-                        seconds: _elapsedSeconds,
-                        formatAsMinutes: true,
-                        orangeBelow: -1,
-                        redBelow: -1,
+                      BlocSelector<SudokuBloc, SudokuState, int>(
+                        selector: (state) => state.elapsedSeconds,
+                        builder: (context, elapsed) {
+                          // Counting up, so the countdown warning colors
+                          // are pushed below zero and the pill stays green.
+                          return RoundTimer(
+                            seconds: elapsed,
+                            formatAsMinutes: true,
+                            orangeBelow: -1,
+                            redBelow: -1,
+                          );
+                        },
                       ),
                     const Align(
                       alignment: .centerRight,
@@ -138,6 +162,10 @@ class _SudokuScreenState extends State<SudokuScreen> {
                     ),
                   ],
                 ),
+              ),
+              const Padding(
+                padding: .fromLTRB(20, 12, 20, 0),
+                child: _GameInfoBar(),
               ),
               // The board fills all the space between the header and the
               // pad, sized to the largest square that fits (bounded by width
@@ -165,6 +193,62 @@ String formatSudokuTime(int totalSeconds) {
   final minutes = totalSeconds ~/ 60;
   final seconds = totalSeconds % 60;
   return '$minutes:${seconds.toString().padLeft(2, '0')}';
+}
+
+/// The localized name of a difficulty level.
+String sudokuDifficultyLabel(
+  BuildContext context,
+  SudokuDifficulty difficulty,
+) {
+  final l10n = context.l10n;
+  return switch (difficulty) {
+    SudokuDifficulty.easy => l10n.sudoku_difficulty_easy,
+    SudokuDifficulty.medium => l10n.sudoku_difficulty_medium,
+    SudokuDifficulty.hard => l10n.sudoku_difficulty_hard,
+    SudokuDifficulty.expert => l10n.sudoku_difficulty_expert,
+    SudokuDifficulty.extreme => l10n.sudoku_difficulty_extreme,
+  };
+}
+
+/// Difficulty on the left, live score on the right.
+class _GameInfoBar extends StatelessWidget {
+  const _GameInfoBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return BlocSelector<
+      SudokuBloc,
+      SudokuState,
+      ({SudokuDifficulty difficulty, int score})
+    >(
+      selector: (state) => (difficulty: state.difficulty, score: state.score),
+      builder: (context, data) {
+        return Row(
+          mainAxisAlignment: .spaceBetween,
+          children: [
+            Text(
+              sudokuDifficultyLabel(context, data.difficulty),
+              style: context.typography.regular18.copyWith(
+                color: colors.white50,
+              ),
+            ),
+            Row(
+              spacing: 6,
+              children: [
+                Icon(Icons.star_rounded, size: 20, color: colors.orange),
+                Text(
+                  '${data.score}',
+                  style: context.typography.regular18.withNumericFont,
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 /// The player's remaining lives as hearts in a glass pill. Losing one
@@ -253,6 +337,12 @@ class _SudokuGrid extends StatelessWidget {
           borderRadius: .circular(10),
           child: BlocBuilder<SudokuBloc, SudokuState>(
             builder: (context, state) {
+              if (state.isGenerating) {
+                return Center(
+                  child: CircularProgressIndicator(color: colors.white),
+                );
+              }
+
               // Cells paint only their fills; the grid lines are drawn once
               // on top by a single pixel-snapped painter so every divider is
               // crisp and uniform regardless of the board's fractional size.
@@ -570,16 +660,7 @@ class _DigitPad extends StatelessWidget {
           spacing: 6,
           children: [
             for (var digit = 1; digit <= SudokuBoardEntity.size; digit++)
-              Expanded(
-                child: _PadButton(
-                  key: ValueKey('sudoku_digit_$digit'),
-                  onTap: () => bloc.add(EnterDigit(digit)),
-                  child: Text(
-                    '$digit',
-                    style: context.typography.regular24.withNumericFont,
-                  ),
-                ),
-              ),
+              Expanded(child: _DigitButton(digit: digit)),
           ],
         ),
         height20,
@@ -623,6 +704,45 @@ class _DigitPad extends StatelessWidget {
   }
 }
 
+/// A digit key showing how many of that digit are still to be placed;
+/// dimmed and disabled once all nine are on the board.
+class _DigitButton extends StatelessWidget {
+  const _DigitButton({required this.digit});
+
+  final int digit;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.read<SudokuBloc>();
+
+    return BlocSelector<SudokuBloc, SudokuState, int>(
+      selector: (state) => state.remainingOf(digit),
+      builder: (context, remaining) {
+        return _PadButton(
+          key: ValueKey('sudoku_digit_$digit'),
+          onTap: remaining > 0 ? () => bloc.add(EnterDigit(digit)) : null,
+          child: Column(
+            mainAxisSize: .min,
+            children: [
+              Text(
+                '$digit',
+                style: context.typography.regular24.withNumericFont,
+              ),
+              Text(
+                '$remaining',
+                style: context.typography.bodySmall.withNumericFont.copyWith(
+                  color: context.colors.white50,
+                  height: 1,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _PadButton extends StatelessWidget {
   const _PadButton({
     required this.onTap,
@@ -653,7 +773,7 @@ class _PadButton extends StatelessWidget {
             data: IconThemeData(
               color: isActive ? colors.secondary : colors.white,
             ),
-            child: SizedBox(height: 48, child: Center(child: child)),
+            child: SizedBox(height: 56, child: Center(child: child)),
           ),
         ),
       ),

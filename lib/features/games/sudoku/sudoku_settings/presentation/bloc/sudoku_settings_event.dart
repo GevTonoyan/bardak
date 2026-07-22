@@ -27,3 +27,9 @@ class ChangeShowTimer extends SudokuSettingsEvent {
   @override
   List<Object?> get props => [showTimer];
 }
+
+/// Re-checks whether an unfinished game can be resumed (dispatched when
+/// the settings sheet opens and when the game screen is left).
+class RefreshSavedGame extends SudokuSettingsEvent {
+  const RefreshSavedGame();
+}

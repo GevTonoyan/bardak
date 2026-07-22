@@ -412,6 +412,48 @@ abstract class AppLocalizations {
   /// **'Hard'**
   String get sudoku_difficulty_hard;
 
+  /// No description provided for @sudoku_difficulty_expert.
+  ///
+  /// In en, this message translates to:
+  /// **'Expert'**
+  String get sudoku_difficulty_expert;
+
+  /// No description provided for @sudoku_difficulty_extreme.
+  ///
+  /// In en, this message translates to:
+  /// **'Extreme'**
+  String get sudoku_difficulty_extreme;
+
+  /// No description provided for @sudoku_score.
+  ///
+  /// In en, this message translates to:
+  /// **'Score'**
+  String get sudoku_score;
+
+  /// No description provided for @sudoku_best_score.
+  ///
+  /// In en, this message translates to:
+  /// **'Best score'**
+  String get sudoku_best_score;
+
+  /// No description provided for @sudoku_best_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Best time'**
+  String get sudoku_best_time;
+
+  /// No description provided for @sudoku_new_record.
+  ///
+  /// In en, this message translates to:
+  /// **'New record!'**
+  String get sudoku_new_record;
+
+  /// No description provided for @sudoku_new_game.
+  ///
+  /// In en, this message translates to:
+  /// **'New game'**
+  String get sudoku_new_game;
+
   /// No description provided for @sudoku_show_timer.
   ///
   /// In en, this message translates to:

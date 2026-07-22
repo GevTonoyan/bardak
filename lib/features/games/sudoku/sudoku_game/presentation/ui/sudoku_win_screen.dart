@@ -8,6 +8,8 @@ import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
+import 'package:bardak/core/localizations/l10n/app_localizations.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:confetti/confetti.dart';
@@ -15,14 +17,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// Celebration screen shown when the Sudoku puzzle is solved.
-class SudokuWinScreen extends StatefulWidget {
-  const SudokuWinScreen({this.solveSeconds, super.key});
-
-  static const routePath = 'sudokuWin';
+/// Navigation payload for [SudokuWinScreen].
+class SudokuWinArgs {
+  const SudokuWinArgs({
+    required this.solveSeconds,
+    required this.score,
+    required this.record,
+  });
 
   /// Time the puzzle took; null when the timer is disabled in settings.
   final int? solveSeconds;
+
+  /// Points earned in the solved game.
+  final int score;
+
+  /// Updated lifetime stats and new-record flags; null if recording
+  /// was unavailable.
+  final SudokuWinRecordEntity? record;
+}
+
+/// Celebration screen shown when the Sudoku puzzle is solved.
+class SudokuWinScreen extends StatefulWidget {
+  const SudokuWinScreen({required this.args, super.key});
+
+  static const routePath = 'sudokuWin';
+
+  final SudokuWinArgs args;
 
   @override
   State<SudokuWinScreen> createState() => _SudokuWinScreenState();
@@ -58,11 +78,22 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
     super.dispose();
   }
 
+  /// "Best score: N · Best time: m:ss" (time part only when recorded).
+  String _bestStatsLine(AppLocalizations l10n, SudokuWinRecordEntity record) {
+    final bestScore = '${l10n.sudoku_best_score}: ${record.stats.bestScore}';
+    final bestTime = record.stats.bestTimeSeconds;
+    if (bestTime == null) return bestScore;
+
+    return '$bestScore  ·  '
+        '${l10n.sudoku_best_time}: ${formatSudokuTime(bestTime)}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
-    final solveSeconds = widget.solveSeconds;
+    final solveSeconds = widget.args.solveSeconds;
+    final record = widget.args.record;
 
     return Material(
       child: Stack(
@@ -93,12 +124,33 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
                       textAlign: .center,
                       style: context.typography.regular28,
                     ),
+                    Text(
+                      '${l10n.sudoku_score}: ${widget.args.score}',
+                      textAlign: .center,
+                      style: context.typography.regular24.withNumericFont,
+                    ),
                     if (solveSeconds != null)
                       Text(
                         '${l10n.sudoku_your_time} '
                         '${formatSudokuTime(solveSeconds)}',
                         textAlign: .center,
                         style: context.typography.regular24.withNumericFont
+                            .copyWith(color: colors.white50),
+                      ),
+                    if (record != null &&
+                        (record.isNewBestScore || record.isNewBestTime))
+                      Text(
+                        l10n.sudoku_new_record,
+                        textAlign: .center,
+                        style: context.typography.regular24.copyWith(
+                          color: colors.orange,
+                        ),
+                      ),
+                    if (record != null)
+                      Text(
+                        _bestStatsLine(l10n, record),
+                        textAlign: .center,
+                        style: context.typography.regular18.withNumericFont
                             .copyWith(color: colors.white50),
                       ),
                   ],

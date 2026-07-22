@@ -1,23 +1,91 @@
 import 'dart:math';
 
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_saved_game_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_stats_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/clear_saved_sudoku_game_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/generate_sudoku_board_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/record_sudoku_win_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/update_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+
+class _MockGenerateSudokuBoardUseCase extends Mock
+    implements GenerateSudokuBoardUseCase {}
+
+class _MockUpdateSavedSudokuGameUseCase extends Mock
+    implements UpdateSavedSudokuGameUseCase {}
+
+class _MockClearSavedSudokuGameUseCase extends Mock
+    implements ClearSavedSudokuGameUseCase {}
+
+class _MockRecordSudokuWinUseCase extends Mock
+    implements RecordSudokuWinUseCase {}
 
 void main() {
   late SudokuBoardEntity board;
   late int editable;
   late int locked;
+  late _MockGenerateSudokuBoardUseCase generateUseCase;
+  late _MockUpdateSavedSudokuGameUseCase updateSavedUseCase;
+  late _MockClearSavedSudokuGameUseCase clearSavedUseCase;
+  late _MockRecordSudokuWinUseCase recordWinUseCase;
+
+  setUpAll(() {
+    registerFallbackValue(
+      SudokuSavedGameEntity(
+        board: SudokuBoardEntity.generate(random: Random(0)),
+        difficulty: SudokuDifficulty.medium,
+        mistakes: 0,
+        score: 0,
+        scoredCells: const {},
+        elapsedSeconds: 0,
+      ),
+    );
+    registerFallbackValue(
+      const RecordSudokuWinParams(
+        difficulty: SudokuDifficulty.medium,
+        score: 0,
+        timeSeconds: 0,
+      ),
+    );
+  });
 
   setUp(() {
     board = SudokuBoardEntity.generate(random: Random(1));
     editable = board.given.indexOf(false);
     locked = board.given.indexOf(true);
+    generateUseCase = _MockGenerateSudokuBoardUseCase();
+    updateSavedUseCase = _MockUpdateSavedSudokuGameUseCase();
+    clearSavedUseCase = _MockClearSavedSudokuGameUseCase();
+    recordWinUseCase = _MockRecordSudokuWinUseCase();
+
+    when(() => updateSavedUseCase(any())).thenAnswer((_) async => true);
+    when(() => clearSavedUseCase()).thenAnswer((_) async => true);
+    when(() => recordWinUseCase(any())).thenAnswer(
+      (_) async => const SudokuWinRecordEntity(
+        stats: SudokuDifficultyStats(gamesWon: 1, bestScore: 1),
+        isNewBestScore: true,
+        isNewBestTime: true,
+      ),
+    );
   });
 
-  SudokuBloc buildBloc() => SudokuBloc(board: board, showTimer: true);
+  SudokuBloc buildBloc({SudokuSavedGameEntity? savedGame}) => SudokuBloc(
+    difficulty: SudokuDifficulty.medium,
+    showTimer: true,
+    generateSudokuBoardUseCase: generateUseCase,
+    updateSavedSudokuGameUseCase: updateSavedUseCase,
+    clearSavedSudokuGameUseCase: clearSavedUseCase,
+    recordSudokuWinUseCase: recordWinUseCase,
+    board: savedGame == null ? board : null,
+    savedGame: savedGame,
+  );
 
   test('SelectCell targets the cell for input', () async {
     final bloc = buildBloc()..add(SelectCell(editable));
@@ -278,10 +346,11 @@ void main() {
       final bloc = buildBloc();
       addTearDown(bloc.close);
 
-      final solvedEmissions = <SudokuState>[];
+      // The win record lands exactly once; it is the navigation trigger.
+      final recordEmissions = <SudokuState>[];
       final subscription = bloc.stream
-          .where((s) => s.isSolved)
-          .listen(solvedEmissions.add);
+          .where((s) => s.winRecord != null)
+          .listen(recordEmissions.add);
       addTearDown(subscription.cancel);
 
       for (var i = 0; i < SudokuBoardEntity.cellCount; i++) {
@@ -301,8 +370,148 @@ void main() {
         ..add(const EraseCell());
       await pumpEventQueue();
 
-      expect(solvedEmissions, hasLength(1));
+      expect(recordEmissions, hasLength(1));
       expect(bloc.state.isSolved, isTrue);
+
+      // The win was recorded once and the resumable snapshot discarded.
+      verify(() => recordWinUseCase(any())).called(1);
+      verify(() => clearSavedUseCase()).called(1);
+      expect(bloc.state.winRecord, isNotNull);
     },
   );
+
+  test('placing a digit strips it from peer notes', () async {
+    // Two empty cells in the same row: pencil the digit into the second,
+    // then place it in the first.
+    final row = editable ~/ SudokuBoardEntity.size;
+    final peer = [
+      for (var col = 0; col < SudokuBoardEntity.size; col++)
+        if (!board.given[row * SudokuBoardEntity.size + col] &&
+            row * SudokuBoardEntity.size + col != editable)
+          row * SudokuBoardEntity.size + col,
+    ].first;
+    final digit = board.solution[editable];
+
+    final bloc = buildBloc()
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(peer))
+      ..add(EnterDigit(digit))
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(digit));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.board.values[editable], digit);
+    expect(bloc.state.board.notes[peer], isEmpty);
+  });
+
+  test('a correct placement scores once per cell', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(board.solution[editable]));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+    expect(bloc.state.score, SudokuDifficulty.medium.pointsPerCell);
+
+    // Erasing and re-entering the same cell must not double the points.
+    bloc
+      ..add(const EraseCell())
+      ..add(EnterDigit(board.solution[editable]));
+    await pumpEventQueue();
+    expect(bloc.state.score, SudokuDifficulty.medium.pointsPerCell);
+  });
+
+  test('a wrong placement scores nothing', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(wrongDigitFor(editable)));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.score, 0);
+  });
+
+  test('remainingOf tracks how many of a digit are left', () async {
+    final digit = board.solution[editable];
+    final placed = board.countOf(digit);
+
+    final bloc = buildBloc();
+    addTearDown(bloc.close);
+    expect(bloc.state.remainingOf(digit), SudokuBoardEntity.size - placed);
+
+    bloc
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(digit));
+    await pumpEventQueue();
+    expect(
+      bloc.state.remainingOf(digit),
+      SudokuBoardEntity.size - placed - 1,
+    );
+  });
+
+  test('every placement updates the resumable snapshot', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(board.solution[editable]));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    final saved =
+        verify(() => updateSavedUseCase(captureAny())).captured.last
+            as SudokuSavedGameEntity;
+    expect(saved.board.values[editable], board.solution[editable]);
+    expect(saved.score, SudokuDifficulty.medium.pointsPerCell);
+  });
+
+  test('game over discards the resumable snapshot', () async {
+    final editables = [
+      for (var i = 0; i < SudokuBoardEntity.cellCount; i++)
+        if (!board.given[i]) i,
+    ];
+    final bloc = buildBloc();
+    addTearDown(bloc.close);
+
+    for (final i in editables.take(SudokuState.maxMistakes)) {
+      bloc
+        ..add(SelectCell(i))
+        ..add(EnterDigit(wrongDigitFor(i)));
+    }
+    await pumpEventQueue();
+
+    expect(bloc.state.isGameOver, isTrue);
+    verify(() => clearSavedUseCase()).called(1);
+  });
+
+  test('a saved game restores board, progress and clock', () async {
+    final playedBoard = board.withValue(editable, board.solution[editable]);
+    final savedGame = SudokuSavedGameEntity(
+      board: playedBoard,
+      difficulty: SudokuDifficulty.expert,
+      mistakes: 2,
+      score: 450,
+      scoredCells: {editable},
+      elapsedSeconds: 321,
+    );
+
+    final bloc = buildBloc(savedGame: savedGame);
+    addTearDown(bloc.close);
+
+    expect(bloc.state.isGenerating, isFalse);
+    expect(bloc.state.board, playedBoard);
+    expect(bloc.state.difficulty, SudokuDifficulty.expert);
+    expect(bloc.state.mistakes, 2);
+    expect(bloc.state.score, 450);
+    expect(bloc.state.elapsedSeconds, 321);
+  });
+
+  test('timer ticks advance the clock only during play', () async {
+    final bloc = buildBloc()
+      ..add(const TimerTicked())
+      ..add(const TimerTicked());
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.elapsedSeconds, 2);
+  });
 }

@@ -102,6 +102,7 @@ void main() async {
             getSudokuSettingsUseCase: sl(),
             updateSudokuDifficultyUseCase: sl(),
             updateShowTimerUseCase: sl(),
+            hasSavedSudokuGameUseCase: sl(),
           ),
         ),
       ],
