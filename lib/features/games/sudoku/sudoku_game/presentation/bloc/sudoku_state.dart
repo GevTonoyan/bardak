@@ -9,6 +9,7 @@ class SudokuState extends Equatable {
     required this.showTimer,
     this.selectedIndex,
     this.notesMode = false,
+    this.history = const [],
   });
 
   final SudokuBoardEntity board;
@@ -25,7 +26,14 @@ class SudokuState extends Equatable {
   /// When true, tapping a digit toggles a pencil-mark instead of placing it.
   final bool notesMode;
 
+  /// Previous board states, oldest first; the last entry is what [Undo]
+  /// restores. Only board-changing actions push onto it.
+  final List<SudokuBoardEntity> history;
+
   bool get isSolved => board.isSolved;
+
+  /// Whether there is a previous action to undo.
+  bool get canUndo => history.isNotEmpty;
 
   /// Full board that is not a solution — the player is stuck without
   /// knowing why unless we tell them something is wrong.
@@ -44,6 +52,7 @@ class SudokuState extends Equatable {
     SudokuBoardEntity? board,
     int? selectedIndex,
     bool? notesMode,
+    List<SudokuBoardEntity>? history,
   }) {
     return SudokuState(
       board: board ?? this.board,
@@ -51,6 +60,7 @@ class SudokuState extends Equatable {
       showTimer: showTimer,
       selectedIndex: selectedIndex ?? this.selectedIndex,
       notesMode: notesMode ?? this.notesMode,
+      history: history ?? this.history,
     );
   }
 
@@ -61,5 +71,6 @@ class SudokuState extends Equatable {
     showTimer,
     selectedIndex,
     notesMode,
+    history,
   ];
 }

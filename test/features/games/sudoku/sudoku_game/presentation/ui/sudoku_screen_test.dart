@@ -84,4 +84,20 @@ void main() {
 
     await tester.pumpWidget(const SizedBox());
   });
+
+  testWidgets('undo button reverts the last entered digit', (tester) async {
+    final bloc = await pumpScreen(tester);
+
+    await tester.tap(find.byKey(ValueKey(emptyIndex)));
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('sudoku_digit_5')));
+    await tester.pump();
+    expect(bloc.state.board.values[emptyIndex], 5);
+
+    await tester.tap(find.byKey(const ValueKey('sudoku_undo')));
+    await tester.pump();
+    expect(bloc.state.board.values[emptyIndex], SudokuBoardEntity.empty);
+
+    await tester.pumpWidget(const SizedBox());
+  });
 }

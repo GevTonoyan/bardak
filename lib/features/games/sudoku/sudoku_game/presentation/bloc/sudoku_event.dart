@@ -36,3 +36,9 @@ class EraseCell extends SudokuEvent {
 class ToggleNotesMode extends SudokuEvent {
   const ToggleNotesMode();
 }
+
+/// Reverts the last board-changing action (a placed value, a pencil
+/// mark, or an erase).
+class Undo extends SudokuEvent {
+  const Undo();
+}

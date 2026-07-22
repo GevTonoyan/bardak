@@ -129,6 +129,62 @@ void main() {
     expect(bloc.state.board.notes[locked], isEmpty);
   });
 
+  test('undo reverts the last placed value', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(const EnterDigit(5));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+    expect(bloc.state.board.values[editable], 5);
+    expect(bloc.state.canUndo, isTrue);
+
+    bloc.add(const Undo());
+    await pumpEventQueue();
+    expect(bloc.state.board.values[editable], SudokuBoardEntity.empty);
+    expect(bloc.state.canUndo, isFalse);
+  });
+
+  test('undo reverts the last pencil mark', () async {
+    final bloc = buildBloc()
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(editable))
+      ..add(const EnterDigit(4));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+    expect(bloc.state.board.notes[editable], {4});
+
+    bloc.add(const Undo());
+    await pumpEventQueue();
+    expect(bloc.state.board.notes[editable], isEmpty);
+  });
+
+  test('undo steps back one action at a time', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(const EnterDigit(5))
+      ..add(const EnterDigit(6));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+    expect(bloc.state.board.values[editable], 6);
+
+    bloc.add(const Undo());
+    await pumpEventQueue();
+    expect(bloc.state.board.values[editable], 5);
+
+    bloc.add(const Undo());
+    await pumpEventQueue();
+    expect(bloc.state.board.values[editable], SudokuBoardEntity.empty);
+  });
+
+  test('undo with nothing to undo is a no-op', () async {
+    final bloc = buildBloc()..add(const Undo());
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.board, board);
+    expect(bloc.state.canUndo, isFalse);
+  });
+
   test(
     'completing the board emits solved exactly once and locks input',
     () async {

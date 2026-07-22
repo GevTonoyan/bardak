@@ -20,6 +20,17 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     on<EnterDigit>(_onEnterDigit);
     on<EraseCell>(_onEraseCell);
     on<ToggleNotesMode>(_onToggleNotesMode);
+    on<Undo>(_onUndo);
+  }
+
+  /// Emits [next] as the board, recording the current board on the undo
+  /// history. A no-op change (identical board) is ignored so undo only
+  /// steps back over actions that actually changed something.
+  void _commitBoard(SudokuBoardEntity next, Emitter<SudokuState> emit) {
+    if (next == state.board) return;
+    emit(
+      state.copyWith(board: next, history: [...state.history, state.board]),
+    );
   }
 
   void _onSelectCell(SelectCell event, Emitter<SudokuState> emit) {
@@ -45,7 +56,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
         ? board.withNote(index, event.digit)
         : board.withValue(index, event.digit);
 
-    emit(state.copyWith(board: next));
+    _commitBoard(next, emit);
   }
 
   void _onToggleNotesMode(ToggleNotesMode event, Emitter<SudokuState> emit) {
@@ -59,9 +70,20 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     final index = state.selectedIndex;
     if (index == null || state.board.given[index]) return;
 
+    _commitBoard(
+      state.board.withValue(index, SudokuBoardEntity.empty),
+      emit,
+    );
+  }
+
+  void _onUndo(Undo event, Emitter<SudokuState> emit) {
+    if (state.isSolved || state.history.isEmpty) return;
+
+    final previous = state.history.last;
     emit(
       state.copyWith(
-        board: state.board.withValue(index, SudokuBoardEntity.empty),
+        board: previous,
+        history: state.history.sublist(0, state.history.length - 1),
       ),
     );
   }

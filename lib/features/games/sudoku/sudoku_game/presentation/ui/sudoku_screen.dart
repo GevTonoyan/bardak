@@ -438,6 +438,18 @@ class _DigitPad extends StatelessWidget {
           spacing: 10,
           children: [
             Expanded(
+              child: BlocSelector<SudokuBloc, SudokuState, bool>(
+                selector: (state) => state.canUndo,
+                builder: (context, canUndo) {
+                  return _PadButton(
+                    key: const ValueKey('sudoku_undo'),
+                    onTap: canUndo ? () => bloc.add(const Undo()) : null,
+                    child: const Icon(Icons.undo, size: 22),
+                  );
+                },
+              ),
+            ),
+            Expanded(
               child: _PadButton(
                 onTap: () => bloc.add(const EraseCell()),
                 child: const Icon(Icons.backspace_outlined, size: 22),
@@ -470,25 +482,30 @@ class _PadButton extends StatelessWidget {
     super.key,
   });
 
-  final VoidCallback onTap;
+  /// Null renders the button in a disabled (dimmed, non-tappable) state.
+  final VoidCallback? onTap;
   final Widget child;
   final bool isActive;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final isDisabled = onTap == null;
 
-    return Material(
-      color: isActive ? colors.white : colors.white20,
-      borderRadius: .circular(10),
-      child: InkWell(
-        onTap: onTap,
+    return Opacity(
+      opacity: isDisabled ? 0.4 : 1,
+      child: Material(
+        color: isActive ? colors.white : colors.white20,
         borderRadius: .circular(10),
-        child: IconTheme.merge(
-          data: IconThemeData(
-            color: isActive ? colors.secondary : colors.white,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: .circular(10),
+          child: IconTheme.merge(
+            data: IconThemeData(
+              color: isActive ? colors.secondary : colors.white,
+            ),
+            child: SizedBox(height: 48, child: Center(child: child)),
           ),
-          child: SizedBox(height: 48, child: Center(child: child)),
         ),
       ),
     );
