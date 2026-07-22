@@ -1,6 +1,5 @@
 {
   "@@locale": "am",
-
   "appVersion": "Հավելվածի տարբերակը",
   "proceed": "Շարունակել",
   "cancel": "Չեղարկել",
@@ -8,26 +7,30 @@
   "skip": "Բաց թողնել",
   "correct": "Ճիշտ է",
   "review": "Ստուգում",
-
   "unit_sec": "{count} վրկ",
   "@unit_sec": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "unit_pts": "{count} միավոր",
   "@unit_pts": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "points_value": "{value} միավոր",
   "@points_value": {
     "placeholders": {
-      "value": { "type": "String" }
+      "value": {
+        "type": "String"
+      }
     }
   },
-
   "settings": "Կարգավորումներ",
   "settings_localeArmenian": "Հայերեն",
   "settings_localeRussian": "Русский",
@@ -39,12 +42,13 @@
   "unit_min": "{count} րոպե",
   "@unit_min": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settings_points_to_win": "Միավորներ հաղթանակի համար",
   "settings_allow_skipping": "Բաց թողում",
-
   "themes": "Գույներ",
   "theme_main": "Հիմնական",
   "theme_purple": "Մանուշակագույն",
@@ -61,18 +65,17 @@
   "theme_plum": "Սալորագույն",
   "theme_dark": "Մուգ",
   "theme_grey": "Մոխրագույն",
-
   "languages": "Լեզուներ",
   "sounds": "Ձայներ",
-
   "teams": "Թիմեր",
   "team_with_count": "Թիմ {number}",
   "@team_with_count": {
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
-
   "alias": "Ալիաս",
   "oneWordMode": "Մեկ բառով",
   "classicModeShort": "Դասական",
@@ -84,10 +87,6 @@
   "sudoku_difficulty_easy": "Հեշտ",
   "sudoku_difficulty_medium": "Միջին",
   "sudoku_difficulty_hard": "Բարդ",
-  "sudoku_show_mistakes": "Ցույց տալ սխալները",
-  "sudoku_mistakes_off": "Չցուցադրել",
-  "sudoku_mistakes_conflicts": "Կրկնվող թվեր",
-  "sudoku_mistakes_errors": "Սխալ թվեր",
   "sudoku_show_timer": "Ժամանակաչափ",
   "sudoku_your_time": "Քո ժամանակը՝",
   "sudoku_board_has_mistakes": "Դաշտը լրացված է, բայց ինչ-որ տեղ սխալ կա",
@@ -95,14 +94,18 @@
   "sudoku_out_of_mistakes": "Դուք թույլ տվեցիք {count} սխալ",
   "@sudoku_out_of_mistakes": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "retry": "Կրկնել",
   "player_with_number": "Խաղացող {number}",
   "@player_with_number": {
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
   "spy_tap_to_reveal": "Սեղմիր քարտին՝ դերդ տեսնելու համար",
@@ -115,7 +118,6 @@
   "spy_find_the_spy": "Հերթով հարցեր տվեք և գտեք լրտեսին",
   "play_again": "Խաղալ նորից",
   "change_pack": "Փոխել հավաքածուն",
-
   "game_rules": "Խաղի կանոնները",
   "singleModeRule1": "Խաղացողը բացատրում է բառերը հաջորդաբար՝ մեկը մյուսի հետևից",
   "singleModeRule2": "Բառը ճիշտ գուշակելու դեպքում հայտնվում է հաջորդ բառը",
@@ -126,7 +128,6 @@
   "generalRule1": "Արգելվում է օգտագործել բառի արմատը, թարգմանությունը կամ հնչյունական հուշումներ",
   "generalRule2": "Յուրաքանչյուր փուլից հետո խաղացողները կարող են վերանայել և խմբագրել գուշակված բառերի ցանկը",
   "generalRule3": "Խաղն ավարտվում է սահմանված միավորներին հասնելիս, սակայն փուլը պետք է խաղան բոլոր թիմերը",
-
   "spyRule1": "Մեկ կամ մի քանի խաղացող գաղտնի ընտրվում են որպես լրտես",
   "spyRule2": "Մյուս բոլորը տեսնում են նույն գաղտնի բառը, իսկ լրտեսը՝ ոչ",
   "spyRule3": "Խաղացողները հերթով միմյանց հարցեր են տալիս գաղտնի բառի մասին",
@@ -138,16 +139,13 @@
   "winner_reveal": "Եվ հաղթողն է...",
   "no_words_left_error": "Այս թեմայում բառեր չեն մնացել։ Խնդրում ենք ընտրել այլ փաթեթ՝ նորից խաղալու համար:",
   "downloadWordsNetworkError": "Նախ պետք է ներբեռնեք բառերը: Խնդրում ենք ստուգել ձեր ինտերնետ կապը և փորձել կրկին:",
-
   "exit_game_title": "Դուրս գա՞լ խաղից",
   "exit_game_description": "Վստա՞հ եք, որ ցանկանում եք ավարտել խաղը։",
   "exit_game_confirm": "Այո, դուրս գալ",
-
   "round_stop_title": "Ավարտե՞լ ռաունդը",
   "round_stop_description": "Դադարեցնե՞լ ժամանակը և տեսնել արդյունքները: Միավորները կպահպանվեն:",
   "round_stop_confirm": "Ավարտել",
   "round_stop_resume": "Շարունակել",
-
   "errorEmptyTeamNames": "Սպասիր, իսկ ովքե՞ր են խաղում: Լրացրեք բոլոր թիմերը:",
   "feedback": "Հետադարձ կապ",
   "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com",

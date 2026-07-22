@@ -4,7 +4,6 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_mistakes_mode.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -18,11 +17,7 @@ void main() {
     locked = board.given.indexOf(true);
   });
 
-  SudokuBloc buildBloc() => SudokuBloc(
-    board: board,
-    mistakesMode: SudokuMistakesMode.errors,
-    showTimer: true,
-  );
+  SudokuBloc buildBloc() => SudokuBloc(board: board, showTimer: true);
 
   test('SelectCell targets the cell for input', () async {
     final bloc = buildBloc()..add(SelectCell(editable));
@@ -245,20 +240,36 @@ void main() {
     expect(bloc.state.board.values[fresh], SudokuBoardEntity.empty);
   });
 
-  test('mistakes are not tracked when the mode is off', () async {
-    final bloc =
-        SudokuBloc(
-            board: board,
-            mistakesMode: SudokuMistakesMode.off,
-            showTimer: true,
-          )
-          ..add(SelectCell(editable))
-          ..add(EnterDigit(wrongDigitFor(editable)));
+  test('correctly finishing a row marks its cells for celebration', () async {
+    final row = editable ~/ SudokuBoardEntity.size;
+    final rowCells = [
+      for (var col = 0; col < SudokuBoardEntity.size; col++)
+        row * SudokuBoardEntity.size + col,
+    ];
+    final bloc = buildBloc();
+    addTearDown(bloc.close);
+
+    for (final i in rowCells) {
+      if (!board.given[i]) {
+        bloc
+          ..add(SelectCell(i))
+          ..add(EnterDigit(board.solution[i]));
+      }
+    }
+    await pumpEventQueue();
+
+    expect(bloc.state.completedCells, containsAll(rowCells));
+    expect(bloc.state.completionTick, greaterThan(0));
+  });
+
+  test('an incomplete placement triggers no celebration', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(board.solution[editable]));
     addTearDown(bloc.close);
     await pumpEventQueue();
 
-    expect(bloc.state.mistakes, 0);
-    expect(bloc.state.isGameOver, isFalse);
+    expect(bloc.state.completionTick, 0);
   });
 
   test(

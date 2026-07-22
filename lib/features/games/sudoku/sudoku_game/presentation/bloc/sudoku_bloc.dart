@@ -1,21 +1,13 @@
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_mistakes_mode.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
   SudokuBloc({
     required SudokuBoardEntity board,
-    required SudokuMistakesMode mistakesMode,
     required bool showTimer,
-  }) : super(
-         SudokuState(
-           board: board,
-           mistakesMode: mistakesMode,
-           showTimer: showTimer,
-         ),
-       ) {
+  }) : super(SudokuState(board: board, showTimer: showTimer)) {
     on<SelectCell>(_onSelectCell);
     on<EnterDigit>(_onEnterDigit);
     on<EraseCell>(_onEraseCell);
@@ -58,17 +50,26 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
       return;
     }
 
-    // Placing an answer clears any notes in the cell. If the resulting
-    // entry is flagged by the mistakes mode it counts against the limit.
+    // Placing an answer clears any notes in the cell. A wrong entry
+    // counts against the mistake limit.
     final next = board.withValue(index, event.digit);
     if (next == board) return;
 
-    final isMistake = state.copyWith(board: next).isMistake(index);
+    // Units (row/column/box) this placement just solved get a
+    // celebration ripple in the UI, spreading out from the placed cell.
+    final completed = <int>{
+      for (final unit in SudokuBoardEntity.unitsOf(index))
+        if (!board.isUnitSolved(unit) && next.isUnitSolved(unit)) ...unit,
+    };
+
     emit(
       state.copyWith(
         board: next,
         history: [...state.history, board],
-        mistakes: isMistake ? state.mistakes + 1 : state.mistakes,
+        mistakes: next.isWrong(index) ? state.mistakes + 1 : state.mistakes,
+        completedCells: completed.isEmpty ? null : completed,
+        completionOrigin: completed.isEmpty ? null : index,
+        completionTick: completed.isEmpty ? null : state.completionTick + 1,
       ),
     );
   }

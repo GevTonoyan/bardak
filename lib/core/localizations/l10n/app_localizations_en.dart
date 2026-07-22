@@ -175,18 +175,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sudoku_difficulty_hard => 'Hard';
 
   @override
-  String get sudoku_show_mistakes => 'Show mistakes';
-
-  @override
-  String get sudoku_mistakes_off => 'Don\'t show';
-
-  @override
-  String get sudoku_mistakes_conflicts => 'Repeated digits';
-
-  @override
-  String get sudoku_mistakes_errors => 'Wrong digits';
-
-  @override
   String get sudoku_show_timer => 'Timer';
 
   @override

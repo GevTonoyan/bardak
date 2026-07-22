@@ -412,30 +412,6 @@ abstract class AppLocalizations {
   /// **'Hard'**
   String get sudoku_difficulty_hard;
 
-  /// No description provided for @sudoku_show_mistakes.
-  ///
-  /// In en, this message translates to:
-  /// **'Show mistakes'**
-  String get sudoku_show_mistakes;
-
-  /// No description provided for @sudoku_mistakes_off.
-  ///
-  /// In en, this message translates to:
-  /// **'Don\'t show'**
-  String get sudoku_mistakes_off;
-
-  /// No description provided for @sudoku_mistakes_conflicts.
-  ///
-  /// In en, this message translates to:
-  /// **'Repeated digits'**
-  String get sudoku_mistakes_conflicts;
-
-  /// No description provided for @sudoku_mistakes_errors.
-  ///
-  /// In en, this message translates to:
-  /// **'Wrong digits'**
-  String get sudoku_mistakes_errors;
-
   /// No description provided for @sudoku_show_timer.
   ///
   /// In en, this message translates to:

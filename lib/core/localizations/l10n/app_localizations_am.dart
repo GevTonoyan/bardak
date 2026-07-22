@@ -175,18 +175,6 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sudoku_difficulty_hard => 'Բարդ';
 
   @override
-  String get sudoku_show_mistakes => 'Ցույց տալ սխալները';
-
-  @override
-  String get sudoku_mistakes_off => 'Չցուցադրել';
-
-  @override
-  String get sudoku_mistakes_conflicts => 'Կրկնվող թվեր';
-
-  @override
-  String get sudoku_mistakes_errors => 'Սխալ թվեր';
-
-  @override
   String get sudoku_show_timer => 'Ժամանակաչափ';
 
   @override

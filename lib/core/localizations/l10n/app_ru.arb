@@ -1,6 +1,5 @@
 {
   "@@locale": "ru",
-
   "appVersion": "Версия приложения",
   "proceed": "Продолжить",
   "cancel": "Отмена",
@@ -8,26 +7,30 @@
   "skip": "Пропустить",
   "correct": "Правильно",
   "review": "Проверка",
-
   "unit_sec": "{count} сек",
   "@unit_sec": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "unit_pts": "{count, plural, one{{count} очко} few{{count} очка} other{{count} очков}}",
   "@unit_pts": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "points_value": "{value} очко",
   "@points_value": {
     "placeholders": {
-      "value": { "type": "String" }
+      "value": {
+        "type": "String"
+      }
     }
   },
-
   "settings": "Настройки",
   "settings_localeArmenian": "Հայերեն",
   "settings_localeRussian": "Русский",
@@ -39,12 +42,13 @@
   "unit_min": "{count} мин",
   "@unit_min": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settings_points_to_win": "Очки для победы",
   "settings_allow_skipping": "Пропуск слов",
-
   "themes": "Темы",
   "theme_main": "Основная",
   "theme_purple": "Фиолетовая",
@@ -61,18 +65,17 @@
   "theme_plum": "Сливовая",
   "theme_dark": "Тёмная",
   "theme_grey": "Серая",
-
   "languages": "Языки",
   "sounds": "Звуки",
-
   "teams": "Команды",
   "team_with_count": "Команда {number}",
   "@team_with_count": {
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
-
   "alias": "Алиас",
   "oneWordMode": "Одним словом",
   "classicModeShort": "Классический",
@@ -84,10 +87,6 @@
   "sudoku_difficulty_easy": "Легко",
   "sudoku_difficulty_medium": "Средне",
   "sudoku_difficulty_hard": "Сложно",
-  "sudoku_show_mistakes": "Показывать ошибки",
-  "sudoku_mistakes_off": "Не показывать",
-  "sudoku_mistakes_conflicts": "Повторы цифр",
-  "sudoku_mistakes_errors": "Неверные цифры",
   "sudoku_show_timer": "Таймер",
   "sudoku_your_time": "Ваше время:",
   "sudoku_board_has_mistakes": "Поле заполнено, но где-то есть ошибка",
@@ -95,14 +94,18 @@
   "sudoku_out_of_mistakes": "Вы сделали {count} ошибки",
   "@sudoku_out_of_mistakes": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "retry": "Повторить",
   "player_with_number": "Игрок {number}",
   "@player_with_number": {
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
   "spy_tap_to_reveal": "Нажми на карту, чтобы увидеть свою роль",
@@ -115,7 +118,6 @@
   "spy_find_the_spy": "Задавайте вопросы по очереди и найдите шпиона",
   "play_again": "Играть снова",
   "change_pack": "Сменить набор",
-
   "game_rules": "Правила игры",
   "singleModeRule1": "Игрок объясняет слова последовательно, одно за другим",
   "singleModeRule2": "При правильном угадывании слова сразу появляется следующее",
@@ -126,7 +128,6 @@
   "generalRule1": "Запрещено использовать однокоренные слова, переводы или фонетические подсказки",
   "generalRule2": "После каждого раунда игроки могут просмотреть и отредактировать список угаданных слов",
   "generalRule3": "Игра завершается при достижении лимита очков, но текущий раунд должен быть доигран всеми командами",
-
   "spyRule1": "Один или несколько игроков тайно становятся шпионами",
   "spyRule2": "Все остальные видят одно и то же секретное слово, а шпион — нет",
   "spyRule3": "Игроки по очереди задают друг другу вопросы о секретном слове",
@@ -138,16 +139,13 @@
   "winner_reveal": "И победителем становится...",
   "no_words_left_error": "Извините, слова закончились. Вы можете попробовать с другой тематикой.",
   "downloadWordsNetworkError": "Сначала необходимо скачать слова. Пожалуйста, проверьте подключение к интернету и попробуйте снова.",
-
   "exit_game_title": "Выйти из игры?",
   "exit_game_description": "Вы уверены, что хотите завершить текущую игру?",
   "exit_game_confirm": "Да, выйти",
-
   "round_stop_title": "Завершить раунд?",
   "round_stop_description": "Остановить таймер и увидеть результаты? Очки будут сохранены.",
   "round_stop_confirm": "Завершить",
   "round_stop_resume": "Продолжить",
-
   "errorEmptyTeamNames": "Подождите, а кто играет? Введите названия команд!",
   "feedback": "Обратная связь",
   "feedback_email_error": "Почтовое приложение не найдено. Напишите нам на bardak.support@gmail.com",

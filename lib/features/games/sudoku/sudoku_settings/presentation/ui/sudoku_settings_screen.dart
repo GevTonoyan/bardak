@@ -7,7 +7,6 @@ import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_mistakes_mode.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_event.dart';
 import 'package:flutter/material.dart';
@@ -41,15 +40,6 @@ class _SudokuSettingsBody extends StatelessWidget {
       SudokuDifficulty.easy => l10n.sudoku_difficulty_easy,
       SudokuDifficulty.medium => l10n.sudoku_difficulty_medium,
       SudokuDifficulty.hard => l10n.sudoku_difficulty_hard,
-    };
-  }
-
-  String _mistakesLabel(BuildContext context, SudokuMistakesMode mode) {
-    final l10n = context.l10n;
-    return switch (mode) {
-      SudokuMistakesMode.off => l10n.sudoku_mistakes_off,
-      SudokuMistakesMode.conflicts => l10n.sudoku_mistakes_conflicts,
-      SudokuMistakesMode.errors => l10n.sudoku_mistakes_errors,
     };
   }
 
@@ -90,31 +80,6 @@ class _SudokuSettingsBody extends StatelessWidget {
                           onPressed: () => settingsBloc.add(
                             ChangeDifficulty(difficulty),
                           ),
-                        ),
-                      ),
-                  ],
-                ),
-                height40,
-                Text(
-                  l10n.sudoku_show_mistakes,
-                  style: typography.regular24,
-                ),
-                height20,
-                // Full-width rows: the option labels don't fit side by side
-                // in every language.
-                Column(
-                  spacing: 10,
-                  children: [
-                    for (final mode in SudokuMistakesMode.values)
-                      AppButton(
-                        label: _mistakesLabel(context, mode),
-                        color: colors.white20,
-                        size: .medium,
-                        isPressed: settings.mistakesMode == mode,
-                        pressedColor: colors.white,
-                        pressedTextColor: colors.secondary,
-                        onPressed: () => settingsBloc.add(
-                          ChangeMistakesMode(mode),
                         ),
                       ),
                   ],

@@ -1,6 +1,5 @@
 {
   "@@locale": "en",
-
   "appVersion": "App version",
   "proceed": "Continue",
   "cancel": "Cancel",
@@ -8,26 +7,30 @@
   "skip": "Skip",
   "correct": "Correct",
   "review": "Review",
-
   "unit_sec": "{count} sec",
   "@unit_sec": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "unit_pts": "{count} pts",
   "@unit_pts": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "points_value": "{value} pts",
   "@points_value": {
     "placeholders": {
-      "value": { "type": "String" }
+      "value": {
+        "type": "String"
+      }
     }
   },
-
   "settings": "Settings",
   "settings_localeArmenian": "Հայերեն",
   "settings_localeRussian": "Русский",
@@ -39,12 +42,13 @@
   "unit_min": "{count} min",
   "@unit_min": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "settings_points_to_win": "Points to Win",
   "settings_allow_skipping": "Allow Skipping",
-
   "themes": "Themes",
   "theme_main": "Main",
   "theme_purple": "Purple",
@@ -61,18 +65,17 @@
   "theme_plum": "Plum",
   "theme_dark": "Dark",
   "theme_grey": "Grey",
-
   "languages": "Languages",
   "sounds": "Sounds",
-
   "teams": "Teams",
   "team_with_count": "Team {number}",
   "@team_with_count": {
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
-
   "alias": "Alias",
   "oneWordMode": "One word",
   "classicModeShort": "Classic",
@@ -84,10 +87,6 @@
   "sudoku_difficulty_easy": "Easy",
   "sudoku_difficulty_medium": "Medium",
   "sudoku_difficulty_hard": "Hard",
-  "sudoku_show_mistakes": "Show mistakes",
-  "sudoku_mistakes_off": "Don't show",
-  "sudoku_mistakes_conflicts": "Repeated digits",
-  "sudoku_mistakes_errors": "Wrong digits",
   "sudoku_show_timer": "Timer",
   "sudoku_your_time": "Your time:",
   "sudoku_board_has_mistakes": "The board is full, but something is not right",
@@ -95,14 +94,18 @@
   "sudoku_out_of_mistakes": "You've made {count} mistakes",
   "@sudoku_out_of_mistakes": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "retry": "Retry",
   "player_with_number": "Player {number}",
   "@player_with_number": {
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
   "spy_tap_to_reveal": "Tap the card to see your role",
@@ -115,7 +118,6 @@
   "spy_find_the_spy": "Take turns asking questions to find the spy.",
   "play_again": "Play again",
   "change_pack": "Change pack",
-
   "game_rules": "Game Rules",
   "singleModeRule1": "Players explain words one after another in sequence",
   "singleModeRule2": "When a word is guessed correctly, the next word appears",
@@ -126,7 +128,6 @@
   "generalRule1": "Using word roots, translations, or phonetic hints is prohibited",
   "generalRule2": "After each round, players can review and edit the list of guessed words",
   "generalRule3": "The game ends when the target score is reached, but all teams must complete the current round",
-
   "spyRule1": "One or more players are secretly chosen as the spy",
   "spyRule2": "Everyone else sees the same secret word, while the spy sees nothing",
   "spyRule3": "Players take turns asking each other questions about the secret word",
@@ -138,16 +139,13 @@
   "winner_reveal": "And the winner is...",
   "no_words_left_error": "Sorry, words are finished. You can try with another topic.",
   "downloadWordsNetworkError": "You need to download the words first. Please check your internet connection and try again.",
-
   "exit_game_title": "Leave the game?",
   "exit_game_description": "Are you sure you want to finish the current game?",
   "exit_game_confirm": "Yes, leave",
-
   "round_stop_title": "Finish Round?",
   "round_stop_description": "Stop the timer and see results? Your points will be saved.",
   "round_stop_confirm": "Finish",
   "round_stop_resume": "Resume",
-
   "errorEmptyTeamNames": "Wait, who's playing? Enter all team names!",
   "feedback": "Feedback",
   "feedback_email_error": "No email app found. Please send feedback to bardak.support@gmail.com",

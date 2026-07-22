@@ -167,7 +167,6 @@ final appRouter = GoRouter(
                       board: SudokuBoardEntity.generate(
                         givensCount: settings.difficulty.givensCount,
                       ),
-                      mistakesMode: settings.mistakesMode,
                       showTimer: settings.showTimer,
                     ),
                     child: const SudokuScreen(),

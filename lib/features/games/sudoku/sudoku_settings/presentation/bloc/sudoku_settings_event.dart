@@ -1,5 +1,4 @@
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_mistakes_mode.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class SudokuSettingsEvent extends Equatable {
@@ -17,16 +16,6 @@ class ChangeDifficulty extends SudokuSettingsEvent {
 
   @override
   List<Object?> get props => [difficulty];
-}
-
-/// Changes and persists how mistakes are flagged.
-class ChangeMistakesMode extends SudokuSettingsEvent {
-  const ChangeMistakesMode(this.mistakesMode);
-
-  final SudokuMistakesMode mistakesMode;
-
-  @override
-  List<Object?> get props => [mistakesMode];
 }
 
 /// Toggles and persists the timer visibility.

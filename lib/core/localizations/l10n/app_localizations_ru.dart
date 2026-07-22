@@ -182,18 +182,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sudoku_difficulty_hard => 'Сложно';
 
   @override
-  String get sudoku_show_mistakes => 'Показывать ошибки';
-
-  @override
-  String get sudoku_mistakes_off => 'Не показывать';
-
-  @override
-  String get sudoku_mistakes_conflicts => 'Повторы цифр';
-
-  @override
-  String get sudoku_mistakes_errors => 'Неверные цифры';
-
-  @override
   String get sudoku_show_timer => 'Таймер';
 
   @override

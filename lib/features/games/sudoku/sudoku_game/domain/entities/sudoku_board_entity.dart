@@ -110,6 +110,27 @@ class SudokuBoardEntity extends Equatable {
     return false;
   }
 
+  /// The row, column and box index groups the cell at [index] belongs to.
+  static List<List<int>> unitsOf(int index) {
+    final row = index ~/ size;
+    final col = index % size;
+    final boxRow = row - row % boxSize;
+    final boxCol = col - col % boxSize;
+
+    return [
+      [for (var i = 0; i < size; i++) row * size + i],
+      [for (var i = 0; i < size; i++) i * size + col],
+      [
+        for (var i = 0; i < size; i++)
+          (boxRow + i ~/ boxSize) * size + boxCol + i % boxSize,
+      ],
+    ];
+  }
+
+  /// Whether every cell of [unit] holds its solution value.
+  bool isUnitSolved(List<int> unit) =>
+      unit.every((i) => values[i] == solution[i]);
+
   /// Returns a copy with [value] placed at [index]; given cells are locked.
   /// Placing (or erasing) a value clears that cell's pencil marks.
   SudokuBoardEntity withValue(int index, int value) {

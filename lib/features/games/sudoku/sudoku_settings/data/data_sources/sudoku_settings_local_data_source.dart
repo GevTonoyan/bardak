@@ -1,5 +1,4 @@
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_mistakes_mode.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_settings_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,8 +9,6 @@ abstract interface class SudokuSettingsLocalDataSource {
 
   Future<bool> updateDifficulty(SudokuDifficulty difficulty);
 
-  Future<bool> updateMistakesMode(SudokuMistakesMode mistakesMode);
-
   Future<bool> updateShowTimer({required bool showTimer});
 }
 
@@ -20,7 +17,6 @@ class SudokuSettingsLocalDataSourceImpl
   const SudokuSettingsLocalDataSourceImpl({required this._preferences});
 
   static const _difficultyKey = 'sudoku_difficulty';
-  static const _mistakesModeKey = 'sudoku_mistakes_mode';
   static const _showTimerKey = 'sudoku_show_timer';
 
   final SharedPreferences _preferences;
@@ -34,9 +30,6 @@ class SudokuSettingsLocalDataSourceImpl
       difficulty: SudokuDifficulty.fromString(
         _preferences.getString(_difficultyKey) ?? defaults.difficulty.name,
       ),
-      mistakesMode: SudokuMistakesMode.fromString(
-        _preferences.getString(_mistakesModeKey) ?? defaults.mistakesMode.name,
-      ),
       showTimer: _preferences.getBool(_showTimerKey) ?? defaults.showTimer,
     );
   }
@@ -44,11 +37,6 @@ class SudokuSettingsLocalDataSourceImpl
   @override
   Future<bool> updateDifficulty(SudokuDifficulty difficulty) {
     return _preferences.setString(_difficultyKey, difficulty.name);
-  }
-
-  @override
-  Future<bool> updateMistakesMode(SudokuMistakesMode mistakesMode) {
-    return _preferences.setString(_mistakesModeKey, mistakesMode.name);
   }
 
   @override

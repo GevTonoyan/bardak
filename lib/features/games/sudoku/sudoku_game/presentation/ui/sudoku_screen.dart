@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
@@ -143,7 +144,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
               // on tall screens), so it is as large as possible.
               const Expanded(
                 child: Padding(
-                  padding: .symmetric(horizontal: 12, vertical: 8),
+                  padding: .symmetric(horizontal: 6, vertical: 8),
                   child: Center(child: _SudokuGrid()),
                 ),
               ),
@@ -166,32 +167,64 @@ String formatSudokuTime(int totalSeconds) {
   return '$minutes:${seconds.toString().padLeft(2, '0')}';
 }
 
-/// Shows how many mistakes have been made out of the allowed maximum.
-/// Hidden when the mistakes mode does not track them.
+/// The player's remaining lives as hearts in a glass pill. Losing one
+/// shakes the pill and breaks the heart so the mistake registers at a
+/// glance.
 class _MistakesIndicator extends StatelessWidget {
   const _MistakesIndicator();
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<SudokuBloc, SudokuState, ({int made, bool tracked})>(
-      selector: (state) =>
-          (made: state.mistakes, tracked: state.tracksMistakes),
-      builder: (context, data) {
-        if (!data.tracked) return const SizedBox.shrink();
-
+    return BlocSelector<SudokuBloc, SudokuState, int>(
+      selector: (state) => state.mistakes,
+      builder: (context, mistakes) {
         final colors = context.colors;
-        return Row(
-          mainAxisSize: .min,
-          children: [
-            Icon(Icons.close_rounded, size: 18, color: colors.red),
-            const SizedBox(width: 4),
-            Text(
-              '${data.made}/${SudokuState.maxMistakes}',
-              style: context.typography.titleMedium.withNumericFont.copyWith(
-                color: data.made > 0 ? colors.red : colors.white,
-              ),
+        final lives = SudokuState.maxMistakes - mistakes;
+
+        // Keyed by the mistake count: each lost life restarts the shake,
+        // which decays as the tween runs 1 -> 0.
+        return TweenAnimationBuilder<double>(
+          key: ValueKey('sudoku_lives_$mistakes'),
+          tween: Tween(begin: mistakes == 0 ? 0.0 : 1.0, end: 0),
+          duration: const Duration(milliseconds: 700),
+          builder: (context, t, child) => Transform.translate(
+            offset: Offset(sin(t * pi * 5) * 6 * t, 0),
+            child: Transform.scale(scale: 1 + t * 0.15, child: child),
+          ),
+          child: Container(
+            padding: const .symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: colors.white10,
+              borderRadius: .circular(20),
+              border: Border.all(color: colors.white30, width: 0.5),
             ),
-          ],
+            child: Row(
+              mainAxisSize: .min,
+              spacing: 4,
+              children: [
+                for (var i = 0; i < SudokuState.maxMistakes; i++)
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 350),
+                    switchInCurve: Curves.easeOutBack,
+                    transitionBuilder: (child, animation) =>
+                        ScaleTransition(scale: animation, child: child),
+                    child: i < lives
+                        ? Icon(
+                            Icons.favorite_rounded,
+                            key: ValueKey('sudoku_heart_full_$i'),
+                            size: 18,
+                            color: colors.red,
+                          )
+                        : Icon(
+                            Icons.heart_broken_rounded,
+                            key: ValueKey('sudoku_heart_broken_$i'),
+                            size: 18,
+                            color: colors.white30,
+                          ),
+                  ),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -376,6 +409,21 @@ class _SudokuCell extends StatelessWidget {
           value == selectedValue;
     }
 
+    final content = value == SudokuBoardEntity.empty
+        ? _CellNotes(notes: board.notes[index])
+        : Center(
+            child: Text(
+              '$value',
+              style: context.typography.regular24.withNumericFont.copyWith(
+                color: state.isMistake(index)
+                    ? colors.red
+                    : board.given[index]
+                    ? colors.white
+                    : colors.orange,
+              ),
+            ),
+          );
+
     return GestureDetector(
       behavior: .opaque,
       onTap: () => context.read<SudokuBloc>().add(SelectCell(index)),
@@ -389,20 +437,72 @@ class _SudokuCell extends StatelessWidget {
               ? colors.white10
               : Colors.transparent,
         ),
-        child: value == SudokuBoardEntity.empty
-            ? _CellNotes(notes: board.notes[index])
-            : Center(
-                child: Text(
-                  '$value',
-                  style: context.typography.regular24.withNumericFont.copyWith(
-                    color: state.isMistake(index)
-                        ? colors.red
-                        : board.given[index]
-                        ? colors.white
-                        : colors.orange,
+        child: state.completedCells.contains(index)
+            ? Stack(
+                fit: .expand,
+                children: [
+                  content,
+                  _CompletionRipple(
+                    tick: state.completionTick,
+                    origin: state.completionOrigin,
+                    index: index,
                   ),
-                ),
-              ),
+                ],
+              )
+            : content,
+      ),
+    );
+  }
+}
+
+/// A green wave played over the cells of a correctly completed row,
+/// column or box, rippling outwards from the cell that completed it.
+class _CompletionRipple extends StatelessWidget {
+  const _CompletionRipple({
+    required this.tick,
+    required this.origin,
+    required this.index,
+  });
+
+  /// Restarts the animation whenever a new unit completes.
+  final int tick;
+
+  /// The placed cell the wave spreads from.
+  final int origin;
+
+  /// The cell this ripple instance is drawn in.
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    // Distance to the origin decides when this cell lights up, so the
+    // glow travels along the completed unit instead of blinking at once.
+    final rowDistance =
+        (index ~/ SudokuBoardEntity.size - origin ~/ SudokuBoardEntity.size)
+            .abs();
+    final colDistance =
+        (index % SudokuBoardEntity.size - origin % SudokuBoardEntity.size)
+            .abs();
+    final distance = max(rowDistance, colDistance);
+
+    // Each step of distance delays the wave; the cell then brightens and
+    // fades within its own window of the shared timeline.
+    final delay = distance * 0.09;
+    const window = 0.4;
+
+    return IgnorePointer(
+      child: TweenAnimationBuilder<double>(
+        key: ValueKey('sudoku_ripple_$tick'),
+        tween: Tween(begin: 0, end: 1),
+        duration: const Duration(milliseconds: 1400),
+        builder: (context, t, _) {
+          final phase = ((t - delay) / window).clamp(0.0, 1.0);
+          final intensity = sin(phase * pi);
+
+          return ColoredBox(
+            color: context.colors.green.withValues(alpha: intensity * 0.55),
+          );
+        },
       ),
     );
   }

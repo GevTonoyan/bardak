@@ -9,7 +9,6 @@ import 'package:bardak/core/localizations/l10n/app_localizations.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_mistakes_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -27,11 +26,7 @@ void main() {
     await tester.binding.setSurfaceSize(const Size(390, 844));
     addTearDown(() => tester.binding.setSurfaceSize(null));
 
-    final bloc = SudokuBloc(
-      board: board,
-      mistakesMode: SudokuMistakesMode.errors,
-      showTimer: true,
-    );
+    final bloc = SudokuBloc(board: board, showTimer: true);
     addTearDown(bloc.close);
 
     final themeData = AppThemeData(
@@ -85,18 +80,21 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
-  testWidgets('mistakes indicator counts a wrong entry', (tester) async {
+  testWidgets('a wrong entry costs a heart', (tester) async {
     await pumpScreen(tester);
 
-    expect(find.text('0/3'), findsOneWidget);
+    expect(find.byIcon(Icons.favorite_rounded), findsNWidgets(3));
 
     final wrong = board.solution[emptyIndex] == 1 ? 2 : 1;
     await tester.tap(find.byKey(ValueKey(emptyIndex)));
     await tester.pump();
     await tester.tap(find.byKey(ValueKey('sudoku_digit_$wrong')));
     await tester.pump();
+    // Let the shake animation finish.
+    await tester.pump(const Duration(seconds: 1));
 
-    expect(find.text('1/3'), findsOneWidget);
+    expect(find.byIcon(Icons.favorite_rounded), findsNWidgets(2));
+    expect(find.byIcon(Icons.heart_broken_rounded), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox());
   });
