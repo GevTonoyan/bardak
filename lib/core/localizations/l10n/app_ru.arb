@@ -91,6 +91,13 @@
   "sudoku_show_timer": "Таймер",
   "sudoku_your_time": "Ваше время:",
   "sudoku_board_has_mistakes": "Поле заполнено, но где-то есть ошибка",
+  "sudoku_game_over": "Игра окончена",
+  "sudoku_out_of_mistakes": "Вы сделали {count} ошибки",
+  "@sudoku_out_of_mistakes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "retry": "Повторить",
   "player_with_number": "Игрок {number}",
   "@player_with_number": {

@@ -197,6 +197,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'The board is full, but something is not right';
 
   @override
+  String get sudoku_game_over => 'Game over';
+
+  @override
+  String sudoku_out_of_mistakes(int count) {
+    return 'You\'ve made $count mistakes';
+  }
+
+  @override
   String get retry => 'Retry';
 
   @override

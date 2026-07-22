@@ -91,6 +91,13 @@
   "sudoku_show_timer": "Timer",
   "sudoku_your_time": "Your time:",
   "sudoku_board_has_mistakes": "The board is full, but something is not right",
+  "sudoku_game_over": "Game over",
+  "sudoku_out_of_mistakes": "You've made {count} mistakes",
+  "@sudoku_out_of_mistakes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "retry": "Retry",
   "player_with_number": "Player {number}",
   "@player_with_number": {

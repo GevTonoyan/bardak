@@ -29,6 +29,7 @@ import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_sessio
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_game_over_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_win_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get_sudoku_settings_usecase.dart';
@@ -182,6 +183,12 @@ final appRouter = GoRouter(
                       solveSeconds: state.extra as int?,
                     ),
                   ),
+                ),
+                GoRoute(
+                  path: SudokuGameOverScreen.routePath,
+                  name: SudokuGameOverScreen.routePath,
+                  pageBuilder: (context, state) =>
+                      const MaterialPage(child: SudokuGameOverScreen()),
                 ),
               ],
             ),

@@ -85,6 +85,22 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
+  testWidgets('mistakes indicator counts a wrong entry', (tester) async {
+    await pumpScreen(tester);
+
+    expect(find.text('0/3'), findsOneWidget);
+
+    final wrong = board.solution[emptyIndex] == 1 ? 2 : 1;
+    await tester.tap(find.byKey(ValueKey(emptyIndex)));
+    await tester.pump();
+    await tester.tap(find.byKey(ValueKey('sudoku_digit_$wrong')));
+    await tester.pump();
+
+    expect(find.text('1/3'), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox());
+  });
+
   testWidgets('undo button reverts the last entered digit', (tester) async {
     final bloc = await pumpScreen(tester);
 

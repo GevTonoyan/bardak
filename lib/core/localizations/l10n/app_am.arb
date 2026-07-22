@@ -91,6 +91,13 @@
   "sudoku_show_timer": "Ժամանակաչափ",
   "sudoku_your_time": "Քո ժամանակը՝",
   "sudoku_board_has_mistakes": "Դաշտը լրացված է, բայց ինչ-որ տեղ սխալ կա",
+  "sudoku_game_over": "Խաղն ավարտվեց",
+  "sudoku_out_of_mistakes": "Դուք թույլ տվեցիք {count} սխալ",
+  "@sudoku_out_of_mistakes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "retry": "Կրկնել",
   "player_with_number": "Խաղացող {number}",
   "@player_with_number": {

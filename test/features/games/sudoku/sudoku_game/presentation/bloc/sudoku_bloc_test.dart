@@ -185,6 +185,82 @@ void main() {
     expect(bloc.state.canUndo, isFalse);
   });
 
+  int wrongDigitFor(int index) => board.solution[index] == 1 ? 2 : 1;
+
+  test('placing a wrong value counts a mistake', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(wrongDigitFor(editable)));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.mistakes, 1);
+    expect(bloc.state.isGameOver, isFalse);
+  });
+
+  test('placing the correct value counts no mistake', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(board.solution[editable]));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.mistakes, 0);
+  });
+
+  test('a pencil mark never counts as a mistake', () async {
+    final bloc = buildBloc()
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(wrongDigitFor(editable)));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.mistakes, 0);
+  });
+
+  test('three mistakes end the game and lock further input', () async {
+    final editables = [
+      for (var i = 0; i < SudokuBoardEntity.cellCount; i++)
+        if (!board.given[i]) i,
+    ];
+    final bloc = buildBloc();
+    addTearDown(bloc.close);
+
+    for (final i in editables.take(SudokuState.maxMistakes)) {
+      bloc
+        ..add(SelectCell(i))
+        ..add(EnterDigit(wrongDigitFor(i)));
+    }
+    await pumpEventQueue();
+    expect(bloc.state.mistakes, SudokuState.maxMistakes);
+    expect(bloc.state.isGameOver, isTrue);
+
+    // Input is locked after game over.
+    final fresh = editables[SudokuState.maxMistakes];
+    bloc
+      ..add(SelectCell(fresh))
+      ..add(EnterDigit(board.solution[fresh]));
+    await pumpEventQueue();
+    expect(bloc.state.board.values[fresh], SudokuBoardEntity.empty);
+  });
+
+  test('mistakes are not tracked when the mode is off', () async {
+    final bloc =
+        SudokuBloc(
+            board: board,
+            mistakesMode: SudokuMistakesMode.off,
+            showTimer: true,
+          )
+          ..add(SelectCell(editable))
+          ..add(EnterDigit(wrongDigitFor(editable)));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.mistakes, 0);
+    expect(bloc.state.isGameOver, isFalse);
+  });
+
   test(
     'completing the board emits solved exactly once and locks input',
     () async {

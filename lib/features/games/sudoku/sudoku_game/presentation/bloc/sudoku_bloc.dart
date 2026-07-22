@@ -23,6 +23,10 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     on<Undo>(_onUndo);
   }
 
+  /// Input is ignored once the puzzle is solved (the UI navigates away on
+  /// the solved emission) or the mistake limit is reached (game over).
+  bool get _isLocked => state.isSolved || state.isGameOver;
+
   /// Emits [next] as the board, recording the current board on the undo
   /// history. A no-op change (identical board) is ignored so undo only
   /// steps back over actions that actually changed something.
@@ -34,38 +38,48 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
   }
 
   void _onSelectCell(SelectCell event, Emitter<SudokuState> emit) {
-    if (state.isSolved) return;
+    if (_isLocked) return;
     if (event.index < 0 || event.index >= SudokuBoardEntity.cellCount) return;
 
     emit(state.copyWith(selectedIndex: event.index));
   }
 
   void _onEnterDigit(EnterDigit event, Emitter<SudokuState> emit) {
-    // No further input once solved: the UI navigates away on the solved
-    // emission, and a duplicate would re-trigger it.
-    if (state.isSolved) return;
+    if (_isLocked) return;
     if (event.digit < 1 || event.digit > SudokuBoardEntity.size) return;
 
     final index = state.selectedIndex;
     final board = state.board;
     if (index == null || board.given[index]) return;
 
-    // In notes mode a digit is a pencil-mark; otherwise it is the answer,
-    // which clears any notes already in the cell.
-    final next = state.notesMode
-        ? board.withNote(index, event.digit)
-        : board.withValue(index, event.digit);
+    // In notes mode a digit is only a pencil-mark and never a mistake.
+    if (state.notesMode) {
+      _commitBoard(board.withNote(index, event.digit), emit);
+      return;
+    }
 
-    _commitBoard(next, emit);
+    // Placing an answer clears any notes in the cell. If the resulting
+    // entry is flagged by the mistakes mode it counts against the limit.
+    final next = board.withValue(index, event.digit);
+    if (next == board) return;
+
+    final isMistake = state.copyWith(board: next).isMistake(index);
+    emit(
+      state.copyWith(
+        board: next,
+        history: [...state.history, board],
+        mistakes: isMistake ? state.mistakes + 1 : state.mistakes,
+      ),
+    );
   }
 
   void _onToggleNotesMode(ToggleNotesMode event, Emitter<SudokuState> emit) {
-    if (state.isSolved) return;
+    if (_isLocked) return;
     emit(state.copyWith(notesMode: !state.notesMode));
   }
 
   void _onEraseCell(EraseCell event, Emitter<SudokuState> emit) {
-    if (state.isSolved) return;
+    if (_isLocked) return;
 
     final index = state.selectedIndex;
     if (index == null || state.board.given[index]) return;
@@ -77,7 +91,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
   }
 
   void _onUndo(Undo event, Emitter<SudokuState> emit) {
-    if (state.isSolved || state.history.isEmpty) return;
+    if (_isLocked || state.history.isEmpty) return;
 
     final previous = state.history.last;
     emit(

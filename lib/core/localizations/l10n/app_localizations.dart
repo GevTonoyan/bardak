@@ -454,6 +454,18 @@ abstract class AppLocalizations {
   /// **'The board is full, but something is not right'**
   String get sudoku_board_has_mistakes;
 
+  /// No description provided for @sudoku_game_over.
+  ///
+  /// In en, this message translates to:
+  /// **'Game over'**
+  String get sudoku_game_over;
+
+  /// No description provided for @sudoku_out_of_mistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve made {count} mistakes'**
+  String sudoku_out_of_mistakes(int count);
+
   /// No description provided for @retry.
   ///
   /// In en, this message translates to:

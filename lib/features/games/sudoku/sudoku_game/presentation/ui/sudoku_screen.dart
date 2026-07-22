@@ -12,6 +12,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_game_over_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_win_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +84,15 @@ class _SudokuScreenState extends State<SudokuScreen> {
           },
         ),
         BlocListener<SudokuBloc, SudokuState>(
+          // Running out of mistakes ends the game.
+          listenWhen: (previous, current) =>
+              !previous.isGameOver && current.isGameOver,
+          listener: (context, state) {
+            _timer?.cancel();
+            context.pushReplacementNamed(SudokuGameOverScreen.routePath);
+          },
+        ),
+        BlocListener<SudokuBloc, SudokuState>(
           // Filling the last cell without winning would otherwise be
           // silent when mistakes are hidden, leaving the player stuck.
           listenWhen: (previous, current) =>
@@ -121,6 +131,10 @@ class _SudokuScreenState extends State<SudokuScreen> {
                         orangeBelow: -1,
                         redBelow: -1,
                       ),
+                    const Align(
+                      alignment: .centerRight,
+                      child: _MistakesIndicator(),
+                    ),
                   ],
                 ),
               ),
@@ -150,6 +164,38 @@ String formatSudokuTime(int totalSeconds) {
   final minutes = totalSeconds ~/ 60;
   final seconds = totalSeconds % 60;
   return '$minutes:${seconds.toString().padLeft(2, '0')}';
+}
+
+/// Shows how many mistakes have been made out of the allowed maximum.
+/// Hidden when the mistakes mode does not track them.
+class _MistakesIndicator extends StatelessWidget {
+  const _MistakesIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<SudokuBloc, SudokuState, ({int made, bool tracked})>(
+      selector: (state) =>
+          (made: state.mistakes, tracked: state.tracksMistakes),
+      builder: (context, data) {
+        if (!data.tracked) return const SizedBox.shrink();
+
+        final colors = context.colors;
+        return Row(
+          mainAxisSize: .min,
+          children: [
+            Icon(Icons.close_rounded, size: 18, color: colors.red),
+            const SizedBox(width: 4),
+            Text(
+              '${data.made}/${SudokuState.maxMistakes}',
+              style: context.typography.titleMedium.withNumericFont.copyWith(
+                color: data.made > 0 ? colors.red : colors.white,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _SudokuGrid extends StatelessWidget {

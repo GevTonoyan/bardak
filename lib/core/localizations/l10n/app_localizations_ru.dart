@@ -204,6 +204,14 @@ class AppLocalizationsRu extends AppLocalizations {
       'Поле заполнено, но где-то есть ошибка';
 
   @override
+  String get sudoku_game_over => 'Игра окончена';
+
+  @override
+  String sudoku_out_of_mistakes(int count) {
+    return 'Вы сделали $count ошибки';
+  }
+
+  @override
   String get retry => 'Повторить';
 
   @override

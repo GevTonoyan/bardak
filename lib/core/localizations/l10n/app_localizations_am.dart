@@ -197,6 +197,14 @@ class AppLocalizationsAm extends AppLocalizations {
       'Դաշտը լրացված է, բայց ինչ-որ տեղ սխալ կա';
 
   @override
+  String get sudoku_game_over => 'Խաղն ավարտվեց';
+
+  @override
+  String sudoku_out_of_mistakes(int count) {
+    return 'Դուք թույլ տվեցիք $count սխալ';
+  }
+
+  @override
   String get retry => 'Կրկնել';
 
   @override
