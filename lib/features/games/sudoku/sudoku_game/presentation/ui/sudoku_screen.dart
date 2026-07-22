@@ -609,14 +609,15 @@ class _CellNotes extends StatelessWidget {
   Widget build(BuildContext context) {
     if (notes.isEmpty) return const SizedBox.shrink();
 
-    final style = context.typography.labelSmall.withNumericFont.copyWith(
+    // Each candidate scales to fill its slot, so pencil marks are as large
+    // as the cell allows regardless of the board's size.
+    final style = context.typography.regular24.withNumericFont.copyWith(
       color: context.colors.white50,
-      fontSize: 10,
       height: 1,
     );
 
     return Padding(
-      padding: const EdgeInsets.all(1),
+      padding: const EdgeInsets.all(2),
       child: Column(
         children: [
           for (var noteRow = 0; noteRow < SudokuBoardEntity.boxSize; noteRow++)
@@ -629,14 +630,20 @@ class _CellNotes extends StatelessWidget {
                     noteCol++
                   )
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          notes.contains(noteRow * 3 + noteCol + 1)
-                              ? '${noteRow * 3 + noteCol + 1}'
-                              : '',
-                          style: style,
-                        ),
-                      ),
+                      child: notes.contains(noteRow * 3 + noteCol + 1)
+                          ? Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(1),
+                                child: FittedBox(
+                                  fit: .scaleDown,
+                                  child: Text(
+                                    '${noteRow * 3 + noteCol + 1}',
+                                    style: style,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ),
                 ],
               ),
