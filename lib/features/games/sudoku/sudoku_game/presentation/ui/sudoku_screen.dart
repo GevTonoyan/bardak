@@ -632,14 +632,11 @@ class _CellNotes extends StatelessWidget {
                     Expanded(
                       child: notes.contains(noteRow * 3 + noteCol + 1)
                           ? Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(1),
-                                child: FittedBox(
-                                  fit: .scaleDown,
-                                  child: Text(
-                                    '${noteRow * 3 + noteCol + 1}',
-                                    style: style,
-                                  ),
+                              child: FittedBox(
+                                fit: .scaleDown,
+                                child: Text(
+                                  '${noteRow * 3 + noteCol + 1}',
+                                  style: style,
                                 ),
                               ),
                             )
