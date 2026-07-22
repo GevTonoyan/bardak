@@ -124,12 +124,15 @@ class _SudokuScreenState extends State<SudokuScreen> {
                   ],
                 ),
               ),
-              const Spacer(),
-              const Padding(
-                padding: .symmetric(horizontal: 20),
-                child: _SudokuGrid(),
+              // The board fills all the space between the header and the
+              // pad, sized to the largest square that fits (bounded by width
+              // on tall screens), so it is as large as possible.
+              const Expanded(
+                child: Padding(
+                  padding: .symmetric(horizontal: 12, vertical: 8),
+                  child: Center(child: _SudokuGrid()),
+                ),
               ),
-              const Spacer(),
               const Padding(
                 padding: .fromLTRB(20, 0, 20, 20),
                 child: _DigitPad(),

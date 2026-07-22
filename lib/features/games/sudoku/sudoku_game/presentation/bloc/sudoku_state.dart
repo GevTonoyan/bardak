@@ -26,7 +26,7 @@ class SudokuState extends Equatable {
   /// When true, tapping a digit toggles a pencil-mark instead of placing it.
   final bool notesMode;
 
-  /// Previous board states, oldest first; the last entry is what [Undo]
+  /// Previous board states, oldest first; the last entry is what an undo
   /// restores. Only board-changing actions push onto it.
   final List<SudokuBoardEntity> history;
 
