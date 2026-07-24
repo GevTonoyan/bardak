@@ -321,6 +321,30 @@ class AppLocalizationsRu extends AppLocalizations {
       'Когда время истекает, все голосуют, кто из игроков шпион';
 
   @override
+  String get sudokuRule1 =>
+      'Заполните каждую строку, столбец и квадрат 3x3 цифрами от 1 до 9 без повторов.';
+
+  @override
+  String get sudokuRule2 =>
+      'Нажмите на пустую клетку, затем на число; её строка, столбец и квадрат подсвечиваются.';
+
+  @override
+  String get sudokuRule3 =>
+      'Неверная цифра показана красным — после 3 ошибок игра заканчивается.';
+
+  @override
+  String get sudokuRule4 =>
+      'Включите карандаш, чтобы записывать в клетку возможные числа как заметки.';
+
+  @override
+  String get sudokuRule5 =>
+      'Отмена возвращает последний ход, а стирание очищает выбранную клетку.';
+
+  @override
+  String get sudokuRule6 =>
+      'Сложные уровни начинаются с меньшего числа подсказок и приносят больше очков.';
+
+  @override
   String get scoreboard => 'Счёт';
 
   @override

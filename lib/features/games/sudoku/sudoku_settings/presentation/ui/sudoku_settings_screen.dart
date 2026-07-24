@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_switch_button.dart';
+import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_formatters.dart';
+import 'package:bardak/features/games/sudoku/sudoku_rules/presentation/ui/sudoku_rules_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_event.dart';
@@ -26,6 +28,10 @@ class SudokuSettingsScreen extends Page<void> {
       settings: this,
       child: FullBottomSheet(
         titleBuilder: (context) => context.l10n.settings,
+        trailing: AppIconButton.info(
+          onTap: () =>
+              unawaited(context.pushNamed(SudokuRulesScreen.routePath)),
+        ),
         child: const _SudokuSettingsBody(),
       ),
     );

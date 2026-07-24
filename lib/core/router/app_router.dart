@@ -32,6 +32,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudok
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_game_over_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_win_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_rules/presentation/ui/sudoku_rules_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get_sudoku_settings_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/ui/sudoku_settings_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
@@ -93,6 +94,11 @@ final appRouter = GoRouter(
           path: SpyRulesScreen.routePath,
           name: SpyRulesScreen.routePath,
           pageBuilder: (context, state) => const SpyRulesScreen(),
+        ),
+        GoRoute(
+          path: SudokuRulesScreen.routePath,
+          name: SudokuRulesScreen.routePath,
+          pageBuilder: (context, state) => const SudokuRulesScreen(),
         ),
         GoRoute(
           path: GameSettingsScreen.routePath,

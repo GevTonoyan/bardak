@@ -652,6 +652,42 @@ abstract class AppLocalizations {
   /// **'When the time runs out, everyone votes on who the spy is'**
   String get spyRule6;
 
+  /// No description provided for @sudokuRule1.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill every row, column, and 3x3 box with the digits 1 to 9, with no repeats.'**
+  String get sudokuRule1;
+
+  /// No description provided for @sudokuRule2.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap an empty cell, then a number to place it; its row, column, and box are highlighted.'**
+  String get sudokuRule2;
+
+  /// No description provided for @sudokuRule3.
+  ///
+  /// In en, this message translates to:
+  /// **'A wrong digit is shown in red — after 3 mistakes the game is over.'**
+  String get sudokuRule3;
+
+  /// No description provided for @sudokuRule4.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on the pencil to jot possible numbers as small notes inside a cell.'**
+  String get sudokuRule4;
+
+  /// No description provided for @sudokuRule5.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo reverts your last move, and erase clears the selected cell.'**
+  String get sudokuRule5;
+
+  /// No description provided for @sudokuRule6.
+  ///
+  /// In en, this message translates to:
+  /// **'Harder difficulties start with fewer given numbers and are worth more points.'**
+  String get sudokuRule6;
+
   /// No description provided for @scoreboard.
   ///
   /// In en, this message translates to:

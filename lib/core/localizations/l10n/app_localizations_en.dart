@@ -314,6 +314,30 @@ class AppLocalizationsEn extends AppLocalizations {
       'When the time runs out, everyone votes on who the spy is';
 
   @override
+  String get sudokuRule1 =>
+      'Fill every row, column, and 3x3 box with the digits 1 to 9, with no repeats.';
+
+  @override
+  String get sudokuRule2 =>
+      'Tap an empty cell, then a number to place it; its row, column, and box are highlighted.';
+
+  @override
+  String get sudokuRule3 =>
+      'A wrong digit is shown in red — after 3 mistakes the game is over.';
+
+  @override
+  String get sudokuRule4 =>
+      'Turn on the pencil to jot possible numbers as small notes inside a cell.';
+
+  @override
+  String get sudokuRule5 =>
+      'Undo reverts your last move, and erase clears the selected cell.';
+
+  @override
+  String get sudokuRule6 =>
+      'Harder difficulties start with fewer given numbers and are worth more points.';
+
+  @override
   String get scoreboard => 'Score';
 
   @override

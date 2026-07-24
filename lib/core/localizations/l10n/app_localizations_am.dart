@@ -314,6 +314,30 @@ class AppLocalizationsAm extends AppLocalizations {
       'Երբ ժամանակը լրանում է, բոլորը քվեարկում են, թե ով է լրտեսը';
 
   @override
+  String get sudokuRule1 =>
+      'Լրացրեք յուրաքանչյուր տող, սյունակ և 3x3 քառակուսի 1-ից 9 թվերով՝ առանց կրկնության։';
+
+  @override
+  String get sudokuRule2 =>
+      'Սեղմեք դատարկ բջիջին, ապա թվին՝ այն տեղադրելու համար. դրա տողը, սյունակը և քառակուսին ընդգծվում են։';
+
+  @override
+  String get sudokuRule3 =>
+      'Սխալ թիվը ցուցադրվում է կարմիրով. 3 սխալից հետո խաղն ավարտվում է։';
+
+  @override
+  String get sudokuRule4 =>
+      'Միացրեք մատիտը՝ բջիջում հնարավոր թվերը որպես փոքր նշումներ գրելու համար։';
+
+  @override
+  String get sudokuRule5 =>
+      'Հետարկումը վերադարձնում է վերջին քայլը, իսկ ջնջումը մաքրում է ընտրված բջիջը։';
+
+  @override
+  String get sudokuRule6 =>
+      'Ավելի բարդ մակարդակները սկսվում են ավելի քիչ տրված թվերով և ավելի շատ միավոր են բերում։';
+
+  @override
   String get scoreboard => 'Հաշիվը';
 
   @override
