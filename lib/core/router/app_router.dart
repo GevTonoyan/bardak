@@ -29,9 +29,9 @@ import 'package:bardak/features/games/spy/spy_session/presentation/ui/spy_sessio
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/get_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
-import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_game_over_screen.dart';
-import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
-import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_win_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_game_over_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_win_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get_sudoku_settings_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/ui/sudoku_settings_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';

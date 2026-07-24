@@ -4,7 +4,7 @@ import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
-import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

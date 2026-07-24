@@ -54,6 +54,9 @@ void main() {
         timeSeconds: 0,
       ),
     );
+    registerFallbackValue(
+      const GenerateSudokuBoardParams(givensCount: 22),
+    );
   });
 
   setUp(() {
@@ -86,6 +89,40 @@ void main() {
     board: savedGame == null ? board : null,
     savedGame: savedGame,
   );
+
+  SudokuBloc buildFreshBloc(SudokuDifficulty difficulty) => SudokuBloc(
+    difficulty: difficulty,
+    showTimer: true,
+    generateSudokuBoardUseCase: generateUseCase,
+    updateSavedSudokuGameUseCase: updateSavedUseCase,
+    clearSavedSudokuGameUseCase: clearSavedUseCase,
+    recordSudokuWinUseCase: recordWinUseCase,
+  );
+
+  test('a fast difficulty generates synchronously, no loading', () async {
+    final bloc = buildFreshBloc(SudokuDifficulty.medium);
+    addTearDown(bloc.close);
+
+    expect(bloc.state.isGenerating, isFalse);
+    // A real puzzle, not the locked placeholder.
+    expect(bloc.state.board.given.where((g) => g).length, greaterThan(20));
+    verifyNever(() => generateUseCase(any()));
+  });
+
+  test('a slow difficulty loads, then fills in from the isolate', () async {
+    final generated = SudokuBoardEntity.generate(random: Random(9));
+    when(() => generateUseCase(any())).thenAnswer((_) async => generated);
+
+    final bloc = buildFreshBloc(SudokuDifficulty.extreme);
+    addTearDown(bloc.close);
+
+    expect(bloc.state.isGenerating, isTrue);
+
+    await pumpEventQueue();
+    expect(bloc.state.isGenerating, isFalse);
+    expect(bloc.state.board, generated);
+    verify(() => generateUseCase(any())).called(1);
+  });
 
   test('SelectCell targets the cell for input', () async {
     final bloc = buildBloc()..add(SelectCell(editable));

@@ -27,6 +27,15 @@ enum SudokuDifficulty {
     extreme => 250,
   };
 
+  /// Whether generating this puzzle is slow enough to run off the main
+  /// thread (with a loading state). Easy/medium/hard finish in well under
+  /// a frame, so they are generated synchronously; expert and extreme can
+  /// take hundreds of milliseconds to over a second and must not block UI.
+  bool get needsBackgroundGeneration => switch (this) {
+    easy || medium || hard => false,
+    expert || extreme => true,
+  };
+
   /// Parses a persisted [SudokuDifficulty] name, defaulting to [medium].
   static SudokuDifficulty fromString(String? value) => values.firstWhere(
     (difficulty) => difficulty.name == value,

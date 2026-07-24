@@ -12,8 +12,11 @@ import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sud
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
-  /// A new puzzle is generated in the background unless a [board] is
-  /// supplied directly or an unfinished [savedGame] is being resumed.
+  /// Resumes [savedGame] or uses an explicit [board] when given; otherwise
+  /// starts a fresh puzzle. Fast difficulties are generated synchronously
+  /// here so the board is ready on the first frame with no loading state;
+  /// slow ones (expert/extreme) start as a placeholder and are generated
+  /// off the main thread.
   SudokuBloc({
     required SudokuDifficulty difficulty,
     required bool showTimer,
@@ -25,10 +28,13 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     SudokuBoardEntity? board,
   }) : super(
          SudokuState(
-           board: board ?? savedGame?.board ?? SudokuBoardEntity.placeholder(),
+           board: _initialBoard(difficulty, board, savedGame),
            difficulty: savedGame?.difficulty ?? difficulty,
            showTimer: showTimer,
-           isGenerating: board == null && savedGame == null,
+           isGenerating:
+               board == null &&
+               savedGame == null &&
+               difficulty.needsBackgroundGeneration,
            mistakes: savedGame?.mistakes ?? 0,
            score: savedGame?.score ?? 0,
            scoredCells: savedGame?.scoredCells ?? const {},
@@ -56,6 +62,22 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
   final UpdateSavedSudokuGameUseCase _updateSavedSudokuGameUseCase;
   final ClearSavedSudokuGameUseCase _clearSavedSudokuGameUseCase;
   final RecordSudokuWinUseCase _recordSudokuWinUseCase;
+
+  /// The board to start from: a resumed/explicit board when given, a fast
+  /// difficulty generated synchronously, or a placeholder for a slow
+  /// difficulty that will be generated in the background.
+  static SudokuBoardEntity _initialBoard(
+    SudokuDifficulty difficulty,
+    SudokuBoardEntity? board,
+    SudokuSavedGameEntity? savedGame,
+  ) {
+    if (board != null) return board;
+    if (savedGame != null) return savedGame.board;
+    if (difficulty.needsBackgroundGeneration) {
+      return SudokuBoardEntity.placeholder();
+    }
+    return SudokuBoardEntity.generate(givensCount: difficulty.givensCount);
+  }
 
   /// Input is ignored while the puzzle is generated, once it is solved
   /// (the UI navigates away on the solved emission) or after game over.
