@@ -95,6 +95,16 @@ void main() {
     expect(bloc.state.selectedIndex, editable);
   });
 
+  test('Deselect clears the current selection', () async {
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(const Deselect());
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.selectedIndex, isNull);
+  });
+
   test('EnterDigit fills the selected editable cell', () async {
     final bloc = buildBloc()
       ..add(SelectCell(editable))
@@ -380,16 +390,21 @@ void main() {
     },
   );
 
-  test('placing a digit strips it from peer notes', () async {
+  int rowPeerOf(int index) => [
+    for (var col = 0; col < SudokuBoardEntity.size; col++)
+      if (!board.given[index ~/
+                  SudokuBoardEntity.size *
+                  SudokuBoardEntity.size +
+              col] &&
+          index ~/ SudokuBoardEntity.size * SudokuBoardEntity.size + col !=
+              index)
+        index ~/ SudokuBoardEntity.size * SudokuBoardEntity.size + col,
+  ].first;
+
+  test('a correct placement strips the digit from peer notes', () async {
     // Two empty cells in the same row: pencil the digit into the second,
-    // then place it in the first.
-    final row = editable ~/ SudokuBoardEntity.size;
-    final peer = [
-      for (var col = 0; col < SudokuBoardEntity.size; col++)
-        if (!board.given[row * SudokuBoardEntity.size + col] &&
-            row * SudokuBoardEntity.size + col != editable)
-          row * SudokuBoardEntity.size + col,
-    ].first;
+    // then correctly place it in the first.
+    final peer = rowPeerOf(editable);
     final digit = board.solution[editable];
 
     final bloc = buildBloc()
@@ -404,6 +419,26 @@ void main() {
 
     expect(bloc.state.board.values[editable], digit);
     expect(bloc.state.board.notes[peer], isEmpty);
+  });
+
+  test('a wrong placement leaves peer notes intact', () async {
+    // Pencil the wrong digit into a peer, then place that same (wrong)
+    // digit here: the peer note must survive, as it may still be correct.
+    final peer = rowPeerOf(editable);
+    final wrong = wrongDigitFor(editable);
+
+    final bloc = buildBloc()
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(peer))
+      ..add(EnterDigit(wrong))
+      ..add(const ToggleNotesMode())
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(wrong));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    expect(bloc.state.board.values[editable], wrong);
+    expect(bloc.state.board.notes[peer], contains(wrong));
   });
 
   test('a correct placement scores once per cell', () async {

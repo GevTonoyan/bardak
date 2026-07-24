@@ -156,9 +156,11 @@ class SudokuBoardEntity extends Equatable {
       unit.every((i) => values[i] == solution[i]);
 
   /// Returns a copy with [value] placed at [index]; given cells are locked.
-  /// Placing (or erasing) a value clears that cell's pencil marks, and a
-  /// placed digit is also erased from the notes of every peer cell in the
-  /// same row, column and box — those candidates are no longer possible.
+  /// Placing (or erasing) a value clears that cell's pencil marks. A
+  /// *correct* placement also erases the digit from every peer cell's
+  /// notes in the same row, column and box, since it can no longer go
+  /// there — a wrong placement leaves peer notes untouched, because the
+  /// digit may still be the right guess for those cells.
   SudokuBoardEntity withValue(int index, int value) {
     if (given[index]) return this;
 
@@ -166,7 +168,7 @@ class SudokuBoardEntity extends Equatable {
       for (final cellNotes in notes) {...cellNotes},
     ];
     newNotes[index] = <int>{};
-    if (value != empty) {
+    if (value != empty && value == solution[index]) {
       for (final unit in unitsOf(index)) {
         for (final peer in unit) {
           newNotes[peer].remove(value);

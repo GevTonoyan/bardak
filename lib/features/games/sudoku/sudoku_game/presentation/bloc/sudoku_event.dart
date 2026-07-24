@@ -17,6 +17,12 @@ class SelectCell extends SudokuEvent {
   List<Object?> get props => [index];
 }
 
+/// Clears the current cell selection (and its highlighting), e.g. after
+/// a tap outside the board.
+class Deselect extends SudokuEvent {
+  const Deselect();
+}
+
 /// Places [digit] into the selected cell.
 class EnterDigit extends SudokuEvent {
   const EnterDigit(this.digit);

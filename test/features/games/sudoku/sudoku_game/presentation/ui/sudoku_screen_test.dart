@@ -163,6 +163,24 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
+  testWidgets('tapping outside the cells clears the selection', (
+    tester,
+  ) async {
+    final bloc = await pumpScreen(tester);
+
+    await tester.tap(find.byKey(ValueKey(emptyIndex)));
+    await tester.pump();
+    expect(bloc.state.selectedIndex, emptyIndex);
+
+    // The difficulty label has no tap handler, so the tap falls through to
+    // the screen's deselect gesture.
+    await tester.tap(find.text('Medium'));
+    await tester.pump();
+    expect(bloc.state.selectedIndex, isNull);
+
+    await tester.pumpWidget(const SizedBox());
+  });
+
   testWidgets('selecting an empty cell then a digit enters the number', (
     tester,
   ) async {

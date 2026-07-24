@@ -41,6 +41,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     // so neither can overlap and no concurrency control is needed.
     on<GeneratePuzzle>(_onGeneratePuzzle);
     on<SelectCell>(_onSelectCell);
+    on<Deselect>(_onDeselect);
     on<EnterDigit>(_onEnterDigit);
     on<EraseCell>(_onEraseCell);
     on<ToggleNotesMode>(_onToggleNotesMode);
@@ -105,6 +106,11 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     if (event.index < 0 || event.index >= SudokuBoardEntity.cellCount) return;
 
     emit(state.copyWith(selectedIndex: event.index));
+  }
+
+  void _onDeselect(Deselect event, Emitter<SudokuState> emit) {
+    if (state.selectedIndex == null) return;
+    emit(state.copyWith(deselect: true));
   }
 
   void _onEnterDigit(EnterDigit event, Emitter<SudokuState> emit) {
