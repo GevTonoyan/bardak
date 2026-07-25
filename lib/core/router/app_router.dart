@@ -88,17 +88,20 @@ final appRouter = GoRouter(
         GoRoute(
           path: RulesScreen.routePath,
           name: RulesScreen.routePath,
-          pageBuilder: (context, state) => const RulesScreen(),
+          pageBuilder: (context, state) =>
+              const MaterialPage(child: RulesScreen()),
         ),
         GoRoute(
           path: SpyRulesScreen.routePath,
           name: SpyRulesScreen.routePath,
-          pageBuilder: (context, state) => const SpyRulesScreen(),
+          pageBuilder: (context, state) =>
+              const MaterialPage(child: SpyRulesScreen()),
         ),
         GoRoute(
           path: SudokuRulesScreen.routePath,
           name: SudokuRulesScreen.routePath,
-          pageBuilder: (context, state) => const SudokuRulesScreen(),
+          pageBuilder: (context, state) =>
+              const MaterialPage(child: SudokuRulesScreen()),
         ),
         GoRoute(
           path: GameSettingsScreen.routePath,

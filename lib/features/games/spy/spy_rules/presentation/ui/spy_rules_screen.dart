@@ -1,92 +1,51 @@
-import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
-import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
+import 'package:bardak/core/app_ui/widgets/rules_carousel.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/features/games/spy/spy_rules/presentation/ui/widgets/spy_rule_illustrations.dart';
 import 'package:flutter/material.dart';
 
-class SpyRulesScreen extends Page<void> {
+/// A full-screen, swipeable "how to play" tutorial for Spy.
+class SpyRulesScreen extends StatelessWidget {
   const SpyRulesScreen({super.key});
 
   static const routePath = 'spyRules';
 
   @override
-  Route<void> createRoute(BuildContext context) {
-    return buildAppBottomSheet<void>(
-      context: context,
-      settings: this,
-      child: FullBottomSheet(
-        titleBuilder: (context) => context.l10n.game_rules,
-        child: const _SpyRulesScreenBody(),
-      ),
-    );
-  }
-}
-
-class _SpyRulesScreenBody extends StatelessWidget {
-  const _SpyRulesScreenBody();
-
-  @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Column(
-      children: [
-        height30,
-        Expanded(
-          child: _RuleList(
-            rules: [
-              l10n.spyRule1,
-              l10n.spyRule2,
-              l10n.spyRule3,
-              l10n.spyRule4,
-              l10n.spyRule5,
-              l10n.spyRule6,
-            ],
-          ),
+    return RulesCarousel(
+      steps: [
+        RuleStep(
+          illustration: const SpyWordIllustration(),
+          title: l10n.spyRule1Title,
+          description: l10n.spyRule1,
+        ),
+        RuleStep(
+          illustration: const SpyQuestionsIllustration(),
+          title: l10n.spyRule2Title,
+          description: l10n.spyRule2,
+        ),
+        RuleStep(
+          illustration: const SpyHintIllustration(),
+          title: l10n.spyRule3Title,
+          description: l10n.spyRule3,
+        ),
+        RuleStep(
+          illustration: const SpyVagueIllustration(),
+          title: l10n.spyRule4Title,
+          description: l10n.spyRule4,
+        ),
+        RuleStep(
+          illustration: const SpyBlendIllustration(),
+          title: l10n.spyRule5Title,
+          description: l10n.spyRule5,
+        ),
+        RuleStep(
+          illustration: const SpyVoteIllustration(),
+          title: l10n.spyRule6Title,
+          description: l10n.spyRule6,
         ),
       ],
-    );
-  }
-}
-
-class _RuleList extends StatelessWidget {
-  const _RuleList({required this.rules});
-
-  final List<String> rules;
-
-  @override
-  Widget build(BuildContext context) {
-    final typography = context.typography;
-    final colors = context.colors;
-
-    return ListView(
-      children: rules
-          .map((rule) {
-            return Padding(
-              padding: const .only(bottom: 10),
-              child: Row(
-                spacing: 8,
-                crossAxisAlignment: .start,
-                children: [
-                  Container(
-                    width: 6,
-                    height: 6,
-                    margin: const .only(top: 8),
-                    decoration: BoxDecoration(
-                      shape: .circle,
-                      color: colors.white,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      rule,
-                      style: typography.regular20,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          })
-          .toList(growable: false),
     );
   }
 }

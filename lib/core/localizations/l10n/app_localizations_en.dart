@@ -256,86 +256,142 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get singleModeRule1 =>
-      'Players explain words one after another in sequence';
+      'Focus on explaining a single word on the screen while your team tries to guess it';
 
   @override
   String get singleModeRule2 =>
-      'When a word is guessed correctly, the next word appears';
-
-  @override
-  String get singleModeRule3 =>
-      'Skipping a word results in a one point penalty';
+      'You can skip a difficult word to keep moving, but it will cost your team one point';
 
   @override
   String get cardModeRule1 =>
-      'The explainer receives a card containing 6 words';
+      'View a list of words on a single card and explain them in whichever order you prefer';
 
   @override
   String get cardModeRule2 =>
-      'All words on the current card must be guessed before moving to the next one';
-
-  @override
-  String get cardModeRule3 =>
-      'Players can explain words on the card in any order';
+      'Your team must correctly guess every word on the list before the next card appears';
 
   @override
   String get generalRule1 =>
-      'Using word roots, translations, or phonetic hints is prohibited';
+      'Every correctly guessed word earns your team exactly one point';
 
   @override
   String get generalRule2 =>
-      'After each round, players can review and edit the list of guessed words';
+      'Use synonyms, antonyms, and creative descriptions to guide your team to the answer';
 
   @override
   String get generalRule3 =>
-      'The game ends when the target score is reached, but all teams must complete the current round';
+      'Never use translations, root words, spell by letters, or point to objects in the room';
 
   @override
-  String get spyRule1 => 'One or more players are secretly chosen as the spy';
+  String get cardModeRule1Title => 'List of Words';
+
+  @override
+  String get cardModeRule2Title => 'Clear the Card';
+
+  @override
+  String get singleModeRule1Title => 'One at a Time';
+
+  @override
+  String get singleModeRule2Title => 'Skip Penalties';
+
+  @override
+  String get generalRule1Title => 'Earn Points';
+
+  @override
+  String get generalRule2Title => 'How to Explain';
+
+  @override
+  String get generalRule3Title => 'Strictly Banned';
+
+  @override
+  String get spyRule1 =>
+      'Most players receive the exact same secret word while the hidden spies see nothing';
 
   @override
   String get spyRule2 =>
-      'Everyone else sees the same secret word, while the spy sees nothing';
+      'Take turns asking another player an open-ended or yes/no question about the word';
 
   @override
   String get spyRule3 =>
-      'Players take turns asking each other questions about the secret word';
+      'Alternatively, play by taking turns saying a word or phrase related to the secret word';
 
   @override
   String get spyRule4 =>
-      'Answer so you sound like you know the word, but don\'t say it outright';
+      'Make your clues specific enough to prove your innocence but vague enough to confuse the spy';
 
   @override
   String get spyRule5 =>
-      'The spy tries to blend in and figure out the secret word';
+      'The spy must listen carefully to fake their way through the round and guess the word';
 
   @override
   String get spyRule6 =>
-      'When the time runs out, everyone votes on who the spy is';
+      'When time runs out, everyone discusses the clues and votes on who they believe the spy is';
+
+  @override
+  String get spyRule1Title => 'The Secret Word';
+
+  @override
+  String get spyRule2Title => 'Ask a Question';
+
+  @override
+  String get spyRule3Title => 'Drop a Hint';
+
+  @override
+  String get spyRule4Title => 'Keep It Vague';
+
+  @override
+  String get spyRule5Title => 'Blend In';
+
+  @override
+  String get spyRule6Title => 'Cast Your Vote';
 
   @override
   String get sudokuRule1 =>
-      'Fill every row, column, and 3x3 box with the digits 1 to 9, with no repeats.';
+      'Fill every row, column, and 3×3 box with the numbers 1 through 9 without any repeats';
 
   @override
   String get sudokuRule2 =>
-      'Tap an empty cell, then a number to place it; its row, column, and box are highlighted.';
+      'Tap an empty cell and choose a number to place it while the row and column highlight';
 
   @override
   String get sudokuRule3 =>
-      'A wrong digit is shown in red — after 3 mistakes the game is over.';
+      'Wrong numbers appear in red, and making three mistakes will end your game';
 
   @override
   String get sudokuRule4 =>
-      'Turn on the pencil to jot possible numbers as small notes inside a cell.';
+      'Turn on the pencil tool to write small notes and track possible numbers in a cell';
 
   @override
   String get sudokuRule5 =>
-      'Undo reverts your last move, and erase clears the selected cell.';
+      'Use the undo button to cancel your last move or the erase tool to clear a cell';
 
   @override
   String get sudokuRule6 =>
-      'Harder difficulties start with fewer given numbers and are worth more points.';
+      'Harder levels start with fewer given numbers but reward you with a higher score';
+
+  @override
+  String get sudokuRule1Title => 'Fill the Grid';
+
+  @override
+  String get sudokuRule2Title => 'Place a Number';
+
+  @override
+  String get sudokuRule3Title => 'Three Lives';
+
+  @override
+  String get sudokuRule4Title => 'Take Notes';
+
+  @override
+  String get sudokuRule5Title => 'Undo and Erase';
+
+  @override
+  String get sudokuRule6Title => 'Choose a Level';
+
+  @override
+  String get rules_next => 'Next';
+
+  @override
+  String get rules_got_it => 'Got it';
 
   @override
   String get scoreboard => 'Score';
