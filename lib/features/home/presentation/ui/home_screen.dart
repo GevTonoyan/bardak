@@ -11,6 +11,7 @@ import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/ui/game_settings_screen.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/ui/sudoku_settings_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
 import 'package:bardak/features/splash/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -115,6 +116,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         color: colors.purple,
                         onPressed: () => unawaited(
                           context.pushNamed(SpySettingsScreen.routePath),
+                        ),
+                      ),
+                      height20,
+                      AppButton(
+                        label: l10n.sudoku,
+                        color: colors.orange,
+                        onPressed: () => unawaited(
+                          context.pushNamed(SudokuSettingsScreen.routePath),
                         ),
                       ),
                       const Spacer(),

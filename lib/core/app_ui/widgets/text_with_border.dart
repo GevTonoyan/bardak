@@ -8,6 +8,7 @@ class TextWithBorder extends StatelessWidget {
     this.borderWidth = 5.0,
     this.borderColor,
     this.textColor,
+    this.textAlign = .start,
     super.key,
   });
 
@@ -16,6 +17,7 @@ class TextWithBorder extends StatelessWidget {
   final double borderWidth;
   final Color? borderColor;
   final Color? textColor;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class TextWithBorder extends StatelessWidget {
         // 1. THE BORDER (Background layer)
         Text(
           text,
+          textAlign: textAlign,
           style: style.copyWith(
             foreground: Paint()
               ..style = .stroke
@@ -38,6 +41,7 @@ class TextWithBorder extends StatelessWidget {
         // 2. THE FILL (Foreground layer)
         Text(
           text,
+          textAlign: textAlign,
           style: style.copyWith(
             color: textColor ?? colors.white,
           ),

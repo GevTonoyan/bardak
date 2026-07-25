@@ -376,6 +376,102 @@ abstract class AppLocalizations {
   /// **'Spy'**
   String get spyMode;
 
+  /// No description provided for @sudoku.
+  ///
+  /// In en, this message translates to:
+  /// **'Sudoku'**
+  String get sudoku;
+
+  /// No description provided for @sudoku_solved.
+  ///
+  /// In en, this message translates to:
+  /// **'Puzzle solved. Well done!'**
+  String get sudoku_solved;
+
+  /// No description provided for @sudoku_difficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get sudoku_difficulty;
+
+  /// No description provided for @sudoku_difficulty_easy.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get sudoku_difficulty_easy;
+
+  /// No description provided for @sudoku_difficulty_medium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get sudoku_difficulty_medium;
+
+  /// No description provided for @sudoku_difficulty_hard.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get sudoku_difficulty_hard;
+
+  /// No description provided for @sudoku_difficulty_expert.
+  ///
+  /// In en, this message translates to:
+  /// **'Expert'**
+  String get sudoku_difficulty_expert;
+
+  /// No description provided for @sudoku_difficulty_extreme.
+  ///
+  /// In en, this message translates to:
+  /// **'Extreme'**
+  String get sudoku_difficulty_extreme;
+
+  /// No description provided for @sudoku_best_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Best time'**
+  String get sudoku_best_time;
+
+  /// No description provided for @sudoku_new_record.
+  ///
+  /// In en, this message translates to:
+  /// **'New record!'**
+  String get sudoku_new_record;
+
+  /// No description provided for @sudoku_new_game.
+  ///
+  /// In en, this message translates to:
+  /// **'New game'**
+  String get sudoku_new_game;
+
+  /// No description provided for @sudoku_show_timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer'**
+  String get sudoku_show_timer;
+
+  /// No description provided for @sudoku_your_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Your time:'**
+  String get sudoku_your_time;
+
+  /// No description provided for @sudoku_board_has_mistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'The board is full, but something is not right'**
+  String get sudoku_board_has_mistakes;
+
+  /// No description provided for @sudoku_game_over.
+  ///
+  /// In en, this message translates to:
+  /// **'Game over'**
+  String get sudoku_game_over;
+
+  /// No description provided for @sudoku_out_of_mistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve made {count} mistakes'**
+  String sudoku_out_of_mistakes(int count);
+
   /// No description provided for @retry.
   ///
   /// In en, this message translates to:
@@ -457,92 +553,242 @@ abstract class AppLocalizations {
   /// No description provided for @singleModeRule1.
   ///
   /// In en, this message translates to:
-  /// **'Players explain words one after another in sequence'**
+  /// **'Focus on explaining a single word on the screen while your team tries to guess it'**
   String get singleModeRule1;
 
   /// No description provided for @singleModeRule2.
   ///
   /// In en, this message translates to:
-  /// **'When a word is guessed correctly, the next word appears'**
+  /// **'You can skip a difficult word to keep moving, but it will cost your team one point'**
   String get singleModeRule2;
-
-  /// No description provided for @singleModeRule3.
-  ///
-  /// In en, this message translates to:
-  /// **'Skipping a word results in a one point penalty'**
-  String get singleModeRule3;
 
   /// No description provided for @cardModeRule1.
   ///
   /// In en, this message translates to:
-  /// **'The explainer receives a card containing 6 words'**
+  /// **'View a list of words on a single card and explain them in whichever order you prefer'**
   String get cardModeRule1;
 
   /// No description provided for @cardModeRule2.
   ///
   /// In en, this message translates to:
-  /// **'All words on the current card must be guessed before moving to the next one'**
+  /// **'Your team must correctly guess every word on the list before the next card appears'**
   String get cardModeRule2;
-
-  /// No description provided for @cardModeRule3.
-  ///
-  /// In en, this message translates to:
-  /// **'Players can explain words on the card in any order'**
-  String get cardModeRule3;
 
   /// No description provided for @generalRule1.
   ///
   /// In en, this message translates to:
-  /// **'Using word roots, translations, or phonetic hints is prohibited'**
+  /// **'Every correctly guessed word earns your team exactly one point'**
   String get generalRule1;
 
   /// No description provided for @generalRule2.
   ///
   /// In en, this message translates to:
-  /// **'After each round, players can review and edit the list of guessed words'**
+  /// **'Use synonyms, antonyms, and creative descriptions to guide your team to the answer'**
   String get generalRule2;
 
   /// No description provided for @generalRule3.
   ///
   /// In en, this message translates to:
-  /// **'The game ends when the target score is reached, but all teams must complete the current round'**
+  /// **'Never use translations, root words, spell by letters, or point to objects in the room'**
   String get generalRule3;
+
+  /// No description provided for @cardModeRule1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'List of Words'**
+  String get cardModeRule1Title;
+
+  /// No description provided for @cardModeRule2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the Card'**
+  String get cardModeRule2Title;
+
+  /// No description provided for @singleModeRule1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'One at a Time'**
+  String get singleModeRule1Title;
+
+  /// No description provided for @singleModeRule2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip Penalties'**
+  String get singleModeRule2Title;
+
+  /// No description provided for @generalRule1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn Points'**
+  String get generalRule1Title;
+
+  /// No description provided for @generalRule2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'How to Explain'**
+  String get generalRule2Title;
+
+  /// No description provided for @generalRule3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Strictly Banned'**
+  String get generalRule3Title;
 
   /// No description provided for @spyRule1.
   ///
   /// In en, this message translates to:
-  /// **'One or more players are secretly chosen as the spy'**
+  /// **'Most players receive the exact same secret word while the hidden spies see nothing'**
   String get spyRule1;
 
   /// No description provided for @spyRule2.
   ///
   /// In en, this message translates to:
-  /// **'Everyone else sees the same secret word, while the spy sees nothing'**
+  /// **'Take turns asking another player an open-ended or yes/no question about the word'**
   String get spyRule2;
 
   /// No description provided for @spyRule3.
   ///
   /// In en, this message translates to:
-  /// **'Players take turns asking each other questions about the secret word'**
+  /// **'Alternatively, play by taking turns saying a word or phrase related to the secret word'**
   String get spyRule3;
 
   /// No description provided for @spyRule4.
   ///
   /// In en, this message translates to:
-  /// **'Answer so you sound like you know the word, but don\'t say it outright'**
+  /// **'Make your clues specific enough to prove your innocence but vague enough to confuse the spy'**
   String get spyRule4;
 
   /// No description provided for @spyRule5.
   ///
   /// In en, this message translates to:
-  /// **'The spy tries to blend in and figure out the secret word'**
+  /// **'The spy must listen carefully to fake their way through the round and guess the word'**
   String get spyRule5;
 
   /// No description provided for @spyRule6.
   ///
   /// In en, this message translates to:
-  /// **'When the time runs out, everyone votes on who the spy is'**
+  /// **'When time runs out, everyone discusses the clues and votes on who they believe the spy is'**
   String get spyRule6;
+
+  /// No description provided for @spyRule1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'The Secret Word'**
+  String get spyRule1Title;
+
+  /// No description provided for @spyRule2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a Question'**
+  String get spyRule2Title;
+
+  /// No description provided for @spyRule3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop a Hint'**
+  String get spyRule3Title;
+
+  /// No description provided for @spyRule4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep It Vague'**
+  String get spyRule4Title;
+
+  /// No description provided for @spyRule5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Blend In'**
+  String get spyRule5Title;
+
+  /// No description provided for @spyRule6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Cast Your Vote'**
+  String get spyRule6Title;
+
+  /// No description provided for @sudokuRule1.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill every row, column, and 3×3 box with the numbers 1 through 9 without any repeats'**
+  String get sudokuRule1;
+
+  /// No description provided for @sudokuRule2.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap an empty cell and choose a number to place it while the row and column highlight'**
+  String get sudokuRule2;
+
+  /// No description provided for @sudokuRule3.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong numbers appear in red, and making three mistakes will end your game'**
+  String get sudokuRule3;
+
+  /// No description provided for @sudokuRule4.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on the pencil tool to write small notes and track possible numbers in a cell'**
+  String get sudokuRule4;
+
+  /// No description provided for @sudokuRule5.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the undo button to cancel your last move or the erase tool to clear a cell'**
+  String get sudokuRule5;
+
+  /// No description provided for @sudokuRule6.
+  ///
+  /// In en, this message translates to:
+  /// **'Harder levels start with fewer given numbers — race to beat your best time'**
+  String get sudokuRule6;
+
+  /// No description provided for @sudokuRule1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill the Grid'**
+  String get sudokuRule1Title;
+
+  /// No description provided for @sudokuRule2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Place a Number'**
+  String get sudokuRule2Title;
+
+  /// No description provided for @sudokuRule3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Three Lives'**
+  String get sudokuRule3Title;
+
+  /// No description provided for @sudokuRule4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Notes'**
+  String get sudokuRule4Title;
+
+  /// No description provided for @sudokuRule5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo and Erase'**
+  String get sudokuRule5Title;
+
+  /// No description provided for @sudokuRule6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a Level'**
+  String get sudokuRule6Title;
+
+  /// No description provided for @rules_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get rules_next;
+
+  /// No description provided for @rules_got_it.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get rules_got_it;
 
   /// No description provided for @scoreboard.
   ///

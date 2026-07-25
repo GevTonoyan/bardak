@@ -17,6 +17,7 @@ import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_pa
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_event.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/bloc/spy_settings_bloc.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_state.dart';
@@ -94,6 +95,14 @@ void main() async {
             updatePlayerCountUseCase: sl(),
             updateSpyCountUseCase: sl(),
             updateSpyRoundDurationUseCase: sl(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => SudokuSettingsBloc(
+            getSudokuSettingsUseCase: sl(),
+            updateSudokuDifficultyUseCase: sl(),
+            updateShowTimerUseCase: sl(),
+            hasSavedSudokuGameUseCase: sl(),
           ),
         ),
       ],
