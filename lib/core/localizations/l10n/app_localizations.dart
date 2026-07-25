@@ -424,18 +424,6 @@ abstract class AppLocalizations {
   /// **'Extreme'**
   String get sudoku_difficulty_extreme;
 
-  /// No description provided for @sudoku_score.
-  ///
-  /// In en, this message translates to:
-  /// **'Score'**
-  String get sudoku_score;
-
-  /// No description provided for @sudoku_best_score.
-  ///
-  /// In en, this message translates to:
-  /// **'Best score'**
-  String get sudoku_best_score;
-
   /// No description provided for @sudoku_best_time.
   ///
   /// In en, this message translates to:
@@ -751,7 +739,7 @@ abstract class AppLocalizations {
   /// No description provided for @sudokuRule6.
   ///
   /// In en, this message translates to:
-  /// **'Harder levels start with fewer given numbers but reward you with a higher score'**
+  /// **'Harder levels start with fewer given numbers — race to beat your best time'**
   String get sudokuRule6;
 
   /// No description provided for @sudokuRule1Title.

@@ -6,16 +6,14 @@ import 'package:equatable/equatable.dart';
 class SudokuWinRecordEntity extends Equatable {
   const SudokuWinRecordEntity({
     required this.stats,
-    required this.isNewBestScore,
     required this.isNewBestTime,
   });
 
   /// Lifetime stats for the difficulty after this win was recorded.
   final SudokuDifficultyStats stats;
 
-  final bool isNewBestScore;
   final bool isNewBestTime;
 
   @override
-  List<Object?> get props => [stats, isNewBestScore, isNewBestTime];
+  List<Object?> get props => [stats, isNewBestTime];
 }

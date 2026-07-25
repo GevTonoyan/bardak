@@ -1,4 +1,3 @@
-import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
@@ -10,12 +9,9 @@ import 'package:go_router/go_router.dart';
 
 /// Shown when the player runs out of mistakes.
 class SudokuGameOverScreen extends StatelessWidget {
-  const SudokuGameOverScreen({required this.score, super.key});
+  const SudokuGameOverScreen({super.key});
 
   static const routePath = 'sudokuGameOver';
-
-  /// Points earned before the game ended.
-  final int score;
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +42,6 @@ class SudokuGameOverScreen extends StatelessWidget {
                       style: context.typography.regular24.copyWith(
                         color: colors.white50,
                       ),
-                    ),
-                    Text(
-                      '${l10n.sudoku_score}: $score',
-                      textAlign: .center,
-                      style: context.typography.regular24.withNumericFont,
                     ),
                   ],
                 ),

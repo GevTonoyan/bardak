@@ -9,8 +9,6 @@ class SudokuSavedGameEntity extends Equatable {
     required this.board,
     required this.difficulty,
     required this.mistakes,
-    required this.score,
-    required this.scoredCells,
     required this.elapsedSeconds,
   });
 
@@ -21,8 +19,6 @@ class SudokuSavedGameEntity extends Equatable {
       board: SudokuBoardEntity.fromJson(json['board'] as Map<String, dynamic>),
       difficulty: SudokuDifficulty.fromString(json['difficulty'] as String?),
       mistakes: json['mistakes'] as int? ?? 0,
-      score: json['score'] as int? ?? 0,
-      scoredCells: {...(json['scoredCells'] as List? ?? const []).cast<int>()},
       elapsedSeconds: json['elapsedSeconds'] as int? ?? 0,
     );
   }
@@ -30,11 +26,6 @@ class SudokuSavedGameEntity extends Equatable {
   final SudokuBoardEntity board;
   final SudokuDifficulty difficulty;
   final int mistakes;
-  final int score;
-
-  /// Cells that already earned their placement points.
-  final Set<int> scoredCells;
-
   final int elapsedSeconds;
 
   /// Serializes the snapshot for persistence; see
@@ -43,18 +34,9 @@ class SudokuSavedGameEntity extends Equatable {
     'board': board.toJson(),
     'difficulty': difficulty.name,
     'mistakes': mistakes,
-    'score': score,
-    'scoredCells': [...scoredCells],
     'elapsedSeconds': elapsedSeconds,
   };
 
   @override
-  List<Object?> get props => [
-    board,
-    difficulty,
-    mistakes,
-    score,
-    scoredCells,
-    elapsedSeconds,
-  ];
+  List<Object?> get props => [board, difficulty, mistakes, elapsedSeconds];
 }

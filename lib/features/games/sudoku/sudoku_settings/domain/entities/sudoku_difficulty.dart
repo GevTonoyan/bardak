@@ -18,15 +18,6 @@ enum SudokuDifficulty {
     extreme => 22,
   };
 
-  /// Score awarded for each correctly placed digit.
-  int get pointsPerCell => switch (this) {
-    easy => 50,
-    medium => 75,
-    hard => 100,
-    expert => 150,
-    extreme => 250,
-  };
-
   /// Whether generating this puzzle is slow enough to run off the main
   /// thread (with a loading state). Easy/medium/hard finish in well under
   /// a frame, so they are generated synchronously; expert and extreme can

@@ -204,11 +204,8 @@ final appRouter = GoRouter(
                 GoRoute(
                   path: SudokuGameOverScreen.routePath,
                   name: SudokuGameOverScreen.routePath,
-                  pageBuilder: (context, state) => MaterialPage(
-                    child: SudokuGameOverScreen(
-                      score: state.extra as int? ?? 0,
-                    ),
-                  ),
+                  pageBuilder: (context, state) =>
+                      const MaterialPage(child: SudokuGameOverScreen()),
                 ),
               ],
             ),

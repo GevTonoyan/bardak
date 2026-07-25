@@ -188,12 +188,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sudoku_difficulty_extreme => 'Экстрим';
 
   @override
-  String get sudoku_score => 'Счёт';
-
-  @override
-  String get sudoku_best_score => 'Лучший счёт';
-
-  @override
   String get sudoku_best_time => 'Лучшее время';
 
   @override
@@ -375,7 +369,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get sudokuRule6 =>
-      'Сложные уровни начинаются с меньшего числа подсказок, но приносят больше очков';
+      'Сложные уровни начинаются с меньшего числа подсказок — старайтесь побить свой рекорд по времени';
 
   @override
   String get sudokuRule1Title => 'Заполните поле';

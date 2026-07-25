@@ -181,12 +181,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sudoku_difficulty_extreme => 'Extreme';
 
   @override
-  String get sudoku_score => 'Score';
-
-  @override
-  String get sudoku_best_score => 'Best score';
-
-  @override
   String get sudoku_best_time => 'Best time';
 
   @override
@@ -367,7 +361,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sudokuRule6 =>
-      'Harder levels start with fewer given numbers but reward you with a higher score';
+      'Harder levels start with fewer given numbers — race to beat your best time';
 
   @override
   String get sudokuRule1Title => 'Fill the Grid';

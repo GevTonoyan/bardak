@@ -181,12 +181,6 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sudoku_difficulty_extreme => 'Էքստրիմ';
 
   @override
-  String get sudoku_score => 'Հաշիվ';
-
-  @override
-  String get sudoku_best_score => 'Լավագույն հաշիվ';
-
-  @override
   String get sudoku_best_time => 'Լավագույն ժամանակ';
 
   @override
@@ -367,7 +361,7 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get sudokuRule6 =>
-      'Ավելի բարդ մակարդակները սկսվում են ավելի քիչ տրված թվերով, բայց պարգևատրում են ավելի բարձր միավորով';
+      'Ավելի բարդ մակարդակները սկսվում են ավելի քիչ տրված թվերով՝ փորձե՛ք գերազանցել ձեր լավագույն ժամանակը';
 
   @override
   String get sudokuRule1Title => 'Լրացրե՛ք ցանցը';

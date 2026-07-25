@@ -1,11 +1,10 @@
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:equatable/equatable.dart';
 
-/// Lifetime results for one difficulty: wins, best score and best time.
+/// Lifetime results for one difficulty: wins and best time.
 class SudokuDifficultyStats extends Equatable {
   const SudokuDifficultyStats({
     this.gamesWon = 0,
-    this.bestScore = 0,
     this.bestTimeSeconds,
   });
 
@@ -13,13 +12,11 @@ class SudokuDifficultyStats extends Equatable {
   factory SudokuDifficultyStats.fromJson(Map<String, dynamic> json) {
     return SudokuDifficultyStats(
       gamesWon: json['gamesWon'] as int? ?? 0,
-      bestScore: json['bestScore'] as int? ?? 0,
       bestTimeSeconds: json['bestTimeSeconds'] as int?,
     );
   }
 
   final int gamesWon;
-  final int bestScore;
 
   /// Fastest solve; null until the first win.
   final int? bestTimeSeconds;
@@ -28,12 +25,11 @@ class SudokuDifficultyStats extends Equatable {
   /// [SudokuDifficultyStats.fromJson].
   Map<String, dynamic> toJson() => {
     'gamesWon': gamesWon,
-    'bestScore': bestScore,
     'bestTimeSeconds': bestTimeSeconds,
   };
 
   @override
-  List<Object?> get props => [gamesWon, bestScore, bestTimeSeconds];
+  List<Object?> get props => [gamesWon, bestTimeSeconds];
 }
 
 /// Per-difficulty lifetime Sudoku statistics.

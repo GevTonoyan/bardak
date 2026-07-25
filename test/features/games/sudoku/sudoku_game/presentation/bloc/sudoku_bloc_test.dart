@@ -42,15 +42,12 @@ void main() {
         board: SudokuBoardEntity.generate(random: Random(0)),
         difficulty: SudokuDifficulty.medium,
         mistakes: 0,
-        score: 0,
-        scoredCells: const {},
         elapsedSeconds: 0,
       ),
     );
     registerFallbackValue(
       const RecordSudokuWinParams(
         difficulty: SudokuDifficulty.medium,
-        score: 0,
         timeSeconds: 0,
       ),
     );
@@ -72,8 +69,7 @@ void main() {
     when(() => clearSavedUseCase()).thenAnswer((_) async => true);
     when(() => recordWinUseCase(any())).thenAnswer(
       (_) async => const SudokuWinRecordEntity(
-        stats: SudokuDifficultyStats(gamesWon: 1, bestScore: 1),
-        isNewBestScore: true,
+        stats: SudokuDifficultyStats(gamesWon: 1, bestTimeSeconds: 1),
         isNewBestTime: true,
       ),
     );
@@ -478,32 +474,6 @@ void main() {
     expect(bloc.state.board.notes[peer], contains(wrong));
   });
 
-  test('a correct placement scores once per cell', () async {
-    final bloc = buildBloc()
-      ..add(SelectCell(editable))
-      ..add(EnterDigit(board.solution[editable]));
-    addTearDown(bloc.close);
-    await pumpEventQueue();
-    expect(bloc.state.score, SudokuDifficulty.medium.pointsPerCell);
-
-    // Erasing and re-entering the same cell must not double the points.
-    bloc
-      ..add(const EraseCell())
-      ..add(EnterDigit(board.solution[editable]));
-    await pumpEventQueue();
-    expect(bloc.state.score, SudokuDifficulty.medium.pointsPerCell);
-  });
-
-  test('a wrong placement scores nothing', () async {
-    final bloc = buildBloc()
-      ..add(SelectCell(editable))
-      ..add(EnterDigit(wrongDigitFor(editable)));
-    addTearDown(bloc.close);
-    await pumpEventQueue();
-
-    expect(bloc.state.score, 0);
-  });
-
   test('remainingOf tracks how many of a digit are left', () async {
     final digit = board.solution[editable];
     final placed = board.countOf(digit);
@@ -533,7 +503,6 @@ void main() {
         verify(() => updateSavedUseCase(captureAny())).captured.last
             as SudokuSavedGameEntity;
     expect(saved.board.values[editable], board.solution[editable]);
-    expect(saved.score, SudokuDifficulty.medium.pointsPerCell);
   });
 
   test('game over discards the resumable snapshot', () async {
@@ -561,8 +530,6 @@ void main() {
       board: playedBoard,
       difficulty: SudokuDifficulty.expert,
       mistakes: 2,
-      score: 450,
-      scoredCells: {editable},
       elapsedSeconds: 321,
     );
 
@@ -573,7 +540,6 @@ void main() {
     expect(bloc.state.board, playedBoard);
     expect(bloc.state.difficulty, SudokuDifficulty.expert);
     expect(bloc.state.mistakes, 2);
-    expect(bloc.state.score, 450);
     expect(bloc.state.elapsedSeconds, 321);
   });
 

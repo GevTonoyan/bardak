@@ -230,13 +230,13 @@ class SudokuDifficultyIllustration extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
-    final l10n = context.l10n;
+    const levels = SudokuDifficulty.values;
 
     return Column(
       mainAxisSize: .min,
       spacing: 10,
       children: [
-        for (final difficulty in SudokuDifficulty.values)
+        for (var i = 0; i < levels.length; i++)
           Container(
             width: 260,
             padding: const .symmetric(horizontal: 16, vertical: 10),
@@ -249,17 +249,22 @@ class SudokuDifficultyIllustration extends StatelessWidget {
               mainAxisAlignment: .spaceBetween,
               children: [
                 Text(
-                  sudokuDifficultyLabel(context, difficulty),
+                  sudokuDifficultyLabel(context, levels[i]),
                   style: typography.regular20,
                 ),
+                // A rising ramp of filled dots signals harder levels.
                 Row(
                   spacing: 6,
                   children: [
-                    Icon(Icons.star_rounded, size: 20, color: colors.orange),
-                    Text(
-                      l10n.unit_pts(difficulty.pointsPerCell),
-                      style: typography.regular18.withNumericFont,
-                    ),
+                    for (var dot = 0; dot < levels.length; dot++)
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: .circle,
+                          color: dot <= i ? colors.orange : colors.white30,
+                        ),
+                      ),
                   ],
                 ),
               ],

@@ -36,8 +36,6 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
                savedGame == null &&
                difficulty.needsBackgroundGeneration,
            mistakes: savedGame?.mistakes ?? 0,
-           score: savedGame?.score ?? 0,
-           scoredCells: savedGame?.scoredCells ?? const {},
            elapsedSeconds: savedGame?.elapsedSeconds ?? 0,
          ),
        ) {
@@ -92,8 +90,6 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
           board: state.board,
           difficulty: state.difficulty,
           mistakes: state.mistakes,
-          score: state.score,
-          scoredCells: state.scoredCells,
           elapsedSeconds: state.elapsedSeconds,
         ),
       ),
@@ -143,20 +139,18 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     final board = state.board;
     if (index == null || board.given[index]) return;
 
-    // In notes mode a digit is only a pencil-mark: no score, no mistake.
+    // In notes mode a digit is only a pencil-mark: no mistake.
     if (state.notesMode) {
       _commitBoard(board.withNote(index, event.digit), emit);
       return;
     }
 
     // Placing an answer clears the cell's notes and strips the digit from
-    // peer notes. A wrong entry counts against the mistake limit; a
-    // correct one scores once per cell.
+    // peer notes. A wrong entry counts against the mistake limit.
     final next = board.withValue(index, event.digit);
     if (next == board) return;
 
     final isWrong = next.isWrong(index);
-    final earnsPoints = !isWrong && !state.scoredCells.contains(index);
 
     // Units (row/column/box) this placement just solved get a
     // celebration ripple in the UI, spreading out from the placed cell.
@@ -170,12 +164,6 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
         board: next,
         history: [...state.history, board],
         mistakes: isWrong ? state.mistakes + 1 : state.mistakes,
-        score: earnsPoints
-            ? state.score + state.difficulty.pointsPerCell
-            : state.score,
-        scoredCells: earnsPoints
-            ? {...state.scoredCells, index}
-            : state.scoredCells,
         completedCells: completed.isEmpty ? null : completed,
         completionOrigin: completed.isEmpty ? null : index,
         completionTick: completed.isEmpty ? null : state.completionTick + 1,
@@ -201,7 +189,6 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     final record = await _recordSudokuWinUseCase(
       RecordSudokuWinParams(
         difficulty: state.difficulty,
-        score: state.score,
         timeSeconds: state.elapsedSeconds,
       ),
     );

@@ -22,8 +22,6 @@ void main() {
     board: SudokuBoardEntity.generate(random: Random(5)),
     difficulty: SudokuDifficulty.expert,
     mistakes: 1,
-    score: 300,
-    scoredCells: const {3, 14},
     elapsedSeconds: 77,
   );
 
@@ -45,12 +43,11 @@ void main() {
       byDifficulty: {
         SudokuDifficulty.easy: SudokuDifficultyStats(
           gamesWon: 2,
-          bestScore: 400,
           bestTimeSeconds: 250,
         ),
         SudokuDifficulty.extreme: SudokuDifficultyStats(
           gamesWon: 1,
-          bestScore: 2000,
+          bestTimeSeconds: 500,
         ),
       },
     );

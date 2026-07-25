@@ -62,15 +62,12 @@ void main() {
         board: SudokuBoardEntity.generate(random: Random(0)),
         difficulty: SudokuDifficulty.medium,
         mistakes: 0,
-        score: 0,
-        scoredCells: const {},
         elapsedSeconds: 0,
       ),
     );
     registerFallbackValue(
       const RecordSudokuWinParams(
         difficulty: SudokuDifficulty.medium,
-        score: 0,
         timeSeconds: 0,
       ),
     );
@@ -92,8 +89,7 @@ void main() {
     when(() => clearSavedUseCase()).thenAnswer((_) async => true);
     when(() => recordWinUseCase(any())).thenAnswer(
       (_) async => const SudokuWinRecordEntity(
-        stats: SudokuDifficultyStats(gamesWon: 1, bestScore: 1),
-        isNewBestScore: true,
+        stats: SudokuDifficultyStats(gamesWon: 1, bestTimeSeconds: 1),
         isNewBestTime: true,
       ),
     );

@@ -13,8 +13,6 @@ class SudokuState extends Equatable {
     this.notesMode = false,
     this.history = const [],
     this.mistakes = 0,
-    this.score = 0,
-    this.scoredCells = const {},
     this.elapsedSeconds = 0,
     this.completedCells = const {},
     this.completionOrigin = 0,
@@ -27,7 +25,7 @@ class SudokuState extends Equatable {
 
   final SudokuBoardEntity board;
 
-  /// Difficulty the puzzle was generated with; drives scoring and stats.
+  /// Difficulty the puzzle was generated with; drives stats.
   final SudokuDifficulty difficulty;
 
   /// Whether the elapsed time is shown.
@@ -50,13 +48,6 @@ class SudokuState extends Equatable {
   /// How many wrong entries the player has made so far; the game ends at
   /// [maxMistakes].
   final int mistakes;
-
-  /// Points earned this game.
-  final int score;
-
-  /// Cells that already earned their placement points, so erasing and
-  /// re-entering a digit cannot farm the same points twice.
-  final Set<int> scoredCells;
 
   /// Seconds played so far, ticked by the screen's timer.
   final int elapsedSeconds;
@@ -104,8 +95,6 @@ class SudokuState extends Equatable {
     bool? notesMode,
     List<SudokuBoardEntity>? history,
     int? mistakes,
-    int? score,
-    Set<int>? scoredCells,
     int? elapsedSeconds,
     Set<int>? completedCells,
     int? completionOrigin,
@@ -124,8 +113,6 @@ class SudokuState extends Equatable {
       notesMode: notesMode ?? this.notesMode,
       history: history ?? this.history,
       mistakes: mistakes ?? this.mistakes,
-      score: score ?? this.score,
-      scoredCells: scoredCells ?? this.scoredCells,
       elapsedSeconds: elapsedSeconds ?? this.elapsedSeconds,
       completedCells: completedCells ?? this.completedCells,
       completionOrigin: completionOrigin ?? this.completionOrigin,
@@ -144,8 +131,6 @@ class SudokuState extends Equatable {
     notesMode,
     history,
     mistakes,
-    score,
-    scoredCells,
     elapsedSeconds,
     completedCells,
     completionOrigin,

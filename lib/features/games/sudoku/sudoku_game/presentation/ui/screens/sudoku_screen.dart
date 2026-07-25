@@ -93,7 +93,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
               SudokuWinScreen.routePath,
               extra: SudokuWinArgs(
                 solveSeconds: state.showTimer ? state.elapsedSeconds : null,
-                score: state.score,
                 record: state.winRecord,
               ),
             );
@@ -105,10 +104,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
               !previous.isGameOver && current.isGameOver,
           listener: (context, state) {
             _timer?.cancel();
-            context.pushReplacementNamed(
-              SudokuGameOverScreen.routePath,
-              extra: state.score,
-            );
+            context.pushReplacementNamed(SudokuGameOverScreen.routePath);
           },
         ),
         BlocListener<SudokuBloc, SudokuState>(

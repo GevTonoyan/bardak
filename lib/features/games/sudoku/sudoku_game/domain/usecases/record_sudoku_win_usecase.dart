@@ -4,7 +4,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/repositories/sud
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 
 /// Records a solved puzzle in the lifetime statistics and reports
-/// whether the game set a new best score or time.
+/// whether the game set a new best time.
 class RecordSudokuWinUseCase {
   const RecordSudokuWinUseCase(this._sudokuGameRepository);
 
@@ -14,14 +14,12 @@ class RecordSudokuWinUseCase {
     final stats = _sudokuGameRepository.getStats();
     final current = stats.statsFor(params.difficulty);
 
-    final isNewBestScore = params.score > current.bestScore;
     final isNewBestTime =
         current.bestTimeSeconds == null ||
         params.timeSeconds < current.bestTimeSeconds!;
 
     final updated = SudokuDifficultyStats(
       gamesWon: current.gamesWon + 1,
-      bestScore: isNewBestScore ? params.score : current.bestScore,
       bestTimeSeconds: isNewBestTime
           ? params.timeSeconds
           : current.bestTimeSeconds,
@@ -31,22 +29,16 @@ class RecordSudokuWinUseCase {
       stats.withStats(params.difficulty, updated),
     );
 
-    return SudokuWinRecordEntity(
-      stats: updated,
-      isNewBestScore: isNewBestScore,
-      isNewBestTime: isNewBestTime,
-    );
+    return SudokuWinRecordEntity(stats: updated, isNewBestTime: isNewBestTime);
   }
 }
 
 class RecordSudokuWinParams {
   const RecordSudokuWinParams({
     required this.difficulty,
-    required this.score,
     required this.timeSeconds,
   });
 
   final SudokuDifficulty difficulty;
-  final int score;
   final int timeSeconds;
 }

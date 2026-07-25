@@ -21,31 +21,27 @@ void main() {
     when(() => repository.updateStats(any())).thenAnswer((_) async => true);
   });
 
-  test('the first win sets both records', () async {
+  test('the first win sets the best time', () async {
     when(() => repository.getStats()).thenReturn(const SudokuStatsEntity());
 
     final record = await useCase(
       const RecordSudokuWinParams(
         difficulty: SudokuDifficulty.hard,
-        score: 500,
         timeSeconds: 300,
       ),
     );
 
-    expect(record.isNewBestScore, isTrue);
     expect(record.isNewBestTime, isTrue);
     expect(record.stats.gamesWon, 1);
-    expect(record.stats.bestScore, 500);
     expect(record.stats.bestTimeSeconds, 300);
   });
 
-  test('a slower, lower-scoring win keeps the old records', () async {
+  test('a slower win keeps the old best time', () async {
     when(() => repository.getStats()).thenReturn(
       const SudokuStatsEntity(
         byDifficulty: {
           SudokuDifficulty.hard: SudokuDifficultyStats(
             gamesWon: 3,
-            bestScore: 900,
             bestTimeSeconds: 200,
           ),
         },
@@ -55,20 +51,17 @@ void main() {
     final record = await useCase(
       const RecordSudokuWinParams(
         difficulty: SudokuDifficulty.hard,
-        score: 500,
         timeSeconds: 300,
       ),
     );
 
-    expect(record.isNewBestScore, isFalse);
     expect(record.isNewBestTime, isFalse);
     expect(record.stats.gamesWon, 4);
-    expect(record.stats.bestScore, 900);
     expect(record.stats.bestTimeSeconds, 200);
   });
 
   test('stats of other difficulties are untouched', () async {
-    const easyStats = SudokuDifficultyStats(gamesWon: 7, bestScore: 100);
+    const easyStats = SudokuDifficultyStats(gamesWon: 7, bestTimeSeconds: 150);
     when(() => repository.getStats()).thenReturn(
       const SudokuStatsEntity(
         byDifficulty: {SudokuDifficulty.easy: easyStats},
@@ -78,7 +71,6 @@ void main() {
     await useCase(
       const RecordSudokuWinParams(
         difficulty: SudokuDifficulty.hard,
-        score: 500,
         timeSeconds: 300,
       ),
     );

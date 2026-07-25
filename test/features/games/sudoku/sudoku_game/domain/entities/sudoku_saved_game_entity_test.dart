@@ -19,8 +19,6 @@ void main() {
       board: board,
       difficulty: SudokuDifficulty.extreme,
       mistakes: 2,
-      score: 675,
-      scoredCells: {editable, 42},
       elapsedSeconds: 913,
     );
 
@@ -41,8 +39,6 @@ void main() {
     expect(restored.board, board);
     expect(restored.difficulty, SudokuDifficulty.hard);
     expect(restored.mistakes, 0);
-    expect(restored.score, 0);
-    expect(restored.scoredCells, isEmpty);
     expect(restored.elapsedSeconds, 0);
   });
 }

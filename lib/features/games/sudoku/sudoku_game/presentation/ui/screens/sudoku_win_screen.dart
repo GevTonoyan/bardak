@@ -22,15 +22,11 @@ import 'package:go_router/go_router.dart';
 class SudokuWinArgs {
   const SudokuWinArgs({
     required this.solveSeconds,
-    required this.score,
     required this.record,
   });
 
   /// Time the puzzle took; null when the timer is disabled in settings.
   final int? solveSeconds;
-
-  /// Points earned in the solved game.
-  final int score;
 
   /// Updated lifetime stats and new-record flags; null if recording
   /// was unavailable.
@@ -79,14 +75,12 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
     super.dispose();
   }
 
-  /// "Best score: N · Best time: m:ss" (time part only when recorded).
+  /// "Best time: m:ss", or empty when no time is recorded (timer off).
   String _bestStatsLine(AppLocalizations l10n, SudokuWinRecordEntity record) {
-    final bestScore = '${l10n.sudoku_best_score}: ${record.stats.bestScore}';
     final bestTime = record.stats.bestTimeSeconds;
-    if (bestTime == null) return bestScore;
+    if (bestTime == null) return '';
 
-    return '$bestScore  ·  '
-        '${l10n.sudoku_best_time}: ${formatSudokuTime(bestTime)}';
+    return '${l10n.sudoku_best_time}: ${formatSudokuTime(bestTime)}';
   }
 
   @override
@@ -125,11 +119,6 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
                       textAlign: .center,
                       style: context.typography.regular28,
                     ),
-                    Text(
-                      '${l10n.sudoku_score}: ${widget.args.score}',
-                      textAlign: .center,
-                      style: context.typography.regular24.withNumericFont,
-                    ),
                     if (solveSeconds != null)
                       Text(
                         '${l10n.sudoku_your_time} '
@@ -138,8 +127,7 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
                         style: context.typography.regular24.withNumericFont
                             .copyWith(color: colors.white50),
                       ),
-                    if (record != null &&
-                        (record.isNewBestScore || record.isNewBestTime))
+                    if (record != null && record.isNewBestTime)
                       Text(
                         l10n.sudoku_new_record,
                         textAlign: .center,
@@ -147,7 +135,7 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
                           color: colors.orange,
                         ),
                       ),
-                    if (record != null)
+                    if (record != null && record.stats.bestTimeSeconds != null)
                       Text(
                         _bestStatsLine(l10n, record),
                         textAlign: .center,
