@@ -9,6 +9,7 @@ class AppInputField extends StatelessWidget {
     this.focusNode,
     this.suffix,
     this.onPressed,
+    this.maxLength = 16,
     super.key,
   });
 
@@ -17,6 +18,7 @@ class AppInputField extends StatelessWidget {
 
   final Widget? suffix;
   final VoidCallback? onPressed;
+  final int maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,7 @@ class AppInputField extends StatelessWidget {
                     autocorrect: false,
                     cursorColor: colors.white,
                     cursorWidth: 3,
-                    maxLength: 16,
+                    maxLength: maxLength,
                     decoration: const InputDecoration(
                       counterText: '',
                       border: InputBorder.none,

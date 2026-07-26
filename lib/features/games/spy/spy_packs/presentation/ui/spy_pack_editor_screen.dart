@@ -68,7 +68,9 @@ class _SpyPackEditorScreenState extends State<SpyPackEditorScreen> {
       return;
     }
     setState(() {
-      _words.add(word);
+      // Prepend so the freshly added word is visible at the top rather than
+      // scrolled off the bottom of a long list.
+      _words.insert(0, word);
       _wordController.clear();
     });
   }
@@ -168,6 +170,7 @@ class _SpyPackEditorScreenState extends State<SpyPackEditorScreen> {
                       height20,
                       AppInputField(
                         controller: _wordController,
+                        maxLength: 20,
                         suffix: AppIcon(
                           icon: Assets.icons.add.svg(),
                           onTap: _addWord,
