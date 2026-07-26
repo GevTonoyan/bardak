@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:math' as math;
 
+import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/language_icon.dart';
@@ -172,8 +172,8 @@ class _Packs extends StatelessWidget {
   }
 }
 
-/// The "Create pack" tile that leads the grid — a dashed "add" slot, kept
-/// visually distinct from the filled pack cards beside it.
+/// The "Create pack" tile that leads the grid — an [AppButton] so it shares
+/// the tile height and press feedback of the pack tiles beside it.
 class _CreatePackTile extends StatelessWidget {
   const _CreatePackTile({required this.onTap});
 
@@ -183,82 +183,37 @@ class _CreatePackTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
-    return GestureDetector(
-      onTap: onTap,
-      behavior: .opaque,
-      child: CustomPaint(
-        foregroundPainter: _DashedBorderPainter(color: colors.white50),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.white10,
-            borderRadius: .circular(12),
-          ),
-          child: Center(
-            child: Column(
-              mainAxisSize: .min,
-              spacing: 12,
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    shape: .circle,
-                    color: colors.white20,
-                    border: Border.all(color: colors.white, width: 2),
-                  ),
-                  child: Icon(Icons.add_rounded, color: colors.white, size: 30),
-                ),
-                Text(
-                  context.l10n.spy_new_pack,
-                  style: context.typography.regular20,
-                ),
-              ],
+    return AppButton(
+      label: context.l10n.spy_new_pack,
+      color: colors.white20,
+      size: .extraLarge,
+      onPressed: onTap,
+      child: Center(
+        child: Column(
+          mainAxisSize: .min,
+          spacing: 12,
+          children: [
+            // A frosted "glass ring" badge (white20 fill + white outline,
+            // the app's glass vocabulary) — kept deliberately distinct from
+            // AppIconButton so it doesn't read as a tappable control like the
+            // back/edit buttons; the whole tile is the button.
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: colors.white20,
+                shape: .circle,
+                border: Border.all(color: colors.white, width: 2.5),
+              ),
+              child: Icon(Icons.add_rounded, color: colors.white, size: 30),
             ),
-          ),
+            Text(
+              context.l10n.spy_new_pack,
+              style: context.typography.regular20,
+            ),
+          ],
         ),
       ),
     );
   }
-}
-
-/// Paints a dashed rounded-rectangle border for the "add" tile.
-class _DashedBorderPainter extends CustomPainter {
-  const _DashedBorderPainter({required this.color});
-
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    const radius = 12.0;
-    const strokeWidth = 2.0;
-    const dashLength = 8.0;
-    const gapLength = 6.0;
-
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round;
-
-    final path = Path()
-      ..addRRect(
-        RRect.fromRectAndRadius(
-          (Offset.zero & size).deflate(strokeWidth / 2),
-          const Radius.circular(radius),
-        ),
-      );
-
-    for (final metric in path.computeMetrics()) {
-      var distance = 0.0;
-      while (distance < metric.length) {
-        final end = math.min(distance + dashLength, metric.length);
-        canvas.drawPath(metric.extractPath(distance, end), paint);
-        distance += dashLength + gapLength;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_DashedBorderPainter oldDelegate) =>
-      oldDelegate.color != color;
 }
