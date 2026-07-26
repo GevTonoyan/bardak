@@ -182,4 +182,49 @@ void main() {
     expect(repository.getFallbackSpyPacks('en'), packs);
     verifyNever(() => remote.getSpyPacks(any()));
   });
+
+  group('custom packs', () {
+    const custom = SpyPackEntity(
+      id: 'custom_1',
+      name: 'Friends',
+      words: ['Alex', 'Sam', 'Jo'],
+      image: '',
+      imageBlurHash: '',
+      isCustom: true,
+    );
+
+    test('get/save/delete delegate to the local source', () async {
+      when(local.getCustomSpyPacks).thenAnswer((_) async => [custom]);
+      when(() => local.saveCustomSpyPack(custom)).thenAnswer((_) async {});
+      when(() => local.deleteCustomSpyPack('custom_1')).thenAnswer((_) async {});
+
+      expect(await repository.getCustomSpyPacks(), [custom]);
+      await repository.saveCustomSpyPack(custom);
+      await repository.deleteCustomSpyPack('custom_1');
+
+      verify(() => local.saveCustomSpyPack(custom)).called(1);
+      verify(() => local.deleteCustomSpyPack('custom_1')).called(1);
+    });
+
+    test('drawSecret keys a custom pack under the "custom" bucket', () async {
+      when(
+        () => local.getUsedSecrets('custom', 'custom_1'),
+      ).thenReturn(const ['Alex', 'Sam']);
+
+      final secret = await repository.drawSecret(
+        localeCode: 'en',
+        pack: custom,
+      );
+
+      // Independent of the UI locale, drawn from the custom bucket's history.
+      expect(secret, 'Jo');
+      verify(
+        () => local.updateUsedSecrets('custom', 'custom_1', [
+          'Alex',
+          'Sam',
+          'Jo',
+        ]),
+      ).called(1);
+    });
+  });
 }

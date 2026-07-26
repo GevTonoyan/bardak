@@ -25,13 +25,20 @@ class SpyPacksLoaded extends SpyPacksState {
 }
 
 /// State when nothing is cached; shows placeholder packs that need a download.
+///
+/// [customPacks] (player-created) are always playable and shown first, even
+/// while the built-in [fallbackPacks] still need downloading.
 class SpyPacksNotCached extends SpyPacksState {
-  const SpyPacksNotCached({required this.fallbackPacks});
+  const SpyPacksNotCached({
+    required this.fallbackPacks,
+    this.customPacks = const [],
+  });
 
   final List<SpyPackEntity> fallbackPacks;
+  final List<SpyPackEntity> customPacks;
 
   @override
-  List<Object?> get props => [fallbackPacks];
+  List<Object?> get props => [fallbackPacks, customPacks];
 }
 
 /// State when a session is built and the game is ready to start.

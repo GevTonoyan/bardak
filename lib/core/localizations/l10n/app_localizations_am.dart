@@ -240,6 +240,36 @@ class AppLocalizationsAm extends AppLocalizations {
   String get spy_find_the_spy => 'Հերթով հարցեր տվեք և գտեք լրտեսին';
 
   @override
+  String get spy_new_pack => 'Նոր փաթեթ';
+
+  @override
+  String get spy_create_pack => 'Ստեղծել փաթեթ';
+
+  @override
+  String get spy_edit_pack => 'Խմբագրել փաթեթը';
+
+  @override
+  String get spy_pack_name => 'Փաթեթի անուն';
+
+  @override
+  String get spy_words => 'Բառեր';
+
+  @override
+  String spy_min_words(int count) {
+    return 'Պահպանելու համար ավելացրե՛ք առնվազն $count բառ';
+  }
+
+  @override
+  String get spy_save_pack => 'Պահպանել փաթեթը';
+
+  @override
+  String get spy_delete_pack => 'Ջնջել փաթեթը';
+
+  @override
+  String get spy_delete_pack_confirm =>
+      'Ջնջե՞լ այս փաթեթը։ Այս գործողությունն անշրջելի է։';
+
+  @override
   String get play_again => 'Խաղալ նորից';
 
   @override

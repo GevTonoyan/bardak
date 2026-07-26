@@ -121,6 +121,22 @@
   "spy_start_game": "Start game",
   "spy_all_ready": "Everyone is ready",
   "spy_find_the_spy": "Take turns asking questions to find the spy.",
+  "spy_new_pack": "New pack",
+  "spy_create_pack": "Create pack",
+  "spy_edit_pack": "Edit pack",
+  "spy_pack_name": "Pack name",
+  "spy_words": "Words",
+  "spy_min_words": "Add at least {count} words to save",
+  "@spy_min_words": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "spy_save_pack": "Save pack",
+  "spy_delete_pack": "Delete pack",
+  "spy_delete_pack_confirm": "Delete this pack? This can't be undone.",
   "play_again": "Play again",
   "change_pack": "Change pack",
   "game_rules": "Game Rules",

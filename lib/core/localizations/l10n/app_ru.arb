@@ -121,6 +121,22 @@
   "spy_start_game": "Начать игру",
   "spy_all_ready": "Все готовы",
   "spy_find_the_spy": "Задавайте вопросы по очереди и найдите шпиона",
+  "spy_new_pack": "Новый набор",
+  "spy_create_pack": "Создать набор",
+  "spy_edit_pack": "Изменить набор",
+  "spy_pack_name": "Название набора",
+  "spy_words": "Слова",
+  "spy_min_words": "Добавьте минимум {count} слова, чтобы сохранить",
+  "@spy_min_words": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "spy_save_pack": "Сохранить набор",
+  "spy_delete_pack": "Удалить набор",
+  "spy_delete_pack_confirm": "Удалить этот набор? Это действие необратимо.",
   "play_again": "Играть снова",
   "change_pack": "Сменить набор",
   "game_rules": "Правила игры",

@@ -18,7 +18,9 @@ import 'package:bardak/features/games/alias/single_word_round/presentation/ui/si
 import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
+import 'package:bardak/features/games/spy/spy_packs/domain/entities/spy_pack_entity.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_language_select_screen.dart';
+import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_pack_editor_screen.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_packs_screen.dart';
 import 'package:bardak/features/games/spy/spy_rules/presentation/ui/spy_rules_screen.dart';
 import 'package:bardak/features/games/spy/spy_session/domain/entities/spy_session_entity.dart';
@@ -148,6 +150,15 @@ final appRouter = GoRouter(
                   name: SpyLanguageSelectScreen.routePath,
                   pageBuilder: (context, state) =>
                       const SpyLanguageSelectScreen(),
+                ),
+                GoRoute(
+                  path: SpyPackEditorScreen.routePath,
+                  name: SpyPackEditorScreen.routePath,
+                  pageBuilder: (context, state) => MaterialPage(
+                    child: SpyPackEditorScreen(
+                      initialPack: state.extra as SpyPackEntity?,
+                    ),
+                  ),
                 ),
               ],
             ),

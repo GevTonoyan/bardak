@@ -33,6 +33,15 @@ abstract interface class SpyPacksLocalDataSource {
     String packId,
     List<String> usedSecrets,
   );
+
+  /// Returns the player-created packs (shared across all languages).
+  Future<List<SpyPackEntity>> getCustomSpyPacks();
+
+  /// Creates or replaces (by id) a player-created pack.
+  Future<void> saveCustomSpyPack(SpyPackEntity pack);
+
+  /// Deletes the player-created pack with [id].
+  Future<void> deleteCustomSpyPack(String id);
 }
 
 /// Implementation of [SpyPacksLocalDataSource] backed by Hive (packs)
@@ -41,6 +50,7 @@ class SpyPacksLocalDataSourceImpl implements SpyPacksLocalDataSource {
   const SpyPacksLocalDataSourceImpl({required this._preferences});
 
   static const _boxPrefix = 'spy_packs';
+  static const _customBox = 'spy_custom_packs';
   static const _nameKey = 'spy_pack_name';
   static const _wordsKey = 'spy_pack_words';
   static const _imageKey = 'spy_pack_image';
@@ -148,5 +158,38 @@ class SpyPacksLocalDataSourceImpl implements SpyPacksLocalDataSource {
       _usedSecretsKey(localeCode, packId),
       usedSecrets,
     );
+  }
+
+  @override
+  Future<List<SpyPackEntity>> getCustomSpyPacks() async {
+    final box = await Hive.openBox<Map<dynamic, dynamic>>(_customBox);
+
+    return box.keys.map((key) {
+      final data = Map<String, dynamic>.from(box.get(key)!);
+
+      return SpyPackEntity(
+        id: key as String,
+        name: data[_nameKey] as String,
+        words: List<String>.from(data[_wordsKey] as List),
+        image: '',
+        imageBlurHash: '',
+        isCustom: true,
+      );
+    }).toList();
+  }
+
+  @override
+  Future<void> saveCustomSpyPack(SpyPackEntity pack) async {
+    final box = await Hive.openBox<Map<dynamic, dynamic>>(_customBox);
+    await box.put(pack.id, <String, dynamic>{
+      _nameKey: pack.name,
+      _wordsKey: pack.words,
+    });
+  }
+
+  @override
+  Future<void> deleteCustomSpyPack(String id) async {
+    final box = await Hive.openBox<Map<dynamic, dynamic>>(_customBox);
+    await box.delete(id);
   }
 }

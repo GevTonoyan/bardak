@@ -20,4 +20,13 @@ abstract interface class SpyPacksRepository {
     required String localeCode,
     required SpyPackEntity pack,
   });
+
+  /// Returns the player-created packs, shown in every language.
+  Future<List<SpyPackEntity>> getCustomSpyPacks();
+
+  /// Creates or replaces (by id) a player-created pack.
+  Future<void> saveCustomSpyPack(SpyPackEntity pack);
+
+  /// Deletes the player-created pack with [id].
+  Future<void> deleteCustomSpyPack(String id);
 }

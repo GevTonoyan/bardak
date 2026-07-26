@@ -3,10 +3,13 @@ import 'package:bardak/core/logging/app_logger.dart';
 import 'package:bardak/core/logging/console_logger.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/entities/spy_pack_entity.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/are_spy_packs_cached_usecase.dart';
+import 'package:bardak/features/games/spy/spy_packs/domain/usecases/delete_custom_spy_pack_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/download_spy_packs_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/draw_spy_secret_usecase.dart';
+import 'package:bardak/features/games/spy/spy_packs/domain/usecases/get_custom_spy_packs_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/get_fallback_spy_packs_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/get_spy_packs_usecase.dart';
+import 'package:bardak/features/games/spy/spy_packs/domain/usecases/save_custom_spy_pack_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_event.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_state.dart';
@@ -28,12 +31,30 @@ class _MockDrawSpySecret extends Mock implements DrawSpySecretUseCase {}
 
 class _MockGetSpySettings extends Mock implements GetSpySettingsUseCase {}
 
+class _MockGetCustomSpyPacks extends Mock
+    implements GetCustomSpyPacksUseCase {}
+
+class _MockSaveCustomSpyPack extends Mock
+    implements SaveCustomSpyPackUseCase {}
+
+class _MockDeleteCustomSpyPack extends Mock
+    implements DeleteCustomSpyPackUseCase {}
+
 const _pack = SpyPackEntity(
   id: 'locations',
   name: 'Locations',
   words: ['Beach'],
   image: 'url',
   imageBlurHash: 'hash',
+);
+
+const _customPack = SpyPackEntity(
+  id: 'custom_1',
+  name: 'College friends',
+  words: ['Alex', 'Sam', 'Jo'],
+  image: '',
+  imageBlurHash: '',
+  isCustom: true,
 );
 
 const _fallback = SpyPackEntity(
@@ -51,10 +72,16 @@ void main() {
   late _MockDownloadSpyPacks downloadSpyPacks;
   late _MockDrawSpySecret drawSpySecret;
   late _MockGetSpySettings getSpySettings;
+  late _MockGetCustomSpyPacks getCustomSpyPacks;
+  late _MockSaveCustomSpyPack saveCustomSpyPack;
+  late _MockDeleteCustomSpyPack deleteCustomSpyPack;
 
   setUpAll(() {
     registerFallbackValue(
       const DrawSpySecretParams(localeCode: 'en', pack: _pack),
+    );
+    registerFallbackValue(
+      const SaveCustomSpyPackParams(name: '', words: []),
     );
     if (!sl.isRegistered<AppLogger>()) {
       sl.registerLazySingleton<AppLogger>(ConsoleLogger.new);
@@ -68,6 +95,12 @@ void main() {
     downloadSpyPacks = _MockDownloadSpyPacks();
     drawSpySecret = _MockDrawSpySecret();
     getSpySettings = _MockGetSpySettings();
+    getCustomSpyPacks = _MockGetCustomSpyPacks();
+    saveCustomSpyPack = _MockSaveCustomSpyPack();
+    deleteCustomSpyPack = _MockDeleteCustomSpyPack();
+
+    // Most tests have no custom packs; specific ones override this.
+    when(() => getCustomSpyPacks()).thenAnswer((_) async => []);
   });
 
   SpyPacksBloc buildBloc() => SpyPacksBloc(
@@ -77,6 +110,9 @@ void main() {
     downloadSpyPacksUseCase: downloadSpyPacks,
     drawSpySecretUseCase: drawSpySecret,
     getSpySettingsUseCase: getSpySettings,
+    getCustomSpyPacksUseCase: getCustomSpyPacks,
+    saveCustomSpyPackUseCase: saveCustomSpyPack,
+    deleteCustomSpyPackUseCase: deleteCustomSpyPack,
   );
 
   group('LoadSpyPacks', () {
@@ -207,6 +243,73 @@ void main() {
       await pumpEventQueue();
 
       expect(bloc.state, const SpyPacksInitial());
+    });
+  });
+
+  group('custom packs', () {
+    test('LoadSpyPacks prepends custom packs to the built-in list', () async {
+      when(() => getCustomSpyPacks()).thenAnswer((_) async => [_customPack]);
+      when(() => areSpyPacksCached('en')).thenAnswer((_) async => true);
+      when(() => getSpyPacks('en')).thenAnswer((_) async => [_pack]);
+
+      final bloc = buildBloc()..add(const LoadSpyPacks('en'));
+      addTearDown(bloc.close);
+      await pumpEventQueue();
+
+      expect(bloc.state, const SpyPacksLoaded(packs: [_customPack, _pack]));
+    });
+
+    test('custom packs also show while built-ins need downloading', () async {
+      when(() => getCustomSpyPacks()).thenAnswer((_) async => [_customPack]);
+      when(() => areSpyPacksCached('en')).thenAnswer((_) async => false);
+      when(() => getFallbackSpyPacks('en')).thenReturn([_fallback]);
+
+      final bloc = buildBloc()..add(const LoadSpyPacks('en'));
+      addTearDown(bloc.close);
+      await pumpEventQueue();
+
+      expect(
+        bloc.state,
+        const SpyPacksNotCached(
+          fallbackPacks: [_fallback],
+          customPacks: [_customPack],
+        ),
+      );
+    });
+
+    test('SaveSpyPack persists then reloads', () async {
+      when(() => saveCustomSpyPack(any())).thenAnswer((_) async {});
+      when(() => getCustomSpyPacks()).thenAnswer((_) async => [_customPack]);
+      when(() => areSpyPacksCached('en')).thenAnswer((_) async => true);
+      when(() => getSpyPacks('en')).thenAnswer((_) async => [_pack]);
+
+      final bloc = buildBloc()
+        ..add(
+          const SaveSpyPack(
+            name: 'College friends',
+            words: ['Alex', 'Sam', 'Jo'],
+            locale: 'en',
+          ),
+        );
+      addTearDown(bloc.close);
+      await pumpEventQueue();
+
+      verify(() => saveCustomSpyPack(any())).called(1);
+      expect(bloc.state, const SpyPacksLoaded(packs: [_customPack, _pack]));
+    });
+
+    test('DeleteSpyPack removes then reloads', () async {
+      when(() => deleteCustomSpyPack('custom_1')).thenAnswer((_) async {});
+      when(() => areSpyPacksCached('en')).thenAnswer((_) async => true);
+      when(() => getSpyPacks('en')).thenAnswer((_) async => [_pack]);
+
+      final bloc = buildBloc()
+        ..add(const DeleteSpyPack(id: 'custom_1', locale: 'en'));
+      addTearDown(bloc.close);
+      await pumpEventQueue();
+
+      verify(() => deleteCustomSpyPack('custom_1')).called(1);
+      expect(bloc.state, const SpyPacksLoaded(packs: [_pack]));
     });
   });
 }

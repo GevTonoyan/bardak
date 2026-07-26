@@ -47,7 +47,11 @@ class SpyPacksRepositoryImpl implements SpyPacksRepository {
       throw StateError('Spy pack "${pack.id}" has no words to draw from');
     }
 
-    var used = _localDataSource.getUsedSecrets(localeCode, pack.id);
+    // Custom packs are shared across languages, so their no-repeat history
+    // lives in one bucket rather than one per UI locale.
+    final bucket = pack.isCustom ? 'custom' : localeCode;
+
+    var used = _localDataSource.getUsedSecrets(bucket, pack.id);
     var unused = pack.words.where((word) => !used.contains(word)).toList();
 
     // Every word has been played: reshuffle, avoiding an immediate repeat
@@ -60,11 +64,26 @@ class SpyPacksRepositoryImpl implements SpyPacksRepository {
     }
 
     final secret = unused[Random().nextInt(unused.length)];
-    await _localDataSource.updateUsedSecrets(localeCode, pack.id, [
+    await _localDataSource.updateUsedSecrets(bucket, pack.id, [
       ...used,
       secret,
     ]);
 
     return secret;
+  }
+
+  @override
+  Future<List<SpyPackEntity>> getCustomSpyPacks() {
+    return _localDataSource.getCustomSpyPacks();
+  }
+
+  @override
+  Future<void> saveCustomSpyPack(SpyPackEntity pack) {
+    return _localDataSource.saveCustomSpyPack(pack);
+  }
+
+  @override
+  Future<void> deleteCustomSpyPack(String id) {
+    return _localDataSource.deleteCustomSpyPack(id);
   }
 }

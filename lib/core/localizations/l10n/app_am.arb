@@ -121,6 +121,23 @@
   "spy_start_game": "Սկսել խաղը",
   "spy_all_ready": "Բոլորը պատրաստ են",
   "spy_find_the_spy": "Հերթով հարցեր տվեք և գտեք լրտեսին",
+  "spy_new_pack": "Նոր փաթեթ",
+  "spy_create_pack": "Ստեղծել փաթեթ",
+  "spy_edit_pack": "Խմբագրել փաթեթը",
+  "spy_pack_name": "Փաթեթի անուն",
+  "spy_words": "Բառեր",
+  "spy_min_words": "Պահպանելու համար ավելացրե՛ք առնվազն {count} բառ",
+  "@spy_min_words": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "spy_save_pack": "Պահպանել փաթեթը",
+  "spy_delete_pack": "Ջնջել փաթեթը",
+  "spy_delete_pack_confirm": "Ջնջե՞լ այս փաթեթը։ Այս գործողությունն անշրջելի է։",
+  "spy_pack_yours": "Ձերը",
   "play_again": "Խաղալ նորից",
   "change_pack": "Փոխել հավաքածուն",
   "game_rules": "Խաղի կանոնները",
