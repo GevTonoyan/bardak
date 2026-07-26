@@ -1,3 +1,4 @@
+import 'package:bardak/core/app_ui/widgets/edge_shadow.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
@@ -25,20 +26,19 @@ class AppInputField extends StatelessWidget {
       onTap: onPressed,
       child: Stack(
         children: [
+          // Drop shadow beneath the field. Clipped so it only spills outside
+          // the base rect — otherwise the translucent white20 fill lets the
+          // shadow bleed through.
+          const EdgeShadow(height: 60, offset: Offset(0, 4), alpha: 0.25),
           Container(
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: colors.white20,
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 4),
-                  color: Colors.black.withValues(alpha: 0.25),
-                  blurRadius: 2,
-                ),
-              ],
             ),
           ),
+          // Depth shadow cast by the raised face onto the exposed edge.
+          const EdgeShadow(height: 50, offset: Offset(0, 10), alpha: 0.2),
           Container(
             height: 50,
             padding: const .only(left: 20),
@@ -58,13 +58,6 @@ class AppInputField extends StatelessWidget {
                   ],
                 ),
               ),
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 10),
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 2,
-                ),
-              ],
             ),
             child: Row(
               spacing: 14,
