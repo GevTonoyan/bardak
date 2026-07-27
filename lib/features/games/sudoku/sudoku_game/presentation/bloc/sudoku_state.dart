@@ -7,7 +7,7 @@ class SudokuState extends Equatable {
   const SudokuState({
     required this.board,
     required this.difficulty,
-    required this.showTimer,
+    this.bestTimeSeconds,
     this.isGenerating = false,
     this.selectedIndex,
     this.notesMode = false,
@@ -28,8 +28,9 @@ class SudokuState extends Equatable {
   /// Difficulty the puzzle was generated with; drives stats.
   final SudokuDifficulty difficulty;
 
-  /// Whether the elapsed time is shown.
-  final bool showTimer;
+  /// Best solve time recorded for this [difficulty], or null when the player
+  /// has never won on it. Shown during play as a target to beat.
+  final int? bestTimeSeconds;
 
   /// True while the puzzle is generated in the background; the board is a
   /// locked placeholder and input is ignored.
@@ -104,7 +105,7 @@ class SudokuState extends Equatable {
     return SudokuState(
       board: board ?? this.board,
       difficulty: difficulty,
-      showTimer: showTimer,
+      bestTimeSeconds: bestTimeSeconds,
       isGenerating: isGenerating ?? this.isGenerating,
       // [selectedIndex] can only be cleared explicitly via [deselect],
       // since it is nullable and copyWith cannot distinguish "keep" from
@@ -125,7 +126,7 @@ class SudokuState extends Equatable {
   List<Object?> get props => [
     board,
     difficulty,
-    showTimer,
+    bestTimeSeconds,
     isGenerating,
     selectedIndex,
     notesMode,

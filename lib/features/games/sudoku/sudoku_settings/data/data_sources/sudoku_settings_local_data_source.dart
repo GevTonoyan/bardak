@@ -8,8 +8,6 @@ abstract interface class SudokuSettingsLocalDataSource {
   SudokuSettingsEntity getSudokuSettings();
 
   Future<bool> updateDifficulty(SudokuDifficulty difficulty);
-
-  Future<bool> updateShowTimer({required bool showTimer});
 }
 
 class SudokuSettingsLocalDataSourceImpl
@@ -17,7 +15,6 @@ class SudokuSettingsLocalDataSourceImpl
   const SudokuSettingsLocalDataSourceImpl({required this._preferences});
 
   static const _difficultyKey = 'sudoku_difficulty';
-  static const _showTimerKey = 'sudoku_show_timer';
 
   final SharedPreferences _preferences;
 
@@ -30,17 +27,11 @@ class SudokuSettingsLocalDataSourceImpl
       difficulty: SudokuDifficulty.fromString(
         _preferences.getString(_difficultyKey) ?? defaults.difficulty.name,
       ),
-      showTimer: _preferences.getBool(_showTimerKey) ?? defaults.showTimer,
     );
   }
 
   @override
   Future<bool> updateDifficulty(SudokuDifficulty difficulty) {
     return _preferences.setString(_difficultyKey, difficulty.name);
-  }
-
-  @override
-  Future<bool> updateShowTimer({required bool showTimer}) {
-    return _preferences.setBool(_showTimerKey, showTimer);
   }
 }

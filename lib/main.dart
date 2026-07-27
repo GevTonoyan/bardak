@@ -118,7 +118,6 @@ void main() async {
           create: (_) => SudokuSettingsBloc(
             getSudokuSettingsUseCase: sl(),
             updateSudokuDifficultyUseCase: sl(),
-            updateShowTimerUseCase: sl(),
             hasSavedSudokuGameUseCase: sl(),
           ),
         ),

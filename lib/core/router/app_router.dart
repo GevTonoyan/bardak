@@ -191,11 +191,11 @@ final appRouter = GoRouter(
                   child: BlocProvider(
                     create: (_) => SudokuBloc(
                       difficulty: settings.difficulty,
-                      showTimer: settings.showTimer,
                       generateSudokuBoardUseCase: sl(),
                       updateSavedSudokuGameUseCase: sl(),
                       clearSavedSudokuGameUseCase: sl(),
                       recordSudokuWinUseCase: sl(),
+                      getSudokuStatsUseCase: sl(),
                       savedGame: savedGame,
                     ),
                     child: const SudokuScreen(),

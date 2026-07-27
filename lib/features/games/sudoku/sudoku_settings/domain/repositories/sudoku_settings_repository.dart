@@ -7,7 +7,4 @@ abstract interface class SudokuSettingsRepository {
 
   /// Persists the selected difficulty.
   Future<bool> updateDifficulty(SudokuDifficulty difficulty);
-
-  /// Persists whether the timer is shown.
-  Future<bool> updateShowTimer({required bool showTimer});
 }

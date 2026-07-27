@@ -4,6 +4,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_saved_game_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/clear_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/generate_sudoku_board_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/get_sudoku_stats_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/record_sudoku_win_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/update_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
@@ -19,18 +20,20 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
   /// off the main thread.
   SudokuBloc({
     required SudokuDifficulty difficulty,
-    required bool showTimer,
     required this._generateSudokuBoardUseCase,
     required this._updateSavedSudokuGameUseCase,
     required this._clearSavedSudokuGameUseCase,
     required this._recordSudokuWinUseCase,
+    required GetSudokuStatsUseCase getSudokuStatsUseCase,
     SudokuSavedGameEntity? savedGame,
     SudokuBoardEntity? board,
   }) : super(
          SudokuState(
            board: _initialBoard(difficulty, board, savedGame),
            difficulty: savedGame?.difficulty ?? difficulty,
-           showTimer: showTimer,
+           bestTimeSeconds: getSudokuStatsUseCase()
+               .statsFor(savedGame?.difficulty ?? difficulty)
+               .bestTimeSeconds,
            isGenerating:
                board == null &&
                savedGame == null &&
