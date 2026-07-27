@@ -32,6 +32,20 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // By default it is assets/, but our Assets lib already adds assets/
   AudioCache.instance = AudioCache(prefix: '');
+  // Route sound effects through the ambient session so they obey the iOS
+  // silent switch (the default `playback` category ignores it) and mix with
+  // any background music instead of interrupting it. On Android the SFX play
+  // on the media/game stream without stealing audio focus.
+  await AudioPlayer.global.setAudioContext(
+    AudioContext(
+      iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
+      android: const AudioContextAndroid(
+        contentType: AndroidContentType.sonification,
+        usageType: AndroidUsageType.game,
+        audioFocus: AndroidAudioFocus.none,
+      ),
+    ),
+  );
   await SystemChrome.setPreferredOrientations([.portraitUp, .portraitDown]);
   // TODO(Gevorg): come up with nicer way to handle this
   // (add splash screen while loading dependencies)
