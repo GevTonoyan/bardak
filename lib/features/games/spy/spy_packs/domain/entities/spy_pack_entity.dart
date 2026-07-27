@@ -8,6 +8,7 @@ class SpyPackEntity extends Equatable {
     required this.words,
     required this.image,
     required this.imageBlurHash,
+    this.isCustom = false,
   });
 
   /// Creates a [SpyPackEntity] from a JSON map (e.g. a Firestore doc).
@@ -35,6 +36,10 @@ class SpyPackEntity extends Equatable {
   final String image;
   final String imageBlurHash;
 
+  /// True for packs the player created on-device; drives the "Yours" tile
+  /// styling and edit/delete affordances.
+  final bool isCustom;
+
   @override
-  List<Object> get props => [id, name, words, image, imageBlurHash];
+  List<Object> get props => [id, name, words, image, imageBlurHash, isCustom];
 }

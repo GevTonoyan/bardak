@@ -111,4 +111,54 @@ void main() {
       expect(pack.words, isEmpty);
     }
   });
+
+  group('custom packs', () {
+    const custom = SpyPackEntity(
+      id: 'custom_1',
+      name: 'Friends',
+      words: ['Alex', 'Sam', 'Jo'],
+      image: '',
+      imageBlurHash: '',
+      isCustom: true,
+    );
+
+    test('start empty', () async {
+      expect(await dataSource.getCustomSpyPacks(), isEmpty);
+    });
+
+    test('save and get round-trips, flagged custom with no image', () async {
+      await dataSource.saveCustomSpyPack(custom);
+
+      expect(await dataSource.getCustomSpyPacks(), [custom]);
+    });
+
+    test('saving the same id replaces the pack', () async {
+      await dataSource.saveCustomSpyPack(custom);
+      const edited = SpyPackEntity(
+        id: 'custom_1',
+        name: 'Best friends',
+        words: ['Alex', 'Sam'],
+        image: '',
+        imageBlurHash: '',
+        isCustom: true,
+      );
+      await dataSource.saveCustomSpyPack(edited);
+
+      expect(await dataSource.getCustomSpyPacks(), [edited]);
+    });
+
+    test('delete removes the pack', () async {
+      await dataSource.saveCustomSpyPack(custom);
+      await dataSource.deleteCustomSpyPack('custom_1');
+
+      expect(await dataSource.getCustomSpyPacks(), isEmpty);
+    });
+
+    test('survive a built-in pack cache replace', () async {
+      await dataSource.saveCustomSpyPack(custom);
+      await dataSource.cacheSpyPacks('en', const [_pack]);
+
+      expect(await dataSource.getCustomSpyPacks(), [custom]);
+    });
+  });
 }

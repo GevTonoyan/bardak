@@ -1,3 +1,4 @@
+import 'package:bardak/core/app_ui/widgets/edge_shadow.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
@@ -72,21 +73,30 @@ class _AppButtonState extends State<AppButton> {
           height: currentHeight,
           child: Stack(
             children: [
+              // Drop shadow beneath the whole button. Clipped so it only
+              // spills outside the base rect — otherwise a translucent
+              // `color` (e.g. white20) lets the shadow bleed through.
+              EdgeShadow(
+                height: baseHeight,
+                offset: effectivePressed
+                    ? _baseShadowOffsetPressed
+                    : _baseShadowOffset,
+                alpha: 0.25,
+              ),
               Container(
                 height: baseHeight,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   color: effectivePressed ? widget.pressedColor : widget.color,
-                  boxShadow: [
-                    BoxShadow(
-                      offset: effectivePressed
-                          ? _baseShadowOffsetPressed
-                          : _baseShadowOffset,
-                      color: Colors.black.withValues(alpha: 0.25),
-                      blurRadius: 2,
-                    ),
-                  ],
                 ),
+              ),
+              // Depth shadow cast by the raised face onto the exposed edge.
+              // Clipped away from the face rect so it never shows through a
+              // translucent face; only the offset spillover remains visible.
+              EdgeShadow(
+                height: faceHeight,
+                offset: effectivePressed ? Offset.zero : _faceShadowOffset,
+                alpha: 0.2,
               ),
               Container(
                 height: faceHeight,
@@ -106,15 +116,6 @@ class _AppButtonState extends State<AppButton> {
                       ],
                     ),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: effectivePressed
-                          ? Offset.zero
-                          : _faceShadowOffset,
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 2,
-                    ),
-                  ],
                 ),
                 child:
                     widget.child ??

@@ -532,6 +532,60 @@ abstract class AppLocalizations {
   /// **'Take turns asking questions to find the spy.'**
   String get spy_find_the_spy;
 
+  /// No description provided for @spy_new_pack.
+  ///
+  /// In en, this message translates to:
+  /// **'New pack'**
+  String get spy_new_pack;
+
+  /// No description provided for @spy_create_pack.
+  ///
+  /// In en, this message translates to:
+  /// **'Create pack'**
+  String get spy_create_pack;
+
+  /// No description provided for @spy_edit_pack.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit pack'**
+  String get spy_edit_pack;
+
+  /// No description provided for @spy_pack_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Pack name'**
+  String get spy_pack_name;
+
+  /// No description provided for @spy_words.
+  ///
+  /// In en, this message translates to:
+  /// **'Words'**
+  String get spy_words;
+
+  /// No description provided for @spy_min_words.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least {count} words to save'**
+  String spy_min_words(int count);
+
+  /// No description provided for @spy_save_pack.
+  ///
+  /// In en, this message translates to:
+  /// **'Save pack'**
+  String get spy_save_pack;
+
+  /// No description provided for @spy_delete_pack.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete pack'**
+  String get spy_delete_pack;
+
+  /// No description provided for @spy_delete_pack_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this pack? This can\'t be undone.'**
+  String get spy_delete_pack_confirm;
+
   /// No description provided for @play_again.
   ///
   /// In en, this message translates to:

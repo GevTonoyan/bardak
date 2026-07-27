@@ -19,10 +19,18 @@ class AppIcon extends StatelessWidget {
     return SizedBox(
       height: clickableArea,
       width: clickableArea,
-      child: InkWell(
-        onTap: onTap,
-        customBorder: const CircleBorder(),
-        child: Center(child: icon),
+      // A local transparent Material so the InkWell's ripple/highlight always
+      // paints here, on top of the surface behind it (e.g. an AppInputField),
+      // instead of on a distant Material ancestor where it stays hidden.
+      child: Material(
+        type: MaterialType.transparency,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          customBorder: const CircleBorder(),
+          child: Center(child: icon),
+        ),
       ),
     );
   }

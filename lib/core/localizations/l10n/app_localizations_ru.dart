@@ -248,6 +248,36 @@ class AppLocalizationsRu extends AppLocalizations {
       'Задавайте вопросы по очереди и найдите шпиона';
 
   @override
+  String get spy_new_pack => 'Новый набор';
+
+  @override
+  String get spy_create_pack => 'Создать набор';
+
+  @override
+  String get spy_edit_pack => 'Изменить набор';
+
+  @override
+  String get spy_pack_name => 'Название набора';
+
+  @override
+  String get spy_words => 'Слова';
+
+  @override
+  String spy_min_words(int count) {
+    return 'Добавьте минимум $count слова, чтобы сохранить';
+  }
+
+  @override
+  String get spy_save_pack => 'Сохранить набор';
+
+  @override
+  String get spy_delete_pack => 'Удалить набор';
+
+  @override
+  String get spy_delete_pack_confirm =>
+      'Удалить этот набор? Это действие необратимо.';
+
+  @override
   String get play_again => 'Играть снова';
 
   @override

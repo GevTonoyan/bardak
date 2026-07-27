@@ -240,6 +240,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spy_find_the_spy => 'Take turns asking questions to find the spy.';
 
   @override
+  String get spy_new_pack => 'New pack';
+
+  @override
+  String get spy_create_pack => 'Create pack';
+
+  @override
+  String get spy_edit_pack => 'Edit pack';
+
+  @override
+  String get spy_pack_name => 'Pack name';
+
+  @override
+  String get spy_words => 'Words';
+
+  @override
+  String spy_min_words(int count) {
+    return 'Add at least $count words to save';
+  }
+
+  @override
+  String get spy_save_pack => 'Save pack';
+
+  @override
+  String get spy_delete_pack => 'Delete pack';
+
+  @override
+  String get spy_delete_pack_confirm =>
+      'Delete this pack? This can\'t be undone.';
+
+  @override
   String get play_again => 'Play again';
 
   @override

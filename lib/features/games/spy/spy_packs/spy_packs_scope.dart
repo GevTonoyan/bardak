@@ -4,10 +4,13 @@ import 'package:bardak/features/games/spy/spy_packs/data/data_sources/spy_packs_
 import 'package:bardak/features/games/spy/spy_packs/data/repositories/spy_packs_repository_impl.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/repositories/spy_packs_repository.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/are_spy_packs_cached_usecase.dart';
+import 'package:bardak/features/games/spy/spy_packs/domain/usecases/delete_custom_spy_pack_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/download_spy_packs_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/draw_spy_secret_usecase.dart';
+import 'package:bardak/features/games/spy/spy_packs/domain/usecases/get_custom_spy_packs_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/get_fallback_spy_packs_usecase.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/usecases/get_spy_packs_usecase.dart';
+import 'package:bardak/features/games/spy/spy_packs/domain/usecases/save_custom_spy_pack_usecase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void injectSpyPacksScope() {
@@ -28,6 +31,15 @@ void injectSpyPacksScope() {
     )
     ..registerLazySingleton<DrawSpySecretUseCase>(
       () => DrawSpySecretUseCase(sl()),
+    )
+    ..registerLazySingleton<GetCustomSpyPacksUseCase>(
+      () => GetCustomSpyPacksUseCase(sl()),
+    )
+    ..registerLazySingleton<SaveCustomSpyPackUseCase>(
+      () => SaveCustomSpyPackUseCase(sl()),
+    )
+    ..registerLazySingleton<DeleteCustomSpyPackUseCase>(
+      () => DeleteCustomSpyPackUseCase(sl()),
     )
     ..registerLazySingleton<SpyPacksRepository>(
       () => SpyPacksRepositoryImpl(

@@ -44,3 +44,32 @@ class StartSpyGame extends SpyPacksEvent {
   @override
   List<Object?> get props => [pack, locale];
 }
+
+/// Creates ([id] null) or updates a player-created pack, then reloads.
+class SaveSpyPack extends SpyPacksEvent {
+  const SaveSpyPack({
+    required this.name,
+    required this.words,
+    required this.locale,
+    this.id,
+  });
+
+  final String? id;
+  final String name;
+  final List<String> words;
+  final String locale;
+
+  @override
+  List<Object?> get props => [id, name, words, locale];
+}
+
+/// Deletes a player-created pack by [id], then reloads.
+class DeleteSpyPack extends SpyPacksEvent {
+  const DeleteSpyPack({required this.id, required this.locale});
+
+  final String id;
+  final String locale;
+
+  @override
+  List<Object?> get props => [id, locale];
+}
