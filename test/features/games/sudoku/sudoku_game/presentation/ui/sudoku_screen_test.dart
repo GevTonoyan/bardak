@@ -12,6 +12,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/clear_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/generate_sudoku_board_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/get_sudoku_stats_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/has_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/record_sudoku_win_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/update_saved_sudoku_game_usecase.dart';
@@ -20,7 +21,6 @@ import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_settings_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get_sudoku_settings_usecase.dart';
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_show_timer_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_sudoku_difficulty_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +46,8 @@ class _MockGetSudokuSettingsUseCase extends Mock
 class _MockUpdateSudokuDifficultyUseCase extends Mock
     implements UpdateSudokuDifficultyUseCase {}
 
-class _MockUpdateShowTimerUseCase extends Mock
-    implements UpdateShowTimerUseCase {}
+class _MockGetSudokuStatsUseCase extends Mock
+    implements GetSudokuStatsUseCase {}
 
 class _MockHasSavedSudokuGameUseCase extends Mock
     implements HasSavedSudokuGameUseCase {}
@@ -85,8 +85,10 @@ void main() {
     final updateSavedUseCase = _MockUpdateSavedSudokuGameUseCase();
     final clearSavedUseCase = _MockClearSavedSudokuGameUseCase();
     final recordWinUseCase = _MockRecordSudokuWinUseCase();
+    final getStatsUseCase = _MockGetSudokuStatsUseCase();
     when(() => updateSavedUseCase(any())).thenAnswer((_) async => true);
     when(() => clearSavedUseCase()).thenAnswer((_) async => true);
+    when(getStatsUseCase.call).thenReturn(const SudokuStatsEntity());
     when(() => recordWinUseCase(any())).thenAnswer(
       (_) async => const SudokuWinRecordEntity(
         stats: SudokuDifficultyStats(gamesWon: 1, bestTimeSeconds: 1),
@@ -96,11 +98,11 @@ void main() {
 
     final bloc = SudokuBloc(
       difficulty: SudokuDifficulty.medium,
-      showTimer: true,
       generateSudokuBoardUseCase: _MockGenerateSudokuBoardUseCase(),
       updateSavedSudokuGameUseCase: updateSavedUseCase,
       clearSavedSudokuGameUseCase: clearSavedUseCase,
       recordSudokuWinUseCase: recordWinUseCase,
+      getSudokuStatsUseCase: getStatsUseCase,
       board: board,
     );
     addTearDown(bloc.close);
@@ -112,7 +114,6 @@ void main() {
     final settingsBloc = SudokuSettingsBloc(
       getSudokuSettingsUseCase: getSettingsUseCase,
       updateSudokuDifficultyUseCase: _MockUpdateSudokuDifficultyUseCase(),
-      updateShowTimerUseCase: _MockUpdateShowTimerUseCase(),
       hasSavedSudokuGameUseCase: hasSavedUseCase,
     );
     addTearDown(settingsBloc.close);

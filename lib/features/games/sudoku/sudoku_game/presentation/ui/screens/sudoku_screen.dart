@@ -78,8 +78,6 @@ class _SudokuScreenState extends State<SudokuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final showTimer = context.read<SudokuBloc>().state.showTimer;
-
     return MultiBlocListener(
       listeners: [
         BlocListener<SudokuBloc, SudokuState>(
@@ -92,7 +90,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
             context.pushReplacementNamed(
               SudokuWinScreen.routePath,
               extra: SudokuWinArgs(
-                solveSeconds: state.showTimer ? state.elapsedSeconds : null,
+                solveSeconds: state.elapsedSeconds,
                 record: state.winRecord,
               ),
             );
@@ -142,20 +140,19 @@ class _SudokuScreenState extends State<SudokuScreen> {
                           onTap: () => unawaited(_confirmExitGame()),
                         ),
                       ),
-                      if (showTimer)
-                        BlocSelector<SudokuBloc, SudokuState, int>(
-                          selector: (state) => state.elapsedSeconds,
-                          builder: (context, elapsed) {
-                            // Counting up, so the countdown warning colors
-                            // are pushed below zero and the pill stays green.
-                            return RoundTimer(
-                              seconds: elapsed,
-                              formatAsMinutes: true,
-                              orangeBelow: -1,
-                              redBelow: -1,
-                            );
-                          },
-                        ),
+                      BlocSelector<SudokuBloc, SudokuState, int>(
+                        selector: (state) => state.elapsedSeconds,
+                        builder: (context, elapsed) {
+                          // Counting up, so the countdown warning colors
+                          // are pushed below zero and the pill stays green.
+                          return RoundTimer(
+                            seconds: elapsed,
+                            formatAsMinutes: true,
+                            orangeBelow: -1,
+                            redBelow: -1,
+                          );
+                        },
+                      ),
                       const Align(
                         alignment: .centerRight,
                         child: SudokuMistakesIndicator(),

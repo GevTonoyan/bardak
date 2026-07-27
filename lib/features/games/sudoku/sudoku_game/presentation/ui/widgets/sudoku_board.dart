@@ -283,10 +283,15 @@ class _CompletionRipple extends StatelessWidget {
             .abs();
     final distance = max(rowDistance, colDistance);
 
-    // Each step of distance delays the wave; the cell then brightens and
-    // fades within its own window of the shared timeline.
-    final delay = distance * 0.09;
-    const window = 0.4;
+    // The wave is delayed by distance so the glow travels outwards, then each
+    // cell brightens and fades within its own window. Normalising the delay
+    // to the widest a unit can span (a full row/column) guarantees even the
+    // farthest cell completes its fade before the timeline ends — otherwise a
+    // completion placed near an edge leaves its far cell frozen bright green.
+    const maxDistance = SudokuBoardEntity.size - 1;
+    const spread = 0.6;
+    const window = 0.35;
+    final delay = distance / maxDistance * spread;
 
     return IgnorePointer(
       child: TweenAnimationBuilder<double>(

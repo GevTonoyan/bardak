@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
-import 'package:bardak/core/app_ui/widgets/app_button/app_switch_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
@@ -79,7 +78,6 @@ class _SudokuSettingsBodyState extends State<_SudokuSettingsBody> {
     final l10n = context.l10n;
 
     final settingsBloc = context.watch<SudokuSettingsBloc>();
-    final settings = settingsBloc.state.sudokuSettings;
     final hasSavedGame = settingsBloc.state.hasSavedGame;
 
     const difficulties = SudokuDifficulty.values;
@@ -111,17 +109,6 @@ class _SudokuSettingsBodyState extends State<_SudokuSettingsBody> {
                     for (final difficulty in difficulties.skip(3))
                       Expanded(child: _difficultyButton(context, difficulty)),
                   ],
-                ),
-                height40,
-                AppSwitchButton(
-                  label: l10n.sudoku_show_timer,
-                  value: settings.showTimer,
-                  onChanged: (value) => settingsBloc.add(
-                    ChangeShowTimer(showTimer: value),
-                  ),
-                  onPressed: () => settingsBloc.add(
-                    ChangeShowTimer(showTimer: !settings.showTimer),
-                  ),
                 ),
               ],
             ),

@@ -14,8 +14,4 @@ class SudokuSettingsRepositoryImpl implements SudokuSettingsRepository {
   @override
   Future<bool> updateDifficulty(SudokuDifficulty difficulty) =>
       _dataSource.updateDifficulty(difficulty);
-
-  @override
-  Future<bool> updateShowTimer({required bool showTimer}) =>
-      _dataSource.updateShowTimer(showTimer: showTimer);
 }

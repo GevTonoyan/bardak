@@ -6,6 +6,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/clear_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/generate_sudoku_board_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/get_sudoku_stats_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/record_sudoku_win_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/update_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
@@ -27,6 +28,9 @@ class _MockClearSavedSudokuGameUseCase extends Mock
 class _MockRecordSudokuWinUseCase extends Mock
     implements RecordSudokuWinUseCase {}
 
+class _MockGetSudokuStatsUseCase extends Mock
+    implements GetSudokuStatsUseCase {}
+
 void main() {
   late SudokuBoardEntity board;
   late int editable;
@@ -35,6 +39,7 @@ void main() {
   late _MockUpdateSavedSudokuGameUseCase updateSavedUseCase;
   late _MockClearSavedSudokuGameUseCase clearSavedUseCase;
   late _MockRecordSudokuWinUseCase recordWinUseCase;
+  late _MockGetSudokuStatsUseCase getStatsUseCase;
 
   setUpAll(() {
     registerFallbackValue(
@@ -64,7 +69,9 @@ void main() {
     updateSavedUseCase = _MockUpdateSavedSudokuGameUseCase();
     clearSavedUseCase = _MockClearSavedSudokuGameUseCase();
     recordWinUseCase = _MockRecordSudokuWinUseCase();
+    getStatsUseCase = _MockGetSudokuStatsUseCase();
 
+    when(() => getStatsUseCase()).thenReturn(const SudokuStatsEntity());
     when(() => updateSavedUseCase(any())).thenAnswer((_) async => true);
     when(() => clearSavedUseCase()).thenAnswer((_) async => true);
     when(() => recordWinUseCase(any())).thenAnswer(
@@ -77,22 +84,22 @@ void main() {
 
   SudokuBloc buildBloc({SudokuSavedGameEntity? savedGame}) => SudokuBloc(
     difficulty: SudokuDifficulty.medium,
-    showTimer: true,
     generateSudokuBoardUseCase: generateUseCase,
     updateSavedSudokuGameUseCase: updateSavedUseCase,
     clearSavedSudokuGameUseCase: clearSavedUseCase,
     recordSudokuWinUseCase: recordWinUseCase,
+    getSudokuStatsUseCase: getStatsUseCase,
     board: savedGame == null ? board : null,
     savedGame: savedGame,
   );
 
   SudokuBloc buildFreshBloc(SudokuDifficulty difficulty) => SudokuBloc(
     difficulty: difficulty,
-    showTimer: true,
     generateSudokuBoardUseCase: generateUseCase,
     updateSavedSudokuGameUseCase: updateSavedUseCase,
     clearSavedSudokuGameUseCase: clearSavedUseCase,
     recordSudokuWinUseCase: recordWinUseCase,
+    getSudokuStatsUseCase: getStatsUseCase,
   );
 
   test('a fast difficulty generates synchronously, no loading', () async {
@@ -312,6 +319,20 @@ void main() {
     await pumpEventQueue();
 
     expect(bloc.state.mistakes, 0);
+  });
+
+  test('a wrong digit on an already-correct cell is ignored', () async {
+    final correct = board.solution[editable];
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(correct))
+      ..add(EnterDigit(wrongDigitFor(editable)));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    // No mistake charged and the correct value stays put.
+    expect(bloc.state.mistakes, 0);
+    expect(bloc.state.board.values[editable], correct);
   });
 
   test('a pencil mark never counts as a mistake', () async {

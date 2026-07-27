@@ -18,16 +18,6 @@ class ChangeDifficulty extends SudokuSettingsEvent {
   List<Object?> get props => [difficulty];
 }
 
-/// Toggles and persists the timer visibility.
-class ChangeShowTimer extends SudokuSettingsEvent {
-  const ChangeShowTimer({required this.showTimer});
-
-  final bool showTimer;
-
-  @override
-  List<Object?> get props => [showTimer];
-}
-
 /// Re-checks whether an unfinished game can be resumed (dispatched when
 /// the settings sheet opens and when the game screen is left).
 class RefreshSavedGame extends SudokuSettingsEvent {
