@@ -139,6 +139,11 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     final board = state.board;
     if (index == null || board.given[index]) return;
 
+    // A cell already holding its correct answer is treated like a given:
+    // another digit tap there is accidental, so ignore it instead of
+    // overwriting a correct value and charging a mistake.
+    if (board.isCorrect(index)) return;
+
     // In notes mode a digit is only a pencil-mark: no mistake.
     if (state.notesMode) {
       _commitBoard(board.withNote(index, event.digit), emit);

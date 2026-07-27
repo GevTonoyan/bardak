@@ -314,6 +314,20 @@ void main() {
     expect(bloc.state.mistakes, 0);
   });
 
+  test('a wrong digit on an already-correct cell is ignored', () async {
+    final correct = board.solution[editable];
+    final bloc = buildBloc()
+      ..add(SelectCell(editable))
+      ..add(EnterDigit(correct))
+      ..add(EnterDigit(wrongDigitFor(editable)));
+    addTearDown(bloc.close);
+    await pumpEventQueue();
+
+    // No mistake charged and the correct value stays put.
+    expect(bloc.state.mistakes, 0);
+    expect(bloc.state.board.values[editable], correct);
+  });
+
   test('a pencil mark never counts as a mistake', () async {
     final bloc = buildBloc()
       ..add(const ToggleNotesMode())

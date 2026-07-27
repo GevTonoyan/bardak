@@ -111,6 +111,10 @@ class SudokuBoardEntity extends Equatable {
   bool isWrong(int index) =>
       values[index] != empty && values[index] != solution[index];
 
+  /// Whether the (non-empty) cell already holds its solution value.
+  bool isCorrect(int index) =>
+      values[index] != empty && values[index] == solution[index];
+
   /// Whether the (non-empty) cell clashes with another cell in its row,
   /// column or box — a rule violation visible without knowing the solution.
   bool hasConflict(int index) {
