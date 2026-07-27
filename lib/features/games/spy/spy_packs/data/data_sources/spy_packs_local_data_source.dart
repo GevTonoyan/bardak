@@ -164,7 +164,9 @@ class SpyPacksLocalDataSourceImpl implements SpyPacksLocalDataSource {
   Future<List<SpyPackEntity>> getCustomSpyPacks() async {
     final box = await Hive.openBox<Map<dynamic, dynamic>>(_customBox);
 
-    return box.keys.map((key) {
+    // Hive preserves insertion order; reverse it so the most recently added
+    // pack shows first (editing an existing pack keeps its position).
+    return box.keys.toList().reversed.map((key) {
       final data = Map<String, dynamic>.from(box.get(key)!);
 
       return SpyPackEntity(
