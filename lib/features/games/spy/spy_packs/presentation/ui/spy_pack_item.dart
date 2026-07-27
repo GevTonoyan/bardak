@@ -1,3 +1,4 @@
+import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 import 'package:bardak/core/app_ui/theme/colors/app_colors.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
@@ -17,6 +18,7 @@ class SpyPackItem extends StatelessWidget {
     required this.onTap,
     this.shouldDownload = false,
     this.isCustom = false,
+    this.colorIndex = 0,
     this.onEdit,
     super.key,
   });
@@ -36,16 +38,15 @@ class SpyPackItem extends StatelessWidget {
   /// Opens the editor for a custom pack; ignored for built-in packs.
   final VoidCallback? onEdit;
 
-  /// Deterministic accent so a custom pack keeps the same colour every visit.
-  Color _accent(AppColors colors) {
-    final palette = [
-      colors.purple,
-      colors.blue,
-      colors.green,
-      colors.orange,
-    ];
-    return palette[name.hashCode.abs() % palette.length];
-  }
+  /// The pack's ordinal among custom packs; cycles the cover gradient so
+  /// adjacent custom tiles never share a colour. Ignored for built-in packs.
+  final int colorIndex;
+
+  /// The scheme whose gradient dresses this custom pack's cover. Cycling by
+  /// [colorIndex] through all 15 schemes keeps neighbours distinct and reuses
+  /// the app's own gradient palette.
+  AppColors get _coverColors =>
+      AppColorScheme.values[colorIndex % AppColorScheme.values.length].colors;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class SpyPackItem extends StatelessWidget {
             child: ClipRRect(
               borderRadius: .circular(12),
               child: isCustom
-                  ? ColoredBox(color: _accent(colors))
+                  ? _CustomPackArt(scheme: _coverColors, name: name)
                   : imageBlurHash.isEmpty
                   ? ColoredBox(color: colors.secondary)
                   : NetworkPackImage(
@@ -118,6 +119,51 @@ class SpyPackItem extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Cover art for a custom pack: one of the app's scheme gradients with the
+/// pack's initial centred on top — so player-created packs look intentional
+/// next to the illustrated built-in tiles.
+class _CustomPackArt extends StatelessWidget {
+  const _CustomPackArt({required this.scheme, required this.name});
+
+  final AppColors scheme;
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final trimmed = name.trim();
+    final initial =
+        trimmed.isEmpty ? '' : trimmed.substring(0, 1).toUpperCase();
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: .topLeft,
+          end: .bottomRight,
+          colors: [scheme.firstGradient, scheme.secondGradient],
+        ),
+      ),
+      child: Center(
+        child: Text(
+          initial,
+          style: context.typography.regular38.copyWith(
+            fontSize: 84,
+            height: 1,
+            color: colors.white,
+            // A soft shadow keeps the initial legible on lighter schemes.
+            shadows: [
+              Shadow(
+                color: colors.black.withValues(alpha: 0.25),
+                blurRadius: 6,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

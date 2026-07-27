@@ -120,6 +120,15 @@ class _Packs extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).padding.bottom;
 
+    // Each custom pack's ordinal (in list order) drives its cover gradient,
+    // so adjacent custom tiles never land on the same colour.
+    final customColorIndex = <String, int>{};
+    for (final pack in packs) {
+      if (pack.isCustom) {
+        customColorIndex[pack.id] = customColorIndex.length;
+      }
+    }
+
     return Column(
       children: [
         height30,
@@ -151,6 +160,7 @@ class _Packs extends StatelessWidget {
                 imageBlurHash: pack.imageBlurHash,
                 shouldDownload: downloads,
                 isCustom: pack.isCustom,
+                colorIndex: customColorIndex[pack.id] ?? 0,
                 onEdit: pack.isCustom
                     ? () => _openEditor(context, pack: pack)
                     : null,
