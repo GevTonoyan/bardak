@@ -169,7 +169,7 @@ class _SettingsCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.colors.black.withValues(alpha: 0.18),
+        color: context.colors.white10,
         borderRadius: .circular(16),
       ),
       clipBehavior: .antiAlias,
