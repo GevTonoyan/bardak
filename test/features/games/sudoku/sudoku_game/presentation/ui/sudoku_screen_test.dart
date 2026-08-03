@@ -18,9 +18,11 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/record_
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/update_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_settings_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get_sudoku_settings_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_sudoku_board_size_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_sudoku_difficulty_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +48,9 @@ class _MockGetSudokuSettingsUseCase extends Mock
 class _MockUpdateSudokuDifficultyUseCase extends Mock
     implements UpdateSudokuDifficultyUseCase {}
 
+class _MockUpdateSudokuBoardSizeUseCase extends Mock
+    implements UpdateSudokuBoardSizeUseCase {}
+
 class _MockGetSudokuStatsUseCase extends Mock
     implements GetSudokuStatsUseCase {}
 
@@ -59,22 +64,28 @@ void main() {
   setUpAll(() {
     registerFallbackValue(
       SudokuSavedGameEntity(
-        board: SudokuBoardEntity.generate(random: Random(0)),
+        board: SudokuBoardEntity.generate(
+          boxSize: 3,
+          givensCount: 36,
+          random: Random(0),
+        ),
+        boardSize: SudokuBoardSize.standard,
         difficulty: SudokuDifficulty.medium,
         mistakes: 0,
         elapsedSeconds: 0,
       ),
     );
     registerFallbackValue(
-      const RecordSudokuWinParams(
-        difficulty: SudokuDifficulty.medium,
-        timeSeconds: 0,
-      ),
+      const RecordSudokuWinParams(statsKey: 'medium', timeSeconds: 0),
     );
   });
 
   setUp(() {
-    board = SudokuBoardEntity.generate(random: Random(1));
+    board = SudokuBoardEntity.generate(
+      boxSize: 3,
+      givensCount: 36,
+      random: Random(1),
+    );
     emptyIndex = board.given.indexOf(false);
   });
 
@@ -97,6 +108,7 @@ void main() {
     );
 
     final bloc = SudokuBloc(
+      boardSize: SudokuBoardSize.standard,
       difficulty: SudokuDifficulty.medium,
       generateSudokuBoardUseCase: _MockGenerateSudokuBoardUseCase(),
       updateSavedSudokuGameUseCase: updateSavedUseCase,
@@ -113,6 +125,7 @@ void main() {
     when(() => hasSavedUseCase()).thenReturn(false);
     final settingsBloc = SudokuSettingsBloc(
       getSudokuSettingsUseCase: getSettingsUseCase,
+      updateSudokuBoardSizeUseCase: _MockUpdateSudokuBoardSizeUseCase(),
       updateSudokuDifficultyUseCase: _MockUpdateSudokuDifficultyUseCase(),
       hasSavedSudokuGameUseCase: hasSavedUseCase,
     );

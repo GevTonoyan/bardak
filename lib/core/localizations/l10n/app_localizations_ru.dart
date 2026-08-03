@@ -170,6 +170,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sudoku_solved => 'Судоку решено. Отличная работа!';
 
   @override
+  String get sudoku_board_size => 'Размер поля';
+
+  @override
   String get sudoku_difficulty => 'Сложность';
 
   @override

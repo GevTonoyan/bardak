@@ -1,7 +1,6 @@
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
-import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
@@ -15,14 +14,22 @@ class SudokuDigitPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<SudokuBloc>();
+    // The board size is fixed for the game, so it can be read once.
+    final board = bloc.state.board;
+    final size = board.size;
+    // The 4×4 board has only four of each digit, so the remaining-count
+    // subtitle is noise — show it only on the larger boards.
+    final showRemaining = board.boxSize > 2;
 
     return Column(
       children: [
         Row(
           spacing: 6,
           children: [
-            for (var digit = 1; digit <= SudokuBoardEntity.size; digit++)
-              Expanded(child: _DigitButton(digit: digit)),
+            for (var digit = 1; digit <= size; digit++)
+              Expanded(
+                child: _DigitButton(digit: digit, showRemaining: showRemaining),
+              ),
           ],
         ),
         height20,
@@ -66,12 +73,14 @@ class SudokuDigitPad extends StatelessWidget {
   }
 }
 
-/// A digit key showing how many of that digit are still to be placed;
-/// dimmed and disabled once all nine are on the board.
+/// A digit key. When [showRemaining] is set it also shows how many of that
+/// digit are still to be placed. Dimmed and disabled once all are on the
+/// board.
 class _DigitButton extends StatelessWidget {
-  const _DigitButton({required this.digit});
+  const _DigitButton({required this.digit, this.showRemaining = true});
 
   final int digit;
+  final bool showRemaining;
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +99,14 @@ class _DigitButton extends StatelessWidget {
                 '$digit',
                 style: context.typography.regular24.withNumericFont,
               ),
-              Text(
-                '$remaining',
-                style: context.typography.bodySmall.withNumericFont.copyWith(
-                  color: context.colors.white50,
-                  height: 1,
+              if (showRemaining)
+                Text(
+                  '$remaining',
+                  style: context.typography.bodySmall.withNumericFont.copyWith(
+                    color: context.colors.white50,
+                    height: 1,
+                  ),
                 ),
-              ),
             ],
           ),
         );

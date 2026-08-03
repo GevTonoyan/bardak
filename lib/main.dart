@@ -117,6 +117,7 @@ void main() async {
         BlocProvider(
           create: (_) => SudokuSettingsBloc(
             getSudokuSettingsUseCase: sl(),
+            updateSudokuBoardSizeUseCase: sl(),
             updateSudokuDifficultyUseCase: sl(),
             hasSavedSudokuGameUseCase: sl(),
           ),

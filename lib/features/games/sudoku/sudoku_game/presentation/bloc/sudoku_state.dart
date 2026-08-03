@@ -1,11 +1,13 @@
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:equatable/equatable.dart';
 
 class SudokuState extends Equatable {
   const SudokuState({
     required this.board,
+    required this.boardSize,
     required this.difficulty,
     this.bestTimeSeconds,
     this.isGenerating = false,
@@ -24,6 +26,9 @@ class SudokuState extends Equatable {
   static const maxMistakes = 3;
 
   final SudokuBoardEntity board;
+
+  /// Size of the board being played (4×4 or 9×9).
+  final SudokuBoardSize boardSize;
 
   /// Difficulty the puzzle was generated with; drives stats.
   final SudokuDifficulty difficulty;
@@ -86,7 +91,7 @@ class SudokuState extends Equatable {
   bool isMistake(int index) => board.isWrong(index);
 
   /// How many of [digit] the player still has to place.
-  int remainingOf(int digit) => SudokuBoardEntity.size - board.countOf(digit);
+  int remainingOf(int digit) => board.size - board.countOf(digit);
 
   SudokuState copyWith({
     SudokuBoardEntity? board,
@@ -104,6 +109,7 @@ class SudokuState extends Equatable {
   }) {
     return SudokuState(
       board: board ?? this.board,
+      boardSize: boardSize,
       difficulty: difficulty,
       bestTimeSeconds: bestTimeSeconds,
       isGenerating: isGenerating ?? this.isGenerating,
@@ -125,6 +131,7 @@ class SudokuState extends Equatable {
   @override
   List<Object?> get props => [
     board,
+    boardSize,
     difficulty,
     bestTimeSeconds,
     isGenerating,

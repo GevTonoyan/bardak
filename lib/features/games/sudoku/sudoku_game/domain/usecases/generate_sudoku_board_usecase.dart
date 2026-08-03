@@ -11,15 +11,23 @@ class GenerateSudokuBoardUseCase {
   const GenerateSudokuBoardUseCase();
 
   Future<SudokuBoardEntity> call(GenerateSudokuBoardParams params) {
+    final boxSize = params.boxSize;
     final givensCount = params.givensCount;
     return Isolate.run(
-      () => SudokuBoardEntity.generate(givensCount: givensCount),
+      () => SudokuBoardEntity.generate(
+        boxSize: boxSize,
+        givensCount: givensCount,
+      ),
     );
   }
 }
 
 class GenerateSudokuBoardParams {
-  const GenerateSudokuBoardParams({required this.givensCount});
+  const GenerateSudokuBoardParams({
+    required this.boxSize,
+    required this.givensCount,
+  });
 
+  final int boxSize;
   final int givensCount;
 }

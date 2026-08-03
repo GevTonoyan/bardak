@@ -83,6 +83,7 @@
   "spyMode": "Լրտես",
   "sudoku": "Սուդոկու",
   "sudoku_solved": "Սուդոկուն լուծված է։ Կեցցե՛ս",
+  "sudoku_board_size": "Դաշտի չափը",
   "sudoku_difficulty": "Բարդություն",
   "sudoku_difficulty_easy": "Հեշտ",
   "sudoku_difficulty_medium": "Միջին",

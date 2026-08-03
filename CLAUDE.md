@@ -407,7 +407,7 @@ Assets.sounds.uncheck
 ### Key UI rules
 
 - `const` constructors on all immutable widgets.
-- Prefer private widget classes (`_ScoreCard`) over `_buildScoreCard()` methods.
+- **Never write functions or methods that return a `Widget`** (no `_buildX()`, no `Widget _fooButton(...)`). Always extract a private `StatelessWidget`/`StatefulWidget` class (e.g. `_ScoreCard`), even for small pieces; pass state in via constructor params.
 - Remote images: `CachedNetworkImage` with `errorBuilder` always.
 - Wins/celebrations: `confetti` package.
 - Selected/active highlights: `gradient_borders` package.
@@ -424,7 +424,7 @@ After editing `.arb` files, run `flutter gen-l10n` (or `flutter pub get` trigger
 - Max line length: 80 chars.
 - Always trailing commas.
 - `const` constructors on all immutable widgets.
-- Prefer private widget classes (`_ScoreCard`) over `_buildScoreCard()` methods.
+- **Never write functions or methods that return a `Widget`** (no `_buildX()`, no `Widget _fooButton(...)`). Always extract a private `StatelessWidget`/`StatefulWidget` class (e.g. `_ScoreCard`), even for small pieces; pass state in via constructor params.
 - Logging: `log()` from `dart:developer`. **Never** `print()` or `debugPrint()`.
 - `very_good_analysis` lint rules are active — warnings are expected and will be fixed incrementally. Do not suppress them with `// ignore` unless truly necessary.
 

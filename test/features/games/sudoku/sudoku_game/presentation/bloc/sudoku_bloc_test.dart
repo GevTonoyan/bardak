@@ -12,6 +12,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/update_
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -44,25 +45,31 @@ void main() {
   setUpAll(() {
     registerFallbackValue(
       SudokuSavedGameEntity(
-        board: SudokuBoardEntity.generate(random: Random(0)),
+        board: SudokuBoardEntity.generate(
+          boxSize: 3,
+          givensCount: 36,
+          random: Random(0),
+        ),
+        boardSize: SudokuBoardSize.standard,
         difficulty: SudokuDifficulty.medium,
         mistakes: 0,
         elapsedSeconds: 0,
       ),
     );
     registerFallbackValue(
-      const RecordSudokuWinParams(
-        difficulty: SudokuDifficulty.medium,
-        timeSeconds: 0,
-      ),
+      const RecordSudokuWinParams(statsKey: 'medium', timeSeconds: 0),
     );
     registerFallbackValue(
-      const GenerateSudokuBoardParams(givensCount: 22),
+      const GenerateSudokuBoardParams(boxSize: 3, givensCount: 22),
     );
   });
 
   setUp(() {
-    board = SudokuBoardEntity.generate(random: Random(1));
+    board = SudokuBoardEntity.generate(
+      boxSize: 3,
+      givensCount: 36,
+      random: Random(1),
+    );
     editable = board.given.indexOf(false);
     locked = board.given.indexOf(true);
     generateUseCase = _MockGenerateSudokuBoardUseCase();
@@ -83,6 +90,7 @@ void main() {
   });
 
   SudokuBloc buildBloc({SudokuSavedGameEntity? savedGame}) => SudokuBloc(
+    boardSize: SudokuBoardSize.standard,
     difficulty: SudokuDifficulty.medium,
     generateSudokuBoardUseCase: generateUseCase,
     updateSavedSudokuGameUseCase: updateSavedUseCase,
@@ -93,7 +101,11 @@ void main() {
     savedGame: savedGame,
   );
 
-  SudokuBloc buildFreshBloc(SudokuDifficulty difficulty) => SudokuBloc(
+  SudokuBloc buildFreshBloc(
+    SudokuDifficulty difficulty, {
+    SudokuBoardSize boardSize = SudokuBoardSize.standard,
+  }) => SudokuBloc(
+    boardSize: boardSize,
     difficulty: difficulty,
     generateSudokuBoardUseCase: generateUseCase,
     updateSavedSudokuGameUseCase: updateSavedUseCase,
@@ -113,7 +125,11 @@ void main() {
   });
 
   test('a slow difficulty loads, then fills in from the isolate', () async {
-    final generated = SudokuBoardEntity.generate(random: Random(9));
+    final generated = SudokuBoardEntity.generate(
+      boxSize: 3,
+      givensCount: 22,
+      random: Random(9),
+    );
     when(() => generateUseCase(any())).thenAnswer((_) async => generated);
 
     final bloc = buildFreshBloc(SudokuDifficulty.extreme);
@@ -348,7 +364,7 @@ void main() {
 
   test('three mistakes end the game and lock further input', () async {
     final editables = [
-      for (var i = 0; i < SudokuBoardEntity.cellCount; i++)
+      for (var i = 0; i < board.cellCount; i++)
         if (!board.given[i]) i,
     ];
     final bloc = buildBloc();
@@ -373,10 +389,10 @@ void main() {
   });
 
   test('correctly finishing a row marks its cells for celebration', () async {
-    final row = editable ~/ SudokuBoardEntity.size;
+    final row = editable ~/ board.size;
     final rowCells = [
-      for (var col = 0; col < SudokuBoardEntity.size; col++)
-        row * SudokuBoardEntity.size + col,
+      for (var col = 0; col < board.size; col++)
+        row * board.size + col,
     ];
     final bloc = buildBloc();
     addTearDown(bloc.close);
@@ -417,7 +433,7 @@ void main() {
           .listen(recordEmissions.add);
       addTearDown(subscription.cancel);
 
-      for (var i = 0; i < SudokuBoardEntity.cellCount; i++) {
+      for (var i = 0; i < board.cellCount; i++) {
         if (!board.given[i]) {
           bloc
             ..add(SelectCell(i))
@@ -445,14 +461,14 @@ void main() {
   );
 
   int rowPeerOf(int index) => [
-    for (var col = 0; col < SudokuBoardEntity.size; col++)
+    for (var col = 0; col < board.size; col++)
       if (!board.given[index ~/
-                  SudokuBoardEntity.size *
-                  SudokuBoardEntity.size +
+                  board.size *
+                  board.size +
               col] &&
-          index ~/ SudokuBoardEntity.size * SudokuBoardEntity.size + col !=
+          index ~/ board.size * board.size + col !=
               index)
-        index ~/ SudokuBoardEntity.size * SudokuBoardEntity.size + col,
+        index ~/ board.size * board.size + col,
   ].first;
 
   test('a correct placement strips the digit from peer notes', () async {
@@ -501,7 +517,7 @@ void main() {
 
     final bloc = buildBloc();
     addTearDown(bloc.close);
-    expect(bloc.state.remainingOf(digit), SudokuBoardEntity.size - placed);
+    expect(bloc.state.remainingOf(digit), board.size - placed);
 
     bloc
       ..add(SelectCell(editable))
@@ -509,7 +525,7 @@ void main() {
     await pumpEventQueue();
     expect(
       bloc.state.remainingOf(digit),
-      SudokuBoardEntity.size - placed - 1,
+      board.size - placed - 1,
     );
   });
 
@@ -528,7 +544,7 @@ void main() {
 
   test('game over discards the resumable snapshot', () async {
     final editables = [
-      for (var i = 0; i < SudokuBoardEntity.cellCount; i++)
+      for (var i = 0; i < board.cellCount; i++)
         if (!board.given[i]) i,
     ];
     final bloc = buildBloc();
@@ -549,6 +565,7 @@ void main() {
     final playedBoard = board.withValue(editable, board.solution[editable]);
     final savedGame = SudokuSavedGameEntity(
       board: playedBoard,
+      boardSize: SudokuBoardSize.standard,
       difficulty: SudokuDifficulty.expert,
       mistakes: 2,
       elapsedSeconds: 321,

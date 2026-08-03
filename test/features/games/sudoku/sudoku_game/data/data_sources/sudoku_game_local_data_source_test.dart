@@ -4,6 +4,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/data/data_sources/sudok
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_saved_game_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_stats_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +20,12 @@ void main() {
   });
 
   SudokuSavedGameEntity buildGame() => SudokuSavedGameEntity(
-    board: SudokuBoardEntity.generate(random: Random(5)),
+    board: SudokuBoardEntity.generate(
+      boxSize: 3,
+      givensCount: 36,
+      random: Random(5),
+    ),
+    boardSize: SudokuBoardSize.standard,
     difficulty: SudokuDifficulty.expert,
     mistakes: 1,
     elapsedSeconds: 77,
@@ -36,19 +42,13 @@ void main() {
     expect(dataSource.getSavedGame(), isNull);
   });
 
-  test('stats are stored and retrieved per difficulty', () async {
+  test('stats are stored and retrieved per mode key', () async {
     expect(dataSource.getStats(), const SudokuStatsEntity());
 
     const stats = SudokuStatsEntity(
-      byDifficulty: {
-        SudokuDifficulty.easy: SudokuDifficultyStats(
-          gamesWon: 2,
-          bestTimeSeconds: 250,
-        ),
-        SudokuDifficulty.extreme: SudokuDifficultyStats(
-          gamesWon: 1,
-          bestTimeSeconds: 500,
-        ),
+      byKey: {
+        'easy': SudokuDifficultyStats(gamesWon: 2, bestTimeSeconds: 250),
+        'small': SudokuDifficultyStats(gamesWon: 1, bestTimeSeconds: 40),
       },
     );
     await dataSource.updateStats(stats);

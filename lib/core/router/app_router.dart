@@ -190,6 +190,7 @@ final appRouter = GoRouter(
                 return MaterialPage(
                   child: BlocProvider(
                     create: (_) => SudokuBloc(
+                      boardSize: settings.boardSize,
                       difficulty: settings.difficulty,
                       generateSudokuBoardUseCase: sl(),
                       updateSavedSudokuGameUseCase: sl(),

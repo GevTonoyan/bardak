@@ -2,12 +2,15 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 
-/// Full in-memory state of one Sudoku puzzle.
+/// Full in-memory state of one Sudoku puzzle of any square size.
 ///
-/// Holds the hidden [solution], the player-visible [values] (0 = empty) and
-/// which cells were [given] from the start and cannot be edited.
+/// The grid is [boxSize] boxes wide and tall, so a side is [size] =
+/// `boxSize * boxSize` cells (boxSize 3 → 9×9, boxSize 2 → 4×4). Holds the
+/// hidden [solution], the player-visible [values] (0 = empty) and which cells
+/// were [given] from the start and cannot be edited.
 class SudokuBoardEntity extends Equatable {
   const SudokuBoardEntity({
+    required this.boxSize,
     required this.solution,
     required this.values,
     required this.given,
@@ -15,7 +18,7 @@ class SudokuBoardEntity extends Equatable {
   });
 
   /// Generates a fresh puzzle with a unique solution and roughly
-  /// [givensCount] pre-filled cells.
+  /// [givensCount] pre-filled cells, on a board [boxSize] boxes across.
   ///
   /// A random solved grid is dug out cell by cell; each removal is kept
   /// only while a solver confirms exactly one solution remains, so the
@@ -23,11 +26,13 @@ class SudokuBoardEntity extends Equatable {
   /// [solution]. Digging stops at [givensCount] givens, or earlier if no
   /// further cell can be removed without losing uniqueness.
   factory SudokuBoardEntity.generate({
-    int givensCount = _defaultGivensCount,
+    required int boxSize,
+    required int givensCount,
     Random? random,
   }) {
     final rng = random ?? Random();
-    final solution = _randomSolution(rng);
+    final cellCount = _cellCountFor(boxSize);
+    final solution = _randomSolution(rng, boxSize);
     final values = [...solution];
 
     final order = List.generate(cellCount, (i) => i)..shuffle(rng);
@@ -37,7 +42,7 @@ class SudokuBoardEntity extends Equatable {
 
       final removed = values[index];
       values[index] = empty;
-      if (_countSolutions(values, limit: 2) == 1) {
+      if (_countSolutions(values, boxSize, limit: 2) == 1) {
         givens--;
       } else {
         values[index] = removed;
@@ -45,6 +50,7 @@ class SudokuBoardEntity extends Equatable {
     }
 
     return SudokuBoardEntity(
+      boxSize: boxSize,
       solution: solution,
       values: values,
       given: [
@@ -54,9 +60,11 @@ class SudokuBoardEntity extends Equatable {
     );
   }
 
-  /// Restores a board previously serialized with [toJson].
+  /// Restores a board previously serialized with [toJson]. Saves written
+  /// before board sizes existed default to the classic 9×9 (boxSize 3).
   factory SudokuBoardEntity.fromJson(Map<String, dynamic> json) {
     return SudokuBoardEntity(
+      boxSize: json['boxSize'] as int? ?? 3,
       solution: [...(json['solution'] as List).cast<int>()],
       values: [...(json['values'] as List).cast<int>()],
       given: [...(json['given'] as List).cast<bool>()],
@@ -69,8 +77,10 @@ class SudokuBoardEntity extends Equatable {
 
   /// An unplayable stand-in shown while the real puzzle is generated in
   /// the background: every cell is locked and nothing can be solved.
-  factory SudokuBoardEntity.placeholder() {
+  factory SudokuBoardEntity.placeholder({required int boxSize}) {
+    final cellCount = _cellCountFor(boxSize);
     return SudokuBoardEntity(
+      boxSize: boxSize,
       solution: [for (var i = 0; i < cellCount; i++) -1],
       values: [for (var i = 0; i < cellCount; i++) empty],
       given: [for (var i = 0; i < cellCount; i++) true],
@@ -78,11 +88,10 @@ class SudokuBoardEntity extends Equatable {
     );
   }
 
-  static const size = 9;
-  static const boxSize = 3;
-  static const int cellCount = size * size;
   static const empty = 0;
-  static const _defaultGivensCount = 36;
+
+  /// Number of boxes along one side; a box is [boxSize]×[boxSize] cells.
+  final int boxSize;
 
   /// The completed grid the player is working towards.
   final List<int> solution;
@@ -93,8 +102,19 @@ class SudokuBoardEntity extends Equatable {
   /// Whether each cell was pre-filled and is locked.
   final List<bool> given;
 
-  /// Pencil-marked candidates per cell (1..9); empty when none.
+  /// Pencil-marked candidates per cell (1..[size]); empty when none.
   final List<Set<int>> notes;
+
+  /// Cells along one side of the board (and the largest digit).
+  int get size => boxSize * boxSize;
+
+  /// Total number of cells on the board.
+  int get cellCount => size * size;
+
+  static int _cellCountFor(int boxSize) {
+    final size = boxSize * boxSize;
+    return size * size;
+  }
 
   /// Whether the board is completely and correctly filled in.
   bool get isSolved {
@@ -139,7 +159,7 @@ class SudokuBoardEntity extends Equatable {
   }
 
   /// The row, column and box index groups the cell at [index] belongs to.
-  static List<List<int>> unitsOf(int index) {
+  List<List<int>> unitsOf(int index) {
     final row = index ~/ size;
     final col = index % size;
     final boxRow = row - row % boxSize;
@@ -181,6 +201,7 @@ class SudokuBoardEntity extends Equatable {
     }
 
     return SudokuBoardEntity(
+      boxSize: boxSize,
       solution: solution,
       values: [...values]..[index] = value,
       given: given,
@@ -203,6 +224,7 @@ class SudokuBoardEntity extends Equatable {
     cell.contains(digit) ? cell.remove(digit) : cell.add(digit);
 
     return SudokuBoardEntity(
+      boxSize: boxSize,
       solution: solution,
       values: values,
       given: given,
@@ -211,41 +233,49 @@ class SudokuBoardEntity extends Equatable {
   }
 
   /// Random solved grid: the canonical pattern
-  /// value(r, c) = (r * 3 + r ~/ 3 + c) % 9 + 1, randomized by relabeling
-  /// digits and shuffling rows/columns within their bands.
-  static List<int> _randomSolution(Random rng) {
+  /// value(r, c) = (r * boxSize + r ~/ boxSize + c) % size + 1, randomized by
+  /// relabeling digits and shuffling rows/columns within their bands.
+  static List<int> _randomSolution(Random rng, int boxSize) {
+    final size = boxSize * boxSize;
+    final cellCount = size * size;
     final digits = List.generate(size, (i) => i + 1)..shuffle(rng);
-    final rows = _shuffledBandOrder(rng);
-    final cols = _shuffledBandOrder(rng);
+    final rows = _shuffledBandOrder(rng, boxSize);
+    final cols = _shuffledBandOrder(rng, boxSize);
 
     return List<int>.generate(cellCount, (index) {
       final r = rows[index ~/ size];
       final c = cols[index % size];
-      return digits[(r * 3 + r ~/ 3 + c) % size];
+      return digits[(r * boxSize + r ~/ boxSize + c) % size];
     });
   }
 
-  /// Shuffled row (or column) order that keeps each 3-line band intact:
-  /// bands are reordered, and lines are reordered within their band.
-  static List<int> _shuffledBandOrder(Random rng) {
-    final bands = [0, 1, 2]..shuffle(rng);
+  /// Shuffled row (or column) order that keeps each band of [boxSize] lines
+  /// intact: bands are reordered, and lines are reordered within their band.
+  static List<int> _shuffledBandOrder(Random rng, int boxSize) {
+    final bands = [for (var i = 0; i < boxSize; i++) i]..shuffle(rng);
     return [
       for (final band in bands)
-        ...([0, 1, 2]..shuffle(rng)).map((line) => band * boxSize + line),
+        ...([for (var i = 0; i < boxSize; i++) i]..shuffle(rng))
+            .map((line) => band * boxSize + line),
     ];
   }
 
   /// Counts solutions of [grid] by backtracking, stopping at [limit].
-  static int _countSolutions(List<int> grid, {required int limit}) {
+  static int _countSolutions(
+    List<int> grid,
+    int boxSize, {
+    required int limit,
+  }) {
+    final size = boxSize * boxSize;
     final firstEmpty = grid.indexOf(empty);
     if (firstEmpty == -1) return 1;
 
     var found = 0;
     for (var digit = 1; digit <= size; digit++) {
-      if (!_canPlace(grid, firstEmpty, digit)) continue;
+      if (!_canPlace(grid, firstEmpty, digit, boxSize)) continue;
 
       grid[firstEmpty] = digit;
-      found += _countSolutions(grid, limit: limit - found);
+      found += _countSolutions(grid, boxSize, limit: limit - found);
       grid[firstEmpty] = empty;
 
       if (found >= limit) break;
@@ -254,7 +284,8 @@ class SudokuBoardEntity extends Equatable {
   }
 
   /// Whether [digit] at [index] breaks no row, column or box constraint.
-  static bool _canPlace(List<int> grid, int index, int digit) {
+  static bool _canPlace(List<int> grid, int index, int digit, int boxSize) {
+    final size = boxSize * boxSize;
     final row = index ~/ size;
     final col = index % size;
     final boxRow = row - row % boxSize;
@@ -271,6 +302,7 @@ class SudokuBoardEntity extends Equatable {
 
   /// Serializes the board for persistence; see [SudokuBoardEntity.fromJson].
   Map<String, dynamic> toJson() => {
+    'boxSize': boxSize,
     'solution': solution,
     'values': values,
     'given': given,
@@ -280,5 +312,5 @@ class SudokuBoardEntity extends Equatable {
   };
 
   @override
-  List<Object?> get props => [solution, values, given, notes];
+  List<Object?> get props => [boxSize, solution, values, given, notes];
 }
