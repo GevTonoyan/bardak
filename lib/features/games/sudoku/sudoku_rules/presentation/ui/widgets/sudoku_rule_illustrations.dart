@@ -5,6 +5,10 @@ import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:flutter/material.dart';
 
+/// The rules always illustrate the classic 9×9 board (3×3 boxes).
+const _classicSize = 9;
+const _classicBoxSize = 3;
+
 /// A classic partly-filled puzzle used as the backdrop for the board
 /// illustrations, so the mini boards read like a real game in progress.
 const _sampleValues = <int>[
@@ -41,12 +45,12 @@ class SudokuGoalIllustration extends StatelessWidget {
           borderRadius: .circular(10),
           child: Column(
             children: [
-              for (var row = 0; row < SudokuBoardEntity.boxSize; row++)
+              for (var row = 0; row < _classicBoxSize; row++)
                 Expanded(
                   child: Row(
                     crossAxisAlignment: .stretch,
                     children: [
-                      for (var col = 0; col < SudokuBoardEntity.boxSize; col++)
+                      for (var col = 0; col < _classicBoxSize; col++)
                         Expanded(
                           child: DecoratedBox(
                             decoration: BoxDecoration(
@@ -57,7 +61,7 @@ class SudokuGoalIllustration extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                '${row * SudokuBoardEntity.boxSize + col + 1}',
+                                '${row * _classicBoxSize + col + 1}',
                                 style: typography.regular38.withNumericFont,
                               ),
                             ),
@@ -80,7 +84,7 @@ class SudokuHighlightIllustration extends StatelessWidget {
   const SudokuHighlightIllustration({super.key});
 
   // Centre cell (row 4, col 4) is empty in the sample; fill it as the move.
-  static const int _selected = 4 * SudokuBoardEntity.size + 4;
+  static const int _selected = 4 * _classicSize + 4;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +102,7 @@ class SudokuHighlightIllustration extends StatelessWidget {
 class SudokuMistakesIllustration extends StatelessWidget {
   const SudokuMistakesIllustration({super.key});
 
-  static const int _wrong = 2 * SudokuBoardEntity.size; // empty in the sample
+  static const int _wrong = 2 * _classicSize; // empty in the sample
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +168,7 @@ class SudokuNotesIllustration extends StatelessWidget {
                 children: [
                   for (
                     var noteRow = 0;
-                    noteRow < SudokuBoardEntity.boxSize;
+                    noteRow < _classicBoxSize;
                     noteRow++
                   )
                     Expanded(
@@ -172,7 +176,7 @@ class SudokuNotesIllustration extends StatelessWidget {
                         children: [
                           for (
                             var noteCol = 0;
-                            noteCol < SudokuBoardEntity.boxSize;
+                            noteCol < _classicBoxSize;
                             noteCol++
                           )
                             Expanded(
@@ -322,8 +326,8 @@ class _MiniBoard extends StatelessWidget {
   final int? userIndex;
   final int? mistakeIndex;
 
-  static const int _size = SudokuBoardEntity.size;
-  static const int _boxSize = SudokuBoardEntity.boxSize;
+  static const int _size = _classicSize;
+  static const int _boxSize = _classicBoxSize;
   static const double _dimension = 240;
 
   bool _sharesRegion(int index, int selected) {
@@ -450,8 +454,8 @@ class _MiniGridPainter extends CustomPainter {
   final Color thick;
   final double devicePixelRatio;
 
-  static const int _size = SudokuBoardEntity.size;
-  static const int _boxSize = SudokuBoardEntity.boxSize;
+  static const int _size = _classicSize;
+  static const int _boxSize = _classicBoxSize;
 
   @override
   void paint(Canvas canvas, Size size) {

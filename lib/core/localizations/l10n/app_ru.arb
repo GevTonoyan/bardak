@@ -83,6 +83,7 @@
   "spyMode": "Шпион",
   "sudoku": "Судоку",
   "sudoku_solved": "Судоку решено. Отличная работа!",
+  "sudoku_board_size": "Размер поля",
   "sudoku_difficulty": "Сложность",
   "sudoku_difficulty_easy": "Легко",
   "sudoku_difficulty_medium": "Средне",

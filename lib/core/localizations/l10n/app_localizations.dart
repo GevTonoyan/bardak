@@ -388,6 +388,12 @@ abstract class AppLocalizations {
   /// **'Puzzle solved. Well done!'**
   String get sudoku_solved;
 
+  /// No description provided for @sudoku_board_size.
+  ///
+  /// In en, this message translates to:
+  /// **'Board size'**
+  String get sudoku_board_size;
+
   /// No description provided for @sudoku_difficulty.
   ///
   /// In en, this message translates to:

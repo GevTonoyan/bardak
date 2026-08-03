@@ -1,4 +1,5 @@
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:equatable/equatable.dart';
 
@@ -7,6 +8,7 @@ import 'package:equatable/equatable.dart';
 class SudokuSavedGameEntity extends Equatable {
   const SudokuSavedGameEntity({
     required this.board,
+    required this.boardSize,
     required this.difficulty,
     required this.mistakes,
     required this.elapsedSeconds,
@@ -17,6 +19,7 @@ class SudokuSavedGameEntity extends Equatable {
   factory SudokuSavedGameEntity.fromJson(Map<String, dynamic> json) {
     return SudokuSavedGameEntity(
       board: SudokuBoardEntity.fromJson(json['board'] as Map<String, dynamic>),
+      boardSize: SudokuBoardSize.fromString(json['boardSize'] as String?),
       difficulty: SudokuDifficulty.fromString(json['difficulty'] as String?),
       mistakes: json['mistakes'] as int? ?? 0,
       elapsedSeconds: json['elapsedSeconds'] as int? ?? 0,
@@ -24,6 +27,7 @@ class SudokuSavedGameEntity extends Equatable {
   }
 
   final SudokuBoardEntity board;
+  final SudokuBoardSize boardSize;
   final SudokuDifficulty difficulty;
   final int mistakes;
   final int elapsedSeconds;
@@ -32,11 +36,18 @@ class SudokuSavedGameEntity extends Equatable {
   /// [SudokuSavedGameEntity.fromJson].
   Map<String, dynamic> toJson() => {
     'board': board.toJson(),
+    'boardSize': boardSize.name,
     'difficulty': difficulty.name,
     'mistakes': mistakes,
     'elapsedSeconds': elapsedSeconds,
   };
 
   @override
-  List<Object?> get props => [board, difficulty, mistakes, elapsedSeconds];
+  List<Object?> get props => [
+    board,
+    boardSize,
+    difficulty,
+    mistakes,
+    elapsedSeconds,
+  ];
 }

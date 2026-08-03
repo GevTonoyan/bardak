@@ -83,6 +83,7 @@
   "spyMode": "Spy",
   "sudoku": "Sudoku",
   "sudoku_solved": "Puzzle solved. Well done!",
+  "sudoku_board_size": "Board size",
   "sudoku_difficulty": "Difficulty",
   "sudoku_difficulty_easy": "Easy",
   "sudoku_difficulty_medium": "Medium",

@@ -1,5 +1,6 @@
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/has_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get_sudoku_settings_usecase.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_sudoku_board_size_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_sudoku_difficulty_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_state.dart';
@@ -9,6 +10,7 @@ class SudokuSettingsBloc
     extends Bloc<SudokuSettingsEvent, SudokuSettingsState> {
   SudokuSettingsBloc({
     required GetSudokuSettingsUseCase getSudokuSettingsUseCase,
+    required this._updateSudokuBoardSizeUseCase,
     required this._updateSudokuDifficultyUseCase,
     required this._hasSavedSudokuGameUseCase,
   }) : super(
@@ -17,12 +19,31 @@ class SudokuSettingsBloc
            hasSavedGame: _hasSavedSudokuGameUseCase(),
          ),
        ) {
+    on<ChangeBoardSize>(_onChangeBoardSize);
     on<ChangeDifficulty>(_onChangeDifficulty);
     on<RefreshSavedGame>(_onRefreshSavedGame);
   }
 
+  final UpdateSudokuBoardSizeUseCase _updateSudokuBoardSizeUseCase;
   final UpdateSudokuDifficultyUseCase _updateSudokuDifficultyUseCase;
   final HasSavedSudokuGameUseCase _hasSavedSudokuGameUseCase;
+
+  Future<void> _onChangeBoardSize(
+    ChangeBoardSize event,
+    Emitter<SudokuSettingsState> emit,
+  ) async {
+    if (state.sudokuSettings.boardSize == event.boardSize) return;
+
+    emit(
+      state.copyWith(
+        sudokuSettings: state.sudokuSettings.copyWith(
+          boardSize: event.boardSize,
+        ),
+      ),
+    );
+
+    await _updateSudokuBoardSizeUseCase(event.boardSize);
+  }
 
   Future<void> _onChangeDifficulty(
     ChangeDifficulty event,

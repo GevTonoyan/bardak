@@ -9,6 +9,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/record_
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/usecases/update_saved_sudoku_game_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +20,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
   /// slow ones (expert/extreme) start as a placeholder and are generated
   /// off the main thread.
   SudokuBloc({
+    required SudokuBoardSize boardSize,
     required SudokuDifficulty difficulty,
     required this._generateSudokuBoardUseCase,
     required this._updateSavedSudokuGameUseCase,
@@ -29,15 +31,20 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     SudokuBoardEntity? board,
   }) : super(
          SudokuState(
-           board: _initialBoard(difficulty, board, savedGame),
+           board: _initialBoard(boardSize, difficulty, board, savedGame),
+           boardSize: savedGame?.boardSize ?? boardSize,
            difficulty: savedGame?.difficulty ?? difficulty,
            bestTimeSeconds: getSudokuStatsUseCase()
-               .statsFor(savedGame?.difficulty ?? difficulty)
+               .statsFor(
+                 (savedGame?.boardSize ?? boardSize).statsKey(
+                   savedGame?.difficulty ?? difficulty,
+                 ),
+               )
                .bestTimeSeconds,
            isGenerating:
                board == null &&
                savedGame == null &&
-               difficulty.needsBackgroundGeneration,
+               boardSize.needsBackgroundGeneration(difficulty),
            mistakes: savedGame?.mistakes ?? 0,
            elapsedSeconds: savedGame?.elapsedSeconds ?? 0,
          ),
@@ -68,16 +75,20 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
   /// difficulty generated synchronously, or a placeholder for a slow
   /// difficulty that will be generated in the background.
   static SudokuBoardEntity _initialBoard(
+    SudokuBoardSize boardSize,
     SudokuDifficulty difficulty,
     SudokuBoardEntity? board,
     SudokuSavedGameEntity? savedGame,
   ) {
     if (board != null) return board;
     if (savedGame != null) return savedGame.board;
-    if (difficulty.needsBackgroundGeneration) {
-      return SudokuBoardEntity.placeholder();
+    if (boardSize.needsBackgroundGeneration(difficulty)) {
+      return SudokuBoardEntity.placeholder(boxSize: boardSize.boxSize);
     }
-    return SudokuBoardEntity.generate(givensCount: difficulty.givensCount);
+    return SudokuBoardEntity.generate(
+      boxSize: boardSize.boxSize,
+      givensCount: boardSize.givensCountFor(difficulty),
+    );
   }
 
   /// Input is ignored while the puzzle is generated, once it is solved
@@ -91,6 +102,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
       _updateSavedSudokuGameUseCase(
         SudokuSavedGameEntity(
           board: state.board,
+          boardSize: state.boardSize,
           difficulty: state.difficulty,
           mistakes: state.mistakes,
           elapsedSeconds: state.elapsedSeconds,
@@ -116,7 +128,8 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
   ) async {
     final board = await _generateSudokuBoardUseCase(
       GenerateSudokuBoardParams(
-        givensCount: state.difficulty.givensCount,
+        boxSize: state.boardSize.boxSize,
+        givensCount: state.boardSize.givensCountFor(state.difficulty),
       ),
     );
     emit(state.copyWith(board: board, isGenerating: false));
@@ -124,7 +137,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
 
   void _onSelectCell(SelectCell event, Emitter<SudokuState> emit) {
     if (_isLocked) return;
-    if (event.index < 0 || event.index >= SudokuBoardEntity.cellCount) return;
+    if (event.index < 0 || event.index >= state.board.cellCount) return;
 
     emit(state.copyWith(selectedIndex: event.index));
   }
@@ -136,7 +149,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
 
   void _onEnterDigit(EnterDigit event, Emitter<SudokuState> emit) {
     if (_isLocked) return;
-    if (event.digit < 1 || event.digit > SudokuBoardEntity.size) return;
+    if (event.digit < 1 || event.digit > state.board.size) return;
 
     final index = state.selectedIndex;
     final board = state.board;
@@ -163,7 +176,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     // Units (row/column/box) this placement just solved get a
     // celebration ripple in the UI, spreading out from the placed cell.
     final completed = <int>{
-      for (final unit in SudokuBoardEntity.unitsOf(index))
+      for (final unit in board.unitsOf(index))
         if (!board.isUnitSolved(unit) && next.isUnitSolved(unit)) ...unit,
     };
 
@@ -196,7 +209,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
 
     final record = await _recordSudokuWinUseCase(
       RecordSudokuWinParams(
-        difficulty: state.difficulty,
+        statsKey: state.boardSize.statsKey(state.difficulty),
         timeSeconds: state.elapsedSeconds,
       ),
     );

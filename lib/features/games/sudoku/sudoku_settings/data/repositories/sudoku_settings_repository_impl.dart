@@ -1,4 +1,5 @@
 import 'package:bardak/features/games/sudoku/sudoku_settings/data/data_sources/sudoku_settings_local_data_source.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_settings_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/repositories/sudoku_settings_repository.dart';
@@ -10,6 +11,10 @@ class SudokuSettingsRepositoryImpl implements SudokuSettingsRepository {
 
   @override
   SudokuSettingsEntity getSudokuSettings() => _dataSource.getSudokuSettings();
+
+  @override
+  Future<bool> updateBoardSize(SudokuBoardSize boardSize) =>
+      _dataSource.updateBoardSize(boardSize);
 
   @override
   Future<bool> updateDifficulty(SudokuDifficulty difficulty) =>

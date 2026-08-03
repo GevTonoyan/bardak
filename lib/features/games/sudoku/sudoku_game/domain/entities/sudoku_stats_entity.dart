@@ -1,4 +1,3 @@
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:equatable/equatable.dart';
 
 /// Lifetime results for one difficulty: wins and best time.
@@ -32,46 +31,42 @@ class SudokuDifficultyStats extends Equatable {
   List<Object?> get props => [gamesWon, bestTimeSeconds];
 }
 
-/// Per-difficulty lifetime Sudoku statistics.
+/// Lifetime Sudoku statistics, keyed by a stats key that identifies the game
+/// mode (board size and, for the classic board, difficulty). See
+/// `SudokuBoardSize.statsKey`.
 class SudokuStatsEntity extends Equatable {
-  const SudokuStatsEntity({this.byDifficulty = const {}});
+  const SudokuStatsEntity({this.byKey = const {}});
 
-  /// Restores stats previously serialized with [toJson].
+  /// Restores stats previously serialized with [toJson]. Keys are opaque
+  /// strings, so records written before board sizes existed (keyed by plain
+  /// difficulty name) are read unchanged.
   factory SudokuStatsEntity.fromJson(Map<String, dynamic> json) {
     return SudokuStatsEntity(
-      byDifficulty: {
+      byKey: {
         for (final entry in json.entries)
-          SudokuDifficulty.fromString(
-            entry.key,
-          ): SudokuDifficultyStats.fromJson(
+          entry.key: SudokuDifficultyStats.fromJson(
             entry.value as Map<String, dynamic>,
           ),
       },
     );
   }
 
-  final Map<SudokuDifficulty, SudokuDifficultyStats> byDifficulty;
+  final Map<String, SudokuDifficultyStats> byKey;
 
-  /// Stats for [difficulty]; zeroed when none are recorded yet.
-  SudokuDifficultyStats statsFor(SudokuDifficulty difficulty) =>
-      byDifficulty[difficulty] ?? const SudokuDifficultyStats();
+  /// Stats for the mode [key]; zeroed when none are recorded yet.
+  SudokuDifficultyStats statsFor(String key) =>
+      byKey[key] ?? const SudokuDifficultyStats();
 
-  /// Returns a copy with [stats] stored for [difficulty].
-  SudokuStatsEntity withStats(
-    SudokuDifficulty difficulty,
-    SudokuDifficultyStats stats,
-  ) {
-    return SudokuStatsEntity(
-      byDifficulty: {...byDifficulty, difficulty: stats},
-    );
+  /// Returns a copy with [stats] stored under [key].
+  SudokuStatsEntity withStats(String key, SudokuDifficultyStats stats) {
+    return SudokuStatsEntity(byKey: {...byKey, key: stats});
   }
 
   /// Serializes the stats for persistence; see [SudokuStatsEntity.fromJson].
   Map<String, dynamic> toJson() => {
-    for (final entry in byDifficulty.entries)
-      entry.key.name: entry.value.toJson(),
+    for (final entry in byKey.entries) entry.key: entry.value.toJson(),
   };
 
   @override
-  List<Object?> get props => [byDifficulty];
+  List<Object?> get props => [byKey];
 }

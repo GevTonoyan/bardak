@@ -163,6 +163,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sudoku_solved => 'Puzzle solved. Well done!';
 
   @override
+  String get sudoku_board_size => 'Board size';
+
+  @override
   String get sudoku_difficulty => 'Difficulty';
 
   @override

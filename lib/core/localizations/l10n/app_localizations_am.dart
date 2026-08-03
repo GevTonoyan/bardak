@@ -163,6 +163,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sudoku_solved => 'Սուդոկուն լուծված է։ Կեցցե՛ս';
 
   @override
+  String get sudoku_board_size => 'Դաշտի չափը';
+
+  @override
   String get sudoku_difficulty => 'Բարդություն';
 
   @override

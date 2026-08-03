@@ -1,7 +1,6 @@
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_stats_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/repositories/sudoku_game_repository.dart';
-import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 
 /// Records a solved puzzle in the lifetime statistics and reports
 /// whether the game set a new best time.
@@ -12,7 +11,7 @@ class RecordSudokuWinUseCase {
 
   Future<SudokuWinRecordEntity> call(RecordSudokuWinParams params) async {
     final stats = _sudokuGameRepository.getStats();
-    final current = stats.statsFor(params.difficulty);
+    final current = stats.statsFor(params.statsKey);
 
     final isNewBestTime =
         current.bestTimeSeconds == null ||
@@ -26,7 +25,7 @@ class RecordSudokuWinUseCase {
     );
 
     await _sudokuGameRepository.updateStats(
-      stats.withStats(params.difficulty, updated),
+      stats.withStats(params.statsKey, updated),
     );
 
     return SudokuWinRecordEntity(stats: updated, isNewBestTime: isNewBestTime);
@@ -35,10 +34,12 @@ class RecordSudokuWinUseCase {
 
 class RecordSudokuWinParams {
   const RecordSudokuWinParams({
-    required this.difficulty,
+    required this.statsKey,
     required this.timeSeconds,
   });
 
-  final SudokuDifficulty difficulty;
+  /// Identifies the game mode the win belongs to (see
+  /// `SudokuBoardSize.statsKey`).
+  final String statsKey;
   final int timeSeconds;
 }

@@ -1,3 +1,4 @@
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:equatable/equatable.dart';
 
@@ -6,6 +7,16 @@ sealed class SudokuSettingsEvent extends Equatable {
 
   @override
   List<Object?> get props => [];
+}
+
+/// Changes and persists the board size.
+class ChangeBoardSize extends SudokuSettingsEvent {
+  const ChangeBoardSize(this.boardSize);
+
+  final SudokuBoardSize boardSize;
+
+  @override
+  List<Object?> get props => [boardSize];
 }
 
 /// Changes and persists the puzzle difficulty.

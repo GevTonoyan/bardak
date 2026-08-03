@@ -8,6 +8,7 @@ import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_formatters.dart';
 import 'package:bardak/features/games/sudoku/sudoku_rules/presentation/ui/sudoku_rules_screen.dart';
+import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_board_size.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/entities/sudoku_difficulty.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_event.dart';
@@ -52,25 +53,6 @@ class _SudokuSettingsBodyState extends State<_SudokuSettingsBody> {
     context.read<SudokuSettingsBloc>().add(const RefreshSavedGame());
   }
 
-  Widget _difficultyButton(
-    BuildContext context,
-    SudokuDifficulty difficulty,
-  ) {
-    final colors = context.colors;
-    final settingsBloc = context.read<SudokuSettingsBloc>();
-    final selected = settingsBloc.state.sudokuSettings.difficulty;
-
-    return AppButton(
-      label: sudokuDifficultyLabel(context, difficulty),
-      color: colors.white20,
-      size: .medium,
-      isPressed: selected == difficulty,
-      pressedColor: colors.white,
-      pressedTextColor: colors.secondary,
-      onPressed: () => settingsBloc.add(ChangeDifficulty(difficulty)),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -78,9 +60,15 @@ class _SudokuSettingsBodyState extends State<_SudokuSettingsBody> {
     final l10n = context.l10n;
 
     final settingsBloc = context.watch<SudokuSettingsBloc>();
+    final settings = settingsBloc.state.sudokuSettings;
     final hasSavedGame = settingsBloc.state.hasSavedGame;
 
+    const boardSizes = SudokuBoardSize.values;
     const difficulties = SudokuDifficulty.values;
+
+    // The 4×4 kids board has no difficulty, so the section is greyed out and
+    // ignores taps while it is selected.
+    final difficultyEnabled = settings.boardSize.usesDifficulty;
 
     return Column(
       children: [
@@ -91,24 +79,63 @@ class _SudokuSettingsBodyState extends State<_SudokuSettingsBody> {
               children: [
                 height30,
                 Text(
-                  l10n.sudoku_difficulty,
+                  l10n.sudoku_board_size,
                   style: typography.regular24,
                 ),
                 height20,
                 Row(
                   spacing: 10,
                   children: [
-                    for (final difficulty in difficulties.take(3))
-                      Expanded(child: _difficultyButton(context, difficulty)),
+                    for (final boardSize in boardSizes)
+                      Expanded(
+                        child: _BoardSizeButton(
+                          boardSize: boardSize,
+                          isSelected: settings.boardSize == boardSize,
+                        ),
+                      ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  spacing: 10,
-                  children: [
-                    for (final difficulty in difficulties.skip(3))
-                      Expanded(child: _difficultyButton(context, difficulty)),
-                  ],
+                height40,
+                IgnorePointer(
+                  ignoring: !difficultyEnabled,
+                  child: Opacity(
+                    opacity: difficultyEnabled ? 1 : 0.4,
+                    child: Column(
+                      crossAxisAlignment: .start,
+                      children: [
+                        Text(
+                          l10n.sudoku_difficulty,
+                          style: typography.regular24,
+                        ),
+                        height20,
+                        Row(
+                          spacing: 10,
+                          children: [
+                            for (final difficulty in difficulties.take(3))
+                              Expanded(
+                                child: _DifficultyButton(
+                                  difficulty: difficulty,
+                                  isSelected: settings.difficulty == difficulty,
+                                ),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            for (final difficulty in difficulties.skip(3))
+                              Expanded(
+                                child: _DifficultyButton(
+                                  difficulty: difficulty,
+                                  isSelected: settings.difficulty == difficulty,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -140,6 +167,54 @@ class _SudokuSettingsBodyState extends State<_SudokuSettingsBody> {
             ),
           ),
       ],
+    );
+  }
+}
+
+/// A board-size option button; pressed-looking while [isSelected].
+class _BoardSizeButton extends StatelessWidget {
+  const _BoardSizeButton({required this.boardSize, required this.isSelected});
+
+  final SudokuBoardSize boardSize;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return AppButton(
+      label: '${boardSize.size}×${boardSize.size}',
+      color: colors.white20,
+      size: .medium,
+      isPressed: isSelected,
+      pressedColor: colors.white,
+      pressedTextColor: colors.secondary,
+      onPressed: () =>
+          context.read<SudokuSettingsBloc>().add(ChangeBoardSize(boardSize)),
+    );
+  }
+}
+
+/// A difficulty option button; pressed-looking while [isSelected].
+class _DifficultyButton extends StatelessWidget {
+  const _DifficultyButton({required this.difficulty, required this.isSelected});
+
+  final SudokuDifficulty difficulty;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+
+    return AppButton(
+      label: sudokuDifficultyLabel(context, difficulty),
+      color: colors.white20,
+      size: .medium,
+      isPressed: isSelected,
+      pressedColor: colors.white,
+      pressedTextColor: colors.secondary,
+      onPressed: () =>
+          context.read<SudokuSettingsBloc>().add(ChangeDifficulty(difficulty)),
     );
   }
 }
