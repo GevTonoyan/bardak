@@ -17,9 +17,10 @@ class SudokuDigitPad extends StatelessWidget {
     // The board size is fixed for the game, so it can be read once.
     final board = bloc.state.board;
     final size = board.size;
-    // The 4×4 board has only four of each digit, so the remaining-count
-    // subtitle is noise — show it only on the larger boards.
-    final showRemaining = board.boxSize > 2;
+    // The 4×4 kids board is small enough that the remaining-count subtitle
+    // and the notes (pencil) mode add clutter without value, so both are
+    // shown only on the larger boards.
+    final isLargeBoard = board.boxSize > 2;
 
     return Column(
       children: [
@@ -28,7 +29,7 @@ class SudokuDigitPad extends StatelessWidget {
           children: [
             for (var digit = 1; digit <= size; digit++)
               Expanded(
-                child: _DigitButton(digit: digit, showRemaining: showRemaining),
+                child: _DigitButton(digit: digit, showRemaining: isLargeBoard),
               ),
           ],
         ),
@@ -54,18 +55,20 @@ class SudokuDigitPad extends StatelessWidget {
                 child: const Icon(Icons.backspace_outlined, size: 22),
               ),
             ),
-            Expanded(
-              child: BlocSelector<SudokuBloc, SudokuState, bool>(
-                selector: (state) => state.notesMode,
-                builder: (context, notesMode) {
-                  return _PadButton(
-                    isActive: notesMode,
-                    onTap: () => bloc.add(const ToggleNotesMode()),
-                    child: const Icon(Icons.edit_outlined, size: 22),
-                  );
-                },
+            // Notes (pencil) mode is offered only on the larger boards.
+            if (isLargeBoard)
+              Expanded(
+                child: BlocSelector<SudokuBloc, SudokuState, bool>(
+                  selector: (state) => state.notesMode,
+                  builder: (context, notesMode) {
+                    return _PadButton(
+                      isActive: notesMode,
+                      onTap: () => bloc.add(const ToggleNotesMode()),
+                      child: const Icon(Icons.edit_outlined, size: 22),
+                    );
+                  },
+                ),
               ),
-            ),
           ],
         ),
       ],
