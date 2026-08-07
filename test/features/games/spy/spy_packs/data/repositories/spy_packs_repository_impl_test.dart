@@ -183,6 +183,59 @@ void main() {
     verifyNever(() => remote.getSpyPacks(any()));
   });
 
+  group('ordering', () {
+    SpyPackEntity ordered(String id, int order) => SpyPackEntity(
+      id: id,
+      name: id,
+      words: const ['w'],
+      image: '',
+      imageBlurHash: '',
+      order: order,
+    );
+
+    test('getSpyPacks sorts built-in packs by order', () async {
+      when(() => local.getSpyPacks('en')).thenAnswer(
+        (_) async => [ordered('c', 2), ordered('a', 0), ordered('b', 1)],
+      );
+
+      final result = await repository.getSpyPacks('en');
+
+      expect(result.map((p) => p.id).toList(), ['a', 'b', 'c']);
+    });
+
+    test('a pack with no order sorts last (unorderedOrder)', () async {
+      when(() => local.getSpyPacks('en')).thenAnswer(
+        (_) async => [
+          // Missing order defaults to SpyPackEntity.unorderedOrder.
+          const SpyPackEntity(
+            id: 'unset',
+            name: 'unset',
+            words: ['w'],
+            image: '',
+            imageBlurHash: '',
+          ),
+          ordered('first', 0),
+        ],
+      );
+
+      final result = await repository.getSpyPacks('en');
+
+      expect(result.map((p) => p.id).toList(), ['first', 'unset']);
+    });
+
+    test('duplicate orders do not throw', () async {
+      when(() => local.getFallbackSpyPacks('en')).thenReturn([
+        ordered('x', 5),
+        ordered('y', 5),
+      ]);
+
+      expect(
+        () => repository.getFallbackSpyPacks('en'),
+        returnsNormally,
+      );
+    });
+  });
+
   group('custom packs', () {
     const custom = SpyPackEntity(
       id: 'custom_1',

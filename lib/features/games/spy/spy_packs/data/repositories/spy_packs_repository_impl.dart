@@ -16,13 +16,20 @@ class SpyPacksRepositoryImpl implements SpyPacksRepository {
   final SpyPacksRemoteDataSource _remoteDataSource;
 
   @override
-  Future<List<SpyPackEntity>> getSpyPacks(String localeCode) {
-    return _localDataSource.getSpyPacks(localeCode);
+  Future<List<SpyPackEntity>> getSpyPacks(String localeCode) async {
+    return _sortedByOrder(await _localDataSource.getSpyPacks(localeCode));
   }
 
   @override
   List<SpyPackEntity> getFallbackSpyPacks(String localeCode) {
-    return _localDataSource.getFallbackSpyPacks(localeCode);
+    return _sortedByOrder(_localDataSource.getFallbackSpyPacks(localeCode));
+  }
+
+  /// Built-in packs are shown in their configured [SpyPackEntity.order].
+  /// The sort tolerates duplicate orders — ties simply keep their incoming
+  /// relative position — so a mistaken repeat never throws.
+  List<SpyPackEntity> _sortedByOrder(List<SpyPackEntity> packs) {
+    return [...packs]..sort((a, b) => a.order.compareTo(b.order));
   }
 
   @override

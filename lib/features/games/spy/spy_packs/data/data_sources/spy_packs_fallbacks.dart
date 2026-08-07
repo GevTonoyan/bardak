@@ -17,6 +17,7 @@ List<SpyPackEntity> fallbackSpyPacksFor(AppLocale locale) {
 const _enPacks = [
   SpyPackEntity(
     id: 'locations',
+    order: 0,
     name: 'Locations',
     image: '',
     imageBlurHash: r'LMEpjjxB0sNNaks+X5W?0Ibc$[ad',
@@ -24,6 +25,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'football_players',
+    order: 4,
     name: 'Football players',
     image: '',
     imageBlurHash: 'L6DnH@t.0JI8=eIoNGjG00rV}]x_',
@@ -31,6 +33,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'professions',
+    order: 1,
     name: 'Professions',
     image: '',
     imageBlurHash: 'L7E_w|4T0X_Nt6fQWCj@04_M^s4n',
@@ -38,6 +41,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'animals',
+    order: 2,
     name: 'Animals',
     image: '',
     imageBlurHash: 'LVOUCls:]iWVwbr=WXW={_R+EMoL',
@@ -45,6 +49,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'geography',
+    order: 5,
     name: 'Geography',
     image: '',
     imageBlurHash: r'L7D_BG=|109Y?wnNR4S$0%9urD%N',
@@ -52,6 +57,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'food',
+    order: 9,
     name: 'Food',
     image: '',
     imageBlurHash: r'LLS2JJ$$#RNHxZaya}oK{JNIKOxZ',
@@ -59,6 +65,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'cars',
+    order: 6,
     name: 'Cars',
     image: '',
     imageBlurHash: 'L3CQP@*#05YN{+}nKiAK01PTa0rH',
@@ -66,6 +73,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'famous_people',
+    order: 3,
     name: 'Famous people',
     image: '',
     imageBlurHash: 'LYRSWUxu+~V@t6j[WCay{lRjK0t7',
@@ -73,6 +81,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'brands',
+    order: 10,
     name: 'Brands',
     image: '',
     imageBlurHash: 'LAD9o7Md04tRxtWVM}ay00t+~SVt',
@@ -80,6 +89,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'emotions',
+    order: 11,
     name: 'Emotions',
     image: '',
     imageBlurHash: 'LNR_8jxo=nRpxsbHaejZ}yRoA2t1',
@@ -87,6 +97,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'superheroes',
+    order: 12,
     name: 'Superheroes',
     image: '',
     imageBlurHash: r'LOOlc:xG+GNZn%W;bGjt_$R%GFs;',
@@ -94,6 +105,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'everyday_objects',
+    order: 13,
     name: 'Everyday objects',
     image: '',
     imageBlurHash: r'L7MO$xZ#y@t.,-eSOZOZUbkDGwjX',
@@ -101,6 +113,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'hobbies',
+    order: 14,
     name: 'Hobbies',
     image: '',
     imageBlurHash: 'LBDeq;4;3N~BGsNF#qt73#-o:n4;',
@@ -108,6 +121,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'movies',
+    order: 7,
     name: 'Movies',
     image: '',
     imageBlurHash: 'LLG7{AIuI5w[-WWVNFs:DyxFSYS4',
@@ -115,6 +129,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'sports',
+    order: 8,
     name: 'Sports',
     image: '',
     imageBlurHash: 'LFPggJR4_O.S%~kCR4Sh.no~GHQ,',
@@ -122,6 +137,7 @@ const _enPacks = [
   ),
   SpyPackEntity(
     id: 'body',
+    order: 15,
     name: 'Body',
     image: '',
     imageBlurHash: 'LBOADbF2_P}X%zayR*r@y@xsK#IC',
@@ -132,6 +148,7 @@ const _enPacks = [
 const _ruPacks = [
   SpyPackEntity(
     id: 'locations',
+    order: 0,
     name: 'Локации',
     image: '',
     imageBlurHash: r'LMEpjjxB0sNNaks+X5W?0Ibc$[ad',
@@ -139,6 +156,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'football_players',
+    order: 4,
     name: 'Футболисты',
     image: '',
     imageBlurHash: 'L6DnH@t.0JI8=eIoNGjG00rV}]x_',
@@ -146,6 +164,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'professions',
+    order: 1,
     name: 'Профессии',
     image: '',
     imageBlurHash: 'L7E_w|4T0X_Nt6fQWCj@04_M^s4n',
@@ -153,6 +172,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'animals',
+    order: 2,
     name: 'Животные',
     image: '',
     imageBlurHash: 'LVOUCls:]iWVwbr=WXW={_R+EMoL',
@@ -160,6 +180,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'geography',
+    order: 5,
     name: 'География',
     image: '',
     imageBlurHash: r'L7D_BG=|109Y?wnNR4S$0%9urD%N',
@@ -167,6 +188,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'food',
+    order: 9,
     name: 'Еда',
     image: '',
     imageBlurHash: r'LLS2JJ$$#RNHxZaya}oK{JNIKOxZ',
@@ -174,6 +196,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'cars',
+    order: 6,
     name: 'Машины',
     image: '',
     imageBlurHash: 'L3CQP@*#05YN{+}nKiAK01PTa0rH',
@@ -181,6 +204,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'famous_people',
+    order: 3,
     name: 'Знаменитости',
     image: '',
     imageBlurHash: 'LYRSWUxu+~V@t6j[WCay{lRjK0t7',
@@ -188,6 +212,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'brands',
+    order: 10,
     name: 'Бренды',
     image: '',
     imageBlurHash: 'LAD9o7Md04tRxtWVM}ay00t+~SVt',
@@ -195,6 +220,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'emotions',
+    order: 11,
     name: 'Эмоции',
     image: '',
     imageBlurHash: 'LNR_8jxo=nRpxsbHaejZ}yRoA2t1',
@@ -202,6 +228,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'superheroes',
+    order: 12,
     name: 'Супергерои',
     image: '',
     imageBlurHash: r'LOOlc:xG+GNZn%W;bGjt_$R%GFs;',
@@ -209,6 +236,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'everyday_objects',
+    order: 13,
     name: 'Повседневные предметы',
     image: '',
     imageBlurHash: r'L7MO$xZ#y@t.,-eSOZOZUbkDGwjX',
@@ -216,6 +244,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'hobbies',
+    order: 14,
     name: 'Хобби',
     image: '',
     imageBlurHash: 'LBDeq;4;3N~BGsNF#qt73#-o:n4;',
@@ -223,6 +252,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'movies',
+    order: 7,
     name: 'Фильмы',
     image: '',
     imageBlurHash: 'LLG7{AIuI5w[-WWVNFs:DyxFSYS4',
@@ -230,6 +260,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'sports',
+    order: 8,
     name: 'Спорт',
     image: '',
     imageBlurHash: 'LFPggJR4_O.S%~kCR4Sh.no~GHQ,',
@@ -237,6 +268,7 @@ const _ruPacks = [
   ),
   SpyPackEntity(
     id: 'body',
+    order: 15,
     name: 'Тело',
     image: '',
     imageBlurHash: 'LBOADbF2_P}X%zayR*r@y@xsK#IC',
@@ -247,6 +279,7 @@ const _ruPacks = [
 const _amPacks = [
   SpyPackEntity(
     id: 'locations',
+    order: 0,
     name: 'Վայրեր',
     image: '',
     imageBlurHash: r'LMEpjjxB0sNNaks+X5W?0Ibc$[ad',
@@ -254,6 +287,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'football_players',
+    order: 4,
     name: 'Ֆուտբոլիստներ',
     image: '',
     imageBlurHash: 'L6DnH@t.0JI8=eIoNGjG00rV}]x_',
@@ -261,6 +295,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'professions',
+    order: 1,
     name: 'Մասնագիտություններ',
     image: '',
     imageBlurHash: 'L7E_w|4T0X_Nt6fQWCj@04_M^s4n',
@@ -268,6 +303,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'animals',
+    order: 2,
     name: 'Կենդանիներ',
     image: '',
     imageBlurHash: 'LVOUCls:]iWVwbr=WXW={_R+EMoL',
@@ -275,6 +311,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'geography',
+    order: 5,
     name: 'Աշխարհագրություն',
     image: '',
     imageBlurHash: r'L7D_BG=|109Y?wnNR4S$0%9urD%N',
@@ -282,6 +319,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'food',
+    order: 9,
     name: 'Ուտելիք',
     image: '',
     imageBlurHash: r'LLS2JJ$$#RNHxZaya}oK{JNIKOxZ',
@@ -289,6 +327,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'cars',
+    order: 6,
     name: 'Մեքենաներ',
     image: '',
     imageBlurHash: 'L3CQP@*#05YN{+}nKiAK01PTa0rH',
@@ -296,6 +335,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'famous_people',
+    order: 3,
     name: 'Հայտնի մարդիկ',
     image: '',
     imageBlurHash: 'LYRSWUxu+~V@t6j[WCay{lRjK0t7',
@@ -303,6 +343,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'brands',
+    order: 10,
     name: 'Բրենդներ',
     image: '',
     imageBlurHash: 'LAD9o7Md04tRxtWVM}ay00t+~SVt',
@@ -310,6 +351,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'emotions',
+    order: 11,
     name: 'Զգացմունքներ',
     image: '',
     imageBlurHash: 'LNR_8jxo=nRpxsbHaejZ}yRoA2t1',
@@ -317,6 +359,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'superheroes',
+    order: 12,
     name: 'Սուպերհերոսներ',
     image: '',
     imageBlurHash: r'LOOlc:xG+GNZn%W;bGjt_$R%GFs;',
@@ -324,6 +367,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'everyday_objects',
+    order: 13,
     name: 'Առօրյա իրեր',
     image: '',
     imageBlurHash: r'L7MO$xZ#y@t.,-eSOZOZUbkDGwjX',
@@ -331,6 +375,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'hobbies',
+    order: 14,
     name: 'Հոբբիներ',
     image: '',
     imageBlurHash: 'LBDeq;4;3N~BGsNF#qt73#-o:n4;',
@@ -338,6 +383,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'movies',
+    order: 7,
     name: 'Ֆիլմեր',
     image: '',
     imageBlurHash: 'LLG7{AIuI5w[-WWVNFs:DyxFSYS4',
@@ -345,6 +391,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'sports',
+    order: 8,
     name: 'Սպորտ',
     image: '',
     imageBlurHash: 'LFPggJR4_O.S%~kCR4Sh.no~GHQ,',
@@ -352,6 +399,7 @@ const _amPacks = [
   ),
   SpyPackEntity(
     id: 'body',
+    order: 15,
     name: 'Մարմին',
     image: '',
     imageBlurHash: 'LBOADbF2_P}X%zayR*r@y@xsK#IC',

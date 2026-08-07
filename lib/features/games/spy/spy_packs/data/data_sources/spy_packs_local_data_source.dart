@@ -55,6 +55,7 @@ class SpyPacksLocalDataSourceImpl implements SpyPacksLocalDataSource {
   static const _wordsKey = 'spy_pack_words';
   static const _imageKey = 'spy_pack_image';
   static const _imageBlurHashKey = 'spy_pack_image_blur_hash';
+  static const _orderKey = 'spy_pack_order';
   static const _lastSyncKey = 'spy_last_packs_sync';
   static const _usedSecretsKeyPrefix = 'spy_used_secrets';
   static const _syncIntervalDays = 3;
@@ -81,6 +82,7 @@ class SpyPacksLocalDataSourceImpl implements SpyPacksLocalDataSource {
         words: List<String>.from(data[_wordsKey] as List),
         image: data[_imageKey] as String,
         imageBlurHash: data[_imageBlurHashKey] as String,
+        order: data[_orderKey] as int? ?? SpyPackEntity.unorderedOrder,
       );
     }).toList();
   }
@@ -119,6 +121,7 @@ class SpyPacksLocalDataSourceImpl implements SpyPacksLocalDataSource {
           _wordsKey: pack.words,
           _imageKey: pack.image,
           _imageBlurHashKey: pack.imageBlurHash,
+          _orderKey: pack.order,
         },
     };
 
