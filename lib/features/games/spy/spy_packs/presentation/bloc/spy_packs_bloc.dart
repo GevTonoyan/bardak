@@ -157,9 +157,17 @@ class SpyPacksBloc extends Bloc<SpyPacksEvent, SpyPacksState> {
         error: error,
         stackTrace: stackTrace,
       );
+      // A new attempt count makes this a distinct state even when the packs
+      // are unchanged, so the screen re-shows the notification. Custom packs
+      // are re-fetched so they stay on the grid.
+      final currentState = state;
+      final attempt =
+          currentState is SpyPacksNotCached ? currentState.attempt + 1 : 0;
       emit(
         SpyPacksNotCached(
           fallbackPacks: _getFallbackSpyPacksUseCase(event.locale),
+          customPacks: await _getCustomSpyPacksUseCase(),
+          attempt: attempt,
         ),
       );
     }

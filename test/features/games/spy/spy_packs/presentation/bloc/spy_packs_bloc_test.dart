@@ -184,6 +184,28 @@ void main() {
         const SpyPacksNotCached(fallbackPacks: [_fallback]),
       );
     });
+
+    test('a repeated failed download re-emits a distinct state', () async {
+      when(() => downloadSpyPacks('en')).thenThrow(Exception('offline'));
+      when(() => getFallbackSpyPacks('en')).thenReturn([_fallback]);
+
+      final bloc = buildBloc();
+      addTearDown(bloc.close);
+
+      final states = <SpyPacksState>[];
+      final sub = bloc.stream.listen(states.add);
+
+      bloc.add(const DownloadSpyPacks('en'));
+      await pumpEventQueue();
+      bloc.add(const DownloadSpyPacks('en'));
+      await pumpEventQueue();
+      await sub.cancel();
+
+      // Two failures emit two distinct states (bumped attempt), so the
+      // screen's listener fires again and re-shows the notification.
+      expect(states.length, 2);
+      expect(states.first, isNot(states.last));
+    });
   });
 
   group('SyncSpyPacks', () {

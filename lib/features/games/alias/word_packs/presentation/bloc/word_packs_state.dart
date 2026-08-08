@@ -25,10 +25,18 @@ class WordPacksLoaded extends WordPacksState {
 
 /// State when nothing is cached; shows fallback packs that need a download.
 class WordPacksNotCached extends WordPacksState {
-  const WordPacksNotCached({required this.fallbackPacks});
+  const WordPacksNotCached({
+    required this.fallbackPacks,
+    this.attempt = 0,
+  });
 
   final List<WordPackEntity> fallbackPacks;
 
+  /// Bumped on each failed download so a repeated failure is a *distinct*
+  /// state, letting the UI re-show the "no connection" notification (an
+  /// identical state would be suppressed by the bloc and show nothing).
+  final int attempt;
+
   @override
-  List<Object?> get props => [fallbackPacks];
+  List<Object?> get props => [fallbackPacks, attempt];
 }

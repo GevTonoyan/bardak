@@ -124,6 +124,28 @@ void main() {
 
       expect(bloc.state, const WordPacksNotCached(fallbackPacks: [_fallback]));
     });
+
+    test('a repeated failed download re-emits a distinct state', () async {
+      when(() => downloadWordPacks('en')).thenThrow(Exception('offline'));
+      when(() => getFallbackWordPacks('en')).thenReturn([_fallback]);
+
+      final bloc = buildBloc();
+      addTearDown(bloc.close);
+
+      final states = <WordPacksState>[];
+      final sub = bloc.stream.listen(states.add);
+
+      bloc.add(const DownloadWordPacks('en'));
+      await pumpEventQueue();
+      bloc.add(const DownloadWordPacks('en'));
+      await pumpEventQueue();
+      await sub.cancel();
+
+      // Two failures emit two distinct states (bumped attempt), so the
+      // screen's listener fires again and re-shows the notification.
+      expect(states.length, 2);
+      expect(states.first, isNot(states.last));
+    });
   });
 
   group('SyncWordPacks', () {

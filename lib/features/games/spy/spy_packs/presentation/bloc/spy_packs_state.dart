@@ -32,13 +32,19 @@ class SpyPacksNotCached extends SpyPacksState {
   const SpyPacksNotCached({
     required this.fallbackPacks,
     this.customPacks = const [],
+    this.attempt = 0,
   });
 
   final List<SpyPackEntity> fallbackPacks;
   final List<SpyPackEntity> customPacks;
 
+  /// Bumped on each failed download so a repeated failure is a *distinct*
+  /// state, letting the UI re-show the "no connection" notification (an
+  /// identical state would be suppressed by the bloc and show nothing).
+  final int attempt;
+
   @override
-  List<Object?> get props => [fallbackPacks, customPacks];
+  List<Object?> get props => [fallbackPacks, customPacks, attempt];
 }
 
 /// State when a session is built and the game is ready to start.

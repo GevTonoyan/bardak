@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
+import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/language_icon.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
@@ -39,13 +40,30 @@ class _SpyPacksScreenState extends State<SpyPacksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SpyPacksBloc, SpyPacksState>(
-      listenWhen: (_, current) => current is SpyGameReady,
-      listener: (context, state) {
-        if (state is SpyGameReady) {
-          context.goNamed(SpyRoleRevealScreen.routePath, extra: state.session);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SpyPacksBloc, SpyPacksState>(
+          listenWhen: (_, current) => current is SpyGameReady,
+          listener: (context, state) {
+            if (state is SpyGameReady) {
+              context.goNamed(
+                SpyRoleRevealScreen.routePath,
+                extra: state.session,
+              );
+            }
+          },
+        ),
+        BlocListener<SpyPacksBloc, SpyPacksState>(
+          // Fires on entry when nothing is cached, and again on each failed
+          // download (the bumped attempt makes it a distinct state).
+          listenWhen: (_, current) => current is SpyPacksNotCached,
+          listener: (context, state) {
+            if (state is SpyPacksNotCached) {
+              _showNoConnectionNotification(context);
+            }
+          },
+        ),
+      ],
       child: GradientBackground(
         child: SafeArea(
           bottom: false,
@@ -226,4 +244,17 @@ class _CreatePackTile extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Tells the player to connect to the internet — shown when spy packs aren't
+/// cached (no connection on first launch) and on each failed download.
+void _showNoConnectionNotification(BuildContext context) {
+  unawaited(
+    showAppNotification(
+      context,
+      message: context.l10n.downloadWordsNetworkError,
+      icon: Icon(Icons.wifi_off, color: context.colors.white),
+      duration: const Duration(seconds: 4),
+    ),
+  );
 }
