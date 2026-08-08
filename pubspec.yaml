@@ -14,7 +14,7 @@ dependencies:
   cloud_firestore: 6.5.0
   confetti: 0.8.0
   equatable: 2.0.8
-  firebase_core: 4.10.0
+  firebase_core: 4.11.0
   flutter:
     sdk: flutter
   flutter_bloc: 9.1.1
