@@ -30,7 +30,7 @@ dependencies:
   hive_flutter: 1.1.0
   in_app_review: 2.0.12
   intl: any
-  package_info_plus: 10.1.0
+  package_info_plus: 10.2.1
   shared_preferences: 2.5.5
   url_launcher: 6.3.2
   wakelock_plus: 1.6.1
