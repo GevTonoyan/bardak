@@ -8,6 +8,10 @@ linter:
 analyzer:
   errors:
     argument_type_not_assignable: ignore
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
