@@ -86,8 +86,8 @@ class $AssetsImagesGen {
 class $AssetsSoundsGen {
   const $AssetsSoundsGen();
 
-  /// File path: assets/sounds/check.mp3
-  String get check => 'assets/sounds/check.mp3';
+  /// File path: assets/sounds/check.m4a
+  String get check => 'assets/sounds/check.m4a';
 
   /// File path: assets/sounds/tick.mp3
   String get tick => 'assets/sounds/tick.mp3';
