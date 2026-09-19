@@ -1,5 +1,4 @@
 import 'package:bardak/core/di/di.dart';
-import 'package:bardak/features/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/ui/card_round_screen.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
@@ -350,10 +349,7 @@ final appRouter = GoRouter(
             final winningTeamName = state.extra! as String;
 
             return MaterialPage(
-              child: BlocProvider(
-                create: (_) => sl<InAppReviewCubit>(),
-                child: GameSummaryScreen(winningTeamName: winningTeamName),
-              ),
+              child: GameSummaryScreen(winningTeamName: winningTeamName),
             );
           },
         ),

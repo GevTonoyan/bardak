@@ -33,7 +33,9 @@ class _GameSummaryScreenState extends State<GameSummaryScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _controller.play();
-      unawaited(context.read<InAppReviewCubit>().requestReviewAfterGame());
+      unawaited(
+        context.read<InAppReviewCubit>().requestReviewAfterGame(.alias),
+      );
     });
   }
 

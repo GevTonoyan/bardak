@@ -1,4 +1,5 @@
 import 'package:bardak/features/app_review/domain/entities/app_review_metrics_entity.dart';
+import 'package:bardak/features/app_review/domain/entities/review_game.dart';
 
 /// Handles store review actions (listing, in-app prompt).
 abstract interface class AppReviewRepository {
@@ -7,7 +8,7 @@ abstract interface class AppReviewRepository {
 
   AppReviewMetricsEntity getMetrics();
 
-  Future<void> incrementGamesCompleted();
+  Future<void> incrementCompletedGames(ReviewGame game);
 
   Future<void> incrementAppOpenedCount();
 

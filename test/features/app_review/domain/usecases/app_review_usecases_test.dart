@@ -1,4 +1,5 @@
 import 'package:bardak/features/app_review/domain/entities/app_review_metrics_entity.dart';
+import 'package:bardak/features/app_review/domain/entities/review_game.dart';
 import 'package:bardak/features/app_review/domain/repositories/app_review_repository.dart';
 import 'package:bardak/features/app_review/domain/usecases/open_store_listing_usecase.dart';
 import 'package:bardak/features/app_review/domain/usecases/record_app_opened_usecase.dart';
@@ -13,23 +14,27 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(DateTime(2020));
+    registerFallbackValue(ReviewGame.alias);
   });
 
   setUp(() {
     repository = _MockAppReviewRepository();
-    when(() => repository.incrementGamesCompleted()).thenAnswer((_) async {});
+    when(
+      () => repository.incrementCompletedGames(any()),
+    ).thenAnswer((_) async {});
     when(
       () => repository.setLastReviewPromptAt(any()),
     ).thenAnswer((_) async {});
   });
 
   AppReviewMetricsEntity metrics({
-    int gamesCompleted = 3,
+    ReviewGame game = ReviewGame.alias,
+    int gamesCompleted = 2,
     int appOpenedCount = 3,
     DateTime? lastReviewPromptAt,
   }) {
     return AppReviewMetricsEntity(
-      gamesCompleted: gamesCompleted,
+      completedGames: {game: gamesCompleted},
       appOpenedCount: appOpenedCount,
       lastReviewPromptAt: lastReviewPromptAt,
     );
@@ -41,18 +46,35 @@ void main() {
         () => repository.getMetrics(),
       ).thenReturn(metrics(gamesCompleted: 0));
 
-      await RequestReviewIfEligibleUseCase(repository)();
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.alias);
 
-      verify(() => repository.incrementGamesCompleted()).called(1);
+      verify(
+        () => repository.incrementCompletedGames(ReviewGame.alias),
+      ).called(1);
       verifyNever(() => repository.requestInAppReview());
     });
 
     test('does not prompt below the games threshold', () async {
       when(
         () => repository.getMetrics(),
-      ).thenReturn(metrics(gamesCompleted: 2));
+      ).thenReturn(metrics(gamesCompleted: 1));
 
-      await RequestReviewIfEligibleUseCase(repository)();
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.alias);
+
+      verifyNever(() => repository.requestInAppReview());
+    });
+
+    test('counts each game type independently', () async {
+      // Two Spy games finished, but the Alias game that just ended is the
+      // user's first — so no prompt yet.
+      when(() => repository.getMetrics()).thenReturn(
+        const AppReviewMetricsEntity(
+          completedGames: {ReviewGame.spy: 2, ReviewGame.alias: 1},
+          appOpenedCount: 3,
+        ),
+      );
+
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.alias);
 
       verifyNever(() => repository.requestInAppReview());
     });
@@ -62,7 +84,7 @@ void main() {
         () => repository.getMetrics(),
       ).thenReturn(metrics(appOpenedCount: 2));
 
-      await RequestReviewIfEligibleUseCase(repository)();
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.alias);
 
       verifyNever(() => repository.requestInAppReview());
     });
@@ -71,10 +93,21 @@ void main() {
       when(() => repository.getMetrics()).thenReturn(metrics());
       when(() => repository.requestInAppReview()).thenAnswer((_) async => true);
 
-      await RequestReviewIfEligibleUseCase(repository)();
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.alias);
 
       verify(() => repository.requestInAppReview()).called(1);
       verify(() => repository.setLastReviewPromptAt(any())).called(1);
+    });
+
+    test('prompts after two Spy games', () async {
+      when(
+        () => repository.getMetrics(),
+      ).thenReturn(metrics(game: ReviewGame.spy));
+      when(() => repository.requestInAppReview()).thenAnswer((_) async => true);
+
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.spy);
+
+      verify(() => repository.requestInAppReview()).called(1);
     });
 
     test('does not record a prompt time when the OS refused', () async {
@@ -83,7 +116,7 @@ void main() {
         () => repository.requestInAppReview(),
       ).thenAnswer((_) async => false);
 
-      await RequestReviewIfEligibleUseCase(repository)();
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.alias);
 
       verifyNever(() => repository.setLastReviewPromptAt(any()));
     });
@@ -95,7 +128,7 @@ void main() {
         ),
       );
 
-      await RequestReviewIfEligibleUseCase(repository)();
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.alias);
 
       verifyNever(() => repository.requestInAppReview());
     });
@@ -108,7 +141,7 @@ void main() {
       );
       when(() => repository.requestInAppReview()).thenAnswer((_) async => true);
 
-      await RequestReviewIfEligibleUseCase(repository)();
+      await RequestReviewIfEligibleUseCase(repository)(ReviewGame.alias);
 
       verify(() => repository.requestInAppReview()).called(1);
     });

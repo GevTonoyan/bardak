@@ -9,6 +9,8 @@ import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/core/localizations/l10n/app_localizations.dart';
+import 'package:bardak/features/app_review/domain/entities/review_game.dart';
+import 'package:bardak/features/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_formatters.dart';
@@ -65,6 +67,12 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
       if (soundEnabled) {
         unawaited(_audioPlayer.play(AssetSource(Assets.sounds.check)));
       }
+
+      unawaited(
+        context.read<InAppReviewCubit>().requestReviewAfterGame(
+          ReviewGame.sudoku,
+        ),
+      );
     });
   }
 

@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/highlighted_text.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/features/app_review/domain/entities/review_game.dart';
+import 'package:bardak/features/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_event.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_state.dart';
@@ -16,7 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 /// End-of-round screen revealing the secret word.
-class SpyResultScreen extends StatelessWidget {
+class SpyResultScreen extends StatefulWidget {
   const SpyResultScreen({required this.session, super.key});
 
   static const routePath = 'spyResult';
@@ -24,7 +28,26 @@ class SpyResultScreen extends StatelessWidget {
   final SpySessionEntity session;
 
   @override
+  State<SpyResultScreen> createState() => _SpyResultScreenState();
+}
+
+class _SpyResultScreenState extends State<SpyResultScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // A finished round counts as a completed Spy game for the review prompt.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        context.read<InAppReviewCubit>().requestReviewAfterGame(
+          ReviewGame.spy,
+        ),
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final session = widget.session;
     final l10n = context.l10n;
     final colors = context.colors;
     final typography = context.typography;
