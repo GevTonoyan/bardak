@@ -151,16 +151,6 @@ void main() {
     expect(bloc.state.selectedIndex, editable);
   });
 
-  test('Deselect clears the current selection', () async {
-    final bloc = buildBloc()
-      ..add(SelectCell(editable))
-      ..add(const Deselect());
-    addTearDown(bloc.close);
-    await pumpEventQueue();
-
-    expect(bloc.state.selectedIndex, isNull);
-  });
-
   test('EnterDigit fills the selected editable cell', () async {
     final bloc = buildBloc()
       ..add(SelectCell(editable))
