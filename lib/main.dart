@@ -10,6 +10,7 @@ import 'package:bardak/core/localizations/l10n/app_localizations.dart';
 import 'package:bardak/core/logging/app_bloc_observer.dart';
 import 'package:bardak/core/router/app_router.dart';
 import 'package:bardak/features/app_review/domain/usecases/record_app_opened_usecase.dart';
+import 'package:bardak/features/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_bloc.dart';
@@ -68,6 +69,11 @@ void main() async {
             areWordPacksCachedUseCase: sl(),
             downloadWordPacksUseCase: sl(),
           )..add(const SyncWordPacks()),
+        ),
+        // App-wide and stateless: it only relays "a game finished" to the
+        // review use case, so a single lazy instance serves every game screen.
+        BlocProvider(
+          create: (_) => sl<InAppReviewCubit>(),
         ),
         BlocProvider(
           create: (_) => SettingsBloc(
