@@ -120,7 +120,7 @@ class _SudokuScreenState extends State<SudokuScreen> {
           },
         ),
       ],
-      child: GradientBackground(
+      child: CalmBackground(
         child: SafeArea(
           // The selected cell stays highlighted until another cell is
           // tapped — a tap outside the board does not clear it.
