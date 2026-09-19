@@ -173,7 +173,7 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
-  testWidgets('tapping outside the cells clears the selection', (
+  testWidgets('tapping outside the cells keeps the selection', (
     tester,
   ) async {
     final bloc = await pumpScreen(tester);
@@ -182,11 +182,11 @@ void main() {
     await tester.pump();
     expect(bloc.state.selectedIndex, emptyIndex);
 
-    // The difficulty label has no tap handler, so the tap falls through to
-    // the screen's deselect gesture.
+    // The difficulty label has no tap handler, so the tap lands outside the
+    // board — the highlighted cell must stay selected.
     await tester.tap(find.text('Medium'));
     await tester.pump();
-    expect(bloc.state.selectedIndex, isNull);
+    expect(bloc.state.selectedIndex, emptyIndex);
 
     await tester.pumpWidget(const SizedBox());
   });

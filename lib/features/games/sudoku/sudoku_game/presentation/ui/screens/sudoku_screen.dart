@@ -122,63 +122,59 @@ class _SudokuScreenState extends State<SudokuScreen> {
       ],
       child: GradientBackground(
         child: SafeArea(
-          // A tap that lands outside the cells (and the buttons, which win
-          // the gesture arena) clears the selection and its highlighting.
-          child: GestureDetector(
-            behavior: .translucent,
-            onTap: () => context.read<SudokuBloc>().add(const Deselect()),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const .only(left: 20, top: 20, right: 20),
-                  child: Stack(
-                    alignment: .center,
-                    children: [
-                      Align(
-                        alignment: .centerLeft,
-                        child: AppIconButton.close(
-                          onTap: () => unawaited(_confirmExitGame()),
-                        ),
+          // The selected cell stays highlighted until another cell is
+          // tapped — a tap outside the board does not clear it.
+          child: Column(
+            children: [
+              Padding(
+                padding: const .only(left: 20, top: 20, right: 20),
+                child: Stack(
+                  alignment: .center,
+                  children: [
+                    Align(
+                      alignment: .centerLeft,
+                      child: AppIconButton.close(
+                        onTap: () => unawaited(_confirmExitGame()),
                       ),
-                      BlocSelector<SudokuBloc, SudokuState, int>(
-                        selector: (state) => state.elapsedSeconds,
-                        builder: (context, elapsed) {
-                          // Counting up, so the countdown warning colors
-                          // are pushed below zero and the pill stays green.
-                          return RoundTimer(
-                            seconds: elapsed,
-                            formatAsMinutes: true,
-                            orangeBelow: -1,
-                            redBelow: -1,
-                          );
-                        },
-                      ),
-                      const Align(
-                        alignment: .centerRight,
-                        child: SudokuMistakesIndicator(),
-                      ),
-                    ],
-                  ),
+                    ),
+                    BlocSelector<SudokuBloc, SudokuState, int>(
+                      selector: (state) => state.elapsedSeconds,
+                      builder: (context, elapsed) {
+                        // Counting up, so the countdown warning colors
+                        // are pushed below zero and the pill stays green.
+                        return RoundTimer(
+                          seconds: elapsed,
+                          formatAsMinutes: true,
+                          orangeBelow: -1,
+                          redBelow: -1,
+                        );
+                      },
+                    ),
+                    const Align(
+                      alignment: .centerRight,
+                      child: SudokuMistakesIndicator(),
+                    ),
+                  ],
                 ),
-                const Padding(
-                  padding: .fromLTRB(20, 12, 20, 0),
-                  child: SudokuGameInfoBar(),
+              ),
+              const Padding(
+                padding: .fromLTRB(20, 12, 20, 0),
+                child: SudokuGameInfoBar(),
+              ),
+              // The board fills the space between the header and the pad,
+              // sized to the largest square that fits (bounded by width on
+              // tall screens), so it is as large as possible.
+              const Expanded(
+                child: Padding(
+                  padding: .symmetric(horizontal: 6, vertical: 8),
+                  child: Center(child: SudokuBoard()),
                 ),
-                // The board fills the space between the header and the pad,
-                // sized to the largest square that fits (bounded by width on
-                // tall screens), so it is as large as possible.
-                const Expanded(
-                  child: Padding(
-                    padding: .symmetric(horizontal: 6, vertical: 8),
-                    child: Center(child: SudokuBoard()),
-                  ),
-                ),
-                const Padding(
-                  padding: .fromLTRB(20, 0, 20, 20),
-                  child: SudokuDigitPad(),
-                ),
-              ],
-            ),
+              ),
+              const Padding(
+                padding: .fromLTRB(20, 0, 20, 20),
+                child: SudokuDigitPad(),
+              ),
+            ],
           ),
         ),
       ),

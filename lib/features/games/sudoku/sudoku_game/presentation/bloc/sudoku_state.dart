@@ -97,7 +97,6 @@ class SudokuState extends Equatable {
     SudokuBoardEntity? board,
     bool? isGenerating,
     int? selectedIndex,
-    bool deselect = false,
     bool? notesMode,
     List<SudokuBoardEntity>? history,
     int? mistakes,
@@ -113,10 +112,7 @@ class SudokuState extends Equatable {
       difficulty: difficulty,
       bestTimeSeconds: bestTimeSeconds,
       isGenerating: isGenerating ?? this.isGenerating,
-      // [selectedIndex] can only be cleared explicitly via [deselect],
-      // since it is nullable and copyWith cannot distinguish "keep" from
-      // "set to null".
-      selectedIndex: deselect ? null : (selectedIndex ?? this.selectedIndex),
+      selectedIndex: selectedIndex ?? this.selectedIndex,
       notesMode: notesMode ?? this.notesMode,
       history: history ?? this.history,
       mistakes: mistakes ?? this.mistakes,
