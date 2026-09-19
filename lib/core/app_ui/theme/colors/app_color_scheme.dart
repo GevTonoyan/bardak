@@ -25,7 +25,35 @@ enum AppColorScheme {
         orElse: () => main,
       );
 
-  AppColors get colors => switch (this) {
+  // How far the palette is pulled back from full intensity so long play is
+  // easier on the eyes: most of the neon comes off the saturation, with a
+  // gentle drop in brightness. The hue is untouched, so every scheme keeps
+  // its identity.
+  static const _passiveSaturation = 0.74;
+  static const _passiveLightness = 0.92;
+
+  /// The scheme's colours, softened into a calmer ("passive") palette. The
+  /// full-intensity brand values live in [_vividColors]; this applies one
+  /// uniform transform on top so the whole set stays consistent and is easy
+  /// to re-tune from the two factors above.
+  AppColors get colors {
+    final vivid = _vividColors;
+    return AppColors(
+      firstGradient: _soften(vivid.firstGradient),
+      secondGradient: _soften(vivid.secondGradient),
+      secondary: _soften(vivid.secondary),
+    );
+  }
+
+  Color _soften(Color color) {
+    final hsl = HSLColor.fromColor(color);
+    return hsl
+        .withSaturation((hsl.saturation * _passiveSaturation).clamp(0.0, 1.0))
+        .withLightness((hsl.lightness * _passiveLightness).clamp(0.0, 1.0))
+        .toColor();
+  }
+
+  AppColors get _vividColors => switch (this) {
     main => const AppColors(
       firstGradient: Color(0xFFFF6C3F),
       secondGradient: Color(0xFFD81E1E),
