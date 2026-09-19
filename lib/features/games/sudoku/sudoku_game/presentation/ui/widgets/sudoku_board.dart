@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_board_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
@@ -213,11 +212,11 @@ class _SudokuCell extends StatelessWidget {
       }
     }
 
-    // The 4×4 board has far fewer, much larger cells, so its digits use a
-    // bigger style to fill them.
+    // The 4×4 board has far fewer, much larger cells, so its digits scale up
+    // to fill them.
     final valueStyle = board.boxSize <= 2
-        ? context.typography.regular38
-        : context.typography.regular24;
+        ? context.typography.sudokuDigit.copyWith(fontSize: 44)
+        : context.typography.sudokuDigit;
 
     final content = value == SudokuBoardEntity.empty
         ? _CellNotes(
@@ -228,7 +227,7 @@ class _SudokuCell extends StatelessWidget {
         : Center(
             child: Text(
               '$value',
-              style: valueStyle.withNumericFont.copyWith(
+              style: valueStyle.copyWith(
                 color: state.isMistake(index)
                     ? colors.red
                     : board.given[index]
@@ -351,9 +350,10 @@ class _CellNotes extends StatelessWidget {
     final colors = context.colors;
     // Each candidate scales to fill its slot, so pencil marks are as large
     // as the cell allows regardless of the board's size.
-    final style = context.typography.regular24.withNumericFont.copyWith(
+    final style = context.typography.sudokuDigit.copyWith(
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
       color: colors.white50,
-      height: 1,
     );
     // A note matching the selected digit is brightened and bolded so the
     // player can spot every cell it is still pencilled into at a glance.
