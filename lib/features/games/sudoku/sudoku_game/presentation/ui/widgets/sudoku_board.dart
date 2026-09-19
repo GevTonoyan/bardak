@@ -195,6 +195,9 @@ class _SudokuCell extends StatelessWidget {
     // digit may not repeat, so all three get the soft highlight.
     var sharesRegion = false;
     var sameDigit = false;
+    // The selected cell's digit (if any); used to emphasise matching filled
+    // cells and matching pencil notes across the board.
+    int? highlightedDigit;
     if (selected != null) {
       final selectedRow = selected ~/ board.size;
       final selectedCol = selected % board.size;
@@ -204,10 +207,10 @@ class _SudokuCell extends StatelessWidget {
       sharesRegion = row == selectedRow || col == selectedCol || sharesBox;
 
       final selectedValue = board.values[selected];
-      sameDigit =
-          !isSelected &&
-          selectedValue != SudokuBoardEntity.empty &&
-          value == selectedValue;
+      if (selectedValue != SudokuBoardEntity.empty) {
+        highlightedDigit = selectedValue;
+        sameDigit = !isSelected && value == selectedValue;
+      }
     }
 
     // The 4×4 board has far fewer, much larger cells, so its digits use a
@@ -217,7 +220,11 @@ class _SudokuCell extends StatelessWidget {
         : context.typography.regular24;
 
     final content = value == SudokuBoardEntity.empty
-        ? _CellNotes(notes: board.notes[index], boxSize: board.boxSize)
+        ? _CellNotes(
+            notes: board.notes[index],
+            boxSize: board.boxSize,
+            highlightedDigit: highlightedDigit,
+          )
         : Center(
             child: Text(
               '$value',
@@ -325,20 +332,34 @@ class _CompletionRipple extends StatelessWidget {
 /// fixed mini-cell of the [boxSize]×[boxSize] grid, shown only when pencilled
 /// in.
 class _CellNotes extends StatelessWidget {
-  const _CellNotes({required this.notes, required this.boxSize});
+  const _CellNotes({
+    required this.notes,
+    required this.boxSize,
+    this.highlightedDigit,
+  });
 
   final Set<int> notes;
   final int boxSize;
+
+  /// The selected cell's digit; notes matching it are emphasised.
+  final int? highlightedDigit;
 
   @override
   Widget build(BuildContext context) {
     if (notes.isEmpty) return const SizedBox.shrink();
 
+    final colors = context.colors;
     // Each candidate scales to fill its slot, so pencil marks are as large
     // as the cell allows regardless of the board's size.
     final style = context.typography.regular24.withNumericFont.copyWith(
-      color: context.colors.white50,
+      color: colors.white50,
       height: 1,
+    );
+    // A note matching the selected digit is brightened and bolded so the
+    // player can spot every cell it is still pencilled into at a glance.
+    final highlightedStyle = style.copyWith(
+      color: colors.white,
+      fontWeight: FontWeight.bold,
     );
 
     return Padding(
@@ -351,17 +372,20 @@ class _CellNotes extends StatelessWidget {
                 children: [
                   for (var noteCol = 0; noteCol < boxSize; noteCol++)
                     Expanded(
-                      child: notes.contains(noteRow * boxSize + noteCol + 1)
-                          ? Center(
-                              child: FittedBox(
-                                fit: .scaleDown,
-                                child: Text(
-                                  '${noteRow * boxSize + noteCol + 1}',
-                                  style: style,
-                                ),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
+                      child: switch (noteRow * boxSize + noteCol + 1) {
+                        final digit when notes.contains(digit) => Center(
+                          child: FittedBox(
+                            fit: .scaleDown,
+                            child: Text(
+                              '$digit',
+                              style: digit == highlightedDigit
+                                  ? highlightedStyle
+                                  : style,
+                            ),
+                          ),
+                        ),
+                        _ => const SizedBox.shrink(),
+                      },
                     ),
                 ],
               ),
