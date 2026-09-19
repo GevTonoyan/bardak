@@ -26,6 +26,33 @@ class GradientBackground extends StatelessWidget {
   }
 }
 
+/// A calmer, on-brand background for long-focus screens (e.g. Sudoku). Same
+/// shape as [GradientBackground] but paints `context.colors.calm` — the
+/// active scheme's gradient, deepened and desaturated — instead of the
+/// full-intensity `context.colors.main`, so the eye is not fatigued over a
+/// long session while the screen still reads as the player's theme.
+class CalmBackground extends StatelessWidget {
+  const CalmBackground({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(gradient: context.colors.calm),
+            ),
+          ),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
 const _edgeH = 60.0;
 
 class ShadowBackground extends StatelessWidget {
