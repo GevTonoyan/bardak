@@ -121,6 +121,15 @@ class Assets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
+  static const AssetGenImage splashBackground = AssetGenImage(
+    'assets/splash_background.png',
+  );
+  static const AssetGenImage transparent = AssetGenImage(
+    'assets/transparent.png',
+  );
+
+  /// List of all assets
+  static List<AssetGenImage> get values => [splashBackground, transparent];
 }
 
 class AssetGenImage {
