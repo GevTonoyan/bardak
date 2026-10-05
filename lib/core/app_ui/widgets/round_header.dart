@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:bardak/core/app_ui/sounds/one_shot_sound.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/round_timer.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
@@ -98,6 +99,11 @@ class RoundHeaderState extends State<RoundHeader>
             --remainingSeconds;
           } else {
             timer.cancel();
+            // Fired as the screen navigates to the results, so it plays on a
+            // self-releasing player instead of this widget's (disposed on nav).
+            if (widget.isSoundEnabled) {
+              unawaited(playOneShotSound(Assets.sounds.roundEnd));
+            }
             widget.onRoundComplete();
           }
         });

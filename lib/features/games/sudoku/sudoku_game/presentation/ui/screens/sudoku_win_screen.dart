@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:bardak/core/app_ui/sounds/one_shot_sound.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
@@ -51,7 +51,6 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
   late final ConfettiController _controller = ConfettiController(
     duration: const Duration(seconds: 6),
   );
-  late final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -65,7 +64,7 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
           .appSettings
           .soundEnabled;
       if (soundEnabled) {
-        unawaited(_audioPlayer.play(AssetSource(Assets.sounds.check)));
+        unawaited(playOneShotSound(Assets.sounds.sudokuWin));
       }
 
       unawaited(
@@ -79,7 +78,6 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
   @override
   void dispose() {
     _controller.dispose();
-    unawaited(_audioPlayer.dispose());
     super.dispose();
   }
 

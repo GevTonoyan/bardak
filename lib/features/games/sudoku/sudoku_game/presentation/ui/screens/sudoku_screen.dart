@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:bardak/core/app_ui/sounds/one_shot_sound.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/round_timer.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
@@ -18,6 +20,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/widgets
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_event.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
+import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -80,6 +83,22 @@ class _SudokuScreenState extends State<SudokuScreen> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        BlocListener<SudokuBloc, SudokuState>(
+          // A wrong digit counts against the mistake limit; a soft blip gives
+          // instant feedback without the player having to read the counter.
+          listenWhen: (previous, current) =>
+              current.mistakes > previous.mistakes,
+          listener: (context, state) {
+            final soundEnabled = context
+                .read<SettingsBloc>()
+                .state
+                .appSettings
+                .soundEnabled;
+            if (soundEnabled) {
+              unawaited(playOneShotSound(Assets.sounds.sudokuMistake));
+            }
+          },
+        ),
         BlocListener<SudokuBloc, SudokuState>(
           // The win record lands right after the solved emission and only
           // once, so it is the navigation trigger.
