@@ -47,6 +47,16 @@ jobs:
           GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
           FIREBASE_OPTIONS_DART_BASE64: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}
         run: |
+          # Fail fast with the secret's name instead of writing empty files.
+          for name in ANDROID_KEYSTORE_BASE64 ANDROID_KEYSTORE_PASSWORD \
+            ANDROID_KEY_PASSWORD ANDROID_KEY_ALIAS PLAY_JSON_KEY_BASE64 \
+            GOOGLE_SERVICES_JSON_BASE64 FIREBASE_OPTIONS_DART_BASE64; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Secret $name is empty or not available."
+              exit 1
+            fi
+          done
+
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/upload-keystore.jks"
           cat > android/key.properties <<EOF
           storePassword=$ANDROID_KEYSTORE_PASSWORD

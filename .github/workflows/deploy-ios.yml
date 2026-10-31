@@ -30,6 +30,26 @@ jobs:
           working-directory: ios
           bundler-cache: true
 
+      # Fail fast with the secret's name instead of confusing errors later.
+      - name: Check secrets
+        env:
+          MATCH_DEPLOY_KEY: ${{ secrets.MATCH_DEPLOY_KEY }}
+          GOOGLE_SERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
+          FIREBASE_OPTIONS_DART_BASE64: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT_BASE64: ${{ secrets.ASC_KEY_CONTENT_BASE64 }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        run: |
+          for name in MATCH_DEPLOY_KEY GOOGLE_SERVICE_INFO_PLIST_BASE64 \
+            FIREBASE_OPTIONS_DART_BASE64 ASC_KEY_ID ASC_ISSUER_ID \
+            ASC_KEY_CONTENT_BASE64 MATCH_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Secret $name is empty or not available."
+              exit 1
+            fi
+          done
+
       # Lets match clone the private certificates repo over SSH, using a
       # read-only deploy key.
       - uses: webfactory/ssh-agent@v0.10.0

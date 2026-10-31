@@ -60,14 +60,19 @@ jobs:
       - name: Test
         run: flutter test
 
+  # Called workflows only see secrets the caller passes on, including the
+  # production environment's. The repo has no repository-level secrets, so
+  # inherit exposes nothing beyond that environment.
   android:
     name: Android → Play internal
     needs: check
     if: inputs.platform != 'ios'
     uses: ./.github/workflows/deploy-android.yml
+    secrets: inherit
 
   ios:
     name: iOS → TestFlight
     needs: check
     if: inputs.platform != 'android'
     uses: ./.github/workflows/deploy-ios.yml
+    secrets: inherit

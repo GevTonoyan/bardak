@@ -38,11 +38,10 @@ platform :android do
   # Highest version code across all Play tracks and pubspec.yaml, plus one.
   # Querying Play avoids clashes with builds uploaded manually.
   private_lane :next_version_code do
+    # No rescue: if Play can't be read (bad key, missing permission) the
+    # lane must stop rather than guess a version code.
     play_codes = PLAY_TRACKS.flat_map do |track|
       google_play_track_version_codes(track: track)
-    rescue StandardError => e
-      UI.important("Could not read track '#{track}': #{e.message}")
-      []
     end
 
     pubspec = File.read(File.join(PROJECT_ROOT, "pubspec.yaml"))
