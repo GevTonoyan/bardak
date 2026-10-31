@@ -249,7 +249,8 @@ void main() {
     test('get/save/delete delegate to the local source', () async {
       when(local.getCustomSpyPacks).thenAnswer((_) async => [custom]);
       when(() => local.saveCustomSpyPack(custom)).thenAnswer((_) async {});
-      when(() => local.deleteCustomSpyPack('custom_1')).thenAnswer((_) async {});
+      when(() => local.deleteCustomSpyPack('custom_1'))
+          .thenAnswer((_) async {});
 
       expect(await repository.getCustomSpyPacks(), [custom]);
       await repository.saveCustomSpyPack(custom);

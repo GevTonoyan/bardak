@@ -71,7 +71,7 @@ class _PointsBadgeOverlayState extends State<_PointsBadgeOverlay>
   @override
   void initState() {
     super.initState();
-    unawaited(_controller.forward());
+    _controller.forward();
     _timer = Timer(widget.duration, () async {
       if (!mounted) return;
       await _controller.reverse();

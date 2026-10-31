@@ -98,7 +98,7 @@ void main() {
     final recordWinUseCase = _MockRecordSudokuWinUseCase();
     final getStatsUseCase = _MockGetSudokuStatsUseCase();
     when(() => updateSavedUseCase(any())).thenAnswer((_) async => true);
-    when(() => clearSavedUseCase()).thenAnswer((_) async => true);
+    when(clearSavedUseCase.call).thenAnswer((_) async => true);
     when(getStatsUseCase.call).thenReturn(const SudokuStatsEntity());
     when(() => recordWinUseCase(any())).thenAnswer(
       (_) async => const SudokuWinRecordEntity(
@@ -121,8 +121,8 @@ void main() {
 
     final getSettingsUseCase = _MockGetSudokuSettingsUseCase();
     final hasSavedUseCase = _MockHasSavedSudokuGameUseCase();
-    when(() => getSettingsUseCase()).thenReturn(const SudokuSettingsEntity());
-    when(() => hasSavedUseCase()).thenReturn(false);
+    when(getSettingsUseCase.call).thenReturn(const SudokuSettingsEntity());
+    when(hasSavedUseCase.call).thenReturn(false);
     final settingsBloc = SudokuSettingsBloc(
       getSudokuSettingsUseCase: getSettingsUseCase,
       updateSudokuBoardSizeUseCase: _MockUpdateSudokuBoardSizeUseCase(),

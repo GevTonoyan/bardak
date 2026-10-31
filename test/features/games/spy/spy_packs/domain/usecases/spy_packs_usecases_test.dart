@@ -74,21 +74,26 @@ void main() {
     expect(await GetCustomSpyPacksUseCase(repository)(), [_pack]);
   });
 
-  test('SaveCustomSpyPackUseCase creates a custom pack with a new id', () async {
-    when(() => repository.saveCustomSpyPack(any())).thenAnswer((_) async {});
+  test(
+    'SaveCustomSpyPackUseCase creates a custom pack with a new id',
+    () async {
+      when(() => repository.saveCustomSpyPack(any())).thenAnswer((_) async {});
 
-    await SaveCustomSpyPackUseCase(repository)(
-      const SaveCustomSpyPackParams(name: 'Friends', words: ['A', 'B', 'C']),
-    );
+      await SaveCustomSpyPackUseCase(repository)(
+        const SaveCustomSpyPackParams(name: 'Friends', words: ['A', 'B', 'C']),
+      );
 
-    final saved =
-        verify(() => repository.saveCustomSpyPack(captureAny())).captured.single
-            as SpyPackEntity;
-    expect(saved.isCustom, isTrue);
-    expect(saved.name, 'Friends');
-    expect(saved.words, ['A', 'B', 'C']);
-    expect(saved.id, startsWith('custom_'));
-  });
+      final saved =
+          verify(() => repository.saveCustomSpyPack(captureAny()))
+                  .captured
+                  .single
+              as SpyPackEntity;
+      expect(saved.isCustom, isTrue);
+      expect(saved.name, 'Friends');
+      expect(saved.words, ['A', 'B', 'C']);
+      expect(saved.id, startsWith('custom_'));
+    },
+  );
 
   test('SaveCustomSpyPackUseCase keeps the id when editing', () async {
     when(() => repository.saveCustomSpyPack(any())).thenAnswer((_) async {});

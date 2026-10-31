@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
@@ -56,11 +54,10 @@ class _RulesCarouselState extends State<RulesCarousel> {
       context.pop();
       return;
     }
-    unawaited(
-      _controller.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      ),
+
+    _controller.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
     );
   }
 

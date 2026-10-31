@@ -7,6 +7,9 @@ linter:
 analyzer:
   errors:
     argument_type_not_assignable: ignore
+    # Single-method interfaces are intentional: repositories and data
+    # sources stay abstract for clean architecture and test mocks.
+    one_member_abstracts: ignore
   exclude:
     - build/**
     - android/**

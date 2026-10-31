@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bardak/core/app_ui/theme/colors/app_color_scheme.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
@@ -58,24 +56,21 @@ class _ThemesScreenState extends State<ThemesScreen> {
 
     // Last item — scroll to the very bottom.
     if (index == AppColorScheme.values.length - 1) {
-      unawaited(
-        _scrollController.animateTo(
-          position.maxScrollExtent + 100,
-          duration: const Duration(seconds: 1),
-          curve: Curves.easeOut,
-        ),
+      _scrollController.animateTo(
+        position.maxScrollExtent + 100,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeOut,
       );
       return;
     }
 
     // Otherwise scroll so the item is near the top with some padding.
     final target = (itemTop - 20).clamp(0.0, position.maxScrollExtent);
-    unawaited(
-      _scrollController.animateTo(
-        target,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeOut,
-      ),
+
+    _scrollController.animateTo(
+      target,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeOut,
     );
   }
 

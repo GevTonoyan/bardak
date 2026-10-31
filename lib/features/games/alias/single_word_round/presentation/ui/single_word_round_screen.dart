@@ -281,7 +281,8 @@ class _SingleWordRoundScreenState extends State<SingleWordRoundScreen>
                             ),
                           );
                         }
-                        // TODO(Gevorg): handle height adjustment when buttons shouldn't be shown
+                        // TODO(Gevorg): handle height adjustment,
+                        //  when buttons shouldn't be shown
                         else {
                           return const Padding(
                             padding: .all(20),
