@@ -8,6 +8,12 @@ IPA_DIR = File.join(PROJECT_ROOT, "build/ios/ipa")
 APP_ID = "com.gevorgtonoyan.bardak"
 PROFILE_NAME = "match AppStore #{APP_ID}"
 
+# Appends Markdown to the GitHub Actions run summary; does nothing locally.
+def write_ci_summary(markdown)
+  path = ENV["GITHUB_STEP_SUMMARY"]
+  File.write(path, "#{markdown}\n\n", mode: "a") if path
+end
+
 def required_env(name)
   value = ENV[name]
   return value unless value.to_s.empty?
@@ -72,6 +78,12 @@ platform :ios do
       api_key: api_key,
       ipa: ipa_path,
       skip_waiting_for_build_processing: true,
+    )
+
+    write_ci_summary(
+      "### iOS\nUploaded build **#{build_number}** to **TestFlight**. " \
+      "Apple processes it before testers can install it (usually " \
+      "5–30 minutes).",
     )
   end
 

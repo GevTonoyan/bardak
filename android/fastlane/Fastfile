@@ -8,6 +8,12 @@ AAB_PATH = File.join(
 )
 PLAY_TRACKS = ["internal", "alpha", "beta", "production"].freeze
 
+# Appends Markdown to the GitHub Actions run summary; does nothing locally.
+def write_ci_summary(markdown)
+  path = ENV["GITHUB_STEP_SUMMARY"]
+  File.write(path, "#{markdown}\n\n", mode: "a") if path
+end
+
 platform :android do
   desc "Build a signed AAB and upload it to the Play internal testing track"
   desc "Pass validate_only:true to let Play validate the upload without " \
@@ -33,6 +39,13 @@ platform :android do
       skip_upload_images: true,
       skip_upload_screenshots: true,
     )
+
+    unless validate_only
+      write_ci_summary(
+        "### Android\nUploaded version code **#{version_code}** to the " \
+        "Play **internal** testing track.",
+      )
+    end
   end
 
   # Highest version code across all Play tracks and pubspec.yaml, plus one.

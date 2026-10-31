@@ -1,4 +1,6 @@
 name: Release
+# Title shown in the Actions runs list.
+run-name: Release ${{ inputs.platform }} from ${{ github.ref_name }}
 
 # builds main and uploads it to the Play internal testing track and/or TestFlight.
 on:
@@ -40,6 +42,26 @@ jobs:
         with:
           flutter-version-file: pubspec.yaml
           cache: true
+
+      # Shown at the top of the run's Summary page.
+      - name: Write release info
+        env:
+          PLATFORM: ${{ inputs.platform }}
+        run: |
+          commit_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
+          {
+            echo "### Release info"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Commit | [\`${GITHUB_SHA::7}\`]($commit_url) $(git log -1 --pretty=%s) |"
+            echo "| Branch | \`$GITHUB_REF_NAME\` |"
+            echo "| Started by | @$GITHUB_ACTOR |"
+            echo "| Platform | $PLATFORM |"
+            echo "| App version | \`$(sed -n 's/^version: *//p' pubspec.yaml)\` |"
+            echo "| Flutter | $(flutter --version | head -1) |"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Install dependencies
         run: flutter pub get
