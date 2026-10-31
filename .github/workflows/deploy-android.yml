@@ -1,0 +1,66 @@
+name: Deploy Android
+
+# Reusable workflow, called by release.yml: builds a signed AAB and uploads
+# it to the Play internal testing track via fastlane.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build & upload
+    runs-on: ubuntu-latest
+    # Environment secrets are only available to jobs that name the
+    # environment, so it is set here rather than in the caller.
+    environment: production
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      # Must match the JDK used for local builds (see `flutter doctor -v`).
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          cache: true
+
+      # Reads android/.ruby-version, runs bundle install and caches the gems.
+      - uses: ruby/setup-ruby@v1
+        with:
+          working-directory: android
+          bundler-cache: true
+
+      - name: Write signing, Play and Firebase files
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          PLAY_JSON_KEY_BASE64: ${{ secrets.PLAY_JSON_KEY_BASE64 }}
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+          FIREBASE_OPTIONS_DART_BASE64: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/upload-keystore.jks"
+          cat > android/key.properties <<EOF
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyPassword=$ANDROID_KEY_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          storeFile=$RUNNER_TEMP/upload-keystore.jks
+          EOF
+
+          echo "$PLAY_JSON_KEY_BASE64" | base64 --decode > "$RUNNER_TEMP/play-key.json"
+          echo "PLAY_JSON_KEY_PATH=$RUNNER_TEMP/play-key.json" >> "$GITHUB_ENV"
+
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > android/app/google-services.json
+          echo "$FIREBASE_OPTIONS_DART_BASE64" | base64 --decode > lib/firebase_options.dart
+
+      - name: Build and upload to Play internal track
+        working-directory: android
+        run: bundle exec fastlane android internal

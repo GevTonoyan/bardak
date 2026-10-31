@@ -1,0 +1,73 @@
+name: Release
+
+# builds main and uploads it to the Play internal testing track and/or TestFlight.
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Where to upload the build
+        type: choice
+        options:
+          - both
+          - android
+          - ios
+        default: both
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  # Quality gate: the release jobs only start when this job passes.
+  check:
+    name: Analyze & test
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 20
+    steps:
+      - name: Allow releases from main only
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Releases can only be started from main."
+          exit 1
+
+      - uses: actions/checkout@v7
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # lib/main.dart imports this git-ignored file, so the analyzer reports
+      # an error without it.
+      - name: Write Firebase options
+        env:
+          FIREBASE_OPTIONS_DART_BASE64: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}
+        run: echo "$FIREBASE_OPTIONS_DART_BASE64" | base64 --decode > lib/firebase_options.dart
+
+      # Any analyzer issue (error, warning or info) fails the release.
+      - name: Analyze
+        run: flutter analyze
+
+      # On GitHub Actions flutter test uses the github reporter, which turns
+      # failures into annotations on the run summary.
+      - name: Test
+        run: flutter test
+
+  android:
+    name: Android → Play internal
+    needs: check
+    if: inputs.platform != 'ios'
+    uses: ./.github/workflows/deploy-android.yml
+
+  ios:
+    name: iOS → TestFlight
+    needs: check
+    if: inputs.platform != 'android'
+    uses: ./.github/workflows/deploy-ios.yml
