@@ -1,7 +1,9 @@
 name: bardak
 description: "Bardak – Your Pocket Board Games!"
 publish_to: 'none'
-version: 2.0.0+27
+# Bump the version name per release. No +build number: the fastlane lanes
+# use the latest Play/TestFlight build number + 1.
+version: 2.0.1
 
 environment:
   sdk: 3.13.3

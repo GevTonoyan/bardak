@@ -42,6 +42,7 @@ platform :ios do
     setup_ci if is_ci
 
     api_key = asc_api_key
+    ensure_version_is_open(api_key: api_key)
     match(api_key: api_key, readonly: true)
     build_number = next_build_number(api_key: api_key)
 
@@ -99,6 +100,26 @@ platform :ios do
       key_content: key_path ? nil : required_env("ASC_KEY_CONTENT_BASE64"),
       is_key_content_base64: key_path.nil?,
     )
+  end
+
+  # Apple closes a version's "train" once it is approved for the App Store,
+  # and rejects further builds with that version name. Checking before the
+  # build saves a full build-and-upload cycle.
+  private_lane :ensure_version_is_open do |options|
+    app_store_build_number(api_key: options[:api_key], live: true)
+    live_version = lane_context[SharedValues::LATEST_VERSION]
+
+    pubspec = File.read(File.join(PROJECT_ROOT, "pubspec.yaml"))
+    version = pubspec[/^version:\s*([^+\s]+)/, 1]
+
+    if Gem::Version.new(version) <= Gem::Version.new(live_version)
+      UI.user_error!(
+        "Version #{version} is not higher than the live App Store version " \
+        "#{live_version}, so TestFlight would reject it. Bump `version:` in " \
+        "pubspec.yaml.",
+      )
+    end
+    UI.success("Version #{version} is above live #{live_version}")
   end
 
   # Highest build number from TestFlight and pubspec.yaml, plus one.
