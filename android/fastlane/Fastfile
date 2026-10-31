@@ -1,0 +1,55 @@
+default_platform(:android)
+
+# Fastfile code runs from android/fastlane, so resolve paths explicitly.
+PROJECT_ROOT = File.expand_path("../..", __dir__)
+AAB_PATH = File.join(
+  PROJECT_ROOT,
+  "build/app/outputs/bundle/release/app-release.aab",
+)
+PLAY_TRACKS = ["internal", "alpha", "beta", "production"].freeze
+
+platform :android do
+  desc "Build a signed AAB and upload it to the Play internal testing track"
+  desc "Pass validate_only:true to let Play validate the upload without " \
+       "publishing it"
+  lane :internal do |options|
+    validate_only = options[:validate_only].to_s == "true"
+    version_code = next_version_code
+
+    Dir.chdir(PROJECT_ROOT) do
+      sh(
+        "flutter", "build", "appbundle", "--release",
+        "--build-number=#{version_code}",
+      )
+    end
+
+    upload_to_play_store(
+      track: "internal",
+      aab: AAB_PATH,
+      release_status: "completed",
+      validate_only: validate_only,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+
+  # Highest version code across all Play tracks and pubspec.yaml, plus one.
+  # Querying Play avoids clashes with builds uploaded manually.
+  private_lane :next_version_code do
+    play_codes = PLAY_TRACKS.flat_map do |track|
+      google_play_track_version_codes(track: track)
+    rescue StandardError => e
+      UI.important("Could not read track '#{track}': #{e.message}")
+      []
+    end
+
+    pubspec = File.read(File.join(PROJECT_ROOT, "pubspec.yaml"))
+    pubspec_code = pubspec[/^version:\s*[^+\s]+\+(\d+)/, 1].to_i
+
+    next_code = (play_codes + [pubspec_code]).max + 1
+    UI.message("Next version code: #{next_code}")
+    next_code
+  end
+end

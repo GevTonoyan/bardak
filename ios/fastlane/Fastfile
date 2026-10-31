@@ -1,0 +1,107 @@
+default_platform(:ios)
+
+# Fastfile code runs from ios/fastlane, so resolve paths explicitly.
+PROJECT_ROOT = File.expand_path("../..", __dir__)
+XCODE_PROJECT = File.join(PROJECT_ROOT, "ios/Runner.xcodeproj")
+EXPORT_OPTIONS = File.join(PROJECT_ROOT, "ios/ExportOptions.plist")
+IPA_DIR = File.join(PROJECT_ROOT, "build/ios/ipa")
+APP_ID = "com.gevorgtonoyan.bardak"
+PROFILE_NAME = "match AppStore #{APP_ID}"
+
+def required_env(name)
+  value = ENV[name]
+  return value unless value.to_s.empty?
+
+  UI.user_error!(
+    "Environment variable #{name} is not set. Locally, export it in " \
+    "~/.zshrc and open a new terminal; on CI, add it as a secret.",
+  )
+end
+
+platform :ios do
+  desc "Install App Store signing files from the match repo"
+  desc "Pass readonly:false once to create them on the Apple Developer portal"
+  lane :certificates do |options|
+    match(
+      api_key: asc_api_key,
+      readonly: options[:readonly].to_s != "false",
+    )
+  end
+
+  desc "Build a signed IPA and upload it to TestFlight"
+  desc "Pass skip_upload:true to build and sign without uploading"
+  lane :beta do |options|
+    # On CI, create a temporary keychain so match can install the
+    # certificate without a password prompt.
+    setup_ci if is_ci
+
+    api_key = asc_api_key
+    match(api_key: api_key, readonly: true)
+    build_number = next_build_number(api_key: api_key)
+
+    # Release builds sign manually with the match profile; Debug keeps
+    # Xcode's automatic signing for local development.
+    update_code_signing_settings(
+      path: XCODE_PROJECT,
+      targets: ["Runner"],
+      build_configurations: ["Release"],
+      use_automatic_signing: false,
+      team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
+      code_sign_identity: "Apple Distribution",
+      profile_name: PROFILE_NAME,
+    )
+
+    FileUtils.rm_rf(IPA_DIR)
+    Dir.chdir(PROJECT_ROOT) do
+      sh(
+        "flutter", "build", "ipa", "--release",
+        "--build-number=#{build_number}",
+        "--export-options-plist=#{EXPORT_OPTIONS}",
+      )
+    end
+
+    ipa_path = Dir[File.join(IPA_DIR, "*.ipa")].first
+    UI.user_error!("No IPA found in #{IPA_DIR}") unless ipa_path
+
+    if options[:skip_upload].to_s == "true"
+      UI.success("Built #{ipa_path}, skipping TestFlight upload")
+      next
+    end
+
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: ipa_path,
+      skip_waiting_for_build_processing: true,
+    )
+  end
+
+  # App Store Connect API key, used instead of an Apple ID login (no 2FA).
+  # Locally ASC_KEY_PATH points to the .p8 file; CI passes its content
+  # base64-encoded in ASC_KEY_CONTENT_BASE64.
+  private_lane :asc_api_key do
+    key_path = ENV["ASC_KEY_PATH"]
+    app_store_connect_api_key(
+      key_id: required_env("ASC_KEY_ID"),
+      issuer_id: required_env("ASC_ISSUER_ID"),
+      key_filepath: key_path,
+      key_content: key_path ? nil : required_env("ASC_KEY_CONTENT_BASE64"),
+      is_key_content_base64: key_path.nil?,
+    )
+  end
+
+  # Highest build number from TestFlight and pubspec.yaml, plus one.
+  # Querying TestFlight avoids clashes with builds uploaded from Xcode.
+  private_lane :next_build_number do |options|
+    testflight_number = latest_testflight_build_number(
+      api_key: options[:api_key],
+      initial_build_number: 0,
+    ).to_i
+
+    pubspec = File.read(File.join(PROJECT_ROOT, "pubspec.yaml"))
+    pubspec_number = pubspec[/^version:\s*[^+\s]+\+(\d+)/, 1].to_i
+
+    next_number = [testflight_number, pubspec_number].max + 1
+    UI.message("Next build number: #{next_number}")
+    next_number
+  end
+end

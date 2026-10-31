@@ -1,0 +1,12 @@
+# Signing certificates and profiles live, encrypted with MATCH_PASSWORD, in
+# a private repo. Locally SSH is used; CI overrides it with MATCH_GIT_URL.
+git_url(
+  ENV.fetch(
+    "MATCH_GIT_URL",
+    "git@github.com:GevTonoyan/bardak_credentials.git",
+  ),
+)
+storage_mode("git")
+git_branch("main")
+type("appstore")
+app_identifier(["com.gevorgtonoyan.bardak"])

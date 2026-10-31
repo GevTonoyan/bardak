@@ -1,0 +1,5 @@
+# Path to the Google Play service account JSON key.
+# Locally: export PLAY_JSON_KEY_PATH in your shell. On CI: the workflow
+# decodes the key from a secret and sets this variable.
+json_key_file(ENV["PLAY_JSON_KEY_PATH"])
+package_name("com.gevorgtonoyan.bardak")
