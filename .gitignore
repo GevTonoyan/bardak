@@ -48,8 +48,6 @@ app.*.map.json
 # Gradle build output
 /android/build/
 
-pubspec.lock
-
 Podfile.lock
 
 # Firebase

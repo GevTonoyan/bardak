@@ -63,8 +63,10 @@ jobs:
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # Fails the release if pubspec.lock is out of date with pubspec.yaml,
+      # so the deploy jobs build exactly the package versions tested locally.
       - name: Install dependencies
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       # lib/main.dart imports this git-ignored file, so the analyzer reports
       # an error without it.
