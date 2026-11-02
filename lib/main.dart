@@ -4,6 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:bardak/core/app_ui/theme/app_theme_builder.dart';
 import 'package:bardak/core/app_ui/theme/app_theme_provider.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
+import 'package:bardak/core/bootstrap/startup_gate.dart';
+import 'package:bardak/core/bootstrap/startup_guard.dart';
 import 'package:bardak/core/di/di.dart';
 import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/core/localizations/l10n/app_localizations.dart';
@@ -28,104 +30,126 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  StartupGuard.install();
+  try {
+    await _initialize();
+  } on StartupFailure catch (failure) {
+    StartupGuard.fail(failure);
+    runApp(StartupErrorApp(failure: failure));
+    return;
+  }
+  StartupGuard.mark('runApp');
+
+  runApp(
+    StartupGate(
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            lazy: false,
+            create: (_) => WordPacksBloc(
+              getWordPacksUseCase: sl(),
+              getFallbackWordPacksUseCase: sl(),
+              areWordPacksCachedUseCase: sl(),
+              downloadWordPacksUseCase: sl(),
+            )..add(const SyncWordPacks()),
+          ),
+          BlocProvider(
+            create: (_) => SettingsBloc(
+              getAppSettingsUseCase: sl(),
+              updateLocaleUseCase: sl(),
+              updateColorSchemeUseCase: sl(),
+              updateSoundEnabledUseCase: sl(),
+              openStoreListingUseCase: sl(),
+            )..add(const LoadAppSettings()),
+          ),
+          // TODO(GEVORG): make TeamSetupBloc available only where needed,
+          //  not for the whole tree
+          BlocProvider(
+            create: (_) => TeamSetupBloc(getPredefinedTeamNamesUseCase: sl()),
+          ),
+          BlocProvider(
+            create: (_) => GameSettingsBloc(
+              getGameSettingsUseCase: sl(),
+              updateGameModeUseCase: sl(),
+              updateRoundDurationUseCase: sl(),
+              updatePointsToWinUseCase: sl(),
+              updateAllowSkippingUseCase: sl(),
+            ),
+          ),
+          BlocProvider(
+            lazy: false,
+            create: (_) => SpyPacksBloc(
+              getSpyPacksUseCase: sl(),
+              getFallbackSpyPacksUseCase: sl(),
+              areSpyPacksCachedUseCase: sl(),
+              downloadSpyPacksUseCase: sl(),
+              drawSpySecretUseCase: sl(),
+              getSpySettingsUseCase: sl(),
+              getCustomSpyPacksUseCase: sl(),
+              saveCustomSpyPackUseCase: sl(),
+              deleteCustomSpyPackUseCase: sl(),
+            )..add(const SyncSpyPacks()),
+          ),
+          BlocProvider(
+            create: (_) => SpySettingsBloc(
+              getSpySettingsUseCase: sl(),
+              updatePlayerCountUseCase: sl(),
+              updateSpyCountUseCase: sl(),
+              updateSpyRoundDurationUseCase: sl(),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => SudokuSettingsBloc(
+              getSudokuSettingsUseCase: sl(),
+              updateSudokuBoardSizeUseCase: sl(),
+              updateSudokuDifficultyUseCase: sl(),
+              hasSavedSudokuGameUseCase: sl(),
+            ),
+          ),
+        ],
+        child: const MyApp(),
+      ),
+    ),
+  );
+}
+
+Future<void> _initialize() async {
   // By default it is assets/, but our Assets lib already adds assets/
   AudioCache.instance = AudioCache(prefix: '');
   // Route sound effects through the ambient session so they obey the iOS
   // silent switch (the default `playback` category ignores it) and mix with
   // any background music instead of interrupting it. On Android the SFX play
   // on the media/game stream without stealing audio focus.
-  await AudioPlayer.global.setAudioContext(
-    AudioContext(
-      iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
-      android: const AudioContextAndroid(
-        contentType: AndroidContentType.sonification,
-        usageType: AndroidUsageType.game,
-        audioFocus: AndroidAudioFocus.none,
+  await StartupGuard.step(
+    'Audio context',
+    () => AudioPlayer.global.setAudioContext(
+      AudioContext(
+        iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
+        android: const AudioContextAndroid(
+          contentType: AndroidContentType.sonification,
+          usageType: AndroidUsageType.game,
+          audioFocus: AndroidAudioFocus.none,
+        ),
       ),
     ),
   );
-  await SystemChrome.setPreferredOrientations([.portraitUp, .portraitDown]);
-  // TODO(Gevorg): come up with nicer way to handle this
-  // (add splash screen while loading dependencies)
-  await injectDependencies();
+  await StartupGuard.step(
+    'Orientation',
+    () => SystemChrome.setPreferredOrientations([.portraitUp, .portraitDown]),
+  );
+  await StartupGuard.step('Dependencies', injectDependencies);
   unawaited(sl<RecordAppOpenedUseCase>()());
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  await Hive.initFlutter();
-
-  Bloc.observer = const AppBlocObserver();
-
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          lazy: false,
-          create: (_) => WordPacksBloc(
-            getWordPacksUseCase: sl(),
-            getFallbackWordPacksUseCase: sl(),
-            areWordPacksCachedUseCase: sl(),
-            downloadWordPacksUseCase: sl(),
-          )..add(const SyncWordPacks()),
-        ),
-        BlocProvider(
-          create: (_) => SettingsBloc(
-            getAppSettingsUseCase: sl(),
-            updateLocaleUseCase: sl(),
-            updateColorSchemeUseCase: sl(),
-            updateSoundEnabledUseCase: sl(),
-            openStoreListingUseCase: sl(),
-          )..add(const LoadAppSettings()),
-        ),
-        // TODO(GEVORG): make TeamSetupBloc available only where needed,
-        //  not for the whole tree
-        BlocProvider(
-          create: (_) => TeamSetupBloc(getPredefinedTeamNamesUseCase: sl()),
-        ),
-        BlocProvider(
-          create: (_) => GameSettingsBloc(
-            getGameSettingsUseCase: sl(),
-            updateGameModeUseCase: sl(),
-            updateRoundDurationUseCase: sl(),
-            updatePointsToWinUseCase: sl(),
-            updateAllowSkippingUseCase: sl(),
-          ),
-        ),
-        BlocProvider(
-          lazy: false,
-          create: (_) => SpyPacksBloc(
-            getSpyPacksUseCase: sl(),
-            getFallbackSpyPacksUseCase: sl(),
-            areSpyPacksCachedUseCase: sl(),
-            downloadSpyPacksUseCase: sl(),
-            drawSpySecretUseCase: sl(),
-            getSpySettingsUseCase: sl(),
-            getCustomSpyPacksUseCase: sl(),
-            saveCustomSpyPackUseCase: sl(),
-            deleteCustomSpyPackUseCase: sl(),
-          )..add(const SyncSpyPacks()),
-        ),
-        BlocProvider(
-          create: (_) => SpySettingsBloc(
-            getSpySettingsUseCase: sl(),
-            updatePlayerCountUseCase: sl(),
-            updateSpyCountUseCase: sl(),
-            updateSpyRoundDurationUseCase: sl(),
-          ),
-        ),
-        BlocProvider(
-          create: (_) => SudokuSettingsBloc(
-            getSudokuSettingsUseCase: sl(),
-            updateSudokuBoardSizeUseCase: sl(),
-            updateSudokuDifficultyUseCase: sl(),
-            hasSavedSudokuGameUseCase: sl(),
-          ),
-        ),
-      ],
-      child: const MyApp(),
+  await StartupGuard.step(
+    'Firebase',
+    () => Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
     ),
   );
+  await StartupGuard.step('Hive', Hive.initFlutter);
+
+  Bloc.observer = const AppBlocObserver();
 }
 
 class MyApp extends StatelessWidget {

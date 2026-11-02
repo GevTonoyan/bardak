@@ -1,4 +1,5 @@
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
+import 'package:bardak/core/bootstrap/startup_guard.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
       ..forward()
       ..addStatusListener((status) {
         if (status == .completed) {
+          StartupGuard.markCompleted();
           context.goNamed(HomeScreen.routePath);
         }
       });

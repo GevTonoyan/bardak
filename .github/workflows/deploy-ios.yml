@@ -64,6 +64,35 @@ jobs:
           echo "$GOOGLE_SERVICE_INFO_PLIST_BASE64" | base64 --decode > ios/Runner/GoogleService-Info.plist
           echo "$FIREBASE_OPTIONS_DART_BASE64" | base64 --decode > lib/firebase_options.dart
 
+      # Catch a stale or mismatched secret before building. Prints only
+      # non-secret identifiers and checksums, so the run log shows which
+      # Firebase project the build uses and can be compared with local files.
+      - name: Verify Firebase files
+        run: |
+          plist=ios/Runner/GoogleService-Info.plist
+          options=lib/firebase_options.dart
+          expected_bundle_id=com.gevorgtonoyan.bardak
+          read_plist() { /usr/libexec/PlistBuddy -c "Print :$1" "$plist"; }
+
+          plutil -lint "$plist"
+          bundle_id=$(read_plist BUNDLE_ID)
+          project_id=$(read_plist PROJECT_ID)
+          app_id=$(read_plist GOOGLE_APP_ID)
+          echo "BUNDLE_ID:     $bundle_id"
+          echo "PROJECT_ID:    $project_id"
+          echo "GOOGLE_APP_ID: $app_id"
+          shasum -a 256 "$plist" "$options"
+
+          fail() { echo "::error::$1"; exit 1; }
+          [ "$bundle_id" = "$expected_bundle_id" ] ||
+            fail "GoogleService-Info.plist BUNDLE_ID is $bundle_id, expected $expected_bundle_id"
+          grep -q "iosBundleId: '$expected_bundle_id'" "$options" ||
+            fail "firebase_options.dart has no iosBundleId '$expected_bundle_id'"
+          grep -q "projectId: '$project_id'" "$options" ||
+            fail "firebase_options.dart projectId does not match the plist ($project_id)"
+          grep -q "appId: '$app_id'" "$options" ||
+            fail "firebase_options.dart has no iOS appId matching the plist ($app_id)"
+
       - name: Build and upload to TestFlight
         working-directory: ios
         env:
