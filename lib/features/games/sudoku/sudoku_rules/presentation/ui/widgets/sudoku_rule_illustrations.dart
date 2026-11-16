@@ -166,11 +166,7 @@ class SudokuNotesIllustration extends StatelessWidget {
               padding: const .all(6),
               child: Column(
                 children: [
-                  for (
-                    var noteRow = 0;
-                    noteRow < _classicBoxSize;
-                    noteRow++
-                  )
+                  for (var noteRow = 0; noteRow < _classicBoxSize; noteRow++)
                     Expanded(
                       child: Row(
                         children: [

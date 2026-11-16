@@ -93,8 +93,9 @@ class WordPacksBloc extends Bloc<WordPacksEvent, WordPacksState> {
       // A new attempt count makes this a distinct state even when the
       // fallback packs are unchanged, so the screen re-shows the notification.
       final currentState = state;
-      final attempt =
-          currentState is WordPacksNotCached ? currentState.attempt + 1 : 0;
+      final attempt = currentState is WordPacksNotCached
+          ? currentState.attempt + 1
+          : 0;
       emit(
         WordPacksNotCached(
           fallbackPacks: _getFallbackWordPacksUseCase(event.locale),

@@ -255,8 +255,9 @@ class SudokuBoardEntity extends Equatable {
     final bands = [for (var i = 0; i < boxSize; i++) i]..shuffle(rng);
     return [
       for (final band in bands)
-        ...([for (var i = 0; i < boxSize; i++) i]..shuffle(rng))
-            .map((line) => band * boxSize + line),
+        ...([
+          for (var i = 0; i < boxSize; i++) i,
+        ]..shuffle(rng)).map((line) => band * boxSize + line),
     ];
   }
 

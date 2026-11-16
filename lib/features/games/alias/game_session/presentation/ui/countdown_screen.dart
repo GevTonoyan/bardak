@@ -34,11 +34,7 @@ class _CountdownScreenState extends State<CountdownScreen>
   void initState() {
     super.initState();
 
-    _soundEnabled = context
-        .read<SettingsBloc>()
-        .state
-        .appSettings
-        .soundEnabled;
+    _soundEnabled = context.read<SettingsBloc>().state.appSettings.soundEnabled;
 
     _controller = AnimationController(
       vsync: this,
