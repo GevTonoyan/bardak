@@ -370,6 +370,18 @@ abstract class AppLocalizations {
   /// **'One Word'**
   String get oneWordModeShort;
 
+  /// No description provided for @all_words_count.
+  ///
+  /// In en, this message translates to:
+  /// **'All words · {count}'**
+  String all_words_count(int count);
+
+  /// No description provided for @easy_words_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy words · {count}'**
+  String easy_words_count(int count);
+
   /// No description provided for @spyMode.
   ///
   /// In en, this message translates to:

@@ -155,6 +155,16 @@ class AppLocalizationsAm extends AppLocalizations {
   String get oneWordModeShort => 'Մեկ բառ';
 
   @override
+  String all_words_count(int count) {
+    return 'Բոլոր բառերը · $count';
+  }
+
+  @override
+  String easy_words_count(int count) {
+    return 'Հեշտ բառեր · $count';
+  }
+
+  @override
   String get spyMode => 'Լրտես';
 
   @override

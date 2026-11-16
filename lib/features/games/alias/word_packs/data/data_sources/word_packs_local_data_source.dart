@@ -33,6 +33,7 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
   static const _boxPrefix = 'alias_word_packs';
   static const _nameKey = 'alias_word_pack_name';
   static const _wordsKey = 'alias_word_pack_words';
+  static const _easyWordsKey = 'alias_word_pack_easy_words';
   static const _imageKey = 'alias_word_pack_image';
   static const _imageBlurHashKey = 'alias_word_pack_image_blur_hash';
   static const _lastSyncKey = 'last_words_sync';
@@ -55,6 +56,8 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
         id: key as String,
         name: data[_nameKey] as String,
         words: List<String>.from(data[_wordsKey] as List),
+        // Absent on caches written before difficulty existed → empty.
+        easyWords: List<String>.from(data[_easyWordsKey] as List? ?? const []),
         image: data[_imageKey] as String,
         imageBlurHash: data[_imageBlurHashKey] as String,
       );
@@ -93,6 +96,7 @@ class WordPacksLocalDataSourceImpl implements WordPacksLocalDataSource {
         pack.id: <String, dynamic>{
           _nameKey: pack.name,
           _wordsKey: pack.words,
+          _easyWordsKey: pack.easyWords,
           _imageKey: pack.image,
           _imageBlurHashKey: pack.imageBlurHash,
         },

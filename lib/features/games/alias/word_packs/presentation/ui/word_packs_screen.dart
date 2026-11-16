@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_notification.dart';
-import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/language_icon.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
@@ -18,6 +17,7 @@ import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_pa
 import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_state.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_pack_item.dart';
+import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_pack_mode_sheet.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,52 +111,62 @@ class _Success extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).padding.bottom;
 
-    return Column(
-      children: [
-        height30,
-        Expanded(
-          child: ListView.separated(
-            padding: .fromLTRB(20, 0, 20, 20 + bottomInset),
-            itemBuilder: (context, index) {
-              final pack = packs[index];
+    return ListView.separated(
+      padding: .fromLTRB(20, 20, 20, 20 + bottomInset),
+      itemCount: packs.length,
+      itemBuilder: (context, index) {
+        final pack = packs[index];
 
-              return WordPackItem(
-                name: pack.name,
-                packWordsCount: pack.words.length,
-                shouldDownload: shouldDownload,
-                imageUrl: pack.image,
-                imageBlurHash: pack.imageBlurHash,
-                onTap: () {
-                  if (shouldDownload) {
-                    context.read<WordPacksBloc>().add(
-                      DownloadWordPacks(context.locale.languageCode),
-                    );
-                  } else {
-                    context.goNamed(
-                      RoundOverviewScreen.routePath,
-                      extra: _buildGameSessionEntity(context, pack),
-                    );
-                  }
-                },
+        return WordPackItem(
+          name: pack.name,
+          packWordsCount: pack.words.length,
+          shouldDownload: shouldDownload,
+          imageUrl: pack.image,
+          imageBlurHash: pack.imageBlurHash,
+          onTap: () {
+            if (shouldDownload) {
+              context.read<WordPacksBloc>().add(
+                DownloadWordPacks(context.locale.languageCode),
               );
-            },
-            separatorBuilder: (_, _) => const SizedBox(height: 14),
-            itemCount: packs.length,
-          ),
-        ),
-      ],
+            } else {
+              unawaited(_startGame(context, pack));
+            }
+          },
+        );
+      },
+      separatorBuilder: (_, _) => const SizedBox(height: 14),
+    );
+  }
+
+  /// Starts a game with [pack]. When the pack has easy words, first asks
+  /// whether to play all or only easy words; packs without easy words start
+  /// with all words.
+  Future<void> _startGame(BuildContext context, WordPackEntity pack) async {
+    var easyMode = false;
+
+    if (pack.hasEasyWords) {
+      final choice = await showWordPackModeSheet(context: context, pack: pack);
+      if (choice == null || !context.mounted) return;
+
+      easyMode = choice;
+    }
+
+    context.goNamed(
+      RoundOverviewScreen.routePath,
+      extra: _buildGameSessionEntity(context, pack, easyMode: easyMode),
     );
   }
 
   GameSessionEntity _buildGameSessionEntity(
     BuildContext context,
-    WordPackEntity pack,
-  ) {
+    WordPackEntity pack, {
+    required bool easyMode,
+  }) {
     final appSettings = context.read<SettingsBloc>().state.appSettings;
     final gameSettings = context.read<GameSettingsBloc>().state.gameSettings;
     final teamSetup = context.read<TeamSetupBloc>().state;
 
-    final words = pack.words..shuffle();
+    final words = List<String>.of(pack.wordsFor(easyMode: easyMode))..shuffle();
 
     return GameSessionEntity(
       gameMode: gameSettings.gameMode,

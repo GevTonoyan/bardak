@@ -10,6 +10,7 @@ const _pack = WordPackEntity(
   id: 'animals',
   name: 'Animals',
   words: ['Cat', 'Dog'],
+  easyWords: ['Cat'],
   image: 'url',
   imageBlurHash: 'hash',
 );
