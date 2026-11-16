@@ -25,6 +25,16 @@ Install App Store signing files from the match repo
 
 Pass readonly:false once to create them on the Apple Developer portal
 
+### ios version
+
+```sh
+[bundle exec] fastlane ios version
+```
+
+Print the version the next release uses; see release_version
+
+Pass bump:minor or bump:major for a feature or major release
+
 ### ios beta
 
 ```sh
@@ -32,6 +42,8 @@ Pass readonly:false once to create them on the Apple Developer portal
 ```
 
 Build a signed IPA and upload it to TestFlight
+
+Uses APP_VERSION when set (CI), otherwise picks the version itself
 
 Pass skip_upload:true to build and sign without uploading
 

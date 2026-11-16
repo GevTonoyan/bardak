@@ -4,6 +4,11 @@ name: Deploy Android
 # it to the Play internal testing track via fastlane.
 on:
   workflow_call:
+    inputs:
+      app_version:
+        description: Version name, picked by the release workflow's version job
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -73,4 +78,6 @@ jobs:
 
       - name: Build and upload to Play internal track
         working-directory: android
+        env:
+          APP_VERSION: ${{ inputs.app_version }}
         run: bundle exec fastlane android internal

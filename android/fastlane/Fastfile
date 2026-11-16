@@ -16,15 +16,19 @@ end
 
 platform :android do
   desc "Build a signed AAB and upload it to the Play internal testing track"
+  desc "Uses APP_VERSION as the version name when set (CI, picked from App " \
+       "Store Connect so both stores match), otherwise pubspec.yaml's"
   desc "Pass validate_only:true to let Play validate the upload without " \
        "publishing it"
   lane :internal do |options|
     validate_only = options[:validate_only].to_s == "true"
     version_code = next_version_code
+    version = ENV["APP_VERSION"].to_s
 
     Dir.chdir(PROJECT_ROOT) do
       sh(
         "flutter", "build", "appbundle", "--release",
+        *(version.empty? ? [] : ["--build-name=#{version}"]),
         "--build-number=#{version_code}",
       )
     end
@@ -42,7 +46,8 @@ platform :android do
 
     unless validate_only
       write_ci_summary(
-        "### Android\nUploaded version code **#{version_code}** to the " \
+        "### Android\nUploaded version code **#{version_code}**" \
+        "#{version.empty? ? '' : " (version **#{version}**)"} to the " \
         "Play **internal** testing track.",
       )
     end

@@ -4,6 +4,11 @@ name: Deploy iOS
 # it to TestFlight via fastlane.
 on:
   workflow_call:
+    inputs:
+      app_version:
+        description: Version name, picked by the release workflow's version job
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -100,4 +105,5 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT_BASE64: ${{ secrets.ASC_KEY_CONTENT_BASE64 }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APP_VERSION: ${{ inputs.app_version }}
         run: bundle exec fastlane ios beta

@@ -1,6 +1,6 @@
 name: Release
 # Title shown in the Actions runs list.
-run-name: Release ${{ inputs.platform }} from ${{ github.ref_name }}
+run-name: Release ${{ inputs.platform }} (${{ inputs.bump }}) from ${{ github.ref_name }}
 
 # builds main and uploads it to the Play internal testing track and/or TestFlight.
 on:
@@ -14,6 +14,16 @@ on:
           - android
           - ios
         default: both
+      bump:
+        description: >-
+          Version: auto keeps the version open in TestFlight, or bumps the
+          patch once it is approved; minor/major for bigger releases
+        type: choice
+        options:
+          - auto
+          - minor
+          - major
+        default: auto
 
 concurrency:
   group: release
@@ -47,6 +57,7 @@ jobs:
       - name: Write release info
         env:
           PLATFORM: ${{ inputs.platform }}
+          BUMP: ${{ inputs.bump }}
         run: |
           commit_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
           {
@@ -58,7 +69,7 @@ jobs:
             echo "| Branch | \`$GITHUB_REF_NAME\` |"
             echo "| Started by | @$GITHUB_ACTOR |"
             echo "| Platform | $PLATFORM |"
-            echo "| App version | \`$(sed -n 's/^version: *//p' pubspec.yaml)\` |"
+            echo "| Version bump | $BUMP |"
             echo "| Flutter | $(flutter --version | head -1) |"
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
@@ -84,19 +95,52 @@ jobs:
       - name: Test
         run: flutter test
 
+  # Picks the version once from App Store Connect, so both stores ship the
+  # same version name without bumping pubspec.yaml. Runs on Linux: it only
+  # calls Apple's API.
+  version:
+    name: Pick version
+    needs: check
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 10
+    outputs:
+      app_version: ${{ steps.pick.outputs.app_version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      # Reads ios/.ruby-version, runs bundle install and caches the gems.
+      - uses: ruby/setup-ruby@v1
+        with:
+          working-directory: ios
+          bundler-cache: true
+
+      - name: Pick version
+        id: pick
+        working-directory: ios
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT_BASE64: ${{ secrets.ASC_KEY_CONTENT_BASE64 }}
+        run: bundle exec fastlane ios version bump:${{ inputs.bump }}
+
   # Called workflows only see secrets the caller passes on, including the
   # production environment's. The repo has no repository-level secrets, so
   # inherit exposes nothing beyond that environment.
   android:
     name: Android → Play internal
-    needs: check
+    needs: version
     if: inputs.platform != 'ios'
     uses: ./.github/workflows/deploy-android.yml
+    with:
+      app_version: ${{ needs.version.outputs.app_version }}
     secrets: inherit
 
   ios:
     name: iOS → TestFlight
-    needs: check
+    needs: version
     if: inputs.platform != 'android'
     uses: ./.github/workflows/deploy-ios.yml
+    with:
+      app_version: ${{ needs.version.outputs.app_version }}
     secrets: inherit

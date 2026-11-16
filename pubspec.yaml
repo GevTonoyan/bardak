@@ -2,8 +2,9 @@ name: bardak
 description: "Bardak – Your Pocket Board Games!"
 publish_to: 'none'
 
-# Bump the version name per release. No +build number: the fastlane lanes
-# use the latest Play/TestFlight build number + 1.
+# Only used for local builds. Releases get their version name from the
+# release workflow (picked from App Store Connect) and their build number
+# from the latest Play/TestFlight build + 1, so neither is bumped here.
 version: 2.0.3
 
 environment:

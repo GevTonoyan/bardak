@@ -8,6 +8,18 @@ IPA_DIR = File.join(PROJECT_ROOT, "build/ios/ipa")
 APP_ID = "com.gevorgtonoyan.bardak"
 PROFILE_NAME = "match AppStore #{APP_ID}"
 
+# App Store version states after approval. Apple closes a version's "train"
+# once it reaches one of these and rejects further builds with that version.
+CLOSED_VERSION_STATES = [
+  "ACCEPTED",
+  "PENDING_APPLE_RELEASE",
+  "PENDING_DEVELOPER_RELEASE",
+  "PROCESSING_FOR_DISTRIBUTION",
+  "READY_FOR_DISTRIBUTION",
+  "REPLACED_WITH_NEW_VERSION",
+].freeze
+BUMPS = ["auto", "minor", "major"].freeze
+
 # Appends Markdown to the GitHub Actions run summary; does nothing locally.
 def write_ci_summary(markdown)
   path = ENV["GITHUB_STEP_SUMMARY"]
@@ -24,6 +36,22 @@ def required_env(name)
   )
 end
 
+# "2.1.3" with part "patch" → "2.1.4", "minor" → "2.2.0", "major" → "3.0.0".
+# A short version such as "2.1" counts as "2.1.0".
+def bump_version(version, part)
+  major, minor, patch = (version.to_s.split(".").map(&:to_i) + [0, 0, 0])
+                        .first(3)
+  case part
+  when "major" then "#{major + 1}.0.0"
+  when "minor" then "#{major}.#{minor + 1}.0"
+  else "#{major}.#{minor}.#{patch + 1}"
+  end
+end
+
+def version_above?(version, other)
+  Gem::Version.new(version) > Gem::Version.new(other)
+end
+
 platform :ios do
   desc "Install App Store signing files from the match repo"
   desc "Pass readonly:false once to create them on the Apple Developer portal"
@@ -34,7 +62,19 @@ platform :ios do
     )
   end
 
+  desc "Print the version the next release uses; see release_version"
+  desc "Pass bump:minor or bump:major for a feature or major release"
+  lane :version do |options|
+    version = release_version(api_key: asc_api_key, bump: options[:bump])
+
+    # Hands the version to the deploy jobs of the release workflow.
+    output = ENV["GITHUB_OUTPUT"]
+    File.write(output, "app_version=#{version}\n", mode: "a") if output
+    write_ci_summary("### Version\nThis release is version **#{version}**.")
+  end
+
   desc "Build a signed IPA and upload it to TestFlight"
+  desc "Uses APP_VERSION when set (CI), otherwise picks the version itself"
   desc "Pass skip_upload:true to build and sign without uploading"
   lane :beta do |options|
     # On CI, create a temporary keychain so match can install the
@@ -42,7 +82,8 @@ platform :ios do
     setup_ci if is_ci
 
     api_key = asc_api_key
-    ensure_version_is_open(api_key: api_key)
+    version = ENV["APP_VERSION"].to_s
+    version = release_version(api_key: api_key) if version.empty?
     match(api_key: api_key, readonly: true)
     build_number = next_build_number(api_key: api_key)
 
@@ -62,6 +103,7 @@ platform :ios do
     Dir.chdir(PROJECT_ROOT) do
       sh(
         "flutter", "build", "ipa", "--release",
+        "--build-name=#{version}",
         "--build-number=#{build_number}",
         "--export-options-plist=#{EXPORT_OPTIONS}",
       )
@@ -82,7 +124,8 @@ platform :ios do
     )
 
     write_ci_summary(
-      "### iOS\nUploaded build **#{build_number}** to **TestFlight**. " \
+      "### iOS\nUploaded version **#{version}** build **#{build_number}** " \
+      "to **TestFlight**. " \
       "Apple processes it before testers can install it (usually " \
       "5–30 minutes).",
     )
@@ -102,24 +145,62 @@ platform :ios do
     )
   end
 
-  # Apple closes a version's "train" once it is approved for the App Store,
-  # and rejects further builds with that version name. Checking before the
-  # build saves a full build-and-upload cycle.
-  private_lane :ensure_version_is_open do |options|
-    app_store_build_number(api_key: options[:api_key], live: true)
-    live_version = lane_context[SharedValues::LATEST_VERSION]
+  # Picks the next release's version from App Store Connect, so pubspec.yaml
+  # never needs a manual bump. A version stays open for more builds until
+  # Apple approves it (see CLOSED_VERSION_STATES).
+  #   auto (default): keep the newest TestFlight version while it is still
+  #     open, so fixes go out as new builds of it; otherwise bump the patch
+  #     of the last closed version.
+  #   minor / major: bump that part of the last closed version.
+  private_lane :release_version do |options|
+    bump = (options[:bump] || "auto").to_s
+    unless BUMPS.include?(bump)
+      UI.user_error!("Unknown bump '#{bump}', use one of #{BUMPS.join(', ')}")
+    end
 
-    pubspec = File.read(File.join(PROJECT_ROOT, "pubspec.yaml"))
-    version = pubspec[/^version:\s*([^+\s]+)/, 1]
+    closed = last_closed_version(api_key: options[:api_key])
+    latest_testflight_build_number(
+      api_key: options[:api_key],
+      initial_build_number: 0,
+    )
+    testflight = lane_context[SharedValues::LATEST_TESTFLIGHT_VERSION]
+    open = testflight if testflight && version_above?(testflight, closed)
 
-    if Gem::Version.new(version) <= Gem::Version.new(live_version)
+    version = if bump == "auto"
+                open || bump_version(closed, "patch")
+              else
+                bump_version(closed, bump)
+              end
+
+    # A lower version than an open one would be a step backwards for
+    # testers; finish or abandon the open version first.
+    if open && version_above?(open, version)
       UI.user_error!(
-        "Version #{version} is not higher than the live App Store version " \
-        "#{live_version}, so TestFlight would reject it. Bump `version:` in " \
-        "pubspec.yaml.",
+        "TestFlight already has open version #{open}, above #{version}. " \
+        "Use bump auto to keep building #{open}.",
       )
     end
-    UI.success("Version #{version} is above live #{live_version}")
+
+    UI.success(
+      "Version #{version} (bump: #{bump}, last approved: #{closed}, " \
+      "open in TestFlight: #{open || 'none'})",
+    )
+    version
+  end
+
+  # Highest App Store version Apple has approved or released.
+  private_lane :last_closed_version do |options|
+    Spaceship::ConnectAPI.token =
+      Spaceship::ConnectAPI::Token.from(hash: options[:api_key])
+    app = Spaceship::ConnectAPI::App.find(APP_ID)
+    UI.user_error!("App #{APP_ID} not found in App Store Connect") unless app
+
+    approved = app.get_app_store_versions.select do |v|
+      CLOSED_VERSION_STATES.include?(v.app_version_state)
+    end
+    closed = approved.map(&:version_string).max_by { |v| Gem::Version.new(v) }
+    UI.user_error!("No approved App Store version found") unless closed
+    closed
   end
 
   # Highest build number from TestFlight and pubspec.yaml, plus one.
