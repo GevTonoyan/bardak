@@ -1,3 +1,4 @@
+import 'package:bardak/features/app_review/domain/entities/review_game.dart';
 import 'package:bardak/features/app_review/domain/usecases/request_review_if_eligible_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,5 +11,6 @@ class InAppReviewCubit extends Cubit<void> {
 
   final RequestReviewIfEligibleUseCase _requestReviewIfEligibleUseCase;
 
-  Future<void> requestReviewAfterGame() => _requestReviewIfEligibleUseCase();
+  Future<void> requestReviewAfterGame(ReviewGame game) =>
+      _requestReviewIfEligibleUseCase(game);
 }

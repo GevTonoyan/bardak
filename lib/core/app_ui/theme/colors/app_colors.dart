@@ -19,6 +19,30 @@ class AppColors {
     colors: [firstGradient, secondGradient],
   );
 
+  // How far the calm surface pulls the scheme's gradient back from full
+  // intensity: most of the neon comes off the saturation, with a moderate
+  // drop in lightness so white text stays legible.
+  static const _calmSaturation = 0.58;
+  static const _calmLightness = 0.68;
+
+  /// A calmer, on-brand surface for long-focus screens (e.g. Sudoku), where
+  /// the full-intensity [main] gradient tires the eyes over a long session.
+  /// It is the scheme's own gradient, deepened and desaturated — so it still
+  /// reads as the player's chosen theme, just in a lower-intensity register.
+  LinearGradient get calm => LinearGradient(
+    begin: .topCenter,
+    end: .bottomCenter,
+    colors: [_calmColor(firstGradient), _calmColor(secondGradient)],
+  );
+
+  Color _calmColor(Color color) {
+    final hsl = HSLColor.fromColor(color);
+    return hsl
+        .withSaturation((hsl.saturation * _calmSaturation).clamp(0.0, 1.0))
+        .withLightness((hsl.lightness * _calmLightness).clamp(0.0, 1.0))
+        .toColor();
+  }
+
   Color get green => const Color(0xFF59CA42);
 
   Color get red => const Color(0xFFD42B2B);

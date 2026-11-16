@@ -137,8 +137,9 @@ class _CustomPackArt extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final trimmed = name.trim();
-    final initial =
-        trimmed.isEmpty ? '' : trimmed.substring(0, 1).toUpperCase();
+    final initial = trimmed.isEmpty
+        ? ''
+        : trimmed.substring(0, 1).toUpperCase();
 
     return DecoratedBox(
       decoration: BoxDecoration(

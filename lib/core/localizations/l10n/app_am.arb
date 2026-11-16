@@ -80,6 +80,8 @@
   "oneWordMode": "Մեկ բառով",
   "classicModeShort": "Դասական",
   "oneWordModeShort": "Մեկ բառ",
+  "all_words_count": "Բոլոր բառերը · {count}",
+  "easy_words_count": "Հեշտ բառեր · {count}",
   "spyMode": "Լրտես",
   "sudoku": "Սուդոկու",
   "sudoku_solved": "Սուդոկուն լուծված է։ Կեցցե՛ս",

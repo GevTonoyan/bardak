@@ -19,9 +19,7 @@ class SudokuGameInfoBar extends StatelessWidget {
       selector: (state) => (_modeLabel(context, state), state.bestTimeSeconds),
       builder: (context, data) {
         final (modeLabel, bestTime) = data;
-        final bestValue = bestTime == null
-            ? '—'
-            : formatSudokuTime(bestTime);
+        final bestValue = bestTime == null ? '—' : formatSudokuTime(bestTime);
 
         return Row(
           children: [

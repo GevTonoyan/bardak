@@ -155,6 +155,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get oneWordModeShort => 'One Word';
 
   @override
+  String all_words_count(int count) {
+    return 'All words · $count';
+  }
+
+  @override
+  String easy_words_count(int count) {
+    return 'Easy words · $count';
+  }
+
+  @override
   String get spyMode => 'Spy';
 
   @override

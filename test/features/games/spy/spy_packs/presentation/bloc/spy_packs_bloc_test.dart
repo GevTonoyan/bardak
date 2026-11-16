@@ -31,11 +31,9 @@ class _MockDrawSpySecret extends Mock implements DrawSpySecretUseCase {}
 
 class _MockGetSpySettings extends Mock implements GetSpySettingsUseCase {}
 
-class _MockGetCustomSpyPacks extends Mock
-    implements GetCustomSpyPacksUseCase {}
+class _MockGetCustomSpyPacks extends Mock implements GetCustomSpyPacksUseCase {}
 
-class _MockSaveCustomSpyPack extends Mock
-    implements SaveCustomSpyPackUseCase {}
+class _MockSaveCustomSpyPack extends Mock implements SaveCustomSpyPackUseCase {}
 
 class _MockDeleteCustomSpyPack extends Mock
     implements DeleteCustomSpyPackUseCase {}

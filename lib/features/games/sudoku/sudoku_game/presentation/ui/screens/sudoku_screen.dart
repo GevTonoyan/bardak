@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:bardak/core/app_ui/sounds/one_shot_sound.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/round_timer.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_event.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_state.dart';
@@ -18,6 +20,7 @@ import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/widgets
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_event.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
+import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -81,6 +84,22 @@ class _SudokuScreenState extends State<SudokuScreen> {
     return MultiBlocListener(
       listeners: [
         BlocListener<SudokuBloc, SudokuState>(
+          // A wrong digit counts against the mistake limit; a soft blip gives
+          // instant feedback without the player having to read the counter.
+          listenWhen: (previous, current) =>
+              current.mistakes > previous.mistakes,
+          listener: (context, state) {
+            final soundEnabled = context
+                .read<SettingsBloc>()
+                .state
+                .appSettings
+                .soundEnabled;
+            if (soundEnabled) {
+              unawaited(playOneShotSound(Assets.sounds.sudokuMistake));
+            }
+          },
+        ),
+        BlocListener<SudokuBloc, SudokuState>(
           // The win record lands right after the solved emission and only
           // once, so it is the navigation trigger.
           listenWhen: (previous, current) =>
@@ -120,65 +139,61 @@ class _SudokuScreenState extends State<SudokuScreen> {
           },
         ),
       ],
-      child: GradientBackground(
+      child: CalmBackground(
         child: SafeArea(
-          // A tap that lands outside the cells (and the buttons, which win
-          // the gesture arena) clears the selection and its highlighting.
-          child: GestureDetector(
-            behavior: .translucent,
-            onTap: () => context.read<SudokuBloc>().add(const Deselect()),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const .only(left: 20, top: 20, right: 20),
-                  child: Stack(
-                    alignment: .center,
-                    children: [
-                      Align(
-                        alignment: .centerLeft,
-                        child: AppIconButton.close(
-                          onTap: () => unawaited(_confirmExitGame()),
-                        ),
+          // The selected cell stays highlighted until another cell is
+          // tapped — a tap outside the board does not clear it.
+          child: Column(
+            children: [
+              Padding(
+                padding: const .only(left: 20, top: 20, right: 20),
+                child: Stack(
+                  alignment: .center,
+                  children: [
+                    Align(
+                      alignment: .centerLeft,
+                      child: AppIconButton.close(
+                        onTap: () => unawaited(_confirmExitGame()),
                       ),
-                      BlocSelector<SudokuBloc, SudokuState, int>(
-                        selector: (state) => state.elapsedSeconds,
-                        builder: (context, elapsed) {
-                          // Counting up, so the countdown warning colors
-                          // are pushed below zero and the pill stays green.
-                          return RoundTimer(
-                            seconds: elapsed,
-                            formatAsMinutes: true,
-                            orangeBelow: -1,
-                            redBelow: -1,
-                          );
-                        },
-                      ),
-                      const Align(
-                        alignment: .centerRight,
-                        child: SudokuMistakesIndicator(),
-                      ),
-                    ],
-                  ),
+                    ),
+                    BlocSelector<SudokuBloc, SudokuState, int>(
+                      selector: (state) => state.elapsedSeconds,
+                      builder: (context, elapsed) {
+                        // Counting up, so the countdown warning colors
+                        // are pushed below zero and the pill stays green.
+                        return RoundTimer(
+                          seconds: elapsed,
+                          formatAsMinutes: true,
+                          orangeBelow: -1,
+                          redBelow: -1,
+                        );
+                      },
+                    ),
+                    const Align(
+                      alignment: .centerRight,
+                      child: SudokuMistakesIndicator(),
+                    ),
+                  ],
                 ),
-                const Padding(
-                  padding: .fromLTRB(20, 12, 20, 0),
-                  child: SudokuGameInfoBar(),
+              ),
+              const Padding(
+                padding: .fromLTRB(20, 12, 20, 0),
+                child: SudokuGameInfoBar(),
+              ),
+              // The board fills the space between the header and the pad,
+              // sized to the largest square that fits (bounded by width on
+              // tall screens), so it is as large as possible.
+              const Expanded(
+                child: Padding(
+                  padding: .symmetric(horizontal: 6, vertical: 8),
+                  child: Center(child: SudokuBoard()),
                 ),
-                // The board fills the space between the header and the pad,
-                // sized to the largest square that fits (bounded by width on
-                // tall screens), so it is as large as possible.
-                const Expanded(
-                  child: Padding(
-                    padding: .symmetric(horizontal: 6, vertical: 8),
-                    child: Center(child: SudokuBoard()),
-                  ),
-                ),
-                const Padding(
-                  padding: .fromLTRB(20, 0, 20, 20),
-                  child: SudokuDigitPad(),
-                ),
-              ],
-            ),
+              ),
+              const Padding(
+                padding: .fromLTRB(20, 0, 20, 20),
+                child: SudokuDigitPad(),
+              ),
+            ],
           ),
         ),
       ),

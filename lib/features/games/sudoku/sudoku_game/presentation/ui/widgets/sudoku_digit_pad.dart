@@ -1,4 +1,3 @@
-import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/bloc/sudoku_bloc.dart';
@@ -100,12 +99,12 @@ class _DigitButton extends StatelessWidget {
             children: [
               Text(
                 '$digit',
-                style: context.typography.regular24.withNumericFont,
+                style: context.typography.sudokuDigit,
               ),
               if (showRemaining)
                 Text(
                   '$remaining',
-                  style: context.typography.bodySmall.withNumericFont.copyWith(
+                  style: context.typography.bodySmall.copyWith(
                     color: context.colors.white50,
                     height: 1,
                   ),

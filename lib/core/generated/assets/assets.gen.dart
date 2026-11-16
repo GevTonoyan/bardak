@@ -86,8 +86,20 @@ class $AssetsImagesGen {
 class $AssetsSoundsGen {
   const $AssetsSoundsGen();
 
-  /// File path: assets/sounds/check.mp3
-  String get check => 'assets/sounds/check.mp3';
+  /// File path: assets/sounds/check.m4a
+  String get check => 'assets/sounds/check.m4a';
+
+  /// File path: assets/sounds/round_end.m4a
+  String get roundEnd => 'assets/sounds/round_end.m4a';
+
+  /// File path: assets/sounds/round_start.m4a
+  String get roundStart => 'assets/sounds/round_start.m4a';
+
+  /// File path: assets/sounds/sudoku_mistake.m4a
+  String get sudokuMistake => 'assets/sounds/sudoku_mistake.m4a';
+
+  /// File path: assets/sounds/sudoku_win.m4a
+  String get sudokuWin => 'assets/sounds/sudoku_win.m4a';
 
   /// File path: assets/sounds/tick.mp3
   String get tick => 'assets/sounds/tick.mp3';
@@ -95,8 +107,20 @@ class $AssetsSoundsGen {
   /// File path: assets/sounds/uncheck.mp3
   String get uncheck => 'assets/sounds/uncheck.mp3';
 
+  /// File path: assets/sounds/winner.m4a
+  String get winner => 'assets/sounds/winner.m4a';
+
   /// List of all assets
-  List<String> get values => [check, tick, uncheck];
+  List<String> get values => [
+    check,
+    roundEnd,
+    roundStart,
+    sudokuMistake,
+    sudokuWin,
+    tick,
+    uncheck,
+    winner,
+  ];
 }
 
 class $AssetsIconsFlagsGen {
@@ -121,6 +145,15 @@ class Assets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
+  static const AssetGenImage splashBackground = AssetGenImage(
+    'assets/splash_background.png',
+  );
+  static const AssetGenImage transparent = AssetGenImage(
+    'assets/transparent.png',
+  );
+
+  /// List of all assets
+  static List<AssetGenImage> get values => [splashBackground, transparent];
 }
 
 class AssetGenImage {

@@ -80,6 +80,8 @@
   "oneWordMode": "Одним словом",
   "classicModeShort": "Классический",
   "oneWordModeShort": "Одно слово",
+  "all_words_count": "Все слова · {count}",
+  "easy_words_count": "Лёгкие слова · {count}",
   "spyMode": "Шпион",
   "sudoku": "Судоку",
   "sudoku_solved": "Судоку решено. Отличная работа!",

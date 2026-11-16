@@ -6,11 +6,10 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 const _cardBorderRadius = 12.0;
 const _cardBorderWidth = 3.0;
 
-typedef WordTapCallback =
-    void Function({
-      required bool selected,
-      required String word,
-    });
+typedef WordTapCallback = void Function({
+  required bool selected,
+  required String word,
+});
 
 class MultipleWordsCard extends StatelessWidget {
   const MultipleWordsCard({

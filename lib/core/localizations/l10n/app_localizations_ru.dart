@@ -162,6 +162,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get oneWordModeShort => 'Одно слово';
 
   @override
+  String all_words_count(int count) {
+    return 'Все слова · $count';
+  }
+
+  @override
+  String easy_words_count(int count) {
+    return 'Лёгкие слова · $count';
+  }
+
+  @override
   String get spyMode => 'Шпион';
 
   @override

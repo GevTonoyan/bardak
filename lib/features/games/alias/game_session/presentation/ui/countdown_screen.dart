@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:bardak/core/app_ui/sounds/one_shot_sound.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/state_extension.dart';
+import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/ui/card_round_screen.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/features/games/alias/single_word_round/presentation/ui/single_word_round_screen.dart';
+import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -25,10 +28,13 @@ class _CountdownScreenState extends State<CountdownScreen>
   late Animation<double> _scaleAnimation;
   int _count = 3;
   Timer? _countdownTimer;
+  bool _soundEnabled = false;
 
   @override
   void initState() {
     super.initState();
+
+    _soundEnabled = context.read<SettingsBloc>().state.appSettings.soundEnabled;
 
     _controller = AnimationController(
       vsync: this,
@@ -63,6 +69,10 @@ class _CountdownScreenState extends State<CountdownScreen>
   }
 
   void _handleCountdownFinished() {
+    if (_soundEnabled) {
+      unawaited(playOneShotSound(Assets.sounds.roundStart));
+    }
+
     final gameSessionBloc = context.read<GameSessionBloc>();
     final gameMode = gameSessionBloc.state.session.gameMode;
 

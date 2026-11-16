@@ -1,10 +1,11 @@
 import 'package:bardak/features/app_review/domain/entities/app_review_metrics_entity.dart';
+import 'package:bardak/features/app_review/domain/entities/review_game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract interface class AppReviewLocalDataSource {
   AppReviewMetricsEntity getMetrics();
 
-  Future<void> incrementGamesCompleted();
+  Future<void> incrementCompletedGames(ReviewGame game);
 
   Future<void> incrementAppOpenedCount();
 
@@ -14,20 +15,28 @@ abstract interface class AppReviewLocalDataSource {
 class AppReviewLocalDataSourceImpl implements AppReviewLocalDataSource {
   const AppReviewLocalDataSourceImpl({required this._preferences});
 
-  static const _gamesCompletedKey = 'games_completed';
+  // Per-game counters live under this prefix + the game name, so each game
+  // type is counted independently (e.g. 'games_completed_alias').
+  static const _completedGamesKeyPrefix = 'games_completed_';
   static const _appOpenedCountKey = 'app_opened_count';
   static const _lastReviewPromptKey = 'last_review_prompt_ms';
 
   final SharedPreferences _preferences;
 
+  String _completedGamesKey(ReviewGame game) =>
+      '$_completedGamesKeyPrefix${game.name}';
+
   @override
   AppReviewMetricsEntity getMetrics() {
-    final gamesCompleted = _preferences.getInt(_gamesCompletedKey) ?? 0;
+    final completedGames = <ReviewGame, int>{
+      for (final game in ReviewGame.values)
+        game: _preferences.getInt(_completedGamesKey(game)) ?? 0,
+    };
     final appOpenedCount = _preferences.getInt(_appOpenedCountKey) ?? 0;
     final lastPromptMs = _preferences.getInt(_lastReviewPromptKey);
 
     return AppReviewMetricsEntity(
-      gamesCompleted: gamesCompleted,
+      completedGames: completedGames,
       appOpenedCount: appOpenedCount,
       lastReviewPromptAt: lastPromptMs == null
           ? null
@@ -36,9 +45,10 @@ class AppReviewLocalDataSourceImpl implements AppReviewLocalDataSource {
   }
 
   @override
-  Future<void> incrementGamesCompleted() async {
-    final current = _preferences.getInt(_gamesCompletedKey) ?? 0;
-    await _preferences.setInt(_gamesCompletedKey, current + 1);
+  Future<void> incrementCompletedGames(ReviewGame game) async {
+    final key = _completedGamesKey(game);
+    final current = _preferences.getInt(key) ?? 0;
+    await _preferences.setInt(key, current + 1);
   }
 
   @override

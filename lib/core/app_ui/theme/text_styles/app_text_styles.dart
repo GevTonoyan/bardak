@@ -23,6 +23,18 @@ class AppTextStyles {
     ],
   );
 
+  /// Sudoku board digits. Deliberately the platform system font (SF Pro /
+  /// Roboto) rather than the brand faces: a grid of numbers the eye scans
+  /// for distinct values reads far better in a legibility-first face than in
+  /// the decorative [numberFont]. Light weight keeps the strokes from
+  /// closing up over the board's gradient and highlight fills.
+  final TextStyle sudokuDigit = const TextStyle(
+    fontSize: 30,
+    fontWeight: .w300,
+    height: 1,
+    color: Colors.white,
+  );
+
   final TextStyle regular38 = const TextStyle(
     fontSize: 38,
     fontWeight: .w500,

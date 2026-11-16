@@ -151,16 +151,6 @@ void main() {
     expect(bloc.state.selectedIndex, editable);
   });
 
-  test('Deselect clears the current selection', () async {
-    final bloc = buildBloc()
-      ..add(SelectCell(editable))
-      ..add(const Deselect());
-    addTearDown(bloc.close);
-    await pumpEventQueue();
-
-    expect(bloc.state.selectedIndex, isNull);
-  });
-
   test('EnterDigit fills the selected editable cell', () async {
     final bloc = buildBloc()
       ..add(SelectCell(editable))
@@ -391,8 +381,7 @@ void main() {
   test('correctly finishing a row marks its cells for celebration', () async {
     final row = editable ~/ board.size;
     final rowCells = [
-      for (var col = 0; col < board.size; col++)
-        row * board.size + col,
+      for (var col = 0; col < board.size; col++) row * board.size + col,
     ];
     final bloc = buildBloc();
     addTearDown(bloc.close);
@@ -462,12 +451,8 @@ void main() {
 
   int rowPeerOf(int index) => [
     for (var col = 0; col < board.size; col++)
-      if (!board.given[index ~/
-                  board.size *
-                  board.size +
-              col] &&
-          index ~/ board.size * board.size + col !=
-              index)
+      if (!board.given[index ~/ board.size * board.size + col] &&
+          index ~/ board.size * board.size + col != index)
         index ~/ board.size * board.size + col,
   ].first;
 

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:bardak/core/app_ui/sounds/one_shot_sound.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
@@ -9,6 +9,8 @@ import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/core/localizations/l10n/app_localizations.dart';
+import 'package:bardak/features/app_review/domain/entities/review_game.dart';
+import 'package:bardak/features/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/domain/entities/sudoku_win_record_entity.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/screens/sudoku_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/presentation/ui/sudoku_formatters.dart';
@@ -49,7 +51,6 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
   late final ConfettiController _controller = ConfettiController(
     duration: const Duration(seconds: 6),
   );
-  late final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -63,15 +64,20 @@ class _SudokuWinScreenState extends State<SudokuWinScreen> {
           .appSettings
           .soundEnabled;
       if (soundEnabled) {
-        unawaited(_audioPlayer.play(AssetSource(Assets.sounds.check)));
+        unawaited(playOneShotSound(Assets.sounds.sudokuWin));
       }
+
+      unawaited(
+        context.read<InAppReviewCubit>().requestReviewAfterGame(
+          ReviewGame.sudoku,
+        ),
+      );
     });
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    unawaited(_audioPlayer.dispose());
     super.dispose();
   }
 

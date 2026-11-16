@@ -25,6 +25,11 @@ import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/get
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_sudoku_board_size_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/domain/usecases/update_sudoku_difficulty_usecase.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/sudoku_settings_bloc.dart';
+import 'package:bardak/features/settings/domain/entities/app_settings_entity.dart';
+import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
+import 'package:bardak/features/settings/presentation/bloc/settings_state.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -56,6 +61,9 @@ class _MockGetSudokuStatsUseCase extends Mock
 
 class _MockHasSavedSudokuGameUseCase extends Mock
     implements HasSavedSudokuGameUseCase {}
+
+class _MockSettingsBloc extends MockBloc<SettingsEvent, SettingsState>
+    implements SettingsBloc {}
 
 void main() {
   late SudokuBoardEntity board;
@@ -131,6 +139,17 @@ void main() {
     );
     addTearDown(settingsBloc.close);
 
+    // The screen plays a sound on a wrong entry; keep it muted so the test
+    // never reaches the audio platform channel.
+    final appSettingsBloc = _MockSettingsBloc();
+    when(() => appSettingsBloc.state).thenReturn(
+      SettingsState(
+        appSettings: AppSettingsEntity.defaultSettings().copyWith(
+          soundEnabled: false,
+        ),
+      ),
+    );
+
     final themeData = AppThemeData(
       colors: AppColorScheme.turquoise.colors,
       typography: AppTextStyles(),
@@ -149,6 +168,7 @@ void main() {
             providers: [
               BlocProvider.value(value: bloc),
               BlocProvider.value(value: settingsBloc),
+              BlocProvider<SettingsBloc>.value(value: appSettingsBloc),
             ],
             child: const SudokuScreen(),
           ),
@@ -173,7 +193,7 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
-  testWidgets('tapping outside the cells clears the selection', (
+  testWidgets('tapping outside the cells keeps the selection', (
     tester,
   ) async {
     final bloc = await pumpScreen(tester);
@@ -182,11 +202,11 @@ void main() {
     await tester.pump();
     expect(bloc.state.selectedIndex, emptyIndex);
 
-    // The difficulty label has no tap handler, so the tap falls through to
-    // the screen's deselect gesture.
+    // The difficulty label has no tap handler, so the tap lands outside the
+    // board — the highlighted cell must stay selected.
     await tester.tap(find.text('Medium'));
     await tester.pump();
-    expect(bloc.state.selectedIndex, isNull);
+    expect(bloc.state.selectedIndex, emptyIndex);
 
     await tester.pumpWidget(const SizedBox());
   });

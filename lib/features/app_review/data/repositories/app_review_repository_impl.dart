@@ -1,6 +1,7 @@
 import 'package:bardak/features/app_review/data/data_sources/app_review_local_data_source.dart';
 import 'package:bardak/features/app_review/data/data_sources/app_review_platform_data_source.dart';
 import 'package:bardak/features/app_review/domain/entities/app_review_metrics_entity.dart';
+import 'package:bardak/features/app_review/domain/entities/review_game.dart';
 import 'package:bardak/features/app_review/domain/repositories/app_review_repository.dart';
 
 class AppReviewRepositoryImpl implements AppReviewRepository {
@@ -19,8 +20,8 @@ class AppReviewRepositoryImpl implements AppReviewRepository {
   AppReviewMetricsEntity getMetrics() => _localDataSource.getMetrics();
 
   @override
-  Future<void> incrementGamesCompleted() =>
-      _localDataSource.incrementGamesCompleted();
+  Future<void> incrementCompletedGames(ReviewGame game) =>
+      _localDataSource.incrementCompletedGames(game);
 
   @override
   Future<void> incrementAppOpenedCount() =>
