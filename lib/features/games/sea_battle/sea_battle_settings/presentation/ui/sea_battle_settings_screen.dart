@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_placement_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_mode.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/bloc/sea_battle_settings_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/bloc/sea_battle_settings_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SeaBattleSettingsScreen extends Page<void> {
   const SeaBattleSettingsScreen({super.key});
@@ -112,10 +116,18 @@ class _SeaBattleSettingsBody extends StatelessWidget {
           height20,
         ] else
           height20,
-        // TODO(Gevorg): navigate to ship placement once it exists.
         AppButton(
           label: l10n.proceed,
           color: colors.green,
+          // Online play is not available yet.
+          onPressed: isOnline
+              ? null
+              : () => unawaited(
+                  context.pushNamed(
+                    SeaBattlePlacementScreen.routePath,
+                    extra: SeaBattlePlacementArgs(mode: settings.mode),
+                  ),
+                ),
         ),
       ],
     );

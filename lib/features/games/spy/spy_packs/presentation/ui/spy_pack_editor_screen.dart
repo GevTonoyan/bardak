@@ -220,15 +220,12 @@ class _SpyPackEditorScreenState extends State<SpyPackEditorScreen> {
                     padding: const .all(20),
                     child: Column(
                       children: [
-                        // AppButton keeps its colour when disabled, so dim it
-                        // to signal the name + minimum-words rule is unmet.
-                        Opacity(
-                          opacity: _canSave ? 1 : 0.5,
-                          child: AppButton(
-                            label: l10n.spy_save_pack,
-                            color: colors.green,
-                            onPressed: _canSave ? _save : null,
-                          ),
+                        // Disabled (dimmed) until the name + minimum-words
+                        // rule is met.
+                        AppButton(
+                          label: l10n.spy_save_pack,
+                          color: colors.green,
+                          onPressed: _canSave ? _save : null,
                         ),
                         if (_isEditing) ...[
                           height20,

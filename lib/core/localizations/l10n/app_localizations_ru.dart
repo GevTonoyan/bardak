@@ -229,6 +229,25 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sea_battle_online_soon => 'Онлайн-режим скоро появится';
 
   @override
+  String get sea_battle_place_ships => 'Расставьте корабли';
+
+  @override
+  String get sea_battle_placement_hint =>
+      'Перетащите корабли на поле. Нажмите на корабль, чтобы повернуть его';
+
+  @override
+  String get sea_battle_shuffle => 'Перемешать';
+
+  @override
+  String get sea_battle_clear => 'Очистить';
+
+  @override
+  String get sea_battle_start => 'Начать';
+
+  @override
+  String get sea_battle_ready => 'Готов';
+
+  @override
   String get sudoku_best_time => 'Лучшее время';
 
   @override

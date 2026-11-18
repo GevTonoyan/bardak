@@ -222,6 +222,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sea_battle_online_soon => 'Online mode is coming soon';
 
   @override
+  String get sea_battle_place_ships => 'Place your ships';
+
+  @override
+  String get sea_battle_placement_hint =>
+      'Drag ships onto the board. Tap a ship to rotate it';
+
+  @override
+  String get sea_battle_shuffle => 'Shuffle';
+
+  @override
+  String get sea_battle_clear => 'Clear';
+
+  @override
+  String get sea_battle_start => 'Start';
+
+  @override
+  String get sea_battle_ready => 'Ready';
+
+  @override
   String get sudoku_best_time => 'Best time';
 
   @override

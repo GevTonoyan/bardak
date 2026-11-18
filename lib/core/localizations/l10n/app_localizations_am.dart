@@ -222,6 +222,25 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sea_battle_online_soon => 'Օնլայն ռեժիմը շուտով հասանելի կլինի';
 
   @override
+  String get sea_battle_place_ships => 'Դասավորեք նավերը';
+
+  @override
+  String get sea_battle_placement_hint =>
+      'Քաշեք նավերը դաշտ։ Սեղմեք նավի վրա այն պտտելու համար։';
+
+  @override
+  String get sea_battle_shuffle => 'Խառնել';
+
+  @override
+  String get sea_battle_clear => 'Մաքրել';
+
+  @override
+  String get sea_battle_start => 'Սկսել';
+
+  @override
+  String get sea_battle_ready => 'Պատրաստ եմ';
+
+  @override
   String get sudoku_best_time => 'Լավագույն ժամանակ';
 
   @override

@@ -496,6 +496,42 @@ abstract class AppLocalizations {
   /// **'Online mode is coming soon'**
   String get sea_battle_online_soon;
 
+  /// No description provided for @sea_battle_place_ships.
+  ///
+  /// In en, this message translates to:
+  /// **'Place your ships'**
+  String get sea_battle_place_ships;
+
+  /// No description provided for @sea_battle_placement_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag ships onto the board. Tap a ship to rotate it'**
+  String get sea_battle_placement_hint;
+
+  /// No description provided for @sea_battle_shuffle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle'**
+  String get sea_battle_shuffle;
+
+  /// No description provided for @sea_battle_clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get sea_battle_clear;
+
+  /// No description provided for @sea_battle_start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get sea_battle_start;
+
+  /// No description provided for @sea_battle_ready.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get sea_battle_ready;
+
   /// No description provided for @sudoku_best_time.
   ///
   /// In en, this message translates to:
