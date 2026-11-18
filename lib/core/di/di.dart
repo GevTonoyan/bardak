@@ -4,6 +4,7 @@ import 'package:bardak/features/app_review/app_review_scope.dart';
 import 'package:bardak/features/games/alias/game_settings/game_settings_scope.dart';
 import 'package:bardak/features/games/alias/team_setup/team_setup_scope.dart';
 import 'package:bardak/features/games/alias/word_packs/word_packs_scope.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_settings/sea_battle_settings_scope.dart';
 import 'package:bardak/features/games/spy/spy_packs/spy_packs_scope.dart';
 import 'package:bardak/features/games/spy/spy_settings/spy_settings_scope.dart';
 import 'package:bardak/features/games/sudoku/sudoku_game/sudoku_game_scope.dart';
@@ -56,4 +57,5 @@ Future<void> injectDependencies() async {
   injectSpyPacksScope();
   injectSudokuSettingsScope();
   injectSudokuGameScope();
+  injectSeaBattleSettingsScope();
 }

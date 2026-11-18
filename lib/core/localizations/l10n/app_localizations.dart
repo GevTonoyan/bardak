@@ -442,6 +442,60 @@ abstract class AppLocalizations {
   /// **'Extreme'**
   String get sudoku_difficulty_extreme;
 
+  /// No description provided for @seaBattle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sea Battle'**
+  String get seaBattle;
+
+  /// No description provided for @sea_battle_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get sea_battle_mode;
+
+  /// No description provided for @sea_battle_mode_solo.
+  ///
+  /// In en, this message translates to:
+  /// **'Solo'**
+  String get sea_battle_mode_solo;
+
+  /// No description provided for @sea_battle_mode_online.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get sea_battle_mode_online;
+
+  /// No description provided for @sea_battle_bot_difficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot level'**
+  String get sea_battle_bot_difficulty;
+
+  /// No description provided for @sea_battle_difficulty_easy.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get sea_battle_difficulty_easy;
+
+  /// No description provided for @sea_battle_difficulty_medium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get sea_battle_difficulty_medium;
+
+  /// No description provided for @sea_battle_difficulty_hard.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get sea_battle_difficulty_hard;
+
+  /// No description provided for @sea_battle_online_soon.
+  ///
+  /// In en, this message translates to:
+  /// **'Online mode is coming soon'**
+  String get sea_battle_online_soon;
+
   /// No description provided for @sudoku_best_time.
   ///
   /// In en, this message translates to:

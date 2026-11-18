@@ -17,6 +17,7 @@ import 'package:bardak/features/games/alias/single_word_round/presentation/ui/si
 import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/ui/sea_battle_settings_screen.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/entities/spy_pack_entity.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_language_select_screen.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_pack_editor_screen.dart';
@@ -168,6 +169,11 @@ final appRouter = GoRouter(
           name: ThemesScreen.routePath,
           pageBuilder: (context, state) =>
               const MaterialPage(child: ThemesScreen()),
+        ),
+        GoRoute(
+          path: SeaBattleSettingsScreen.routePath,
+          name: SeaBattleSettingsScreen.routePath,
+          pageBuilder: (context, state) => const SeaBattleSettingsScreen(),
         ),
         GoRoute(
           path: SudokuSettingsScreen.routePath,

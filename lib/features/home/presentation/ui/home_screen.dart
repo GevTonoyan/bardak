@@ -10,6 +10,7 @@ import 'package:bardak/features/games/alias/game_settings/domain/entities/game_m
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_event.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/ui/game_settings_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/ui/sea_battle_settings_screen.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/ui/spy_settings_screen.dart';
 import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/ui/sudoku_settings_screen.dart';
 import 'package:bardak/features/settings/presentation/ui/settings_screen.dart';
@@ -124,6 +125,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         color: colors.orange,
                         onPressed: () => unawaited(
                           context.pushNamed(SudokuSettingsScreen.routePath),
+                        ),
+                      ),
+                      height20,
+                      AppButton(
+                        label: l10n.seaBattle,
+                        color: colors.blue,
+                        onPressed: () => unawaited(
+                          context.pushNamed(SeaBattleSettingsScreen.routePath),
                         ),
                       ),
                       const Spacer(),

@@ -195,6 +195,33 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sudoku_difficulty_extreme => 'Էքստրիմ';
 
   @override
+  String get seaBattle => 'Ծովամարտ';
+
+  @override
+  String get sea_battle_mode => 'Ռեժիմ';
+
+  @override
+  String get sea_battle_mode_solo => 'Միայնակ';
+
+  @override
+  String get sea_battle_mode_online => 'Օնլայն';
+
+  @override
+  String get sea_battle_bot_difficulty => 'Բոտի մակարդակ';
+
+  @override
+  String get sea_battle_difficulty_easy => 'Հեշտ';
+
+  @override
+  String get sea_battle_difficulty_medium => 'Միջին';
+
+  @override
+  String get sea_battle_difficulty_hard => 'Բարդ';
+
+  @override
+  String get sea_battle_online_soon => 'Օնլայն ռեժիմը շուտով հասանելի կլինի';
+
+  @override
   String get sudoku_best_time => 'Լավագույն ժամանակ';
 
   @override

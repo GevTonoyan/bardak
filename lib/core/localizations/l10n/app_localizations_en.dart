@@ -195,6 +195,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sudoku_difficulty_extreme => 'Extreme';
 
   @override
+  String get seaBattle => 'Sea Battle';
+
+  @override
+  String get sea_battle_mode => 'Mode';
+
+  @override
+  String get sea_battle_mode_solo => 'Solo';
+
+  @override
+  String get sea_battle_mode_online => 'Online';
+
+  @override
+  String get sea_battle_bot_difficulty => 'Bot level';
+
+  @override
+  String get sea_battle_difficulty_easy => 'Easy';
+
+  @override
+  String get sea_battle_difficulty_medium => 'Medium';
+
+  @override
+  String get sea_battle_difficulty_hard => 'Hard';
+
+  @override
+  String get sea_battle_online_soon => 'Online mode is coming soon';
+
+  @override
   String get sudoku_best_time => 'Best time';
 
   @override

@@ -15,6 +15,7 @@ import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_bloc.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/bloc/sea_battle_settings_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_event.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/bloc/spy_settings_bloc.dart';
@@ -126,6 +127,13 @@ void main() async {
             updateSudokuBoardSizeUseCase: sl(),
             updateSudokuDifficultyUseCase: sl(),
             hasSavedSudokuGameUseCase: sl(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => SeaBattleSettingsBloc(
+            getSeaBattleSettingsUseCase: sl(),
+            updateSeaBattleModeUseCase: sl(),
+            updateSeaBattleBotDifficultyUseCase: sl(),
           ),
         ),
       ],

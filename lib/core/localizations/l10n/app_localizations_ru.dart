@@ -202,6 +202,33 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sudoku_difficulty_extreme => 'Экстрим';
 
   @override
+  String get seaBattle => 'Морской бой';
+
+  @override
+  String get sea_battle_mode => 'Режим';
+
+  @override
+  String get sea_battle_mode_solo => 'Соло';
+
+  @override
+  String get sea_battle_mode_online => 'Онлайн';
+
+  @override
+  String get sea_battle_bot_difficulty => 'Уровень бота';
+
+  @override
+  String get sea_battle_difficulty_easy => 'Легко';
+
+  @override
+  String get sea_battle_difficulty_medium => 'Средне';
+
+  @override
+  String get sea_battle_difficulty_hard => 'Сложно';
+
+  @override
+  String get sea_battle_online_soon => 'Онлайн-режим скоро появится';
+
+  @override
   String get sudoku_best_time => 'Лучшее время';
 
   @override
