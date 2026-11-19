@@ -1,12 +1,16 @@
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
 import 'package:equatable/equatable.dart';
 
 /// A battle in progress: both boards, whose [turn] it is and the
 /// [lastShot] fired.
 ///
-/// A hit keeps the turn; a miss passes it to the other side. The first
-/// side to sink the other's whole fleet wins.
+/// The player's fleet is known; the opponent's is hidden until the battle
+/// is over, so every shot is [record]ed with the result its target's owner
+/// reported. A hit keeps the turn; a miss passes it to the other side. The
+/// first side to sink the other's whole fleet wins.
 class SeaBattleEntity extends Equatable {
   const SeaBattleEntity({
     required this.playerBoard,
@@ -18,7 +22,8 @@ class SeaBattleEntity extends Equatable {
   /// The player's fleet, shot at by the opponent.
   final SeaBattleBoardEntity playerBoard;
 
-  /// The opponent's fleet, shot at by the player.
+  /// The opponent's board, shot at by the player; its fleet stays hidden
+  /// until the battle is over.
   final SeaBattleBoardEntity opponentBoard;
 
   /// The side that fires next.
@@ -46,51 +51,70 @@ class SeaBattleEntity extends Equatable {
   bool canFire(SeaBattleSide shooter, BoardCoordinate cell) =>
       !isOver && turn == shooter && targetOf(shooter).canShoot(cell);
 
-  /// The battle after the side whose [turn] it is fires at [cell]; what
-  /// the shot did is in its [lastShot].
-  ///
-  /// [cell] must be one that [canFire].
-  SeaBattleEntity fire(BoardCoordinate cell) {
-    assert(canFire(turn, cell), '$turn cannot fire at $cell');
-
-    final (target, result) = targetOf(turn).shoot(cell);
-    final shot = ShotEntity(shooter: turn, cell: cell, result: result);
-    final nextTurn = result.isHit ? turn : turn.other;
-
-    return switch (turn) {
-      .player => SeaBattleEntity(
-        playerBoard: playerBoard,
-        opponentBoard: target,
-        turn: nextTurn,
-        lastShot: shot,
-      ),
-      .opponent => SeaBattleEntity(
-        playerBoard: target,
-        opponentBoard: opponentBoard,
-        turn: nextTurn,
-        lastShot: shot,
-      ),
-    };
+  /// The opponent's shot at [cell], answered from the player's own fleet.
+  ShotEntity answerOpponentShot(BoardCoordinate cell) {
+    final (result, sunkShip) = playerBoard.answer(cell);
+    return ShotEntity(
+      shooter: .opponent,
+      cell: cell,
+      result: result,
+      sunkShip: sunkShip,
+    );
   }
+
+  /// The battle after [shot], fired by the side whose [turn] it is.
+  SeaBattleEntity record(ShotEntity shot) {
+    assert(
+      canFire(shot.shooter, shot.cell),
+      '${shot.shooter} cannot fire at ${shot.cell}',
+    );
+
+    final target = targetOf(shot.shooter).record(
+      shot.cell,
+      shot.result,
+      sunkShip: shot.sunkShip,
+    );
+    final nextTurn = shot.result.isHit ? turn : turn.other;
+
+    return SeaBattleEntity(
+      playerBoard: shot.shooter == .opponent ? target : playerBoard,
+      opponentBoard: shot.shooter == .player ? target : opponentBoard,
+      turn: nextTurn,
+      lastShot: shot,
+    );
+  }
+
+  /// The battle with the opponent's [fleet] shown, once it is over.
+  SeaBattleEntity revealOpponentFleet(FleetEntity fleet) => SeaBattleEntity(
+    playerBoard: playerBoard,
+    opponentBoard: opponentBoard.withFleet(fleet),
+    turn: turn,
+    lastShot: lastShot,
+  );
 
   @override
   List<Object?> get props => [playerBoard, opponentBoard, turn, lastShot];
 }
 
-/// A shot fired by [shooter] at [cell] on the other side's board.
+/// A shot fired by [shooter] at [cell] on the other side's board, with
+/// the result the target's owner reported.
 class ShotEntity extends Equatable {
   const ShotEntity({
     required this.shooter,
     required this.cell,
     required this.result,
+    this.sunkShip,
   });
 
   final SeaBattleSide shooter;
   final BoardCoordinate cell;
   final ShotResult result;
 
+  /// The ship this shot sank; set only when [result] is sunk.
+  final ShipEntity? sunkShip;
+
   @override
-  List<Object?> get props => [shooter, cell, result];
+  List<Object?> get props => [shooter, cell, result, sunkShip];
 }
 
 /// One of the two players in a battle.

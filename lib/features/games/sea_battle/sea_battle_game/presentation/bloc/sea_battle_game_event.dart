@@ -18,7 +18,8 @@ final class FireShot extends SeaBattleGameEvent {
   List<Object?> get props => [cell];
 }
 
-/// The bot takes its shot at the player's board.
-final class FireBotShot extends SeaBattleGameEvent {
-  const FireBotShot();
+/// The opponent takes its turn: fires at the player's board and gets the
+/// answer.
+final class PlayOpponentTurn extends SeaBattleGameEvent {
+  const PlayOpponentTurn();
 }

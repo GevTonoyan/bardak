@@ -1,33 +1,85 @@
 import 'dart:math';
 
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
+import 'package:flutter/foundation.dart';
 
-/// Picks the cell the bot fires at next on the player's board.
+/// The bot opponent, playing on the device.
+abstract interface class SeaBattleOpponentLocalDataSource {
+  /// What the player's shot at [cell] did on the bot's board.
+  Future<ShotEntity> answerPlayerShot(BoardCoordinate cell);
+
+  /// The bot's next shot at [playerBoard], which comes without the
+  /// player's fleet.
+  Future<BoardCoordinate> getOpponentShot(SeaBattleBoardEntity playerBoard);
+
+  /// Where the bot's ships are.
+  Future<FleetEntity> getOpponentFleet();
+}
+
+/// A bot with a random fleet that fires back after a short pause.
 ///
-/// The bot plays fair: it only uses what a human would see — which cells
-/// are marked, which of them are hits, which ships are sunk — never where
-/// the player's ships are.
+/// It plays fair: it aims using only what a human would see — which cells
+/// are marked, which of them are hits, which ships are sunk.
 ///
 /// - Easy shoots at random and follows up a hit only now and then.
 /// - Medium shoots at random until it hits, then finishes that ship off.
 /// - Hard counts, for every open cell, how many ways the remaining ships
 ///   could cover it, and fires at the likeliest one.
-class ChooseBotShotUseCase {
-  ChooseBotShotUseCase({Random? random}) : _random = random ?? Random();
+class SeaBattleOpponentLocalDataSourceImpl
+    implements SeaBattleOpponentLocalDataSource {
+  SeaBattleOpponentLocalDataSourceImpl({
+    required this._difficulty,
+    Random? random,
+  }) : _random = random ?? Random() {
+    _board = SeaBattleBoardEntity(fleet: FleetEntity.random(_random));
+  }
 
+  final SeaBattleBotDifficulty _difficulty;
   final Random _random;
+
+  /// The bot's own board: its fleet and the player's shots at it.
+  late SeaBattleBoardEntity _board;
+
+  /// Pause before each bot shot, so the player can follow it.
+  static const _shotDelay = Duration(milliseconds: 700);
 
   /// How often the easy bot follows up a hit instead of shooting at
   /// random.
   static const _easyFollowUpChance = 0.4;
 
-  BoardCoordinate call(ChooseBotShotParams params) {
-    final board = params.board;
+  @override
+  Future<ShotEntity> answerPlayerShot(BoardCoordinate cell) async {
+    final (result, sunkShip) = _board.answer(cell);
+    _board = _board.record(cell, result, sunkShip: sunkShip);
 
-    return switch (params.difficulty) {
+    return ShotEntity(
+      shooter: .player,
+      cell: cell,
+      result: result,
+      sunkShip: sunkShip,
+    );
+  }
+
+  @override
+  Future<BoardCoordinate> getOpponentShot(
+    SeaBattleBoardEntity playerBoard,
+  ) async {
+    await Future<void>.delayed(_shotDelay);
+    return chooseShot(playerBoard);
+  }
+
+  @override
+  Future<FleetEntity> getOpponentFleet() async => _board.fleet!;
+
+  /// The cell the bot fires at on [board], without the pause.
+  @visibleForTesting
+  BoardCoordinate chooseShot(SeaBattleBoardEntity board) {
+    return switch (_difficulty) {
       .easy =>
         _random.nextDouble() < _easyFollowUpChance
             ? _followUp(board) ?? _randomCell(board)
@@ -124,12 +176,4 @@ class ChooseBotShotUseCase {
       }
     }
   }
-}
-
-class ChooseBotShotParams {
-  const ChooseBotShotParams({required this.board, required this.difficulty});
-
-  /// The player's board, as the bot fires at it.
-  final SeaBattleBoardEntity board;
-  final SeaBattleBotDifficulty difficulty;
 }

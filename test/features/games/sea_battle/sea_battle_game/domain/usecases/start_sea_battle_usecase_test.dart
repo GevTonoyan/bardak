@@ -8,14 +8,12 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   final playerFleet = FleetEntity.random(Random(1));
 
-  test('pits the player fleet against a complete random fleet', () {
-    final battle = StartSeaBattleUseCase(random: Random(2))(
-      StartSeaBattleParams(playerFleet: playerFleet),
-    );
+  test("pits the player's fleet against a hidden one", () {
+    final battle = StartSeaBattleUseCase(random: Random(2))(playerFleet);
 
     expect(battle.playerBoard.fleet, playerFleet);
     expect(battle.playerBoard.marked, isEmpty);
-    expect(battle.opponentBoard.fleet.isComplete, isTrue);
+    expect(battle.opponentBoard.fleet, isNull);
     expect(battle.opponentBoard.marked, isEmpty);
     expect(battle.isOver, isFalse);
   });
@@ -23,9 +21,7 @@ void main() {
   test('either side may fire first', () {
     final firstShooters = {
       for (var seed = 0; seed < 20; seed++)
-        StartSeaBattleUseCase(random: Random(seed))(
-          StartSeaBattleParams(playerFleet: playerFleet),
-        ).turn,
+        StartSeaBattleUseCase(random: Random(seed))(playerFleet).turn,
     };
 
     expect(firstShooters, SeaBattleSide.values.toSet());

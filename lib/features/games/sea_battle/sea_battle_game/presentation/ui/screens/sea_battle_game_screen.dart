@@ -321,8 +321,7 @@ class _EnemyBoard extends StatelessWidget {
     return BattleBoard(
       board: battle.opponentBoard,
       cellSize: cellSize,
-      // Shows where the opponent's ships were once the battle is lost.
-      revealFleet: battle.isOver,
+      isOwnBoard: false,
       lastShot: lastShot?.shooter == .player ? lastShot : null,
       onCellTap: (cell) => _fire(context, cell),
     );
@@ -351,7 +350,7 @@ class _OwnBoard extends StatelessWidget {
         return BattleBoard(
           board: state.battle.playerBoard,
           cellSize: cellSize,
-          revealFleet: true,
+          isOwnBoard: true,
           lastShot: lastShot?.shooter == .opponent ? lastShot : null,
         );
       },

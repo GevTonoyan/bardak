@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
@@ -5,69 +7,104 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-SeaBattleBoardEntity _boardWithBoatAt(int row, int column) =>
-    SeaBattleBoardEntity(
-      fleet: const FleetEntity().withShip(
-        ShipEntity(id: 0, length: 1, origin: BoardCoordinate(row, column)),
-      ),
-    );
+final _playerFleet = FleetEntity.random(Random(1));
+final _opponentFleet = FleetEntity.random(Random(2));
 
 final _battle = SeaBattleEntity(
-  playerBoard: _boardWithBoatAt(0, 0),
-  opponentBoard: _boardWithBoatAt(5, 5),
+  playerBoard: SeaBattleBoardEntity(fleet: _playerFleet),
+  opponentBoard: const SeaBattleBoardEntity(),
   turn: .player,
 );
 
+/// A cell with no ship on [fleet].
+BoardCoordinate _water(FleetEntity fleet) => [
+  for (var row = 0; row < BoardCoordinate.boardSize; row++)
+    for (var column = 0; column < BoardCoordinate.boardSize; column++)
+      BoardCoordinate(row, column),
+].firstWhere((cell) => fleet.shipAt(cell) == null);
+
+ShotEntity _playerShot(
+  BoardCoordinate cell,
+  ShotResult result, {
+  ShipEntity? sunkShip,
+}) => ShotEntity(
+  shooter: .player,
+  cell: cell,
+  result: result,
+  sunkShip: sunkShip,
+);
+
 void main() {
-  test('a miss passes the turn and lands on the opponent board', () {
-    final battle = _battle.fire(const BoardCoordinate(1, 1));
-    final result = battle.lastShot!.result;
+  test('a reported miss lands on the opponent board and passes the turn', () {
+    const cell = BoardCoordinate(1, 1);
+    final battle = _battle.record(_playerShot(cell, .miss));
 
-    expect(result, ShotResult.miss);
     expect(battle.turn, SeaBattleSide.opponent);
-    expect(battle.opponentBoard.missCells, {const BoardCoordinate(1, 1)});
+    expect(battle.opponentBoard.missCells, {cell});
     expect(battle.playerBoard, _battle.playerBoard);
+    expect(battle.lastShot, _playerShot(cell, .miss));
   });
 
-  test('the opponent fires at the player board', () {
-    final missed = _battle.fire(const BoardCoordinate(1, 1));
-    final battle = missed.fire(const BoardCoordinate(9, 9));
-    final result = battle.lastShot!.result;
-
-    expect(result, ShotResult.miss);
-    expect(battle.turn, SeaBattleSide.player);
-    expect(battle.playerBoard.missCells, {const BoardCoordinate(9, 9)});
-  });
-
-  test('a hit keeps the turn', () {
-    final battle = SeaBattleEntity(
-      playerBoard: _battle.playerBoard,
-      opponentBoard: SeaBattleBoardEntity(
-        fleet: const FleetEntity().withShip(
-          const ShipEntity(id: 0, length: 2, origin: BoardCoordinate(5, 5)),
-        ),
-      ),
-      turn: .player,
+  test('a reported hit keeps the turn', () {
+    final battle = _battle.record(
+      _playerShot(const BoardCoordinate(3, 3), .hit),
     );
 
-    final next = battle.fire(const BoardCoordinate(5, 5));
-    final result = next.lastShot!.result;
-
-    expect(result, ShotResult.hit);
-    expect(next.turn, SeaBattleSide.player);
+    expect(battle.turn, SeaBattleSide.player);
+    expect(battle.opponentBoard.hitCells, {const BoardCoordinate(3, 3)});
   });
 
-  test('sinking the last ship wins and stops all firing', () {
-    final battle = _battle.fire(const BoardCoordinate(5, 5));
-    final result = battle.lastShot!.result;
+  test("the opponent's shot is answered from the player's fleet", () {
+    final missed = _battle.record(
+      _playerShot(const BoardCoordinate(1, 1), .miss),
+    );
+    final ship = _playerFleet.ships.firstWhere((ship) => ship.length == 1);
 
-    expect(result, ShotResult.sunk);
+    final shot = missed.answerOpponentShot(ship.origin);
+    final battle = missed.record(shot);
+
+    expect(
+      shot,
+      ShotEntity(
+        shooter: .opponent,
+        cell: ship.origin,
+        result: .sunk,
+        sunkShip: ship,
+      ),
+    );
+    expect(battle.playerBoard.sunkShips, [ship]);
+    expect(battle.turn, SeaBattleSide.opponent);
+  });
+
+  test('a water shot by the opponent is answered as a miss', () {
+    final missed = _battle.record(
+      _playerShot(const BoardCoordinate(1, 1), .miss),
+    );
+
+    expect(
+      missed.answerOpponentShot(_water(_playerFleet)).result,
+      ShotResult.miss,
+    );
+  });
+
+  test('sinking the whole hidden fleet wins and stops all firing', () {
+    var battle = _battle;
+    for (final ship in _opponentFleet.ships) {
+      for (final cell in ship.cells) {
+        final isLast = cell == ship.cells.last;
+        battle = battle.record(
+          _playerShot(
+            cell,
+            isLast ? .sunk : .hit,
+            sunkShip: isLast ? ship : null,
+          ),
+        );
+      }
+    }
+
     expect(battle.winner, SeaBattleSide.player);
     expect(battle.isOver, isTrue);
-    expect(
-      battle.canFire(.player, const BoardCoordinate(1, 1)),
-      isFalse,
-    );
+    expect(battle.canFire(.player, _water(_opponentFleet)), isFalse);
   });
 
   test('canFire only for the side whose turn it is, at open cells', () {
@@ -76,9 +113,20 @@ void main() {
     expect(_battle.canFire(.player, open), isTrue);
     expect(_battle.canFire(.opponent, open), isFalse);
 
-    final battle = _battle.fire(open);
-    final back = battle.fire(const BoardCoordinate(9, 9));
-    expect(back.canFire(.player, open), isFalse);
+    final battle = _battle.record(_playerShot(open, .miss));
+    expect(battle.canFire(.player, const BoardCoordinate(5, 5)), isFalse);
+  });
+
+  test('revealOpponentFleet shows the fleet and keeps the results', () {
+    final battle = _battle.record(
+      _playerShot(const BoardCoordinate(1, 1), .miss),
+    );
+
+    final revealed = battle.revealOpponentFleet(_opponentFleet);
+
+    expect(revealed.opponentBoard.fleet, _opponentFleet);
+    expect(revealed.opponentBoard.missCells, battle.opponentBoard.missCells);
+    expect(revealed.turn, battle.turn);
   });
 
   test('targetOf is the other side board', () {

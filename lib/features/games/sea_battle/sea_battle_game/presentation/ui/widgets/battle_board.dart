@@ -12,15 +12,15 @@ import 'package:flutter/material.dart';
 
 /// One side's board during the battle, with every shot marked on it.
 ///
-/// The player's own board shows the whole fleet; the opponent's shows only
-/// the ships already sunk, unless [revealFleet] is set once the battle is
-/// over. The latest shot plays its [ShotEffect], and sinking a ship shakes
-/// the board.
+/// Draws the fleet when it is known — always on the player's own board,
+/// and on the opponent's once it is revealed after the battle — and only
+/// the ships already sunk otherwise. The latest shot plays its
+/// [ShotEffect], and sinking a ship shakes the board.
 class BattleBoard extends StatefulWidget {
   const BattleBoard({
     required this.board,
     required this.cellSize,
-    required this.revealFleet,
+    required this.isOwnBoard,
     this.lastShot,
     this.onCellTap,
     super.key,
@@ -29,8 +29,9 @@ class BattleBoard extends StatefulWidget {
   final SeaBattleBoardEntity board;
   final double cellSize;
 
-  /// Whether ships still afloat are drawn too.
-  final bool revealFleet;
+  /// Whether this is the player's board. On the opponent's, revealed ships
+  /// that were never sunk are drawn faded.
+  final bool isOwnBoard;
 
   /// The most recent shot on this board: outlined and animated.
   final ShotEntity? lastShot;
@@ -69,7 +70,7 @@ class _BattleBoardState extends State<BattleBoard>
     final cellSize = widget.cellSize;
     final board = widget.board;
     final sunkShips = board.sunkShips;
-    final ships = widget.revealFleet ? board.fleet.ships : sunkShips;
+    final ships = board.fleet?.ships ?? sunkShips;
     final lastShot = widget.lastShot;
     final onCellTap = widget.onCellTap;
 
@@ -103,7 +104,7 @@ class _BattleBoardState extends State<BattleBoard>
                 // Ships nobody found are shown faded once the fleet is
                 // revealed.
                 child: Opacity(
-                  opacity: widget.revealFleet || sunkShips.contains(ship)
+                  opacity: widget.isOwnBoard || sunkShips.contains(ship)
                       ? 1
                       : 0.5,
                   child: ShipView(

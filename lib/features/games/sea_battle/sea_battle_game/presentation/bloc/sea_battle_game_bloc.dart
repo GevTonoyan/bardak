@@ -1,76 +1,89 @@
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/choose_bot_shot_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/fire_at_opponent_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_fleet_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_shot_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/report_opponent_shot_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/start_sea_battle_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_state.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Runs a battle against the bot: the player's shots, then the bot's
-/// replies after a short pause, until one fleet is sunk.
+/// Runs a battle against an opponent — the bot, or a remote player — until
+/// one fleet is sunk.
+///
+/// The player's shots are answered by the opponent; the opponent's shots
+/// are answered from the player's own fleet and reported back.
 class SeaBattleGameBloc extends Bloc<SeaBattleGameEvent, SeaBattleGameState> {
   SeaBattleGameBloc({
     required FleetEntity playerFleet,
-    required this._botDifficulty,
     required StartSeaBattleUseCase startSeaBattleUseCase,
-    required this._chooseBotShotUseCase,
-  }) : super(
-         SeaBattleGameState(
-           battle: startSeaBattleUseCase(
-             StartSeaBattleParams(playerFleet: playerFleet),
-           ),
-         ),
-       ) {
-    on<FireShot>(_onFireShot);
-    // One bot shot at a time, in order: each hit queues the next one.
-    on<FireBotShot>(_onFireBotShot, transformer: sequential());
+    required this._fireAtOpponentUseCase,
+    required this._getOpponentShotUseCase,
+    required this._reportOpponentShotUseCase,
+    required this._getOpponentFleetUseCase,
+  }) : super(SeaBattleGameState(battle: startSeaBattleUseCase(playerFleet))) {
+    // Taps while the last shot is still being answered are dropped.
+    on<FireShot>(_onFireShot, transformer: droppable());
+    // One opponent shot at a time, in order: each hit queues the next one.
+    on<PlayOpponentTurn>(_onPlayOpponentTurn, transformer: sequential());
 
-    _letBotFireIfItsTurn(state.battle);
+    _letOpponentPlayIfItsTurn(state.battle);
   }
 
-  final SeaBattleBotDifficulty _botDifficulty;
-  final ChooseBotShotUseCase _chooseBotShotUseCase;
+  final FireAtOpponentUseCase _fireAtOpponentUseCase;
+  final GetOpponentShotUseCase _getOpponentShotUseCase;
+  final ReportOpponentShotUseCase _reportOpponentShotUseCase;
+  final GetOpponentFleetUseCase _getOpponentFleetUseCase;
 
-  void _onFireShot(FireShot event, Emitter<SeaBattleGameState> emit) {
-    // Taps during the bot's turn or on marked cells are ignored.
-    if (!state.battle.canFire(.player, event.cell)) return;
-
-    _fire(event.cell, emit);
-  }
-
-  Future<void> _onFireBotShot(
-    FireBotShot event,
+  Future<void> _onFireShot(
+    FireShot event,
     Emitter<SeaBattleGameState> emit,
   ) async {
-    /// Pause before each bot shot, so the player can follow it.
-    await Future<void>.delayed(const Duration(milliseconds: 700));
+    // Taps during the opponent's turn or on marked cells are ignored.
+    if (!state.battle.canFire(.player, event.cell)) return;
+
+    final shot = await _fireAtOpponentUseCase(event.cell);
+    if (isClosed) return;
+
+    await _record(shot, emit);
+  }
+
+  Future<void> _onPlayOpponentTurn(
+    PlayOpponentTurn event,
+    Emitter<SeaBattleGameState> emit,
+  ) async {
+    final cell = await _getOpponentShotUseCase(state.battle.playerBoard);
     final battle = state.battle;
-    if (isClosed || battle.isOver || battle.turn != .opponent) {
+    if (isClosed || !battle.canFire(.opponent, cell)) return;
+
+    final shot = battle.answerOpponentShot(cell);
+    await _record(shot, emit);
+    await _reportOpponentShotUseCase(shot);
+  }
+
+  /// Applies [shot], shows the opponent's fleet once the battle is over,
+  /// and hands the turn to the opponent when it is theirs.
+  Future<void> _record(
+    ShotEntity shot,
+    Emitter<SeaBattleGameState> emit,
+  ) async {
+    var battle = state.battle.record(shot);
+    emit(SeaBattleGameState(battle: battle));
+
+    if (battle.isOver) {
+      battle = battle.revealOpponentFleet(await _getOpponentFleetUseCase());
+      if (!isClosed) emit(SeaBattleGameState(battle: battle));
       return;
     }
-
-    final cell = _chooseBotShotUseCase(
-      ChooseBotShotParams(
-        board: battle.playerBoard,
-        difficulty: _botDifficulty,
-      ),
-    );
-    _fire(cell, emit);
+    _letOpponentPlayIfItsTurn(battle);
   }
 
-  void _fire(BoardCoordinate cell, Emitter<SeaBattleGameState> emit) {
-    final battle = state.battle.fire(cell);
-    emit(SeaBattleGameState(battle: battle));
-    _letBotFireIfItsTurn(battle);
-  }
-
-  /// Queues the bot's shot whenever the turn is (still) the bot's.
-  void _letBotFireIfItsTurn(SeaBattleEntity battle) {
-    if (!battle.isOver && battle.turn == .opponent) {
-      add(const FireBotShot());
+  /// Queues the opponent's shot whenever the turn is (still) theirs.
+  void _letOpponentPlayIfItsTurn(SeaBattleEntity battle) {
+    if (!isClosed && !battle.isOver && battle.turn == .opponent) {
+      add(const PlayOpponentTurn());
     }
   }
 }

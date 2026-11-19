@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
@@ -55,14 +57,61 @@ void main() {
     expect(board.afloatShipLengths, [4, 3, 3, 2, 2, 2, 1, 1, 1]);
   });
 
-  test('is defeated once every ship is sunk', () {
-    var board = _board;
-    for (final cell in [..._cruiser.cells, ..._boat.cells]) {
+  test('is defeated once all ten ships are sunk', () {
+    final fleet = FleetEntity.random(Random(3));
+    var board = SeaBattleBoardEntity(fleet: fleet);
+    for (final cell in [for (final ship in fleet.ships) ...ship.cells]) {
       expect(board.isDefeated, isFalse);
       (board, _) = board.shoot(cell);
     }
 
     expect(board.isDefeated, isTrue);
+  });
+
+  group('a board with a hidden fleet', () {
+    const hidden = SeaBattleBoardEntity();
+
+    test('records reported results', () {
+      final board = hidden
+          .record(const BoardCoordinate(9, 9), .miss)
+          .record(const BoardCoordinate(4, 4), .hit);
+
+      expect(board.missCells, {const BoardCoordinate(9, 9)});
+      expect(board.hitCells, {const BoardCoordinate(4, 4)});
+      expect(board.woundedCells, {const BoardCoordinate(4, 4)});
+      expect(board.shotCount, 2);
+    });
+
+    test('marks the cells around a reported sunk ship', () {
+      final board = hidden
+          .record(const BoardCoordinate(4, 4), .hit)
+          .record(const BoardCoordinate(4, 5), .sunk, sunkShip: _cruiser);
+
+      expect(board.sunkShips, [_cruiser]);
+      expect(board.woundedCells, isEmpty);
+      expect(board.missCells, _cruiser.surroundingCells);
+    });
+  });
+
+  test('answer works out the result from the fleet without changing it', () {
+    final (wounded, _) = _board.shoot(const BoardCoordinate(4, 4));
+
+    expect(_board.answer(const BoardCoordinate(9, 9)), (ShotResult.miss, null));
+    expect(_board.answer(const BoardCoordinate(4, 4)), (ShotResult.hit, null));
+    expect(
+      wounded.answer(const BoardCoordinate(4, 5)),
+      (ShotResult.sunk, _cruiser),
+    );
+    expect(wounded.hitCells, {const BoardCoordinate(4, 4)});
+  });
+
+  test('withoutFleet hides the ships and withFleet shows them again', () {
+    final (shot, _) = _board.shoot(const BoardCoordinate(4, 4));
+
+    final hidden = shot.withoutFleet;
+    expect(hidden.fleet, isNull);
+    expect(hidden.hitCells, shot.hitCells);
+    expect(hidden.withFleet(_board.fleet!), shot);
   });
 
   test('counts only real shots and the share that hit', () {

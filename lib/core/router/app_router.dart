@@ -17,6 +17,11 @@ import 'package:bardak/features/games/alias/single_word_round/presentation/ui/si
 import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/repositories/sea_battle_opponent_repository.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/fire_at_opponent_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_fleet_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_shot_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/report_opponent_shot_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_result_screen.dart';
@@ -205,13 +210,26 @@ final appRouter = GoRouter(
               name: SeaBattleGameScreen.routePath,
               pageBuilder: (context, state) {
                 final args = state.extra! as SeaBattleGameArgs;
+                final opponentRepository = sl<SeaBattleOpponentRepository>(
+                  param1: args.botDifficulty,
+                );
                 return MaterialPage(
                   child: BlocProvider(
                     create: (_) => SeaBattleGameBloc(
                       playerFleet: args.playerFleet,
-                      botDifficulty: args.botDifficulty,
                       startSeaBattleUseCase: sl(),
-                      chooseBotShotUseCase: sl(),
+                      fireAtOpponentUseCase: FireAtOpponentUseCase(
+                        opponentRepository,
+                      ),
+                      getOpponentShotUseCase: GetOpponentShotUseCase(
+                        opponentRepository,
+                      ),
+                      reportOpponentShotUseCase: ReportOpponentShotUseCase(
+                        opponentRepository,
+                      ),
+                      getOpponentFleetUseCase: GetOpponentFleetUseCase(
+                        opponentRepository,
+                      ),
                     ),
                     child: SeaBattleGameScreen(args: args),
                   ),

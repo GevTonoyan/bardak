@@ -3,20 +3,34 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
 import 'package:equatable/equatable.dart';
 
-/// One side's board during a battle: their [fleet] and every cell the
-/// other side has marked on it.
+/// One side's board during a battle: every result of the shots fired at
+/// it, and its [fleet] when that is known.
+///
+/// The player knows their own fleet; the opponent's stays hidden (null)
+/// until the battle is over, so that board is built only from the results
+/// the opponent reports. Only a board with a known fleet can [answer] a
+/// shot.
 class SeaBattleBoardEntity extends Equatable {
   const SeaBattleBoardEntity({
-    required this.fleet,
+    this.fleet,
     this.marked = const {},
+    this.hitCells = const {},
+    this.sunkShips = const [],
     this.shotCount = 0,
   });
 
-  final FleetEntity fleet;
+  /// Where the ships are, or null while they are hidden from the shooter.
+  final FleetEntity? fleet;
 
   /// Cells shot at, plus the cells around each sunk ship, which are marked
   /// automatically since no ship can be there.
   final Set<BoardCoordinate> marked;
+
+  /// Marked cells with part of a ship on them.
+  final Set<BoardCoordinate> hitCells;
+
+  /// Ships sunk so far, revealed as each one goes down.
+  final List<ShipEntity> sunkShips;
 
   /// Shots actually fired at this board; cells marked automatically around
   /// sunk ships do not count.
@@ -34,23 +48,14 @@ class SeaBattleBoardEntity extends Equatable {
           BoardCoordinate(row, column),
   ];
 
-  /// Marked cells with part of a ship on them.
-  Set<BoardCoordinate> get hitCells =>
-      marked.where((cell) => fleet.shipAt(cell) != null).toSet();
-
   /// Marked cells with only water: misses and auto-marked cells.
-  Set<BoardCoordinate> get missCells =>
-      marked.where((cell) => fleet.shipAt(cell) == null).toSet();
-
-  /// Whether every cell of [ship] has been hit.
-  bool isSunk(ShipEntity ship) => ship.cells.every(marked.contains);
-
-  List<ShipEntity> get sunkShips => fleet.ships.where(isSunk).toList();
+  Set<BoardCoordinate> get missCells => marked.difference(hitCells);
 
   /// Hits on ships that are still afloat: where the shooter should aim
   /// next.
-  Set<BoardCoordinate> get woundedCells =>
-      hitCells.where((cell) => !isSunk(fleet.shipAt(cell)!)).toSet();
+  Set<BoardCoordinate> get woundedCells => hitCells.difference({
+    for (final ship in sunkShips) ...ship.cells,
+  });
 
   /// Lengths of the ships still afloat. Known to the shooter too, since
   /// the fleet is the same for everyone.
@@ -66,38 +71,72 @@ class SeaBattleBoardEntity extends Equatable {
   double get hitRate => shotCount == 0 ? 0 : hitCells.length / shotCount;
 
   /// Whether the whole fleet is sunk.
-  bool get isDefeated => fleet.ships.every(isSunk);
+  bool get isDefeated => sunkShips.length == FleetEntity.shipCount;
 
-  /// This board after a shot at [cell], and what the shot did. Sinking a
-  /// ship also marks the cells around it.
+  /// What a shot at [cell] does, and the ship it sinks if it does. Worked
+  /// out from the [fleet], so only the board's owner can answer.
   ///
   /// [cell] must be one that [canShoot].
-  (SeaBattleBoardEntity, ShotResult) shoot(BoardCoordinate cell) {
+  (ShotResult, ShipEntity?) answer(BoardCoordinate cell) {
+    final fleet = this.fleet;
+    assert(fleet != null, 'Only a board with a known fleet can answer');
     assert(canShoot(cell), 'Cell $cell was already marked');
 
-    final ship = fleet.shipAt(cell);
-    final marked = {...this.marked, cell};
-    if (ship == null) return (_withMarked(marked), .miss);
-    if (!ship.cells.every(marked.contains)) {
-      return (_withMarked(marked), .hit);
-    }
+    final ship = fleet!.shipAt(cell);
+    if (ship == null) return (.miss, null);
 
-    return (
-      _withMarked({...marked, ...ship.surroundingCells}),
-      .sunk,
+    final isLastCell = ship.cells.every(
+      (shipCell) => shipCell == cell || hitCells.contains(shipCell),
+    );
+    return isLastCell ? (.sunk, ship) : (.hit, null);
+  }
+
+  /// This board after a shot at [cell] with the given [result]. Sinking
+  /// [sunkShip] also marks the cells around it.
+  SeaBattleBoardEntity record(
+    BoardCoordinate cell,
+    ShotResult result, {
+    ShipEntity? sunkShip,
+  }) {
+    assert(
+      (result == .sunk) == (sunkShip != null),
+      'A sunk ship is reported exactly when the result is sunk',
+    );
+
+    return SeaBattleBoardEntity(
+      fleet: fleet,
+      marked: {...marked, cell, ...?sunkShip?.surroundingCells},
+      hitCells: result.isHit ? {...hitCells, cell} : hitCells,
+      sunkShips: [...sunkShips, ?sunkShip],
+      shotCount: shotCount + 1,
     );
   }
 
-  /// This board after one more shot, with [marked] cells.
-  SeaBattleBoardEntity _withMarked(Set<BoardCoordinate> marked) =>
-      SeaBattleBoardEntity(
-        fleet: fleet,
-        marked: marked,
-        shotCount: shotCount + 1,
-      );
+  /// This board after a shot at [cell], answered from its own [fleet].
+  (SeaBattleBoardEntity, ShotResult) shoot(BoardCoordinate cell) {
+    final (result, sunkShip) = answer(cell);
+    return (record(cell, result, sunkShip: sunkShip), result);
+  }
+
+  /// This board with its [fleet] revealed, once the battle is over.
+  SeaBattleBoardEntity withFleet(FleetEntity fleet) => SeaBattleBoardEntity(
+    fleet: fleet,
+    marked: marked,
+    hitCells: hitCells,
+    sunkShips: sunkShips,
+    shotCount: shotCount,
+  );
+
+  /// This board as the shooter sees it: the results, but not the fleet.
+  SeaBattleBoardEntity get withoutFleet => SeaBattleBoardEntity(
+    marked: marked,
+    hitCells: hitCells,
+    sunkShips: sunkShips,
+    shotCount: shotCount,
+  );
 
   @override
-  List<Object?> get props => [fleet, marked, shotCount];
+  List<Object?> get props => [fleet, marked, hitCells, sunkShips, shotCount];
 }
 
 /// What a shot did.
