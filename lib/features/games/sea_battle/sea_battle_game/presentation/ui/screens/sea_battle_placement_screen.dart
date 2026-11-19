@@ -109,7 +109,7 @@ class _ConfirmButton extends StatelessWidget {
 
     return AppButton(
       label: switch (mode) {
-        .vsBot => l10n.sea_battle_start,
+        .solo => l10n.sea_battle_start,
         .online => l10n.sea_battle_ready,
       },
       color: colors.green,

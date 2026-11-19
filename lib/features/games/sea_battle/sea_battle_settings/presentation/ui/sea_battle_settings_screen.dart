@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
+import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_placement_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_rules/presentation/ui/sea_battle_rules_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_mode.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/bloc/sea_battle_settings_bloc.dart';
@@ -25,6 +27,10 @@ class SeaBattleSettingsScreen extends Page<void> {
       settings: this,
       child: FullBottomSheet(
         titleBuilder: (context) => context.l10n.settings,
+        trailing: AppIconButton.info(
+          onTap: () =>
+              unawaited(context.pushNamed(SeaBattleRulesScreen.routePath)),
+        ),
         child: const _SeaBattleSettingsBody(),
       ),
     );
@@ -160,7 +166,7 @@ class _ModeButton extends StatelessWidget {
   String _label(BuildContext context) {
     final l10n = context.l10n;
     return switch (mode) {
-      .vsBot => l10n.sea_battle_mode_solo,
+      .solo => l10n.sea_battle_mode_solo,
       .online => l10n.sea_battle_mode_online,
     };
   }

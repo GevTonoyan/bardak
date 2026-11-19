@@ -19,6 +19,7 @@ import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_placement_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_rules/presentation/ui/sea_battle_rules_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/ui/sea_battle_settings_screen.dart';
 import 'package:bardak/features/games/spy/spy_packs/domain/entities/spy_pack_entity.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/ui/spy_language_select_screen.dart';
@@ -106,6 +107,12 @@ final appRouter = GoRouter(
           name: SudokuRulesScreen.routePath,
           pageBuilder: (context, state) =>
               const MaterialPage(child: SudokuRulesScreen()),
+        ),
+        GoRoute(
+          path: SeaBattleRulesScreen.routePath,
+          name: SeaBattleRulesScreen.routePath,
+          pageBuilder: (context, state) =>
+              const MaterialPage(child: SeaBattleRulesScreen()),
         ),
         GoRoute(
           path: GameSettingsScreen.routePath,

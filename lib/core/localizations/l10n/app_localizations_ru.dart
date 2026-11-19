@@ -248,6 +248,48 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sea_battle_ready => 'Готов';
 
   @override
+  String get sea_battle_rule_1_title => 'Соберите флот';
+
+  @override
+  String get sea_battle_rule_1 =>
+      'У каждого игрока 10 кораблей: один на 4 клетки, два на 3, три на 2 и четыре на 1';
+
+  @override
+  String get sea_battle_rule_2_title => 'Держите дистанцию';
+
+  @override
+  String get sea_battle_rule_2 =>
+      'Корабли не могут касаться друг друга, даже углами';
+
+  @override
+  String get sea_battle_rule_3_title => 'Стреляйте';
+
+  @override
+  String get sea_battle_rule_3 =>
+      'По очереди нажимайте на клетку поля соперника. Точка означает промах';
+
+  @override
+  String get sea_battle_rule_4_title => 'Попал — стреляй снова';
+
+  @override
+  String get sea_battle_rule_4 =>
+      'Попали в корабль — стреляете снова, пока не промахнётесь';
+
+  @override
+  String get sea_battle_rule_5_title => 'Потопите корабль';
+
+  @override
+  String get sea_battle_rule_5 =>
+      'Поразите все клетки корабля, чтобы потопить его. Клетки вокруг отметятся сами';
+
+  @override
+  String get sea_battle_rule_6_title => 'Победите в битве';
+
+  @override
+  String get sea_battle_rule_6 =>
+      'Потопите весь флот соперника раньше, чем он потопит ваш';
+
+  @override
   String get sudoku_best_time => 'Лучшее время';
 
   @override

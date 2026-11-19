@@ -24,7 +24,7 @@ void main() {
   late _MockUpdateSeaBattleBotDifficulty updateSeaBattleBotDifficulty;
 
   setUpAll(() {
-    registerFallbackValue(SeaBattleMode.vsBot);
+    registerFallbackValue(SeaBattleMode.solo);
     registerFallbackValue(SeaBattleBotDifficulty.medium);
   });
 
@@ -88,7 +88,7 @@ void main() {
 
   test('selecting the current value does not persist again', () async {
     final bloc = buildBloc()
-      ..add(const ChangeSeaBattleMode(SeaBattleMode.vsBot))
+      ..add(const ChangeSeaBattleMode(SeaBattleMode.solo))
       ..add(const ChangeBotDifficulty(SeaBattleBotDifficulty.medium));
     addTearDown(bloc.close);
     await pumpEventQueue();

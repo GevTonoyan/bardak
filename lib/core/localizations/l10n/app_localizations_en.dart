@@ -241,6 +241,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sea_battle_ready => 'Ready';
 
   @override
+  String get sea_battle_rule_1_title => 'Build Your Fleet';
+
+  @override
+  String get sea_battle_rule_1 =>
+      'Each player has 10 ships: one of 4 cells, two of 3, three of 2 and four of 1';
+
+  @override
+  String get sea_battle_rule_2_title => 'Keep Your Distance';
+
+  @override
+  String get sea_battle_rule_2 =>
+      'Ships can\'t touch each other, not even at the corners';
+
+  @override
+  String get sea_battle_rule_3_title => 'Take Your Shot';
+
+  @override
+  String get sea_battle_rule_3 =>
+      'Take turns tapping a cell on your opponent\'s board. A dot marks a miss';
+
+  @override
+  String get sea_battle_rule_4_title => 'Hit and Shoot Again';
+
+  @override
+  String get sea_battle_rule_4 =>
+      'Hit a ship and you shoot again, until you miss';
+
+  @override
+  String get sea_battle_rule_5_title => 'Sink the Ship';
+
+  @override
+  String get sea_battle_rule_5 =>
+      'Hit every cell of a ship to sink it. The cells around it are marked for you';
+
+  @override
+  String get sea_battle_rule_6_title => 'Win the Battle';
+
+  @override
+  String get sea_battle_rule_6 =>
+      'Sink the whole enemy fleet before they sink yours';
+
+  @override
   String get sudoku_best_time => 'Best time';
 
   @override

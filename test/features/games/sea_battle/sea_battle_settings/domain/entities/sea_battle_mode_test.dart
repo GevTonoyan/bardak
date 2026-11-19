@@ -2,13 +2,13 @@ import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/enti
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('only vsBot uses the bot difficulty', () {
-    expect(SeaBattleMode.vsBot.usesBotDifficulty, isTrue);
+  test('only solo uses the bot difficulty', () {
+    expect(SeaBattleMode.solo.usesBotDifficulty, isTrue);
     expect(SeaBattleMode.online.usesBotDifficulty, isFalse);
   });
 
-  test('fromString parses names and defaults to vsBot', () {
+  test('fromString parses names and defaults to solo', () {
     expect(SeaBattleMode.fromString('online'), SeaBattleMode.online);
-    expect(SeaBattleMode.fromString(null), SeaBattleMode.vsBot);
+    expect(SeaBattleMode.fromString(null), SeaBattleMode.solo);
   });
 }

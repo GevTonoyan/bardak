@@ -241,6 +241,48 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sea_battle_ready => 'Պատրաստ եմ';
 
   @override
+  String get sea_battle_rule_1_title => 'Կազմեք նավատորմը';
+
+  @override
+  String get sea_battle_rule_1 =>
+      'Յուրաքանչյուր խաղացող ունի 10 նավ՝ մեկը 4 վանդակից, երկուսը՝ 3, երեքը՝ 2 և չորսը՝ 1 վանդակից';
+
+  @override
+  String get sea_battle_rule_2_title => 'Պահեք հեռավորությունը';
+
+  @override
+  String get sea_battle_rule_2 =>
+      'Նավերը չեն կարող հպվել միմյանց, նույնիսկ անկյուններով';
+
+  @override
+  String get sea_battle_rule_3_title => 'Կրակեք';
+
+  @override
+  String get sea_battle_rule_3 =>
+      'Հերթով սեղմեք մրցակցի դաշտի վանդակի վրա։ Կետը նշանակում է վրիպում';
+
+  @override
+  String get sea_battle_rule_4_title => 'Խոցեք և կրակեք կրկին';
+
+  @override
+  String get sea_battle_rule_4 =>
+      'Եթե խոցեք նավը, կրակում եք նորից, մինչև վրիպեք';
+
+  @override
+  String get sea_battle_rule_5_title => 'Խորտակեք նավը';
+
+  @override
+  String get sea_battle_rule_5 =>
+      'Խոցեք նավի բոլոր վանդակները՝ այն խորտակելու համար։ Շրջակա վանդակները կնշվեն ինքնաբերաբար';
+
+  @override
+  String get sea_battle_rule_6_title => 'Հաղթեք մարտում';
+
+  @override
+  String get sea_battle_rule_6 =>
+      'Խորտակեք մրցակցի ամբողջ նավատորմը, քանի դեռ նա չի խորտակել ձերը';
+
+  @override
   String get sudoku_best_time => 'Լավագույն ժամանակ';
 
   @override

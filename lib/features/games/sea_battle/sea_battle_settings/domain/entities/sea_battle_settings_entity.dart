@@ -11,7 +11,7 @@ import 'package:equatable/equatable.dart';
 /// Persisted, so choices are remembered across sessions.
 class SeaBattleSettingsEntity extends Equatable {
   const SeaBattleSettingsEntity({
-    this.mode = SeaBattleMode.vsBot,
+    this.mode = SeaBattleMode.solo,
     this.botDifficulty = SeaBattleBotDifficulty.medium,
   });
 

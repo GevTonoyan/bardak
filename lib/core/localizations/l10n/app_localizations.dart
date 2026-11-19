@@ -532,6 +532,78 @@ abstract class AppLocalizations {
   /// **'Ready'**
   String get sea_battle_ready;
 
+  /// No description provided for @sea_battle_rule_1_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Your Fleet'**
+  String get sea_battle_rule_1_title;
+
+  /// No description provided for @sea_battle_rule_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Each player has 10 ships: one of 4 cells, two of 3, three of 2 and four of 1'**
+  String get sea_battle_rule_1;
+
+  /// No description provided for @sea_battle_rule_2_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Your Distance'**
+  String get sea_battle_rule_2_title;
+
+  /// No description provided for @sea_battle_rule_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Ships can\'t touch each other, not even at the corners'**
+  String get sea_battle_rule_2;
+
+  /// No description provided for @sea_battle_rule_3_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Your Shot'**
+  String get sea_battle_rule_3_title;
+
+  /// No description provided for @sea_battle_rule_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Take turns tapping a cell on your opponent\'s board. A dot marks a miss'**
+  String get sea_battle_rule_3;
+
+  /// No description provided for @sea_battle_rule_4_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit and Shoot Again'**
+  String get sea_battle_rule_4_title;
+
+  /// No description provided for @sea_battle_rule_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit a ship and you shoot again, until you miss'**
+  String get sea_battle_rule_4;
+
+  /// No description provided for @sea_battle_rule_5_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sink the Ship'**
+  String get sea_battle_rule_5_title;
+
+  /// No description provided for @sea_battle_rule_5.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit every cell of a ship to sink it. The cells around it are marked for you'**
+  String get sea_battle_rule_5;
+
+  /// No description provided for @sea_battle_rule_6_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Win the Battle'**
+  String get sea_battle_rule_6_title;
+
+  /// No description provided for @sea_battle_rule_6.
+  ///
+  /// In en, this message translates to:
+  /// **'Sink the whole enemy fleet before they sink yours'**
+  String get sea_battle_rule_6;
+
   /// No description provided for @sudoku_best_time.
   ///
   /// In en, this message translates to:
