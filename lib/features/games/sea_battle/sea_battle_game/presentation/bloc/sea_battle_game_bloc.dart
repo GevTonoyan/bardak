@@ -1,12 +1,10 @@
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_side.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/shot_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/choose_bot_shot_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/start_sea_battle_usecase.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc/sea_battle_game_event.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc/sea_battle_game_state.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_state.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +38,7 @@ class SeaBattleGameBloc extends Bloc<SeaBattleGameEvent, SeaBattleGameState> {
     // Taps during the bot's turn or on marked cells are ignored.
     if (!state.battle.canFire(.player, event.cell)) return;
 
-    _fire(.player, event.cell, emit);
+    _fire(event.cell, emit);
   }
 
   Future<void> _onFireBotShot(
@@ -60,21 +58,12 @@ class SeaBattleGameBloc extends Bloc<SeaBattleGameEvent, SeaBattleGameState> {
         difficulty: _botDifficulty,
       ),
     );
-    _fire(.opponent, cell, emit);
+    _fire(cell, emit);
   }
 
-  void _fire(
-    SeaBattleSide shooter,
-    BoardCoordinate cell,
-    Emitter<SeaBattleGameState> emit,
-  ) {
-    final (battle, result) = state.battle.fire(cell);
-    emit(
-      SeaBattleGameState(
-        battle: battle,
-        lastShot: ShotEntity(shooter: shooter, cell: cell, result: result),
-      ),
-    );
+  void _fire(BoardCoordinate cell, Emitter<SeaBattleGameState> emit) {
+    final battle = state.battle.fire(cell);
+    emit(SeaBattleGameState(battle: battle));
     _letBotFireIfItsTurn(battle);
   }
 

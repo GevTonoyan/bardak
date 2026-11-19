@@ -1,8 +1,6 @@
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_rules.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/shot_result.dart';
 import 'package:equatable/equatable.dart';
 
 /// One side's board during a battle: their [fleet] and every cell the
@@ -22,8 +20,8 @@ class SeaBattleBoardEntity extends Equatable {
 
   /// Every cell that can still be shot at.
   List<BoardCoordinate> get openCells => [
-    for (var row = 0; row < SeaBattleRules.boardSize; row++)
-      for (var column = 0; column < SeaBattleRules.boardSize; column++)
+    for (var row = 0; row < BoardCoordinate.boardSize; row++)
+      for (var column = 0; column < BoardCoordinate.boardSize; column++)
         if (canShoot(BoardCoordinate(row, column)))
           BoardCoordinate(row, column),
   ];
@@ -49,7 +47,7 @@ class SeaBattleBoardEntity extends Equatable {
   /// Lengths of the ships still afloat. Known to the shooter too, since
   /// the fleet is the same for everyone.
   List<int> get afloatShipLengths {
-    final lengths = [...SeaBattleRules.fleetShipLengths];
+    final lengths = [...FleetEntity.shipLengths];
     for (final ship in sunkShips) {
       lengths.remove(ship.length);
     }
@@ -84,4 +82,19 @@ class SeaBattleBoardEntity extends Equatable {
 
   @override
   List<Object?> get props => [fleet, marked];
+}
+
+/// What a shot did.
+enum ShotResult {
+  /// Only water; the turn passes to the other side.
+  miss,
+
+  /// Struck a ship that is still afloat; the shooter fires again.
+  hit,
+
+  /// Struck the last cell of a ship; the shooter fires again.
+  sunk;
+
+  /// Whether the shot struck a ship, so the shooter keeps the turn.
+  bool get isHit => this != miss;
 }

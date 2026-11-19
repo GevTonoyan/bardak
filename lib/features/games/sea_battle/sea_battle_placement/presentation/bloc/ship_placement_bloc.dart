@@ -1,7 +1,7 @@
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/generate_random_fleet_usecase.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_event.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_state.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/domain/usecases/generate_random_fleet_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Lets a player arrange their fleet before the battle. Shared by every

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/shot_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/cell_mark.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/sea_battle_grid.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';

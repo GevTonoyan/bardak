@@ -3,10 +3,9 @@ import 'dart:math';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_orientation.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/generate_random_fleet_usecase.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_bloc.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/domain/usecases/generate_random_fleet_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_bloc.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_event.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const _ship = ShipEntity(id: 0, length: 4, origin: BoardCoordinate(0, 0));

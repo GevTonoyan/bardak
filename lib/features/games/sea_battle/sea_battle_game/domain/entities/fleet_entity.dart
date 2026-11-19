@@ -1,16 +1,14 @@
 import 'dart:math';
 
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_rules.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_orientation.dart';
 import 'package:equatable/equatable.dart';
 
 /// The ships one player has placed on their board.
 ///
-/// May be partial while the player is still placing ships; [isComplete]
-/// tells when every ship of [SeaBattleRules.fleetShipLengths] is on the
-/// board.
+/// Every player gets the same fleet, [shipLengths]. Ships may never touch,
+/// not even diagonally. The fleet may be partial while the player is still
+/// placing ships; [isComplete] tells when every ship is on the board.
 class FleetEntity extends Equatable {
   const FleetEntity({this.ships = const []});
 
@@ -24,16 +22,23 @@ class FleetEntity extends Equatable {
     }
   }
 
+  /// Length of every ship in the fleet, largest first. A ship's index in
+  /// this list is its id.
+  static const shipLengths = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+
+  /// Number of ships in a full fleet.
+  static int get shipCount => shipLengths.length;
+
   static const _maxAttemptsPerShip = 200;
 
   final List<ShipEntity> ships;
 
   /// Whether every ship of the fleet is on the board.
-  bool get isComplete => ships.length == SeaBattleRules.fleetSize;
+  bool get isComplete => ships.length == shipCount;
 
   /// Ids of the fleet ships not placed yet.
   List<int> get unplacedShipIds => [
-    for (var id = 0; id < SeaBattleRules.fleetSize; id++)
+    for (var id = 0; id < shipCount; id++)
       if (!ships.any((ship) => ship.id == id)) id,
   ];
 
@@ -70,8 +75,8 @@ class FleetEntity extends Equatable {
   static FleetEntity? _tryPlaceRandomly(Random random) {
     var fleet = const FleetEntity();
 
-    for (var id = 0; id < SeaBattleRules.fleetSize; id++) {
-      final length = SeaBattleRules.fleetShipLengths[id];
+    for (var id = 0; id < shipCount; id++) {
+      final length = shipLengths[id];
       ShipEntity? placed;
 
       for (var attempt = 0; attempt < _maxAttemptsPerShip; attempt++) {
@@ -79,8 +84,8 @@ class FleetEntity extends Equatable {
           id: id,
           length: length,
           origin: BoardCoordinate(
-            random.nextInt(SeaBattleRules.boardSize),
-            random.nextInt(SeaBattleRules.boardSize),
+            random.nextInt(BoardCoordinate.boardSize),
+            random.nextInt(BoardCoordinate.boardSize),
           ),
           orientation: random.nextBool()
               ? ShipOrientation.horizontal

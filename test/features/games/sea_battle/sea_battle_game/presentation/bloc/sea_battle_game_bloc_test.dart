@@ -2,14 +2,11 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_side.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/shot_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/shot_result.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/choose_bot_shot_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/start_sea_battle_usecase.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc/sea_battle_game_bloc.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc/sea_battle_game_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -88,7 +85,7 @@ void main() {
     expect(battle.playerBoard.missCells, {const BoardCoordinate(5, 5)});
     expect(battle.turn, SeaBattleSide.player);
     expect(
-      bloc.state.lastShot,
+      bloc.state.battle.lastShot,
       const ShotEntity(
         shooter: .opponent,
         cell: BoardCoordinate(5, 5),
@@ -113,7 +110,7 @@ void main() {
     await pumpEventQueue();
 
     expect(bloc.state.battle.turn, SeaBattleSide.player);
-    expect(bloc.state.lastShot?.result, ShotResult.hit);
+    expect(bloc.state.battle.lastShot?.result, ShotResult.hit);
     verifyNever(() => chooseBotShot(any()));
   });
 
@@ -165,7 +162,7 @@ void main() {
     await pumpEventQueue();
 
     expect(bloc.state.battle.winner, SeaBattleSide.player);
-    expect(bloc.state.lastShot?.result, ShotResult.sunk);
+    expect(bloc.state.battle.lastShot?.result, ShotResult.sunk);
     verifyNever(() => chooseBotShot(any()));
   });
 }

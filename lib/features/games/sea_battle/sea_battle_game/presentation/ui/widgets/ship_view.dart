@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:bardak/core/extensions/context_extension.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_orientation.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
 import 'package:flutter/material.dart';
 
 /// A ship drawn [length] cells long, at the given [cellSize].

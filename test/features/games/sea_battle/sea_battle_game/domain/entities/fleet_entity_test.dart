@@ -2,9 +2,7 @@ import 'dart:math';
 
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_rules.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_orientation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 ShipEntity _ship(
@@ -67,7 +65,7 @@ void main() {
       expect(fleet.isComplete, isTrue);
       expect(
         fleet.ships.map((ship) => ship.length).toList()..sort(),
-        [...SeaBattleRules.fleetShipLengths]..sort(),
+        [...FleetEntity.shipLengths]..sort(),
       );
       for (final ship in fleet.ships) {
         expect(fleet.canPlace(ship), isTrue, reason: 'seed $seed');

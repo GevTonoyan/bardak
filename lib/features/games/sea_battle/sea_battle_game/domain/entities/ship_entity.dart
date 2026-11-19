@@ -1,5 +1,4 @@
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_orientation.dart';
 import 'package:equatable/equatable.dart';
 
 /// A ship placed on the board.
@@ -58,4 +57,19 @@ class ShipEntity extends Equatable {
 
   @override
   List<Object?> get props => [id, length, origin, orientation];
+}
+
+/// The direction a ship extends from its origin cell.
+enum ShipOrientation {
+  /// Extends to the right.
+  horizontal,
+
+  /// Extends downwards.
+  vertical;
+
+  /// The other orientation.
+  ShipOrientation get rotated => switch (this) {
+    horizontal => vertical,
+    vertical => horizontal,
+  };
 }

@@ -8,13 +8,12 @@ import 'package:bardak/core/app_ui/widgets/smart_number_text.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_rules.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_bloc.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/sea_battle_grid.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_bloc.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_mode.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/bloc/sea_battle_settings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -152,7 +151,7 @@ class _PlacementArea extends StatelessWidget {
 
   /// Total height the area needs at [cellSize].
   static double _heightFor(double cellSize) =>
-      cellSize * SeaBattleRules.boardSize +
+      cellSize * BoardCoordinate.boardSize +
       _gap * 2 +
       _PlacementToolbar.height +
       _ShipDock.heightFor(cellSize);
@@ -163,7 +162,7 @@ class _PlacementArea extends StatelessWidget {
       builder: (context, constraints) {
         // Start from the widest board that fits, then shrink until the
         // dock (which uses the same cell size) fits below it too.
-        var cellSize = (constraints.maxWidth / SeaBattleRules.boardSize)
+        var cellSize = (constraints.maxWidth / BoardCoordinate.boardSize)
             .floorToDouble();
         while (cellSize > 10 && _heightFor(cellSize) > constraints.maxHeight) {
           cellSize--;
@@ -491,8 +490,7 @@ class _ShipDock extends StatelessWidget {
                         cellSize: cellSize,
                         unplacedIds: [
                           for (final id in unplacedIds)
-                            if (SeaBattleRules.fleetShipLengths[id] == length)
-                              id,
+                            if (FleetEntity.shipLengths[id] == length) id,
                         ],
                       ),
                   ],

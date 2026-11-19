@@ -2,9 +2,7 @@ import 'dart:math';
 
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_rules.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_orientation.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
 
 /// Picks the cell the bot fires at next on the player's board.
@@ -113,8 +111,8 @@ class ChooseBotShotUseCase {
   /// Every position a ship of [length] could take on an empty board.
   Iterable<ShipEntity> _positions(int length) sync* {
     for (final orientation in ShipOrientation.values) {
-      for (var row = 0; row < SeaBattleRules.boardSize; row++) {
-        for (var column = 0; column < SeaBattleRules.boardSize; column++) {
+      for (var row = 0; row < BoardCoordinate.boardSize; row++) {
+        for (var column = 0; column < BoardCoordinate.boardSize; column++) {
           final ship = ShipEntity(
             id: 0,
             length: length,

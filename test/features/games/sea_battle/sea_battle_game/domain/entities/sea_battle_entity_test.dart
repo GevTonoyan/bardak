@@ -2,9 +2,7 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_side.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/shot_result.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 SeaBattleBoardEntity _boardWithBoatAt(int row, int column) =>
@@ -22,7 +20,8 @@ final _battle = SeaBattleEntity(
 
 void main() {
   test('a miss passes the turn and lands on the opponent board', () {
-    final (battle, result) = _battle.fire(const BoardCoordinate(1, 1));
+    final battle = _battle.fire(const BoardCoordinate(1, 1));
+    final result = battle.lastShot!.result;
 
     expect(result, ShotResult.miss);
     expect(battle.turn, SeaBattleSide.opponent);
@@ -31,8 +30,9 @@ void main() {
   });
 
   test('the opponent fires at the player board', () {
-    final (missed, _) = _battle.fire(const BoardCoordinate(1, 1));
-    final (battle, result) = missed.fire(const BoardCoordinate(9, 9));
+    final missed = _battle.fire(const BoardCoordinate(1, 1));
+    final battle = missed.fire(const BoardCoordinate(9, 9));
+    final result = battle.lastShot!.result;
 
     expect(result, ShotResult.miss);
     expect(battle.turn, SeaBattleSide.player);
@@ -50,14 +50,16 @@ void main() {
       turn: .player,
     );
 
-    final (next, result) = battle.fire(const BoardCoordinate(5, 5));
+    final next = battle.fire(const BoardCoordinate(5, 5));
+    final result = next.lastShot!.result;
 
     expect(result, ShotResult.hit);
     expect(next.turn, SeaBattleSide.player);
   });
 
   test('sinking the last ship wins and stops all firing', () {
-    final (battle, result) = _battle.fire(const BoardCoordinate(5, 5));
+    final battle = _battle.fire(const BoardCoordinate(5, 5));
+    final result = battle.lastShot!.result;
 
     expect(result, ShotResult.sunk);
     expect(battle.winner, SeaBattleSide.player);
@@ -74,8 +76,8 @@ void main() {
     expect(_battle.canFire(.player, open), isTrue);
     expect(_battle.canFire(.opponent, open), isFalse);
 
-    final (battle, _) = _battle.fire(open);
-    final (back, _) = battle.fire(const BoardCoordinate(9, 9));
+    final battle = _battle.fire(open);
+    final back = battle.fire(const BoardCoordinate(9, 9));
     expect(back.canFire(.player, open), isFalse);
   });
 

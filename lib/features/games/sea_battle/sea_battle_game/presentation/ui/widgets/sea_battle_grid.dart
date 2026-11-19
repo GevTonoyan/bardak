@@ -1,5 +1,5 @@
 import 'package:bardak/core/extensions/context_extension.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_rules.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:flutter/material.dart';
 
 /// The empty 10×10 board: a dark rounded square with a soft checker
@@ -17,7 +17,7 @@ class SeaBattleGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final boardSide = cellSize * SeaBattleRules.boardSize;
+    final boardSide = cellSize * BoardCoordinate.boardSize;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -61,10 +61,10 @@ class _GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final checker = Paint()..color = checkerColor;
-    for (var row = 0; row < SeaBattleRules.boardSize; row++) {
+    for (var row = 0; row < BoardCoordinate.boardSize; row++) {
       for (
         var column = row.isEven ? 1 : 0;
-        column < SeaBattleRules.boardSize;
+        column < BoardCoordinate.boardSize;
         column += 2
       ) {
         canvas.drawRect(
@@ -78,7 +78,7 @@ class _GridPainter extends CustomPainter {
       ..color = lineColor
       ..strokeWidth = 1;
 
-    for (var i = 1; i < SeaBattleRules.boardSize; i++) {
+    for (var i = 1; i < BoardCoordinate.boardSize; i++) {
       final offset = i * cellSize;
       canvas
         ..drawLine(Offset(offset, 0), Offset(offset, size.height), paint)

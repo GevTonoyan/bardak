@@ -9,12 +9,10 @@ import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_rules.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_side.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/shot_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc/sea_battle_game_bloc.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc/sea_battle_game_event.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc/sea_battle_game_state.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_state.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/battle_board.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
@@ -52,8 +50,10 @@ class SeaBattleGameScreen extends StatelessWidget {
     return BlocListener<SeaBattleGameBloc, SeaBattleGameState>(
       // Every shot, by either side, is heard: a splash, a hit or a sinking.
       listenWhen: (previous, current) =>
-          current.lastShot != null && previous.lastShot != current.lastShot,
-      listener: (context, state) => _playShotSound(context, state.lastShot!),
+          current.battle.lastShot != null &&
+          previous.battle.lastShot != current.battle.lastShot,
+      listener: (context, state) =>
+          _playShotSound(context, state.battle.lastShot!),
       child: PopScope(
         // Leaving mid-battle asks first; a finished battle just closes.
         canPop: isOver,
@@ -186,13 +186,13 @@ class _BattleArea extends StatelessWidget {
   static double _heightFor(double cellSize) =>
       _FleetCaption.height * 2 +
       _gap +
-      cellSize * SeaBattleRules.boardSize * (1 + _ownToEnemyRatio);
+      cellSize * BoardCoordinate.boardSize * (1 + _ownToEnemyRatio);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        var cellSize = (constraints.maxWidth / SeaBattleRules.boardSize)
+        var cellSize = (constraints.maxWidth / BoardCoordinate.boardSize)
             .floorToDouble();
         while (cellSize > 10 && _heightFor(cellSize) > constraints.maxHeight) {
           cellSize--;
@@ -255,11 +255,11 @@ class _FleetCaption extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
-                  for (var id = 0; id < SeaBattleRules.fleetSize; id++)
+                  for (var id = 0; id < FleetEntity.shipCount; id++)
                     Opacity(
                       opacity: sunkIds.contains(id) ? 0.25 : 1,
                       child: ShipView(
-                        length: SeaBattleRules.fleetShipLengths[id],
+                        length: FleetEntity.shipLengths[id],
                         cellSize: _shipCellSize,
                       ),
                     ),
@@ -283,7 +283,7 @@ class _EnemyBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<SeaBattleGameBloc>().state;
     final battle = state.battle;
-    final lastShot = state.lastShot;
+    final lastShot = battle.lastShot;
 
     return BattleBoard(
       board: battle.opponentBoard,
@@ -311,9 +311,9 @@ class _OwnBoard extends StatelessWidget {
     return BlocBuilder<SeaBattleGameBloc, SeaBattleGameState>(
       buildWhen: (previous, current) =>
           previous.battle.playerBoard != current.battle.playerBoard ||
-          previous.lastShot != current.lastShot,
+          previous.battle.lastShot != current.battle.lastShot,
       builder: (context, state) {
-        final lastShot = state.lastShot;
+        final lastShot = state.battle.lastShot;
 
         return BattleBoard(
           board: state.battle.playerBoard,

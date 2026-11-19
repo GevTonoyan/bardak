@@ -1,8 +1,7 @@
 import 'dart:math';
 
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_rules.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/generate_random_fleet_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_placement/domain/usecases/generate_random_fleet_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -12,7 +11,7 @@ void main() {
     expect(fleet.isComplete, isTrue);
     expect(
       fleet.ships.map((ship) => ship.length),
-      SeaBattleRules.fleetShipLengths,
+      FleetEntity.shipLengths,
     );
     for (final ship in fleet.ships) {
       expect(ship.isOnBoard, isTrue);
