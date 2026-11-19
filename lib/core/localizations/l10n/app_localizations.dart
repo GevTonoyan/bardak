@@ -532,6 +532,42 @@ abstract class AppLocalizations {
   /// **'Ready'**
   String get sea_battle_ready;
 
+  /// No description provided for @sea_battle_your_turn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your turn'**
+  String get sea_battle_your_turn;
+
+  /// No description provided for @sea_battle_opponent_turn.
+  ///
+  /// In en, this message translates to:
+  /// **'Opponent\'s turn'**
+  String get sea_battle_opponent_turn;
+
+  /// No description provided for @sea_battle_you_won.
+  ///
+  /// In en, this message translates to:
+  /// **'You won!'**
+  String get sea_battle_you_won;
+
+  /// No description provided for @sea_battle_you_lost.
+  ///
+  /// In en, this message translates to:
+  /// **'You lost'**
+  String get sea_battle_you_lost;
+
+  /// No description provided for @sea_battle_enemy_fleet.
+  ///
+  /// In en, this message translates to:
+  /// **'Enemy fleet'**
+  String get sea_battle_enemy_fleet;
+
+  /// No description provided for @sea_battle_your_fleet.
+  ///
+  /// In en, this message translates to:
+  /// **'Your fleet'**
+  String get sea_battle_your_fleet;
+
   /// No description provided for @sea_battle_rule_1_title.
   ///
   /// In en, this message translates to:

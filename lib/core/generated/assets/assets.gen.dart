@@ -95,6 +95,15 @@ class $AssetsSoundsGen {
   /// File path: assets/sounds/round_start.m4a
   String get roundStart => 'assets/sounds/round_start.m4a';
 
+  /// File path: assets/sounds/sea_battle_hit.m4a
+  String get seaBattleHit => 'assets/sounds/sea_battle_hit.m4a';
+
+  /// File path: assets/sounds/sea_battle_miss.m4a
+  String get seaBattleMiss => 'assets/sounds/sea_battle_miss.m4a';
+
+  /// File path: assets/sounds/sea_battle_sunk.m4a
+  String get seaBattleSunk => 'assets/sounds/sea_battle_sunk.m4a';
+
   /// File path: assets/sounds/sudoku_mistake.m4a
   String get sudokuMistake => 'assets/sounds/sudoku_mistake.m4a';
 
@@ -115,6 +124,9 @@ class $AssetsSoundsGen {
     check,
     roundEnd,
     roundStart,
+    seaBattleHit,
+    seaBattleMiss,
+    seaBattleSunk,
     sudokuMistake,
     sudokuWin,
     tick,

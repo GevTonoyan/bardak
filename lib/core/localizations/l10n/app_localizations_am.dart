@@ -241,6 +241,24 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sea_battle_ready => 'Պատրաստ եմ';
 
   @override
+  String get sea_battle_your_turn => 'Ձեր հերթն է';
+
+  @override
+  String get sea_battle_opponent_turn => 'Մրցակցի հերթն է';
+
+  @override
+  String get sea_battle_you_won => 'Դուք հաղթեցիք';
+
+  @override
+  String get sea_battle_you_lost => 'Դուք պարտվեցիք';
+
+  @override
+  String get sea_battle_enemy_fleet => 'Մրցակցի նավատորմը';
+
+  @override
+  String get sea_battle_your_fleet => 'Ձեր նավատորմը';
+
+  @override
   String get sea_battle_rule_1_title => 'Կազմեք նավատորմը';
 
   @override

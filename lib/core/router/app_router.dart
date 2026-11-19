@@ -17,7 +17,9 @@ import 'package:bardak/features/games/alias/single_word_round/presentation/ui/si
 import 'package:bardak/features/games/alias/team_setup/presentation/ui/team_setup_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_select_screen.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_bloc.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_placement_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_rules/presentation/ui/sea_battle_rules_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/ui/sea_battle_settings_screen.dart';
@@ -196,6 +198,24 @@ final appRouter = GoRouter(
                   ),
                 ),
               ),
+            ),
+            GoRoute(
+              path: SeaBattleGameScreen.routePath,
+              name: SeaBattleGameScreen.routePath,
+              pageBuilder: (context, state) {
+                final args = state.extra! as SeaBattleGameArgs;
+                return MaterialPage(
+                  child: BlocProvider(
+                    create: (_) => SeaBattleGameBloc(
+                      playerFleet: args.playerFleet,
+                      botDifficulty: args.botDifficulty,
+                      startSeaBattleUseCase: sl(),
+                      chooseBotShotUseCase: sl(),
+                    ),
+                    child: const SeaBattleGameScreen(),
+                  ),
+                );
+              },
             ),
           ],
         ),

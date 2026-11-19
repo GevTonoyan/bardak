@@ -2,7 +2,7 @@ import 'package:bardak/core/app_ui/widgets/smart_number_text.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_orientation.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/cell_mark.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/sea_battle_grid.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
 import 'package:flutter/material.dart';
@@ -66,10 +66,12 @@ class SeaBattleNoTouchIllustration extends StatelessWidget {
           id: 1,
           length: 2,
           origin: BoardCoordinate(5, 6),
-          orientation: ShipOrientation.vertical,
+          orientation: .vertical,
         ),
       ],
-      marks: {for (final cell in _ship.surroundingCells) cell: _Mark.blocked},
+      marks: {
+        for (final cell in _ship.surroundingCells) cell: .blocked,
+      },
     );
   }
 }
@@ -83,12 +85,12 @@ class SeaBattleShootIllustration extends StatelessWidget {
   Widget build(BuildContext context) {
     return _MiniBoard(
       marks: {
-        const BoardCoordinate(1, 2): _Mark.miss,
-        const BoardCoordinate(2, 7): _Mark.miss,
-        const BoardCoordinate(4, 4): _Mark.target,
-        const BoardCoordinate(6, 1): _Mark.miss,
-        const BoardCoordinate(7, 6): _Mark.miss,
-        const BoardCoordinate(8, 3): _Mark.miss,
+        const BoardCoordinate(1, 2): .miss,
+        const BoardCoordinate(2, 7): .miss,
+        const BoardCoordinate(4, 4): .target,
+        const BoardCoordinate(6, 1): .miss,
+        const BoardCoordinate(7, 6): .miss,
+        const BoardCoordinate(8, 3): .miss,
       },
     );
   }
@@ -103,11 +105,11 @@ class SeaBattleHitAgainIllustration extends StatelessWidget {
   Widget build(BuildContext context) {
     return _MiniBoard(
       marks: {
-        const BoardCoordinate(2, 6): _Mark.miss,
-        const BoardCoordinate(4, 3): _Mark.hit,
-        const BoardCoordinate(4, 4): _Mark.hit,
-        const BoardCoordinate(4, 5): _Mark.target,
-        const BoardCoordinate(7, 2): _Mark.miss,
+        const BoardCoordinate(2, 6): .miss,
+        const BoardCoordinate(4, 3): .hit,
+        const BoardCoordinate(4, 4): .hit,
+        const BoardCoordinate(4, 5): .target,
+        const BoardCoordinate(7, 2): .miss,
       },
     );
   }
@@ -129,8 +131,8 @@ class SeaBattleSinkIllustration extends StatelessWidget {
     return _MiniBoard(
       ships: const [_ship],
       marks: {
-        for (final cell in _ship.surroundingCells) cell: _Mark.miss,
-        for (final cell in _ship.cells) cell: _Mark.hit,
+        for (final cell in _ship.surroundingCells) cell: .miss,
+        for (final cell in _ship.cells) cell: .hit,
       },
     );
   }
@@ -176,27 +178,12 @@ class SeaBattleWinIllustration extends StatelessWidget {
   }
 }
 
-/// What is drawn on a cell of a [_MiniBoard].
-enum _Mark {
-  /// A shot that found only water.
-  miss,
-
-  /// A shot that struck a ship.
-  hit,
-
-  /// The cell the player is about to shoot.
-  target,
-
-  /// A cell no other ship may use.
-  blocked,
-}
-
 /// A full 10×10 board with [ships] and [marks] drawn on it.
 class _MiniBoard extends StatelessWidget {
   const _MiniBoard({this.ships = const [], this.marks = const {}});
 
   final List<ShipEntity> ships;
-  final Map<BoardCoordinate, _Mark> marks;
+  final Map<BoardCoordinate, CellMarkType> marks;
 
   @override
   Widget build(BuildContext context) {
@@ -217,57 +204,9 @@ class _MiniBoard extends StatelessWidget {
           Positioned(
             left: cell.column * _cellSize,
             top: cell.row * _cellSize,
-            child: _CellMark(mark: mark),
+            child: CellMark(type: mark, cellSize: _cellSize),
           ),
       ],
-    );
-  }
-}
-
-class _CellMark extends StatelessWidget {
-  const _CellMark({required this.mark});
-
-  final _Mark mark;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return SizedBox.square(
-      dimension: _cellSize,
-      child: switch (mark) {
-        .miss => Center(
-          child: Container(
-            width: _cellSize * 0.3,
-            height: _cellSize * 0.3,
-            decoration: BoxDecoration(
-              color: colors.white50,
-              shape: .circle,
-            ),
-          ),
-        ),
-        // See-through, so a sunk ship still shows under its hits.
-        .hit => ColoredBox(
-          color: colors.red.withValues(alpha: 0.55),
-          child: Icon(
-            Icons.close_rounded,
-            color: colors.white,
-            size: _cellSize * 0.8,
-          ),
-        ),
-        .target => DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.orange.withValues(alpha: 0.35),
-            border: .all(color: colors.orange, width: 2),
-          ),
-          child: Icon(
-            Icons.gps_fixed_rounded,
-            color: colors.white,
-            size: _cellSize * 0.75,
-          ),
-        ),
-        .blocked => ColoredBox(color: colors.red.withValues(alpha: 0.35)),
-      },
     );
   }
 }

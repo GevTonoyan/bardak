@@ -12,9 +12,11 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/ship_placement_bloc/ship_placement_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/sea_battle_grid.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_mode.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/bloc/sea_battle_settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -113,10 +115,31 @@ class _ConfirmButton extends StatelessWidget {
         .online => l10n.sea_battle_ready,
       },
       color: colors.green,
-      // TODO(Gevorg): open the battle (solo) or report ready (online) once
-      // those screens exist.
-      onPressed: isComplete ? () {} : null,
+      onPressed: isComplete ? () => _confirm(context) : null,
     );
+  }
+
+  void _confirm(BuildContext context) {
+    switch (mode) {
+      case .solo:
+        // The battle replaces placement, so leaving it goes back to the
+        // settings rather than to a finished placement.
+        context.pushReplacementNamed(
+          SeaBattleGameScreen.routePath,
+          extra: SeaBattleGameArgs(
+            playerFleet: context.read<ShipPlacementBloc>().state.fleet,
+            botDifficulty: context
+                .read<SeaBattleSettingsBloc>()
+                .state
+                .seaBattleSettings
+                .botDifficulty,
+          ),
+        );
+      case .online:
+        // TODO(Gevorg): report ready to the opponent once online play
+        // exists.
+        break;
+    }
   }
 }
 
