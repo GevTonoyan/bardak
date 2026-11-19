@@ -64,4 +64,20 @@ void main() {
 
     expect(board.isDefeated, isTrue);
   });
+
+  test('counts only real shots and the share that hit', () {
+    var board = _board;
+    expect(board.hitRate, 0);
+
+    // Sinking the cruiser auto-marks 10 cells, which are not shots.
+    for (final cell in [
+      const BoardCoordinate(9, 9),
+      ..._cruiser.cells,
+    ]) {
+      (board, _) = board.shoot(cell);
+    }
+
+    expect(board.shotCount, 3);
+    expect(board.hitRate, closeTo(2 / 3, 0.001));
+  });
 }

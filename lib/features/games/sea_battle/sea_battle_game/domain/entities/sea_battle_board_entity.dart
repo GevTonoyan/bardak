@@ -6,13 +6,21 @@ import 'package:equatable/equatable.dart';
 /// One side's board during a battle: their [fleet] and every cell the
 /// other side has marked on it.
 class SeaBattleBoardEntity extends Equatable {
-  const SeaBattleBoardEntity({required this.fleet, this.marked = const {}});
+  const SeaBattleBoardEntity({
+    required this.fleet,
+    this.marked = const {},
+    this.shotCount = 0,
+  });
 
   final FleetEntity fleet;
 
   /// Cells shot at, plus the cells around each sunk ship, which are marked
   /// automatically since no ship can be there.
   final Set<BoardCoordinate> marked;
+
+  /// Shots actually fired at this board; cells marked automatically around
+  /// sunk ships do not count.
+  final int shotCount;
 
   /// Whether [cell] can still be shot at.
   bool canShoot(BoardCoordinate cell) =>
@@ -54,6 +62,9 @@ class SeaBattleBoardEntity extends Equatable {
     return lengths;
   }
 
+  /// Share of the shots at this board that struck a ship, from 0 to 1.
+  double get hitRate => shotCount == 0 ? 0 : hitCells.length / shotCount;
+
   /// Whether the whole fleet is sunk.
   bool get isDefeated => fleet.ships.every(isSunk);
 
@@ -77,11 +88,16 @@ class SeaBattleBoardEntity extends Equatable {
     );
   }
 
+  /// This board after one more shot, with [marked] cells.
   SeaBattleBoardEntity _withMarked(Set<BoardCoordinate> marked) =>
-      SeaBattleBoardEntity(fleet: fleet, marked: marked);
+      SeaBattleBoardEntity(
+        fleet: fleet,
+        marked: marked,
+        shotCount: shotCount + 1,
+      );
 
   @override
-  List<Object?> get props => [fleet, marked];
+  List<Object?> get props => [fleet, marked, shotCount];
 }
 
 /// What a shot did.

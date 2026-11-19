@@ -13,6 +13,7 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_state.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_result_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/battle_board.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
@@ -37,9 +38,15 @@ class SeaBattleGameArgs {
 /// The battle: the opponent's board on top to fire at, the player's own
 /// board below with the opponent's shots on it.
 class SeaBattleGameScreen extends StatelessWidget {
-  const SeaBattleGameScreen({super.key});
+  const SeaBattleGameScreen({required this.args, super.key});
 
   static const routePath = 'seaBattleGame';
+
+  final SeaBattleGameArgs args;
+
+  /// Time to watch the last explosion and the revealed fleet before the
+  /// result opens.
+  static const _resultDelay = Duration(milliseconds: 1500);
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +54,24 @@ class SeaBattleGameScreen extends StatelessWidget {
       (bloc) => bloc.state.battle.isOver,
     );
 
-    return BlocListener<SeaBattleGameBloc, SeaBattleGameState>(
-      // Every shot, by either side, is heard: a splash, a hit or a sinking.
-      listenWhen: (previous, current) =>
-          current.battle.lastShot != null &&
-          previous.battle.lastShot != current.battle.lastShot,
-      listener: (context, state) =>
-          _playShotSound(context, state.battle.lastShot!),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SeaBattleGameBloc, SeaBattleGameState>(
+          // Every shot, by either side, is heard: a splash, a hit or a
+          // sinking.
+          listenWhen: (previous, current) =>
+              current.battle.lastShot != null &&
+              previous.battle.lastShot != current.battle.lastShot,
+          listener: (context, state) =>
+              _playShotSound(context, state.battle.lastShot!),
+        ),
+        BlocListener<SeaBattleGameBloc, SeaBattleGameState>(
+          listenWhen: (previous, current) =>
+              !previous.battle.isOver && current.battle.isOver,
+          listener: (context, state) =>
+              unawaited(_showResult(context, state.battle)),
+        ),
+      ],
       child: PopScope(
         // Leaving mid-battle asks first; a finished battle just closes.
         canPop: isOver,
@@ -74,6 +92,21 @@ class SeaBattleGameScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> _showResult(BuildContext context, SeaBattleEntity battle) async {
+    await Future<void>.delayed(_resultDelay);
+    if (!context.mounted) return;
+
+    // The result replaces the battle, so leaving it goes back to the
+    // settings.
+    context.pushReplacementNamed(
+      SeaBattleResultScreen.routePath,
+      extra: SeaBattleResultArgs(
+        battle: battle,
+        botDifficulty: args.botDifficulty,
       ),
     );
   }

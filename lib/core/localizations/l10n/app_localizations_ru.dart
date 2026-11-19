@@ -266,6 +266,33 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sea_battle_your_fleet => 'Ваш флот';
 
   @override
+  String get sea_battle_victory => 'Победа!';
+
+  @override
+  String get sea_battle_defeat => 'Поражение';
+
+  @override
+  String get sea_battle_victory_subtitle => 'Вы потопили весь флот соперника';
+
+  @override
+  String get sea_battle_defeat_subtitle => 'Соперник потопил ваш флот';
+
+  @override
+  String get sea_battle_accuracy => 'Точность';
+
+  @override
+  String get sea_battle_shots => 'Выстрелы';
+
+  @override
+  String get sea_battle_hits => 'Попадания';
+
+  @override
+  String get sea_battle_ships_sunk => 'Потоплено';
+
+  @override
+  String get sea_battle_ships_lost => 'Потеряно';
+
+  @override
   String get sea_battle_rule_1_title => 'Соберите флот';
 
   @override

@@ -568,6 +568,60 @@ abstract class AppLocalizations {
   /// **'Your fleet'**
   String get sea_battle_your_fleet;
 
+  /// No description provided for @sea_battle_victory.
+  ///
+  /// In en, this message translates to:
+  /// **'Victory!'**
+  String get sea_battle_victory;
+
+  /// No description provided for @sea_battle_defeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Defeat'**
+  String get sea_battle_defeat;
+
+  /// No description provided for @sea_battle_victory_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You sank the whole enemy fleet'**
+  String get sea_battle_victory_subtitle;
+
+  /// No description provided for @sea_battle_defeat_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The enemy sank your fleet'**
+  String get sea_battle_defeat_subtitle;
+
+  /// No description provided for @sea_battle_accuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get sea_battle_accuracy;
+
+  /// No description provided for @sea_battle_shots.
+  ///
+  /// In en, this message translates to:
+  /// **'Shots'**
+  String get sea_battle_shots;
+
+  /// No description provided for @sea_battle_hits.
+  ///
+  /// In en, this message translates to:
+  /// **'Hits'**
+  String get sea_battle_hits;
+
+  /// No description provided for @sea_battle_ships_sunk.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunk'**
+  String get sea_battle_ships_sunk;
+
+  /// No description provided for @sea_battle_ships_lost.
+  ///
+  /// In en, this message translates to:
+  /// **'Lost'**
+  String get sea_battle_ships_lost;
+
   /// No description provided for @sea_battle_rule_1_title.
   ///
   /// In en, this message translates to:

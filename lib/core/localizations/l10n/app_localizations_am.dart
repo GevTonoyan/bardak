@@ -259,6 +259,34 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sea_battle_your_fleet => 'Ձեր նավատորմը';
 
   @override
+  String get sea_battle_victory => 'Հաղթանակ';
+
+  @override
+  String get sea_battle_defeat => 'Պարտություն';
+
+  @override
+  String get sea_battle_victory_subtitle =>
+      'Դուք խորտակեցիք մրցակցի ամբողջ նավատորմը';
+
+  @override
+  String get sea_battle_defeat_subtitle => 'Մրցակիցը խորտակեց ձեր նավատորմը';
+
+  @override
+  String get sea_battle_accuracy => 'Ճշգրտություն';
+
+  @override
+  String get sea_battle_shots => 'Կրակոցներ';
+
+  @override
+  String get sea_battle_hits => 'Խոցումներ';
+
+  @override
+  String get sea_battle_ships_sunk => 'Խորտակված';
+
+  @override
+  String get sea_battle_ships_lost => 'Կորցրած';
+
+  @override
   String get sea_battle_rule_1_title => 'Կազմեք նավատորմը';
 
   @override

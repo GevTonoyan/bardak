@@ -259,6 +259,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sea_battle_your_fleet => 'Your fleet';
 
   @override
+  String get sea_battle_victory => 'Victory!';
+
+  @override
+  String get sea_battle_defeat => 'Defeat';
+
+  @override
+  String get sea_battle_victory_subtitle => 'You sank the whole enemy fleet';
+
+  @override
+  String get sea_battle_defeat_subtitle => 'The enemy sank your fleet';
+
+  @override
+  String get sea_battle_accuracy => 'Accuracy';
+
+  @override
+  String get sea_battle_shots => 'Shots';
+
+  @override
+  String get sea_battle_hits => 'Hits';
+
+  @override
+  String get sea_battle_ships_sunk => 'Sunk';
+
+  @override
+  String get sea_battle_ships_lost => 'Lost';
+
+  @override
   String get sea_battle_rule_1_title => 'Build Your Fleet';
 
   @override

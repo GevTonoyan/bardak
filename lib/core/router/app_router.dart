@@ -19,6 +19,7 @@ import 'package:bardak/features/games/alias/word_packs/presentation/ui/language_
 import 'package:bardak/features/games/alias/word_packs/presentation/ui/word_packs_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_result_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/ui/sea_battle_placement_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_rules/presentation/ui/sea_battle_rules_screen.dart';
@@ -212,10 +213,19 @@ final appRouter = GoRouter(
                       startSeaBattleUseCase: sl(),
                       chooseBotShotUseCase: sl(),
                     ),
-                    child: const SeaBattleGameScreen(),
+                    child: SeaBattleGameScreen(args: args),
                   ),
                 );
               },
+            ),
+            GoRoute(
+              path: SeaBattleResultScreen.routePath,
+              name: SeaBattleResultScreen.routePath,
+              pageBuilder: (context, state) => MaterialPage(
+                child: SeaBattleResultScreen(
+                  args: state.extra! as SeaBattleResultArgs,
+                ),
+              ),
             ),
           ],
         ),
