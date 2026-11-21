@@ -1,4 +1,6 @@
 import 'package:bardak/core/di/di.dart';
+import 'package:bardak/core/router/invite_links.dart';
+import 'package:bardak/core/router/navigation_guards.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/bloc/card_round_bloc/card_round_bloc.dart';
 import 'package:bardak/features/games/alias/card_round/presentation/ui/card_round_screen.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
@@ -25,8 +27,11 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_result_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/join_room/sea_battle_join_room_bloc.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/join_room/sea_battle_join_room_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/waiting_room/sea_battle_waiting_room_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/waiting_room/sea_battle_waiting_room_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/ui/sea_battle_join_room_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/ui/sea_battle_waiting_room_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/ui/sea_battle_placement_screen.dart';
@@ -68,7 +73,12 @@ final appRouter = GoRouter(
   initialLocation: SplashScreen.routePath,
   navigatorKey: rootNavigatorKey,
   debugLogDiagnostics: kDebugMode,
+  onEnter: guardNavigation,
   routes: [
+    // Invite links (https://bardakgames.com/join/<code>) open here and
+    // land on the join screen inside Sea Battle, so Back leads to its
+    // settings and then home.
+    GoRoute(path: inviteRoutePath, redirect: redirectInvite),
     GoRoute(
       parentNavigatorKey: rootNavigatorKey,
       path: SplashScreen.routePath,
@@ -195,6 +205,22 @@ final appRouter = GoRouter(
           name: SeaBattleSettingsScreen.routePath,
           pageBuilder: (context, state) => const SeaBattleSettingsScreen(),
           routes: [
+            GoRoute(
+              path: SeaBattleJoinRoomScreen.routePath,
+              name: SeaBattleJoinRoomScreen.routeName,
+              pageBuilder: (context, state) {
+                final code = state
+                    .pathParameters[SeaBattleJoinRoomScreen.codeParameter]!;
+                return MaterialPage(
+                  child: BlocProvider(
+                    create: (_) => SeaBattleJoinRoomBloc(
+                      joinSeaBattleRoomUseCase: sl(),
+                    )..add(JoinRoom(code)),
+                    child: SeaBattleJoinRoomScreen(code: code),
+                  ),
+                );
+              },
+            ),
             GoRoute(
               path: SeaBattleWaitingRoomScreen.routePath,
               name: SeaBattleWaitingRoomScreen.routePath,

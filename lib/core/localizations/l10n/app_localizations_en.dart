@@ -19,6 +19,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
+  String get back => 'Back';
+
+  @override
   String get add => 'Add';
 
   @override
@@ -303,6 +306,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sea_battle_link_copied => 'Link copied';
+
+  @override
+  String get sea_battle_join_title => 'Join a game';
+
+  @override
+  String get sea_battle_joining => 'Joining your friend\'s game…';
+
+  @override
+  String get sea_battle_room_not_found =>
+      'This game is over or the link is wrong. Ask your friend for a new link';
+
+  @override
+  String get sea_battle_room_full =>
+      'Someone else has already joined this game';
+
+  @override
+  String get sea_battle_join_invite_title => 'Join your friend\'s game?';
+
+  @override
+  String get sea_battle_join_invite_description =>
+      'You\'ll leave the current screen';
+
+  @override
+  String get sea_battle_join => 'Join';
 
   @override
   String get sea_battle_room_closed => 'The room was closed';

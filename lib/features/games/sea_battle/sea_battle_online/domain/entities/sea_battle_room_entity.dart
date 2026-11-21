@@ -29,6 +29,9 @@ class SeaBattleRoomEntity extends Equatable {
   /// are set up.
   static const inviteHost = 'bardakgames.com';
 
+  /// The path invite links start with, followed by `/<code>`.
+  static const invitePath = '/join';
+
   final String code;
 
   /// Whether this player created the room or joined it.
@@ -40,7 +43,7 @@ class SeaBattleRoomEntity extends Equatable {
   final bool hasOpponent;
 
   /// The link that brings a friend into this room.
-  Uri get inviteLink => Uri.https(inviteHost, '/join/$code');
+  Uri get inviteLink => Uri.https(inviteHost, '$invitePath/$code');
 
   @override
   List<Object?> get props => [code, role, status, hasOpponent];

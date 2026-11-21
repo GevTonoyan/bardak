@@ -19,6 +19,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cancel => 'Отмена';
 
   @override
+  String get back => 'Назад';
+
+  @override
   String get add => 'Добавить';
 
   @override
@@ -311,6 +314,29 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get sea_battle_link_copied => 'Ссылка скопирована';
+
+  @override
+  String get sea_battle_join_title => 'Вход в игру';
+
+  @override
+  String get sea_battle_joining => 'Подключаемся к игре друга…';
+
+  @override
+  String get sea_battle_room_not_found =>
+      'Эта игра уже закончилась или ссылка неверна. Попросите у друга новую ссылку';
+
+  @override
+  String get sea_battle_room_full =>
+      'К этой игре уже присоединился кто-то другой';
+
+  @override
+  String get sea_battle_join_invite_title => 'Присоединиться к игре друга?';
+
+  @override
+  String get sea_battle_join_invite_description => 'Текущий экран будет закрыт';
+
+  @override
+  String get sea_battle_join => 'Присоединиться';
 
   @override
   String get sea_battle_room_closed => 'Комната закрыта';

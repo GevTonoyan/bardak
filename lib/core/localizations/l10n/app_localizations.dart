@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get cancel;
 
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -657,6 +663,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Link copied'**
   String get sea_battle_link_copied;
+
+  /// No description provided for @sea_battle_join_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a game'**
+  String get sea_battle_join_title;
+
+  /// No description provided for @sea_battle_joining.
+  ///
+  /// In en, this message translates to:
+  /// **'Joining your friend\'s game…'**
+  String get sea_battle_joining;
+
+  /// No description provided for @sea_battle_room_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'This game is over or the link is wrong. Ask your friend for a new link'**
+  String get sea_battle_room_not_found;
+
+  /// No description provided for @sea_battle_room_full.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone else has already joined this game'**
+  String get sea_battle_room_full;
+
+  /// No description provided for @sea_battle_join_invite_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Join your friend\'s game?'**
+  String get sea_battle_join_invite_title;
+
+  /// No description provided for @sea_battle_join_invite_description.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll leave the current screen'**
+  String get sea_battle_join_invite_description;
+
+  /// No description provided for @sea_battle_join.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get sea_battle_join;
 
   /// No description provided for @sea_battle_room_closed.
   ///

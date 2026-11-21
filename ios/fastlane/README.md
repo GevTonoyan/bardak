@@ -25,6 +25,10 @@ Install App Store signing files from the match repo
 
 Pass readonly:false once to create them on the Apple Developer portal
 
+Pass force:true with it to remake the profile, e.g. after turning on
+
+a capability such as Associated Domains for the app ID
+
 ### ios version
 
 ```sh

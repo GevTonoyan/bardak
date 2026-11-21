@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
+import 'package:bardak/core/app_ui/widgets/app_error_view.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon.dart';
 import 'package:bardak/core/app_ui/widgets/app_input_field.dart';
 import 'package:bardak/core/app_ui/widgets/app_loader.dart';
@@ -125,44 +126,19 @@ class _WaitingRoomBody extends StatelessWidget {
             SeaBattleWaitingRoomWaiting(:final room) => _Invite(
               link: room.inviteLink,
             ),
-            SeaBattleWaitingRoomFailure() => const _CreateRoomFailure(),
+            SeaBattleWaitingRoomFailure() => AppErrorView(
+              icon: Icons.wifi_off_rounded,
+              message: context.l10n.sea_battle_connection_error,
+              actionLabel: context.l10n.retry,
+              actionColor: context.colors.green,
+              onAction: () => context.read<SeaBattleWaitingRoomBloc>().add(
+                const CreateRoom(),
+              ),
+            ),
             _ => AppLoader(label: context.l10n.sea_battle_creating_room),
           },
         ),
       ),
-    );
-  }
-}
-
-/// What went wrong, and a button to try again.
-class _CreateRoomFailure extends StatelessWidget {
-  const _CreateRoomFailure();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final l10n = context.l10n;
-
-    return Column(
-      mainAxisSize: .min,
-      children: [
-        Icon(Icons.wifi_off_rounded, size: 56, color: colors.white50),
-        const SizedBox(height: 12),
-        Text(
-          l10n.sea_battle_connection_error,
-          textAlign: .center,
-          style: context.typography.regular20,
-        ),
-        const SizedBox(height: 24),
-        AppButton(
-          label: l10n.retry,
-          color: colors.green,
-          size: .medium,
-          onPressed: () => context.read<SeaBattleWaitingRoomBloc>().add(
-            const CreateRoom(),
-          ),
-        ),
-      ],
     );
   }
 }

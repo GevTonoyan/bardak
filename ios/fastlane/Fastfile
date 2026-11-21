@@ -55,10 +55,13 @@ end
 platform :ios do
   desc "Install App Store signing files from the match repo"
   desc "Pass readonly:false once to create them on the Apple Developer portal"
+  desc "Pass force:true with it to remake the profile, e.g. after turning on"
+  desc "a capability such as Associated Domains for the app ID"
   lane :certificates do |options|
     match(
       api_key: asc_api_key,
       readonly: options[:readonly].to_s != "false",
+      force: options[:force].to_s == "true",
     )
   end
 

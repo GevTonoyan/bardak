@@ -19,6 +19,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get cancel => 'Չեղարկել';
 
   @override
+  String get back => 'Հետ';
+
+  @override
   String get add => 'Ավելացնել';
 
   @override
@@ -304,6 +307,28 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get sea_battle_link_copied => 'Հղումը պատճենված է';
+
+  @override
+  String get sea_battle_join_title => 'Միանալ խաղին';
+
+  @override
+  String get sea_battle_joining => 'Միանում ենք ընկերոջ խաղին…';
+
+  @override
+  String get sea_battle_room_not_found =>
+      'Այս խաղն ավարտվել է, կամ հղումը սխալ է։ Խնդրեք ընկերոջից նոր հղում';
+
+  @override
+  String get sea_battle_room_full => 'Այս խաղին արդեն միացել է մեկ ուրիշը';
+
+  @override
+  String get sea_battle_join_invite_title => 'Միանա՞լ ընկերոջ խաղին';
+
+  @override
+  String get sea_battle_join_invite_description => 'Ընթացիկ էջը կփակվի';
+
+  @override
+  String get sea_battle_join => 'Միանալ';
 
   @override
   String get sea_battle_room_closed => 'Սենյակը փակվել է';

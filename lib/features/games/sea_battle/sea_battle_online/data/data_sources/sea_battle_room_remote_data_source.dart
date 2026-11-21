@@ -89,6 +89,12 @@ class SeaBattleRoomRemoteDataSourceImpl
 
   @override
   Future<SeaBattleRoomEntity> joinRoom(String code) async {
+    // Codes arrive in links anyone can edit; one that could never have
+    // been generated is not looked up, as it may not even form a valid
+    // database path.
+    if (!_isWellFormed(code)) {
+      throw const SeaBattleRoomException(.notFound);
+    }
     final playerId = await _signIn();
     final room = _room(code);
 
@@ -163,6 +169,10 @@ class SeaBattleRoomRemoteDataSourceImpl
       }),
     );
   }
+
+  static bool _isWellFormed(String code) =>
+      code.length == SeaBattleRoomEntity.codeLength &&
+      code.split('').every(SeaBattleRoomEntity.codeAlphabet.contains);
 
   bool _hasExpired(int createdAt) =>
       DateTime.now().difference(

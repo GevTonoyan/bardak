@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:bardakgames.com</string>
+		<!-- Debug builds only: fetch the association file straight from the
+		     site instead of Apple's CDN, so changes and simulators work
+		     without waiting on (or reaching) the CDN. -->
+		<string>applinks:bardakgames.com?mode=developer</string>
+	</array>
+</dict>
+</plist>
