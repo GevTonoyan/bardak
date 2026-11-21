@@ -5,6 +5,7 @@ import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_spacings.dart';
 import 'package:bardak/core/app_ui/widgets/bottom_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/ui/sea_battle_waiting_room_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/ui/sea_battle_placement_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_rules/presentation/ui/sea_battle_rules_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
@@ -113,27 +114,20 @@ class _SeaBattleSettingsBody extends StatelessWidget {
             ),
           ),
         ),
-        if (isOnline) ...[
-          Text(
-            l10n.sea_battle_online_soon,
-            textAlign: .center,
-            style: typography.bodyLarge.copyWith(color: colors.white50),
-          ),
-          height20,
-        ] else
-          height20,
+        height20,
         AppButton(
           label: l10n.proceed,
           color: colors.green,
-          // Online play is not available yet.
-          onPressed: isOnline
-              ? null
-              : () => unawaited(
-                  context.pushNamed(
+          // Solo goes straight to placement; online first finds an
+          // opponent by inviting a friend.
+          onPressed: () => unawaited(
+            isOnline
+                ? context.pushNamed(SeaBattleWaitingRoomScreen.routePath)
+                : context.pushNamed(
                     SeaBattlePlacementScreen.routePath,
                     extra: SeaBattlePlacementArgs(mode: settings.mode),
                   ),
-                ),
+          ),
         ),
       ],
     );

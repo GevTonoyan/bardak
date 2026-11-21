@@ -82,8 +82,20 @@
   "oneWordModeShort": "One Word",
   "all_words_count": "All words · {count}",
   "easy_words_count": "Easy words · {count}",
-  "@all_words_count": {"placeholders": {"count": {"type": "int"}}},
-  "@easy_words_count": {"placeholders": {"count": {"type": "int"}}},
+  "@all_words_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@easy_words_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "spyMode": "Spy",
   "sudoku": "Sudoku",
   "sudoku_solved": "Puzzle solved. Well done!",
@@ -102,7 +114,6 @@
   "sea_battle_difficulty_easy": "Easy",
   "sea_battle_difficulty_medium": "Medium",
   "sea_battle_difficulty_hard": "Hard",
-  "sea_battle_online_soon": "Online mode is coming soon",
   "sea_battle_place_ships": "Place your ships",
   "sea_battle_placement_hint": "Drag ships onto the board. Tap a ship to rotate it",
   "sea_battle_shuffle": "Shuffle",
@@ -124,6 +135,22 @@
   "sea_battle_hits": "Hits",
   "sea_battle_ships_sunk": "Sunk",
   "sea_battle_ships_lost": "Lost",
+  "sea_battle_invite_title": "Invite a friend",
+  "sea_battle_invite_hint": "Let your friend scan this code with their phone camera, or send them the link",
+  "sea_battle_creating_room": "Creating a room…",
+  "sea_battle_connection_error": "No connection. Try again",
+  "sea_battle_waiting_for_opponent": "Waiting for your opponent",
+  "sea_battle_share": "Share",
+  "sea_battle_link_copied": "Link copied",
+  "sea_battle_room_closed": "The room was closed",
+  "sea_battle_share_message": "Join my Sea Battle game in Bardak! {link}",
+  "@sea_battle_share_message": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      }
+    }
+  },
   "sea_battle_rule_1_title": "Build Your Fleet",
   "sea_battle_rule_1": "Each player has 10 ships: one of 4 cells, two of 3, three of 2 and four of 1",
   "sea_battle_rule_2_title": "Keep Your Distance",

@@ -98,6 +98,9 @@ class AppIconButton extends StatefulWidget {
     );
   }
 
+  /// Width and height of the button.
+  static const double size = _containerSize;
+
   final Widget child;
   final VoidCallback? onTap;
   final bool isPressed;

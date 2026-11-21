@@ -219,9 +219,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sea_battle_difficulty_hard => 'Hard';
 
   @override
-  String get sea_battle_online_soon => 'Online mode is coming soon';
-
-  @override
   String get sea_battle_place_ships => 'Place your ships';
 
   @override
@@ -284,6 +281,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sea_battle_ships_lost => 'Lost';
+
+  @override
+  String get sea_battle_invite_title => 'Invite a friend';
+
+  @override
+  String get sea_battle_invite_hint =>
+      'Let your friend scan this code with their phone camera, or send them the link';
+
+  @override
+  String get sea_battle_creating_room => 'Creating a room…';
+
+  @override
+  String get sea_battle_connection_error => 'No connection. Try again';
+
+  @override
+  String get sea_battle_waiting_for_opponent => 'Waiting for your opponent';
+
+  @override
+  String get sea_battle_share => 'Share';
+
+  @override
+  String get sea_battle_link_copied => 'Link copied';
+
+  @override
+  String get sea_battle_room_closed => 'The room was closed';
+
+  @override
+  String sea_battle_share_message(String link) {
+    return 'Join my Sea Battle game in Bardak! $link';
+  }
 
   @override
   String get sea_battle_rule_1_title => 'Build Your Fleet';

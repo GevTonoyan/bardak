@@ -25,6 +25,9 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_result_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/waiting_room/sea_battle_waiting_room_bloc.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/waiting_room/sea_battle_waiting_room_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/ui/sea_battle_waiting_room_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/ui/sea_battle_placement_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_rules/presentation/ui/sea_battle_rules_screen.dart';
@@ -192,6 +195,20 @@ final appRouter = GoRouter(
           name: SeaBattleSettingsScreen.routePath,
           pageBuilder: (context, state) => const SeaBattleSettingsScreen(),
           routes: [
+            GoRoute(
+              path: SeaBattleWaitingRoomScreen.routePath,
+              name: SeaBattleWaitingRoomScreen.routePath,
+              pageBuilder: (context, state) => MaterialPage(
+                child: BlocProvider(
+                  create: (_) => SeaBattleWaitingRoomBloc(
+                    createSeaBattleRoomUseCase: sl(),
+                    watchSeaBattleRoomUseCase: sl(),
+                    leaveSeaBattleRoomUseCase: sl(),
+                  )..add(const CreateRoom()),
+                  child: const SeaBattleWaitingRoomScreen(),
+                ),
+              ),
+            ),
             GoRoute(
               path: SeaBattlePlacementScreen.routePath,
               name: SeaBattlePlacementScreen.routePath,

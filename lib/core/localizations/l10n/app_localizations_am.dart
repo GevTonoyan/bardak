@@ -219,9 +219,6 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sea_battle_difficulty_hard => 'Բարդ';
 
   @override
-  String get sea_battle_online_soon => 'Օնլայն ռեժիմը շուտով հասանելի կլինի';
-
-  @override
   String get sea_battle_place_ships => 'Դասավորեք նավերը';
 
   @override
@@ -285,6 +282,36 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get sea_battle_ships_lost => 'Կորցրած';
+
+  @override
+  String get sea_battle_invite_title => 'Հրավիրեք ընկերոջը';
+
+  @override
+  String get sea_battle_invite_hint =>
+      'Թող ընկերը սկանավորի այս կոդը հեռախոսի տեսախցիկով, կամ ուղարկեք նրան հղումը';
+
+  @override
+  String get sea_battle_creating_room => 'Ստեղծում ենք սենյակ…';
+
+  @override
+  String get sea_battle_connection_error => 'Կապ չկա։ Փորձեք կրկին';
+
+  @override
+  String get sea_battle_waiting_for_opponent => 'Սպասում ենք մրցակցին';
+
+  @override
+  String get sea_battle_share => 'Կիսվել';
+
+  @override
+  String get sea_battle_link_copied => 'Հղումը պատճենված է';
+
+  @override
+  String get sea_battle_room_closed => 'Սենյակը փակվել է';
+
+  @override
+  String sea_battle_share_message(String link) {
+    return 'Միացիր իմ Ծովամարտ խաղին Bardak-ում։ $link';
+  }
 
   @override
   String get sea_battle_rule_1_title => 'Կազմեք նավատորմը';

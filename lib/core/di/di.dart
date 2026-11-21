@@ -5,6 +5,7 @@ import 'package:bardak/features/games/alias/game_settings/game_settings_scope.da
 import 'package:bardak/features/games/alias/team_setup/team_setup_scope.dart';
 import 'package:bardak/features/games/alias/word_packs/word_packs_scope.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/sea_battle_game_scope.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/sea_battle_online_scope.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/sea_battle_placement_scope.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/sea_battle_settings_scope.dart';
 import 'package:bardak/features/games/spy/spy_packs/spy_packs_scope.dart';
@@ -62,4 +63,5 @@ Future<void> injectDependencies() async {
   injectSeaBattleSettingsScope();
   injectSeaBattlePlacementScope();
   injectSeaBattleGameScope();
+  injectSeaBattleOnlineScope();
 }

@@ -490,12 +490,6 @@ abstract class AppLocalizations {
   /// **'Hard'**
   String get sea_battle_difficulty_hard;
 
-  /// No description provided for @sea_battle_online_soon.
-  ///
-  /// In en, this message translates to:
-  /// **'Online mode is coming soon'**
-  String get sea_battle_online_soon;
-
   /// No description provided for @sea_battle_place_ships.
   ///
   /// In en, this message translates to:
@@ -621,6 +615,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Lost'**
   String get sea_battle_ships_lost;
+
+  /// No description provided for @sea_battle_invite_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite a friend'**
+  String get sea_battle_invite_title;
+
+  /// No description provided for @sea_battle_invite_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Let your friend scan this code with their phone camera, or send them the link'**
+  String get sea_battle_invite_hint;
+
+  /// No description provided for @sea_battle_creating_room.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating a room…'**
+  String get sea_battle_creating_room;
+
+  /// No description provided for @sea_battle_connection_error.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Try again'**
+  String get sea_battle_connection_error;
+
+  /// No description provided for @sea_battle_waiting_for_opponent.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for your opponent'**
+  String get sea_battle_waiting_for_opponent;
+
+  /// No description provided for @sea_battle_share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get sea_battle_share;
+
+  /// No description provided for @sea_battle_link_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
+  String get sea_battle_link_copied;
+
+  /// No description provided for @sea_battle_room_closed.
+  ///
+  /// In en, this message translates to:
+  /// **'The room was closed'**
+  String get sea_battle_room_closed;
+
+  /// No description provided for @sea_battle_share_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Join my Sea Battle game in Bardak! {link}'**
+  String sea_battle_share_message(String link);
 
   /// No description provided for @sea_battle_rule_1_title.
   ///

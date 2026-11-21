@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
-import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_text_button.dart';
+import 'package:bardak/core/app_ui/widgets/app_screen_header.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/smart_number_text.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
@@ -12,6 +12,7 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/sea_battle_grid.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/entities/sea_battle_room_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_mode.dart';
@@ -22,11 +23,14 @@ import 'package:go_router/go_router.dart';
 
 /// Arguments for [SeaBattlePlacementScreen].
 class SeaBattlePlacementArgs {
-  const SeaBattlePlacementArgs({required this.mode});
+  const SeaBattlePlacementArgs({required this.mode, this.room});
 
   /// Decides what confirming the fleet does: start the battle against the
   /// bot, or report "ready" to the online opponent.
   final SeaBattleMode mode;
+
+  /// The room being played in; set only online.
+  final SeaBattleRoomEntity? room;
 }
 
 /// Lets the player arrange their fleet: drag ships from the dock onto the
@@ -52,7 +56,10 @@ class SeaBattlePlacementScreen extends StatelessWidget {
           padding: const .fromLTRB(16, 16, 16, 20),
           child: Column(
             children: [
-              const _PlacementHeader(),
+              AppScreenHeader(
+                title: context.l10n.sea_battle_place_ships,
+                onBack: context.pop,
+              ),
               const SizedBox(height: 16),
               const Expanded(child: _PlacementArea()),
               const SizedBox(height: 16),
@@ -61,34 +68,6 @@ class SeaBattlePlacementScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// Back on the left and the title centered on the screen.
-class _PlacementHeader extends StatelessWidget {
-  const _PlacementHeader();
-
-  /// Matches the back button, so the title stays truly centered.
-  static const _sideWidth = 40.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      spacing: 10,
-      children: [
-        AppIconButton.back(onTap: context.pop),
-        Expanded(
-          child: FittedBox(
-            fit: .scaleDown,
-            child: Text(
-              context.l10n.sea_battle_place_ships,
-              style: context.typography.regular24,
-            ),
-          ),
-        ),
-        const SizedBox(width: _sideWidth),
-      ],
     );
   }
 }
