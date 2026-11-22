@@ -39,6 +39,14 @@ class SeaBattleRoomRepositoryImpl implements SeaBattleRoomRepository {
   Future<void> leaveRoom(String code) =>
       _guard(() => _remoteDataSource.leaveRoom(code));
 
+  @override
+  Future<void> markReady(String code) =>
+      _guard(() => _remoteDataSource.markReady(code));
+
+  @override
+  Future<void> startBattle(String code) =>
+      _guard(() => _remoteDataSource.startBattle(code));
+
   Future<T> _guard<T>(Future<T> Function() action) async {
     try {
       return await action();

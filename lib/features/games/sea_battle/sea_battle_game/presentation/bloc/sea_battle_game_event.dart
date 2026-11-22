@@ -23,3 +23,10 @@ final class FireShot extends SeaBattleGameEvent {
 final class PlayOpponentTurn extends SeaBattleGameEvent {
   const PlayOpponentTurn();
 }
+
+/// Counts down the time for the current turn from the start; at zero, on
+/// the player's own turn, fires a random shot for them. Sent again after
+/// every shot, which restarts it.
+final class RunTurnTimer extends SeaBattleGameEvent {
+  const RunTurnTimer();
+}

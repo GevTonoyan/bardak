@@ -9,6 +9,7 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/reposito
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/fire_at_opponent_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_fleet_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_shot_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_random_shot_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/report_opponent_shot_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/start_sea_battle_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
@@ -18,6 +19,8 @@ import 'package:mocktail/mocktail.dart';
 
 class _MockStartSeaBattleUseCase extends Mock
     implements StartSeaBattleUseCase {}
+
+class _MockGetRandomShotUseCase extends Mock implements GetRandomShotUseCase {}
 
 /// An opponent with a known fleet that fires at the given shots in order.
 class _FakeOpponent implements SeaBattleOpponentRepository {
@@ -32,6 +35,9 @@ class _FakeOpponent implements SeaBattleOpponentRepository {
   final reported = <ShotEntity>[];
   final seenBoards = <SeaBattleBoardEntity>[];
   int fleetRequests = 0;
+
+  /// How many shots had been reported when the fleet was first asked for.
+  int? reportedBeforeReveal;
 
   @override
   Future<ShotEntity> answerPlayerShot(BoardCoordinate cell) async {
@@ -58,6 +64,7 @@ class _FakeOpponent implements SeaBattleOpponentRepository {
 
   @override
   Future<FleetEntity> getOpponentFleet() async {
+    reportedBeforeReveal ??= reported.length;
     fleetRequests++;
     return fleet;
   }
@@ -83,17 +90,27 @@ BoardCoordinate _water(FleetEntity fleet, {int skip = 0}) => [
 
 void main() {
   late _MockStartSeaBattleUseCase startSeaBattle;
+  late _MockGetRandomShotUseCase getRandomShot;
 
-  setUpAll(() => registerFallbackValue(const FleetEntity()));
+  setUpAll(() {
+    registerFallbackValue(const FleetEntity());
+    registerFallbackValue(const SeaBattleBoardEntity());
+  });
 
-  setUp(() => startSeaBattle = _MockStartSeaBattleUseCase());
+  setUp(() {
+    startSeaBattle = _MockStartSeaBattleUseCase();
+    getRandomShot = _MockGetRandomShotUseCase();
+  });
 
   SeaBattleGameBloc buildBloc(
     _FakeOpponent opponent, {
     SeaBattleSide firstShooter = .player,
     FleetEntity? playerFleet,
+    Duration? turnTimeLimit,
   }) {
-    when(() => startSeaBattle(any())).thenReturn(
+    when(
+      () => startSeaBattle(any(), firstTurn: any(named: 'firstTurn')),
+    ).thenReturn(
       SeaBattleEntity(
         playerBoard: SeaBattleBoardEntity(fleet: playerFleet ?? _playerFleet),
         opponentBoard: const SeaBattleBoardEntity(),
@@ -107,6 +124,8 @@ void main() {
       getOpponentShotUseCase: GetOpponentShotUseCase(opponent),
       reportOpponentShotUseCase: ReportOpponentShotUseCase(opponent),
       getOpponentFleetUseCase: GetOpponentFleetUseCase(opponent),
+      getRandomShotUseCase: getRandomShot,
+      turnTimeLimit: turnTimeLimit,
     );
     addTearDown(bloc.close);
     return bloc;
@@ -221,6 +240,60 @@ void main() {
       expect(bloc.state.battle.winner, SeaBattleSide.opponent);
       expect(bloc.state.battle.opponentBoard.fleet, _opponentFleet);
       expect(opponent.reported, hasLength(20));
+      // Online, the last answer is what tells the opponent they won, so
+      // it goes out before the fleets are revealed.
+      expect(opponent.reportedBeforeReveal, 20);
     },
   );
+
+  group('timed turns', () {
+    test('turns are not timed without a limit', () async {
+      final bloc = buildBloc(_FakeOpponent(fleet: _opponentFleet));
+      await pumpEventQueue();
+
+      expect(bloc.state.turnSecondsLeft, isNull);
+    });
+
+    test('each turn counts down from the limit', () async {
+      final bloc = buildBloc(
+        _FakeOpponent(fleet: _opponentFleet),
+        turnTimeLimit: const Duration(seconds: 3),
+      );
+      await pumpEventQueue();
+      expect(bloc.state.turnSecondsLeft, 3);
+
+      await Future<void>.delayed(const Duration(milliseconds: 1100));
+      expect(bloc.state.turnSecondsLeft, 2);
+    });
+
+    test('a player out of time fires a random shot', () async {
+      final missCell = _water(_opponentFleet);
+      when(() => getRandomShot(any())).thenReturn(missCell);
+      final bloc = buildBloc(
+        _FakeOpponent(
+          fleet: _opponentFleet,
+          shots: [const BoardCoordinate(5, 5)],
+        ),
+        turnTimeLimit: const Duration(seconds: 1),
+      );
+
+      await Future<void>.delayed(const Duration(milliseconds: 1300));
+
+      expect(bloc.state.battle.opponentBoard.missCells, {missCell});
+    });
+
+    test('a shot starts the countdown over', () async {
+      final bloc = buildBloc(
+        _FakeOpponent(fleet: _opponentFleet),
+        turnTimeLimit: const Duration(seconds: 3),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 1100));
+      expect(bloc.state.turnSecondsLeft, 2);
+
+      bloc.add(FireShot(_opponentFleet.ships.first.origin));
+      await pumpEventQueue();
+
+      expect(bloc.state.turnSecondsLeft, 3);
+    });
+  });
 }

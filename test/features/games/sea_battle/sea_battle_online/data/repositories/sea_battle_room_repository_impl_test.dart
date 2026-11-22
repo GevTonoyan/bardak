@@ -116,4 +116,30 @@ void main() {
       emitsError(isA<TypeError>()),
     );
   });
+
+  test(
+    'getting ready and starting the battle go to the room remotely',
+    () async {
+      when(() => remoteDataSource.markReady('ABC234')).thenAnswer((_) async {});
+      when(() => remoteDataSource.startBattle('ABC234'))
+          .thenAnswer((_) async {});
+
+      await repository.markReady('ABC234');
+      await repository.startBattle('ABC234');
+
+      verify(() => remoteDataSource.markReady('ABC234')).called(1);
+      verify(() => remoteDataSource.startBattle('ABC234')).called(1);
+    },
+  );
+
+  test('a refused battle start is a connection failure', () async {
+    when(
+      () => remoteDataSource.startBattle('ABC234'),
+    ).thenThrow(Exception('permission-denied'));
+
+    await expectLater(
+      repository.startBattle('ABC234'),
+      throwsA(isA<SeaBattleRoomException>()),
+    );
+  });
 }

@@ -17,7 +17,7 @@ import 'package:go_router/go_router.dart';
 class SeaBattleJoinRoomScreen extends StatelessWidget {
   const SeaBattleJoinRoomScreen({required this.code, super.key});
 
-  static const routePath = 'seaBattleJoin/:$codeParameter';
+  static const routePath = '$routeName/:$codeParameter';
   static const routeName = 'seaBattleJoin';
   static const codeParameter = 'code';
 

@@ -241,6 +241,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sea_battle_ready => 'Ready';
 
   @override
+  String get sea_battle_leave => 'Leave';
+
+  @override
   String get sea_battle_your_turn => 'Your turn';
 
   @override
@@ -300,6 +303,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sea_battle_waiting_for_opponent => 'Waiting for your opponent';
+
+  @override
+  String get sea_battle_you_are_ready => 'You\'re ready!';
+
+  @override
+  String get sea_battle_waiting_for_opponent_ships =>
+      'Waiting for your opponent to place their ships';
 
   @override
   String get sea_battle_share => 'Share';

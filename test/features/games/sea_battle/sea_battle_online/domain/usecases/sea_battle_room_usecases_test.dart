@@ -3,6 +3,8 @@ import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/reposi
 import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/usecases/create_sea_battle_room_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/usecases/join_sea_battle_room_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/usecases/leave_sea_battle_room_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/usecases/mark_sea_battle_room_ready_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/usecases/start_sea_battle_room_battle_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/usecases/watch_sea_battle_room_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -48,5 +50,21 @@ void main() {
     await LeaveSeaBattleRoomUseCase(repository)('ABC234');
 
     verify(() => repository.leaveRoom('ABC234')).called(1);
+  });
+
+  test('MarkSeaBattleRoomReadyUseCase marks the player ready', () async {
+    when(() => repository.markReady('ABC234')).thenAnswer((_) async {});
+
+    await MarkSeaBattleRoomReadyUseCase(repository)('ABC234');
+
+    verify(() => repository.markReady('ABC234')).called(1);
+  });
+
+  test('StartSeaBattleRoomBattleUseCase starts the battle', () async {
+    when(() => repository.startBattle('ABC234')).thenAnswer((_) async {});
+
+    await StartSeaBattleRoomBattleUseCase(repository)('ABC234');
+
+    verify(() => repository.startBattle('ABC234')).called(1);
   });
 }

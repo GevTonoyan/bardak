@@ -119,7 +119,9 @@ class _BattleBoardState extends State<BattleBoard>
             for (final cell in board.hitCells)
               _Mark(cell: cell, cellSize: cellSize, type: .hit),
             if (lastShot != null) ...[
-              _LastShotFrame(cell: lastShot.cell, cellSize: cellSize),
+              // A sunk ship turns all red; the frame would only break it up.
+              if (lastShot.result != .sunk)
+                _LastShotFrame(cell: lastShot.cell, cellSize: cellSize),
               Positioned(
                 left: (lastShot.cell.column - 1) * cellSize,
                 top: (lastShot.cell.row - 1) * cellSize,

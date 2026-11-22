@@ -241,6 +241,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sea_battle_ready => 'Պատրաստ եմ';
 
   @override
+  String get sea_battle_leave => 'Դուրս գալ';
+
+  @override
   String get sea_battle_your_turn => 'Ձեր հերթն է';
 
   @override
@@ -301,6 +304,13 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get sea_battle_waiting_for_opponent => 'Սպասում ենք մրցակցին';
+
+  @override
+  String get sea_battle_you_are_ready => 'Դուք պատրաստ եք';
+
+  @override
+  String get sea_battle_waiting_for_opponent_ships =>
+      'Սպասում ենք, որ մրցակիցը դասավորի իր նավերը';
 
   @override
   String get sea_battle_share => 'Կիսվել';

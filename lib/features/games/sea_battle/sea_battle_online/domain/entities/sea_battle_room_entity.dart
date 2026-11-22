@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
 import 'package:equatable/equatable.dart';
 
 /// An online Sea Battle room, as one of its two players sees it.
@@ -11,6 +12,9 @@ class SeaBattleRoomEntity extends Equatable {
     required this.role,
     required this.status,
     required this.hasOpponent,
+    this.isPlayerReady = false,
+    this.isOpponentReady = false,
+    this.firstTurn,
   });
 
   /// Characters a code is made of: capitals and digits without the
@@ -32,6 +36,10 @@ class SeaBattleRoomEntity extends Equatable {
   /// The path invite links start with, followed by `/<code>`.
   static const invitePath = '/join';
 
+  /// Time for each shot in the battle; when it runs out, a random shot is
+  /// fired.
+  static const turnTimeLimit = Duration(seconds: 20);
+
   final String code;
 
   /// Whether this player created the room or joined it.
@@ -42,11 +50,32 @@ class SeaBattleRoomEntity extends Equatable {
   /// Whether the other player is in the room.
   final bool hasOpponent;
 
+  /// Whether this player has placed their fleet and is ready to fight.
+  final bool isPlayerReady;
+
+  /// Whether the other player is ready.
+  final bool isOpponentReady;
+
+  /// Who fires first, from this player's side; null until the host starts
+  /// the battle.
+  final SeaBattleSide? firstTurn;
+
+  /// Whether both fleets are placed, so the host can start the battle.
+  bool get areBothReady => isPlayerReady && isOpponentReady;
+
   /// The link that brings a friend into this room.
   Uri get inviteLink => Uri.https(inviteHost, '$invitePath/$code');
 
   @override
-  List<Object?> get props => [code, role, status, hasOpponent];
+  List<Object?> get props => [
+    code,
+    role,
+    status,
+    hasOpponent,
+    isPlayerReady,
+    isOpponentReady,
+    firstTurn,
+  ];
 }
 
 /// Whether a player created a room or joined it.

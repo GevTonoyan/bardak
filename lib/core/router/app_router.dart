@@ -27,12 +27,16 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_result_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/entities/sea_battle_room_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/join_room/sea_battle_join_room_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/join_room/sea_battle_join_room_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/online_placement/sea_battle_online_placement_bloc.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/online_placement/sea_battle_online_placement_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/waiting_room/sea_battle_waiting_room_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/waiting_room/sea_battle_waiting_room_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/ui/sea_battle_join_room_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/ui/sea_battle_waiting_room_screen.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/sea_battle_online_scope.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/bloc/ship_placement_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/ui/sea_battle_placement_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_rules/presentation/ui/sea_battle_rules_screen.dart';
@@ -69,8 +73,13 @@ final rootNavigatorKey = GlobalKey<NavigatorState>();
 final gameSessionNavigatorKey = GlobalKey<NavigatorState>();
 final spySessionNavigatorKey = GlobalKey<NavigatorState>();
 
-final appRouter = GoRouter(
-  initialLocation: SplashScreen.routePath,
+/// The app's router, created once in `main` by [createAppRouter].
+late final GoRouter appRouter;
+
+/// The app's router, opening on [initialLocation]: the splash screen, or
+/// straight on the screen a link the app was opened with leads to.
+GoRouter createAppRouter({required String initialLocation}) => GoRouter(
+  initialLocation: initialLocation,
   navigatorKey: rootNavigatorKey,
   debugLogDiagnostics: kDebugMode,
   onEnter: guardNavigation,
@@ -238,24 +247,48 @@ final appRouter = GoRouter(
             GoRoute(
               path: SeaBattlePlacementScreen.routePath,
               name: SeaBattlePlacementScreen.routePath,
-              pageBuilder: (context, state) => MaterialPage(
-                child: BlocProvider(
-                  create: (_) =>
-                      ShipPlacementBloc(generateRandomFleetUseCase: sl()),
-                  child: SeaBattlePlacementScreen(
-                    args: state.extra! as SeaBattlePlacementArgs,
+              pageBuilder: (context, state) {
+                final args = state.extra! as SeaBattlePlacementArgs;
+                final room = args.room;
+                return MaterialPage(
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (_) =>
+                            ShipPlacementBloc(generateRandomFleetUseCase: sl()),
+                      ),
+                      // Online: getting ready together, and leaving.
+                      if (room != null)
+                        BlocProvider(
+                          create: (_) => SeaBattleOnlinePlacementBloc(
+                            room: room,
+                            watchSeaBattleRoomUseCase: sl(),
+                            markSeaBattleRoomReadyUseCase: sl(),
+                            startSeaBattleRoomBattleUseCase: sl(),
+                            leaveSeaBattleRoomUseCase: sl(),
+                          )..add(const WatchRoom()),
+                        ),
+                    ],
+                    child: SeaBattlePlacementScreen(args: args),
                   ),
-                ),
-              ),
+                );
+              },
             ),
             GoRoute(
               path: SeaBattleGameScreen.routePath,
               name: SeaBattleGameScreen.routePath,
               pageBuilder: (context, state) {
                 final args = state.extra! as SeaBattleGameArgs;
-                final opponentRepository = sl<SeaBattleOpponentRepository>(
-                  param1: args.botDifficulty,
-                );
+                final room = args.room;
+                final opponentRepository = room == null
+                    ? sl<SeaBattleOpponentRepository>(
+                        param1: args.botDifficulty,
+                      )
+                    : sl<SeaBattleOpponentRepository>(
+                        instanceName: onlineOpponentName,
+                        param1: room.code,
+                        param2: args.playerFleet,
+                      );
                 return MaterialPage(
                   child: BlocProvider(
                     create: (_) => SeaBattleGameBloc(
@@ -273,6 +306,13 @@ final appRouter = GoRouter(
                       getOpponentFleetUseCase: GetOpponentFleetUseCase(
                         opponentRepository,
                       ),
+                      getRandomShotUseCase: sl(),
+                      // Online the host has picked who fires first, and
+                      // every shot is timed.
+                      firstTurn: room?.firstTurn,
+                      turnTimeLimit: room == null
+                          ? null
+                          : SeaBattleRoomEntity.turnTimeLimit,
                     ),
                     child: SeaBattleGameScreen(args: args),
                   ),

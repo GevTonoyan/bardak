@@ -12,6 +12,7 @@ environment:
   flutter: 3.47.4
 
 dependencies:
+  app_links: 7.2.2
   audioplayers: 6.7.0
   bloc_concurrency: ^0.3.0
   cached_network_image: 3.4.1

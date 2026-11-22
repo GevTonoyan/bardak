@@ -532,6 +532,12 @@ abstract class AppLocalizations {
   /// **'Ready'**
   String get sea_battle_ready;
 
+  /// No description provided for @sea_battle_leave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get sea_battle_leave;
+
   /// No description provided for @sea_battle_your_turn.
   ///
   /// In en, this message translates to:
@@ -651,6 +657,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Waiting for your opponent'**
   String get sea_battle_waiting_for_opponent;
+
+  /// No description provided for @sea_battle_you_are_ready.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re ready!'**
+  String get sea_battle_you_are_ready;
+
+  /// No description provided for @sea_battle_waiting_for_opponent_ships.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for your opponent to place their ships'**
+  String get sea_battle_waiting_for_opponent_ships;
 
   /// No description provided for @sea_battle_share.
   ///

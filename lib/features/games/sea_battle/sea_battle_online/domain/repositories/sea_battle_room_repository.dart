@@ -18,4 +18,11 @@ abstract interface class SeaBattleRoomRepository {
 
   /// Leaves the room with [code], closing it for both players.
   Future<void> leaveRoom(String code);
+
+  /// Marks this player's fleet in the room with [code] as placed.
+  Future<void> markReady(String code);
+
+  /// Picks who fires first and starts the battle in the room with [code].
+  /// Only the host calls it, once both players are ready.
+  Future<void> startBattle(String code);
 }

@@ -12,6 +12,7 @@ import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/ui/sea_battle_waiting_room_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_placement/presentation/ui/sea_battle_placement_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
@@ -22,14 +23,15 @@ import 'package:go_router/go_router.dart';
 
 /// Arguments for [SeaBattleResultScreen].
 class SeaBattleResultArgs {
-  const SeaBattleResultArgs({
-    required this.battle,
-    required this.botDifficulty,
-  });
+  const SeaBattleResultArgs({required this.battle, this.botDifficulty});
 
   /// The finished battle.
   final SeaBattleEntity battle;
-  final SeaBattleBotDifficulty botDifficulty;
+
+  /// The bot's level; null when the battle was online.
+  final SeaBattleBotDifficulty? botDifficulty;
+
+  bool get isOnline => botDifficulty == null;
 }
 
 /// Shown when a battle ends: victory or defeat, and how the player shot.
@@ -128,11 +130,18 @@ class _SeaBattleResultScreenState extends State<SeaBattleResultScreen> {
                         AppButton(
                           label: l10n.play_again,
                           color: colors.green,
-                          // A fresh, empty board for the next battle.
-                          onPressed: () => context.pushReplacementNamed(
-                            SeaBattlePlacementScreen.routePath,
-                            extra: const SeaBattlePlacementArgs(mode: .solo),
-                          ),
+                          // A fresh, empty board for the next battle; online,
+                          // a new room to invite a friend to.
+                          onPressed: () => args.isOnline
+                              ? context.pushReplacementNamed(
+                                  SeaBattleWaitingRoomScreen.routePath,
+                                )
+                              : context.pushReplacementNamed(
+                                  SeaBattlePlacementScreen.routePath,
+                                  extra: const SeaBattlePlacementArgs(
+                                    mode: .solo,
+                                  ),
+                                ),
                         ),
                         height20,
                         AppButton(
@@ -261,20 +270,28 @@ class _SinkingShip extends StatelessWidget {
 }
 
 /// The bot's level, as a small frosted pill.
+/// The bot's level, or "Online" for a battle against a friend.
 class _DifficultyPill extends StatelessWidget {
   const _DifficultyPill({required this.difficulty});
 
-  final SeaBattleBotDifficulty difficulty;
+  final SeaBattleBotDifficulty? difficulty;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final l10n = context.l10n;
 
-    final level = switch (difficulty) {
-      .easy => l10n.sea_battle_difficulty_easy,
-      .medium => l10n.sea_battle_difficulty_medium,
-      .hard => l10n.sea_battle_difficulty_hard,
+    final label = switch (difficulty) {
+      null => l10n.sea_battle_mode_online,
+      .easy =>
+        '${l10n.sea_battle_bot_difficulty}: '
+            '${l10n.sea_battle_difficulty_easy}',
+      .medium =>
+        '${l10n.sea_battle_bot_difficulty}: '
+            '${l10n.sea_battle_difficulty_medium}',
+      .hard =>
+        '${l10n.sea_battle_bot_difficulty}: '
+            '${l10n.sea_battle_difficulty_hard}',
     };
 
     return Container(
@@ -285,7 +302,7 @@ class _DifficultyPill extends StatelessWidget {
         border: .all(color: colors.white30),
       ),
       child: Text(
-        '${l10n.sea_battle_bot_difficulty}: $level',
+        label,
         style: context.typography.bodyMedium.copyWith(color: colors.white),
       ),
     );

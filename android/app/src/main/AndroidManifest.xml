@@ -37,10 +37,11 @@
                     android:host="bardakgames.com"
                     android:pathPrefix="/join/" />
             </intent-filter>
-            <!-- Hands opened links to go_router. -->
+            <!-- Off: app_links hands opened links to the app instead, so it
+                 can open straight on the right screen when launched. -->
             <meta-data
                 android:name="flutter_deeplinking_enabled"
-                android:value="true" />
+                android:value="false" />
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

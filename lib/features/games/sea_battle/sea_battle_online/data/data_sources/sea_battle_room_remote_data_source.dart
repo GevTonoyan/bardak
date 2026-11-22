@@ -16,6 +16,13 @@ abstract interface class SeaBattleRoomRemoteDataSource {
   Stream<SeaBattleRoomEntity?> watchRoom(String code);
 
   Future<void> leaveRoom(String code);
+
+  /// Marks this player's fleet as placed.
+  Future<void> markReady(String code);
+
+  /// Picks who fires first and starts the battle. Only the host may, once
+  /// both players are ready; a second call is refused by the rules.
+  Future<void> startBattle(String code);
 }
 
 /// The player is signed in anonymously before the first room action, so
@@ -37,6 +44,8 @@ class SeaBattleRoomRemoteDataSourceImpl
   static const _guestKey = 'guest';
   static const _statusKey = 'status';
   static const _createdAtKey = 'createdAt';
+  static const _readyKey = 'ready';
+  static const _turnKey = 'turn';
 
   /// The rules refuse writes that are not allowed — such as taking a code
   /// or a seat that is already taken.
@@ -98,16 +107,27 @@ class SeaBattleRoomRemoteDataSourceImpl
     final playerId = await _signIn();
     final room = _room(code);
 
-    // Only these fields are readable before joining.
+    // Only these fields are readable before joining; read together, so
+    // joining waits for one round trip instead of three.
+    // Future.wait passes a failed read's own exception on.
+    final [
+      statusSnapshot,
+      createdAtSnapshot,
+      guestSnapshot,
+    ] = await Future.wait([
+      room.child(_statusKey).get(),
+      room.child(_createdAtKey).get(),
+      room.child(_guestKey).get(),
+    ]);
     final status = SeaBattleRoomStatus.fromString(
-      (await room.child(_statusKey).get()).value as String?,
+      statusSnapshot.value as String?,
     );
-    final createdAt = (await room.child(_createdAtKey).get()).value as int?;
+    final createdAt = createdAtSnapshot.value as int?;
     if (status == null || createdAt == null || _hasExpired(createdAt)) {
       throw const SeaBattleRoomException(.notFound);
     }
 
-    final guest = (await room.child(_guestKey).get()).value;
+    final guest = guestSnapshot.value;
     if (status != .waiting || (guest != null && guest != playerId)) {
       throw const SeaBattleRoomException(.full);
     }
@@ -144,11 +164,26 @@ class SeaBattleRoomRemoteDataSourceImpl
       );
       if (status == null) return null;
 
+      final ready = data[_readyKey];
+      final readyIds = {
+        if (ready is Map)
+          for (final MapEntry(:key, :value) in ready.entries)
+            if (value == true) key,
+      };
+      final turn = data[_turnKey];
+
       return SeaBattleRoomEntity(
         code: code,
         role: data[_hostKey] == playerId ? .host : .guest,
         status: status,
         hasOpponent: data[_guestKey] != null,
+        isPlayerReady: readyIds.contains(playerId),
+        isOpponentReady: readyIds.any((id) => id != playerId),
+        firstTurn: turn == null
+            ? null
+            : turn == playerId
+            ? .player
+            : .opponent,
       );
     });
   }
@@ -173,6 +208,28 @@ class SeaBattleRoomRemoteDataSourceImpl
   static bool _isWellFormed(String code) =>
       code.length == SeaBattleRoomEntity.codeLength &&
       code.split('').every(SeaBattleRoomEntity.codeAlphabet.contains);
+
+  @override
+  Future<void> markReady(String code) async {
+    final playerId = await _signIn();
+    await _room(code).child('$_readyKey/$playerId').set(true);
+  }
+
+  @override
+  Future<void> startBattle(String code) async {
+    final hostId = await _signIn();
+    // once() rather than get(): with the room already being watched, get()
+    // can come back empty.
+    final guestId = (await _room(code).child(_guestKey).once()).snapshot.value;
+    if (guestId is! String) {
+      throw StateError('Room $code has no guest to start a battle with');
+    }
+    // One update, so the battle never starts without a first turn.
+    await _room(code).update({
+      _turnKey: _random.nextBool() ? hostId : guestId,
+      _statusKey: SeaBattleRoomStatus.battle.name,
+    });
+  }
 
   bool _hasExpired(int createdAt) =>
       DateTime.now().difference(

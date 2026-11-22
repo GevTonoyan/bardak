@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_error_view.dart';
@@ -8,6 +7,7 @@ import 'package:bardak/core/app_ui/widgets/app_input_field.dart';
 import 'package:bardak/core/app_ui/widgets/app_loader.dart';
 import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/app_screen_header.dart';
+import 'package:bardak/core/app_ui/widgets/app_waiting_dots.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/presentation/bloc/waiting_room/sea_battle_waiting_room_bloc.dart';
@@ -175,7 +175,7 @@ class _Invite extends StatelessWidget {
           onPressed: () => unawaited(_share(context)),
         ),
         const SizedBox(height: 40),
-        const _WaitingDots(),
+        const AppWaitingDots(),
         const SizedBox(height: 12),
         Text(
           l10n.sea_battle_waiting_for_opponent,
@@ -292,66 +292,6 @@ class _LinkFieldState extends State<_LinkField> {
       suffix: AppIcon(
         icon: Icon(Icons.copy_rounded, color: colors.white),
         onTap: () => unawaited(_copy()),
-      ),
-    );
-  }
-}
-
-/// Three dots bouncing one after another.
-class _WaitingDots extends StatefulWidget {
-  const _WaitingDots();
-
-  @override
-  State<_WaitingDots> createState() => _WaitingDotsState();
-}
-
-class _WaitingDotsState extends State<_WaitingDots>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1200),
-  )..repeat();
-
-  static const _dotCount = 3;
-  static const _dotSize = 12.0;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, _) => Row(
-        mainAxisSize: .min,
-        spacing: 10,
-        children: [
-          for (var i = 0; i < _dotCount; i++)
-            Transform.translate(
-              // Each dot rises in turn, a third of a cycle apart.
-              offset: Offset(
-                0,
-                -10 *
-                    max(
-                      0,
-                      sin((_controller.value - i / _dotCount) * 2 * pi),
-                    ),
-              ),
-              child: Container(
-                width: _dotSize,
-                height: _dotSize,
-                decoration: BoxDecoration(
-                  color: colors.white,
-                  shape: .circle,
-                ),
-              ),
-            ),
-        ],
       ),
     );
   }

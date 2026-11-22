@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/entities/sea_battle_room_entity.dart';
@@ -20,17 +23,52 @@ const inviteRoutePath = '${SeaBattleRoomEntity.invitePath}/:$_codeParameter';
 /// Sends an invite to the join screen inside Sea Battle, so Back leads to
 /// its settings and then home.
 String redirectInvite(BuildContext context, GoRouterState state) =>
-    _joinRoomLocation(state, state.pathParameters[_codeParameter]!);
+    _joinRoomPath(state.pathParameters[_codeParameter]!);
 
 /// The join screen for room [code]. Codes are written in capitals, so a
 /// link typed in lowercase still works.
-String _joinRoomLocation(GoRouterState state, String code) =>
-    state.namedLocation(
-      SeaBattleJoinRoomScreen.routeName,
-      pathParameters: {
-        SeaBattleJoinRoomScreen.codeParameter: code.toUpperCase(),
-      },
-    );
+String _joinRoomPath(String code) =>
+    '${HomeScreen.routePath}/${SeaBattleSettingsScreen.routePath}/'
+    '${SeaBattleJoinRoomScreen.routeName}/${code.toUpperCase()}';
+
+/// The room code in [link] when it is an invite link, otherwise null.
+String? _inviteCode(Uri link) {
+  final segments = link.pathSegments;
+  final isInvite =
+      link.host == SeaBattleRoomEntity.inviteHost &&
+      segments.length == 2 &&
+      '/${segments.first}' == SeaBattleRoomEntity.invitePath;
+  return isInvite ? segments.last : null;
+}
+
+/// Where the app opens when [link] launched it: straight on the invite's
+/// join screen, with no splash or home first. Null for no link, or one
+/// the app does not handle.
+String? initialLocationFor(Uri? link) {
+  final code = link == null ? null : _inviteCode(link);
+  return code == null ? null : _joinRoomPath(code);
+}
+
+/// Hands invite links that arrive while the app runs to [router], where
+/// the navigation guards still ask before leaving a game.
+///
+/// [appLinks] also delivers the link the app was opened with; that one,
+/// [initialLink], is skipped, since the app already opened on it.
+StreamSubscription<Uri> listenToInviteLinks(
+  GoRouter router, {
+  required AppLinks appLinks,
+  Uri? initialLink,
+}) {
+  var skip = initialLink;
+  return appLinks.uriLinkStream.listen((link) {
+    if (link == skip) {
+      skip = null;
+      return;
+    }
+    skip = null;
+    if (_inviteCode(link) != null) router.go(link.path);
+  });
+}
 
 /// Screens an invite may replace without asking, as nothing is lost.
 const Set<String> _screensSafeToLeave = {
