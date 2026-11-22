@@ -44,8 +44,3 @@ class RemoveShip extends ShipPlacementEvent {
 class ShuffleShips extends ShipPlacementEvent {
   const ShuffleShips();
 }
-
-/// Takes every ship off the board.
-class ClearShips extends ShipPlacementEvent {
-  const ClearShips();
-}

@@ -13,7 +13,6 @@ class ShipPlacementBloc extends Bloc<ShipPlacementEvent, ShipPlacementState> {
     on<RotateShip>(_onRotateShip);
     on<RemoveShip>(_onRemoveShip);
     on<ShuffleShips>(_onShuffleShips);
-    on<ClearShips>(_onClearShips);
   }
 
   final GenerateRandomFleetUseCase _generateRandomFleetUseCase;
@@ -44,9 +43,5 @@ class ShipPlacementBloc extends Bloc<ShipPlacementEvent, ShipPlacementState> {
 
   void _onShuffleShips(ShuffleShips event, Emitter<ShipPlacementState> emit) {
     emit(ShipPlacementState(fleet: _generateRandomFleetUseCase()));
-  }
-
-  void _onClearShips(ClearShips event, Emitter<ShipPlacementState> emit) {
-    emit(const ShipPlacementState(fleet: FleetEntity()));
   }
 }

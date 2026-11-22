@@ -66,16 +66,10 @@ void main() {
     expect(bloc.state.fleet.ships.single, nearBottom);
   });
 
-  test('RemoveShip and ClearShips take ships off the board', () async {
+  test('RemoveShip takes a ship off the board', () async {
     bloc
       ..add(const PlaceShip(_ship))
       ..add(const RemoveShip(0));
-    await pumpEventQueue();
-    expect(bloc.state.fleet.ships, isEmpty);
-
-    bloc
-      ..add(const ShuffleShips())
-      ..add(const ClearShips());
     await pumpEventQueue();
     expect(bloc.state.fleet.ships, isEmpty);
   });

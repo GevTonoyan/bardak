@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:bardak/core/app_ui/widgets/app_button/app_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_error_view.dart';
-import 'package:bardak/core/app_ui/widgets/app_icon_text_button.dart';
+import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/app_screen_header.dart';
 import 'package:bardak/core/app_ui/widgets/app_waiting_dots.dart';
@@ -42,7 +42,8 @@ class SeaBattlePlacementArgs {
 }
 
 /// Lets the player arrange their fleet: drag ships from the dock onto the
-/// board, drag them around, tap to rotate, or place them randomly.
+/// board, drag them around, tap to rotate, drag back to the dock to take
+/// off, or place them all randomly.
 ///
 /// Shared by every mode; [args] changes only the confirm button.
 class SeaBattlePlacementScreen extends StatelessWidget {
@@ -51,10 +52,6 @@ class SeaBattlePlacementScreen extends StatelessWidget {
   static const routePath = 'seaBattlePlacement';
 
   final SeaBattlePlacementArgs args;
-
-  /// Ring width of the Shuffle / Clear pills, thinner than the app default
-  /// to sit calmly next to the board.
-  static const buttonBorderWidth = 1.5;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +68,7 @@ class SeaBattlePlacementScreen extends StatelessWidget {
                 onBack: isOnline
                     ? () => unawaited(_confirmLeave(context))
                     : context.pop,
+                trailing: const _ShuffleButton(),
               ),
               const SizedBox(height: 16),
               const Expanded(child: _PlacementArea()),
@@ -131,6 +129,28 @@ class _ConfirmButton extends StatelessWidget {
           MarkReady(context.read<ShipPlacementBloc>().state.fleet),
         );
     }
+  }
+}
+
+/// The header's round shuffle button: places the whole fleet at random.
+class _ShuffleButton extends StatelessWidget {
+  const _ShuffleButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: context.l10n.sea_battle_shuffle,
+      child: AppIconButton(
+        onTap: () =>
+            context.read<ShipPlacementBloc>().add(const ShuffleShips()),
+        child: Icon(
+          Icons.shuffle_rounded,
+          size: 22,
+          color: context.colors.white,
+        ),
+      ),
+    );
   }
 }
 
@@ -380,8 +400,8 @@ class _ReadyFailureCard extends StatelessWidget {
   }
 }
 
-/// The board, the Random / Clear toolbar and the dock, sized so the board
-/// is as large as the space allows.
+/// The board and the dock, sized so the board is as large as the space
+/// allows.
 class _PlacementArea extends StatelessWidget {
   const _PlacementArea();
 
@@ -390,8 +410,7 @@ class _PlacementArea extends StatelessWidget {
   /// Total height the area needs at [cellSize].
   static double _heightFor(double cellSize) =>
       cellSize * BoardCoordinate.boardSize +
-      _gap * 2 +
-      _PlacementToolbar.height +
+      _gap +
       _ShipDock.heightFor(cellSize);
 
   @override
@@ -406,95 +425,16 @@ class _PlacementArea extends StatelessWidget {
           cellSize--;
         }
 
-        // On tall screens the spare height is split above and below
-        // instead of pooling over the button.
+        // Right under the header, like the content of other screens; any
+        // spare height stays above the button.
         return Column(
-          mainAxisAlignment: .center,
           children: [
             _PlacementBoard(cellSize: cellSize),
-            const SizedBox(height: _gap),
-            const _PlacementToolbar(),
             const SizedBox(height: _gap),
             _ShipDock(cellSize: cellSize),
           ],
         );
       },
-    );
-  }
-}
-
-/// Small pill buttons under the board: Shuffle on the left, Clear on the
-/// right.
-class _PlacementToolbar extends StatelessWidget {
-  const _PlacementToolbar();
-
-  static const height = 40.0;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    final hasShips = context.select<ShipPlacementBloc, bool>(
-      (bloc) => bloc.state.fleet.ships.isNotEmpty,
-    );
-
-    return SizedBox(
-      height: height,
-      child: Row(
-        children: [
-          _ToolbarButton(
-            icon: Icons.shuffle_rounded,
-            label: l10n.sea_battle_shuffle,
-            onTap: () =>
-                context.read<ShipPlacementBloc>().add(const ShuffleShips()),
-          ),
-          const Spacer(),
-          Opacity(
-            opacity: hasShips ? 1 : 0.4,
-            child: _ToolbarButton(
-              icon: Icons.delete_outline_rounded,
-              label: l10n.sea_battle_clear,
-              onTap: hasShips
-                  ? () => context.read<ShipPlacementBloc>().add(
-                      const ClearShips(),
-                    )
-                  : null,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// A pill with an icon and a short label.
-class _ToolbarButton extends StatelessWidget {
-  const _ToolbarButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return AppIconTextButton(
-      onTap: onTap,
-      borderWidth: SeaBattlePlacementScreen.buttonBorderWidth,
-      padding: const .symmetric(horizontal: 14, vertical: 6),
-      child: Row(
-        mainAxisSize: .min,
-        spacing: 6,
-        children: [
-          Icon(icon, color: colors.white, size: 18),
-          Text(label, style: context.typography.regular18),
-        ],
-      ),
     );
   }
 }

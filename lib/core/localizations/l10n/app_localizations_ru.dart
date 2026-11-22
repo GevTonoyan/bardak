@@ -239,9 +239,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sea_battle_shuffle => 'Перемешать';
 
   @override
-  String get sea_battle_clear => 'Очистить';
-
-  @override
   String get sea_battle_start => 'Начать';
 
   @override
@@ -257,16 +254,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sea_battle_opponent_turn => 'Ход соперника';
 
   @override
-  String get sea_battle_you_won => 'Вы победили!';
-
-  @override
-  String get sea_battle_you_lost => 'Вы проиграли';
-
-  @override
   String get sea_battle_enemy_fleet => 'Флот соперника';
-
-  @override
-  String get sea_battle_your_fleet => 'Ваш флот';
 
   @override
   String get sea_battle_victory => 'Победа!';
