@@ -3,7 +3,6 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/repositories/sea_battle_opponent_repository.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/data/data_sources/sea_battle_remote_opponent_data_source.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/data/data_sources/sea_battle_room_remote_data_source.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_online/data/fakes/fake_sea_battle_online.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/data/repositories/sea_battle_remote_opponent_repository_impl.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/data/repositories/sea_battle_room_repository_impl.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/repositories/sea_battle_room_repository.dart';
@@ -56,19 +55,15 @@ void injectSeaBattleOnlineScope() {
     )
     // A new opponent for every battle: it counts that battle's shots.
     ..registerFactoryParam<SeaBattleOpponentRepository, String, FleetEntity>(
-      (code, playerFleet) => useFakeSeaBattleOnline
-          ? FakeSeaBattleRemoteOpponentRepository()
-          : SeaBattleRemoteOpponentRepositoryImpl(
-              code: code,
-              playerFleet: playerFleet,
-              remoteDataSource: sl(),
-            ),
+      (code, playerFleet) => SeaBattleRemoteOpponentRepositoryImpl(
+        code: code,
+        playerFleet: playerFleet,
+        remoteDataSource: sl(),
+      ),
       instanceName: onlineOpponentName,
     )
     ..registerLazySingleton<SeaBattleRoomRepository>(
-      () => useFakeSeaBattleOnline
-          ? FakeSeaBattleRoomRepository()
-          : SeaBattleRoomRepositoryImpl(remoteDataSource: sl()),
+      () => SeaBattleRoomRepositoryImpl(remoteDataSource: sl()),
     )
     ..registerLazySingleton<SeaBattleRemoteOpponentDataSource>(
       () => SeaBattleRemoteOpponentDataSourceImpl(
