@@ -24,9 +24,16 @@ final class PlayOpponentTurn extends SeaBattleGameEvent {
   const PlayOpponentTurn();
 }
 
-/// Counts down the time for the current turn from the start; at zero, on
-/// the player's own turn, fires a random shot for them. Sent again after
-/// every shot, which restarts it.
+/// Follows the opponent, to stop the battle if they leave.
+final class WatchOpponent extends SeaBattleGameEvent {
+  const WatchOpponent();
+}
+
+/// Counts down the time for the current turn from the start. At zero, on
+/// the player's own turn, fires a random shot for them; on the
+/// opponent's, whose own phone does the same, it waits a little longer
+/// before counting them as gone. Sent again after every shot, which
+/// restarts it.
 final class RunTurnTimer extends SeaBattleGameEvent {
   const RunTurnTimer();
 }

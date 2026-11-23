@@ -105,8 +105,9 @@ class SeaBattleOnlinePlacementBloc
     }
   }
 
-  /// Always lets the player out: a room that cannot be deleted now
-  /// expires on the server.
+  /// Always lets the player out. The deletion is sent as soon as there
+  /// is a connection; a room it never reaches can no longer be joined
+  /// after an hour, but stays in the database.
   Future<void> _onLeaveRoom(
     LeaveRoom event,
     Emitter<SeaBattleOnlinePlacementState> emit,

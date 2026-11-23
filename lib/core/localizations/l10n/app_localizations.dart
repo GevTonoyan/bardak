@@ -706,6 +706,18 @@ abstract class AppLocalizations {
   /// **'The room was closed'**
   String get sea_battle_room_closed;
 
+  /// Shown when the online opponent leaves or disconnects mid-battle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your friend left the battle'**
+  String get sea_battle_opponent_left;
+
+  /// No description provided for @sea_battle_connection_lost.
+  ///
+  /// In en, this message translates to:
+  /// **'The connection was lost'**
+  String get sea_battle_connection_lost;
+
   /// No description provided for @sea_battle_share_message.
   ///
   /// In en, this message translates to:

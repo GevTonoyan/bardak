@@ -3,9 +3,10 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/exceptions/sea_battle_opponent_exception.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/data/data_sources/sea_battle_remote_opponent_data_source.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/data/repositories/sea_battle_remote_opponent_repository_impl.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/exceptions/sea_battle_room_exception.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -153,12 +154,56 @@ void main() {
     await expectLater(
       repository.getOpponentShot(const SeaBattleBoardEntity()),
       throwsA(
-        isA<SeaBattleRoomException>().having(
+        isA<SeaBattleOpponentException>().having(
           (error) => error.reason,
           'reason',
-          SeaBattleRoomFailure.connection,
+          SeaBattleOpponentFailure.connection,
         ),
       ),
     );
+  });
+
+  test('a refused move means the opponent deleted the room', () async {
+    when(() => dataSource.fireShot(code, any(), any())).thenThrow(
+      FirebaseException(plugin: 'firebase_database', code: 'permission-denied'),
+    );
+
+    await expectLater(
+      repository.answerPlayerShot(cell),
+      throwsA(
+        isA<SeaBattleOpponentException>().having(
+          (error) => error.reason,
+          'reason',
+          SeaBattleOpponentFailure.left,
+        ),
+      ),
+    );
+  });
+
+  test('a failed shot keeps its number', () async {
+    when(
+      () => dataSource.getShotAnswer(code, 0),
+    ).thenThrow(Exception('offline'));
+    await expectLater(repository.answerPlayerShot(cell), throwsException);
+
+    when(
+      () => dataSource.getShotAnswer(code, 0),
+    ).thenAnswer((_) async => (ShotResult.miss, null));
+    await repository.answerPlayerShot(cell);
+
+    verify(() => dataSource.fireShot(code, 0, cell)).called(2);
+    verifyNever(() => dataSource.fireShot(code, 1, any()));
+  });
+
+  test('watching and leaving go through the room', () async {
+    when(
+      () => dataSource.watchOpponentLeft(code),
+    ).thenAnswer((_) => Stream.value(null));
+    when(() => dataSource.leaveBattle(code)).thenAnswer((_) async {});
+
+    await expectLater(repository.watchOpponentLeft(), emits(null));
+    await repository.leaveBattle();
+
+    verify(() => dataSource.leaveBattle(code)).called(1);
   });
 }

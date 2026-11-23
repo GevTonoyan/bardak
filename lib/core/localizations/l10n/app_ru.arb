@@ -136,6 +136,8 @@
   "sea_battle_join_invite_description": "Текущий экран будет закрыт",
   "sea_battle_join": "Присоединиться",
   "sea_battle_room_closed": "Комната закрыта",
+  "sea_battle_opponent_left": "Соперник покинул бой",
+  "sea_battle_connection_lost": "Соединение потеряно",
   "sea_battle_share_message": "Присоединяйся к моей игре в Морской бой в Bardak! {link}",
   "sea_battle_rule_1_title": "Соберите флот",
   "sea_battle_rule_1": "У каждого игрока 10 кораблей: один на 4 клетки, два на 3, три на 2 и четыре на 1",

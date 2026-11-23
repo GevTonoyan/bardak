@@ -332,6 +332,12 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sea_battle_room_closed => 'Սենյակը փակվել է';
 
   @override
+  String get sea_battle_opponent_left => 'Ընկերդ լքեց մարտը';
+
+  @override
+  String get sea_battle_connection_lost => 'Կապը կորավ';
+
+  @override
   String sea_battle_share_message(String link) {
     return 'Միացիր իմ Ծովամարտ խաղին Bardak-ում։ $link';
   }

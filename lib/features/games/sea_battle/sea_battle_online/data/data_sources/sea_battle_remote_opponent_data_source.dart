@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
@@ -37,6 +39,14 @@ abstract interface class SeaBattleRemoteOpponentDataSource {
 
   /// Waits for the opponent's fleet, revealed once the battle is over.
   Future<FleetEntity> getOpponentFleet(String code);
+
+  /// While listened to, keeps this player marked present in the room, and
+  /// emits once the opponent is gone: the room was deleted, or they have
+  /// been disconnected for longer than a short network drop.
+  Stream<void> watchOpponentLeft(String code);
+
+  /// Deletes the room, which ends the battle for the opponent too.
+  Future<void> leaveBattle(String code);
 }
 
 class SeaBattleRemoteOpponentDataSourceImpl
@@ -56,6 +66,11 @@ class SeaBattleRemoteOpponentDataSourceImpl
   static const _missAtKey = 'missAt';
   static const _statusKey = 'status';
   static const _finishedStatus = 'finished';
+  static const _presenceKey = 'presence';
+
+  /// How long the opponent may be disconnected, as on a train going
+  /// through a tunnel, before they count as gone.
+  static const _absenceGrace = Duration(seconds: 20);
 
   static const _byKey = 'by';
   static const _rowKey = 'row';
@@ -142,6 +157,63 @@ class SeaBattleRemoteOpponentDataSourceImpl
         }
         return null;
       });
+
+  @override
+  Stream<void> watchOpponentLeft(String code) {
+    final presence = _room(code).child('$_presenceKey/$_playerId');
+    final subscriptions = <StreamSubscription<DatabaseEvent>>[];
+    Timer? absence;
+    late final StreamController<void> controller;
+
+    void left() {
+      if (!controller.isClosed) controller.add(null);
+    }
+
+    controller = StreamController<void>(
+      onListen: () => subscriptions.addAll([
+        // Marked present on every (re)connection; the server marks this
+        // player absent itself when the connection drops.
+        _database.ref('.info/connected').onValue.listen((event) async {
+          if (event.snapshot.value != true) return;
+          await presence.onDisconnect().set(false);
+          await presence.set(true);
+        }, onError: controller.addError),
+        // Readable even once the room is gone, unlike the room itself.
+        _room(code).child(_statusKey).onValue.listen((event) {
+          if (event.snapshot.value == null) left();
+        }, onError: controller.addError),
+        _room(code).child(_presenceKey).onValue.listen(
+          (event) {
+            final data = event.snapshot.value;
+            final isAway =
+                data is Map &&
+                data.entries.any(
+                  (entry) => entry.key != _playerId && entry.value == false,
+                );
+            if (!isAway) {
+              absence?.cancel();
+              absence = null;
+            } else {
+              absence ??= Timer(_absenceGrace, left);
+            }
+          },
+          // Refused once the room is deleted; the status above tells that.
+          onError: (Object _) {},
+        ),
+      ]),
+      onCancel: () async {
+        absence?.cancel();
+        await Future.wait([
+          for (final subscription in subscriptions) subscription.cancel(),
+        ]);
+        await presence.onDisconnect().cancel();
+      },
+    );
+    return controller.stream;
+  }
+
+  @override
+  Future<void> leaveBattle(String code) => _room(code).remove();
 
   /// The first non-null value [parse] makes of the data at [ref], waiting
   /// for it to be written if it is not there yet.

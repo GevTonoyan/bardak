@@ -23,7 +23,9 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/reposito
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/fire_at_opponent_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_fleet_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_shot_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/leave_sea_battle_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/report_opponent_shot_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/watch_opponent_left_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_game_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_result_screen.dart';
@@ -280,40 +282,46 @@ GoRouter createAppRouter({required String initialLocation}) => GoRouter(
               pageBuilder: (context, state) {
                 final args = state.extra! as SeaBattleGameArgs;
                 final room = args.room;
-                final opponentRepository = room == null
-                    ? sl<SeaBattleOpponentRepository>(
-                        param1: args.botDifficulty,
-                      )
-                    : sl<SeaBattleOpponentRepository>(
-                        instanceName: onlineOpponentName,
-                        param1: room.code,
-                        param2: args.playerFleet,
-                      );
                 return MaterialPage(
                   child: BlocProvider(
-                    create: (_) => SeaBattleGameBloc(
-                      playerFleet: args.playerFleet,
-                      startSeaBattleUseCase: sl(),
-                      fireAtOpponentUseCase: FireAtOpponentUseCase(
-                        opponentRepository,
-                      ),
-                      getOpponentShotUseCase: GetOpponentShotUseCase(
-                        opponentRepository,
-                      ),
-                      reportOpponentShotUseCase: ReportOpponentShotUseCase(
-                        opponentRepository,
-                      ),
-                      getOpponentFleetUseCase: GetOpponentFleetUseCase(
-                        opponentRepository,
-                      ),
-                      getRandomShotUseCase: sl(),
-                      // Online the host has picked who fires first, and
-                      // every shot is timed.
-                      firstTurn: room?.firstTurn,
-                      turnTimeLimit: room == null
-                          ? null
-                          : SeaBattleRoomEntity.turnTimeLimit,
-                    ),
+                    create: (_) {
+                      // Made with the bloc, so it lives exactly as long as
+                      // this battle.
+                      final opponent = room == null
+                          ? sl<SeaBattleOpponentRepository>(
+                              param1: args.botDifficulty,
+                            )
+                          : sl<SeaBattleOpponentRepository>(
+                              instanceName: onlineOpponentName,
+                              param1: room.code,
+                              param2: args.playerFleet,
+                            );
+                      return SeaBattleGameBloc(
+                        playerFleet: args.playerFleet,
+                        startSeaBattleUseCase: sl(),
+                        fireAtOpponentUseCase: FireAtOpponentUseCase(opponent),
+                        getOpponentShotUseCase: GetOpponentShotUseCase(
+                          opponent,
+                        ),
+                        reportOpponentShotUseCase: ReportOpponentShotUseCase(
+                          opponent,
+                        ),
+                        getOpponentFleetUseCase: GetOpponentFleetUseCase(
+                          opponent,
+                        ),
+                        watchOpponentLeftUseCase: WatchOpponentLeftUseCase(
+                          opponent,
+                        ),
+                        leaveSeaBattleUseCase: LeaveSeaBattleUseCase(opponent),
+                        getRandomShotUseCase: sl(),
+                        // Online the host has picked who fires first, and
+                        // every shot is timed.
+                        firstTurn: room?.firstTurn,
+                        turnTimeLimit: room == null
+                            ? null
+                            : SeaBattleRoomEntity.turnTimeLimit,
+                      );
+                    },
                     child: SeaBattleGameScreen(args: args),
                   ),
                 );

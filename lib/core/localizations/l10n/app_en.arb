@@ -150,6 +150,11 @@
   "sea_battle_join_invite_description": "You'll leave the current screen",
   "sea_battle_join": "Join",
   "sea_battle_room_closed": "The room was closed",
+  "sea_battle_opponent_left": "Your friend left the battle",
+  "@sea_battle_opponent_left": {
+    "description": "Shown when the online opponent leaves or disconnects mid-battle."
+  },
+  "sea_battle_connection_lost": "The connection was lost",
   "sea_battle_share_message": "Join my Sea Battle game in Bardak! {link}",
   "@sea_battle_share_message": {
     "placeholders": {

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:bardak/core/app_ui/sounds/one_shot_sound.dart';
 import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
+import 'package:bardak/core/app_ui/widgets/app_notification.dart';
 import 'package:bardak/core/app_ui/widgets/countdown_ring.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
@@ -21,6 +22,7 @@ import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/entities/sea_battle_room_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/ui/sea_battle_settings_screen.dart';
 import 'package:bardak/features/home/presentation/ui/home_screen.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -70,8 +72,8 @@ class SeaBattleGameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isOver = context.select<SeaBattleGameBloc, bool>(
-      (bloc) => bloc.state.battle.isOver,
+    final isPlaying = context.select<SeaBattleGameBloc, bool>(
+      (bloc) => bloc.state.isPlaying,
     );
 
     return MultiBlocListener(
@@ -99,6 +101,24 @@ class SeaBattleGameScreen extends StatelessWidget {
           listener: (context, state) => _tick(context),
         ),
         BlocListener<SeaBattleGameBloc, SeaBattleGameState>(
+          // Online the battle can stop early: back to the settings, with
+          // why.
+          listenWhen: (previous, current) =>
+              previous.interruption == null && current.interruption != null,
+          listener: (context, state) {
+            unawaited(
+              showAppNotification(
+                context,
+                message: switch (state.interruption!) {
+                  .left => context.l10n.sea_battle_opponent_left,
+                  .connection => context.l10n.sea_battle_connection_lost,
+                },
+              ),
+            );
+            context.goNamed(SeaBattleSettingsScreen.routePath);
+          },
+        ),
+        BlocListener<SeaBattleGameBloc, SeaBattleGameState>(
           listenWhen: (previous, current) =>
               !previous.battle.isOver && current.battle.isOver,
           listener: (context, state) =>
@@ -107,7 +127,7 @@ class SeaBattleGameScreen extends StatelessWidget {
       ],
       child: PopScope(
         // Leaving mid-battle asks first; a finished battle just closes.
-        canPop: isOver,
+        canPop: !isPlaying,
         onPopInvokedWithResult: (didPop, _) {
           if (!didPop) unawaited(_confirmExit(context));
         },
@@ -170,6 +190,7 @@ void _tick(BuildContext context) {
 }
 
 /// Confirms before abandoning the battle — same as the other games.
+/// Online, leaving ends it for the opponent too.
 Future<void> _confirmExit(BuildContext context) async {
   final l10n = context.l10n;
   final colors = context.colors;
