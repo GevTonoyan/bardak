@@ -43,6 +43,31 @@ class ShipEntity extends Equatable {
   /// The cells around the ship (its [area] without the ship itself).
   Set<BoardCoordinate> get surroundingCells => area.difference(cells.toSet());
 
+  /// The ship turned to the other orientation, in every position that
+  /// still crosses one of its cells, most natural first: pivoting on its
+  /// first cell (down or right of it, then up or left of it, then centred
+  /// on it), then on each next cell the same way. The first one that fits
+  /// is the one to use.
+  List<ShipEntity> get rotations {
+    final orientation = this.orientation.rotated;
+    final offsets = [
+      0,
+      if (length > 1) length - 1,
+      for (var k = 1; k < length - 1; k++) k,
+    ];
+    return {
+      for (final pivot in cells)
+        for (final offset in offsets)
+          copyWith(
+            orientation: orientation,
+            origin: switch (orientation) {
+              ShipOrientation.horizontal => pivot.shift(columns: -offset),
+              ShipOrientation.vertical => pivot.shift(rows: -offset),
+            },
+          ),
+    }.toList();
+  }
+
   /// Whether the ship occupies [cell].
   bool occupies(BoardCoordinate cell) => cells.contains(cell);
 

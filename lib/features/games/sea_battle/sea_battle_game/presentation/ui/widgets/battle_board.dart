@@ -73,6 +73,8 @@ class _BattleBoardState extends State<BattleBoard>
     final ships = board.fleet?.ships ?? sunkShips;
     final lastShot = widget.lastShot;
     final onCellTap = widget.onCellTap;
+    // Water marked around a sunk ship was never fired at.
+    final aroundSunk = {for (final ship in sunkShips) ...ship.surroundingCells};
 
     return AnimatedBuilder(
       animation: _shake,
@@ -115,7 +117,15 @@ class _BattleBoardState extends State<BattleBoard>
                 ),
               ),
             for (final cell in board.missCells)
-              _Mark(cell: cell, cellSize: cellSize, type: .miss),
+              _Mark(
+                // Keeps each mark's own entrance when new ones are added.
+                key: ValueKey(cell),
+                cell: cell,
+                cellSize: cellSize,
+                type: aroundSunk.contains(cell) ? .cleared : .miss,
+                // Only the shot just fired dives in.
+                animateIn: cell == lastShot?.cell,
+              ),
             for (final cell in board.hitCells)
               _Mark(cell: cell, cellSize: cellSize, type: .hit),
             if (lastShot != null) ...[
@@ -144,11 +154,14 @@ class _Mark extends StatelessWidget {
     required this.cell,
     required this.cellSize,
     required this.type,
+    this.animateIn = false,
+    super.key,
   });
 
   final BoardCoordinate cell;
   final double cellSize;
   final CellMarkType type;
+  final bool animateIn;
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +169,11 @@ class _Mark extends StatelessWidget {
       left: cell.column * cellSize,
       top: cell.row * cellSize,
       child: IgnorePointer(
-        child: CellMark(type: type, cellSize: cellSize),
+        child: CellMark(
+          type: type,
+          cellSize: cellSize,
+          animateIn: animateIn,
+        ),
       ),
     );
   }

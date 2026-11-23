@@ -68,7 +68,6 @@ class SeaBattlePlacementScreen extends StatelessWidget {
                 onBack: isOnline
                     ? () => unawaited(_confirmLeave(context))
                     : context.pop,
-                trailing: const _ShuffleButton(),
               ),
               const SizedBox(height: 16),
               const Expanded(child: _PlacementArea()),
@@ -132,7 +131,8 @@ class _ConfirmButton extends StatelessWidget {
   }
 }
 
-/// The header's round shuffle button: places the whole fleet at random.
+/// The round shuffle button on the dock's corner: places the whole fleet
+/// at random.
 class _ShuffleButton extends StatelessWidget {
   const _ShuffleButton();
 
@@ -405,7 +405,8 @@ class _ReadyFailureCard extends StatelessWidget {
 class _PlacementArea extends StatelessWidget {
   const _PlacementArea();
 
-  static const _gap = 12.0;
+  /// Between the board and the top of the dock's shuffle button.
+  static const _gap = 8.0;
 
   /// Total height the area needs at [cellSize].
   static double _heightFor(double cellSize) =>
@@ -603,8 +604,9 @@ class _PlacedShip extends StatelessWidget {
 }
 
 /// One model per ship type at full board size, each with a count badge of
-/// how many are left to place. Also a drop target: dragging a ship from
-/// the board back here takes it off the board.
+/// how many are left to place, and the shuffle button on its top-right
+/// corner. Also a drop target: dragging a ship from the board back here
+/// takes it off the board.
 class _ShipDock extends StatelessWidget {
   const _ShipDock({required this.cellSize});
 
@@ -614,14 +616,24 @@ class _ShipDock extends StatelessWidget {
   static const _rowSpacing = 10.0;
   static const _borderWidth = 1.0;
 
+  /// How far the shuffle button rises above the dock's top edge.
+  static const double _buttonOverhang = AppIconButton.size * 0.65;
+
+  /// Room kept clear in the top row so its last badge stays out from
+  /// under the shuffle button.
+  static const double _buttonClearance = AppIconButton.size * 0.6;
+
   /// The ship types in the dock, two per row: largest first.
   static const _rows = [
     [4, 3],
     [2, 1],
   ];
 
-  /// The dock's height at [cellSize].
+  /// The dock's height at [cellSize], with the shuffle button above it.
   static double heightFor(double cellSize) =>
+      _buttonOverhang + _boxHeightFor(cellSize);
+
+  static double _boxHeightFor(double cellSize) =>
       cellSize * _rows.length + _rowSpacing + _padding * 2 + _borderWidth * 2;
 
   @override
@@ -633,7 +645,7 @@ class _ShipDock extends StatelessWidget {
     );
     final unplacedIds = fleet.unplacedShipIds;
 
-    return DragTarget<ShipEntity>(
+    final dock = DragTarget<ShipEntity>(
       onWillAcceptWithDetails: (details) =>
           fleet.ships.any((ship) => ship.id == details.data.id),
       onAcceptWithDetails: (details) => context.read<ShipPlacementBloc>().add(
@@ -645,7 +657,7 @@ class _ShipDock extends StatelessWidget {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           width: double.infinity,
-          height: heightFor(cellSize),
+          height: _boxHeightFor(cellSize),
           padding: const .all(_padding),
           decoration: BoxDecoration(
             color: isHovered ? colors.white20 : colors.white10,
@@ -659,24 +671,40 @@ class _ShipDock extends StatelessWidget {
             spacing: _rowSpacing,
             children: [
               for (final row in _rows)
-                Row(
-                  mainAxisAlignment: .spaceEvenly,
-                  children: [
-                    for (final length in row)
-                      _DockShip(
-                        length: length,
-                        cellSize: cellSize,
-                        unplacedIds: [
-                          for (final id in unplacedIds)
-                            if (FleetEntity.shipLengths[id] == length) id,
-                        ],
-                      ),
-                  ],
+                Padding(
+                  padding: .only(
+                    right: row == _rows.first ? _buttonClearance : 0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: .spaceEvenly,
+                    children: [
+                      for (final length in row)
+                        _DockShip(
+                          length: length,
+                          cellSize: cellSize,
+                          unplacedIds: [
+                            for (final id in unplacedIds)
+                              if (FleetEntity.shipLengths[id] == length) id,
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
             ],
           ),
         );
       },
+    );
+
+    // The button sits inside the stack's bounds, so all of it is tappable.
+    return Stack(
+      children: [
+        Padding(
+          padding: const .only(top: _buttonOverhang),
+          child: dock,
+        ),
+        const Positioned(top: 0, right: 6, child: _ShuffleButton()),
+      ],
     );
   }
 }

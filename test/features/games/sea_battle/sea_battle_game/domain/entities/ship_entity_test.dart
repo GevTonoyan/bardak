@@ -99,4 +99,34 @@ void main() {
     expect(ShipOrientation.horizontal.rotated, ShipOrientation.vertical);
     expect(ShipOrientation.vertical.rotated, ShipOrientation.horizontal);
   });
+
+  test('rotations turn in place first, then the other way, then centred', () {
+    const ship = ShipEntity(id: 0, length: 3, origin: BoardCoordinate(5, 5));
+
+    expect(ship.rotations.take(3).map((rotated) => rotated.origin), const [
+      BoardCoordinate(5, 5),
+      BoardCoordinate(3, 5),
+      BoardCoordinate(4, 5),
+    ]);
+    expect(
+      ship.rotations.every((rotated) => rotated.orientation == .vertical),
+      isTrue,
+    );
+  });
+
+  test('every rotation crosses the ship, with no repeats', () {
+    const ship = ShipEntity(
+      id: 0,
+      length: 4,
+      origin: BoardCoordinate(2, 2),
+      orientation: .vertical,
+    );
+    final rotations = ship.rotations;
+
+    expect(rotations.toSet(), hasLength(rotations.length));
+    expect(
+      rotations.every((rotated) => rotated.cells.any(ship.occupies)),
+      isTrue,
+    );
+  });
 }

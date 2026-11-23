@@ -29,12 +29,12 @@ class ShipPlacementBloc extends Bloc<ShipPlacementEvent, ShipPlacementState> {
     final ship = fleet.ships.where((ship) => ship.id == event.shipId);
     if (ship.isEmpty) return;
 
-    final rotated = ship.first.copyWith(
-      orientation: ship.first.orientation.rotated,
-    );
-    if (!fleet.canPlace(rotated)) return;
+    // Turning in place first; where that does not fit, the other way or
+    // around another of its cells.
+    final rotated = ship.first.rotations.where(fleet.canPlace);
+    if (rotated.isEmpty) return;
 
-    emit(ShipPlacementState(fleet: fleet.withShip(rotated)));
+    emit(ShipPlacementState(fleet: fleet.withShip(rotated.first)));
   }
 
   void _onRemoveShip(RemoveShip event, Emitter<ShipPlacementState> emit) {

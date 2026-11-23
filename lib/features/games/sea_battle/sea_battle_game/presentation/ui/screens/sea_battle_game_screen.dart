@@ -140,6 +140,9 @@ class SeaBattleGameScreen extends StatelessWidget {
 }
 
 void _playShotSound(BuildContext context, ShotEntity shot) {
+  // A light tap as the shell meets the water, so a miss is felt too.
+  if (shot.result == .miss) unawaited(HapticFeedback.lightImpact());
+
   final soundEnabled = context
       .read<SettingsBloc>()
       .state

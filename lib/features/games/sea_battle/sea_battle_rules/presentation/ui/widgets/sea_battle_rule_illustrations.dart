@@ -131,7 +131,7 @@ class SeaBattleSinkIllustration extends StatelessWidget {
     return _MiniBoard(
       ships: const [_ship],
       marks: {
-        for (final cell in _ship.surroundingCells) cell: .miss,
+        for (final cell in _ship.surroundingCells) cell: .cleared,
         for (final cell in _ship.cells) cell: .hit,
       },
     );
