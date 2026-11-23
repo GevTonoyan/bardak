@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get cancel;
 
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -441,6 +447,342 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Extreme'**
   String get sudoku_difficulty_extreme;
+
+  /// No description provided for @seaBattle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sea Battle'**
+  String get seaBattle;
+
+  /// No description provided for @sea_battle_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get sea_battle_mode;
+
+  /// No description provided for @sea_battle_mode_solo.
+  ///
+  /// In en, this message translates to:
+  /// **'Solo'**
+  String get sea_battle_mode_solo;
+
+  /// No description provided for @sea_battle_mode_online.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get sea_battle_mode_online;
+
+  /// No description provided for @sea_battle_bot_difficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot level'**
+  String get sea_battle_bot_difficulty;
+
+  /// No description provided for @sea_battle_difficulty_easy.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy'**
+  String get sea_battle_difficulty_easy;
+
+  /// No description provided for @sea_battle_difficulty_medium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get sea_battle_difficulty_medium;
+
+  /// No description provided for @sea_battle_difficulty_hard.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard'**
+  String get sea_battle_difficulty_hard;
+
+  /// No description provided for @sea_battle_place_ships.
+  ///
+  /// In en, this message translates to:
+  /// **'Place your ships'**
+  String get sea_battle_place_ships;
+
+  /// No description provided for @sea_battle_placement_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag ships onto the board. Tap a ship to rotate it'**
+  String get sea_battle_placement_hint;
+
+  /// No description provided for @sea_battle_shuffle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle'**
+  String get sea_battle_shuffle;
+
+  /// No description provided for @sea_battle_start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get sea_battle_start;
+
+  /// No description provided for @sea_battle_ready.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get sea_battle_ready;
+
+  /// No description provided for @sea_battle_leave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get sea_battle_leave;
+
+  /// No description provided for @sea_battle_your_turn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your turn'**
+  String get sea_battle_your_turn;
+
+  /// No description provided for @sea_battle_opponent_turn.
+  ///
+  /// In en, this message translates to:
+  /// **'Opponent\'s turn'**
+  String get sea_battle_opponent_turn;
+
+  /// No description provided for @sea_battle_enemy_fleet.
+  ///
+  /// In en, this message translates to:
+  /// **'Enemy fleet'**
+  String get sea_battle_enemy_fleet;
+
+  /// No description provided for @sea_battle_victory.
+  ///
+  /// In en, this message translates to:
+  /// **'Victory!'**
+  String get sea_battle_victory;
+
+  /// No description provided for @sea_battle_defeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Defeat'**
+  String get sea_battle_defeat;
+
+  /// No description provided for @sea_battle_victory_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You sank the whole enemy fleet'**
+  String get sea_battle_victory_subtitle;
+
+  /// No description provided for @sea_battle_defeat_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The enemy sank your fleet'**
+  String get sea_battle_defeat_subtitle;
+
+  /// No description provided for @sea_battle_accuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get sea_battle_accuracy;
+
+  /// No description provided for @sea_battle_shots.
+  ///
+  /// In en, this message translates to:
+  /// **'Shots'**
+  String get sea_battle_shots;
+
+  /// No description provided for @sea_battle_hits.
+  ///
+  /// In en, this message translates to:
+  /// **'Hits'**
+  String get sea_battle_hits;
+
+  /// No description provided for @sea_battle_ships_sunk.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunk'**
+  String get sea_battle_ships_sunk;
+
+  /// No description provided for @sea_battle_ships_lost.
+  ///
+  /// In en, this message translates to:
+  /// **'Lost'**
+  String get sea_battle_ships_lost;
+
+  /// No description provided for @sea_battle_invite_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite a friend'**
+  String get sea_battle_invite_title;
+
+  /// No description provided for @sea_battle_invite_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Let your friend scan this code with their phone camera, or send them the link'**
+  String get sea_battle_invite_hint;
+
+  /// No description provided for @sea_battle_creating_room.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating a room…'**
+  String get sea_battle_creating_room;
+
+  /// No description provided for @sea_battle_connection_error.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Try again'**
+  String get sea_battle_connection_error;
+
+  /// No description provided for @sea_battle_waiting_for_opponent.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for your opponent'**
+  String get sea_battle_waiting_for_opponent;
+
+  /// No description provided for @sea_battle_you_are_ready.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re ready!'**
+  String get sea_battle_you_are_ready;
+
+  /// No description provided for @sea_battle_waiting_for_opponent_ships.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for your opponent to place their ships'**
+  String get sea_battle_waiting_for_opponent_ships;
+
+  /// No description provided for @sea_battle_share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get sea_battle_share;
+
+  /// No description provided for @sea_battle_link_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
+  String get sea_battle_link_copied;
+
+  /// No description provided for @sea_battle_join_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a game'**
+  String get sea_battle_join_title;
+
+  /// No description provided for @sea_battle_joining.
+  ///
+  /// In en, this message translates to:
+  /// **'Joining your friend\'s game…'**
+  String get sea_battle_joining;
+
+  /// No description provided for @sea_battle_room_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'This game is over or the link is wrong. Ask your friend for a new link'**
+  String get sea_battle_room_not_found;
+
+  /// No description provided for @sea_battle_room_full.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone else has already joined this game'**
+  String get sea_battle_room_full;
+
+  /// No description provided for @sea_battle_join_invite_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Join your friend\'s game?'**
+  String get sea_battle_join_invite_title;
+
+  /// No description provided for @sea_battle_join_invite_description.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll leave the current screen'**
+  String get sea_battle_join_invite_description;
+
+  /// No description provided for @sea_battle_join.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get sea_battle_join;
+
+  /// No description provided for @sea_battle_room_closed.
+  ///
+  /// In en, this message translates to:
+  /// **'The room was closed'**
+  String get sea_battle_room_closed;
+
+  /// No description provided for @sea_battle_share_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Join my Sea Battle game in Bardak! {link}'**
+  String sea_battle_share_message(String link);
+
+  /// No description provided for @sea_battle_rule_1_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Your Fleet'**
+  String get sea_battle_rule_1_title;
+
+  /// No description provided for @sea_battle_rule_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Each player has 10 ships: one of 4 cells, two of 3, three of 2 and four of 1'**
+  String get sea_battle_rule_1;
+
+  /// No description provided for @sea_battle_rule_2_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Your Distance'**
+  String get sea_battle_rule_2_title;
+
+  /// No description provided for @sea_battle_rule_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Ships can\'t touch each other, not even at the corners'**
+  String get sea_battle_rule_2;
+
+  /// No description provided for @sea_battle_rule_3_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Your Shot'**
+  String get sea_battle_rule_3_title;
+
+  /// No description provided for @sea_battle_rule_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Take turns tapping a cell on your opponent\'s board. A dot marks a miss'**
+  String get sea_battle_rule_3;
+
+  /// No description provided for @sea_battle_rule_4_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit and Shoot Again'**
+  String get sea_battle_rule_4_title;
+
+  /// No description provided for @sea_battle_rule_4.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit a ship and you shoot again, until you miss'**
+  String get sea_battle_rule_4;
+
+  /// No description provided for @sea_battle_rule_5_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sink the Ship'**
+  String get sea_battle_rule_5_title;
+
+  /// No description provided for @sea_battle_rule_5.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit every cell of a ship to sink it. The cells around it are marked for you'**
+  String get sea_battle_rule_5;
+
+  /// No description provided for @sea_battle_rule_6_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Win the Battle'**
+  String get sea_battle_rule_6_title;
+
+  /// No description provided for @sea_battle_rule_6.
+  ///
+  /// In en, this message translates to:
+  /// **'Sink the whole enemy fleet before they sink yours'**
+  String get sea_battle_rule_6;
 
   /// No description provided for @sudoku_best_time.
   ///

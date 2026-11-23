@@ -8,6 +8,7 @@ class AppIconTextButton extends StatefulWidget {
     this.padding,
     this.color,
     this.gradient,
+    this.borderWidth = 3,
     super.key,
   });
 
@@ -16,6 +17,9 @@ class AppIconTextButton extends StatefulWidget {
   final EdgeInsets? padding;
   final Color? color;
   final Gradient? gradient;
+
+  /// Width of the white ring; thinner on busier screens.
+  final double borderWidth;
 
   @override
   State<AppIconTextButton> createState() => _AppIconTextButtonState();
@@ -46,7 +50,10 @@ class _AppIconTextButtonState extends State<AppIconTextButton> {
             decoration: BoxDecoration(
               color: widget.color ?? colors.secondary,
               gradient: widget.gradient,
-              border: Border.all(color: colors.white, width: 3),
+              border: Border.all(
+                color: colors.white,
+                width: widget.borderWidth,
+              ),
               borderRadius: borderRadius,
               boxShadow: [
                 BoxShadow(

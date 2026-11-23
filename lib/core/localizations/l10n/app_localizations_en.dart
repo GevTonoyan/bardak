@@ -19,6 +19,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
+  String get back => 'Back';
+
+  @override
   String get add => 'Add';
 
   @override
@@ -193,6 +196,188 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sudoku_difficulty_extreme => 'Extreme';
+
+  @override
+  String get seaBattle => 'Sea Battle';
+
+  @override
+  String get sea_battle_mode => 'Mode';
+
+  @override
+  String get sea_battle_mode_solo => 'Solo';
+
+  @override
+  String get sea_battle_mode_online => 'Online';
+
+  @override
+  String get sea_battle_bot_difficulty => 'Bot level';
+
+  @override
+  String get sea_battle_difficulty_easy => 'Easy';
+
+  @override
+  String get sea_battle_difficulty_medium => 'Medium';
+
+  @override
+  String get sea_battle_difficulty_hard => 'Hard';
+
+  @override
+  String get sea_battle_place_ships => 'Place your ships';
+
+  @override
+  String get sea_battle_placement_hint =>
+      'Drag ships onto the board. Tap a ship to rotate it';
+
+  @override
+  String get sea_battle_shuffle => 'Shuffle';
+
+  @override
+  String get sea_battle_start => 'Start';
+
+  @override
+  String get sea_battle_ready => 'Ready';
+
+  @override
+  String get sea_battle_leave => 'Leave';
+
+  @override
+  String get sea_battle_your_turn => 'Your turn';
+
+  @override
+  String get sea_battle_opponent_turn => 'Opponent\'s turn';
+
+  @override
+  String get sea_battle_enemy_fleet => 'Enemy fleet';
+
+  @override
+  String get sea_battle_victory => 'Victory!';
+
+  @override
+  String get sea_battle_defeat => 'Defeat';
+
+  @override
+  String get sea_battle_victory_subtitle => 'You sank the whole enemy fleet';
+
+  @override
+  String get sea_battle_defeat_subtitle => 'The enemy sank your fleet';
+
+  @override
+  String get sea_battle_accuracy => 'Accuracy';
+
+  @override
+  String get sea_battle_shots => 'Shots';
+
+  @override
+  String get sea_battle_hits => 'Hits';
+
+  @override
+  String get sea_battle_ships_sunk => 'Sunk';
+
+  @override
+  String get sea_battle_ships_lost => 'Lost';
+
+  @override
+  String get sea_battle_invite_title => 'Invite a friend';
+
+  @override
+  String get sea_battle_invite_hint =>
+      'Let your friend scan this code with their phone camera, or send them the link';
+
+  @override
+  String get sea_battle_creating_room => 'Creating a room…';
+
+  @override
+  String get sea_battle_connection_error => 'No connection. Try again';
+
+  @override
+  String get sea_battle_waiting_for_opponent => 'Waiting for your opponent';
+
+  @override
+  String get sea_battle_you_are_ready => 'You\'re ready!';
+
+  @override
+  String get sea_battle_waiting_for_opponent_ships =>
+      'Waiting for your opponent to place their ships';
+
+  @override
+  String get sea_battle_share => 'Share';
+
+  @override
+  String get sea_battle_link_copied => 'Link copied';
+
+  @override
+  String get sea_battle_join_title => 'Join a game';
+
+  @override
+  String get sea_battle_joining => 'Joining your friend\'s game…';
+
+  @override
+  String get sea_battle_room_not_found =>
+      'This game is over or the link is wrong. Ask your friend for a new link';
+
+  @override
+  String get sea_battle_room_full =>
+      'Someone else has already joined this game';
+
+  @override
+  String get sea_battle_join_invite_title => 'Join your friend\'s game?';
+
+  @override
+  String get sea_battle_join_invite_description =>
+      'You\'ll leave the current screen';
+
+  @override
+  String get sea_battle_join => 'Join';
+
+  @override
+  String get sea_battle_room_closed => 'The room was closed';
+
+  @override
+  String sea_battle_share_message(String link) {
+    return 'Join my Sea Battle game in Bardak! $link';
+  }
+
+  @override
+  String get sea_battle_rule_1_title => 'Build Your Fleet';
+
+  @override
+  String get sea_battle_rule_1 =>
+      'Each player has 10 ships: one of 4 cells, two of 3, three of 2 and four of 1';
+
+  @override
+  String get sea_battle_rule_2_title => 'Keep Your Distance';
+
+  @override
+  String get sea_battle_rule_2 =>
+      'Ships can\'t touch each other, not even at the corners';
+
+  @override
+  String get sea_battle_rule_3_title => 'Take Your Shot';
+
+  @override
+  String get sea_battle_rule_3 =>
+      'Take turns tapping a cell on your opponent\'s board. A dot marks a miss';
+
+  @override
+  String get sea_battle_rule_4_title => 'Hit and Shoot Again';
+
+  @override
+  String get sea_battle_rule_4 =>
+      'Hit a ship and you shoot again, until you miss';
+
+  @override
+  String get sea_battle_rule_5_title => 'Sink the Ship';
+
+  @override
+  String get sea_battle_rule_5 =>
+      'Hit every cell of a ship to sink it. The cells around it are marked for you';
+
+  @override
+  String get sea_battle_rule_6_title => 'Win the Battle';
+
+  @override
+  String get sea_battle_rule_6 =>
+      'Sink the whole enemy fleet before they sink yours';
 
   @override
   String get sudoku_best_time => 'Best time';

@@ -1,0 +1,32 @@
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
+import 'package:equatable/equatable.dart';
+
+sealed class SeaBattleGameEvent extends Equatable {
+  const SeaBattleGameEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+/// The player fires at [cell] on the opponent's board.
+final class FireShot extends SeaBattleGameEvent {
+  const FireShot(this.cell);
+
+  final BoardCoordinate cell;
+
+  @override
+  List<Object?> get props => [cell];
+}
+
+/// The opponent takes its turn: fires at the player's board and gets the
+/// answer.
+final class PlayOpponentTurn extends SeaBattleGameEvent {
+  const PlayOpponentTurn();
+}
+
+/// Counts down the time for the current turn from the start; at zero, on
+/// the player's own turn, fires a random shot for them. Sent again after
+/// every shot, which restarts it.
+final class RunTurnTimer extends SeaBattleGameEvent {
+  const RunTurnTimer();
+}

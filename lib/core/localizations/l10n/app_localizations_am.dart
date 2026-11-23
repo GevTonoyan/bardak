@@ -19,6 +19,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get cancel => 'Չեղարկել';
 
   @override
+  String get back => 'Հետ';
+
+  @override
   String get add => 'Ավելացնել';
 
   @override
@@ -193,6 +196,187 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get sudoku_difficulty_extreme => 'Էքստրիմ';
+
+  @override
+  String get seaBattle => 'Ծովամարտ';
+
+  @override
+  String get sea_battle_mode => 'Ռեժիմ';
+
+  @override
+  String get sea_battle_mode_solo => 'Միայնակ';
+
+  @override
+  String get sea_battle_mode_online => 'Օնլայն';
+
+  @override
+  String get sea_battle_bot_difficulty => 'Բոտի մակարդակ';
+
+  @override
+  String get sea_battle_difficulty_easy => 'Հեշտ';
+
+  @override
+  String get sea_battle_difficulty_medium => 'Միջին';
+
+  @override
+  String get sea_battle_difficulty_hard => 'Բարդ';
+
+  @override
+  String get sea_battle_place_ships => 'Դասավորեք նավերը';
+
+  @override
+  String get sea_battle_placement_hint =>
+      'Քաշեք նավերը դաշտ։ Սեղմեք նավի վրա այն պտտելու համար։';
+
+  @override
+  String get sea_battle_shuffle => 'Խառնել';
+
+  @override
+  String get sea_battle_start => 'Սկսել';
+
+  @override
+  String get sea_battle_ready => 'Պատրաստ եմ';
+
+  @override
+  String get sea_battle_leave => 'Դուրս գալ';
+
+  @override
+  String get sea_battle_your_turn => 'Ձեր հերթն է';
+
+  @override
+  String get sea_battle_opponent_turn => 'Մրցակցի հերթն է';
+
+  @override
+  String get sea_battle_enemy_fleet => 'Մրցակցի նավատորմը';
+
+  @override
+  String get sea_battle_victory => 'Հաղթանակ';
+
+  @override
+  String get sea_battle_defeat => 'Պարտություն';
+
+  @override
+  String get sea_battle_victory_subtitle =>
+      'Դուք խորտակեցիք մրցակցի ամբողջ նավատորմը';
+
+  @override
+  String get sea_battle_defeat_subtitle => 'Մրցակիցը խորտակեց ձեր նավատորմը';
+
+  @override
+  String get sea_battle_accuracy => 'Ճշգրտություն';
+
+  @override
+  String get sea_battle_shots => 'Կրակոցներ';
+
+  @override
+  String get sea_battle_hits => 'Խոցումներ';
+
+  @override
+  String get sea_battle_ships_sunk => 'Խորտակված';
+
+  @override
+  String get sea_battle_ships_lost => 'Կորցրած';
+
+  @override
+  String get sea_battle_invite_title => 'Հրավիրեք ընկերոջը';
+
+  @override
+  String get sea_battle_invite_hint =>
+      'Թող ընկերը սկանավորի այս կոդը հեռախոսի տեսախցիկով, կամ ուղարկեք նրան հղումը';
+
+  @override
+  String get sea_battle_creating_room => 'Ստեղծում ենք սենյակ…';
+
+  @override
+  String get sea_battle_connection_error => 'Կապ չկա։ Փորձեք կրկին';
+
+  @override
+  String get sea_battle_waiting_for_opponent => 'Սպասում ենք մրցակցին';
+
+  @override
+  String get sea_battle_you_are_ready => 'Դուք պատրաստ եք';
+
+  @override
+  String get sea_battle_waiting_for_opponent_ships =>
+      'Սպասում ենք, որ մրցակիցը դասավորի իր նավերը';
+
+  @override
+  String get sea_battle_share => 'Կիսվել';
+
+  @override
+  String get sea_battle_link_copied => 'Հղումը պատճենված է';
+
+  @override
+  String get sea_battle_join_title => 'Միանալ խաղին';
+
+  @override
+  String get sea_battle_joining => 'Միանում ենք ընկերոջ խաղին…';
+
+  @override
+  String get sea_battle_room_not_found =>
+      'Այս խաղն ավարտվել է, կամ հղումը սխալ է։ Խնդրեք ընկերոջից նոր հղում';
+
+  @override
+  String get sea_battle_room_full => 'Այս խաղին արդեն միացել է մեկ ուրիշը';
+
+  @override
+  String get sea_battle_join_invite_title => 'Միանա՞լ ընկերոջ խաղին';
+
+  @override
+  String get sea_battle_join_invite_description => 'Ընթացիկ էջը կփակվի';
+
+  @override
+  String get sea_battle_join => 'Միանալ';
+
+  @override
+  String get sea_battle_room_closed => 'Սենյակը փակվել է';
+
+  @override
+  String sea_battle_share_message(String link) {
+    return 'Միացիր իմ Ծովամարտ խաղին Bardak-ում։ $link';
+  }
+
+  @override
+  String get sea_battle_rule_1_title => 'Կազմեք նավատորմը';
+
+  @override
+  String get sea_battle_rule_1 =>
+      'Յուրաքանչյուր խաղացող ունի 10 նավ՝ մեկը 4 վանդակից, երկուսը՝ 3, երեքը՝ 2 և չորսը՝ 1 վանդակից';
+
+  @override
+  String get sea_battle_rule_2_title => 'Պահեք հեռավորությունը';
+
+  @override
+  String get sea_battle_rule_2 =>
+      'Նավերը չեն կարող հպվել միմյանց, նույնիսկ անկյուններով';
+
+  @override
+  String get sea_battle_rule_3_title => 'Կրակեք';
+
+  @override
+  String get sea_battle_rule_3 =>
+      'Հերթով սեղմեք մրցակցի դաշտի վանդակի վրա։ Կետը նշանակում է վրիպում';
+
+  @override
+  String get sea_battle_rule_4_title => 'Խոցեք և կրակեք կրկին';
+
+  @override
+  String get sea_battle_rule_4 =>
+      'Եթե խոցեք նավը, կրակում եք նորից, մինչև վրիպեք';
+
+  @override
+  String get sea_battle_rule_5_title => 'Խորտակեք նավը';
+
+  @override
+  String get sea_battle_rule_5 =>
+      'Խոցեք նավի բոլոր վանդակները՝ այն խորտակելու համար։ Շրջակա վանդակները կնշվեն ինքնաբերաբար';
+
+  @override
+  String get sea_battle_rule_6_title => 'Հաղթեք մարտում';
+
+  @override
+  String get sea_battle_rule_6 =>
+      'Խորտակեք մրցակցի ամբողջ նավատորմը, քանի դեռ նա չի խորտակել ձերը';
 
   @override
   String get sudoku_best_time => 'Լավագույն ժամանակ';

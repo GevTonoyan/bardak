@@ -425,7 +425,13 @@ After editing `.arb` files, run `flutter gen-l10n` (or `flutter pub get` trigger
 - Always trailing commas.
 - `const` constructors on all immutable widgets.
 - **Never write functions or methods that return a `Widget`** (no `_buildX()`, no `Widget _fooButton(...)`). Always extract a private `StatelessWidget`/`StatefulWidget` class (e.g. `_ScoreCard`), even for small pieces; pass state in via constructor params.
-- Logging: `log()` from `dart:developer`. **Never** `print()` or `debugPrint()`.
+- Logging: the `logger` getter (`AppLogger`, from `lib/core/di/di.dart`) —
+  `logger.error(message, error:, stackTrace:)` for caught exceptions (it is
+  the crash-reporting hook), `warning` / `info` / `debug` otherwise. It is
+  the one allowed `sl` lookup outside the DI locations listed above, BLoCs
+  included. **Never** `print()`, `debugPrint()` or `dart:developer` `log()`
+  (only `ConsoleLogger` itself uses `log()`). Tests that reach a logging
+  path register `ConsoleLogger` in `setUpAll` (see `word_packs_bloc_test`).
 - `very_good_analysis` lint rules are active — warnings are expected and will be fixed incrementally. Do not suppress them with `// ignore` unless truly necessary.
 
 ## Code generation

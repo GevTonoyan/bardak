@@ -1,0 +1,132 @@
+import 'dart:math';
+
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+const _cruiser = ShipEntity(id: 1, length: 2, origin: BoardCoordinate(4, 4));
+const _boat = ShipEntity(id: 6, length: 1, origin: BoardCoordinate(0, 0));
+
+final _board = SeaBattleBoardEntity(
+  fleet: const FleetEntity().withShip(_cruiser).withShip(_boat),
+);
+
+void main() {
+  test('a shot at water is a miss', () {
+    final (board, result) = _board.shoot(const BoardCoordinate(9, 9));
+
+    expect(result, ShotResult.miss);
+    expect(board.missCells, {const BoardCoordinate(9, 9)});
+    expect(board.hitCells, isEmpty);
+  });
+
+  test('a shot at a ship still afloat is a hit', () {
+    final (board, result) = _board.shoot(const BoardCoordinate(4, 4));
+
+    expect(result, ShotResult.hit);
+    expect(board.hitCells, {const BoardCoordinate(4, 4)});
+    expect(board.woundedCells, {const BoardCoordinate(4, 4)});
+    expect(board.sunkShips, isEmpty);
+  });
+
+  test('the last cell of a ship sinks it and marks the cells around it', () {
+    final (wounded, _) = _board.shoot(const BoardCoordinate(4, 4));
+    final (board, result) = wounded.shoot(const BoardCoordinate(4, 5));
+
+    expect(result, ShotResult.sunk);
+    expect(board.sunkShips, [_cruiser]);
+    expect(board.woundedCells, isEmpty);
+    expect(board.missCells, _cruiser.surroundingCells);
+    expect(board.canShoot(const BoardCoordinate(3, 3)), isFalse);
+  });
+
+  test('marked and off-board cells cannot be shot', () {
+    final (board, _) = _board.shoot(const BoardCoordinate(2, 2));
+
+    expect(board.canShoot(const BoardCoordinate(2, 2)), isFalse);
+    expect(board.canShoot(const BoardCoordinate(-1, 0)), isFalse);
+    expect(board.canShoot(const BoardCoordinate(2, 3)), isTrue);
+    expect(board.openCells, hasLength(99));
+  });
+
+  test('afloatShipLengths drops each sunk ship from the full fleet', () {
+    final (board, _) = _board.shoot(const BoardCoordinate(0, 0));
+
+    expect(board.afloatShipLengths, [4, 3, 3, 2, 2, 2, 1, 1, 1]);
+  });
+
+  test('is defeated once all ten ships are sunk', () {
+    final fleet = FleetEntity.random(Random(3));
+    var board = SeaBattleBoardEntity(fleet: fleet);
+    for (final cell in [for (final ship in fleet.ships) ...ship.cells]) {
+      expect(board.isDefeated, isFalse);
+      (board, _) = board.shoot(cell);
+    }
+
+    expect(board.isDefeated, isTrue);
+  });
+
+  group('a board with a hidden fleet', () {
+    const hidden = SeaBattleBoardEntity();
+
+    test('records reported results', () {
+      final board = hidden
+          .record(const BoardCoordinate(9, 9), .miss)
+          .record(const BoardCoordinate(4, 4), .hit);
+
+      expect(board.missCells, {const BoardCoordinate(9, 9)});
+      expect(board.hitCells, {const BoardCoordinate(4, 4)});
+      expect(board.woundedCells, {const BoardCoordinate(4, 4)});
+      expect(board.shotCount, 2);
+    });
+
+    test('marks the cells around a reported sunk ship', () {
+      final board = hidden
+          .record(const BoardCoordinate(4, 4), .hit)
+          .record(const BoardCoordinate(4, 5), .sunk, sunkShip: _cruiser);
+
+      expect(board.sunkShips, [_cruiser]);
+      expect(board.woundedCells, isEmpty);
+      expect(board.missCells, _cruiser.surroundingCells);
+    });
+  });
+
+  test('answer works out the result from the fleet without changing it', () {
+    final (wounded, _) = _board.shoot(const BoardCoordinate(4, 4));
+
+    expect(_board.answer(const BoardCoordinate(9, 9)), (ShotResult.miss, null));
+    expect(_board.answer(const BoardCoordinate(4, 4)), (ShotResult.hit, null));
+    expect(
+      wounded.answer(const BoardCoordinate(4, 5)),
+      (ShotResult.sunk, _cruiser),
+    );
+    expect(wounded.hitCells, {const BoardCoordinate(4, 4)});
+  });
+
+  test('withoutFleet hides the ships and withFleet shows them again', () {
+    final (shot, _) = _board.shoot(const BoardCoordinate(4, 4));
+
+    final hidden = shot.withoutFleet;
+    expect(hidden.fleet, isNull);
+    expect(hidden.hitCells, shot.hitCells);
+    expect(hidden.withFleet(_board.fleet!), shot);
+  });
+
+  test('counts only real shots and the share that hit', () {
+    var board = _board;
+    expect(board.hitRate, 0);
+
+    // Sinking the cruiser auto-marks 10 cells, which are not shots.
+    for (final cell in [
+      const BoardCoordinate(9, 9),
+      ..._cruiser.cells,
+    ]) {
+      (board, _) = board.shoot(cell);
+    }
+
+    expect(board.shotCount, 3);
+    expect(board.hitRate, closeTo(2 / 3, 0.001));
+  });
+}

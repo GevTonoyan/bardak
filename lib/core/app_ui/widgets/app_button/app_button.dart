@@ -39,6 +39,16 @@ class AppButton extends StatefulWidget {
 }
 
 class _AppButtonState extends State<AppButton> {
+  static const _disabledOpacity = 0.6;
+
+  /// Luminance-weighted greyscale.
+  static const _greyscaleFilter = ColorFilter.matrix([
+    0.2126, 0.7152, 0.0722, 0, 0, //
+    0.2126, 0.7152, 0.0722, 0, 0, //
+    0.2126, 0.7152, 0.0722, 0, 0, //
+    0, 0, 0, 1, 0,
+  ]);
+
   bool _pressedByGesture = false;
 
   void _setPressed(bool v) {
@@ -58,7 +68,7 @@ class _AppButtonState extends State<AppButton> {
     final (baseHeight, faceHeight) = _buttonHeight;
     final currentHeight = effectivePressed ? faceHeight : baseHeight;
 
-    return GestureDetector(
+    final button = GestureDetector(
       onTapDown: widget.enabled ? (_) => _setPressed(true) : null,
       onTapCancel: widget.enabled ? () => _setPressed(false) : null,
       onTapUp: widget.enabled ? (_) => _setPressed(false) : null,
@@ -139,6 +149,15 @@ class _AppButtonState extends State<AppButton> {
           ),
         ),
       ),
+    );
+
+    if (widget.enabled) return button;
+
+    // A button without an action is drawn greyed out and faded, so it
+    // reads as disabled on any background rather than just unresponsive.
+    return Opacity(
+      opacity: _disabledOpacity,
+      child: ColorFiltered(colorFilter: _greyscaleFilter, child: button),
     );
   }
 

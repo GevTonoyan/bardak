@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bardak/core/app_ui/theme/app_theme_builder.dart';
 import 'package:bardak/core/app_ui/theme/app_theme_provider.dart';
@@ -9,12 +10,14 @@ import 'package:bardak/core/localizations/app_locale.dart';
 import 'package:bardak/core/localizations/l10n/app_localizations.dart';
 import 'package:bardak/core/logging/app_bloc_observer.dart';
 import 'package:bardak/core/router/app_router.dart';
+import 'package:bardak/core/router/invite_links.dart';
 import 'package:bardak/features/app_review/domain/usecases/record_app_opened_usecase.dart';
 import 'package:bardak/features/app_review/presentation/cubit/in_app_review_cubit.dart';
 import 'package:bardak/features/games/alias/game_settings/presentation/bloc/game_settings_bloc.dart';
 import 'package:bardak/features/games/alias/team_setup/presentation/bloc/team_setup_bloc.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_bloc.dart';
 import 'package:bardak/features/games/alias/word_packs/presentation/bloc/word_packs_event.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/bloc/sea_battle_settings_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_bloc.dart';
 import 'package:bardak/features/games/spy/spy_packs/presentation/bloc/spy_packs_event.dart';
 import 'package:bardak/features/games/spy/spy_settings/presentation/bloc/spy_settings_bloc.dart';
@@ -22,6 +25,7 @@ import 'package:bardak/features/games/sudoku/sudoku_settings/presentation/bloc/s
 import 'package:bardak/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_event.dart';
 import 'package:bardak/features/settings/presentation/bloc/settings_state.dart';
+import 'package:bardak/features/splash/presentation/splash_screen.dart';
 import 'package:bardak/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +35,8 @@ import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Created first so the link that launched the app is not missed.
+  final appLinks = AppLinks();
   // By default it is assets/, but our Assets lib already adds assets/
   AudioCache.instance = AudioCache(prefix: '');
   // Route sound effects through the ambient session so they obey the iOS
@@ -57,6 +63,14 @@ void main() async {
   await Hive.initFlutter();
 
   Bloc.observer = const AppBlocObserver();
+
+  // An invite link that launched the app opens straight on its screen.
+  final initialLink = await appLinks.getInitialLink();
+  appRouter = createAppRouter(
+    initialLocation: initialLocationFor(initialLink) ?? SplashScreen.routePath,
+  );
+  // Listens for the app's whole life, so it is never cancelled.
+  listenToInviteLinks(appRouter, appLinks: appLinks, initialLink: initialLink);
 
   runApp(
     MultiBlocProvider(
@@ -126,6 +140,13 @@ void main() async {
             updateSudokuBoardSizeUseCase: sl(),
             updateSudokuDifficultyUseCase: sl(),
             hasSavedSudokuGameUseCase: sl(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => SeaBattleSettingsBloc(
+            getSeaBattleSettingsUseCase: sl(),
+            updateSeaBattleModeUseCase: sl(),
+            updateSeaBattleBotDifficultyUseCase: sl(),
           ),
         ),
       ],

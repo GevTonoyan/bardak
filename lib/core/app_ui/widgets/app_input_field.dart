@@ -10,6 +10,8 @@ class AppInputField extends StatelessWidget {
     this.suffix,
     this.onPressed,
     this.maxLength = 16,
+    this.readOnly = false,
+    this.style,
     super.key,
   });
 
@@ -19,6 +21,13 @@ class AppInputField extends StatelessWidget {
   final Widget? suffix;
   final VoidCallback? onPressed;
   final int maxLength;
+
+  /// Shows the text without editing it; a tap anywhere on the field goes
+  /// to [onPressed] instead of placing a cursor.
+  final bool readOnly;
+
+  /// The text style; the brand font at 24 by default.
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -65,17 +74,21 @@ class AppInputField extends StatelessWidget {
               spacing: 14,
               children: [
                 Expanded(
-                  child: TextFormField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    style: context.typography.regular24,
-                    autocorrect: false,
-                    cursorColor: colors.white,
-                    cursorWidth: 3,
-                    maxLength: maxLength,
-                    decoration: const InputDecoration(
-                      counterText: '',
-                      border: InputBorder.none,
+                  child: IgnorePointer(
+                    ignoring: readOnly,
+                    child: TextFormField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      readOnly: readOnly,
+                      style: style ?? context.typography.regular24,
+                      autocorrect: false,
+                      cursorColor: colors.white,
+                      cursorWidth: 3,
+                      maxLength: maxLength,
+                      decoration: const InputDecoration(
+                        counterText: '',
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ),

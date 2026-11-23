@@ -3,6 +3,7 @@
   "appVersion": "App version",
   "proceed": "Continue",
   "cancel": "Cancel",
+  "back": "Back",
   "add": "Add",
   "skip": "Skip",
   "correct": "Correct",
@@ -82,8 +83,20 @@
   "oneWordModeShort": "One Word",
   "all_words_count": "All words · {count}",
   "easy_words_count": "Easy words · {count}",
-  "@all_words_count": {"placeholders": {"count": {"type": "int"}}},
-  "@easy_words_count": {"placeholders": {"count": {"type": "int"}}},
+  "@all_words_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@easy_words_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "spyMode": "Spy",
   "sudoku": "Sudoku",
   "sudoku_solved": "Puzzle solved. Well done!",
@@ -94,6 +107,69 @@
   "sudoku_difficulty_hard": "Hard",
   "sudoku_difficulty_expert": "Expert",
   "sudoku_difficulty_extreme": "Extreme",
+  "seaBattle": "Sea Battle",
+  "sea_battle_mode": "Mode",
+  "sea_battle_mode_solo": "Solo",
+  "sea_battle_mode_online": "Online",
+  "sea_battle_bot_difficulty": "Bot level",
+  "sea_battle_difficulty_easy": "Easy",
+  "sea_battle_difficulty_medium": "Medium",
+  "sea_battle_difficulty_hard": "Hard",
+  "sea_battle_place_ships": "Place your ships",
+  "sea_battle_placement_hint": "Drag ships onto the board. Tap a ship to rotate it",
+  "sea_battle_shuffle": "Shuffle",
+  "sea_battle_start": "Start",
+  "sea_battle_ready": "Ready",
+  "sea_battle_leave": "Leave",
+  "sea_battle_your_turn": "Your turn",
+  "sea_battle_opponent_turn": "Opponent's turn",
+  "sea_battle_enemy_fleet": "Enemy fleet",
+  "sea_battle_victory": "Victory!",
+  "sea_battle_defeat": "Defeat",
+  "sea_battle_victory_subtitle": "You sank the whole enemy fleet",
+  "sea_battle_defeat_subtitle": "The enemy sank your fleet",
+  "sea_battle_accuracy": "Accuracy",
+  "sea_battle_shots": "Shots",
+  "sea_battle_hits": "Hits",
+  "sea_battle_ships_sunk": "Sunk",
+  "sea_battle_ships_lost": "Lost",
+  "sea_battle_invite_title": "Invite a friend",
+  "sea_battle_invite_hint": "Let your friend scan this code with their phone camera, or send them the link",
+  "sea_battle_creating_room": "Creating a room…",
+  "sea_battle_connection_error": "No connection. Try again",
+  "sea_battle_waiting_for_opponent": "Waiting for your opponent",
+  "sea_battle_you_are_ready": "You're ready!",
+  "sea_battle_waiting_for_opponent_ships": "Waiting for your opponent to place their ships",
+  "sea_battle_share": "Share",
+  "sea_battle_link_copied": "Link copied",
+  "sea_battle_join_title": "Join a game",
+  "sea_battle_joining": "Joining your friend's game…",
+  "sea_battle_room_not_found": "This game is over or the link is wrong. Ask your friend for a new link",
+  "sea_battle_room_full": "Someone else has already joined this game",
+  "sea_battle_join_invite_title": "Join your friend's game?",
+  "sea_battle_join_invite_description": "You'll leave the current screen",
+  "sea_battle_join": "Join",
+  "sea_battle_room_closed": "The room was closed",
+  "sea_battle_share_message": "Join my Sea Battle game in Bardak! {link}",
+  "@sea_battle_share_message": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "sea_battle_rule_1_title": "Build Your Fleet",
+  "sea_battle_rule_1": "Each player has 10 ships: one of 4 cells, two of 3, three of 2 and four of 1",
+  "sea_battle_rule_2_title": "Keep Your Distance",
+  "sea_battle_rule_2": "Ships can't touch each other, not even at the corners",
+  "sea_battle_rule_3_title": "Take Your Shot",
+  "sea_battle_rule_3": "Take turns tapping a cell on your opponent's board. A dot marks a miss",
+  "sea_battle_rule_4_title": "Hit and Shoot Again",
+  "sea_battle_rule_4": "Hit a ship and you shoot again, until you miss",
+  "sea_battle_rule_5_title": "Sink the Ship",
+  "sea_battle_rule_5": "Hit every cell of a ship to sink it. The cells around it are marked for you",
+  "sea_battle_rule_6_title": "Win the Battle",
+  "sea_battle_rule_6": "Sink the whole enemy fleet before they sink yours",
   "sudoku_best_time": "Best time",
   "sudoku_new_record": "New record!",
   "sudoku_new_game": "New game",
