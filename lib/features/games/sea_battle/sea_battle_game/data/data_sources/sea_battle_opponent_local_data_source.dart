@@ -96,24 +96,21 @@ class SeaBattleOpponentLocalDataSourceImpl
 
   /// A cell next to the hits on a ship still afloat, or null when there
   /// are none. Two or more hits show the ship's direction, so only the
-  /// ends of that line are tried.
+  /// ends of that line are tried. Ships never touch, so hits that touch
+  /// belong to the same ship; with several wounded, one is followed.
   BoardCoordinate? _followUp(SeaBattleBoardEntity board) {
-    final wounded = board.woundedCells.toList();
-    if (wounded.isEmpty) return null;
+    for (final ship in _woundedShips(board.woundedCells)) {
+      final open = _nextToHits(ship).where(board.canShoot).toList();
+      if (open.isNotEmpty) return open[_random.nextInt(open.length)];
+    }
+    return null;
+  }
 
-    List<BoardCoordinate> candidates;
-    if (wounded.length > 1) {
-      final isHorizontal = wounded.every((c) => c.row == wounded.first.row);
-      final sorted = [...wounded]
-        ..sort(
-          (a, b) => isHorizontal ? a.column - b.column : a.row - b.row,
-        );
-      candidates = isHorizontal
-          ? [sorted.first.shift(columns: -1), sorted.last.shift(columns: 1)]
-          : [sorted.first.shift(rows: -1), sorted.last.shift(rows: 1)];
-    } else {
-      final hit = wounded.single;
-      candidates = [
+  /// The cells to try next for one wounded ship's [hits].
+  static List<BoardCoordinate> _nextToHits(List<BoardCoordinate> hits) {
+    if (hits.length == 1) {
+      final hit = hits.single;
+      return [
         hit.shift(rows: -1),
         hit.shift(rows: 1),
         hit.shift(columns: -1),
@@ -121,9 +118,40 @@ class SeaBattleOpponentLocalDataSourceImpl
       ];
     }
 
-    final open = candidates.where(board.canShoot).toList();
-    if (open.isEmpty) return null;
-    return open[_random.nextInt(open.length)];
+    final isHorizontal = hits.every((c) => c.row == hits.first.row);
+    final sorted = [...hits]
+      ..sort((a, b) => isHorizontal ? a.column - b.column : a.row - b.row);
+    return isHorizontal
+        ? [sorted.first.shift(columns: -1), sorted.last.shift(columns: 1)]
+        : [sorted.first.shift(rows: -1), sorted.last.shift(rows: 1)];
+  }
+
+  /// [wounded] cells grouped by ship: each group is the hits that touch
+  /// one another side by side.
+  static List<List<BoardCoordinate>> _woundedShips(
+    Set<BoardCoordinate> wounded,
+  ) {
+    final left = {...wounded};
+    final ships = <List<BoardCoordinate>>[];
+    while (left.isNotEmpty) {
+      final ship = <BoardCoordinate>[];
+      final toVisit = [left.first];
+      left.remove(left.first);
+      while (toVisit.isNotEmpty) {
+        final cell = toVisit.removeLast();
+        ship.add(cell);
+        for (final next in [
+          cell.shift(rows: -1),
+          cell.shift(rows: 1),
+          cell.shift(columns: -1),
+          cell.shift(columns: 1),
+        ]) {
+          if (left.remove(next)) toVisit.add(next);
+        }
+      }
+      ships.add(ship);
+    }
+    return ships;
   }
 
   /// The open cell covered by the most possible positions of the ships
@@ -133,7 +161,14 @@ class SeaBattleOpponentLocalDataSourceImpl
     final wounded = board.woundedCells;
     final scores = <BoardCoordinate, int>{};
 
+    // Ships of the same length cover the same positions, so each length
+    // is counted once, weighted by how many of it are afloat.
+    final afloat = <int, int>{};
     for (final length in board.afloatShipLengths) {
+      afloat[length] = (afloat[length] ?? 0) + 1;
+    }
+
+    for (final MapEntry(key: length, value: count) in afloat.entries) {
       for (final ship in _positions(length)) {
         final cells = ship.cells;
         // A ship can only lie on open cells and on hits of a ship that is
@@ -145,7 +180,7 @@ class SeaBattleOpponentLocalDataSourceImpl
         if (wounded.isNotEmpty && hitsCovered == 0) continue;
 
         for (final cell in cells.where(board.canShoot)) {
-          scores[cell] = (scores[cell] ?? 0) + 1 + hitsCovered * 10;
+          scores[cell] = (scores[cell] ?? 0) + count * (1 + hitsCovered * 10);
         }
       }
     }

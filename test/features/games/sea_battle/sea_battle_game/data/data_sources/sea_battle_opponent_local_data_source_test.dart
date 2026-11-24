@@ -33,7 +33,8 @@ int _shotsToWin(SeaBattleBotDifficulty difficulty, int seed) {
 }
 
 double _averageShotsToWin(SeaBattleBotDifficulty difficulty) {
-  const games = 12;
+  // Enough games that luck does not decide the order.
+  const games = 60;
   var total = 0;
   for (var seed = 0; seed < games; seed++) {
     total += _shotsToWin(difficulty, seed);
@@ -143,6 +144,29 @@ void main() {
         ),
         isIn(const [BoardCoordinate(4, 4), BoardCoordinate(7, 4)]),
       );
+    });
+
+    test('of one ship when two are wounded', () {
+      // Two separate wounded ships: one across row 2, one hit at (7, 7).
+      final board = _hitsAt(const [
+        BoardCoordinate(2, 2),
+        BoardCoordinate(2, 3),
+        BoardCoordinate(7, 7),
+      ]);
+
+      for (var seed = 0; seed < 10; seed++) {
+        expect(
+          _bot(.medium, seed: seed).chooseShot(board),
+          isIn(const [
+            BoardCoordinate(2, 1),
+            BoardCoordinate(2, 4),
+            BoardCoordinate(6, 7),
+            BoardCoordinate(8, 7),
+            BoardCoordinate(7, 6),
+            BoardCoordinate(7, 8),
+          ]),
+        );
+      }
     });
 
     test('and ignores hits on ships already sunk', () {
