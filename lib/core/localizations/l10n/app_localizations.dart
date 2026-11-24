@@ -514,6 +514,12 @@ abstract class AppLocalizations {
   /// **'Shuffle'**
   String get sea_battle_shuffle;
 
+  /// No description provided for @sea_battle_clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get sea_battle_clear;
+
   /// No description provided for @sea_battle_start.
   ///
   /// In en, this message translates to:

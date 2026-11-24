@@ -239,6 +239,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sea_battle_shuffle => 'Перемешать';
 
   @override
+  String get sea_battle_clear => 'Очистить';
+
+  @override
   String get sea_battle_start => 'Начать';
 
   @override

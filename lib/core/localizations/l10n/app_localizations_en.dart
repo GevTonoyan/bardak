@@ -232,6 +232,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sea_battle_shuffle => 'Shuffle';
 
   @override
+  String get sea_battle_clear => 'Clear';
+
+  @override
   String get sea_battle_start => 'Start';
 
   @override
