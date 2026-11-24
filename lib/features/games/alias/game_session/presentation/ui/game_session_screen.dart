@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
-import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/features/games/alias/game_session/domain/entities/game_session_entity.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_bloc.dart';
 import 'package:bardak/features/games/alias/game_session/presentation/bloc/game_session_bloc/game_session_state.dart';
@@ -57,17 +56,9 @@ class _GameSessionScreenState extends State<GameSessionScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
-        final l10n = context.l10n;
-        final colors = context.colors;
         unawaited(
-          showConfirmSheet(
+          showExitGameSheet(
             context: context,
-            title: l10n.exit_game_title,
-            description: l10n.exit_game_description,
-            confirmText: l10n.exit_game_confirm,
-            cancelText: l10n.cancel,
-            confirmColor: colors.red,
-            cancelColor: colors.green,
             onConfirm: () => context.pop(),
           ),
         );

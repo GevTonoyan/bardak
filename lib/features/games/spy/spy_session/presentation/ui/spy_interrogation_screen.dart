@@ -26,17 +26,8 @@ class SpyInterrogationScreen extends StatelessWidget {
   /// The header X abandons the game without revealing anything — the same
   /// semantics as the X on the result screen and the back gesture.
   Future<void> _confirmExitGame(BuildContext context) async {
-    final l10n = context.l10n;
-    final colors = context.colors;
-
-    await showConfirmSheet(
+    await showExitGameSheet(
       context: context,
-      title: l10n.exit_game_title,
-      description: l10n.exit_game_description,
-      confirmText: l10n.exit_game_confirm,
-      cancelText: l10n.cancel,
-      confirmColor: colors.red,
-      cancelColor: colors.green,
       onConfirm: () => context.goNamed(HomeScreen.routePath),
     );
   }

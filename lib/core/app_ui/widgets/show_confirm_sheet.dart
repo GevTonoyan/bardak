@@ -56,3 +56,24 @@ Future<void> showConfirmSheet({
     },
   );
 }
+
+/// Asks before leaving a game in progress, the same way in every game:
+/// red to leave, green to stay. [onConfirm] does the leaving.
+Future<void> showExitGameSheet({
+  required BuildContext context,
+  required VoidCallback onConfirm,
+}) {
+  final l10n = context.l10n;
+  final colors = context.colors;
+
+  return showConfirmSheet(
+    context: context,
+    title: l10n.exit_game_title,
+    description: l10n.exit_game_description,
+    confirmText: l10n.exit_game_confirm,
+    cancelText: l10n.cancel,
+    confirmColor: colors.red,
+    cancelColor: colors.green,
+    onConfirm: onConfirm,
+  );
+}
