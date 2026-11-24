@@ -62,11 +62,18 @@ class SeaBattleOnlinePlacementBloc
           add(const StartBattle());
         }
       },
-      onError: (error, stackTrace) => logger.error(
-        'Lost the room ${_room.code} while placing',
-        error: error,
-        stackTrace: stackTrace,
-      ),
+      // The database refuses to show a room once it is deleted, so a
+      // lost room ends placement just as a deleted one does.
+      onError: (error, stackTrace) {
+        logger.error(
+          'Lost the room ${_room.code} while placing',
+          error: error,
+          stackTrace: stackTrace,
+        );
+        if (state is! SeaBattleOnlinePlacementLeft) {
+          emit(const SeaBattleOnlinePlacementClosed());
+        }
+      },
     );
   }
 

@@ -17,8 +17,8 @@
         },
         "status": {
           ".read": "auth != null",
-          ".write": "auth != null && (root.child('sea_battle_rooms').child($code).child('host').val() === auth.uid || root.child('sea_battle_rooms').child($code).child('guest').val() === auth.uid)",
-          ".validate": "newData.isString() && newData.val().matches(/^(waiting|placing|battle|finished)$/)"
+          ".write": "auth != null && (newData.parent().child('host').val() === auth.uid || newData.parent().child('guest').val() === auth.uid)",
+          ".validate": "newData.isString() && ((!data.exists() && newData.val() === 'waiting') || newData.val() === data.val() || (data.val() === 'waiting' && newData.val() === 'placing') || (data.val() === 'placing' && newData.val() === 'battle' && newData.parent().child('host').val() === auth.uid && newData.parent().child('turn').exists()) || (data.val() === 'battle' && newData.val() === 'finished'))"
         },
         "createdAt": {
           ".read": "auth != null",
@@ -35,12 +35,6 @@
           }
         },
         "presence": {
-          "$uid": {
-            ".write": "auth != null && $uid === auth.uid && (root.child('sea_battle_rooms').child($code).child('host').val() === auth.uid || root.child('sea_battle_rooms').child($code).child('guest').val() === auth.uid)",
-            ".validate": "newData.isBoolean()"
-          }
-        },
-        "rematch": {
           "$uid": {
             ".write": "auth != null && $uid === auth.uid && (root.child('sea_battle_rooms').child($code).child('host').val() === auth.uid || root.child('sea_battle_rooms').child($code).child('guest').val() === auth.uid)",
             ".validate": "newData.isBoolean()"

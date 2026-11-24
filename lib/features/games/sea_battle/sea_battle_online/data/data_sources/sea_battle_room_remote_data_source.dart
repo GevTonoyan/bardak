@@ -133,7 +133,11 @@ class SeaBattleRoomRemoteDataSourceImpl
     }
 
     try {
-      await room.child(_guestKey).set(playerId);
+      // One update, so the room never has a guest while still waiting.
+      await room.update({
+        _guestKey: playerId,
+        _statusKey: SeaBattleRoomStatus.placing.name,
+      });
     } on FirebaseException catch (error) {
       // Someone else took the seat between the check and the write.
       if (error.code == _permissionDenied) {
@@ -141,7 +145,6 @@ class SeaBattleRoomRemoteDataSourceImpl
       }
       rethrow;
     }
-    await room.child(_statusKey).set(SeaBattleRoomStatus.placing.name);
 
     return SeaBattleRoomEntity(
       code: code,
