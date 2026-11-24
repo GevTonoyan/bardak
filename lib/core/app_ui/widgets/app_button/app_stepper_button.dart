@@ -26,6 +26,7 @@ class AppStepperButton extends StatelessWidget {
       label: label,
       color: colors.white20,
       animateOnPress: false,
+      enabled: onIncrement != null || onDecrement != null,
       child: Row(
         spacing: 14,
         children: [

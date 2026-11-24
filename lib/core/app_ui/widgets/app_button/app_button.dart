@@ -17,6 +17,7 @@ class AppButton extends StatefulWidget {
     this.icon,
     this.onPressed,
     this.child,
+    this.enabled,
     super.key,
   });
 
@@ -32,7 +33,14 @@ class AppButton extends StatefulWidget {
 
   final bool isPressed;
 
-  bool get enabled => onPressed != null;
+  /// Overrides the disabled look, which otherwise follows [onPressed].
+  /// Lets a button used as a shell for its own tap targets (e.g. the
+  /// stepper) stay enabled without an [onPressed].
+  final bool? enabled;
+
+  bool get isEnabled => enabled ?? hasAction;
+
+  bool get hasAction => onPressed != null;
 
   @override
   State<AppButton> createState() => _AppButtonState();
@@ -52,7 +60,7 @@ class _AppButtonState extends State<AppButton> {
   bool _pressedByGesture = false;
 
   void _setPressed(bool v) {
-    if (!widget.enabled) return;
+    if (!widget.hasAction) return;
     if (!widget.animateOnPress) return;
     if (widget.isPressed) return;
     if (_pressedByGesture == v) return;
@@ -69,9 +77,9 @@ class _AppButtonState extends State<AppButton> {
     final currentHeight = effectivePressed ? faceHeight : baseHeight;
 
     final button = GestureDetector(
-      onTapDown: widget.enabled ? (_) => _setPressed(true) : null,
-      onTapCancel: widget.enabled ? () => _setPressed(false) : null,
-      onTapUp: widget.enabled ? (_) => _setPressed(false) : null,
+      onTapDown: widget.hasAction ? (_) => _setPressed(true) : null,
+      onTapCancel: widget.hasAction ? () => _setPressed(false) : null,
+      onTapUp: widget.hasAction ? (_) => _setPressed(false) : null,
       onTap: widget.onPressed,
       child: Container(
         height: baseHeight,
@@ -151,7 +159,7 @@ class _AppButtonState extends State<AppButton> {
       ),
     );
 
-    if (widget.enabled) return button;
+    if (widget.isEnabled) return button;
 
     // A button without an action is drawn greyed out and faded, so it
     // reads as disabled on any background rather than just unresponsive.
