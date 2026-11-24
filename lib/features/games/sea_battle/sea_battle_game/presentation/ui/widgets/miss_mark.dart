@@ -20,22 +20,18 @@ class MissMark extends StatefulWidget {
 
 class _MissMarkState extends State<MissMark>
     with SingleTickerProviderStateMixin {
-  /// As long as the splash, so the rocket hits the water with it.
-  late final AnimationController _entrance = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1000),
-    value: widget.animateIn ? 0 : 1,
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.animateIn) _entrance.forward();
-  }
+  /// Only a fresh shot gets one, as long as the splash so the rocket hits
+  /// the water with it; the marks already on the board stay still.
+  late final AnimationController? _entrance = widget.animateIn
+      ? (AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 1000),
+        )..forward())
+      : null;
 
   @override
   void dispose() {
-    _entrance.dispose();
+    _entrance?.dispose();
     super.dispose();
   }
 
@@ -48,7 +44,7 @@ class _MissMarkState extends State<MissMark>
       child: CustomPaint(
         size: Size.square(cellSize),
         painter: _RocketPainter(
-          entrance: _entrance,
+          entrance: _entrance ?? kAlwaysCompleteAnimation,
           body: Color.lerp(colors.white, colors.shadow, 0.25)!,
           trim: colors.red,
           nozzle: colors.black.withValues(alpha: 0.55),

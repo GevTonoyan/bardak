@@ -1,25 +1,23 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:bardak/core/app_ui/sounds/one_shot_sound.dart';
-import 'package:bardak/core/app_ui/theme/text_styles/app_text_styles.dart';
 import 'package:bardak/core/app_ui/widgets/app_icon_button.dart';
 import 'package:bardak/core/app_ui/widgets/app_notification.dart';
-import 'package:bardak/core/app_ui/widgets/countdown_ring.dart';
 import 'package:bardak/core/app_ui/widgets/screen_background.dart';
 import 'package:bardak/core/app_ui/widgets/show_confirm_sheet.dart';
 import 'package:bardak/core/extensions/context_extension.dart';
 import 'package:bardak/core/generated/assets/assets.gen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_event.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_state.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/screens/sea_battle_result_screen.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/battle_board.dart';
-import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/ship_view.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/enemy_fleet_strip.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/ui/widgets/turn_arrow.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_online/domain/entities/sea_battle_room_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/domain/entities/sea_battle_bot_difficulty.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_settings/presentation/ui/sea_battle_settings_screen.dart';
@@ -192,17 +190,8 @@ void _tick(BuildContext context) {
 /// Confirms before abandoning the battle — same as the other games.
 /// Online, leaving ends it for the opponent too.
 Future<void> _confirmExit(BuildContext context) async {
-  final l10n = context.l10n;
-  final colors = context.colors;
-
-  await showConfirmSheet(
+  await showExitGameSheet(
     context: context,
-    title: l10n.exit_game_title,
-    description: l10n.exit_game_description,
-    confirmText: l10n.exit_game_confirm,
-    cancelText: l10n.cancel,
-    confirmColor: colors.red,
-    cancelColor: colors.green,
     onConfirm: () => context.goNamed(HomeScreen.routePath),
   );
 }
@@ -231,8 +220,8 @@ class _BattleArea extends StatelessWidget {
   /// Height the boards need with [cellSize] for the opponent's board.
   static double _heightFor(double cellSize) =>
       _stripGap +
-      _EnemyFleetStrip.height +
-      _TurnArrow.height +
+      EnemyFleetStrip.height +
+      TurnArrow.height +
       cellSize * BoardCoordinate.boardSize * (1 + _ownToEnemyRatio);
 
   @override
@@ -260,8 +249,8 @@ class _BattleArea extends StatelessWidget {
                 children: [
                   _EnemyBoard(cellSize: cellSize),
                   const SizedBox(height: _stripGap),
-                  const _EnemyFleetStrip(),
-                  const _TurnArrow(),
+                  const EnemyFleetStrip(),
+                  const TurnArrow(),
                   _OwnBoard(cellSize: ownCellSize),
                 ],
               );
@@ -269,224 +258,6 @@ class _BattleArea extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-/// Points at the board being fired at — up at the opponent's on the
-/// player's turn, down at the player's own on the opponent's — turning
-/// over when the turn passes. On timed turns its round head counts the
-/// seconds down; once the battle is over, it fades away.
-class _TurnArrow extends StatelessWidget {
-  const _TurnArrow();
-
-  static const _headSize = 40.0;
-  static const _tipLength = 11.0;
-  static const _verticalPadding = 6.0;
-
-  /// The strip the arrow takes between the boards.
-  static const double height =
-      _headSize + _tipLength * 2 + _verticalPadding * 2;
-
-  static const _duration = Duration(milliseconds: 350);
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final l10n = context.l10n;
-
-    final (turn, isOver, secondsLeft) = context
-        .select<SeaBattleGameBloc, (SeaBattleSide, bool, int?)>(
-          (bloc) => (
-            bloc.state.battle.turn,
-            bloc.state.battle.isOver,
-            bloc.state.turnSecondsLeft,
-          ),
-        );
-
-    return Semantics(
-      label: turn == .player
-          ? l10n.sea_battle_your_turn
-          : l10n.sea_battle_opponent_turn,
-      child: SizedBox(
-        height: height,
-        child: AnimatedOpacity(
-          duration: _duration,
-          opacity: isOver ? 0 : 1,
-          child: Stack(
-            alignment: .center,
-            children: [
-              AnimatedRotation(
-                duration: _duration,
-                curve: Curves.easeInOutBack,
-                turns: turn == .player ? 0 : 0.5,
-                child: CustomPaint(
-                  size: const Size(_headSize, _headSize + _tipLength * 2),
-                  painter: _ArrowPainter(
-                    headRadius: _headSize / 2,
-                    tipLength: _tipLength,
-                    fill: colors.secondary,
-                    stroke: colors.white,
-                    shadow: colors.black,
-                  ),
-                ),
-              ),
-              // The head stays upright: only the tip turns.
-              if (secondsLeft != null)
-                CountdownRing(
-                  secondsLeft: secondsLeft,
-                  totalSeconds: SeaBattleRoomEntity.turnTimeLimit.inSeconds,
-                  size: _headSize,
-                )
-              else
-                Icon(Icons.gps_fixed_rounded, size: 20, color: colors.white),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A round head with a pointed tip on top, centered in its box so it can
-/// be turned over in place.
-class _ArrowPainter extends CustomPainter {
-  const _ArrowPainter({
-    required this.headRadius,
-    required this.tipLength,
-    required this.fill,
-    required this.stroke,
-    required this.shadow,
-  });
-
-  final double headRadius;
-  final double tipLength;
-  final Color fill;
-  final Color stroke;
-  final Color shadow;
-
-  /// Where the tip's sides meet the head, from straight up.
-  static const _shoulderAngle = 0.85;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = size.center(Offset.zero);
-    final shoulderX = headRadius * sin(_shoulderAngle);
-    final shoulderY = center.dy - headRadius * cos(_shoulderAngle);
-
-    final head = Path()
-      ..addOval(Rect.fromCircle(center: center, radius: headRadius));
-    final tip = Path()
-      ..moveTo(center.dx, center.dy - headRadius - tipLength)
-      ..lineTo(center.dx + shoulderX, shoulderY)
-      ..lineTo(center.dx - shoulderX, shoulderY)
-      ..close();
-    final arrow = Path.combine(.union, head, tip);
-
-    canvas
-      ..drawShadow(arrow, shadow.withValues(alpha: 0.5), 3, false)
-      ..drawPath(arrow, Paint()..color = fill)
-      ..drawPath(
-        arrow,
-        Paint()
-          ..color = stroke
-          ..style = .stroke
-          ..strokeWidth = 2
-          ..strokeJoin = .round,
-      );
-  }
-
-  @override
-  bool shouldRepaint(_ArrowPainter oldDelegate) =>
-      headRadius != oldDelegate.headRadius ||
-      tipLength != oldDelegate.tipLength ||
-      fill != oldDelegate.fill ||
-      stroke != oldDelegate.stroke ||
-      shadow != oldDelegate.shadow;
-}
-
-/// One chip per ship size of the opponent's fleet: how many of that size
-/// are still afloat, so the player knows what is left to hunt. Their own
-/// fleet needs none, as it is in sight on their board.
-class _EnemyFleetStrip extends StatelessWidget {
-  const _EnemyFleetStrip();
-
-  static const height = 28.0;
-
-  /// Ship sizes from the longest, as the chips are shown.
-  static final List<int> _lengths = FleetEntity.shipLengths.toSet().toList()
-    ..sort((a, b) => b - a);
-
-  @override
-  Widget build(BuildContext context) {
-    // The list only changes when a ship sinks, not on every timer tick.
-    final sunkShips = context.select<SeaBattleGameBloc, List<ShipEntity>>(
-      (bloc) => bloc.state.battle.opponentBoard.sunkShips,
-    );
-    final afloat = [...FleetEntity.shipLengths];
-    for (final ship in sunkShips) {
-      afloat.remove(ship.length);
-    }
-
-    // Shrinks on narrow screens rather than overflowing.
-    return Semantics(
-      label: context.l10n.sea_battle_enemy_fleet,
-      child: SizedBox(
-        height: height,
-        child: FittedBox(
-          fit: .scaleDown,
-          child: Row(
-            spacing: 8,
-            children: [
-              for (final length in _lengths)
-                _ShipCountChip(
-                  length: length,
-                  afloat: afloat.where((l) => l == length).length,
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A ship of [length] with how many of its size are [afloat]; faded once
-/// none are left.
-class _ShipCountChip extends StatelessWidget {
-  const _ShipCountChip({required this.length, required this.afloat});
-
-  final int length;
-  final int afloat;
-
-  static const _shipCellSize = 10.0;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return AnimatedOpacity(
-      opacity: afloat == 0 ? 0.35 : 1,
-      duration: const Duration(milliseconds: 300),
-      child: Container(
-        padding: const .fromLTRB(8, 3, 8, 3),
-        decoration: BoxDecoration(
-          color: colors.white10,
-          borderRadius: .circular(12),
-          border: .all(color: colors.white20),
-        ),
-        child: Row(
-          mainAxisSize: .min,
-          spacing: 6,
-          children: [
-            ShipView(length: length, cellSize: _shipCellSize),
-            Text(
-              '×$afloat',
-              style: context.typography.regular18.withNumericFont,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -499,12 +270,16 @@ class _EnemyBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<SeaBattleGameBloc>().state;
-    final battle = state.battle;
-    final lastShot = battle.lastShot;
+    // Only what is drawn: the countdown ticking must not rebuild the
+    // board.
+    final (board, lastShot) = context
+        .select<SeaBattleGameBloc, (SeaBattleBoardEntity, ShotEntity?)>(
+          (bloc) =>
+              (bloc.state.battle.opponentBoard, bloc.state.battle.lastShot),
+        );
 
     return BattleBoard(
-      board: battle.opponentBoard,
+      board: board,
       cellSize: cellSize,
       isOwnBoard: false,
       lastShot: lastShot?.shooter == .player ? lastShot : null,
