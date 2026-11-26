@@ -232,6 +232,9 @@ class AppLocalizationsAm extends AppLocalizations {
   String get sea_battle_shuffle => 'Խառնել';
 
   @override
+  String get sea_battle_clear => 'Մաքրել';
+
+  @override
   String get sea_battle_start => 'Սկսել';
 
   @override
@@ -330,6 +333,12 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get sea_battle_room_closed => 'Սենյակը փակվել է';
+
+  @override
+  String get sea_battle_opponent_left => 'Ընկերդ լքեց մարտը';
+
+  @override
+  String get sea_battle_connection_lost => 'Կապը կորավ';
 
   @override
   String sea_battle_share_message(String link) {

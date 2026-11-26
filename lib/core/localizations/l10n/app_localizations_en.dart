@@ -232,6 +232,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sea_battle_shuffle => 'Shuffle';
 
   @override
+  String get sea_battle_clear => 'Clear';
+
+  @override
   String get sea_battle_start => 'Start';
 
   @override
@@ -331,6 +334,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sea_battle_room_closed => 'The room was closed';
+
+  @override
+  String get sea_battle_opponent_left => 'Your friend left the battle';
+
+  @override
+  String get sea_battle_connection_lost => 'The connection was lost';
 
   @override
   String sea_battle_share_message(String link) {

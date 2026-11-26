@@ -514,6 +514,12 @@ abstract class AppLocalizations {
   /// **'Shuffle'**
   String get sea_battle_shuffle;
 
+  /// No description provided for @sea_battle_clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get sea_battle_clear;
+
   /// No description provided for @sea_battle_start.
   ///
   /// In en, this message translates to:
@@ -705,6 +711,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The room was closed'**
   String get sea_battle_room_closed;
+
+  /// Shown when the online opponent leaves or disconnects mid-battle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your friend left the battle'**
+  String get sea_battle_opponent_left;
+
+  /// No description provided for @sea_battle_connection_lost.
+  ///
+  /// In en, this message translates to:
+  /// **'The connection was lost'**
+  String get sea_battle_connection_lost;
 
   /// No description provided for @sea_battle_share_message.
   ///

@@ -75,9 +75,6 @@ class _SpyRoleRevealScreenState extends State<SpyRoleRevealScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final colors = context.colors;
-
     return GradientBackground(
       child: SafeArea(
         bottom: false,
@@ -89,14 +86,8 @@ class _SpyRoleRevealScreenState extends State<SpyRoleRevealScreen> {
                 children: [
                   AppIconButton.close(
                     onTap: () async {
-                      await showConfirmSheet(
+                      await showExitGameSheet(
                         context: context,
-                        title: l10n.exit_game_title,
-                        description: l10n.exit_game_description,
-                        confirmText: l10n.exit_game_confirm,
-                        cancelText: l10n.cancel,
-                        confirmColor: colors.red,
-                        cancelColor: colors.green,
                         onConfirm: () => context.goNamed(HomeScreen.routePath),
                       );
                     },

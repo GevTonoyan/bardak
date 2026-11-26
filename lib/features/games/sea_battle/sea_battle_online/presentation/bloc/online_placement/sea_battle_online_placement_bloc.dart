@@ -62,11 +62,18 @@ class SeaBattleOnlinePlacementBloc
           add(const StartBattle());
         }
       },
-      onError: (error, stackTrace) => logger.error(
-        'Lost the room ${_room.code} while placing',
-        error: error,
-        stackTrace: stackTrace,
-      ),
+      // The database refuses to show a room once it is deleted, so a
+      // lost room ends placement just as a deleted one does.
+      onError: (error, stackTrace) {
+        logger.error(
+          'Lost the room ${_room.code} while placing',
+          error: error,
+          stackTrace: stackTrace,
+        );
+        if (state is! SeaBattleOnlinePlacementLeft) {
+          emit(const SeaBattleOnlinePlacementClosed());
+        }
+      },
     );
   }
 
@@ -105,8 +112,9 @@ class SeaBattleOnlinePlacementBloc
     }
   }
 
-  /// Always lets the player out: a room that cannot be deleted now
-  /// expires on the server.
+  /// Always lets the player out. The deletion is sent as soon as there
+  /// is a connection; a room it never reaches can no longer be joined
+  /// after an hour, but stays in the database.
   Future<void> _onLeaveRoom(
     LeaveRoom event,
     Emitter<SeaBattleOnlinePlacementState> emit,

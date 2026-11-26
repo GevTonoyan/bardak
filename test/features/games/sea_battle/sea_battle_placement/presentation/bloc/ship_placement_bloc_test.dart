@@ -110,4 +110,13 @@ void main() {
 
     expect(bloc.state.fleet.isComplete, isTrue);
   });
+
+  test('ClearShips takes every ship off the board', () async {
+    bloc
+      ..add(const ShuffleShips())
+      ..add(const ClearShips());
+    await pumpEventQueue();
+
+    expect(bloc.state.fleet, const FleetEntity());
+  });
 }

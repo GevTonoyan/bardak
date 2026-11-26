@@ -41,14 +41,8 @@ class RoundOverviewScreen extends StatelessWidget {
               padding: const .only(left: 20, top: 20),
               child: AppIconButton.close(
                 onTap: () async {
-                  await showConfirmSheet(
+                  await showExitGameSheet(
                     context: context,
-                    title: l10n.exit_game_title,
-                    description: l10n.exit_game_description,
-                    confirmText: l10n.exit_game_confirm,
-                    cancelText: l10n.cancel,
-                    confirmColor: colors.red,
-                    cancelColor: colors.green,
                     onConfirm: () => context.pop(),
                   );
                 },

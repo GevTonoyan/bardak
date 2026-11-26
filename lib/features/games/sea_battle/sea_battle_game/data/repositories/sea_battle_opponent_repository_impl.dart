@@ -25,4 +25,12 @@ class SeaBattleOpponentRepositoryImpl implements SeaBattleOpponentRepository {
 
   @override
   Future<FleetEntity> getOpponentFleet() => _localDataSource.getOpponentFleet();
+
+  /// The bot never leaves.
+  @override
+  Stream<void> watchOpponentLeft() => const Stream.empty();
+
+  /// The bot lives only as long as the battle, so it needs no goodbye.
+  @override
+  Future<void> leaveBattle() async {}
 }

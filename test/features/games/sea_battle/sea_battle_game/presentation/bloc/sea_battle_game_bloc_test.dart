@@ -1,17 +1,24 @@
+import 'dart:async';
 import 'dart:math';
 
+import 'package:bardak/core/di/di.dart';
+import 'package:bardak/core/logging/app_logger.dart';
+import 'package:bardak/core/logging/console_logger.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/board_coordinate.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/fleet_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_board_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/sea_battle_entity.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/entities/ship_entity.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/exceptions/sea_battle_opponent_exception.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/repositories/sea_battle_opponent_repository.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/fire_at_opponent_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_fleet_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_opponent_shot_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/get_random_shot_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/leave_sea_battle_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/report_opponent_shot_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/start_sea_battle_usecase.dart';
+import 'package:bardak/features/games/sea_battle/sea_battle_game/domain/usecases/watch_opponent_left_usecase.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_bloc.dart';
 import 'package:bardak/features/games/sea_battle/sea_battle_game/presentation/bloc/sea_battle_game_event.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,7 +29,9 @@ class _MockStartSeaBattleUseCase extends Mock
 
 class _MockGetRandomShotUseCase extends Mock implements GetRandomShotUseCase {}
 
-/// An opponent with a known fleet that fires at the given shots in order.
+/// An opponent with a known fleet that fires at the given shots in order,
+/// then waits until the battle is left, as a deleted room ends the wait
+/// online.
 class _FakeOpponent implements SeaBattleOpponentRepository {
   _FakeOpponent({required this.fleet, List<BoardCoordinate> shots = const []})
     : _shots = [...shots],
@@ -39,8 +48,17 @@ class _FakeOpponent implements SeaBattleOpponentRepository {
   /// How many shots had been reported when the fleet was first asked for.
   int? reportedBeforeReveal;
 
+  /// Thrown at the player's next shot, when set.
+  SeaBattleOpponentException? failure;
+
+  final left = StreamController<void>.broadcast();
+  int leaveCount = 0;
+  // Not an unhandled error when nobody was waiting for a shot.
+  final _noMoreShots = Completer<BoardCoordinate>()..future.ignore();
+
   @override
   Future<ShotEntity> answerPlayerShot(BoardCoordinate cell) async {
+    if (failure case final failure?) throw failure;
     final (result, sunkShip) = _board.answer(cell);
     _board = _board.record(cell, result, sunkShip: sunkShip);
     return ShotEntity(
@@ -56,6 +74,7 @@ class _FakeOpponent implements SeaBattleOpponentRepository {
     SeaBattleBoardEntity playerBoard,
   ) async {
     seenBoards.add(playerBoard);
+    if (_shots.isEmpty) return _noMoreShots.future;
     return _shots.removeAt(0);
   }
 
@@ -67,6 +86,17 @@ class _FakeOpponent implements SeaBattleOpponentRepository {
     reportedBeforeReveal ??= reported.length;
     fleetRequests++;
     return fleet;
+  }
+
+  @override
+  Stream<void> watchOpponentLeft() => left.stream;
+
+  @override
+  Future<void> leaveBattle() async {
+    leaveCount++;
+    if (!_noMoreShots.isCompleted) {
+      _noMoreShots.completeError(const SeaBattleOpponentException(.left));
+    }
   }
 }
 
@@ -93,6 +123,9 @@ void main() {
   late _MockGetRandomShotUseCase getRandomShot;
 
   setUpAll(() {
+    if (!sl.isRegistered<AppLogger>()) {
+      sl.registerSingleton<AppLogger>(const ConsoleLogger());
+    }
     registerFallbackValue(const FleetEntity());
     registerFallbackValue(const SeaBattleBoardEntity());
   });
@@ -107,6 +140,7 @@ void main() {
     SeaBattleSide firstShooter = .player,
     FleetEntity? playerFleet,
     Duration? turnTimeLimit,
+    Duration opponentGrace = const Duration(seconds: 10),
   }) {
     when(
       () => startSeaBattle(any(), firstTurn: any(named: 'firstTurn')),
@@ -125,7 +159,10 @@ void main() {
       reportOpponentShotUseCase: ReportOpponentShotUseCase(opponent),
       getOpponentFleetUseCase: GetOpponentFleetUseCase(opponent),
       getRandomShotUseCase: getRandomShot,
+      watchOpponentLeftUseCase: WatchOpponentLeftUseCase(opponent),
+      leaveSeaBattleUseCase: LeaveSeaBattleUseCase(opponent),
       turnTimeLimit: turnTimeLimit,
+      opponentGrace: opponentGrace,
     );
     addTearDown(bloc.close);
     return bloc;
@@ -294,6 +331,90 @@ void main() {
       await pumpEventQueue();
 
       expect(bloc.state.turnSecondsLeft, 3);
+    });
+  });
+
+  group('interruptions', () {
+    test('the opponent leaving stops the battle', () async {
+      final opponent = _FakeOpponent(fleet: _opponentFleet);
+      final bloc = buildBloc(opponent);
+      await pumpEventQueue();
+
+      opponent.left.add(null);
+      await pumpEventQueue();
+      expect(bloc.state.interruption, SeaBattleOpponentFailure.left);
+
+      bloc.add(FireShot(_water(_opponentFleet)));
+      await pumpEventQueue();
+      expect(bloc.state.battle.opponentBoard.marked, isEmpty);
+    });
+
+    test('a lost connection stops the battle and its timer', () async {
+      final opponent = _FakeOpponent(fleet: _opponentFleet)
+        ..failure = const SeaBattleOpponentException(.connection);
+      final bloc = buildBloc(
+        opponent,
+        turnTimeLimit: const Duration(seconds: 3),
+      )..add(FireShot(_water(_opponentFleet)));
+      await pumpEventQueue();
+
+      expect(bloc.state.interruption, SeaBattleOpponentFailure.connection);
+      expect(bloc.state.turnSecondsLeft, isNull);
+    });
+
+    test('an opponent shot at a marked cell stops the battle', () async {
+      final hit = _playerShip.cells.first;
+      final opponent = _FakeOpponent(fleet: _opponentFleet, shots: [hit, hit]);
+      final bloc = buildBloc(opponent, firstShooter: .opponent);
+      await pumpEventQueue();
+
+      expect(bloc.state.battle.playerBoard.hitCells, {hit});
+      expect(bloc.state.interruption, SeaBattleOpponentFailure.connection);
+    });
+
+    test('an opponent whose shot never comes counts as gone', () async {
+      final bloc = buildBloc(
+        _FakeOpponent(fleet: _opponentFleet),
+        firstShooter: .opponent,
+        turnTimeLimit: const Duration(seconds: 1),
+        opponentGrace: const Duration(milliseconds: 200),
+      );
+
+      await Future<void>.delayed(const Duration(milliseconds: 1100));
+      expect(bloc.state.interruption, isNull);
+
+      await Future<void>.delayed(const Duration(milliseconds: 300));
+      expect(bloc.state.interruption, SeaBattleOpponentFailure.left);
+    });
+
+    test('leaving after the battle is over is no interruption', () async {
+      final playerFleet = FleetEntity.random(Random(9));
+      final opponent = _FakeOpponent(
+        fleet: _opponentFleet,
+        shots: [for (final ship in playerFleet.ships) ...ship.cells],
+      );
+      final bloc = buildBloc(
+        opponent,
+        firstShooter: .opponent,
+        playerFleet: playerFleet,
+      );
+      await pumpEventQueue(times: 200);
+
+      opponent.left.add(null);
+      await pumpEventQueue();
+
+      expect(bloc.state.battle.isOver, isTrue);
+      expect(bloc.state.interruption, isNull);
+    });
+
+    test('closing the battle leaves it', () async {
+      final opponent = _FakeOpponent(fleet: _opponentFleet);
+      final bloc = buildBloc(opponent);
+      await pumpEventQueue();
+
+      await bloc.close();
+
+      expect(opponent.leaveCount, 1);
     });
   });
 }

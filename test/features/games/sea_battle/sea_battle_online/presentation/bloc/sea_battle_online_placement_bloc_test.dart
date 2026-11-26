@@ -176,6 +176,17 @@ void main() {
   );
 
   blocTest<SeaBattleOnlinePlacementBloc, SeaBattleOnlinePlacementState>(
+    'a room that can no longer be watched is closed',
+    build: buildBloc,
+    act: (bloc) async {
+      bloc.add(const WatchRoom());
+      await pumpEventQueue();
+      updates.addError(const SeaBattleRoomException(.connection));
+    },
+    expect: () => const [SeaBattleOnlinePlacementClosed()],
+  );
+
+  blocTest<SeaBattleOnlinePlacementBloc, SeaBattleOnlinePlacementState>(
     'leaving closes the room',
     build: buildBloc,
     act: (bloc) => bloc.add(const LeaveRoom()),

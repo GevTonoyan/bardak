@@ -239,6 +239,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sea_battle_shuffle => 'Перемешать';
 
   @override
+  String get sea_battle_clear => 'Очистить';
+
+  @override
   String get sea_battle_start => 'Начать';
 
   @override
@@ -338,6 +341,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get sea_battle_room_closed => 'Комната закрыта';
+
+  @override
+  String get sea_battle_opponent_left => 'Соперник покинул бой';
+
+  @override
+  String get sea_battle_connection_lost => 'Соединение потеряно';
 
   @override
   String sea_battle_share_message(String link) {

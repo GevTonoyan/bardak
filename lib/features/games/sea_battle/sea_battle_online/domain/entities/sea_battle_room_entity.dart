@@ -29,8 +29,7 @@ class SeaBattleRoomEntity extends Equatable {
       codeAlphabet.codeUnitAt(random.nextInt(codeAlphabet.length)),
   ]);
 
-  /// The site invite links point at; the app opens them once deep links
-  /// are set up.
+  /// The site invite links point at; the app opens them itself.
   static const inviteHost = 'bardakgames.com';
 
   /// The path invite links start with, followed by `/<code>`.
